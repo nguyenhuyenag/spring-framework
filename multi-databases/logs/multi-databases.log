@@ -100,3 +100,30 @@
 14:03:12.283 [Thread-3] INFO  o.s.s.c.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
 14:03:12.287 [Thread-3] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
 14:03:12.297 [Thread-3] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+16:24:45.421 [main] INFO  com.spring.BootApplication - Starting BootApplication on ts24-nvhuyen with PID 16652 (D:\Java\workspace\spring\spring-boot\multi-databases\target\classes started by huyennv in D:\Java\workspace\spring\spring-boot\multi-databases)
+16:24:45.423 [main] INFO  com.spring.BootApplication - No active profile set, falling back to default profiles: default
+16:24:46.129 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data repositories in DEFAULT mode.
+16:24:46.189 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 53ms. Found 1 repository interfaces.
+16:24:46.189 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data repositories in DEFAULT mode.
+16:24:46.191 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 1ms. Found 0 repository interfaces.
+16:24:46.759 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$cde6f7bf] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+16:24:47.019 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8081 (http)
+16:24:47.049 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+16:24:47.050 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.24]
+16:24:47.164 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+16:24:47.164 [main] INFO  o.s.web.context.ContextLoader - Root WebApplicationContext: initialization completed in 1677 ms
+16:24:47.510 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+16:24:47.689 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+16:24:48.637 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'primaryPersistenceUnit'
+16:24:48.734 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'secondPersistenceUnit'
+16:24:49.414 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@dbf0f2, org.springframework.security.web.context.SecurityContextPersistenceFilter@69f4e5, org.springframework.security.web.header.HeaderWriterFilter@120010e, org.springframework.security.web.authentication.logout.LogoutFilter@978637, com.spring.filter.JWTLoginFilter@1d0fac9, com.spring.filter.JWTAuthenticationFilter@13546f9, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@6c8854, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@5c784c, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@ecef36, org.springframework.security.web.session.SessionManagementFilter@3fbbc9, org.springframework.security.web.access.ExceptionTranslationFilter@1a6fb7f, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@1c81bc5]
+16:24:49.525 [main] INFO  o.s.s.c.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+16:24:49.575 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+16:24:49.745 [main] INFO  o.s.s.c.ThreadPoolTaskScheduler - Initializing ExecutorService 'taskScheduler'
+16:24:49.822 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8081 (http) with context path ''
+16:24:49.824 [main] INFO  com.spring.BootApplication - Started BootApplication in 4.784 seconds (JVM running for 7.21)
+16:24:54.683 [RMI TCP Connection(2)-127.0.0.1] INFO  o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin - Application shutdown requested.
+16:24:54.686 [RMI TCP Connection(2)-127.0.0.1] INFO  o.s.s.c.ThreadPoolTaskScheduler - Shutting down ExecutorService 'taskScheduler'
+16:24:54.688 [RMI TCP Connection(2)-127.0.0.1] INFO  o.s.s.c.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
+16:24:54.692 [RMI TCP Connection(2)-127.0.0.1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+16:24:54.695 [RMI TCP Connection(2)-127.0.0.1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
