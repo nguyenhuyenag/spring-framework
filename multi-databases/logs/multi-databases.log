@@ -1,0 +1,102 @@
+13:54:32.799 [main] INFO  com.spring.BootApplication - Starting BootApplication on ts24-nvhuyen with PID 13028 (D:\Java\workspace\spring\spring-boot\multi-databases\target\classes started by huyennv in D:\Java\workspace\spring\spring-boot\multi-databases)
+13:54:32.802 [main] INFO  com.spring.BootApplication - No active profile set, falling back to default profiles: default
+13:54:33.477 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data repositories in DEFAULT mode.
+13:54:33.536 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 52ms. Found 1 repository interfaces.
+13:54:33.537 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data repositories in DEFAULT mode.
+13:54:33.539 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 1ms. Found 0 repository interfaces.
+13:54:34.143 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$95b1479d] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+13:54:34.459 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8081 (http)
+13:54:34.481 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+13:54:34.482 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.24]
+13:54:34.616 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+13:54:34.616 [main] INFO  o.s.web.context.ContextLoader - Root WebApplicationContext: initialization completed in 1747 ms
+13:54:34.909 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+13:54:35.239 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+13:54:36.322 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'primaryPersistenceUnit'
+13:54:36.423 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'secondPersistenceUnit'
+13:54:37.101 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2f8ff6, org.springframework.security.web.context.SecurityContextPersistenceFilter@3263ba, org.springframework.security.web.header.HeaderWriterFilter@70c4ff, org.springframework.security.web.authentication.logout.LogoutFilter@13409b8, com.spring.filter.JWTLoginFilter@ed2a26, com.spring.filter.JWTAuthenticationFilter@1f10539, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@cd7d1c, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1a1f56e, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@406cbe, org.springframework.security.web.session.SessionManagementFilter@9bc2d3, org.springframework.security.web.access.ExceptionTranslationFilter@1add172, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@da745f]
+13:54:37.215 [main] INFO  o.s.s.c.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+13:54:37.270 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+13:54:37.433 [main] INFO  o.s.s.c.ThreadPoolTaskScheduler - Initializing ExecutorService 'taskScheduler'
+13:54:37.511 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8081 (http) with context path ''
+13:54:37.513 [main] INFO  com.spring.BootApplication - Started BootApplication in 5.105 seconds (JVM running for 10.273)
+13:56:13.170 [main] INFO  com.spring.BootApplicationTests - Starting BootApplicationTests on ts24-nvhuyen with PID 15404 (started by huyennv in D:\Java\workspace\spring\spring-boot\multi-databases)
+13:56:13.173 [main] INFO  com.spring.BootApplicationTests - No active profile set, falling back to default profiles: default
+13:56:14.268 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data repositories in DEFAULT mode.
+13:56:14.357 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 73ms. Found 1 repository interfaces.
+13:56:14.357 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data repositories in DEFAULT mode.
+13:56:14.362 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 2ms. Found 0 repository interfaces.
+13:56:15.144 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$ace08bcd] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+13:56:15.615 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+13:56:17.350 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+13:56:18.763 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'primaryPersistenceUnit'
+13:56:19.030 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'secondPersistenceUnit'
+13:56:20.304 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4ccdacf5, org.springframework.security.web.context.SecurityContextPersistenceFilter@5d08976a, org.springframework.security.web.header.HeaderWriterFilter@5a0f87e5, org.springframework.security.web.authentication.logout.LogoutFilter@6e73974, com.spring.filter.JWTLoginFilter@5aa6da2, com.spring.filter.JWTAuthenticationFilter@1a0d313, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@165d1d54, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@55053f81, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@13908f9c, org.springframework.security.web.session.SessionManagementFilter@2905b568, org.springframework.security.web.access.ExceptionTranslationFilter@43a7203e, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@2a120c88]
+13:56:21.112 [main] INFO  o.s.s.c.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+13:56:21.193 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+13:56:21.728 [main] INFO  o.s.s.c.ThreadPoolTaskScheduler - Initializing ExecutorService 'taskScheduler'
+13:56:21.815 [main] INFO  com.spring.BootApplicationTests - Started BootApplicationTests in 9.146 seconds (JVM running for 10.45)
+13:56:21.978 [Thread-3] INFO  o.s.s.c.ThreadPoolTaskScheduler - Shutting down ExecutorService 'taskScheduler'
+13:56:21.983 [Thread-3] INFO  o.s.s.c.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
+13:56:21.988 [Thread-3] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+13:56:21.998 [Thread-3] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+14:00:17.966 [main] INFO  com.spring.BootApplicationTests - Starting BootApplicationTests on ts24-nvhuyen with PID 15716 (started by huyennv in D:\Java\workspace\spring\spring-boot\multi-databases)
+14:00:17.980 [main] INFO  com.spring.BootApplicationTests - No active profile set, falling back to default profiles: default
+14:00:18.824 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data repositories in DEFAULT mode.
+14:00:18.910 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 70ms. Found 1 repository interfaces.
+14:00:18.911 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data repositories in DEFAULT mode.
+14:00:18.913 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 2ms. Found 0 repository interfaces.
+14:00:19.861 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$782ac032] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+14:00:20.716 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+14:00:21.666 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+14:00:24.270 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'primaryPersistenceUnit'
+14:00:24.413 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'secondPersistenceUnit'
+14:00:26.424 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2f60cbf2, org.springframework.security.web.context.SecurityContextPersistenceFilter@55053f81, org.springframework.security.web.header.HeaderWriterFilter@52cb52bd, org.springframework.security.web.authentication.logout.LogoutFilter@273aaab7, com.spring.filter.JWTLoginFilter@631bc9f4, com.spring.filter.JWTAuthenticationFilter@642c72cf, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@51132514, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@5cffec7, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4e6cbdf1, org.springframework.security.web.session.SessionManagementFilter@63553e9f, org.springframework.security.web.access.ExceptionTranslationFilter@1be8c122, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@5c8b10b4]
+14:00:27.339 [main] INFO  o.s.s.c.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+14:00:27.483 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+14:00:28.024 [main] INFO  o.s.s.c.ThreadPoolTaskScheduler - Initializing ExecutorService 'taskScheduler'
+14:00:28.095 [main] INFO  com.spring.BootApplicationTests - Started BootApplicationTests in 10.465 seconds (JVM running for 11.469)
+14:00:28.248 [Thread-3] INFO  o.s.s.c.ThreadPoolTaskScheduler - Shutting down ExecutorService 'taskScheduler'
+14:00:28.250 [Thread-3] INFO  o.s.s.c.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
+14:00:28.255 [Thread-3] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+14:00:28.269 [Thread-3] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+14:02:41.334 [main] INFO  com.spring.BootApplicationTests - Starting BootApplicationTests on ts24-nvhuyen with PID 3972 (started by huyennv in D:\Java\workspace\spring\spring-boot\multi-databases)
+14:02:41.338 [main] INFO  com.spring.BootApplicationTests - No active profile set, falling back to default profiles: default
+14:02:42.114 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data repositories in DEFAULT mode.
+14:02:42.202 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 75ms. Found 1 repository interfaces.
+14:02:42.205 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data repositories in DEFAULT mode.
+14:02:42.217 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 11ms. Found 0 repository interfaces.
+14:02:43.211 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$fda13305] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+14:02:43.695 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+14:02:43.957 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+14:02:45.199 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'primaryPersistenceUnit'
+14:02:45.322 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'secondPersistenceUnit'
+14:02:46.507 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4e6cbdf1, org.springframework.security.web.context.SecurityContextPersistenceFilter@20864cd1, org.springframework.security.web.header.HeaderWriterFilter@218df7d6, org.springframework.security.web.authentication.logout.LogoutFilter@521ba38f, com.spring.filter.JWTLoginFilter@67fac095, com.spring.filter.JWTAuthenticationFilter@5a13f1f7, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3193e21d, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3e28dc96, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5dae5a70, org.springframework.security.web.session.SessionManagementFilter@55053f81, org.springframework.security.web.access.ExceptionTranslationFilter@165d1d54, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@5aa6da2]
+14:02:47.177 [main] INFO  o.s.s.c.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+14:02:47.249 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+14:02:47.625 [main] INFO  o.s.s.c.ThreadPoolTaskScheduler - Initializing ExecutorService 'taskScheduler'
+14:02:47.685 [main] INFO  com.spring.BootApplicationTests - Started BootApplicationTests in 6.746 seconds (JVM running for 7.673)
+14:02:47.821 [Thread-3] INFO  o.s.s.c.ThreadPoolTaskScheduler - Shutting down ExecutorService 'taskScheduler'
+14:02:47.827 [Thread-3] INFO  o.s.s.c.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
+14:02:47.832 [Thread-3] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+14:02:47.840 [Thread-3] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+14:03:04.364 [main] INFO  com.spring.BootApplicationTests - Starting BootApplicationTests on ts24-nvhuyen with PID 4532 (started by huyennv in D:\Java\workspace\spring\spring-boot\multi-databases)
+14:03:04.365 [main] INFO  com.spring.BootApplicationTests - No active profile set, falling back to default profiles: default
+14:03:05.100 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data repositories in DEFAULT mode.
+14:03:05.181 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 68ms. Found 1 repository interfaces.
+14:03:05.182 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data repositories in DEFAULT mode.
+14:03:05.185 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 2ms. Found 0 repository interfaces.
+14:03:05.929 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$82a79db6] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+14:03:06.348 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+14:03:06.612 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+14:03:07.749 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'primaryPersistenceUnit'
+14:03:07.873 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'secondPersistenceUnit'
+14:03:09.177 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2f60cbf2, org.springframework.security.web.context.SecurityContextPersistenceFilter@55053f81, org.springframework.security.web.header.HeaderWriterFilter@52cb52bd, org.springframework.security.web.authentication.logout.LogoutFilter@273aaab7, com.spring.filter.JWTLoginFilter@631bc9f4, com.spring.filter.JWTAuthenticationFilter@642c72cf, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@51132514, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@5cffec7, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4e6cbdf1, org.springframework.security.web.session.SessionManagementFilter@63553e9f, org.springframework.security.web.access.ExceptionTranslationFilter@1be8c122, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@5c8b10b4]
+14:03:10.072 [main] INFO  o.s.s.c.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+14:03:10.158 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+14:03:10.775 [main] INFO  o.s.s.c.ThreadPoolTaskScheduler - Initializing ExecutorService 'taskScheduler'
+14:03:10.856 [main] INFO  com.spring.BootApplicationTests - Started BootApplicationTests in 6.873 seconds (JVM running for 7.705)
+14:03:12.282 [Thread-3] INFO  o.s.s.c.ThreadPoolTaskScheduler - Shutting down ExecutorService 'taskScheduler'
+14:03:12.283 [Thread-3] INFO  o.s.s.c.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
+14:03:12.287 [Thread-3] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+14:03:12.297 [Thread-3] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
