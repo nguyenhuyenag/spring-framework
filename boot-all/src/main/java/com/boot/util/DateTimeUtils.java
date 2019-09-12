@@ -14,6 +14,7 @@ public class DateTimeUtils {
 	public static final long ONE_MINUTES			=	TimeUnit.MINUTES.toMillis(1);
 	public static final long ONE_HOURS				=	60 * ONE_MINUTES;
 	public static final long ONE_DAYS				=	24 * ONE_HOURS;
+	public static final long ONE_MONTHS				=	30 * ONE_DAYS;
 
 	public static final String HH_MM_SS				=	"HH:mm:ss";
 	public static final String YYYY_MM_DD			=	"yyyy-MM-dd";
