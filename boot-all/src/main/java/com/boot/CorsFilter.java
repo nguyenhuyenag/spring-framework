@@ -14,8 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -28,16 +26,16 @@ public class CorsFilter implements Filter {
 	}
 
 	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) //
 			throws IOException, ServletException {
 		final HttpServletResponse httpResponse = (HttpServletResponse) response;
 		httpResponse.setHeader("Access-Control-Allow-Origin", "*");
 		httpResponse.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
-		httpResponse.setHeader("Access-Control-Allow-Headers",
+		httpResponse.setHeader("Access-Control-Allow-Headers", //
 				"Origin, X-Requested-With, Content-Type, Accept, Authorization");
 		httpResponse.setHeader("Access-Control-Max-Age", "3600");
-		httpResponse.setHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE);
-		httpResponse.setHeader("Access-Control-Expose-Headers", HttpHeaders.AUTHORIZATION);
+		httpResponse.setHeader("Content-Type", "application/json; charset=UTF-8");
+		httpResponse.setHeader("Access-Control-Expose-Headers", "Authorization");
 		if ("OPTIONS".equalsIgnoreCase(((HttpServletRequest) request).getMethod())) {
 			httpResponse.setStatus(HttpServletResponse.SC_OK);
 			return;

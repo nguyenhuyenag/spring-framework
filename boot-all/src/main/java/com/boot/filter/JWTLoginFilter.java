@@ -30,7 +30,7 @@ import com.boot.util.JSONUtils;
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(JWTLoginFilter.class);
-	
+
 	private static final UrlPathHelper URL = new UrlPathHelper();
 
 	private TokenAuthService tokenAuthService = new TokenAuthServiceImpl();
@@ -39,15 +39,18 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 		super(new AntPathRequestMatcher(url));
 		setAuthenticationManager(authManager);
 	}
-	
+
 	@Override
-	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
+	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) // 
+			throws AuthenticationException, IOException, ServletException {
 		LoginRequest login = JSONUtils.OBJECT_MAPPER.readValue(request.getInputStream(), LoginRequest.class);
-		return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword(), Collections.emptyList()));
+		return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(login.getUsername(),
+				login.getPassword(), Collections.emptyList()));
 	}
 
 	@Override
-	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
+			Authentication authResult) throws IOException, ServletException {
 		User user = (User) authResult.getPrincipal();
 		UserResponse object = new UserResponse(user.getUsername(), user.getRole());
 		String jsonObject = JSONUtils.objectToJSON(object);
@@ -57,7 +60,8 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	}
 
 	@Override
-	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
+	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, //
+			AuthenticationException failed) throws IOException, ServletException {
 		LOGGER.info("Failed authentication while attempting to access " + URL.getPathWithinApplication(request));
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
@@ -69,6 +73,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
 }
 
+// TODO
 class Res {
 
 	private Integer status;

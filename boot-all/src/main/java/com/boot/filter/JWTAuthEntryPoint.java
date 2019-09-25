@@ -21,7 +21,8 @@ public class JWTAuthEntryPoint implements AuthenticationEntryPoint, Serializable
 	 * Always returns a 401 error code to the client
 	 */
 	@Override
-	public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+	public void commence(HttpServletRequest request, HttpServletResponse response, //
+			AuthenticationException authException) throws IOException, ServletException {
 		// voi cac request khong xac thuc thanh cong, du lieu se duoc tra ve o day
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);

@@ -25,34 +25,36 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private UserDetailsService userDetailsService;
-	
+
 	@Autowired
-    private JWTAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-	
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-    	http
-		.csrf().disable()
-		.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
-		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-		.authorizeRequests()
-			.antMatchers( "/favicon.ico").permitAll()
-			.antMatchers(HttpMethod.POST, "/api/accounts/register").permitAll()
-			.antMatchers(HttpMethod.GET, "/api/file/read-text").permitAll()
-			.anyRequest().authenticated().and()
-		.addFilterBefore(new JWTLoginFilter("/api/auth/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class)
-		.addFilterBefore(new JWTAuthenticationFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class)
-		.headers().cacheControl();
-    }
-    
+	private JWTAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http.csrf() //
+				.disable() //
+				.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and() //
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and() //
+				.authorizeRequests() //
+				.antMatchers("/favicon.ico").permitAll() //
+				.antMatchers(HttpMethod.POST, "/api/accounts/register").permitAll() //
+				.antMatchers(HttpMethod.GET, "/api/file/read-text").permitAll() //
+				.anyRequest().authenticated().and() //
+				.addFilterBefore(new JWTLoginFilter("/api/auth/login", authenticationManager()),
+						UsernamePasswordAuthenticationFilter.class) //
+				.addFilterBefore(new JWTAuthenticationFilter(userDetailsService),
+						UsernamePasswordAuthenticationFilter.class) //
+				.headers().cacheControl();
+	}
+
 	@Bean
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
+
 	@Autowired
 	protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
 	}
-    
+
 }

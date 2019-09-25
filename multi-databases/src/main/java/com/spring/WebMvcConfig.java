@@ -17,7 +17,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**")
+				registry.addMapping("/**") //
 						.allowedOrigins("http://localhost:4200");
 			}
 		};
@@ -25,10 +25,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/**")
-			    .addResourceLocations("classpath:/static/")
-			    .setCachePeriod(3600 * 24)
-				.resourceChain(true)
+		registry.addResourceHandler("/**") //
+				.addResourceLocations("classpath:/static/") //
+				.setCachePeriod(3600 * 24) //
+				.resourceChain(true) //
 				.addResolver(new PathResourceResolver());
 	}
 }

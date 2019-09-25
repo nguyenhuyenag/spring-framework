@@ -5,8 +5,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
+@PropertySource("classpath:log4j.properties")
 @PropertySource("classpath:application.properties")
-public class ApplicationReader {
+public class PropertiesReader {
 
 	private String serverPort;
 
