@@ -22,6 +22,7 @@ import org.springframework.web.util.UrlPathHelper;
 
 import com.boot.entity.User;
 import com.boot.request.LoginRequest;
+import com.boot.response.Res;
 import com.boot.response.UserResponse;
 import com.boot.service.TokenAuthService;
 import com.boot.service.impl.TokenAuthServiceImpl;
@@ -33,7 +34,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
 	private static final UrlPathHelper URL = new UrlPathHelper();
 
-	private TokenAuthService tokenAuthService = new TokenAuthServiceImpl();
+	private static TokenAuthService tokenAuthService = new TokenAuthServiceImpl();
 
 	public JWTLoginFilter(String url, AuthenticationManager authManager) {
 		super(new AntPathRequestMatcher(url));
@@ -41,66 +42,39 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	}
 
 	@Override
-	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) // 
-			throws AuthenticationException, IOException, ServletException {
+	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
 		LoginRequest login = JSONUtils.OBJECT_MAPPER.readValue(request.getInputStream(), LoginRequest.class);
-		return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(login.getUsername(),
-				login.getPassword(), Collections.emptyList()));
+		UsernamePasswordAuthenticationToken u = new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword(), Collections.emptyList());
+		Authentication a = getAuthenticationManager().authenticate(u); 
+		return a;
 	}
 
 	@Override
-	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
-			Authentication authResult) throws IOException, ServletException {
-		User user = (User) authResult.getPrincipal();
+	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication auth) throws IOException, ServletException {
+		User user = (User) auth.getPrincipal();
 		UserResponse object = new UserResponse(user.getUsername(), user.getRole());
-		String jsonObject = JSONUtils.objectToJSON(object);
-		response.getWriter().write(jsonObject);
+		String json = JSONUtils.objectToJSON(object);
+		response.getWriter().write(json);
 		response.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
-		tokenAuthService.addAuthentication(response, authResult);
+		tokenAuthService.addAuthentication(response, auth);
 	}
 
 	@Override
-	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, //
-			AuthenticationException failed) throws IOException, ServletException {
+	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
 		LOGGER.info("Failed authentication while attempting to access " + URL.getPathWithinApplication(request));
-		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-		Res res = new Res(HttpServletResponse.SC_UNAUTHORIZED, "Username or password is incorrect!");
-		String jsonObject = JSONUtils.objectToJSON(res);
-		response.getWriter().write(jsonObject);
+		response.setStatus(401);
+		response.setContentType("application/json");
+		Res res = new Res(401, "Username or password is incorrect!");
+		String json = JSONUtils.objectToJSON(res);
+		response.getWriter().write(json);
 		response.getWriter().flush();
+		
+//		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+//		Map<String, Object> data = new HashMap<>();
+//		data.put("timestamp", Calendar.getInstance().getTime());
+//		data.put("exception", exception.getMessage());
+//		response.getOutputStream().println(JSONUtils.OBJECT_MAPPER.writeValueAsString(data));
 	}
 
 }
 
-// TODO
-class Res {
-
-	private Integer status;
-	private String des;
-
-	public Res() {
-	}
-
-	public Res(Integer status, String des) {
-		this.status = status;
-		this.des = des;
-	}
-
-	public Integer getStatus() {
-		return status;
-	}
-
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-
-	public String getDes() {
-		return des;
-	}
-
-	public void setDes(String des) {
-		this.des = des;
-	}
-
-}

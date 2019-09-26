@@ -7,7 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -17,18 +16,27 @@ public class JWTAuthEntryPoint implements AuthenticationEntryPoint, Serializable
 
 	private static final long serialVersionUID = 5907023648091540313L;
 
-	/**
-	 * Always returns a 401 error code to the client
-	 */
+	// 401
 	@Override
-	public void commence(HttpServletRequest request, HttpServletResponse response, //
-			AuthenticationException authException) throws IOException, ServletException {
-		// voi cac request khong xac thuc thanh cong, du lieu se duoc tra ve o day
-		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-		//response.getWriter().println("HTTP Status 401 - " + authException.getMessage());
+	public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception)
+			throws IOException, ServletException {
 		response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
-		response.getWriter().flush();
 	}
+
+	// @ExceptionHandler(value = { AccessDeniedException.class })
+	// public void commence(HttpServletRequest request, HttpServletResponse
+	// response, AccessDeniedException accessDeniedException) throws IOException {
+	// // 403
+	// response.sendError(HttpServletResponse.SC_FORBIDDEN, "Authorization Failed :
+	// " + accessDeniedException.getMessage());
+	// }
+	//
+	// @ExceptionHandler(value = { Exception.class })
+	// public void commence(HttpServletRequest request, HttpServletResponse
+	// response, Exception exception) throws IOException {
+	// // 500
+	// response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal
+	// Server Error : " + exception.getMessage());
+	// }
 
 }

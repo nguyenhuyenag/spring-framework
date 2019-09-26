@@ -24,8 +24,8 @@ import com.boot.filter.JWTLoginFilter;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Autowired
-	private JWTAuthEntryPoint jwtAuthEntryPoint;
+	// @Autowired
+	// private JWTAuthEntryPoint jwtAuthEntryPoint;
 
 	@Autowired
 	private UserDetailsService userDetailsService;
@@ -42,7 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable() 	 	// We don't need CSRF for JWT authentication
 			.exceptionHandling() 	//
-			.authenticationEntryPoint(jwtAuthEntryPoint) //
+			.authenticationEntryPoint(new JWTAuthEntryPoint()) //
 			.and() //
 				.sessionManagement() //
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 
@@ -58,8 +58,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.addFilterBefore(new JWTLoginFilter("/api/auth/login", authenticationManager()), //
 					UsernamePasswordAuthenticationFilter.class) //
 			.addFilterBefore(new JWTAuthFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class) //
-			.headers() //
-			.cacheControl();
+			.headers().cacheControl();
 	}
 	
 	// Setup Service find User in database & PasswordEncoder.

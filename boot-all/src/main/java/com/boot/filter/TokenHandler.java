@@ -20,8 +20,9 @@ public class TokenHandler {
 	private static final byte[] SECRET_BYTES 	= 	SECRET.getBytes(StandardCharsets.UTF_8);
 
 	/**
-	 * @param username
-	 * @return token
+	 * Build token from username
+	 * @param username is username
+	 * @return jwt token
 	 */
 	public static String buildToken(String username) {
 		if (StringUtils.isEmpty(username)) {
@@ -35,7 +36,8 @@ public class TokenHandler {
 	}
 
 	/**
-	 * @param token
+	 * Parse token to username
+	 * @param token is jwt token
 	 * @return username
 	 */
 	public static String parseToken(String token) {

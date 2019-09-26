@@ -1,6 +1,6 @@
 package com.boot.service.impl;
 
-import static java.util.Collections.emptyList;
+import java.util.Collections;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,6 +43,6 @@ public class TokenAuthServiceImpl implements TokenAuthService {
 			return null;
 		}
 		User user = (User) userDetailsService.loadUserByUsername(username);
-		return new UsernamePasswordAuthenticationToken(user, null, emptyList());
+		return new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList());
 	}
 }
