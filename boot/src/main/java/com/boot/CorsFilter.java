@@ -24,15 +24,17 @@ import org.springframework.stereotype.Component;
 public class CorsFilter implements Filter {
 
 	public CorsFilter() {
-		
+
 	}
 
 	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) //
+			throws IOException, ServletException {
 		final HttpServletResponse httpResponse = (HttpServletResponse) response;
 		httpResponse.setHeader("Access-Control-Allow-Origin", "*");
 		httpResponse.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
-		httpResponse.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+		httpResponse.setHeader("Access-Control-Allow-Headers", //
+				"Origin, X-Requested-With, Content-Type, Accept, Authorization");
 		httpResponse.setHeader("Access-Control-Max-Age", "3600");
 		httpResponse.setHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE);
 		httpResponse.setHeader("Access-Control-Expose-Headers", HttpHeaders.AUTHORIZATION);
@@ -45,11 +47,11 @@ public class CorsFilter implements Filter {
 
 	@Override
 	public void destroy() {
-		
+
 	}
 
 	@Override
 	public void init(FilterConfig config) throws ServletException {
-		
+
 	}
 }
