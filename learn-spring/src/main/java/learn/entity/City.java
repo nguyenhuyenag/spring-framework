@@ -6,9 +6,9 @@ import javax.persistence.*;
 
 import lombok.Data;
 
+@Data
 @Entity
 // @NamedQuery(name = "City.findAll", query = "SELECT c FROM City c")
-@Data
 public class City implements Serializable {
 
 	private static final long serialVersionUID = 1L;

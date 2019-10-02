@@ -9,10 +9,9 @@ import javax.persistence.ManyToOne;
 
 import lombok.Data;
 
-@Entity
 @Data
-// @NamedQuery(name = "Countrylanguage.findAll", query = "SELECT c FROM
-// Countrylanguage c")
+@Entity
+// @NamedQuery(name = "Countrylanguage.findAll", query = "SELECT c FROM Countrylanguage c")
 public class Countrylanguage implements Serializable {
 
 	private static final long serialVersionUID = 1L;
