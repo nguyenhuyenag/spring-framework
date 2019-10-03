@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
  * Những properties nào bắt đầu là “config” và phần còn lại trùng với tên thuộc
  * tính trong class Configs sẽ được map giá trị. Lưu ý, phần còn lại của những
  * properties này không phân biệt hoa, thường, gạch dưới hay gạch ngang
- *
  */
 @Component
 @ConfigurationProperties("config") // <- prefix

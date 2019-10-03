@@ -1,29 +1,34 @@
 package learn;
 
-import java.util.Arrays;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 
-import learn.of.properties.Configss;
+import learn.of.component.autowired.Laptop;
 
 @SpringBootApplication
 public class LearnApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {
-		SpringApplication.run(LearnApplication.class, args);
-	}
 
-	@Autowired
-	private Configss binding;
+		// ApplicationContext chính là container, chứa toàn bộ các Bean
+		ApplicationContext context = SpringApplication.run(LearnApplication.class, args);
+
+		// Girl girl = context.getBean(Girl.class);
+		
+		Laptop laptop = context.getBean(Laptop.class);
+
+		System.out.println("Girl Instance: " + laptop);
+
+		System.out.println("Girl Outfit: " + laptop.getComputer());
+
+		laptop.getComputer().info();
+	}
 
 	@Override
 	public void run(String... args) throws Exception {
-		System.out.println(binding.getUrl());
-		System.out.println(Arrays.toString(binding.getVersion().stream().toArray(String[]::new)));
-		System.out.println(binding.getPhone());
+
 	}
 
 }

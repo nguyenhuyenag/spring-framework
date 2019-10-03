@@ -1,4 +1,4 @@
-package learn.of.unit;
+package learn.of.component;
 
 public interface Outfit {
 	

@@ -1,9 +1,10 @@
-package learn.of.unit;
+package learn.of.component.primary;
 
 import org.springframework.stereotype.Component;
 
+import learn.of.component.Outfit;
+
 @Component
-// @Scope("prototype")
 public class Bikini implements Outfit {
 
 	@Override
