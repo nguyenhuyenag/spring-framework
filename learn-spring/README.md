@@ -57,16 +57,12 @@
 	
 	=> @Qualifier: Xác định tên của một Bean mà bạn muốn chỉ định inject
 	
-	@Component("bikini")
-	public class Bikini implements Outfit {
-	    
-	}
+# @PostConstruct & @PreDestroy
+
+	- @PostConstruct được đánh dấu trên một method duy nhất bên trong Bean. IoC Container hoặc ApplicationContext sẽ gọi hàm này sau khi một Bean được tạo ra và quản lý
 	
-	@Component("naked")
-	public class Naked implements Outfit {
-	    
-	}
+	- @PreDestroy được đánh dấu trên một method duy nhất bên trong Bean. IoC Container hoặc ApplicationContext sẽ gọi hàm này trước khi một Bean bị xóa hoặc không được quản lý nữa.
 	
-	
+	- Bean life cycle: https://i.imgur.com/5SxxUQ0.jpg
 	
 	
