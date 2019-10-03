@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
-import learn.of.component.autowired.Laptop;
+import learn.of.component.autowired.primary.Primarys;
 
 @SpringBootApplication
 public class LearnApplication implements CommandLineRunner {
@@ -15,15 +15,10 @@ public class LearnApplication implements CommandLineRunner {
 		// ApplicationContext chính là container, chứa toàn bộ các Bean
 		ApplicationContext context = SpringApplication.run(LearnApplication.class, args);
 
-		// Girl girl = context.getBean(Girl.class);
-		
-		Laptop laptop = context.getBean(Laptop.class);
+		// Qualifiers laptop = context.getBean(Qualifiers.class);
+		Primarys laptop = context.getBean(Primarys.class);
 
-		System.out.println("Girl Instance: " + laptop);
-
-		System.out.println("Girl Outfit: " + laptop.getComputer());
-
-		laptop.getComputer().info();
+		laptop.getOutfit().wear();
 	}
 
 	@Override
