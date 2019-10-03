@@ -1,4 +1,4 @@
-package learn.of.unit1;
+package learn.of.unit;
 
 import org.springframework.stereotype.Component;
 

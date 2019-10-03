@@ -1,4 +1,4 @@
-package learn.of.unit1;
+package learn.of.unit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

@@ -1,41 +1,29 @@
 package learn;
 
+import java.util.Arrays;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
 
-import learn.of.unit1.Girl;
-import learn.of.unit1.Outfit;
+import learn.of.properties.Configss;
 
-// Spring tạo ra một Container chứa các Dependency
 @SpringBootApplication
-public class LearnApplication {
+public class LearnApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {
+		SpringApplication.run(LearnApplication.class, args);
+	}
 
-		// SpringApplication.run(LearnApplication.class, args); // <- create Container
+	@Autowired
+	private Configss binding;
 
-		// ApplicationContext là container, chứa toàn bộ các Bean
-		ApplicationContext context = SpringApplication.run(LearnApplication.class, args);
-
-		// Khi chạy xong, lúc này context sẽ chứa các Bean có đánh
-		// dấu @Component
-
-		// Lấy Bean ra bằng cách
-		Outfit outfit = context.getBean(Outfit.class);
-
-		// In ra để xem thử nó là gì
-		System.out.println("Output Instance: " + outfit);
-
-		// xài hàm wear()
-		outfit.wear();
-
-		Girl girl = context.getBean(Girl.class);
-
-		System.out.println("Girl Instance: " + girl);
-		System.out.println("Girl Outfit: " + girl.getOutfit());
-
-		girl.getOutfit().wear();
+	@Override
+	public void run(String... args) throws Exception {
+		System.out.println(binding.getUrl());
+		System.out.println(Arrays.toString(binding.getVersion().stream().toArray(String[]::new)));
+		System.out.println(binding.getPhone());
 	}
 
 }
