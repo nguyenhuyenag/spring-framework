@@ -1,25 +1,25 @@
-package learn.of.component.autowired.qualifier;
+package learn.of.component.autowired;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import learn.of.component.Computer;
+import learn.of.component.Computer.PC;
 import lombok.Data;
 
 @Component("dell")
-class Dell implements Computer {
+class Dell implements PC {
 	@Override
-	public void getInfo() {
-		System.out.println("Dell");
+	public void getName() {
+		System.out.println("PC Dell");
 	}
 }
 
 @Component("hp")
-class Hp implements Computer {
+class Hp implements PC {
 	@Override
-	public void getInfo() {
-		System.out.println("HP");
+	public void getName() {
+		System.out.println("PC HP");
 	}
 }
 
@@ -29,6 +29,6 @@ public class Qualifiers {
 
 	@Autowired
 	@Qualifier("dell")
-	Computer computer;
+	PC instance;
 
 }
