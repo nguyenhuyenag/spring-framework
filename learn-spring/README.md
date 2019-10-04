@@ -64,5 +64,23 @@
 	- @PreDestroy được đánh dấu trên một method duy nhất bên trong Bean. IoC Container hoặc ApplicationContext sẽ gọi hàm này trước khi một Bean bị xóa hoặc không được quản lý nữa.
 	
 	- Bean life cycle: https://i.imgur.com/5SxxUQ0.jpg
+
+# MVC
+
+	- Controller: là tầng giao tiếp với bên ngoài và handler các request từ bên ngoài tới hệ thống.
+
+	- Service Layer: Thực hiện các nghiệp vụ và xử lý logic
+	- @Service Đánh dấu một Class là tầng Service, phục vụ các logic nghiệp vụ.
+
+	- Repository Layer:: Chịu trách nhiệm giao tiếp với các DB, thiết bị lưu trữ, xử lý query và trả về các kiểu dữ liệu mà tầng Service yêu cầu.
+	- @Repository Đánh dấu một Class Là tầng Repository, phục vụ truy xuất dữ liệu.
+	
+	- @Service gắn cho các Bean đảm nhiệm xử lý logic
+	- @Repository gắn cho các Bean đảm nhiệm giao tiếp với DB
+	- @Component gắn cho các Bean khác.
+	
+	- Về bản chất @Service và @Repository cũng chính là @Component và có thể thay thế cho nhau
+	
+	
 	
 	
