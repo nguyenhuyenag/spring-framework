@@ -79,8 +79,15 @@
 	- @Repository gắn cho các Bean đảm nhiệm giao tiếp với DB
 	- @Component gắn cho các Bean khác.
 	
-	- Về bản chất @Service và @Repository cũng chính là @Component và có thể thay thế cho nhau
-	
+	- Về bản chất @Service và @Repository cũng chính là @Component và có thể thay thế nhau
+
+# @Configuration & @Bean
+
+	- @Configuration là một Annotation đánh dấu trên một Class cho phép Spring Boot biết được đây là nơi định nghĩa ra các Bean.
+
+	- @Bean là một Annotation được đánh dấu trên các method cho phép Spring Boot biết được đây là Bean và sẽ thực hiện đưa Bean này vào Context.
+
+	- @Bean sẽ nằm trong các class có đánh dấu @Configuration
 	
 	
 	
