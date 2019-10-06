@@ -14,12 +14,15 @@ public class LearnApplication implements CommandLineRunner {
 
 		ApplicationContext context = SpringApplication.run(LearnApplication.class, args);
 
+		// a
 		Connector mysql = (Connector) context.getBean("mysql-connector");
 		mysql.connect();
 
+		// b
 		Connector mongodb = (Connector) context.getBean("mongodb-connector");
 		mongodb.connect();
 
+		// v
 		Connector postgresql = (Connector) context.getBean("postgresql-connector");
 		postgresql.connect();
 
