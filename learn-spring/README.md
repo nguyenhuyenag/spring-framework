@@ -83,11 +83,19 @@
 
 # @Configuration & @Bean
 
-	- @Configuration là một Annotation đánh dấu trên một Class cho phép Spring Boot biết được đây là nơi định nghĩa ra các Bean.
+	- @Bean là một annotation được đánh dấu trên các method cho phép Spring Boot biết được đây là Bean và sẽ thực hiện đưa Bean này vào Context.
 
-	- @Bean là một Annotation được đánh dấu trên các method cho phép Spring Boot biết được đây là Bean và sẽ thực hiện đưa Bean này vào Context.
+	- @Configuration là một annotation đánh dấu trên một class cho phép Spring Boot biết được đây là nơi định nghĩa ra các Bean.
 
 	- @Bean sẽ nằm trong các class có đánh dấu @Configuration
+	
+	- Spring Boot lần đầu khởi chạy, ngoài việc đi tìm các @Component thì nó còn làm một nhiệm vụ nữa là tìm các class @Configuration.
+
+    - Đi tìm class có đánh dấu @Configuration
+    - Tạo ra đối tượng từ class có đánh dấu @Configuration tìm các method có đánh dấu @Bean trong đối tượng vừa tạo
+    - Thực hiện gọi các method có đánh dấu @Bean để lấy ra các Bean và đưa vào `Context.
+
+	- Ngoài ra, về bản chất, @Configuration cũng là @Component. Nó chỉ khác ở ý nghĩa sử dụng. (Giống với việc class được đánh dấu @Service chỉ nên phục vụ logic vậy).
 	
 	
 	

@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
-import learn.of.configuration.SimpleBean;
+import learn.of.configuration.Connector;
 
 @SpringBootApplication
 public class LearnApplication implements CommandLineRunner {
@@ -14,11 +14,14 @@ public class LearnApplication implements CommandLineRunner {
 
 		ApplicationContext context = SpringApplication.run(LearnApplication.class, args);
 
-		// Lấy ra bean SimpleBean trong Context
-		SimpleBean simpleBean = context.getBean(SimpleBean.class);
+		Connector mysql = (Connector) context.getBean("mysql-connector");
+		mysql.connect();
 
-		// In ra màn hình
-		System.out.println("Simple Bean Example: " + simpleBean.toString());
+		Connector mongodb = (Connector) context.getBean("mongodb-connector");
+		mongodb.connect();
+
+		Connector postgresql = (Connector) context.getBean("postgresql-connector");
+		postgresql.connect();
 
 	}
 
