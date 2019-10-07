@@ -23,10 +23,16 @@ public class AppConfig {
 	}
 
 	@Bean("postgresql-connector")
-	Connector postgresqlConfigure() {
+	Connector postgresqlConfigure(SimpleBean bean) { // Tự động inject SimpleBean
 		Connector postgre = new PostgreSQL();
-		postgre.setUrl("postgresql://localhost/data");
+		postgre.setUrl("postgresql://localhost/data/" + bean.getUsername());
 		return postgre;
+	}
+
+	@Bean
+	SimpleBean simpleBeanConfigure() {
+		// Khởi tạo một instance của SimpleBean và trả ra ngoài
+		return new SimpleBean("Java");
 	}
 
 	@SuppressWarnings("null")
