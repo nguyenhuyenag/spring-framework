@@ -1,4 +1,4 @@
-package learn.of.thymeleaf;
+package learn.util;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
