@@ -1,4 +1,7 @@
-package learn.of.controller;
+package learn.of.thymeleaf;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,11 +19,6 @@ public class WebController {
 		return "index"; // Trả về file index.html
 	}
 
-	@GetMapping("about")
-	public String about() {
-		return "about";
-	}
-
 	@GetMapping("hello")
 	// Request param "name" sẽ được gán giá trị vào biến String
 	// Model là một object của Spring Boot, được gắn vào trong mọi request
@@ -28,6 +26,17 @@ public class WebController {
 			Model model) {
 		// Gắn vào model giá trị name nhận được
 		model.addAttribute("name", name);
-		return "hello"; // trả về file hello.html cùng với thông tin trong model
+		return "hello";
+	}
+
+	@GetMapping("profile")
+	public String profile(Model model) {
+		List<Info> list = new ArrayList<>();
+		list.add(new Info("Nickname", "nguyenhuyenag"));
+		list.add(new Info("Git", "https://github.com/nguyenhuyenag"));
+		// Đưa thông tin vào Model
+		model.addAttribute("listProfile", list);
+		// Trả về template profile.html
+		return "profile";
 	}
 }
