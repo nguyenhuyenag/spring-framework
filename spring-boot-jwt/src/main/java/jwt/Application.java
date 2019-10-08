@@ -12,8 +12,8 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 
-import jwt.model.Role;
-import jwt.model.User;
+import jwt.entity.Role;
+import jwt.entity.User;
 import jwt.service.UserService;
 
 @SpringBootApplication

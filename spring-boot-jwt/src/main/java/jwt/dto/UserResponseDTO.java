@@ -2,7 +2,7 @@ package jwt.dto;
 
 import java.util.List;
 
-import jwt.model.Role;
+import jwt.entity.Role;
 import lombok.Data;
 
 @Data

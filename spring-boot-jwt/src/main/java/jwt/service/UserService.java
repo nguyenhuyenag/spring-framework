@@ -10,8 +10,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import jwt.entity.User;
 import jwt.exception.HandlerException;
-import jwt.model.User;
 import jwt.repository.UserRepository;
 import jwt.security.JwtProvider;
 

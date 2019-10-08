@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,12 +18,12 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import jwt.dto.UserDataDTO;
 import jwt.dto.UserResponseDTO;
-import jwt.model.User;
+import jwt.entity.User;
 import jwt.service.UserService;
 
 @RestController
-@RequestMapping("/users")
-@CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping("users")
+// @CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
 
 	@Autowired
@@ -33,7 +32,7 @@ public class UserController {
 	@Autowired
 	private ModelMapper modelMapper;
 
-	@PostMapping("/signin")
+	@PostMapping("signin")
 	@ApiResponses(value = { //
 			@ApiResponse(code = 400, message = "Something went wrong"), //
 			@ApiResponse(code = 422, message = "Invalid username/password supplied") })

@@ -1,4 +1,4 @@
-package jwt.model;
+package jwt.entity;
 
 import java.util.List;
 
