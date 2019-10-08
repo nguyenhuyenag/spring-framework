@@ -1,4 +1,4 @@
-package jwt.security;
+package jwt;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
@@ -13,6 +13,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import jwt.security.JwtFilterConfigurer;
+import jwt.security.JwtProvider;
 
 @Configuration
 @EnableWebSecurity

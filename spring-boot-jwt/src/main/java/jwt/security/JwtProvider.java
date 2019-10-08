@@ -24,6 +24,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jwt.exception.HandlerException;
 import jwt.model.Role;
+import jwt.service.impl.UserDetailsServiceImpl;
 
 @Component
 public class JwtProvider {
