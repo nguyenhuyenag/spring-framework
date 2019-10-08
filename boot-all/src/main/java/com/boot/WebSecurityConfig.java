@@ -24,9 +24,6 @@ import com.boot.filter.JWTLoginFilter;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	// @Autowired
-	// private JWTAuthEntryPoint jwtAuthEntryPoint;
-
 	@Autowired
 	private UserDetailsService userDetailsService;
 	
@@ -61,7 +58,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.headers().cacheControl();
 	}
 	
-	// Setup Service find User in database & PasswordEncoder.
+	// Setup Service find User in database & PasswordEncoder
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());

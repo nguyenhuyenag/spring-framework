@@ -26,7 +26,7 @@ public class TokenHandler {
 	 */
 	public static String buildToken(String username) {
 		if (StringUtils.isEmpty(username)) {
-			throw new IllegalArgumentException("Cannot create JWT Token without username");
+			throw new IllegalArgumentException("Cannot create JWT token without username");
 		}
 		return Jwts.builder() //
 				.setSubject(username) //

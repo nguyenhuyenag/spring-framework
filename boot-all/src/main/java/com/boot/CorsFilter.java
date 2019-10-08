@@ -12,6 +12,8 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -21,8 +23,10 @@ import org.springframework.stereotype.Component;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class CorsFilter implements Filter {
 
-	public CorsFilter() {
+	private final Logger LOG = LoggerFactory.getLogger(CorsFilter.class);
 
+	public CorsFilter() {
+		LOG.info("CorsFilter init...");
 	}
 
 	@Override
@@ -30,17 +34,18 @@ public class CorsFilter implements Filter {
 			throws IOException, ServletException {
 		final HttpServletResponse httpResponse = (HttpServletResponse) response;
 		httpResponse.setHeader("Access-Control-Allow-Origin", "*");
-		httpResponse.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
+		httpResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE");
 		httpResponse.setHeader("Access-Control-Allow-Headers", //
 				"Origin, X-Requested-With, Content-Type, Accept, Authorization");
 		httpResponse.setHeader("Access-Control-Max-Age", "3600");
 		httpResponse.setHeader("Content-Type", "application/json; charset=UTF-8");
 		httpResponse.setHeader("Access-Control-Expose-Headers", "Authorization");
+
 		if ("OPTIONS".equalsIgnoreCase(((HttpServletRequest) request).getMethod())) {
 			httpResponse.setStatus(HttpServletResponse.SC_OK);
-			return;
+		} else {
+			chain.doFilter(request, response);
 		}
-		chain.doFilter(request, response);
 	}
 
 	@Override
