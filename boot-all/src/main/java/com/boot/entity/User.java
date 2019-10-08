@@ -29,7 +29,7 @@ public class User implements UserDetails {
 	@Column(name = "id")
 	private Long id;
 
-	@Column(name = "username")
+	@Column(name = "username", unique = true, nullable = false)
 	private String username;
 
 	@Column(name = "password")
@@ -38,7 +38,7 @@ public class User implements UserDetails {
 	@Column(name = "full_name")
 	private String fullName;
 
-	@Column(name = "email")
+	@Column(name = "email", unique = true, nullable = false)
 	private String email;
 
 	@Column(name = "role")

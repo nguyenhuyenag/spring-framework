@@ -38,7 +38,7 @@ public class TokenAuthServiceImpl implements TokenAuthService {
 			LOGGER.info("Couldn't find Bearer string");
 			return null;
 		}
-		String username = TokenHandler.parseToken(token);
+		String username = TokenHandler.getUsername(token);
 		if (StringUtils.isEmpty(username)) {
 			return null;
 		}

@@ -28,7 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	private UserDetailsService userDetailsService;
 	
 	private final String[] PERMIT_ALL_GET = {
-		"/api/user/load-all"
+		// "/api/user/load-all"
 	};
 
 	private final String[] PERMIT_ALL_POST = {

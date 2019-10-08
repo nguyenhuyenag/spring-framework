@@ -2,11 +2,8 @@ package com.boot.filter;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
-
 import org.apache.commons.lang3.StringUtils;
-
 import com.boot.util.DateTimeUtils;
-
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -40,7 +37,7 @@ public class TokenHandler {
 	 * @param token is jwt token
 	 * @return username
 	 */
-	public static String parseToken(String token) {
+	public static String getUsername(String token) {
 		if (StringUtils.isEmpty(token)) {
 			return StringUtils.EMPTY;
 		}
@@ -50,5 +47,5 @@ public class TokenHandler {
 				.getBody() //
 				.getSubject();
 	}
-
+	
 }
