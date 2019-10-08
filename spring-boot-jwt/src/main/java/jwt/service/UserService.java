@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import jwt.exception.HandlerException;
 import jwt.model.User;
 import jwt.repository.UserRepository;
-import jwt.security.JwtTokenProvider;
+import jwt.security.JwtProvider;
 
 @Service
 public class UserService {
@@ -25,7 +25,7 @@ public class UserService {
 	private PasswordEncoder passwordEncoder;
 
 	@Autowired
-	private JwtTokenProvider jwtTokenProvider;
+	private JwtProvider jwtTokenProvider;
 
 	@Autowired
 	private AuthenticationManager authenticationManager;

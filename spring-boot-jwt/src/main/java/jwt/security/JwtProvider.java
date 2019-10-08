@@ -26,7 +26,7 @@ import jwt.exception.HandlerException;
 import jwt.model.Role;
 
 @Component
-public class JwtTokenProvider {
+public class JwtProvider {
 
 	@Value("${security.jwt.token.secret-key:secret-key}")
 	private String secretKey;

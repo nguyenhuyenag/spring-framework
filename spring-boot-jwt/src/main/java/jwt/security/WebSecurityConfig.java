@@ -20,7 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	private JwtTokenProvider jwtTokenProvider;
+	private JwtProvider jwtTokenProvider;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -43,7 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.exceptionHandling().accessDeniedPage("/login");
 
 		// Apply JWT
-		http.apply(new JwtTokenFilterConfigurer(jwtTokenProvider));
+		http.apply(new JwtFilterConfigurer(jwtTokenProvider));
 
 		// Optional, if you want to test the API from a browser
 		// http.httpBasic();

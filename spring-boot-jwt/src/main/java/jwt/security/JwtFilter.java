@@ -17,11 +17,11 @@ import jwt.exception.HandlerException;
  * We should use OncePerRequestFilter since we are doing a database call, there
  * is no point in doing this more than once
  */
-public class JwtTokenFilter extends OncePerRequestFilter {
+public class JwtFilter extends OncePerRequestFilter {
 
-	private JwtTokenProvider jwtTokenProvider;
+	private JwtProvider jwtTokenProvider;
 
-	public JwtTokenFilter(JwtTokenProvider jwtTokenProvider) {
+	public JwtFilter(JwtProvider jwtTokenProvider) {
 		this.jwtTokenProvider = jwtTokenProvider;
 	}
 

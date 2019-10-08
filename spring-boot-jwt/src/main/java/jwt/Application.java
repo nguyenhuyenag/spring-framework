@@ -8,46 +8,51 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
 import jwt.model.Role;
 import jwt.model.User;
 import jwt.service.UserService;
 
 @SpringBootApplication
-public class Application implements CommandLineRunner {
+public class Application extends SpringBootServletInitializer implements CommandLineRunner {
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}
-	
+
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		return application.sources(Application.class);
+	}
+
 	@Bean
 	public ModelMapper modelMapper() {
 		return new ModelMapper();
 	}
-	
-	@Bean
-	public CorsFilter corsFilter() {
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		CorsConfiguration config = new CorsConfiguration();
-		config.setAllowCredentials(true);
-		config.addAllowedOrigin("*");
-		config.addAllowedHeader("*");
-		config.addAllowedMethod("OPTIONS");
-		config.addAllowedMethod("GET");
-		config.addAllowedMethod("POST");
-		config.addAllowedMethod("PUT");
-		config.addAllowedMethod("DELETE");
-		source.registerCorsConfiguration("/**", config);
-		return new CorsFilter(source);
-	}
-	
+
+	// @Bean
+	// public CorsFilter corsFilter() {
+	// UrlBasedCorsConfigurationSource source = new
+	// UrlBasedCorsConfigurationSource();
+	// CorsConfiguration config = new CorsConfiguration();
+	// config.setAllowCredentials(true);
+	// config.addAllowedOrigin("*");
+	// config.addAllowedHeader("*");
+	// config.addAllowedMethod("OPTIONS");
+	// config.addAllowedMethod("GET");
+	// config.addAllowedMethod("POST");
+	// config.addAllowedMethod("PUT");
+	// config.addAllowedMethod("DELETE");
+	// source.registerCorsConfiguration("/**", config);
+	// return new CorsFilter(source);
+	// }
+
 	@Autowired
 	UserService userService;
-	
+
 	@Override
 	public void run(String... params) throws Exception {
 		User admin = new User();
