@@ -37,25 +37,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable() 	 	// We don't need CSRF for JWT authentication
-			.exceptionHandling() 	//
-			.authenticationEntryPoint(new JWTAuthEntryPoint()) //
-			.and() //
-				.sessionManagement() //
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 
-			.and() //
-				.authorizeRequests() //
-				.antMatchers("/").permitAll() //
-				.antMatchers( "/favicon.ico").permitAll() //
-				.antMatchers(HttpMethod.GET, PERMIT_ALL_GET).permitAll()	//
-				.antMatchers(HttpMethod.POST, PERMIT_ALL_POST).permitAll()	//
-				.anyRequest() 	 //
-				.authenticated() //
-			.and() //
-			.addFilterBefore(new JWTLoginFilter("/api/auth/login", authenticationManager()), //
-					UsernamePasswordAuthenticationFilter.class) //
-			.addFilterBefore(new JWTAuthFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class) //
-			.headers().cacheControl();
+		// Disable CSRF (cross site request forgery)
+		http.csrf().disable();
+		http.exceptionHandling() 	//
+		.authenticationEntryPoint(new JWTAuthEntryPoint()) //
+		.and() //
+			.sessionManagement() //
+			.sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 
+		.and() //
+			.authorizeRequests() //
+			.antMatchers("/").permitAll() //
+			.antMatchers( "/favicon.ico").permitAll() //
+			.antMatchers(HttpMethod.GET, PERMIT_ALL_GET).permitAll()	//
+			.antMatchers(HttpMethod.POST, PERMIT_ALL_POST).permitAll()	//
+			.anyRequest() 	 //
+			.authenticated() //
+		.and() //
+		.addFilterBefore(new JWTLoginFilter("/api/auth/login", authenticationManager()), //
+				UsernamePasswordAuthenticationFilter.class) //
+		.addFilterBefore(new JWTAuthFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class) //
+		.headers().cacheControl();
 	}
 	
 	// Setup Service find User in database & PasswordEncoder
