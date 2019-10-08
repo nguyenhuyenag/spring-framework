@@ -45,13 +45,11 @@ public class GlobalException {
 
 	@ExceptionHandler(AccessDeniedException.class)
 	public void handleAccessDeniedException(HttpServletResponse res) throws IOException {
-		// res.sendError(HttpStatus.FORBIDDEN.value(), "Access denied");
 		res.sendError(HttpServletResponse.SC_FORBIDDEN, "Access denied");
 	}
 
 	@ExceptionHandler(Exception.class)
 	public void handleException(HttpServletResponse res) throws IOException {
-		// res.sendError(HttpStatus.BAD_REQUEST.value(), "Something went wrong");
 		res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Something went wrong");
 	}
 
