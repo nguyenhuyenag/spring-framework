@@ -26,39 +26,35 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private UserDetailsService userDetailsService;
-	
+
 	private final String[] PERMIT_ALL_GET = {
-		// "/api/user/load-all"
+			// "/api/user/load-all"
 	};
 
-	private final String[] PERMIT_ALL_POST = {
-		"/api/user/register"
-	};
-	
+	private final String[] PERMIT_ALL_POST = { "/api/user/register" };
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		// Disable CSRF (cross site request forgery)
 		http.csrf().disable();
-		http.exceptionHandling() 	//
-		.authenticationEntryPoint(new JWTAuthEntryPoint()) //
-		.and() //
-			.sessionManagement() //
-			.sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 
-		.and() //
-			.authorizeRequests() //
-			.antMatchers("/").permitAll() //
-			.antMatchers( "/favicon.ico").permitAll() //
-			.antMatchers(HttpMethod.GET, PERMIT_ALL_GET).permitAll()	//
-			.antMatchers(HttpMethod.POST, PERMIT_ALL_POST).permitAll()	//
-			.anyRequest() 	 //
-			.authenticated() //
-		.and() //
-		.addFilterBefore(new JWTLoginFilter("/api/auth/login", authenticationManager()), //
-				UsernamePasswordAuthenticationFilter.class) //
-		.addFilterBefore(new JWTAuthFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class) //
-		.headers().cacheControl();
+
+		http.exceptionHandling().authenticationEntryPoint(new JWTAuthEntryPoint()); //
+
+		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); //
+
+		http.authorizeRequests() //
+				.antMatchers("/").permitAll() //
+				.antMatchers("/favicon.ico").permitAll() //
+				.antMatchers(HttpMethod.GET, PERMIT_ALL_GET).permitAll() //
+				.antMatchers(HttpMethod.POST, PERMIT_ALL_POST).permitAll() //
+				.anyRequest() //
+				.authenticated(); //
+
+		http.addFilterBefore(new JWTLoginFilter("/api/auth/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class) //
+			.addFilterBefore(new JWTAuthFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class) //
+			.headers().cacheControl();
 	}
-	
+
 	// Setup Service find User in database & PasswordEncoder
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
