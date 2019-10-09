@@ -9,6 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import jwt.entity.Role;
 import jwt.entity.User;
@@ -28,12 +29,16 @@ public class Application extends SpringBootServletInitializer implements Command
 
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	PasswordEncoder passwordEncoder;
 
 	@Override
 	public void run(String... params) throws Exception {
 		User admin = new User();
 		admin.setUsername("admin");
 		admin.setPassword("admin");
+		System.out.println(passwordEncoder.encode("admin"));
 		admin.setEmail("admin@email.com");
 		admin.setRoles(new ArrayList<Role>(Arrays.asList(Role.ROLE_ADMIN)));
 		userService.signup(admin);
@@ -41,6 +46,7 @@ public class Application extends SpringBootServletInitializer implements Command
 		User client = new User();
 		client.setUsername("client");
 		client.setPassword("client");
+		System.out.println(passwordEncoder.encode("client"));
 		client.setEmail("client@email.com");
 		client.setRoles(new ArrayList<Role>(Arrays.asList(Role.ROLE_CLIENT)));
 		userService.signup(client);
