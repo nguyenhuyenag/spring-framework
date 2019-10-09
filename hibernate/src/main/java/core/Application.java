@@ -1,10 +1,15 @@
 package core;
 
+import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+
+import core.entity.Clazz;
+import core.repository.ClazzRepository;
 
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer implements CommandLineRunner {
@@ -18,9 +23,13 @@ public class Application extends SpringBootServletInitializer implements Command
 		return application.sources(Application.class);
 	}
 
+	@Autowired
+	ClazzRepository clazzRepository;
+
 	@Override
 	public void run(String... params) throws Exception {
-
+		String name = RandomStringUtils.randomAlphabetic(6);
+		clazzRepository.save(new Clazz(name));
 	}
 
 }
