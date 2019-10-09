@@ -44,9 +44,8 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
 		LoginRequest login = JSONUtils.OBJECT_MAPPER.readValue(request.getInputStream(), LoginRequest.class);
-		UsernamePasswordAuthenticationToken u = new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword(), Collections.emptyList());
-		Authentication a = getAuthenticationManager().authenticate(u); 
-		return a;
+		UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword(), Collections.emptyList());
+		return getAuthenticationManager().authenticate(auth); 
 	}
 
 	@Override
@@ -62,18 +61,12 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	@Override
 	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
 		LOGGER.info("Failed authentication while attempting to access " + URL.getPathWithinApplication(request));
-		response.setStatus(401);
+		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		response.setContentType("application/json");
-		Res res = new Res(401, "Username or password is incorrect!");
+		Res res = new Res(HttpServletResponse.SC_UNAUTHORIZED, "Username or password is incorrect!");
 		String json = JSONUtils.objectToJSON(res);
 		response.getWriter().write(json);
 		response.getWriter().flush();
-		
-//		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-//		Map<String, Object> data = new HashMap<>();
-//		data.put("timestamp", Calendar.getInstance().getTime());
-//		data.put("exception", exception.getMessage());
-//		response.getOutputStream().println(JSONUtils.OBJECT_MAPPER.writeValueAsString(data));
 	}
 
 }

@@ -35,13 +35,11 @@ public class JwtFilter extends OncePerRequestFilter {
 				SecurityContextHolder.getContext().setAuthentication(auth);
 			}
 		} catch (HandlerException e) {
-			// This is very important
-			// Since it guarantees the user is not authenticated at all
+			// This is very important, since it guarantees the user is not authenticated at all
 			SecurityContextHolder.clearContext();
 			httpServletResponse.sendError(e.getHttpStatus().value(), e.getMessage());
 			return;
 		}
-
 		filterChain.doFilter(httpServletRequest, httpServletResponse);
 	}
 

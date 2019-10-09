@@ -23,7 +23,7 @@ import jwt.service.UserService;
 
 @RestController
 @RequestMapping("users")
-public class UserController {
+public class AuthController {
 
 	@Autowired
 	private UserService userService;
