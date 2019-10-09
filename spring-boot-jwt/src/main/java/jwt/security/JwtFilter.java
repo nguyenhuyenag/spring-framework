@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -26,21 +27,22 @@ public class JwtFilter extends OncePerRequestFilter {
 	}
 
 	@Override
-	protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
-			FilterChain filterChain) throws ServletException, IOException {
-		String token = jwtTokenProvider.resolveToken(httpServletRequest);
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) //
+			throws ServletException, IOException {
+		String token = jwtTokenProvider.resolveToken(request);
 		try {
-			if (token != null && jwtTokenProvider.validateToken(token)) {
+			if (StringUtils.isNotEmpty(token) && jwtTokenProvider.validateToken(token)) {
 				Authentication auth = jwtTokenProvider.getAuthentication(token);
 				SecurityContextHolder.getContext().setAuthentication(auth);
 			}
 		} catch (HandlerException e) {
-			// This is very important, since it guarantees the user is not authenticated at all
+			// This is very important
+			// Since it guarantees the user is not authenticated at all
 			SecurityContextHolder.clearContext();
-			httpServletResponse.sendError(e.getHttpStatus().value(), e.getMessage());
+			response.sendError(e.getHttpStatus().value(), e.getMessage());
 			return;
 		}
-		filterChain.doFilter(httpServletRequest, httpServletResponse);
+		filterChain.doFilter(request, response);
 	}
 
 }
