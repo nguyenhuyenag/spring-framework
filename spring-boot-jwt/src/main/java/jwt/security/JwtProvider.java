@@ -9,8 +9,9 @@ import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -25,21 +26,22 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import jwt.entity.Role;
 import jwt.exception.HandlerException;
 import jwt.service.impl.UserDetailsServiceImpl;
+import jwt.util.DateTimeUtils;
 
 @Component
 public class JwtProvider {
 
-	@Value("${security.jwt.token.secret-key:secret-key}")
-	private String secretKey;
-
-	private long validityInMilliseconds = 1000; // 1 minues
+	private static String SECRET_KEY;
+	public static final String TOKEN_PREFIX = "Bearer ";
+	private static final String SECRET = "JWT_TOKEN_SECRET";
+	// private static Date EXPIRATION_TIME = DateTimeUtils.getLaterDate(DateTimeUtils.ONE_MINUTES);
 
 	@Autowired
 	private UserDetailsServiceImpl userDetailsService;
 
 	@PostConstruct
 	protected void init() {
-		secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
+		SECRET_KEY = Base64.getEncoder().encodeToString(SECRET.getBytes());
 	}
 
 	public String buildToken(String username, List<Role> roles) {
@@ -49,12 +51,12 @@ public class JwtProvider {
 				.filter(Objects::nonNull) //
 				.collect(Collectors.toList()));
 		Date now = new Date();
-		Date validity = new Date(now.getTime() + validityInMilliseconds);
+		Date expiration = new Date(System.currentTimeMillis() + DateTimeUtils.ONE_MINUTE);
 		return Jwts.builder() //
 				.setClaims(claims) //
 				.setIssuedAt(now) //
-				.setExpiration(validity) //
-				.signWith(SignatureAlgorithm.HS256, secretKey) //
+				.setExpiration(expiration) //
+				.signWith(SignatureAlgorithm.HS512, SECRET_KEY) // 256
 				.compact();
 	}
 
@@ -64,20 +66,20 @@ public class JwtProvider {
 	}
 
 	public String getUsername(String token) {
-		return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+		return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody().getSubject();
 	}
 
 	public String resolveToken(HttpServletRequest req) {
-		String bearerToken = req.getHeader("Authorization");
-		if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+		String bearerToken = req.getHeader(HttpHeaders.AUTHORIZATION);
+		if (bearerToken != null && bearerToken.startsWith(TOKEN_PREFIX)) {
 			return bearerToken.substring(7);
 		}
-		return null;
+		return StringUtils.EMPTY;
 	}
 
 	public boolean validateToken(String token) {
 		try {
-			Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+			Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token);
 			return true;
 		} catch (JwtException | IllegalArgumentException e) {
 			throw new HandlerException("Expired or invalid JWT token", HttpStatus.INTERNAL_SERVER_ERROR);
