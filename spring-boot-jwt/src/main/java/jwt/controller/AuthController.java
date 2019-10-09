@@ -73,7 +73,7 @@ public class AuthController {
 	}
 
 	@GetMapping(value = "/me")
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CLIENT')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
 	@ApiResponses(value = { //
 			@ApiResponse(code = 400, message = "Something went wrong"), //
 			@ApiResponse(code = 403, message = "Access denied"), //
@@ -83,7 +83,7 @@ public class AuthController {
 	}
 
 	@GetMapping("/refresh")
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CLIENT')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
 	public String refresh(HttpServletRequest req) {
 		return userService.refresh(req.getRemoteUser());
 	}

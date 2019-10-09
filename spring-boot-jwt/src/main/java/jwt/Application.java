@@ -48,7 +48,7 @@ public class Application extends SpringBootServletInitializer implements Command
 		client.setPassword("client");
 		System.out.println(passwordEncoder.encode("client"));
 		client.setEmail("client@email.com");
-		client.setRoles(new ArrayList<Role>(Arrays.asList(Role.ROLE_CLIENT)));
+		client.setRoles(new ArrayList<Role>(Arrays.asList(Role.ROLE_USER)));
 		userService.signup(client);
 	}
 
