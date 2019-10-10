@@ -1,5 +1,7 @@
 package core;
 
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -7,8 +9,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
+import core.entity.idclass.User;
 import core.repository.ClazzRepository;
-import core.repository.StudentRepository;
+import core.repository.UserRepository;
 
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer implements CommandLineRunner {
@@ -26,20 +29,14 @@ public class Application extends SpringBootServletInitializer implements Command
 	ClazzRepository clazzRepository;
 
 	@Autowired
-	StudentRepository studentRepository;
+	UserRepository userRepository;
 
 	@Override
 	public void run(String... params) throws Exception {
 
-		// clazzRepository.findAll().forEach(System.out::println);
-		// String name = RandomStringUtils.randomAlphabetic(6);
-		// clazzRepository.save(new Clazz(name));
-		// nameRepository.findAll().forEach(System.out::println);
-
-		// Optional<Student> student = studentRepository.findById(new StudentId(1,
-		// 123));
-		// System.out.println(student.get().toString());
-		System.out.println(studentRepository.getByJpaQuery(1, null));
+		int code = RandomUtils.nextInt(0, 999);
+		String name = RandomStringUtils.randomAlphabetic(5);
+		userRepository.save(new User(code, name));
 		
 	}
 
