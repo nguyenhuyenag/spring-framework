@@ -13,13 +13,23 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
+/*-
+ *	MySQL				JPA
+ *
+ *	name				name
+ *	Name				name
+ *	NAME				name
+ *
+ *	my_name				myName
+ *
+ *	camelCase			@Column(name = "camelcase")
+ *						String camelCase;
+ */
 @Data
-@Table
 @Entity
-@RequiredArgsConstructor
-public class Clazz implements Serializable {
+@Table(name = "mysql_name") // TODO tên bảng cameal
+public class MySqlName implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -27,12 +37,18 @@ public class Clazz implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(name = "classname")
-	private String name;
+	String name;
+	String age;
+	String phone;
 
-	public Clazz(final String name) {
-		this.name = name;
-	}
+	@Column(name = "camelcase")
+	String camelCase;
+
+	@Column(name = "card_number")
+	String cardNumber;
+
+	@Column(name = "language_name")
+	String language;
 
 	@Override
 	public String toString() {
