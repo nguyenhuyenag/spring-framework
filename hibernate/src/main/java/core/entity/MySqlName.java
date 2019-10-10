@@ -28,7 +28,7 @@ import lombok.Data;
  */
 @Data
 @Entity
-@Table(name = "mysql_name") // TODO tên bảng cameal
+@Table(name = "mysql_name")
 public class MySqlName implements Serializable {
 
 	private static final long serialVersionUID = 1L;

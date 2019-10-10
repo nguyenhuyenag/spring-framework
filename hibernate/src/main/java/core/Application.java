@@ -8,7 +8,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 import core.repository.ClazzRepository;
-import core.repository.NameRepository;
+import core.repository.StudentRepository;
 
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer implements CommandLineRunner {
@@ -26,14 +26,21 @@ public class Application extends SpringBootServletInitializer implements Command
 	ClazzRepository clazzRepository;
 
 	@Autowired
-	NameRepository nameRepository;
+	StudentRepository studentRepository;
 
 	@Override
 	public void run(String... params) throws Exception {
+
 		// clazzRepository.findAll().forEach(System.out::println);
 		// String name = RandomStringUtils.randomAlphabetic(6);
 		// clazzRepository.save(new Clazz(name));
-		nameRepository.findAll().forEach(System.out::println);
+		// nameRepository.findAll().forEach(System.out::println);
+
+		// Optional<Student> student = studentRepository.findById(new StudentId(1,
+		// 123));
+		// System.out.println(student.get().toString());
+		System.out.println(studentRepository.getByJpaQuery(1, null));
+		
 	}
 
 }
