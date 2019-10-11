@@ -15,10 +15,10 @@ public interface StudentRepository extends JpaRepository<Student, StudentId> {
 
 	Optional<Student> findById(StudentId id);
 
-	@Query(value = "select * from Student s where s.id = :id or s.code = :code", nativeQuery = true)
-	Student getByNativeQuery(@Param("id") Integer id, @Param("code") Integer code);
+	@Query(value = "SELECT s FROM Student s WHERE s.id.id = :id OR s.id.code = :code")
+	Student getByJpaQuery(@Param("id") int id, @Param("code") int code);
 
-	@Query(value = "select s from Student s where s.id.id = :id or s.id.code = :code")
-	Student getByJpaQuery(@Param("id") Integer id, @Param("code") Integer code);
+	@Query(value = "SELECT * FROM student s WHERE s.id = :id OR s.code = :code", nativeQuery = true)
+	Student getByNativeQuery(@Param("id") int id, @Param("code") int code);
 
 }

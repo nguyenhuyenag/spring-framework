@@ -18,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 public class User {
 
 	@Id
-	// @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	@Id
