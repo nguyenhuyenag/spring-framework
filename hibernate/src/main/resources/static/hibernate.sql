@@ -4,6 +4,21 @@ CREATE TABLE `clazz` (
   PRIMARY KEY (`id`)
 );
 
+CREATE TABLE `student` (
+  `id` int(11) NOT NULL,
+  `code` int(11) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`, `code`)
+);
+
+CREATE TABLE `people` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `clazz_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`clazz_id`) REFERENCES `clazz`(`id`)
+);
+
 CREATE TABLE `mysql_name` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
@@ -15,4 +30,3 @@ CREATE TABLE `mysql_name` (
   PRIMARY KEY (`id`)
 );
 
-INSERT INTO `mysql_name` VALUES (1,'Java','24','192.168.1.1','Java','01782231','vie');

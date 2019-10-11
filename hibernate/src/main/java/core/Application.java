@@ -1,5 +1,6 @@
 package core;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -7,9 +8,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
+import core.entity.Clazz;
+import core.entity.manytoone.People;
 import core.repository.ClazzRepository;
-import core.repository.StudentRepository;
-import core.repository.UserRepository;
+import core.repository.PeopleRepository;
 
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer implements CommandLineRunner {
@@ -27,23 +29,32 @@ public class Application extends SpringBootServletInitializer implements Command
 	ClazzRepository clazzRepository;
 
 	@Autowired
-	UserRepository userRepository;
-
-	@Autowired
-	StudentRepository studentRepository;
+	PeopleRepository peopleRepository;
 
 	@Override
 	public void run(String... params) throws Exception {
 
-		// int code = RandomUtils.nextInt(0, 999);
-		// String name = RandomStringUtils.randomAlphabetic(5);
-		// userRepository.save(new User(code, name));
+		// clazz
+		Clazz clazz = new Clazz(RandomStringUtils.randomAlphabetic(5));
+		clazzRepository.save(clazz);
 
-		// System.out.println(studentRepository.getByNativeQuery(2, 56));
-		// System.out.println(studentRepository.getByNativeQuery(2, 56));
+		// people
+		People people1 = new People();
+		people1.setName(RandomStringUtils.randomAlphabetic(5));
+		people1.setClazz(clazz);
+		peopleRepository.save(people1);
 
-		// System.out.println(userRepository.getByNativeQuery(2, 5));
-		System.out.println(userRepository.getByJpaQuery(2, 56));
+		// people
+		People people2 = new People();
+		people2.setName(RandomStringUtils.randomAlphabetic(5));
+		people2.setClazz(clazz);
+		peopleRepository.save(people2);
+
+		// people
+		People people3 = new People();
+		people3.setName(RandomStringUtils.randomAlphabetic(5));
+		people3.setClazz(clazz);
+		peopleRepository.save(people3);
 
 	}
 
