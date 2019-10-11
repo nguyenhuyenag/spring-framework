@@ -8,10 +8,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
-import core.entity.Clazz;
-import core.entity.manytoone.People;
-import core.repository.ClazzRepository;
-import core.repository.PeopleRepository;
+import core.entity.manytoone.Company;
+import core.entity.manytoone.Staff;
+import core.repository.CompanyRepositoty;
+import core.repository.StaffRepository;
 
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer implements CommandLineRunner {
@@ -26,35 +26,29 @@ public class Application extends SpringBootServletInitializer implements Command
 	}
 
 	@Autowired
-	ClazzRepository clazzRepository;
+	CompanyRepositoty companyRepositoty;
 
 	@Autowired
-	PeopleRepository peopleRepository;
+	StaffRepository staffRepository;
 
 	@Override
 	public void run(String... params) throws Exception {
 
-		// clazz
-		Clazz clazz = new Clazz(RandomStringUtils.randomAlphabetic(5));
-		clazzRepository.save(clazz);
+		// Company
+		Company company = new Company("LG");
+		companyRepositoty.save(company);
 
-		// people
-		People people1 = new People();
-		people1.setName(RandomStringUtils.randomAlphabetic(5));
-		people1.setClazz(clazz);
-		peopleRepository.save(people1);
+		// Staff
+		Staff staff1 = new Staff();
+		staff1.setName(RandomStringUtils.randomAlphabetic(5));
+		staff1.setCompany(company);
+		staffRepository.save(staff1);
 
-		// people
-		People people2 = new People();
-		people2.setName(RandomStringUtils.randomAlphabetic(5));
-		people2.setClazz(clazz);
-		peopleRepository.save(people2);
-
-		// people
-		People people3 = new People();
-		people3.setName(RandomStringUtils.randomAlphabetic(5));
-		people3.setClazz(clazz);
-		peopleRepository.save(people3);
+		// Staff
+		Staff staff2 = new Staff();
+		staff2.setName(RandomStringUtils.randomAlphabetic(5));
+		staff2.setCompany(company);
+		staffRepository.save(staff2);
 
 	}
 

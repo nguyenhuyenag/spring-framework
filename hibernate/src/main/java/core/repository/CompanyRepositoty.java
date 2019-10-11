@@ -3,9 +3,9 @@ package core.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import core.entity.MySqlName;
+import core.entity.manytoone.Company;
 
 @Repository
-public interface NameRepository extends JpaRepository<MySqlName, Integer> {
+public interface CompanyRepositoty extends JpaRepository<Company, Integer> {
 
 }

@@ -11,14 +11,6 @@ CREATE TABLE `student` (
   PRIMARY KEY (`id`, `code`)
 );
 
-CREATE TABLE `people` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `clazz_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  FOREIGN KEY (`clazz_id`) REFERENCES `clazz`(`id`)
-);
-
 CREATE TABLE `mysql_name` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
@@ -30,3 +22,17 @@ CREATE TABLE `mysql_name` (
   PRIMARY KEY (`id`)
 );
 
+-- @ManyToOne --
+CREATE TABLE `company` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `staff` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `company_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`company_id`) REFERENCES `company`(`id`)
+);

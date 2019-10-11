@@ -1,4 +1,4 @@
-package core.entity;
+package core.entity.manytoone;
 
 import java.io.Serializable;
 
@@ -17,8 +17,8 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor
 @Entity
-@Table
-public class Clazz implements Serializable {
+@Table(name = "company")
+public class Company implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -28,7 +28,7 @@ public class Clazz implements Serializable {
 
 	private String name;
 
-	public Clazz(final String name) {
+	public Company(final String name) {
 		this.name = name;
 	}
 
