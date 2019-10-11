@@ -1,4 +1,4 @@
-package core.entity.manytoone;
+package core.entity.manytoone.onetomany;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -36,7 +36,6 @@ import lombok.RequiredArgsConstructor;
 	
 	- Nhiều Staff có cùng Company => @ManyToOne đặt ở Staff
 	
-	- Một Company có nhiều Staff  => @OneToMany
  */
 @Data
 @AllArgsConstructor

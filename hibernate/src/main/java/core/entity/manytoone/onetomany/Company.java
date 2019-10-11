@@ -1,4 +1,4 @@
-package core.entity.manytoone;
+package core.entity.manytoone.onetomany;
 
 import java.io.Serializable;
 import java.util.List;
@@ -17,6 +17,9 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+/*-
+ * - Một Company có nhiều Staff  => @OneToMany đặt ở Company
+ */
 @Data
 @RequiredArgsConstructor
 @Entity
@@ -35,7 +38,7 @@ public class Company implements Serializable {
 		this.name = name;
 	}
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "company") // trường company trong Staff
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "company") // field company trong Staff
 	private List<Staff> listStaff;
 
 	@Override
