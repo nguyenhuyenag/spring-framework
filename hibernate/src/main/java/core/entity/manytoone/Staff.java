@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 import lombok.Data;
 
-/*
+/*-
 	Company company = new Company("LG");
 	companyRepositoty.save(company);
 
@@ -25,9 +25,9 @@ import lombok.Data;
 	staff2.setCompany(company);
 	staffRepository.save(staff2);
 	
-	select *
-	from clazz c, people p
-	where c.id = p.clazz_id;
+	- select * from clazz c, people p where c.id = p.clazz_id;
+
+	- Quan hệ nhiều – một nhìn từ đối tượng Staff, đặt annotation @ManyToOne trong entity Staff
  */
 @Data
 @Entity
