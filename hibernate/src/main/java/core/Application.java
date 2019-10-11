@@ -1,17 +1,10 @@
 package core;
 
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-
-import core.entity.manytoone.onetomany.Company;
-import core.repository.CompanyRepositoty;
-import core.repository.StaffRepository;
 
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer implements CommandLineRunner {
@@ -25,18 +18,9 @@ public class Application extends SpringBootServletInitializer implements Command
 		return application.sources(Application.class);
 	}
 
-	@Autowired
-	CompanyRepositoty companyRepositoty;
-
-	@Autowired
-	StaffRepository staffRepository;
-
 	@Override
 	public void run(String... params) throws Exception {
 
-		Optional<Company> company = companyRepositoty.findById(2);
-		company.ifPresent(c -> System.out.println(c.getListStaff().size()));
-		
 	}
 
 }
