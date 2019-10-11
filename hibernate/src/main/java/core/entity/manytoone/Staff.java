@@ -9,7 +9,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 /*-
 	Company company = new Company("LG");
@@ -28,8 +33,14 @@ import lombok.Data;
 	- select * from clazz c, people p where c.id = p.clazz_id;
 
 	- Quan hệ nhiều – một nhìn từ đối tượng Staff, đặt annotation @ManyToOne trong entity Staff
+	
+	- Nhiều Staff có cùng Company => @ManyToOne đặt ở Staff
+	
+	- Một Company có nhiều Staff  => @OneToMany
  */
 @Data
+@AllArgsConstructor
+@RequiredArgsConstructor
 @Entity
 @Table(name = "staff")
 public class Staff {
@@ -44,5 +55,10 @@ public class Staff {
 	@ManyToOne
 	@JoinColumn(name = "company_id") // optional
 	private Company company;
+	
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+	}
 
 }

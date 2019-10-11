@@ -1,11 +1,14 @@
 package core.entity.manytoone;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -31,10 +34,13 @@ public class Company implements Serializable {
 	public Company(final String name) {
 		this.name = name;
 	}
+	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "company") // trường company trong Staff
+	private List<Staff> listStaff;
 
 	@Override
 	public String toString() {
-		return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
 
 }
