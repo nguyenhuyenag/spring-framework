@@ -30,13 +30,12 @@ import lombok.RequiredArgsConstructor;
 	staff2.setCompany(company);
 	staffRepository.save(staff2);
 	
-	- select * from clazz c, people p where c.id = p.clazz_id;
+	- Select * from clazz c, people p where c.id = p.clazz_id;
 
 	- Quan hệ nhiều – một nhìn từ đối tượng Staff, đặt annotation @ManyToOne trong entity Staff
 	
 	- Nhiều Staff có cùng Company => @ManyToOne đặt ở Staff
-	
- */
+*/
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor

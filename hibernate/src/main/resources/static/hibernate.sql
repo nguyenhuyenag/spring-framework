@@ -22,7 +22,7 @@ CREATE TABLE `mysql_name` (
   PRIMARY KEY (`id`)
 );
 
---  @ManyToOne  --
+---  @ManyToOne  ---
 CREATE TABLE `company` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE `staff` (
   FOREIGN KEY (`company_id`) REFERENCES `company`(`id`)
 );
 
---  @OneToOne  --
+---  @OneToOne  ---
 CREATE TABLE `room` (
   `id` int(11) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
@@ -53,7 +53,7 @@ CREATE TABLE `tourist` (
   FOREIGN KEY (`room_id`) REFERENCES `room`(`id`)
 );
 
---  @ManyToMany  --
+---  @ManyToMany  ---
 CREATE TABLE `developer` (
   `id` int(11) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
@@ -66,3 +66,9 @@ CREATE TABLE `project` (
   PRIMARY KEY (`id`)
 );
 
+---  @GenericGenerator  ---
+CREATE TABLE `employee` (
+  `id` VARCHAR(45) NOT NULL,
+  `name` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`)
+);
