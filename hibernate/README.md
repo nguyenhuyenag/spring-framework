@@ -48,4 +48,28 @@
 	
 	- @IdClass
 
+# @OneToMany & @ManyToOne
+	
+	class Company {
+		Integer id;
+		
+		@OneToMany(mappedBy = "company")
+		private List<Staff> listStaff;
+	}
+	
+	class Staff {
+		@ManyToOne
+		@JoinColumn(name = "company_id") // optional
+		private Company company;
+	}
+
+	- @OneToMany: Một đối tượng Company có thể chứa nhiều đối tượng Staff (Collection)
+	- mappedBy = "company" hiểu là mapping thông qua thuộc tính company trong Staff
+	
+	- @ManyToOne: Nhiều đối tượng Staff sẽ cùng thuộc một đối tượng Company
+	- @JoinColumn: Chỉ rõ mapping qua cột company_id trong table staff, quy tắc tự động
+		
+		TenClassChuKhoaChinh_TenKhoaChinh	=> Ví dụ `company_id`
+	
+
 	

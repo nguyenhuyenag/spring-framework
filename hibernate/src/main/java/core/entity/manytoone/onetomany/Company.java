@@ -17,9 +17,6 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-/*-
- * - Một Company có nhiều Staff  => @OneToMany đặt ở Company
- */
 @Data
 @RequiredArgsConstructor
 @Entity
@@ -34,16 +31,18 @@ public class Company implements Serializable {
 
 	private String name;
 
+	// Một Company có nhiều Staff => @OneToMany đặt ở Company
+	// Mapping thông qua thuộc tính `company` trong class Staff
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "company")
+	private List<Staff> listStaff;
+
 	public Company(final String name) {
 		this.name = name;
 	}
-	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "company") // field company trong Staff
-	private List<Staff> listStaff;
 
 	@Override
 	public String toString() {
-		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
 	}
 
 }
