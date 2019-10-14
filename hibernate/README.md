@@ -39,11 +39,12 @@
 	
 	- unique
 	
-# Composite Primary Key
-
-	- Bảng có nhiều khóa chính
+# Composite Primary Key (Bảng có nhiều khóa chính)
 	
-	- @Embeddable: Nếu dùng @EmbeddedId => thì không dùng thể @Id
+	- @Embeddable
+			+ Tạo class chứa các khóa chính, đánh dấu @Embeddable
+			+ Nếu dùng @EmbeddedId => thì không dùng thể @Id
+			+ Khi khai báo id là 1 class ta dùng annotation @EmbeddedId
 	
 	- @IdClass
 

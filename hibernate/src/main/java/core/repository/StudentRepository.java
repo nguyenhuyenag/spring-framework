@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import core.entity.embeddable.Student;
-import core.entity.embeddable.StudentId;
+import core.entity.embeddable.Student.StudentId;
 
 @Repository
 public interface StudentRepository extends JpaRepository<Student, StudentId> {
