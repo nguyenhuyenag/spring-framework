@@ -27,7 +27,7 @@ public class SchedulerConfig {
 
 	@Bean
 	public JobFactory jobFactory(ApplicationContext applicationContext) {
-		AutowiringSpringBeanJobFactory jobFactory = new AutowiringSpringBeanJobFactory();
+		BeanJobFactory jobFactory = new BeanJobFactory();
 		jobFactory.setApplicationContext(applicationContext);
 		return jobFactory;
 	}

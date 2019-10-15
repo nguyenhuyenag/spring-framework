@@ -8,9 +8,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.scheduling.quartz.SpringBeanJobFactory;
 
-public final class AutowiringSpringBeanJobFactory extends SpringBeanJobFactory implements ApplicationContextAware {
+public final class BeanJobFactory extends SpringBeanJobFactory implements ApplicationContextAware {
 
-	private static final Logger LOG = LoggerFactory.getLogger(AutowiringSpringBeanJobFactory.class);
+	private static final Logger LOG = LoggerFactory.getLogger(BeanJobFactory.class);
 
 	private transient AutowireCapableBeanFactory beanFactory;
 
