@@ -35,19 +35,20 @@ public class SchedulerConfig {
 	}
 
 	@Bean
-	public SchedulerFactoryBean schedulerFactoryBean(JobFactory jobFactory, Trigger simpleJobTrigger)
-			throws IOException {
+	public SchedulerFactoryBean schedulerFactoryBean(JobFactory job, Trigger trigger) throws IOException {
 		SchedulerFactoryBean factory = new SchedulerFactoryBean();
-		factory.setJobFactory(jobFactory);
+		factory.setJobFactory(job);
 		factory.setQuartzProperties(quartzProperties());
-		factory.setTriggers(simpleJobTrigger);
-		LOG.info("starting jobs....");
+		factory.setTriggers(trigger);
+		LOG.info("Starting jobs...");
 		return factory;
 	}
 
 	@Bean
-	public SimpleTriggerFactoryBean simpleJobTrigger(@Qualifier("simpleJobDetail") JobDetail jobDetail,
+	public SimpleTriggerFactoryBean simpleJobTrigger( //
+			@Qualifier("simpleJobDetail") JobDetail jobDetail, //
 			@Value("${simplejob.frequency}") long frequency) {
+		
 		LOG.info("simpleJobTrigger");
 
 		SimpleTriggerFactoryBean factoryBean = new SimpleTriggerFactoryBean();
