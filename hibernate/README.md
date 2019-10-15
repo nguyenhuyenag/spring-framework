@@ -80,4 +80,4 @@
 	- @JoinColumn(name = "person_id") biểu thị rằng 2 đối tượng mapping qua column person_id 
 	Trường hợp dùng chung id thì ta thay bằng annotation @PrimaryKeyJoinColumn
 	
-	
+# @ElementCollection
