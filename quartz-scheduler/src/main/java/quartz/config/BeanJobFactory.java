@@ -1,4 +1,4 @@
-package quartz;
+package quartz.config;
 
 import org.quartz.spi.TriggerFiredBundle;
 import org.slf4j.Logger;

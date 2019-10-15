@@ -1,4 +1,4 @@
-package quartz;
+package quartz.config;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -19,6 +19,8 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
+
+import quartz.job.SimpleJob;
 
 @Configuration
 public class SchedulerConfig {
