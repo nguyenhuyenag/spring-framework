@@ -1,8 +1,5 @@
 package core;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -10,9 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
-import core.entity.manytoone.onetomany.Company;
-import core.entity.manytoone.onetomany.Staff;
-import core.repository.CompanyRepositoty;
+import core.entity.onetoone.Person;
+import core.entity.onetoone.Students;
+import core.repository.PersonRepository;
+import core.repository.StudentsRepository;
 
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer implements CommandLineRunner {
@@ -27,16 +25,23 @@ public class Application extends SpringBootServletInitializer implements Command
 	}
 
 	@Autowired
-	CompanyRepositoty companyRepositoty;
+	PersonRepository personRepository;
+
+	@Autowired
+	StudentsRepository studentsRepository;
 
 	@Override
 	public void run(String... params) throws Exception {
-		// Student emp = new Student();
-		// StudentId pk = new Student().new StudentId(1, 123);
-		// System.out.println(studentRepository.findById(pk).get());
-		Company company = companyRepositoty.findById(2).get();
-		List<Staff> list = company.getListStaff();
-		System.out.println(Arrays.toString(list.toArray()));
+
+		Person person = new Person(null, "kai", "ha noi - viet nam");
+		Students students = new Students(null, "CN10A", "PTIT", person);
+		Students students2 = new Students(null, "CN10B", "FTU", person);
+
+		studentsRepository.save(students);
+		personRepository.save(person);
+
+		studentsRepository.save(students2);
+
 	}
 
 }
