@@ -1,8 +1,7 @@
 package core.entity.manytomany;
 
+import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -17,10 +16,12 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Entity
@@ -41,11 +42,10 @@ public class Category {
 		joinColumns = { @JoinColumn(name = "category_id") }, //
 		inverseJoinColumns = { @JoinColumn(name = "product_id") } //
 	)
-	private Set<Product> products;
+	private Set<Product> products = new HashSet<>();
 
-	public Category(String name, Product... products) {
+	public Category(String name) {
 		this.name = name;
-		this.setProducts(Stream.of(products).collect(Collectors.toSet()));
 	}
 
 	@Override

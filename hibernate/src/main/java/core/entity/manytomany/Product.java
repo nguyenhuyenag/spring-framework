@@ -1,5 +1,6 @@
 package core.entity.manytomany;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -15,10 +16,12 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Entity
@@ -39,7 +42,7 @@ public class Product {
 		joinColumns = { @JoinColumn(name = "product_id") }, //
 		inverseJoinColumns = { @JoinColumn(name = "category_id") } //
 	)
-	private Set<Category> categorys; // = new HashSet<>();
+	private Set<Category> categorys = new HashSet<>();
 	
 	public Product(String name) {
 		this.name = name;
