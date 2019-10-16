@@ -14,10 +14,12 @@ import javax.persistence.Table;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @RequiredArgsConstructor
 @Entity
 @Table(name = "company")

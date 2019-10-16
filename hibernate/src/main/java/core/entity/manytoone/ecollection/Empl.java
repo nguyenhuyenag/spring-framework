@@ -16,7 +16,8 @@ import javax.persistence.Table;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /*-
 	> Insert đối tượng empl với 1 list position
@@ -38,7 +39,8 @@ import lombok.Data;
 	 entity.setListPositions(positions);
 	 empl.save(entity);
 */
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "empl")
 public class Empl {

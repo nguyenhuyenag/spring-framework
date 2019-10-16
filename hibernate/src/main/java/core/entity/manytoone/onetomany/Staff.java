@@ -13,8 +13,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 /*-
 	Company company = new Company("LG");
@@ -36,7 +37,8 @@ import lombok.RequiredArgsConstructor;
 	
 	- Nhiều Staff có cùng Company => @ManyToOne đặt ở Staff
 */
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Entity
