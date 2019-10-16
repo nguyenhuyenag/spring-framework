@@ -1,49 +1,46 @@
 package core.entity.manytoone.ecollection;
 
-import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import core.entity.manytoone.onetomany.Staff;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
 @Data
-@RequiredArgsConstructor
 @Entity
-@Table(name = "company")
-public class ECompany implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+@Table(name = "empl")
+public class Empl {
 
 	@Id
+	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	@Column(name = "name")
 	private String name;
 
-	// Một Company có nhiều Staff => @OneToMany đặt ở Company
-	// Mapping thông qua thuộc tính `company` trong class Staff
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "company")
-	private List<Staff> listStaff;
-
-	public ECompany(final String name) {
-		this.name = name;
-	}
+	@ElementCollection(fetch = FetchType.EAGER)		// Một đối tượng empl chứa 1 tập các position
+	@Column(name = "position") 						// Cột position trong bảng empl_position
+	@JoinTable(
+		name = "empl_position",						// Bảng chứa collection
+		joinColumns = @JoinColumn(name = "empl_id")	// Cột thực hiện mapping tới empl
+	)
+	private List<String> listPositions;
 
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
 	}
-
 }

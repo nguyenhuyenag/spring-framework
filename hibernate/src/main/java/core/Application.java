@@ -1,5 +1,7 @@
 package core;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -7,10 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
-import core.entity.onetoone.Person;
-import core.entity.onetoone.Students;
-import core.repository.PersonRepository;
-import core.repository.StudentsRepository;
+import core.entity.manytoone.ecollection.Empl;
+import core.repository.EmplRepository;
 
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer implements CommandLineRunner {
@@ -25,23 +25,26 @@ public class Application extends SpringBootServletInitializer implements Command
 	}
 
 	@Autowired
-	PersonRepository personRepository;
+	EmplRepository empl;
 
-	@Autowired
-	StudentsRepository studentsRepository;
+	// @Autowired
+	// EmplPositionRepository emplPosition;
 
 	@Override
 	public void run(String... params) throws Exception {
 
-		Person person = new Person(null, "kai", "ha noi - viet nam");
-		Students students = new Students(null, "CN10A", "PTIT", person);
-		Students students2 = new Students(null, "CN10B", "FTU", person);
+		// Empl entity = new Empl();
+		// entity.setName("Java");
+		//
+		// List<String> positions = new ArrayList<>();
+		// positions.add("Developer");
+		// positions.add("Tester");
+		// entity.setPositions(positions);
+		//
+		// empl.save(entity);
 
-		studentsRepository.save(students);
-		personRepository.save(person);
-
-		studentsRepository.save(students2);
-
+		Optional<Empl> emp = empl.findById(4);
+		emp.ifPresent(t -> System.out.println(t.getListPositions()));
 	}
 
 }

@@ -81,3 +81,15 @@
 	Trường hợp dùng chung id thì ta thay bằng annotation @PrimaryKeyJoinColumn
 	
 # @ElementCollection
+
+	- Dùng thay thế cho @OneToMany trong những trường hợp mapping 1-nhiều mà không cần phải tạo
+	  class mapping tương ứng cho tất cả các bảng.
+	  
+	@ElementCollection(fetch = FetchType.EAGER)		// Một đối tượng employee chứa 1 tập các position
+	@Column(name = "position") 					 		// là column position trong empl_position nên cần chỉ
+															// rõ ra nó sẽ nhận giá trị ở column nào bằng
+	@JoinTable(									 		// cấu hình các thông tin mapping trong bảng
+		name = "empl_position"				    		// bảng chứa collection
+    	joinColumns = @JoinColumn(name = "empl_id")	// column thực hiện mapping tới table empl là empl_id
+    )
+	private List<String> listPositions;
