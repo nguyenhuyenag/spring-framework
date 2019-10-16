@@ -34,16 +34,26 @@ public class CreateJob implements Job {
 			List<Quartz> list = quartzRepository.findAll();
 
 			if (list.size() > 10) {
+				System.out.print(Colors.BOLD_RED);
 				LOG.info("Size of list > 10 ...");
+				System.out.print(Colors.RESET);
 				quartzRepository.deleteAll();
 
+				System.out.print(Colors.BOLD_RED);
 				LOG.info("Delete all rows ...");
+				System.out.print(Colors.RESET);
 				quartzRepository.resetId();
 
+				System.out.print(Colors.BOLD_RED);
 				LOG.info("Reset id ...");
+				System.out.print(Colors.RESET);
 				TimeUnit.SECONDS.sleep(2);
 			}
+
+			System.out.print(Colors.BOLD_RED);
 			LOG.info("Size now = " + quartzRepository.findAll().size());
+			System.out.print(Colors.RESET);
+
 			String text = RandomStringUtils.randomAlphabetic(5);
 			Quartz entity = new Quartz(null, text, new Date());
 			quartzRepository.save(entity);
