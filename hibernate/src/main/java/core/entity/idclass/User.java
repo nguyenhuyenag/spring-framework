@@ -11,10 +11,10 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Entity
 @IdClass(UserId.class)
 @Table(name = "student")
-@RequiredArgsConstructor
 public class User {
 
 	@Id
