@@ -1,7 +1,5 @@
 package core;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -9,8 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
-import core.entity.manytoone.ecollection.Empl;
-import core.repository.EmplRepository;
+import core.entity.manytomany.Category;
+import core.entity.manytomany.Product;
+import core.repository.CategoryRepository;
 
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer implements CommandLineRunner {
@@ -25,26 +24,19 @@ public class Application extends SpringBootServletInitializer implements Command
 	}
 
 	@Autowired
-	EmplRepository empl;
-
-	// @Autowired
-	// EmplPositionRepository emplPosition;
+	CategoryRepository categoryRepository;
 
 	@Override
 	public void run(String... params) throws Exception {
 
-		// Empl entity = new Empl();
-		// entity.setName("Java");
-		//
-		// List<String> positions = new ArrayList<>();
-		// positions.add("Developer");
-		// positions.add("Tester");
-		// entity.setPositions(positions);
-		//
-		// empl.save(entity);
+		Category category = new Category( //
+				"Electronic Device", //
+				new Product("Television"), //
+				new Product("Iphone"), //
+				new Product("Samsung Galaxy S9") //
+		);
+		categoryRepository.save(category);
 
-		Optional<Empl> emp = empl.findById(4);
-		emp.ifPresent(t -> System.out.println(t.getListPositions()));
 	}
 
 }

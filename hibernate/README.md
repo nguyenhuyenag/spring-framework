@@ -92,4 +92,16 @@
 		name = "empl_position"				    		// bảng chứa collection
     	joinColumns = @JoinColumn(name = "empl_id")	// column thực hiện mapping tới table empl là empl_id
     )
-	private List<String> listPositions;
+	private List<String> list;
+	
+# So sánh @ElementCollection và @OneTomany
+
+	- Đều dùng cho trường hợp mối quan hệ giữa các bảng là 1-nhiều
+
+	- Với annotation @ElementCollection thì khi mapping entity trong class Java, ta không cần phải tạo class mapping cho phía many (phía many sẽ là kiểu dữ liệu basic hoặc là 1 class được đánh dấu @Embeddable)
+
+	- Với annotation@OneToMany thì khi mapping entity trong class Java ta cần phải tạo cả 2 class mapping tới 2 table tương ứng cho cả phía one và phía many.
+
+	- Annotation @ElementCollection dùng cho những trường hợp mà bên phía table many không được dùng 1 cách riêng biệt (chỉ có ý nghĩa khi gán với table phía one). Hoặc những trường hợp phía many chỉ có dữ liệu basic như int, string,...
+
+# @ManyToMany

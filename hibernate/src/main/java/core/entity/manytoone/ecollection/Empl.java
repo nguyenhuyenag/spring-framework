@@ -18,6 +18,26 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import lombok.Data;
 
+/*-
+	> Insert đối tượng empl với 1 list position
+	
+	> Khi thực hiện insert đối tượng empl vào database nó sẽ tự động insert
+	  bản ghi tương ứng với 2 position trong đối tượng empl vào table empl_position
+	  
+	> Tương tự khi select
+	
+	> Khi xóa 1 position trong list position của đối tượng Empl và save vào database
+	  nó sẽ tự động xóa bản ghi tương ứng khỏi table empl_position (tương tự với
+	  orphanRemoval = true của @OneToMany)
+
+	Empl entity = new Empl();
+ 	entity.setName("C++");
+	 List<String> positions = new ArrayList<>();
+	 positions.add("Developer");
+	 positions.add("Tester");
+	 entity.setListPositions(positions);
+	 empl.save(entity);
+*/
 @Data
 @Entity
 @Table(name = "empl")

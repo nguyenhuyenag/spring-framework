@@ -3,9 +3,9 @@ package core.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import core.entity.manytoone.ecollection.EmplPosition;
+import core.entity.manytomany.Category;
 
 @Repository
-public interface EmplPositionRepository extends JpaRepository<EmplPosition, Integer> {
+public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
 }

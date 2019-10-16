@@ -37,38 +37,41 @@ CREATE TABLE `staff` (
   FOREIGN KEY (`company_id`) REFERENCES `company`(`id`)
 );
 
----  @OneToOne  ---
-CREATE TABLE `room` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `hotel` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-);
-
-CREATE TABLE `tourist` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `room_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  FOREIGN KEY (`room_id`) REFERENCES `room`(`id`)
-);
-
----  @ManyToMany  ---
-CREATE TABLE `developer` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-);
-
-CREATE TABLE `project` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-);
-
 ---  @GenericGenerator  ---
 CREATE TABLE `employee` (
   `id` VARCHAR(45) NOT NULL,
   `name` VARCHAR(45) NULL,
   PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `empl` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `empl_position` (
+  `empl_id` INT(11) NOT NULL,
+  `position` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`empl_id`, `position`)
+);
+
+CREATE TABLE `product` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `category` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `product_category` (
+  `product_id` INT NOT NULL,
+  `category_id` INT NOT NULL,
+  PRIMARY KEY (`product_id`, `category_id`),
+  FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
+  FOREIGN KEY (`product_id`) REFERENCES `product`(`id`)
 );
