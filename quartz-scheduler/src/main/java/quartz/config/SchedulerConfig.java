@@ -20,18 +20,29 @@ import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
 
-import quartz.job.SimpleJob;
+import quartz.job.CreateJob;
 
 @Configuration
 public class SchedulerConfig {
 
 	private static final Logger LOG = LoggerFactory.getLogger(SchedulerConfig.class);
 
+	@Value("${repeat.interval}")
+	private long interval; // millisecond
+
 	@Bean
-	public JobFactory jobFactory(ApplicationContext applicationContext) {
-		BeanJobFactory jobFactory = new BeanJobFactory();
-		jobFactory.setApplicationContext(applicationContext);
-		return jobFactory;
+	public JobFactory jobFactory(ApplicationContext context) {
+		BeanJobFactory factory = new BeanJobFactory();
+		factory.setApplicationContext(context);
+		return factory;
+	}
+
+	@Bean
+	public Properties quartzProperties() throws IOException {
+		PropertiesFactoryBean properties = new PropertiesFactoryBean();
+		properties.setLocation(new ClassPathResource("quartz.properties"));
+		properties.afterPropertiesSet();
+		return properties.getObject();
 	}
 
 	@Bean
@@ -45,33 +56,23 @@ public class SchedulerConfig {
 	}
 
 	@Bean
-	public SimpleTriggerFactoryBean simpleJobTrigger( //
-			@Qualifier("simpleJobDetail") JobDetail jobDetail, //
-			@Value("${simplejob.frequency}") long frequency) {
-		
-		LOG.info("simpleJobTrigger");
-
-		SimpleTriggerFactoryBean factoryBean = new SimpleTriggerFactoryBean();
-		factoryBean.setJobDetail(jobDetail);
-		factoryBean.setStartDelay(0L);
-		factoryBean.setRepeatInterval(frequency);
-		factoryBean.setRepeatCount(SimpleTrigger.REPEAT_INDEFINITELY);
-		return factoryBean;
-	}
-
-	@Bean
-	public Properties quartzProperties() throws IOException {
-		PropertiesFactoryBean propertiesFactoryBean = new PropertiesFactoryBean();
-		propertiesFactoryBean.setLocation(new ClassPathResource("/quartz.properties"));
-		propertiesFactoryBean.afterPropertiesSet();
-		return propertiesFactoryBean.getObject();
-	}
-
-	@Bean
 	public JobDetailFactoryBean simpleJobDetail() {
-		JobDetailFactoryBean factoryBean = new JobDetailFactoryBean();
-		factoryBean.setJobClass(SimpleJob.class);
-		factoryBean.setDurability(true);
-		return factoryBean;
+		JobDetailFactoryBean factory = new JobDetailFactoryBean();
+		factory.setJobClass(CreateJob.class); // class job
+		factory.setDurability(true);
+		return factory;
 	}
+
+	@Bean
+	@Qualifier("simpleJobDetail") // simpleJobDetail()
+	public SimpleTriggerFactoryBean simpleJobTrigger(JobDetail job) {
+		LOG.info("simpleJobTrigger");
+		SimpleTriggerFactoryBean factory = new SimpleTriggerFactoryBean();
+		factory.setJobDetail(job);
+		factory.setStartDelay(0L);
+		factory.setRepeatInterval(interval);
+		factory.setRepeatCount(SimpleTrigger.REPEAT_INDEFINITELY);
+		return factory;
+	}
+
 }

@@ -12,18 +12,18 @@ public final class BeanJobFactory extends SpringBeanJobFactory implements Applic
 
 	private static final Logger LOG = LoggerFactory.getLogger(BeanJobFactory.class);
 
-	private transient AutowireCapableBeanFactory beanFactory;
+	private transient AutowireCapableBeanFactory factory;
 
 	@Override
 	public void setApplicationContext(final ApplicationContext context) {
-		beanFactory = context.getAutowireCapableBeanFactory();
+		factory = context.getAutowireCapableBeanFactory();
 	}
 
 	@Override
 	protected Object createJobInstance(final TriggerFiredBundle bundle) throws Exception {
 		final Object job = super.createJobInstance(bundle);
-		LOG.info("Create job instance");
-		beanFactory.autowireBean(job);
+		LOG.info("Create job instance...");
+		factory.autowireBean(job);
 		return job;
 	}
 }
