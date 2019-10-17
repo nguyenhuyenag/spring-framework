@@ -90,3 +90,9 @@ CREATE TABLE `province` (
   FOREIGN KEY (`country_id`) REFERENCES `country` (`id`)
 );
 
+CREATE TABLE `programing` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NULL,
+  `position` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`)
+);

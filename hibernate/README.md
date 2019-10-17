@@ -116,6 +116,10 @@
 	
 	- Tương tự khi insert
 
+# @Enumerated
 	
+	- Đánh dấu field được lưu dạng enum, khi lưu/đọc từ database ra, nó sẽ tự động lấy name của Enum đó.
 	
+	- Đảm bảo được giữ liệu chỉ nhận các giá trị nhất định
 	
+	- Nếu dữ liệu đọc lên từ database không nằm trong class enum thì sẽ báo lỗi khi convert
