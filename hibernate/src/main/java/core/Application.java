@@ -9,9 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
-import core.entity.enumerated.PositionEnum;
-import core.entity.enumerated.Programing;
-import core.repository.ProgramingRepositoty;
+import core.entity.createupdatetime.Customer;
+import core.repository.CustomerRepository;
 
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer implements CommandLineRunner {
@@ -26,18 +25,25 @@ public class Application extends SpringBootServletInitializer implements Command
 	}
 
 	@Autowired
-	ProgramingRepositoty repositoty;
+	CustomerRepository repositoty;
 
 	@Override
 	public void run(String... args) throws Exception {
 
-		Programing emp = new Programing();
-		emp.setName("Java");
-		emp.setPosition(PositionEnum.DEVELOPER);
-		repositoty.save(emp);
+		// // insert
+		// repositoty.save(new Customer("Kai", "Viet Nam"));
+		// repositoty.save(new Customer("Thanos", "Viet Nam"));
+		// repositoty.save(new Customer("Thor", "Asgard"));
+		// repositoty.save(new Customer("Hulk", "USA"));
+		// repositoty.save(new Customer("Iron Man", "USA"));
 
-		Optional<Programing> p = repositoty.findById(1);
-		p.ifPresent(t -> System.out.println(t));
+		// update
+		Optional<Customer> entity = repositoty.findById(2);
+		entity.ifPresent(t -> {
+			t.setAddress("Titan");
+			repositoty.save(t);
+		});
+
 	}
 
 }

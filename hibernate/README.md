@@ -123,3 +123,11 @@
 	- Đảm bảo được giữ liệu chỉ nhận các giá trị nhất định
 	
 	- Nếu dữ liệu đọc lên từ database không nằm trong class enum thì sẽ báo lỗi khi convert
+
+# @CreationTimestamp & @UpdateTimestamp
+
+	- Tự động cập ngày thời gian khởi tạo/cập nhật đối tượng
+	
+	- Cột created_datetime vẫn sẽ thay đổi nếu ta update nó sang giá trị khác. Nên set
+		
+		@Column(name = "created_datetime", updatable = false)

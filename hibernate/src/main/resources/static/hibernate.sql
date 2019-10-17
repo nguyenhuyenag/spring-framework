@@ -96,3 +96,11 @@ CREATE TABLE `programing` (
   `position` VARCHAR(45) NULL,
   PRIMARY KEY (`id`)
 );
+
+CREATE TABLE `hibernate`.`customer` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NULL,
+  `address` VARCHAR(45) NULL,
+  `created_datetime` DATETIME NULL,
+  `updated_datetime` DATETIME NULL,
+  PRIMARY KEY (`id`));
