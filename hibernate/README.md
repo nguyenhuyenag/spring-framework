@@ -110,8 +110,11 @@
 
 	- Dùng trong mối quan hệ 1-nhiều
 	
-	- cascade = {CascadeType.REMOVE, CascadeType.PERSIST}: Tức là khi xóa company thì các employee liên quan cũng bị xóa,
-	  khi insert company thì các employee bên trong nó cũng được tự động insert vào database.
+	- cascade = {CascadeType.REMOVE, CascadeType.PERSIST}
+	
+	- Khi xóa country thì các province liên quan cũng bị xóa,
+	
+	- Tương tự khi insert
 
 	
 	
