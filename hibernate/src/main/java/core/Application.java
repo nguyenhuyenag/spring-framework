@@ -2,6 +2,7 @@ package core;
 
 import java.util.Optional;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -9,8 +10,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
-import core.entity.createupdatetime.Customer;
-import core.repository.CustomerRepository;
+import core.entity.Clazz;
+import core.repository.ClazzRepository;
 
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer implements CommandLineRunner {
@@ -25,25 +26,25 @@ public class Application extends SpringBootServletInitializer implements Command
 	}
 
 	@Autowired
-	CustomerRepository repositoty;
+	ClazzRepository repositoty;
 
 	@Override
 	public void run(String... args) throws Exception {
 
-		// // insert
-		// repositoty.save(new Customer("Kai", "Viet Nam"));
-		// repositoty.save(new Customer("Thanos", "Viet Nam"));
-		// repositoty.save(new Customer("Thor", "Asgard"));
-		// repositoty.save(new Customer("Hulk", "USA"));
-		// repositoty.save(new Customer("Iron Man", "USA"));
+		String name = RandomStringUtils.randomAlphabetic(5);
+		Clazz entity = new Clazz(name);
 
-		// update
-		Optional<Customer> entity = repositoty.findById(2);
-		entity.ifPresent(t -> {
-			t.setAddress("Titan");
+		// insert
+		repositoty.save(entity);
+
+		Optional<Clazz> find = repositoty.findById(entity.getId());
+
+		find.ifPresent(t -> {
+			t.setName(RandomStringUtils.randomAlphabetic(5));
 			repositoty.save(t);
 		});
-
+		
+		repositoty.deleteById(find.get().getId());
 	}
 
 }

@@ -131,3 +131,25 @@
 	- Cột created_datetime vẫn sẽ thay đổi nếu ta update nó sang giá trị khác. Nên set
 		
 		@Column(name = "created_datetime", updatable = false)
+
+# JPA Callbacks Method
+
+	- Dùng trong các class có đánh dấu @Entity
+	
+	- Định nghĩa bởi JPA nên chỉ dùng cho EntityManager, không dùng với hibernate session
+	
+	@PrePersist: Thực thi trước khi entity được persist (được lưu vào database) bởi method persist()
+
+	@PostPersist: Thực thi sau khi entity được persist
+	
+	@PostLoad: Thực thi sau khi một entity được load vào persistence context hiện tại hoặc một entity được refreshed.
+	
+	@PreUpdate: Thực thi trước khi entity được update.
+	
+	@PostUpdate: Thực thi sau khi entity được update.
+	
+	@PreRemove: Thực thi trước khi entity bị xóa khỏi database bởi method remove()
+	
+	@PostRemove: Thực thi sau khi entity bị xóa
+
+# repositoty.findById(12).orElseThrow(() -> new EntityNotFoundException());
