@@ -9,9 +9,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
-import core.entity.manytomany.Product;
-import core.repository.CategoryRepository;
-import core.repository.ProductRepository;
+import core.entity.cascade.Companys;
+import core.entity.cascade.Employees;
+import core.repository.CompanysRepositoty;
 
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer implements CommandLineRunner {
@@ -26,35 +26,34 @@ public class Application extends SpringBootServletInitializer implements Command
 	}
 
 	@Autowired
-	CategoryRepository categoryRepository;
+	CompanysRepositoty companysRepositoty;
 
-	@Autowired
-	ProductRepository productRepository;
+//	@Autowired
+//	EmployeesRepository employees;
 
 	@Override
 	public void run(String... params) throws Exception {
 
-		// Product p1 = new Product("Television");
-		// Product p2 = new Product("Iphone");
-		// Product p3 = new Product("Samsung Galaxy S9");
-		// Set<Product> set = new HashSet<>();
-		// set.add(p1);
-		// set.add(p2);
-		// set.add(p3);
-		//
-		// Category category = new Category("Electronic Device");
-		// category.setProducts(set);
-		//
-		// categoryRepository.save(category);
+		// insert
+		Companys company = new Companys();
+		company.setName("Google");
 
-		// Category category2 = new Category("Home Applicances");
+		Employees emp1 = new Employees();
+		emp1.setName("Gmail");
+		emp1.setCompanys(company);
 
-		Optional<Product> product = productRepository.findById(2);
-		product.ifPresent(System.out::println);
-		// product.ifPresent(p -> {
-		// p.getCategorys().add(category2);
-		// productRepository.save(p);
-		// });
+		Employees emp2 = new Employees();
+		emp2.setName("Google photo");
+		emp2.setCompanys(company);
+
+		company.getListEmployees().add(emp1);
+		company.getListEmployees().add(emp2);
+
+		companysRepositoty.save(company);
+
+		// delete
+		Optional<Companys> entity = companysRepositoty.findById(2);
+		entity.ifPresent(t -> companysRepositoty.delete(t));
 
 	}
 

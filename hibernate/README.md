@@ -105,3 +105,14 @@
 	- Annotation @ElementCollection dùng cho những trường hợp mà bên phía table many không được dùng 1 cách riêng biệt (chỉ có ý nghĩa khi gán với table phía one). Hoặc những trường hợp phía many chỉ có dữ liệu basic như int, string,...
 
 # @ManyToMany
+
+# @Cascade
+
+	- Dùng trong mối quan hệ 1-nhiều
+	
+	- cascade = {CascadeType.REMOVE, CascadeType.PERSIST}: Tức là khi xóa company thì các employee liên quan cũng bị xóa,
+	  khi insert company thì các employee bên trong nó cũng được tự động insert vào database.
+
+	
+	
+	

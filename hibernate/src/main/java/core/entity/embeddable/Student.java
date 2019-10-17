@@ -20,10 +20,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Entity
-@Table(name = "student")
 @AllArgsConstructor
 @RequiredArgsConstructor
+@Entity
+@Table(name = "student")
 public class Student {
 
 	// Phải implement Serializable
