@@ -15,8 +15,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "employees")
-public class Employees {
+@Table(name = "province")
+public class Province {
 
 	@Id
 	@Column(name = "id")
@@ -27,12 +27,12 @@ public class Employees {
 	private String name;
 
 	@ManyToOne
-	@JoinColumn(name = "companys_id", nullable = false)
-	private Companys companys;
+	@JoinColumn(name = "country_id", nullable = false)
+	private Country country;
 
 	@Override
 	public String toString() {
-		return "Employee [id=" + id + ", name=" + name + ", company=" + companys + "]";
+		return "Employee [id=" + this.id + ", name=" + this.name + ", country=" + this.country + "]";
 	}
 
 }

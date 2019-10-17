@@ -76,17 +76,17 @@ CREATE TABLE `product_category` (
   FOREIGN KEY (`product_id`) REFERENCES `product`(`id`)
 );
 
-CREATE TABLE `companys` (
+CREATE TABLE `country` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NULL,
-  `address` VARCHAR(255) NULL,
   PRIMARY KEY (`id`)
 );
   
-CREATE TABLE `employees` (
+CREATE TABLE `province` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `companys_id` INT NULL,
+  `country_id` INT NULL,
   `name` VARCHAR(45) NULL,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`companys_id`) REFERENCES `companys` (`id`)
+  FOREIGN KEY (`country_id`) REFERENCES `country` (`id`)
 );
+
