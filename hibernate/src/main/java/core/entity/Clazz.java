@@ -30,9 +30,6 @@ public class Clazz implements Serializable {
 	@Column(name = "name", nullable = true)
 	private String name;
 
-	// @Column
-	private int age;
-
 	public Clazz(final String name) {
 		this.name = name;
 	}

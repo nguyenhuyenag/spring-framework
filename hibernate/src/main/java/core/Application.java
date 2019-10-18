@@ -36,7 +36,7 @@ public class Application extends SpringBootServletInitializer implements Command
 		LOG.info("OK!");
 
 		Clazz clazz = new Clazz(RandomStringUtils.randomAlphabetic(9));
-		clazz.setAge(10000);
+		// clazz.setAge(10000);
 		repositoty.save(clazz);
 
 		// repositoty.save(new Clazz());
@@ -48,7 +48,7 @@ public class Application extends SpringBootServletInitializer implements Command
 		// repositoty.save(t);
 		// });
 
-		repositoty.findAll().forEach(t -> System.out.println(t));
+		repositoty.findAll().forEach(System.out::println);
 	}
 
 }
