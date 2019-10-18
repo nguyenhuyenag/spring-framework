@@ -82,3 +82,6 @@
 		> Tạo 1 instance của class này
 
 		> Tìm & gọi các method có đánh dấu @Bean để lấy ra các Bean và đưa vào Context
+# Spring JPA
+
+	find...By, read...By, query...By, count..By, và get..By

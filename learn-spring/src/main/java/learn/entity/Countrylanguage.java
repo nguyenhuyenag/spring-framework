@@ -7,11 +7,12 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Entity
-// @NamedQuery(name = "Countrylanguage.findAll", query = "SELECT c FROM Countrylanguage c")
 public class Countrylanguage implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -23,7 +24,6 @@ public class Countrylanguage implements Serializable {
 
 	private Float percentage;
 
-	// bi-directional many-to-one association to Country
 	@ManyToOne
 	@JoinColumn(name = "CountryCode")
 	private Country country;
