@@ -14,7 +14,12 @@ public interface ClazzRepository extends JpaRepository<Clazz, Integer> {
 
 	@Modifying
 	@Transactional
-	@Query(value = "alter table clazz auto_increment = 1", nativeQuery = true)
+	@Query(value = "alter table Clazz auto_increment = 1", nativeQuery = true)
 	void resetAutoIncrement();
+
+	@Modifying
+	@Transactional
+	@Query(value = "truncate table Clazz", nativeQuery = true)
+	void truncate();
 
 }

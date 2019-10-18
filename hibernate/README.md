@@ -24,20 +24,25 @@
 	
 # @Column
 	
-	- columnDefinition: Ví dụ
+	- columnDefinition: Định nghĩa cấu trúc của một ccột, ví dụ
 	
-		@Column(name = "name", columnDefinition = "VARCHAR(4) NOT NULL")
+		@Column(name = "class_name", columnDefinition = "VARCHAR(4) NOT NULL")
 		private String className;
 		
-		=> Khi dùng JPA tool để tạo bảng sẽ nhận được: `name` VARCHAR(4) NOT NULL
+		=> Khi dùng JPA Tool để tạo bảng ta sẽ nhận được: `class_name` VARCHAR(4) NOT NULL
 	
-	- insertable, updatable
+	- unique: CÓ/KHÔNG thể chứa giá trị giống nhau. Mặc định là TRUE (chỉ có tác dụng bằng câu lệnh)
 	
-	- length
+	- nullable: CÓ/KHÔNG thể chứa giá trị NULL (chỉ có tác dụng bằng câu lệnh)
 	
-	- nullable
+	- insertable:  Cho phép cột insert, mặc định là TRUE, nếu FALSE sẽ báo lỗi
 	
-	- unique
+			=> `Field 'name' doesn't have a default value`
+	
+	- updatable: Cho phép cột cập nhật giá trị, mặc định là TRUE
+	
+	
+	- length: Độ dài giá trị của cột
 	
 # Composite Primary Key (Bảng có nhiều khóa chính)
 	
