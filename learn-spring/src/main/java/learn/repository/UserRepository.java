@@ -12,6 +12,18 @@ import learn.entity.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
+	// Query creation from method names
+
+	long countByLastname(String lastname);
+
+	@Query("SELECT DISTINCT u.firstname FROM User u")
+	List<String> findDistinctUserByFirstname();
+	
+	User findFirstByOrderByLastnameAsc();
+
+
+	// long deleteByLastname(String lastname);
+
 	User findByFirstname(String firstname);
 
 	User findUserByLastname(String lastname);

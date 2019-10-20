@@ -1,9 +1,12 @@
-{
-  "properties": [
-    {
-      "name": "repeat.interval",
-      "type": "java.lang.String",
-      "description": "A description for 'repeat.interval'"
-    }
-  ]
-}
+{"properties": [
+  {
+    "name": "repeat.interval",
+    "type": "java.lang.String",
+    "description": "A description for 'repeat.interval'"
+  },
+  {
+    "name": "enable.quartz.tasks",
+    "type": "java.lang.String",
+    "description": "A description for 'enable.quartz.tasks'"
+  }
+]}

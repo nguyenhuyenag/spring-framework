@@ -64,13 +64,13 @@ public class SchedulerConfig {
 	}
 
 	@Bean
-	@Qualifier("simpleJobDetail") // simpleJobDetail()
+	@Qualifier("simpleJobDetail")
 	public SimpleTriggerFactoryBean simpleJobTrigger(JobDetail job) {
 		LOG.info("simpleJobTrigger");
 		SimpleTriggerFactoryBean factory = new SimpleTriggerFactoryBean();
 		factory.setJobDetail(job);
 		factory.setStartDelay(0L);
-		factory.setRepeatInterval(interval);
+		factory.setRepeatInterval(interval); // milliseconds
 		factory.setRepeatCount(SimpleTrigger.REPEAT_INDEFINITELY);
 		return factory;
 	}
