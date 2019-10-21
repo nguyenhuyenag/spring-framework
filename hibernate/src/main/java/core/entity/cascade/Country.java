@@ -48,9 +48,9 @@ public class Country {
 	private String name;
 
 	@OneToMany( //
-		mappedBy = "country", //
-		fetch = FetchType.EAGER, //
-		cascade = { CascadeType.REMOVE, CascadeType.PERSIST } //
+			mappedBy = "country", //
+			fetch = FetchType.EAGER, //
+			cascade = { CascadeType.REMOVE, CascadeType.PERSIST } //
 	)
 	private List<Province> listProvince = new ArrayList<>();
 
