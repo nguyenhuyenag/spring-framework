@@ -16,6 +16,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "province")
+// @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Province {
 
 	@Id

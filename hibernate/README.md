@@ -128,9 +128,24 @@
 
 # FetchType
 
-	- LAZY: Khi select đối tượng Country thì mặc định không query các đối tượng Province liên quan.
+	- Định nghĩa cách lấy các đối tượng liên quan (@OneToOne, @OneToMany, @ManyToOne, @ManyToMany)
+
+	- LAZY: Khi select đối tượng Country mặc định không query các đối tượng Province liên quan (tuy nhiên
+	        trong trong transaction vẫn có, LazyInitializationException), xem log sẽ thấy
 	
-	- EAGER 
+		Hibernate: select country0_.id as id1_3_, ...
+
+	- EAGER: Khi select đối tượng Country mặc định select tất cả các đối tượng Province, xem log sẽ thấy
+	
+		Hibernate: select country0_.id as id1_3_, ...
+		Hibernate: select listprovin0_.country_id as country_3_13_0_,...
+		Hibernate: select listprovin0_.country_id as country_3_13_0_,...
+	
+	- FetchType mặc định
+		
+		- @ManyToOne và @OneToOne là EAGER
+	
+		- @ManyToMany và @OneToMany LAZY
 
 # @Enumerated
 	

@@ -1,7 +1,7 @@
 package core.entity.cascade;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,6 +12,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -33,6 +36,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "country")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Country {
 
 	@Id
@@ -45,10 +49,10 @@ public class Country {
 
 	@OneToMany( //
 		mappedBy = "country", //
-		fetch = FetchType.LAZY, //
+		fetch = FetchType.EAGER, //
 		cascade = { CascadeType.REMOVE, CascadeType.PERSIST } //
 	)
-	private Set<Province> listProvince = new HashSet<>();
+	private List<Province> listProvince = new ArrayList<>();
 
 	@Override
 	public String toString() {
