@@ -17,26 +17,17 @@ import lombok.Getter;
 import lombok.Setter;
 
 /*-
-	// insert
-	Country country = new Country();
-	country.setName("Viet Nam");
+	Country country = new Country("Viet Nam");
+	country.getListProvince().add(new Province(null, "Ho Noi", country));
+	country.getListProvince().add(new Province(null, "Ho Chi Minh", country));
+	country.getListProvince().add(new Province(null, "Hai Phong", country));
+	country.getListProvince().add(new Province(null, "Vung Tau", country));
 
-	Province pro1 = new Province();
-	pro1.setName("An Giang");
-	pro1.setCountry(country);
-
-	Province pro2 = new Province();
-	pro2.setName("Dong Thap");
-	pro2.setCountry(country);
-
-	country.getListProvince().add(pro1);
-	country.getListProvince().add(pro2);
-
-	countryRepositoty.save(country);
-
-	// delete
-	Optional<Country> entity = countryRepositoty.findById(1);
-	entity.ifPresent(t -> countryRepositoty.delete(t));
+	Country country = new Country("Tây Ban Nha");
+	country.getListProvince().add(new Province(null, "Barcelona", country));
+	country.getListProvince().add(new Province(null, "Madrid", country));
+	country.getListProvince().add(new Province(null, "Sevilla ", country));
+	country.getListProvince().add(new Province(null, "Valencia", country));
 */
 @Getter
 @Setter

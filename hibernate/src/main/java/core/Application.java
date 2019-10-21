@@ -1,6 +1,7 @@
 package core;
 
-import org.apache.commons.lang3.RandomStringUtils;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +11,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
-import core.entity.Clazz;
-import core.repository.ClazzRepository;
+import core.entity.cascade.Country;
+import core.repository.CountryRepositoty;
 
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer implements CommandLineRunner {
@@ -28,27 +29,18 @@ public class Application extends SpringBootServletInitializer implements Command
 	}
 
 	@Autowired
-	ClazzRepository repositoty;
+	CountryRepositoty repositoty;
 
 	@Override
 	public void run(String... args) throws Exception {
 
 		LOG.info("OK!");
 
-		Clazz clazz = new Clazz(RandomStringUtils.randomAlphabetic(9));
-		// clazz.setAge(10000);
-		repositoty.save(clazz);
+		List<Country> list = repositoty.findAll();
+		if (!list.isEmpty()) {
+			list.forEach(System.out::println);
+		}
 
-		// repositoty.save(new Clazz());
-
-		// Optional<Clazz> entity = repositoty.findById(9);
-		// entity.ifPresent(t -> {
-		// t.setName("C++");
-		// System.out.println(t);
-		// repositoty.save(t);
-		// });
-
-		repositoty.findAll().forEach(System.out::println);
 	}
 
 }

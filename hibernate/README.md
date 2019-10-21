@@ -112,13 +112,25 @@
 
 # @Cascade
 
+	- Khi đối tượng bị `cascade` trong persistence context thì đối tượng tham chiếu tới nó cũng bị ảnh hưởng
+	
+	- Ví dụ khi xóa country thì các province liên quan cũng bị xóa, tương tự khi insert, ...
+	
 	- Dùng trong mối quan hệ 1-nhiều
 	
-	- cascade = {CascadeType.REMOVE, CascadeType.PERSIST}
+	- Cú pháp
 	
-	- Khi xóa country thì các province liên quan cũng bị xóa,
+		cascade = {CascadeType.REMOVE, CascadeType.PERSIST}
 	
-	- Tương tự khi insert
+	- Các loại cascade
+	
+		- ALL, DETACH, MERGE, PERSIST, REFRESH, REMOVE
+
+# FetchType
+
+	- LAZY: Khi select đối tượng Country thì mặc định không query các đối tượng Province liên quan.
+	
+	- EAGER 
 
 # @Enumerated
 	
