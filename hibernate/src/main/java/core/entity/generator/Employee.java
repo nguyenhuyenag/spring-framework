@@ -11,13 +11,13 @@ import org.hibernate.annotations.GenericGenerator;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
 @Entity
 @Table(name = "employee")
 public class Employee {
@@ -25,9 +25,8 @@ public class Employee {
 	@Id
 	// Khai báo phương thức sinh id, sử dụng generator có tên generator_id
 	@GeneratedValue(generator = "generator_id")
-	// Khai báo generator có tên generator_id được định nghĩa ở class
-	// core.generator.StringGeneratorId
-	@GenericGenerator(name = "generator_id", strategy = "core.generator.StringGeneratorId")
+	// Khai báo generator có tên generator_id được định nghĩa ở class GeneratorId
+	@GenericGenerator(name = "generator_id", strategy = "core.entity.generator.GeneratorId")
 	private String id;
 
 	private String name;

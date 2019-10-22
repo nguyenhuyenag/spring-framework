@@ -1,4 +1,4 @@
-package core.generator;
+package core.entity.generator;
 
 import java.io.Serializable;
 import java.util.stream.Stream;
@@ -7,7 +7,7 @@ import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.IdentifierGenerator;
 import org.hibernate.query.spi.QueryImplementor;
 
-public class StringGeneratorId implements IdentifierGenerator {
+public class GeneratorId implements IdentifierGenerator {
 
 	private String prefix = "EMP";
 

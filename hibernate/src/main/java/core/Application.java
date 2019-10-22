@@ -1,7 +1,9 @@
 package core;
 
+import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +13,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
-import core.entity.cascade.Country;
-import core.repository.CountryRepositoty;
+import core.entity.generator.Employee;
+import core.repository.EmployeeRepository;
 
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer implements CommandLineRunner {
@@ -29,17 +31,17 @@ public class Application extends SpringBootServletInitializer implements Command
 	}
 
 	@Autowired
-	CountryRepositoty repositoty;
+	EmployeeRepository repositoty;
 
 	@Override
 	public void run(String... args) throws Exception {
 
 		LOG.info("OK!");
+		String name = RandomStringUtils.randomAlphabetic(5).toUpperCase();
+		repositoty.save(new Employee(null, name));
 
-		List<Country> list = repositoty.findAll();
-		if (!list.isEmpty()) {
-			list.forEach(System.out::println);
-		}
+		List<String> list = repositoty.findAllById();
+		System.out.println(Arrays.toString(list.toArray()));
 
 	}
 
