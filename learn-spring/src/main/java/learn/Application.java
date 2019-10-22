@@ -5,15 +5,14 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import learn.entity.User;
 import learn.repository.UserRepository;
 import learn.service.UserService;
 
 @SpringBootApplication
-public class LearnApplication implements CommandLineRunner {
+public class Application implements CommandLineRunner {
 
 	public static void main(String[] args) {
-		SpringApplication.run(LearnApplication.class, args);
+		SpringApplication.run(Application.class, args);
 	}
 
 	@Autowired
@@ -30,8 +29,8 @@ public class LearnApplication implements CommandLineRunner {
 		// long count = userService.count();
 		// System.out.println(count);
 		// userRepository.findDistinctUserByFirstname().forEach(System.out::println);
-		User u = userRepository.findFirstByOrderByLastnameAsc();
-		System.out.println(u);
+		// User u = userRepository.findFirstByOrderByLastnameAsc();
+		// System.out.println(u);
 
 	}
 

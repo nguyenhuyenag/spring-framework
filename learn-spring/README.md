@@ -1,4 +1,3 @@
-
 # Tight coupling (liên kết ràng buộc) & Loosely coupled
 
 	- Các class không nên phụ thuộc vào các kế thừa cấp thấp, mà nên phụ thuộc vào abstract class
@@ -85,3 +84,7 @@
 # Spring JPA
 
 	find...By, read...By, query...By, count..By, và get..By
+
+# @RestController & @Controller
+
+	@RestController = @Controller + @ResponseBody

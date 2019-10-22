@@ -1,6 +1,7 @@
 package learn.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,9 +19,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	@Query("SELECT DISTINCT u.firstname FROM User u")
 	List<String> findDistinctUserByFirstname();
-	
-	User findFirstByOrderByLastnameAsc();
 
+	User findFirstByOrderByLastnameAsc();
 
 	// long deleteByLastname(String lastname);
 
@@ -49,7 +49,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	List<User> startWith(@Param("input") String input);
 
 	// Native SQL
-	@Query(value = "SELECT * FROM t_user ORDER BY email_address DESC", nativeQuery = true)
-	List<User> nativeSQL();
+	@Query(value = "SELECT * FROM t_user u WHERE u.id = :id", nativeQuery = true)
+	Optional<User> findByIdNativeSQL(@Param("id") int id);
 
 }

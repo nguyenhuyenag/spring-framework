@@ -9,9 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -37,14 +34,14 @@ public class User implements Serializable {
 	private Integer id;
 
 	private String firstname;
-	
+
 	private String lastname;
 
 	@Column(name = "email_address")
 	private String emailAddress;
 
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
-	}
+	// @Override
+	// public String toString() {
+	// return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+	// }
 }

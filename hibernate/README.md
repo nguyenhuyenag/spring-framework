@@ -6,7 +6,7 @@
 
 	- Là POJO có ít nhất default constructor & implements Serializable
 	
-#  @Entity & @Table
+# @Entity & @Table
 
 	- Đánh dấu 1 JavaBean trở thành một entity
 	
@@ -41,7 +41,7 @@
 	
 	- updatable: Cho phép cột cập nhật giá trị, mặc định là TRUE
 	
-	- length: Độ dài giá trị của cột
+	- length: Độ dài giá trị của cột (mặc định nó là 255)
 	
 # Composite Primary Key (Bảng có nhiều khóa chính)
 	
@@ -146,6 +146,8 @@
 		- @ManyToOne và @OneToOne là EAGER
 	
 		- @ManyToMany và @OneToMany LAZY
+		
+	- Nên sử dụng LAZY thay vì EAGER vì lý do hiệu năng chương trình
 
 # @Enumerated
 	
@@ -162,6 +164,14 @@
 	- Cột created_datetime vẫn sẽ thay đổi nếu ta update nó sang giá trị khác. Nên set
 		
 		@Column(name = "created_datetime", updatable = false)
+
+# @Temporal
+
+	Có 3 giá trị cho TemporalType:
+	
+	- TemporalType.DATE: Lưu trữ ngày tháng năm (bỏ đi thời gian)
+	- TemporalType.TIME: Lưu trữ thời gian (Giờ phút giây)
+	- TemporalType.TIMESTAMP: Lưu trữ ngày tháng và cả thời gian
 
 # JPA Callbacks Method
 
