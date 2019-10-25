@@ -1,23 +1,39 @@
 package jwt.entity;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-public class User {
+@Table(name = "user")
+public class User implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
+	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
@@ -25,13 +41,18 @@ public class User {
 	@Column(unique = true, nullable = false)
 	private String username;
 
-	@Column(unique = true, nullable = false)
-	private String email;
-
 	@Size(min = 8, message = "Minimum password length: 8 characters")
 	private String password;
 
-	@ElementCollection(fetch = FetchType.EAGER)
-	List<Role> roles;
+	@Column(unique = true, nullable = false)
+	private String email;
+
+	@JoinTable( //
+		name = "user_role", //
+		joinColumns = { @JoinColumn(name = "user_id") }, //
+		inverseJoinColumns = { @JoinColumn(name = "role_id") } //
+	)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Role> listRoles = new ArrayList<>();
 
 }

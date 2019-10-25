@@ -17,17 +17,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) {
-
 		final User user = userRepository.findByUsername(username);
-
 		if (user == null) {
 			throw new UsernameNotFoundException("User '" + username + "' not found");
 		}
-
 		return org.springframework.security.core.userdetails.User //
 				.withUsername(username) //
 				.password(user.getPassword()) //
-				.authorities(user.getRoles()) //
+				.authorities(user.getListRoles()) //
 				.accountExpired(false) //
 				.accountLocked(false) //
 				.credentialsExpired(false) //

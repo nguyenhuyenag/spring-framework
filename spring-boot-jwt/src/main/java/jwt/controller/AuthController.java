@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import jwt.dto.UserDataDTO;
-import jwt.dto.UserResponseDTO;
+import jwt.dto.UserData;
+import jwt.dto.UserResponse;
 import jwt.entity.User;
 import jwt.service.UserService;
 
@@ -45,7 +45,7 @@ public class AuthController {
 			@ApiResponse(code = 403, message = "Access denied"), //
 			@ApiResponse(code = 422, message = "Username is already in use"), //
 			@ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-	public String signup(@RequestBody UserDataDTO user) {
+	public String signup(@RequestBody UserData user) {
 		return userService.signup(modelMapper.map(user, User.class));
 	}
 
@@ -68,8 +68,8 @@ public class AuthController {
 			@ApiResponse(code = 403, message = "Access denied"), //
 			@ApiResponse(code = 404, message = "The user doesn't exist"), //
 			@ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-	public UserResponseDTO search(@PathVariable String username) {
-		return modelMapper.map(userService.search(username), UserResponseDTO.class);
+	public UserResponse search(@PathVariable String username) {
+		return modelMapper.map(userService.search(username), UserResponse.class);
 	}
 
 	@GetMapping(value = "/me")
@@ -78,8 +78,8 @@ public class AuthController {
 			@ApiResponse(code = 400, message = "Something went wrong"), //
 			@ApiResponse(code = 403, message = "Access denied"), //
 			@ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-	public UserResponseDTO whoami(HttpServletRequest req) {
-		return modelMapper.map(userService.whoami(req), UserResponseDTO.class);
+	public UserResponse whoami(HttpServletRequest req) {
+		return modelMapper.map(userService.whoami(req), UserResponse.class);
 	}
 
 	@GetMapping("/refresh")

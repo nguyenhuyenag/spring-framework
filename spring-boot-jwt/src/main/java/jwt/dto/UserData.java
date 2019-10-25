@@ -6,7 +6,7 @@ import jwt.entity.Role;
 import lombok.Data;
 
 @Data
-public class UserDataDTO {
+public class UserData {
 
 	private String username;
 	private String password;

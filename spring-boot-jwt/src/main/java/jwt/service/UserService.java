@@ -25,7 +25,7 @@ public class UserService {
 	private PasswordEncoder passwordEncoder;
 
 	@Autowired
-	private JwtProvider jwtTokenProvider;
+	private JwtProvider jwtProvider;
 
 	@Autowired
 	private AuthenticationManager authenticationManager;
@@ -33,7 +33,7 @@ public class UserService {
 	public String signin(String username, String password) {
 		try {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-			return jwtTokenProvider.buildToken(username, userRepository.findByUsername(username).getRoles());
+			return jwtProvider.buildToken(username, userRepository.findByUsername(username).getListRoles());
 		} catch (AuthenticationException e) {
 			throw new HandlerException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
 		}
@@ -43,7 +43,7 @@ public class UserService {
 		if (!userRepository.existsByUsername(user.getUsername())) {
 			user.setPassword(passwordEncoder.encode(user.getPassword()));
 			userRepository.save(user);
-			return jwtTokenProvider.buildToken(user.getUsername(), user.getRoles());
+			return jwtProvider.buildToken(user.getUsername(), user.getListRoles());
 		} else {
 			throw new HandlerException("Username is already in use", HttpStatus.UNPROCESSABLE_ENTITY);
 		}
@@ -62,11 +62,11 @@ public class UserService {
 	}
 
 	public User whoami(HttpServletRequest req) {
-		return userRepository.findByUsername(jwtTokenProvider.getUsername(jwtTokenProvider.resolveToken(req)));
+		return userRepository.findByUsername(jwtProvider.getUsername(jwtProvider.resolveToken(req)));
 	}
 
 	public String refresh(String username) {
-		return jwtTokenProvider.buildToken(username, userRepository.findByUsername(username).getRoles());
+		return jwtProvider.buildToken(username, userRepository.findByUsername(username).getListRoles());
 	}
 
 }

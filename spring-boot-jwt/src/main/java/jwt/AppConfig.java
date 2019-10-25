@@ -28,12 +28,12 @@ public class AppConfig {
 	public RestTemplate restTemplate(RestTemplateBuilder builder) {
 		return builder.build();
 	}
-	
+
 	@Bean
 	public ModelMapper modelMapper() {
 		return new ModelMapper();
 	}
-	
+
 	@Bean
 	public DefaultErrorAttributes defaultErrorAttributes() {
 		return new DefaultErrorAttributes();
