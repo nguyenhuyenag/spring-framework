@@ -3,12 +3,12 @@ package jwt.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -36,19 +36,19 @@ public class Role implements GrantedAuthority {
 
 	@Id
 	@Column(name = "id")
-	// @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 
 	@Column(name = "name")
 	@Enumerated(EnumType.STRING)
 	private RoleTypes name;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable( //
-			name = "user_role", //
-			joinColumns = { @JoinColumn(name = "role_id") }, //
-			inverseJoinColumns = { @JoinColumn(name = "user_id") } //
+		name = "user_role", //
+		joinColumns = { @JoinColumn(name = "role_id") }, //
+		inverseJoinColumns = { @JoinColumn(name = "user_id") } //
 	)
+	@ManyToMany()
 	private List<User> listUsers = new ArrayList<>();
 
 	@Override

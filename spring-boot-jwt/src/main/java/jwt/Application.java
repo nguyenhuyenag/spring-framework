@@ -1,7 +1,7 @@
 package jwt;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -34,31 +34,23 @@ public class Application extends SpringBootServletInitializer implements Command
 	@Autowired
 	PasswordEncoder passwordEncoder;
 
-	Role role = new Role();
-	List<Role> list = new ArrayList<>();
-
 	@Override
 	public void run(String... params) throws Exception {
-		User admin = new User();
-		admin.setUsername("admin");
-		admin.setPassword("admin");
-		System.out.println(passwordEncoder.encode("admin"));
-		admin.setEmail("admin@email.com");
-		role.setName(RoleTypes.ROLE_ADMIN);
-		list.add(role);
-		admin.setListRoles(list);
+
+		Role roleAdmin = new Role();
+		roleAdmin.setName(RoleTypes.ROLE_ADMIN);
+		Set<Role> listRoleAdmin = new HashSet<>();
+		listRoleAdmin.add(roleAdmin);
+		User admin = new User(null, "admin", "admin", "admin@email.com", listRoleAdmin);
 		userService.signup(admin);
 
-		User client = new User();
-		client.setUsername("client");
-		client.setPassword("client");
-		list.remove(role);
-		role.setName(RoleTypes.ROLE_USER);
-		list.add(role);
-		System.out.println(passwordEncoder.encode("client"));
-		client.setEmail("client@email.com");
-		client.setListRoles(list);
+		Role roleUser = new Role();
+		roleUser.setName(RoleTypes.ROLE_USER);
+		Set<Role> listRoleUser = new HashSet<>();
+		listRoleUser.add(roleUser);
+		User client = new User(null, "client", "client", "client@email.com", listRoleUser);
 		userService.signup(client);
+
 	}
 
 }

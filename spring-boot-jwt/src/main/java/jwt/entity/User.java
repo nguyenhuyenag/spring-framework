@@ -1,8 +1,8 @@
 package jwt.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -53,6 +53,6 @@ public class User implements Serializable {
 		inverseJoinColumns = { @JoinColumn(name = "role_id") } //
 	)
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<Role> listRoles = new ArrayList<>();
+	private Set<Role> listRoles = new HashSet<>();
 
 }
