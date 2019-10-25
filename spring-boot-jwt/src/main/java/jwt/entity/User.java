@@ -52,7 +52,7 @@ public class User implements Serializable {
 		joinColumns = { @JoinColumn(name = "user_id") }, //
 		inverseJoinColumns = { @JoinColumn(name = "role_id") } //
 	)
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	private Set<Role> listRoles = new HashSet<>();
 
 }

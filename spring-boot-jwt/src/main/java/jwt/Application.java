@@ -50,6 +50,13 @@ public class Application extends SpringBootServletInitializer implements Command
 		listRoleUser.add(roleUser);
 		User client = new User(null, "client", "client", "client@email.com", listRoleUser);
 		userService.signup(client);
+		
+		Role roleUser2 = new Role();
+		roleUser2.setName(RoleTypes.ROLE_USER);
+		Set<Role> listRoleUser2 = new HashSet<>();
+		listRoleUser2.add(roleUser2);
+		User client2 = new User(null, "client2", "client2", "client@email.com", listRoleUser2);
+		userService.signup(client2);
 
 	}
 
