@@ -2,12 +2,12 @@ package com.boot.filter;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.nio.charset.StandardCharsets;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -21,16 +21,18 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint,
 
 	private static final long serialVersionUID = 1L;
 
-	// 401
 	@Override
-	public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception)
+	public void commence(HttpServletRequest req, HttpServletResponse res, AuthenticationException exception)
 			throws IOException, ServletException {
-		CustomError errors = new CustomError(HttpServletResponse.SC_UNAUTHORIZED, "abc", "sai password");
-		String json = JsonUtils.writeAsString(errors);
-		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-		response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
-		response.getWriter().write(json);
+		// HttpStatus.UNAUTHORIZED.name()
+		// HttpServletResponse.SC_UNAUTHORIZED
+		CustomError error = new CustomError(401, "Unauthorized", "Username or password is incorrect!");
+		String json = JsonUtils.writeAsString(error);
+		res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		// response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+		// response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
+		res.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
+		res.getWriter().write(json);
 	}
 
 }
