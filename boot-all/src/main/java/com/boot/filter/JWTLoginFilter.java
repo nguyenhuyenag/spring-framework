@@ -1,7 +1,7 @@
 package com.boot.filter;
 
 import java.io.IOException;
-import java.util.Collections;
+import java.util.ArrayList;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -24,38 +24,36 @@ import com.boot.entity.User;
 import com.boot.request.LoginRequest;
 import com.boot.response.Res;
 import com.boot.response.UserResponse;
-import com.boot.service.TokenAuthService;
-import com.boot.service.impl.TokenAuthServiceImpl;
-import com.boot.util.JSONUtils;
+import com.boot.util.JsonUtils;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(JWTLoginFilter.class);
-
 	private static final UrlPathHelper URL = new UrlPathHelper();
 
-	private static TokenAuthService tokenAuthService = new TokenAuthServiceImpl();
-
-	public JWTLoginFilter(String url, AuthenticationManager authManager) {
+	public JWTLoginFilter(String url, AuthenticationManager auth) {
 		super(new AntPathRequestMatcher(url));
-		setAuthenticationManager(authManager);
+		this.setAuthenticationManager(auth);
 	}
 
 	@Override
-	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
-		LoginRequest login = JSONUtils.OBJECT_MAPPER.readValue(request.getInputStream(), LoginRequest.class);
-		UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword(), Collections.emptyList());
-		return getAuthenticationManager().authenticate(auth); 
+	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws JsonParseException, JsonMappingException, IOException {
+		LoginRequest login = JsonUtils.MAPPER.readValue(request.getInputStream(), LoginRequest.class);
+		UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword(), new ArrayList<>());
+		return this.getAuthenticationManager().authenticate(auth);
 	}
 
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication auth) throws IOException, ServletException {
 		User user = (User) auth.getPrincipal();
 		UserResponse object = new UserResponse(user.getUsername(), user.getRole());
-		String json = JSONUtils.objectToJSON(object);
+		String json = JsonUtils.writeAsString(object);
 		response.getWriter().write(json);
 		response.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
-		tokenAuthService.addAuthentication(response, auth);
+		String token = TokenHandler.buildToken(user.getUsername());
+		response.addHeader(HttpHeaders.AUTHORIZATION, TokenHandler.PREFIX + token); // Authorization: Bearer <token>
 	}
 
 	@Override
@@ -64,10 +62,9 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		response.setContentType("application/json");
 		Res res = new Res(HttpServletResponse.SC_UNAUTHORIZED, "Username or password is incorrect!");
-		String json = JSONUtils.objectToJSON(res);
+		String json = JsonUtils.writeAsString(res);
 		response.getWriter().write(json);
 		response.getWriter().flush();
 	}
 
 }
-

@@ -3,7 +3,6 @@ package com.boot.service.impl;
 import java.util.Collections;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -23,18 +22,18 @@ public class TokenAuthServiceImpl implements TokenAuthService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(TokenAuthServiceImpl.class);
 
-	@Override
-	public void addAuthentication(HttpServletResponse response, Authentication authentication) {
-		User user = (User) authentication.getPrincipal();
-		String token = TokenHandler.buildToken(user.getUsername());
-		// Authorization: Bearer <token>
-		response.addHeader(HttpHeaders.AUTHORIZATION, TokenHandler.TOKEN_PREFIX + token);
-	}
+//	@Override
+//	public void addAuthentication(HttpServletResponse response, Authentication authentication) {
+//		User user = (User) authentication.getPrincipal();
+//		String token = TokenHandler.buildToken(user.getUsername());
+//		// Authorization: Bearer <token>
+//		response.addHeader(HttpHeaders.AUTHORIZATION, TokenHandler.TOKEN_PREFIX + token);
+//	}
 
 	@Override
 	public Authentication getAuthentication(HttpServletRequest request, UserDetailsService userDetailsService) {
 		String token = request.getHeader(HttpHeaders.AUTHORIZATION);
-		if (StringUtils.isEmpty(token) || !token.startsWith(TokenHandler.TOKEN_PREFIX)) {
+		if (StringUtils.isEmpty(token) || !token.startsWith(TokenHandler.PREFIX)) {
 			LOGGER.info("Couldn't find Bearer string");
 			return null;
 		}

@@ -1,8 +1,5 @@
 package jwt;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -11,9 +8,6 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import jwt.entity.Role;
-import jwt.entity.User;
-import jwt.enums.RoleTypes;
 import jwt.service.UserService;
 
 @SpringBootApplication
@@ -37,26 +31,26 @@ public class Application extends SpringBootServletInitializer implements Command
 	@Override
 	public void run(String... params) throws Exception {
 
-		Role roleAdmin = new Role();
-		roleAdmin.setName(RoleTypes.ROLE_ADMIN);
-		Set<Role> listRoleAdmin = new HashSet<>();
-		listRoleAdmin.add(roleAdmin);
-		User admin = new User(null, "admin", "admin", "admin@email.com", listRoleAdmin);
-		userService.signup(admin);
-
-		Role roleUser = new Role();
-		roleUser.setName(RoleTypes.ROLE_USER);
-		Set<Role> listRoleUser = new HashSet<>();
-		listRoleUser.add(roleUser);
-		User client = new User(null, "client", "client", "client@email.com", listRoleUser);
-		userService.signup(client);
-		
-		Role roleUser2 = new Role();
-		roleUser2.setName(RoleTypes.ROLE_USER);
-		Set<Role> listRoleUser2 = new HashSet<>();
-		listRoleUser2.add(roleUser2);
-		User client2 = new User(null, "client2", "client2", "client@email.com", listRoleUser2);
-		userService.signup(client2);
+//		Role roleAdmin = new Role();
+//		roleAdmin.setName(RoleTypes.ROLE_ADMIN);
+//		Set<Role> listRoleAdmin = new HashSet<>();
+//		listRoleAdmin.add(roleAdmin);
+//		User admin = new User(null, "admin", "admin", "admin@email.com", listRoleAdmin);
+//		userService.signup(admin);
+//
+//		Role roleUser = new Role();
+//		roleUser.setName(RoleTypes.ROLE_USER);
+//		Set<Role> listRoleUser = new HashSet<>();
+//		listRoleUser.add(roleUser);
+//		User client = new User(null, "client", "client", "client@email.com", listRoleUser);
+//		userService.signup(client);
+//		
+//		Role roleUser2 = new Role();
+//		roleUser2.setName(RoleTypes.ROLE_USER);
+//		Set<Role> listRoleUser2 = new HashSet<>();
+//		listRoleUser2.add(roleUser2);
+//		User client2 = new User(null, "client2", "client2", "client@email.com", listRoleUser2);
+//		userService.signup(client2);
 
 	}
 

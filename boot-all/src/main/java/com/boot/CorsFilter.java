@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -26,26 +27,7 @@ public class CorsFilter implements Filter {
 	private final Logger LOG = LoggerFactory.getLogger(CorsFilter.class);
 
 	public CorsFilter() {
-		LOG.info("CorsFilter init...");
-	}
-
-	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) //
-			throws IOException, ServletException {
-		final HttpServletResponse httpResponse = (HttpServletResponse) response;
-		httpResponse.setHeader("Access-Control-Allow-Origin", "*");
-		httpResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE");
-		httpResponse.setHeader("Access-Control-Allow-Headers", //
-				"Origin, X-Requested-With, Content-Type, Accept, Authorization");
-		httpResponse.setHeader("Access-Control-Max-Age", "3600");
-		httpResponse.setHeader("Content-Type", "application/json; charset=utf-8");
-		httpResponse.setHeader("Access-Control-Expose-Headers", "Authorization");
-
-		if ("OPTIONS".equalsIgnoreCase(((HttpServletRequest) request).getMethod())) {
-			httpResponse.setStatus(HttpServletResponse.SC_OK);
-		} else {
-			chain.doFilter(request, response);
-		}
+		// LOG.info("CorsFilter init...");
 	}
 
 	@Override
@@ -57,4 +39,23 @@ public class CorsFilter implements Filter {
 	public void init(FilterConfig config) throws ServletException {
 
 	}
+
+	@Override
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+		LOG.info("Adding CORS Headers ...");
+		HttpServletRequest req = (HttpServletRequest) request;
+		HttpServletResponse res = (HttpServletResponse) response;
+		res.setHeader("Access-Control-Allow-Origin", "*");
+		res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE");
+		res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+		res.setHeader("Access-Control-Max-Age", "3600");
+		res.setHeader("Content-Type", "application/json;charset=utf-8");
+		res.setHeader("Access-Control-Expose-Headers", "Authorization");
+		if (HttpMethod.OPTIONS.name().equalsIgnoreCase(req.getMethod())) {
+			res.setStatus(HttpServletResponse.SC_OK);
+		} else {
+			chain.doFilter(request, response); // Only apply doFilter() when not OPTIONS
+		}
+	}
+
 }

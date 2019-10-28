@@ -28,20 +28,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	private UserDetailsService userDetailsService;
 
 	private final String[] PERMIT_ALL_GET = {
-			// "/api/user/load-all"
+		// "/api/user/load-all"
 	};
 
-	private final String[] PERMIT_ALL_POST = { "/api/user/register" };
+	private final String[] PERMIT_ALL_POST = {
+		"/api/user/register"
+	};
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		// Disable CSRF (cross site request forgery)
-		http.csrf().disable();
-
+		http.csrf().disable(); // Disable CSRF
 		http.exceptionHandling().authenticationEntryPoint(new JWTAuthEntryPoint()); //
-
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); //
-
 		http.authorizeRequests() //
 				.antMatchers("/").permitAll() //
 				.antMatchers("/favicon.ico").permitAll() //
@@ -49,7 +47,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.POST, PERMIT_ALL_POST).permitAll() //
 				.anyRequest() //
 				.authenticated(); //
-
 		http.addFilterBefore(new JWTLoginFilter("/api/auth/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class) //
 			.addFilterBefore(new JWTAuthFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class) //
 			.headers().cacheControl();
