@@ -22,7 +22,7 @@ import org.springframework.web.util.UrlPathHelper;
 
 import com.boot.entity.User;
 import com.boot.request.LoginRequest;
-import com.boot.response.Res;
+import com.boot.response.CustomError;
 import com.boot.response.UserResponse;
 import com.boot.util.JsonUtils;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -59,16 +59,16 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	}
 
 	// TODO
-	@Override
-	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
-			AuthenticationException exception) throws IOException, ServletException {
-		LOGGER.info("Failed authentication while attempting to access: " + URL.getPathWithinApplication(request));
-		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-		response.setContentType("application/json");
-		Res res = new Res(HttpServletResponse.SC_UNAUTHORIZED, "Username or password is incorrect!");
-		String json = JsonUtils.writeAsString(res);
-		response.getWriter().write(json);
-		response.getWriter().flush();
-	}
+//	@Override
+//	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+//			AuthenticationException exception) throws IOException, ServletException {
+//		LOGGER.info("Failed authentication while attempting to access: " + URL.getPathWithinApplication(request));
+//		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+//		response.setContentType("application/json");
+//		Res res = new Res(HttpServletResponse.SC_UNAUTHORIZED, "Username or password is incorrect!");
+//		String json = JsonUtils.writeAsString(res);
+//		response.getWriter().write(json);
+//		response.getWriter().flush();
+//	}
 
 }

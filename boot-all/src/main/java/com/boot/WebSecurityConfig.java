@@ -15,7 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.boot.filter.JWTAuthEntryPoint;
+import com.boot.filter.CustomAuthenticationEntryPoint;
 import com.boot.filter.JWTAuthenticationFilter;
 import com.boot.filter.JWTLoginFilter;
 
@@ -37,11 +37,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		
 		// Disable CSRF
 		http.csrf().disable();
-		http.exceptionHandling().authenticationEntryPoint(new JWTAuthEntryPoint()); //
+		
+		http.exceptionHandling()
+			.authenticationEntryPoint(new CustomAuthenticationEntryPoint()); // handles bad credentials
+			// http.accessDeniedHandler(accessDeniedHandler);
+		
 		// this disables session creation on Spring Security
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); //
+		
 		http.authorizeRequests() //
 				.antMatchers("/").permitAll() //
 				.antMatchers("/favicon.ico").permitAll() //
@@ -65,5 +71,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-
+	
 }
