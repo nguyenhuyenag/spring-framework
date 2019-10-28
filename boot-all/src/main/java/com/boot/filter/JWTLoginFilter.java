@@ -53,9 +53,10 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 		response.getWriter().write(json);
 		response.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
 		String token = TokenHandler.buildToken(user.getUsername());
-		response.addHeader(HttpHeaders.AUTHORIZATION, TokenHandler.PREFIX + token); // Authorization: Bearer <token>
+		response.addHeader(HttpHeaders.AUTHORIZATION, TokenHandler.PREFIX + token);
 	}
 
+	// TODO
 	@Override
 	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
 		LOGGER.info("Failed authentication while attempting to access " + URL.getPathWithinApplication(request));

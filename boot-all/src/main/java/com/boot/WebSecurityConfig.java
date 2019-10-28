@@ -39,6 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable(); // Disable CSRF
 		http.exceptionHandling().authenticationEntryPoint(new JWTAuthEntryPoint()); //
+		// this disables session creation on Spring Security
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); //
 		http.authorizeRequests() //
 				.antMatchers("/").permitAll() //
@@ -49,6 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.authenticated(); //
 		http.addFilterBefore(new JWTLoginFilter("/api/auth/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class) //
 			.addFilterBefore(new JWTAuthFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class) //
+			// .addFilterBefore(new JWTAuthFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class) //
 			.headers().cacheControl();
 	}
 
