@@ -16,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.boot.filter.JWTAuthEntryPoint;
-import com.boot.filter.JWTAuthFilter;
+import com.boot.filter.JWTAuthenticationFilter;
 import com.boot.filter.JWTLoginFilter;
 
 @Order(1)
@@ -37,7 +37,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable(); // Disable CSRF
+		// Disable CSRF
+		http.csrf().disable();
 		http.exceptionHandling().authenticationEntryPoint(new JWTAuthEntryPoint()); //
 		// this disables session creation on Spring Security
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); //
@@ -49,8 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.anyRequest() //
 				.authenticated(); //
 		http.addFilterBefore(new JWTLoginFilter("/api/auth/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class) //
-			.addFilterBefore(new JWTAuthFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class) //
-			// .addFilterBefore(new JWTAuthFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class) //
+			.addFilterBefore(new JWTAuthenticationFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class) //
 			.headers().cacheControl();
 	}
 

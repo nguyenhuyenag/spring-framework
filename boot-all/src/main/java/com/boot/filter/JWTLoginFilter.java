@@ -39,14 +39,16 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	}
 
 	@Override
-	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws JsonParseException, JsonMappingException, IOException {
+	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
+			throws JsonParseException, JsonMappingException, IOException {
 		LoginRequest login = JsonUtils.MAPPER.readValue(request.getInputStream(), LoginRequest.class);
 		UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword(), new ArrayList<>());
 		return this.getAuthenticationManager().authenticate(auth);
 	}
 
 	@Override
-	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication auth) throws IOException, ServletException {
+	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
+			Authentication auth) throws IOException, ServletException {
 		User user = (User) auth.getPrincipal();
 		UserResponse object = new UserResponse(user.getUsername(), user.getRole());
 		String json = JsonUtils.writeAsString(object);
@@ -58,8 +60,9 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
 	// TODO
 	@Override
-	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-		LOGGER.info("Failed authentication while attempting to access " + URL.getPathWithinApplication(request));
+	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+			AuthenticationException exception) throws IOException, ServletException {
+		LOGGER.info("Failed authentication while attempting to access: " + URL.getPathWithinApplication(request));
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		response.setContentType("application/json");
 		Res res = new Res(HttpServletResponse.SC_UNAUTHORIZED, "Username or password is incorrect!");

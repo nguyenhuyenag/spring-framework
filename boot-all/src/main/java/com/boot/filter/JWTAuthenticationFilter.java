@@ -22,14 +22,14 @@ import org.springframework.web.filter.GenericFilterBean;
 
 import com.boot.entity.User;
 
-public class JWTAuthFilter extends GenericFilterBean {
+public class JWTAuthenticationFilter extends GenericFilterBean {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(JWTAuthFilter.class);
+	private static final Logger LOG = LoggerFactory.getLogger(JWTAuthenticationFilter.class);
 
 	@Autowired
 	private UserDetailsService userDetailsService;
 
-	public JWTAuthFilter(UserDetailsService userDetailsService) {
+	public JWTAuthenticationFilter(final UserDetailsService userDetailsService) {
 		this.userDetailsService = userDetailsService;
 	}
 
@@ -45,13 +45,16 @@ public class JWTAuthFilter extends GenericFilterBean {
 		return null;
 	}
 
+	/**
+	 * Xác thực bằng JWT
+	 */
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
 		String token = req.getHeader(HttpHeaders.AUTHORIZATION);
 		if (StringUtils.isEmpty(token) || !token.startsWith(TokenHandler.PREFIX)) {
-			LOGGER.info("Couldn't find Bearer string");
+			LOG.info("Couldn't find Bearer string");
 			chain.doFilter(req, res);
 			return;
 		}

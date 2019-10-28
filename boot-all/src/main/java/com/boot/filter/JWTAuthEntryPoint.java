@@ -18,7 +18,8 @@ public class JWTAuthEntryPoint implements AuthenticationEntryPoint, Serializable
 
 	// 401
 	@Override
-	public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+	public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception)
+			throws IOException, ServletException {
 		response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
 	}
 

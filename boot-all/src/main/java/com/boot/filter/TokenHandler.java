@@ -35,8 +35,8 @@ public class TokenHandler {
 	}
 
 	/**
-	 * Parse token to username
-	 * @param token is jwt token
+	 * Get username from token
+	 * @param token jwt token
 	 * @return username
 	 */
 	public static String getUsername(String token) {
