@@ -3,7 +3,9 @@ package com.boot;
 import java.util.Properties;
 
 import org.apache.velocity.app.VelocityEngine;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
@@ -25,6 +27,16 @@ public class AppConfig {
 	@Bean
 	public RestTemplate restTemplate(RestTemplateBuilder builder) {
 		return builder.build();
+	}
+	
+	@Bean
+	public ModelMapper modelMapper() {
+		return new ModelMapper();
+	}
+
+	@Bean
+	public DefaultErrorAttributes defaultErrorAttributes() {
+		return new DefaultErrorAttributes();
 	}
 
 }

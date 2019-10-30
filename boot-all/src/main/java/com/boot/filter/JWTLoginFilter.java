@@ -9,14 +9,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.boot.entity.User;
+import com.boot.exception.HandlerException;
 import com.boot.request.LoginRequest;
 import com.boot.response.UserResponse;
 import com.boot.util.JsonUtils;
@@ -35,12 +38,17 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	}
 
 	@Override
-	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
-			throws JsonParseException, JsonMappingException, IOException {
-		LoginRequest login = JsonUtils.MAPPER.readValue(request.getInputStream(), LoginRequest.class);
-		UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(login.getUsername(),
-				login.getPassword(), new ArrayList<>());
-		return this.getAuthenticationManager().authenticate(auth);
+	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws JsonParseException, JsonMappingException, IOException {
+//		LoginRequest login = JsonUtils.MAPPER.readValue(request.getInputStream(), LoginRequest.class);
+//		UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword(), new ArrayList<>());
+//		return this.getAuthenticationManager().authenticate(auth);
+		try {
+			LoginRequest login = JsonUtils.MAPPER.readValue(request.getInputStream(), LoginRequest.class);
+			UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword(), new ArrayList<>());
+			return this.getAuthenticationManager().authenticate(auth);
+		} catch (AuthenticationException e) {
+			throw new HandlerException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
+		}
 	}
 
 	@Override
