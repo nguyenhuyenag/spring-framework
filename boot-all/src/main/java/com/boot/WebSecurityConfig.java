@@ -45,7 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.authenticationEntryPoint(new CustomAuthenticationEntryPoint()); // handles bad credentials
 			// http.accessDeniedHandler(accessDeniedHandler);
 		
-		// this disables session creation on Spring Security
+		// disable session creation on Spring security
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); //
 		
 		http.authorizeRequests() //
@@ -55,12 +55,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.POST, PERMIT_ALL_POST).permitAll() //
 				.anyRequest() //
 				.authenticated(); //
-		http.addFilterBefore(new JWTLoginFilter("/api/auth/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class) //
+		
+		http.addFilterBefore(new JWTLoginFilter("/api/user/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class) //
 			.addFilterBefore(new JWTAuthenticationFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class) //
 			.headers().cacheControl();
 	}
 
-	// Setup Service find User in database & PasswordEncoder
+	// Setup service find User in database & PasswordEncoder
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());

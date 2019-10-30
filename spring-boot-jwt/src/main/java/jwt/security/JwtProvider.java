@@ -34,7 +34,6 @@ public class JwtProvider {
 	private static String SECRET_KEY;
 	public static final String TOKEN_PREFIX = "Bearer ";
 	private static final String SECRET = "JWT_TOKEN_SECRET";
-	// private static Date EXPIRATION_TIME = DateTimeUtils.getLaterDate(DateTimeUtils.ONE_MINUTES);
 
 	@Autowired
 	private UserDetailsServiceImpl userDetailsService;

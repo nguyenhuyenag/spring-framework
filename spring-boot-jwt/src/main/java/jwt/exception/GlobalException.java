@@ -20,9 +20,9 @@ public class GlobalException {
 	@Autowired
 	DefaultErrorAttributes defaultError;
 
+	// Hide exception field in the return object
 	@Bean
 	public ErrorAttributes errorAttributes() {
-		// Hide exception field in the return object
 		return new ErrorAttributes() {
 			@Override
 			public Map<String, Object> getErrorAttributes(WebRequest webRequest, boolean includeStackTrace) {
@@ -45,12 +45,12 @@ public class GlobalException {
 
 	@ExceptionHandler(AccessDeniedException.class)
 	public void handleAccessDeniedException(HttpServletResponse res) throws IOException {
-		res.sendError(HttpServletResponse.SC_FORBIDDEN, "Access denied");
+		res.sendError(HttpServletResponse.SC_FORBIDDEN, "Access denied GlobalException.java");
 	}
 
 	@ExceptionHandler(Exception.class)
 	public void handleException(HttpServletResponse res) throws IOException {
-		res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Something went wrong");
+		res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Something went wrong GlobalException.java");
 	}
 
 }

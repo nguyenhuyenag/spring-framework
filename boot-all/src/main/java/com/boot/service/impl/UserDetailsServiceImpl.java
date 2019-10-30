@@ -18,16 +18,16 @@ import com.boot.repository.UserRepository;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Autowired
-	private UserRepository userRepository;
+	private UserRepository repository;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		if (StringUtils.isEmpty(username)) {
 			throw new UsernameNotFoundException("Username is empty!");
 		}
-		final Optional<User> user = userRepository.findByUsername(username);
+		final Optional<User> user = repository.findByUsername(username);
 		// final AccountStatusUserDetailsChecker detailsChecker = new AccountStatusUserDetailsChecker();
 		// user.ifPresent(detailsChecker::check);
-		return user.orElseThrow(() -> new UsernameNotFoundException("User " + username + " was not found!"));
+		return user.orElseThrow(() -> new UsernameNotFoundException("User `" + username + "` was not found!"));
 	}
 }

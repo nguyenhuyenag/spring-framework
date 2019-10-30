@@ -14,15 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import jwt.dto.UserData;
 import jwt.dto.UserResponse;
 import jwt.entity.User;
 import jwt.service.UserService;
 
 @RestController
-@RequestMapping("users")
+@RequestMapping("api/user")
 public class AuthController {
 
 	@Autowired
@@ -31,31 +29,31 @@ public class AuthController {
 	@Autowired
 	private ModelMapper modelMapper;
 
-	@PostMapping("signin")
-	@ApiResponses(value = { //
-		@ApiResponse(code = 400, message = "Something went wrong"), //
-		@ApiResponse(code = 422, message = "Invalid username/password supplied") })
+	@PostMapping("login")
+//	@ApiResponses(value = { //
+//		@ApiResponse(code = 400, message = "Something went wrong"), //
+//		@ApiResponse(code = 422, message = "Invalid username/password supplied") })
 	public String login(@RequestParam String username, @RequestParam String password) {
 		return userService.signin(username, password);
 	}
 
 	@PostMapping("/signup")
-	@ApiResponses(value = { //
-		@ApiResponse(code = 400, message = "Something went wrong"), //
-		@ApiResponse(code = 403, message = "Access denied"), //
-		@ApiResponse(code = 422, message = "Username is already in use"), //
-		@ApiResponse(code = 500, message = "Expired or invalid JWT token") })
+//	@ApiResponses(value = { //
+//		@ApiResponse(code = 400, message = "Something went wrong"), //
+//		@ApiResponse(code = 403, message = "Access denied"), //
+//		@ApiResponse(code = 422, message = "Username is already in use"), //
+//		@ApiResponse(code = 500, message = "Expired or invalid JWT token") })
 	public String signup(@RequestBody UserData user) {
 		return userService.signup(modelMapper.map(user, User.class));
 	}
 
 	@DeleteMapping(value = "/{username}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@ApiResponses(value = { //
-		@ApiResponse(code = 400, message = "Something went wrong"), //
-		@ApiResponse(code = 403, message = "Access denied"), //
-		@ApiResponse(code = 404, message = "The user doesn't exist"), //
-		@ApiResponse(code = 500, message = "Expired or invalid JWT token") })
+//	@ApiResponses(value = { //
+//		@ApiResponse(code = 400, message = "Something went wrong"), //
+//		@ApiResponse(code = 403, message = "Access denied"), //
+//		@ApiResponse(code = 404, message = "The user doesn't exist"), //
+//		@ApiResponse(code = 500, message = "Expired or invalid JWT token") })
 	public String delete(@PathVariable String username) {
 		userService.delete(username);
 		return username;
@@ -63,21 +61,21 @@ public class AuthController {
 
 	@GetMapping(value = "/{username}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@ApiResponses(value = { //
-		@ApiResponse(code = 400, message = "Something went wrong"), //
-		@ApiResponse(code = 403, message = "Access denied"), //
-		@ApiResponse(code = 404, message = "The user doesn't exist"), //
-		@ApiResponse(code = 500, message = "Expired or invalid JWT token") })
+//	@ApiResponses(value = { //
+//		@ApiResponse(code = 400, message = "Something went wrong"), //
+//		@ApiResponse(code = 403, message = "Access denied"), //
+//		@ApiResponse(code = 404, message = "The user doesn't exist"), //
+//		@ApiResponse(code = 500, message = "Expired or invalid JWT token") })
 	public UserResponse search(@PathVariable String username) {
 		return modelMapper.map(userService.search(username), UserResponse.class);
 	}
 
 	@GetMapping(value = "/me")
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
-	@ApiResponses(value = { //
-		@ApiResponse(code = 400, message = "Something went wrong"), //
-		@ApiResponse(code = 403, message = "Access denied"), //
-		@ApiResponse(code = 500, message = "Expired or invalid JWT token") })
+//	@ApiResponses(value = { //
+//		@ApiResponse(code = 400, message = "Something went wrong"), //
+//		@ApiResponse(code = 403, message = "Access denied"), //
+//		@ApiResponse(code = 500, message = "Expired or invalid JWT token") })
 	public UserResponse whoami(HttpServletRequest req) {
 		return modelMapper.map(userService.whoami(req), UserResponse.class);
 	}
