@@ -5,8 +5,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import learn.repository.UserRepository;
-import learn.service.UserService;
+import learn.service.ITransaction;
 
 @SpringBootApplication
 public class Application implements CommandLineRunner {
@@ -16,22 +15,11 @@ public class Application implements CommandLineRunner {
 	}
 
 	@Autowired
-	UserService userService;
-
-	@Autowired
-	UserRepository userRepository;
+	ITransaction iTest;
 
 	@Override
 	public void run(String... args) throws Exception {
-
-		// userService.init();
-		// String lastName = "HPPPl";
-		// long count = userService.count();
-		// System.out.println(count);
-		// userRepository.findDistinctUserByFirstname().forEach(System.out::println);
-		// User u = userRepository.findFirstByOrderByLastnameAsc();
-		// System.out.println(u);
-
+		iTest.testRollBack();
 	}
 
 }
