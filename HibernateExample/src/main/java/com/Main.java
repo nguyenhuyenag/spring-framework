@@ -7,7 +7,7 @@ import org.hibernate.Transaction;
 
 public class Main {
 
-	public static void testTransaction() {
+	public static void transaction() {
 		System.out.println("Hibernate ...");
 		Session session = HibernateUtils.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
@@ -15,7 +15,6 @@ public class Main {
 			for (int i = 1; i <= 3; i++) {
 				User user = new User(null, "Java", new Date());
 				if (i == 3) {
-					// user.setId(Integer.parseInt("a"));
 					user.setUsername("username");
 				}
 				session.save(user);
@@ -25,11 +24,14 @@ public class Main {
 		} catch (Exception e) {
 			System.out.println("Rollback! .........");
 			tx.rollback();
+		} finally {
+			HibernateUtils.close();
 		}
 	}
 
 	public static void main(String[] args) {
-		testTransaction();
+		transaction();
+		System.exit(0);
 	}
 
 }

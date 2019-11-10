@@ -9,10 +9,7 @@ public class HibernateUtils {
 
 	private static SessionFactory buildSessionFactory() {
 		try {
-			Configuration config = new Configuration();
-			config.configure("hibernate.cfg.xml");
-			return config.buildSessionFactory();
-			// Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+			return new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
 		} catch (Throwable e) {
 			throw new ExceptionInInitializerError(e);
 		}
@@ -22,7 +19,7 @@ public class HibernateUtils {
 		return sessionFactory;
 	}
 
-	public static void shutdown() {
+	public static void close() {
 		getSessionFactory().close();
 	}
 
