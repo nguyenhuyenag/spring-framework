@@ -10,11 +10,11 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
-	<groupId>learn</groupId>
-	<artifactId>learn-spring</artifactId>
+	<groupId>com</groupId>
+	<artifactId>spring-core</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>learn</name>
+	<name>Application</name>
 	<description>Project for Spring Boot</description>
 
 	<properties>
