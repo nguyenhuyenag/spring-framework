@@ -14,7 +14,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "users")
-public class Users implements Serializable {
+public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -28,11 +28,11 @@ public class Users implements Serializable {
 	@Column(name = "updated")
 	private Date updated;
 
-	public Users() {
+	public User() {
 
 	}
 
-	public Users(Integer id, String username, Date updated) {
+	public User(Integer id, String username, Date updated) {
 		this.id = id;
 		this.username = username;
 		this.updated = updated;

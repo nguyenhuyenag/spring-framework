@@ -14,7 +14,7 @@ public class Application {
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction transaction = em.getTransaction();
 		transaction.begin();
-		Users user = new Users(null, "Java", new Date());
+		User user = new User(null, "Java", new Date());
 		em.persist(user);
 		transaction.commit();
 		System.out.println("OK! ......");

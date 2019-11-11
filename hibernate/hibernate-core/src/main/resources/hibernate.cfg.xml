@@ -11,6 +11,6 @@
 		<property name="hibernate.connection.password">root</property>
 		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
 		<property name="show_sql">true</property>
-		<mapping resource="mapping/users.hbm.xml"></mapping>
+		<mapping resource="mapping/user.hbm.xml"></mapping>
 	</session-factory>
 </hibernate-configuration>

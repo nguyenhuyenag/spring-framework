@@ -13,9 +13,9 @@ public class Main {
 		Transaction tx = session.beginTransaction();
 		try {
 			for (int i = 1; i <= 3; i++) {
-				Users user = new Users(null, "Java", new Date());
+				User user = new User(null, "Java", new Date());
 				if (i == 3) {
-					user.setUsername("username");
+					// user.setUsername("username");
 				}
 				session.save(user);
 			}
