@@ -16,9 +16,11 @@ public class HibernateUtils {
 
 	private static SessionFactory buildSessionFactory() {
 		try {
+			// cach 1
 			// return new
 			// Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
 
+			// cach 2
 			// Configuration config = new
 			// Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(com.User.class);
 			// ServiceRegistry service = new
@@ -27,6 +29,7 @@ public class HibernateUtils {
 			// SessionFactory sessionFactory = config.buildSessionFactory(service);
 			// return sessionFactory;
 
+			// cach 3
 			ServiceRegistry service = new StandardServiceRegistryBuilder().configure().build();
 			Metadata metadata = new MetadataSources(service).getMetadataBuilder().build();
 			return metadata.getSessionFactoryBuilder().build();
