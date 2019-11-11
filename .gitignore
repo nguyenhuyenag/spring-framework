@@ -2,3 +2,4 @@
 *.log
 *.gz
 *.class
+HibernateExample/target/classes/META-INF/maven/com/HibernateExample/pom.properties

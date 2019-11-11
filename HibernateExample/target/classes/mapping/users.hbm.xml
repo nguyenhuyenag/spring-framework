@@ -9,10 +9,9 @@
 			<generator class="identity" />
 		</id>
 		<property name="username" type="string">
-			<column name="username" length="5" not-null="true"
-				unique="true" />
+			<column name="username" length="5" not-null="true"/>
 		</property>
-		<property name="created_date" type="date">
+		<property name="createdDate" type="date" not-null="true">
 			<column name="created_date" />
 		</property>
 	</class>
