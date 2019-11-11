@@ -1,8 +1,10 @@
-# Log file
-*.log
+# Files
 *.gz
-*.class
-**/pom.properties
-*.project
+*.log
 *.prefs
+*.class
+*.project
+**/pom.properties
+
+# Folder
 **/.settings

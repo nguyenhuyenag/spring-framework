@@ -1,6 +1,7 @@
 package com.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,14 +37,13 @@ public class User implements Serializable {
 	private Integer id;
 
 	private String firstname;
-
 	private String lastname;
 
 	@Column(name = "email_address")
 	private String emailAddress;
 
-	// @Override
-	// public String toString() {
-	// return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
-	// }
+	@UpdateTimestamp
+	@Column(name = "execute_time")
+	private Date executeTime;
+
 }

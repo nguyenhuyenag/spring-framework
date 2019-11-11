@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
 			firstName = RandomStringUtils.randomAlphabetic(5);
 			lastName = RandomStringUtils.randomAlphabetic(5);
 			email = firstName.toLowerCase() + "@" + lastName.toLowerCase() + ".com";
-			list.add(new User(null, StringUtils.capitalize(firstName), StringUtils.capitalize(lastName), email));
+			list.add(new User(null, StringUtils.capitalize(firstName), StringUtils.capitalize(lastName), email, null));
 		}
 		userRepository.saveAll(list);
 		LOG.info("Save all complete");

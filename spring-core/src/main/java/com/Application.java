@@ -5,7 +5,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.service.ITransaction;
+import com.service.SpringTransaction;
 
 @SpringBootApplication
 public class Application implements CommandLineRunner {
@@ -15,11 +15,11 @@ public class Application implements CommandLineRunner {
 	}
 
 	@Autowired
-	ITransaction iTest;
+	SpringTransaction iTest;
 
 	@Override
 	public void run(String... args) throws Exception {
-		// iTest.testRollBack();
+		iTest.testRollBack();
 	}
 
 }

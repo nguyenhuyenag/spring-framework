@@ -91,7 +91,7 @@ public class RestfulController {
 		String result = "Parameters are: " + name;
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
-	
+
 	/*-
 	 * /user/list-all?id=1,2,3
 	 * /user/list-all?id=1&id=2
