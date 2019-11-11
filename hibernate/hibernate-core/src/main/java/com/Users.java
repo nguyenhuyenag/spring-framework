@@ -26,11 +26,10 @@ public class Users implements Serializable {
 	private Date createdDate;
 
 	public Users() {
-		super();
+		
 	}
 
 	public Users(Integer id, String username, Date createdDate) {
-		super();
 		this.id = id;
 		this.username = username;
 		this.createdDate = createdDate;
