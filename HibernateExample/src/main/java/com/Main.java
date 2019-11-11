@@ -23,6 +23,7 @@ public class Main {
 			System.out.println("OK! ................");
 		} catch (Exception e) {
 			System.out.println("Rollback! .........");
+			e.printStackTrace();
 			tx.rollback();
 		} finally {
 			HibernateUtils.close();
