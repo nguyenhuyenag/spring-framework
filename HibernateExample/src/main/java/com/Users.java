@@ -10,8 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "app_user")
-public class User implements Serializable {
+@Table(name = "users")
+public class Users implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -21,11 +21,11 @@ public class User implements Serializable {
 	private String username;
 	private Date createdDate;
 
-	public User() {
+	public Users() {
 
 	}
 
-	public User(Integer id, String username, Date createdDate) {
+	public Users(Integer id, String username, Date createdDate) {
 		this.id = id;
 		this.username = username;
 		this.createdDate = createdDate;

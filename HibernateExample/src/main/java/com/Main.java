@@ -13,7 +13,7 @@ public class Main {
 		Transaction tx = session.beginTransaction();
 		try {
 			for (int i = 1; i <= 3; i++) {
-				User user = new User(null, "Java", new Date());
+				Users user = new Users(null, "Java", new Date());
 				if (i == 3) {
 					user.setUsername("username");
 				}
