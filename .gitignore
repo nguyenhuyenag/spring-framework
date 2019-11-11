@@ -3,3 +3,6 @@
 *.gz
 *.class
 **/pom.properties
+*.project
+*.prefs
+**/.settings

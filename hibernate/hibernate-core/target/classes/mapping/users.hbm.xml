@@ -8,11 +8,11 @@
 			<column name="id" />
 			<generator class="identity" />
 		</id>
-		<property name="username" type="string">
+		<property name="username" type="java.lang.String">
 			<column name="username" length="5" not-null="true"/>
 		</property>
-		<property name="createdDate" type="date" not-null="true">
-			<column name="created_date" />
+		<property name="updated" type="java.util.Date" not-null="true">
+			<column name="updated" />
 		</property>
 	</class>
 </hibernate-mapping>

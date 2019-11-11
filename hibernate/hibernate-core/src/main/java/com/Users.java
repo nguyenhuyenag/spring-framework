@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "users")
@@ -19,20 +21,21 @@ public class Users implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	private String username;
 
-	@Column(name = "created_date")
-	private Date createdDate;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "updated")
+	private Date updated;
 
 	public Users() {
-		
+
 	}
 
-	public Users(Integer id, String username, Date createdDate) {
+	public Users(Integer id, String username, Date updated) {
 		this.id = id;
 		this.username = username;
-		this.createdDate = createdDate;
+		this.updated = updated;
 	}
 
 	public Integer getId() {
@@ -51,12 +54,12 @@ public class Users implements Serializable {
 		this.username = username;
 	}
 
-	public Date getCreatedDate() {
-		return createdDate;
+	public Date getUpdated() {
+		return updated;
 	}
 
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
+	public void setUpdated(Date updated) {
+		this.updated = updated;
 	}
 
 }
