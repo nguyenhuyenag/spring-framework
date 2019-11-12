@@ -6,34 +6,34 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
-/**
- * Những properties nào bắt đầu là “config” và phần còn lại trùng với tên thuộc
- * tính trong class Configs sẽ được map giá trị. Lưu ý, phần còn lại của những
- * properties này không phân biệt hoa, thường, gạch dưới hay gạch ngang
+import lombok.Getter;
+import lombok.Setter;
+
+/*-
+ * - Nếu các properties không bắt đầu với “config” thì không cần khai báo prefix
+ * trong annotation @ConfigurationProperties
+ * 
+ * - Nếu file `configs.properties` không tồn tại => throws FileNotFoundException, sử dụng `ignoreResourceNotFound=true`
  */
+@Getter
+@Setter
 @Component
-@ConfigurationProperties("config") // <- prefix
-@PropertySource("classpath:config.properties")
+@ConfigurationProperties()
+@PropertySource("classpath:configs.properties")
+// @PropertySource("classpath:configs.properties", ignoreResourceNotFound=true) // ignore the not found
 public class Configs {
 
 	private String url;
-
+	private Phone phone;
 	private List<String> version;
 
-	public String getUrl() {
-		return url;
-	}
+}
 
-	public void setUrl(String url) {
-		this.url = url;
-	}
+@Getter
+@Setter
+class Phone {
 
-	public List<String> getVersion() {
-		return version;
-	}
-
-	public void setVersion(List<String> version) {
-		this.version = version;
-	}
+	private String os;
+	private String name;
 
 }
