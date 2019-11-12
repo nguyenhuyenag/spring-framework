@@ -1,14 +1,15 @@
 package com.service;
 
-import java.util.List;
-
-import com.entity.User;
-import com.request.RegisterRequest;
-
 public interface UserService {
 
-	List<User> loadAll();
+	void init();
 
-	void register(RegisterRequest dto);
+	long count();
+
+	boolean existsById(long id);
+
+	void deleteById(long id);
+
+	long countByLastname(String lastname);
 
 }

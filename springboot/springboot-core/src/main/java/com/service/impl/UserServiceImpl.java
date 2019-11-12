@@ -1,51 +1,59 @@
 package com.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.entity.User;
 import com.repository.UserRepository;
-import com.request.RegisterRequest;
 import com.service.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);
 
 	@Autowired
-	private UserRepository userRepository;
-
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+	UserRepository userRepository;
 
 	@Override
-	public List<User> loadAll() {
-		// return userRepository.findAll();
-		return userRepository.getAllUser();
+	public void init() {
+		String firstName, lastName, email;
+		List<User> list = new ArrayList<>();
+		for (int i = 0; i < 5; i++) {
+			firstName = RandomStringUtils.randomAlphabetic(5);
+			lastName = RandomStringUtils.randomAlphabetic(5);
+			email = firstName.toLowerCase() + "@" + lastName.toLowerCase() + ".com";
+			list.add(new User(null, StringUtils.capitalize(firstName), StringUtils.capitalize(lastName), email, null));
+		}
+		userRepository.saveAll(list);
+		LOG.info("Save all complete");
 	}
 
 	@Override
-	public void register(RegisterRequest dto) {
-		String email = dto.getEmail();
-		String username = dto.getUsername();
-		boolean isExists = userRepository.existsByUsernameOrEmail(username, email);
-		if (isExists) {
-			LOGGER.info("Username: " + username + " or email: " + email + " already exists!");
-			return;
-		}
-		User entity = new User();
-		entity.setRole("");
-		entity.setEmail(dto.getEmail());
-		entity.setFullName(dto.getFullName());
-		entity.setPassword(passwordEncoder.encode(dto.getPassword()));
-		entity.setUsername(dto.getUsername());
-		System.out.println(userRepository.save(entity) == null);
+	public long count() {
+		return userRepository.count();
+	}
+
+	@Override
+	public boolean existsById(long id) {
+		return userRepository.existsById(id);
+	}
+
+	@Override
+	public void deleteById(long id) {
+		userRepository.deleteById(id);
+	}
+
+	@Override
+	public long countByLastname(String lastname) {
+		return userRepository.countByLastname(lastname);
 	}
 
 }
