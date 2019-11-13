@@ -5,10 +5,10 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="helloWorld1" class="com.di.HelloWorld">
-		<property name="message" value="inject by setter" />
+		<property name="message" value="Inject by setter" />
 	</bean>
 
 	<bean id="helloWorld2" class="com.di.HelloWorld">
-		<constructor-arg value="inject by constructor" type="String"></constructor-arg>
+		<constructor-arg value="Inject by constructor" type="String"></constructor-arg>
 	</bean>
 </beans>
