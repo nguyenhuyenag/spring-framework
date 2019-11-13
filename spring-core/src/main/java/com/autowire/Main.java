@@ -27,6 +27,14 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * - Auto-Wiring ‘constructor’: Autowired thông qua constructor => Person(Address address)
  * 
  * - Auto-Wiring ‘autodetect’: Không hỗ trợ từ Spring 3+
+ * 
+ * - Một số lưu ý
+ *		
+ * 	- Vẫn có thể chỉ rõ dependency bằng cách sử dụng <constructor-arg> và <property> nó sẽ ghi đè lại autowiring
+ * 
+ *	- Không thể thực hiện autowire với các dữ liệu nguyên thủy như int, String, ...
+ *	
+ *- Khi autowiring tự động, đôi khi sẽ link tới những bean không tồn tại, sử dụng required = true để chắc chắn bean được prefer tới có tồn tại
  */
 public class Main {
 
