@@ -39,7 +39,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Entity
 @Table(name = "mysql_name")
-public class MySqlName implements Serializable {
+public class MySQLName implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
