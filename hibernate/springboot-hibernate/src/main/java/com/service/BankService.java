@@ -1,7 +1,11 @@
 package com.service;
 
+import com.controller.Result;
+
 public interface BankService {
 	
-	void withdraw();
+	Result withdraw();
+	
+	Result deposit();
 	
 }
