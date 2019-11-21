@@ -14,7 +14,7 @@ public class TokenHandler {
 	public static final String PREFIX 			= 	"Bearer ";
 	public static final String TOKEN_EXPIRES 	= 	"Token expires";
 
-	private static final long EXPIRATION_TIME 	= 	DateTimeUtils.ONE_HOUR;
+	private static final long EXPIRATION_TIME 	= 	DateTimeUtils.ONE_MINUTE;
 	private static final String SECRET 			= 	"JWT_TOKEN_SECRET";
 	private static final byte[] SECRET_BYTES 	= 	SECRET.getBytes();
 

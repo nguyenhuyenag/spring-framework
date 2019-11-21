@@ -22,10 +22,9 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint,
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public void commence(HttpServletRequest req, HttpServletResponse res, AuthenticationException ex)
+	public void commence(HttpServletRequest req, HttpServletResponse res, AuthenticationException e)
 			throws IOException, ServletException {
-		// HttpStatus.UNAUTHORIZED.name()
-		// HttpServletResponse.SC_UNAUTHORIZED
+		// HttpStatus.UNAUTHORIZED.name(), HttpServletResponse.SC_UNAUTHORIZED
 		CustomError error = new CustomError(401, "Unauthorized", "Username or password is incorrect!");
 		String json = JsonUtils.writeAsString(error);
 		res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
