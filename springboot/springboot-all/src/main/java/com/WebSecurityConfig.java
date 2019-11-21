@@ -37,17 +37,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		
 		// Disable CSRF
 		http.csrf().disable();
-		
 		http.exceptionHandling()
 			.authenticationEntryPoint(new CustomAuthenticationEntryPoint()); // handles bad credentials
 			// http.accessDeniedHandler(accessDeniedHandler);
-		
 		// disable session creation on Spring security
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); //
-		
 		http.authorizeRequests() //
 				.antMatchers("/").permitAll() //
 				.antMatchers("/favicon.ico").permitAll() //

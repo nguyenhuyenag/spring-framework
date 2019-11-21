@@ -1,4 +1,4 @@
-package com.request;
+package com.dto;
 
 public class LoginRequest {
 

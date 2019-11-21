@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dto.LoginRequest;
 import com.dto.UserData;
 import com.dto.UserResponse;
 import com.entity.User;
@@ -30,11 +30,9 @@ public class AuthController {
 	private ModelMapper modelMapper;
 
 	@PostMapping("login")
-//	@ApiResponses(value = { //
-//		@ApiResponse(code = 400, message = "Something went wrong"), //
-//		@ApiResponse(code = 422, message = "Invalid username/password supplied") })
-	public String login(@RequestParam String username, @RequestParam String password) {
-		return userService.signin(username, password);
+	// public String login(@RequestParam String username, @RequestParam String password) {
+	public String login(@RequestBody LoginRequest login) {
+		return userService.signin(login.getUsername(), login.getPassword());
 	}
 
 	@PostMapping("/signup")

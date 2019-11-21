@@ -30,7 +30,6 @@ public class Application extends SpringBootServletInitializer implements Command
 
 	@Override
 	public void run(String... params) throws Exception {
-
 //		Role roleAdmin = new Role();
 //		roleAdmin.setName(RoleTypes.ROLE_ADMIN);
 //		Set<Role> listRoleAdmin = new HashSet<>();
@@ -51,7 +50,6 @@ public class Application extends SpringBootServletInitializer implements Command
 //		listRoleUser2.add(roleUser2);
 //		User client2 = new User(null, "client2", "client2", "client@email.com", listRoleUser2);
 //		userService.signup(client2);
-
 	}
 
 }

@@ -15,9 +15,9 @@ public class TokenHandler {
 	public static final String TOKEN_PREFIX 	= 	"Bearer ";
 	public static final String TOKEN_EXPIRES 	= 	"Token expires";
 
-	private static final Date EXPIRATION_TIME 	= 	DateTimeUtils.getLaterDate(DateTimeUtils.ONE_MINUTES);
+	private static final long EXPIRATION_TIME 	=	DateTimeUtils.ONE_MINUTE / 2;
 	private static final String SECRET 			= 	"JWT_TOKEN_SECRET";
-	private static final byte[] SECRET_BYTES 	= 	SECRET.getBytes(StandardCharsets.UTF_8);
+	private static final byte[] SECRET_ARRAY 	= 	SECRET.getBytes(StandardCharsets.UTF_8);
 
 	/**
 	 * @param username
@@ -29,8 +29,8 @@ public class TokenHandler {
 		}
 		return Jwts.builder() //
 				.setSubject(username) //
-				.setExpiration(EXPIRATION_TIME) //
-				.signWith(SignatureAlgorithm.HS512, SECRET_BYTES) //
+				.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME)) //
+				.signWith(SignatureAlgorithm.HS512, SECRET_ARRAY) //
 				.compact();
 	}
 
@@ -43,7 +43,7 @@ public class TokenHandler {
 			return StringUtils.EMPTY;
 		}
 		return Jwts.parser() //
-				.setSigningKey(SECRET_BYTES) //
+				.setSigningKey(SECRET_ARRAY) //
 				.parseClaimsJws(token.replace(TOKEN_PREFIX, StringUtils.EMPTY)) //
 				.getBody() //
 				.getSubject();
