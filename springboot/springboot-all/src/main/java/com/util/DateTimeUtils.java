@@ -50,9 +50,7 @@ public class DateTimeUtils {
 	
 	/**
 	 * Thay thế cho Date constructor bị lỗi @Deprecated
-	 * @param year
-	 * @param month
-	 * @param date
+	 * @param year, month, date
 	 * @return Date
 	 */
 	public static Date asDate(int year, int month, int date) {
