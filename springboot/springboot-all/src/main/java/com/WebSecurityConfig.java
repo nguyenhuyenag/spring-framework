@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -15,7 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.filter.CustomAuthenticationEntryPoint;
+import com.filter.Http401Unauthorized;
 import com.filter.JWTAuthenticationFilter;
 import com.filter.JWTLoginFilter;
 
@@ -31,16 +31,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// "/api/user/load-all"
 	};
 
-	private final String[] PERMIT_ALL_POST = {
-		"/api/user/register"
-	};
+	private final String[] PERMIT_ALL_POST = { "/api/user/register" };
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		// Disable CSRF
 		http.csrf().disable();
-		http.exceptionHandling()
-			.authenticationEntryPoint(new CustomAuthenticationEntryPoint()); // handles bad credentials
+		http.exceptionHandling() //
+			.authenticationEntryPoint(new Http401Unauthorized()); // handles bad credentials
 			// http.accessDeniedHandler(accessDeniedHandler);
 		// disable session creation on Spring security
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); //
@@ -51,10 +49,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.POST, PERMIT_ALL_POST).permitAll() //
 				.anyRequest() //
 				.authenticated(); //
-		
-		http.addFilterBefore(new JWTLoginFilter("/api/user/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class) //
-			.addFilterBefore(new JWTAuthenticationFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class) //
-			.headers().cacheControl();
+		http.addFilterBefore(new JWTLoginFilter("/api/user/login", authenticationManager()),
+				UsernamePasswordAuthenticationFilter.class) //
+				.addFilterBefore(new JWTAuthenticationFilter(userDetailsService),
+						UsernamePasswordAuthenticationFilter.class) //
+				.headers().cacheControl();
 	}
 
 	// Setup service find User in database & PasswordEncoder
@@ -63,16 +62,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	// Exception {
 	// auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 	// }
-
-	@Bean
-	public AuthenticationManager customAuthenticationManager() throws Exception {
-		return authenticationManager();
+	
+	// TODO add new
+	@Autowired
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		// configure AuthenticationManager so that it knows from where to load
+		// user for matching credentials
+		// Use BCryptPasswordEncoder
+		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 	}
 
-	// Setup BCryptPasswordEncoder
+//	@Bean
+//	public AuthenticationManager customAuthenticationManager() throws Exception {
+//		return authenticationManager();
+//	}
+
+	// Setup PasswordEncoder
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
+
 }

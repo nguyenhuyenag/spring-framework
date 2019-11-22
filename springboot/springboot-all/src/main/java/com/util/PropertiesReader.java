@@ -5,19 +5,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@PropertySource("classpath:log4j.properties")
+@PropertySource("classpath:config.properties")
 @PropertySource("classpath:application.properties")
 public class PropertiesReader {
 
-	private String serverPort;
+	public static long JWT_EXPIRATION_TIME;
 
-	@Value("${server.port}")
-	private void setServerPort(String serverPort) {
-		this.serverPort = serverPort;
-	}
-
-	public String getServerPort() {
-		return serverPort;
+	@Value("${jwt.expiration.time}")
+	private void setJwtExpirationTime(long time) {
+		PropertiesReader.JWT_EXPIRATION_TIME = time;
 	}
 
 }

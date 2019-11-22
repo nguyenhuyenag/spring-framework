@@ -10,9 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CustomError {
-
 	private int status;
 	private String error;
-	private String description;
-
+	private String message;
 }
