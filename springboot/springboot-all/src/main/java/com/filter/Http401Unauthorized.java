@@ -25,7 +25,7 @@ public class Http401Unauthorized implements AuthenticationEntryPoint {
 	@Override
 	public void commence(HttpServletRequest req, HttpServletResponse res, AuthenticationException e)
 			throws IOException, ServletException {
-		LOG.info("401: Unauthorized");
+		LOG.info("Http401Unauthorized");
 		res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		res.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
 		CustomError error = new CustomError(401, "Unauthorized", "The username or password is incorrect");

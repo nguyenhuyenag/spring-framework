@@ -16,8 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 @Component
 @WebFilter("/*")
@@ -27,13 +27,16 @@ public class CorsFilter implements Filter {
 	private static final Logger LOG = LoggerFactory.getLogger(CorsFilter.class);
 
 	@Override
-	public void destroy() { }
+	public void destroy() {
+	}
 
 	@Override
-	public void init(FilterConfig config) throws ServletException { }
+	public void init(FilterConfig config) throws ServletException {
+	}
 
 	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+			throws IOException, ServletException {
 		LOG.info("Adding CORS Headers...");
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
@@ -43,8 +46,7 @@ public class CorsFilter implements Filter {
 		res.setHeader("Access-Control-Max-Age", "3600");
 		res.setHeader("Content-Type", "application/json;charset=utf-8");
 		res.setHeader("Access-Control-Expose-Headers", "Authorization");
-		// HttpMethod.OPTIONS
-		if (RequestMethod.OPTIONS.name().equalsIgnoreCase(req.getMethod())) {
+		if (HttpMethod.OPTIONS.name().equalsIgnoreCase(req.getMethod())) {
 			res.setStatus(HttpServletResponse.SC_OK);
 		} else {
 			chain.doFilter(request, response); // only apply doFilter() when not OPTIONS
