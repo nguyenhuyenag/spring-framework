@@ -49,7 +49,8 @@ public class JWTAuthenticationFilter extends GenericFilterBean {
 	 * Xác thực bằng JWT
 	 */
 	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+			throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
 		String token = req.getHeader(HttpHeaders.AUTHORIZATION);
