@@ -17,7 +17,7 @@ import com.request.RegisterRequest;
 import com.service.UserService;
 
 @Controller
-@RequestMapping("api/user")
+@RequestMapping("api/admin")
 public class UserController {
 
 	@Autowired

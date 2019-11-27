@@ -12,16 +12,11 @@ import com.entity.User;
 import com.repository.UserRepository;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("api")
 public class TaskController {
 
 	@Autowired
 	UserRepository repository;
-
-//	@GetMapping
-//	public List<User> listTasks() {
-//		return repository.findAll();
-//	}
 
 	@GetMapping("load-all")
 	@PreAuthorize("hasRole('ADMIN')")
@@ -29,13 +24,4 @@ public class TaskController {
 		return repository.findAll();
 	}
 
-//	@PutMapping("/{taskId}")
-//	public String updateTasks(@PathVariable("taskId") Integer id) {
-//		return "ID: " + id;
-//	}
-//
-//	@DeleteMapping("/{taskId}")
-//	public String deleteTasks(@PathVariable("taskId") Integer id) {
-//		return "ID: " + id;
-//	}
 }

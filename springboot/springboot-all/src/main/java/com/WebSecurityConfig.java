@@ -62,18 +62,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// .headers() //
 		// .cacheControl();
 
-		http.csrf().disable() //
+		http.csrf().disable() // Disable csrf
 				.authorizeRequests() //
-				.antMatchers(HttpMethod.GET, "/api/**").hasRole("ADMIN") //
-				.antMatchers("/tasks/**").authenticated().anyRequest().permitAll().and() //
-				.addFilterBefore(new JWTLoginFilter(authenticationManager()),
-						UsernamePasswordAuthenticationFilter.class) //
-				.addFilterBefore(new JWTAuthenticationFilter(authenticationManager()),
-						UsernamePasswordAuthenticationFilter.class)
+				// .antMatchers(HttpMethod.GET, "/api/admin/**").hasRole("ADMIN") //
+				.antMatchers("/api/admin/*").hasRole("ADMIN") //
+				.antMatchers("/p/*").hasAnyRole("ADMIN", "USER") //
+				.anyRequest().authenticated().and() //
+				.addFilterBefore(new JWTLoginFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class) //
+				.addFilterBefore(new JWTAuthenticationFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class) //
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and() //
 				.exceptionHandling() //
 				.authenticationEntryPoint(new Http401Unauthorized()) //
-				.accessDeniedHandler(new Http403Forbidden());
+				.accessDeniedHandler(new Http403Forbidden()).and() //
+				.headers().cacheControl();
 	}
 
 }
