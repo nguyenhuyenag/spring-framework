@@ -27,60 +27,35 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserDetailsService userDetailsService;
 
-	private final String[] PERMIT_ALL_GET = {
-		// "/api/user/load-all"
-	};
-
+	private final String[] PERMIT_ALL_GET = { "/api/user/load-all" };
 	private final String[] PERMIT_ALL_POST = { "/api/user/register" };
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		// Disable CSRF
-		http.csrf().disable();
-		http.exceptionHandling() //
-			.authenticationEntryPoint(new Http401Unauthorized()); // handles bad credentials
-			// http.accessDeniedHandler(accessDeniedHandler);
-		// disable session creation on Spring security
-		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); //
-		http.authorizeRequests() //
-				.antMatchers("/").permitAll() //
-				.antMatchers("/favicon.ico").permitAll() //
-				.antMatchers(HttpMethod.GET, PERMIT_ALL_GET).permitAll() //
-				.antMatchers(HttpMethod.POST, PERMIT_ALL_POST).permitAll() //
-				.anyRequest() //
-				.authenticated(); //
-		http.addFilterBefore(new JWTLoginFilter("/api/user/login", authenticationManager()),
-				UsernamePasswordAuthenticationFilter.class) //
-				.addFilterBefore(new JWTAuthenticationFilter(userDetailsService),
-						UsernamePasswordAuthenticationFilter.class) //
-				.headers().cacheControl();
-	}
-
-	// Setup service find User in database & PasswordEncoder
-	// @Autowired
-	// public void configureGlobal(AuthenticationManagerBuilder auth) throws
-	// Exception {
-	// auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-	// }
-	
-	// TODO add new
 	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		// configure AuthenticationManager so that it knows from where to load
-		// user for matching credentials
-		// Use BCryptPasswordEncoder
-		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+	public void configureGlobal(AuthenticationManagerBuilder am) throws Exception {
+		am.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 	}
 
-//	@Bean
-//	public AuthenticationManager customAuthenticationManager() throws Exception {
-//		return authenticationManager();
-//	}
-
-	// Setup PasswordEncoder
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
+	}
+
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http.csrf().disable(); // Disable CSRF
+		http.exceptionHandling() //
+			.authenticationEntryPoint(new Http401Unauthorized()); // handles bad credentials
+			// http.accessDeniedHandler(accessDeniedHandler);
+		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // disable Spring session
+		http.authorizeRequests() //
+			.antMatchers("/").permitAll() //
+			.antMatchers("/favicon.ico").permitAll() //
+			.antMatchers(HttpMethod.GET, PERMIT_ALL_GET).permitAll() //
+			.antMatchers(HttpMethod.POST, PERMIT_ALL_POST).permitAll() //
+			.anyRequest().authenticated(); //
+		http.addFilterBefore(new JWTLoginFilter("/auth/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class) //
+			.addFilterBefore(new JWTAuthenticationFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class) //
+			.headers().cacheControl();
 	}
 
 }

@@ -28,10 +28,6 @@ import com.util.JsonUtils;
 
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
-	// private static final Logger LOGGER =
-	// LoggerFactory.getLogger(JWTLoginFilter.class);
-	// private static final UrlPathHelper URL = new UrlPathHelper();
-
 	public JWTLoginFilter(String url, AuthenticationManager auth) {
 		super(new AntPathRequestMatcher(url));
 		this.setAuthenticationManager(auth);
@@ -40,16 +36,11 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws JsonParseException, JsonMappingException, IOException {
-		// LoginRequest login = JsonUtils.MAPPER.readValue(request.getInputStream(),
-		// LoginRequest.class);
-		// UsernamePasswordAuthenticationToken auth = new
-		// UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword(),
-		// new ArrayList<>());
-		// return this.getAuthenticationManager().authenticate(auth);
 		try {
 			LoginRequest login = JsonUtils.MAPPER.readValue(request.getInputStream(), LoginRequest.class);
-			UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword(), new ArrayList<>());
-			return this.getAuthenticationManager().authenticate(auth);
+			UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(login.getUsername(),
+					login.getPassword(), new ArrayList<>());
+			return getAuthenticationManager().authenticate(auth);
 		} catch (AuthenticationException e) {
 			throw new HandlerException("The user name or password is incorrect", HttpStatus.UNPROCESSABLE_ENTITY);
 		}

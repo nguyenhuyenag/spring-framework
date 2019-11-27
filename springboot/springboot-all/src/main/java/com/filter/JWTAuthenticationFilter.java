@@ -46,7 +46,7 @@ public class JWTAuthenticationFilter extends GenericFilterBean {
 	}
 
 	/**
-	 * Xác thực bằng JWT
+	 * Xác thực bằng api bằng JWT
 	 */
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)

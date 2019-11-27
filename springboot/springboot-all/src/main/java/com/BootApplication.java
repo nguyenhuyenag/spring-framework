@@ -28,12 +28,12 @@ public class BootApplication extends SpringBootServletInitializer implements Com
 	UserRepository repository;
 	
 	@Autowired
-	PasswordEncoder encode;
+	PasswordEncoder encoder;
 
 	@Override
 	public void run(String... args) throws Exception {
 		// System.out.println(repository.findAll().size());
-		// System.out.println(encode.encode("123"));
+		// System.out.println(encode.encode("123456"));
 	}
 
 }

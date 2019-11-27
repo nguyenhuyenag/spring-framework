@@ -31,10 +31,6 @@ public class Http401Unauthorized implements AuthenticationEntryPoint {
 		CustomError error = new CustomError(401, "Unauthorized", "The username or password is incorrect");
 		String json = JsonUtils.writeAsString(error);
 		res.getWriter().write(json);
-		// res.addHeader("WWW-Authenticate", "Basic real ");
-		// res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-		// PrintWriter writer = res.getWriter();
-		// writer.println("HTTP Status 401 - " + e.getMessage());
 	}
 
 }
