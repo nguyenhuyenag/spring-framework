@@ -15,7 +15,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.filter.Http401Unauthorized;
+import com.exception.Http401Unauthorized;
+import com.exception.Http403Forbidden;
 import com.filter.JWTAuthenticationFilter;
 import com.filter.JWTLoginFilter;
 
@@ -42,20 +43,37 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable(); // Disable CSRF
-		http.exceptionHandling() //
-			.authenticationEntryPoint(new Http401Unauthorized()); // handles bad credentials
-			// http.accessDeniedHandler(accessDeniedHandler);
-		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // disable Spring session
-		http.authorizeRequests() //
-			.antMatchers("/").permitAll() //
-			.antMatchers("/favicon.ico").permitAll() //
-			.antMatchers(HttpMethod.GET, PERMIT_ALL_GET).permitAll() //
-			.antMatchers(HttpMethod.POST, PERMIT_ALL_POST).permitAll() //
-			.anyRequest().authenticated(); //
-		http.addFilterBefore(new JWTLoginFilter("/auth/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class) //
-			.addFilterBefore(new JWTAuthenticationFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class) //
-			.headers().cacheControl();
+		// http.csrf().disable().authorizeRequests(); // Disable CSRF
+		// http.exceptionHandling() //
+		// .authenticationEntryPoint(new Http401Unauthorized()) // 401
+		// .accessDeniedHandler(new Http403Forbidden()); // 403
+		// http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		// // disable Spring session
+		// http.authorizeRequests() //
+		// .antMatchers("/").permitAll() //
+		// .antMatchers("/favicon.ico").permitAll() //
+		// // .antMatchers(HttpMethod.GET, PERMIT_ALL_GET).permitAll() //
+		// // .antMatchers(HttpMethod.POST, PERMIT_ALL_POST).permitAll() //
+		// .anyRequest().authenticated(); //
+		// http.addFilterBefore(new JWTLoginFilter(authenticationManager()),
+		// UsernamePasswordAuthenticationFilter.class) //
+		// .addFilterBefore(new JWTAuthenticationFilter(authenticationManager()),
+		// UsernamePasswordAuthenticationFilter.class) //
+		// .headers() //
+		// .cacheControl();
+
+		http.csrf().disable() //
+				.authorizeRequests() //
+				.antMatchers(HttpMethod.GET, "/api/**").hasRole("ADMIN") //
+				.antMatchers("/tasks/**").authenticated().anyRequest().permitAll().and() //
+				.addFilterBefore(new JWTLoginFilter(authenticationManager()),
+						UsernamePasswordAuthenticationFilter.class) //
+				.addFilterBefore(new JWTAuthenticationFilter(authenticationManager()),
+						UsernamePasswordAuthenticationFilter.class)
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and() //
+				.exceptionHandling() //
+				.authenticationEntryPoint(new Http401Unauthorized()) //
+				.accessDeniedHandler(new Http403Forbidden());
 	}
 
 }
