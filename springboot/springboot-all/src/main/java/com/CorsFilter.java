@@ -8,7 +8,6 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,7 +19,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 
 @Component
-@WebFilter("/*")
+// @WebFilter("/*")
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class CorsFilter implements Filter {
 
@@ -28,12 +27,12 @@ public class CorsFilter implements Filter {
 
 	@Override
 	public void destroy() {
-		
+
 	}
 
 	@Override
 	public void init(FilterConfig config) throws ServletException {
-		
+
 	}
 
 	@Override
