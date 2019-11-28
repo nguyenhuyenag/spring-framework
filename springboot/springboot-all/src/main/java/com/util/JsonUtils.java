@@ -1,5 +1,7 @@
 package com.util;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
@@ -10,7 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JsonUtils {
 
-	public static final ObjectMapper MAPPER = new ObjectMapper();
+	private static final ObjectMapper MAPPER = new ObjectMapper();
 
 	public JsonUtils() {
 		MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -31,6 +33,23 @@ public class JsonUtils {
 			}
 		}
 		return StringUtils.EMPTY;
+	}
+	
+	/**
+	 * Convert InputStream to Object
+	 * @param is InputStream
+	 * @param type class type
+	 * @return object
+	 */
+	public static <T> T readValue(InputStream is, Class<T> type) {
+		if (Objects.nonNull(is)) {
+			try {
+				return MAPPER.readValue(is, type);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
 	}
 
 }

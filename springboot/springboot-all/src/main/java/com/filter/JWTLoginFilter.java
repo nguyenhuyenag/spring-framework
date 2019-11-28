@@ -37,18 +37,15 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	}
 
 	@Override
-	public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res)
-			throws JsonParseException, JsonMappingException, IOException {
+	public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) throws JsonParseException, JsonMappingException, IOException {
 		try {
-			LoginRequest login = JsonUtils.MAPPER.readValue(req.getInputStream(), LoginRequest.class);
-			UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(login.getUsername(),
-					login.getPassword(), new ArrayList<>());
+			LoginRequest login = JsonUtils.readValue(req.getInputStream(), LoginRequest.class);
+			UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword(), new ArrayList<>());
 			return getAuthenticationManager().authenticate(auth);
 		} catch (AuthenticationException e) {
 			res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			res.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
-			ApiError error = new ApiError(401, "Unauthorized", "The username or password is incorrect",
-					req.getRequestURI());
+			ApiError error = new ApiError(401, "Unauthorized", "The username or password is incorrect", req.getRequestURI());
 			String json = JsonUtils.writeAsString(error);
 			res.getWriter().write(json);
 		}
@@ -56,8 +53,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	}
 
 	@Override
-	protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain,
-			Authentication auth) throws IOException, ServletException {
+	protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain, Authentication auth) throws IOException, ServletException {
 		User user = (User) auth.getPrincipal();
 		String username = user.getUsername();
 		String json = JsonUtils.writeAsString(new LoginResponse(user.getRole(), username));
@@ -73,8 +69,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	}
 
 	@Override
-	protected void unsuccessfulAuthentication(HttpServletRequest req, HttpServletResponse res,
-			AuthenticationException e) throws IOException, ServletException {
+	protected void unsuccessfulAuthentication(HttpServletRequest req, HttpServletResponse res, AuthenticationException e) throws IOException, ServletException {
 		res.getWriter().write("Authentication failed, reason: " + e.getMessage());
 	}
 }
