@@ -24,24 +24,24 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
 
 	private static final Logger LOG = LoggerFactory.getLogger(JWTAuthenticationFilter.class);
-	
+
 	public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
 		super(authenticationManager);
 	}
 
+	// public UsernamePasswordAuthenticationToken getAuthentication(String token) {
+	// String username = TokenHandler.getUsername(token);
+	// if (StringUtils.isEmpty(username)) {
+	// return null;
+	// }
+	// User user = (User) userDetailsService.loadUserByUsername(username);
+	// if (user != null) {
+	// return new UsernamePasswordAuthenticationToken(user, null, new
+	// ArrayList<>());
+	// }
+	// return null;
+	// }
 
-//	public UsernamePasswordAuthenticationToken getAuthentication(String token) {
-//		String username = TokenHandler.getUsername(token);
-//		if (StringUtils.isEmpty(username)) {
-//			return null;
-//		}
-//		User user = (User) userDetailsService.loadUserByUsername(username);
-//		if (user != null) {
-//			return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
-//		}
-//		return null;
-//	}
-	
 	private UsernamePasswordAuthenticationToken getAuthentication(String tokenHeader) throws TokenExpiredException {
 		String token = tokenHeader.replace(TokenHandler.PREFIX, "");
 		boolean expiration = TokenHandler.isExpiration(token);
@@ -61,26 +61,27 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
 	/**
 	 * Xác thực bằng api bằng JWT
 	 */
-//	@Override
-//	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-//			throws IOException, ServletException {
-//		HttpServletRequest req = (HttpServletRequest) request;
-//		HttpServletResponse res = (HttpServletResponse) response;
-//		String token = req.getHeader(HttpHeaders.AUTHORIZATION);
-//		// String tokenHeader = request.getHeader(JwtTokenUtils.TOKEN_HEADER);
-//		if (StringUtils.isEmpty(token) || !token.startsWith(TokenHandler.PREFIX)) {
-//			LOG.info("Couldn't find Bearer string");
-//			chain.doFilter(req, res);
-//			return;
-//		}
-//		try {
-//			UsernamePasswordAuthenticationToken auth = getAuthentication(token);
-//			SecurityContextHolder.getContext().setAuthentication(auth);
-//			chain.doFilter(req, res);
-//		} catch (TokenExpiredException e) {
-//		}
-//	}
-	
+	// @Override
+	// public void doFilter(ServletRequest request, ServletResponse response,
+	// FilterChain chain)
+	// throws IOException, ServletException {
+	// HttpServletRequest req = (HttpServletRequest) request;
+	// HttpServletResponse res = (HttpServletResponse) response;
+	// String token = req.getHeader(HttpHeaders.AUTHORIZATION);
+	// // String tokenHeader = request.getHeader(JwtTokenUtils.TOKEN_HEADER);
+	// if (StringUtils.isEmpty(token) || !token.startsWith(TokenHandler.PREFIX)) {
+	// LOG.info("Couldn't find Bearer string");
+	// chain.doFilter(req, res);
+	// return;
+	// }
+	// try {
+	// UsernamePasswordAuthenticationToken auth = getAuthentication(token);
+	// SecurityContextHolder.getContext().setAuthentication(auth);
+	// chain.doFilter(req, res);
+	// } catch (TokenExpiredException e) {
+	// }
+	// }
+
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws IOException, ServletException {

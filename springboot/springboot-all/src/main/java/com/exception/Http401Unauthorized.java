@@ -25,7 +25,7 @@ public class Http401Unauthorized implements AuthenticationEntryPoint {
 			throws IOException, ServletException {
 		res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		res.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
-		CustomError error = new CustomError(401, "Unauthorized", "The username or password is incorrect");
+		CustomError error = new CustomError(401, "Unauthorized", e.getMessage());
 		String json = JsonUtils.writeAsString(error);
 		res.getWriter().write(json);
 	}

@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,15 +20,15 @@ import org.springframework.security.web.authentication.AbstractAuthenticationPro
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.entity.User;
-import com.exception.HandlerException;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.request.LoginRequest;
+import com.response.CustomError;
 import com.response.UserResponse;
 import com.util.JsonUtils;
 
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
-	
+
 	// private ThreadLocal<Integer> rememberMe = new ThreadLocal<>();
 
 	public JWTLoginFilter(AuthenticationManager auth) {
@@ -38,15 +37,23 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	}
 
 	@Override
-	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
+	public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res)
 			throws JsonParseException, JsonMappingException, IOException {
 		try {
-			LoginRequest login = JsonUtils.MAPPER.readValue(request.getInputStream(), LoginRequest.class);
-			UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword(), new ArrayList<>());
+			LoginRequest login = JsonUtils.MAPPER.readValue(req.getInputStream(), LoginRequest.class);
+			UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(login.getUsername(),
+					login.getPassword(), new ArrayList<>());
 			return getAuthenticationManager().authenticate(auth);
 		} catch (AuthenticationException e) {
-			throw new HandlerException("The user name or password is incorrect", HttpStatus.UNAUTHORIZED);
+			// res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+			// res.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
+			CustomError error = new CustomError(401, "Unauthorized (JWTLoginFilter.java)", "The user name or password is incorrect");
+			String json = JsonUtils.writeAsString(error);
+			res.getWriter().write(json);
+			// throw new HandlerException("The user name or password is incorrect",
+			// HttpStatus.UNAUTHORIZED);
 		}
+		return null;
 	}
 
 	@Override
@@ -65,7 +72,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 		res.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
 		res.addHeader(HttpHeaders.AUTHORIZATION, TokenHandler.PREFIX + token);
 	}
-	
+
 	@Override
 	protected void unsuccessfulAuthentication(HttpServletRequest req, HttpServletResponse res,
 			AuthenticationException e) throws IOException, ServletException {

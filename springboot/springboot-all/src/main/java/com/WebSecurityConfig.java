@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -28,8 +27,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserDetailsService userDetailsService;
 
-	private final String[] PERMIT_ALL_GET = { "/api/user/load-all" };
-	private final String[] PERMIT_ALL_POST = { "/api/user/register" };
+	// private final String[] PERMIT_ALL_GET = { "/api/user/load-all" };
+
+	// private final String[] PERMIT_ALL_POST = { "/api/user/register" };
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder am) throws Exception {
@@ -65,11 +65,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable() // Disable csrf
 				.authorizeRequests() //
 				// .antMatchers(HttpMethod.GET, "/api/admin/**").hasRole("ADMIN") //
-				.antMatchers("/api/admin/*").hasRole("ADMIN") //
-				.antMatchers("/p/*").hasAnyRole("ADMIN", "USER") //
+				.antMatchers("/admin/*").hasRole("ADMIN") //
+				// .antMatchers("/p/*").hasAnyRole("ADMIN", "USER") //
 				.anyRequest().authenticated().and() //
-				.addFilterBefore(new JWTLoginFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class) //
-				.addFilterBefore(new JWTAuthenticationFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class) //
+				.addFilterBefore(new JWTLoginFilter(authenticationManager()),
+						UsernamePasswordAuthenticationFilter.class) //
+				.addFilterBefore(new JWTAuthenticationFilter(authenticationManager()),
+						UsernamePasswordAuthenticationFilter.class) //
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and() //
 				.exceptionHandling() //
 				.authenticationEntryPoint(new Http401Unauthorized()) //

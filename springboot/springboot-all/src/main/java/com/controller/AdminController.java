@@ -3,6 +3,8 @@ package com.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,16 +14,17 @@ import com.entity.User;
 import com.repository.UserRepository;
 
 @RestController
-@RequestMapping("api")
-public class TaskController {
+@RequestMapping("admin")
+public class AdminController {
 
 	@Autowired
-	UserRepository repository;
+	private UserRepository repository;
 
-	@GetMapping("load-all")
+	@GetMapping("get-all-user")
 	@PreAuthorize("hasRole('ADMIN')")
-	public List<User> newTasks() {
-		return repository.findAll();
+	private ResponseEntity<List<User>> get() {
+		List<User> list = repository.findAll();
+		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 
 }
