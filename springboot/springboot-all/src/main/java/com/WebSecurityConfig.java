@@ -63,10 +63,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// .cacheControl();
 
 		http.csrf().disable() // Disable csrf
-				.authorizeRequests() //
-				// .antMatchers(HttpMethod.GET, "/api/admin/**").hasRole("ADMIN") //
-				.antMatchers("/admin/*").hasRole("ADMIN") //
 				// .antMatchers("/p/*").hasAnyRole("ADMIN", "USER") //
+				// .antMatchers(HttpMethod.GET, "/api/admin/**").hasRole("ADMIN") //
+				.authorizeRequests() //
+				.antMatchers("/admin/*").hasRole("ADMIN") //
+				.antMatchers("/api/public/**").permitAll() //
 				.anyRequest().authenticated().and() //
 				.addFilterBefore(new JWTLoginFilter(authenticationManager()),
 						UsernamePasswordAuthenticationFilter.class) //

@@ -3,7 +3,6 @@ package com.filter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -25,7 +24,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.request.LoginRequest;
 import com.response.ApiError;
-import com.response.UserResponse;
+import com.response.LoginResponse;
 import com.util.JsonUtils;
 
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
@@ -46,15 +45,12 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 					login.getPassword(), new ArrayList<>());
 			return getAuthenticationManager().authenticate(auth);
 		} catch (AuthenticationException e) {
-			// res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-			// res.addHeader(HttpHeaders.CONTENT_TYPE,
-			// MediaType.APPLICATION_JSON_UTF8_VALUE);
-			ApiError error = new ApiError(401, "Unauthorized (JWTLoginFilter.java)",
-					"The user name or password is incorrect", req.getRequestURI());
+			res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+			res.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
+			ApiError error = new ApiError(401, "Unauthorized", "The username or password is incorrect",
+					req.getRequestURI());
 			String json = JsonUtils.writeAsString(error);
 			res.getWriter().write(json);
-			// throw new HandlerException("The user name or password is incorrect",
-			// HttpStatus.UNAUTHORIZED);
 		}
 		return null;
 	}
@@ -63,15 +59,15 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain,
 			Authentication auth) throws IOException, ServletException {
 		User user = (User) auth.getPrincipal();
-		UserResponse object = new UserResponse(user.getUsername(), user.getRole());
-		String json = JsonUtils.writeAsString(object);
+		String username = user.getUsername();
+		String json = JsonUtils.writeAsString(new LoginResponse(user.getRole(), username));
 		res.getWriter().write(json);
 		String role = "";
 		Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
 		for (GrantedAuthority authority : authorities) {
 			role = authority.getAuthority();
 		}
-		String token = TokenHandler.buildToken(user.getUsername(), role);
+		String token = TokenHandler.buildToken(username, role);
 		res.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
 		res.addHeader(HttpHeaders.AUTHORIZATION, TokenHandler.PREFIX + token);
 	}

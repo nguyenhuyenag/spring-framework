@@ -27,12 +27,13 @@ public class Http403Forbidden implements AccessDeniedHandler {
 			throws IOException, ServletException {
 		res.setStatus(HttpServletResponse.SC_FORBIDDEN);
 		res.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
+		String url = req.getRequestURI();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null) {
-			LOG.warn("Account `" + auth.getName() + "` attempted to access the protected URL: " + req.getRequestURI());
+			LOG.warn("Account `" + auth.getName() + "` attempted to access the protected URL: " + url);
 		}
-		String json = JsonUtils.writeAsString(new ApiError(403, "Forbidden", "Access Denied", req.getRequestURI()));
+		String json = JsonUtils.writeAsString(new ApiError(403, "Forbidden", "Access Denied", url));
 		res.getWriter().write(json);
 	}
-	
+
 }
