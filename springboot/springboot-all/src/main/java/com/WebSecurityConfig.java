@@ -31,14 +31,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	// private final String[] PERMIT_ALL_POST = { "/api/user/register" };
 
-	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder am) throws Exception {
-		am.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-	}
-
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
+	}
+
+	@Autowired
+	public void configureGlobal(AuthenticationManagerBuilder am) throws Exception {
+		am.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 	}
 
 	@Override
