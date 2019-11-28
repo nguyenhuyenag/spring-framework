@@ -19,7 +19,7 @@ public class TokenHandler {
 	public static final String TOKEN_EXPIRES 	= "Token expires";
 	private static final String SECRET 			= "JWT_TOKEN_SECRET";
 	private static final byte[] SECRET_ARRAY 	= SECRET.getBytes();
-	private static final long EXPIRATION_TIME	= DateTimeUtils.ONE_MINUTE * 30; // 30 phút
+	private static final long EXPIRATION_TIME	= DateTimeUtils.ONE_MINUTE / 2;
 
 	private static final String ISS = "echisan";
 	private static final String ROLE_CLAIMS = "rol";
@@ -79,7 +79,7 @@ public class TokenHandler {
 		return getTokenBody(jwt).getSubject();
 	}
 
-	public static String getUserRole(String token) {
+	public static String getRole(String token) {
 		return (String) getTokenBody(token).get(ROLE_CLAIMS);
 	}
 

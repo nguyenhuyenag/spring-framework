@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,7 +20,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import com.exception.TokenExpiredException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.response.ApiError;
+import com.util.JsonUtils;
 
 public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
 
@@ -29,27 +31,15 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
 		super(authenticationManager);
 	}
 
-	// public UsernamePasswordAuthenticationToken getAuthentication(String token) {
-	// String username = TokenHandler.getUsername(token);
-	// if (StringUtils.isEmpty(username)) {
-	// return null;
-	// }
-	// User user = (User) userDetailsService.loadUserByUsername(username);
-	// if (user != null) {
-	// return new UsernamePasswordAuthenticationToken(user, null, new
-	// ArrayList<>());
-	// }
-	// return null;
-	// }
-
-	private UsernamePasswordAuthenticationToken getAuthentication(String tokenHeader) throws TokenExpiredException {
-		String token = tokenHeader.replace(TokenHandler.PREFIX, "");
-		boolean expiration = TokenHandler.isExpiration(token);
+	private UsernamePasswordAuthenticationToken getAuthentication(String token) throws TokenExpiredException {
+		String jwt = token.replace(TokenHandler.PREFIX, "");
+		boolean expiration = TokenHandler.isExpiration(jwt);
 		if (expiration) {
+			LOG.warn("Token expiration");
 			throw new TokenExpiredException("Token expiration");
 		} else {
-			String username = TokenHandler.getUsername(token);
-			String role = TokenHandler.getUserRole(token);
+			String username = TokenHandler.getUsername(jwt);
+			String role = TokenHandler.getRole(jwt);
 			if (username != null) {
 				return new UsernamePasswordAuthenticationToken(username, null,
 						Collections.singleton(new SimpleGrantedAuthority(role)));
@@ -59,50 +49,29 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
 	}
 
 	/**
-	 * Xác thực bằng api bằng JWT
+	 * Xác thực bằng API
 	 */
-	// @Override
-	// public void doFilter(ServletRequest request, ServletResponse response,
-	// FilterChain chain)
-	// throws IOException, ServletException {
-	// HttpServletRequest req = (HttpServletRequest) request;
-	// HttpServletResponse res = (HttpServletResponse) response;
-	// String token = req.getHeader(HttpHeaders.AUTHORIZATION);
-	// // String tokenHeader = request.getHeader(JwtTokenUtils.TOKEN_HEADER);
-	// if (StringUtils.isEmpty(token) || !token.startsWith(TokenHandler.PREFIX)) {
-	// LOG.info("Couldn't find Bearer string");
-	// chain.doFilter(req, res);
-	// return;
-	// }
-	// try {
-	// UsernamePasswordAuthenticationToken auth = getAuthentication(token);
-	// SecurityContextHolder.getContext().setAuthentication(auth);
-	// chain.doFilter(req, res);
-	// } catch (TokenExpiredException e) {
-	// }
-	// }
-
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+	protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
 			throws IOException, ServletException {
-		String token = request.getHeader(HttpHeaders.AUTHORIZATION);
+		String token = req.getHeader(HttpHeaders.AUTHORIZATION);
 		if (StringUtils.isEmpty(token) || !token.startsWith(TokenHandler.PREFIX)) {
 			LOG.info("Couldn't find Bearer string");
-			chain.doFilter(request, response);
+			chain.doFilter(req, res);
 			return;
 		}
 		try {
 			SecurityContextHolder.getContext().setAuthentication(getAuthentication(token));
 		} catch (TokenExpiredException e) {
-			response.setCharacterEncoding("UTF-8");
-			response.setContentType("application/json;charset=utf-8");
-			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-			String reason = "Error：" + e.getMessage();
-			response.getWriter().write(new ObjectMapper().writeValueAsString(reason));
-			response.getWriter().flush();
+			res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+			res.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
+			String url = req.getRequestURI();
+			String json = JsonUtils.writeAsString(new ApiError(401, "Unauthorized", e.getMessage(), url));
+			res.getWriter().write(json);
+			// res.flushBuffer();
 			return;
 		}
-		super.doFilterInternal(request, response, chain);
+		super.doFilterInternal(req, res, chain);
 	}
 
 }
