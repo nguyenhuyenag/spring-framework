@@ -31,14 +31,14 @@ public class User implements UserDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private String username;
 	private String password;
 	private String role;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return Collections.singleton(new SimpleGrantedAuthority(this.getRole()));
+		return Collections.singleton(new SimpleGrantedAuthority(this.role));
 	}
 
 	@Override
