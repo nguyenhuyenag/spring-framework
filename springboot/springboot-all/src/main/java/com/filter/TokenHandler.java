@@ -19,7 +19,7 @@ public class TokenHandler {
 	public static final String TOKEN_EXPIRES 	= 	"Token expires";
 	private static final String SECRET 			= 	"JWT_TOKEN_SECRET";
 	private static final byte[] SECRET_ARRAY 	= 	SECRET.getBytes();
-	private static final long EXPIRATION_TIME 	= 	DateTimeUtils.ONE_MINUTE; // 1 phút
+	private static final long EXPIRATION_TIME 	= 	DateTimeUtils.ONE_MINUTE * 30; // 30 phút
 	
 	
 	private static final String ISS = "echisan";

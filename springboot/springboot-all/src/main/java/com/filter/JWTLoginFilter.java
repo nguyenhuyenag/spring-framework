@@ -3,6 +3,7 @@ package com.filter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -23,7 +24,7 @@ import com.entity.User;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.request.LoginRequest;
-import com.response.CustomError;
+import com.response.ApiError;
 import com.response.UserResponse;
 import com.util.JsonUtils;
 
@@ -46,8 +47,10 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 			return getAuthenticationManager().authenticate(auth);
 		} catch (AuthenticationException e) {
 			// res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-			// res.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
-			CustomError error = new CustomError(401, "Unauthorized (JWTLoginFilter.java)", "The user name or password is incorrect");
+			// res.addHeader(HttpHeaders.CONTENT_TYPE,
+			// MediaType.APPLICATION_JSON_UTF8_VALUE);
+			ApiError error = new ApiError(401, "Unauthorized (JWTLoginFilter.java)",
+					"The user name or password is incorrect", req.getRequestURI());
 			String json = JsonUtils.writeAsString(error);
 			res.getWriter().write(json);
 			// throw new HandlerException("The user name or password is incorrect",

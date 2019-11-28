@@ -25,14 +25,14 @@ public class DateTimeUtils {
 	 * @return Current date time
 	 * @throws DateTimeException
 	 */
-	public static String getCurrentDateTimeByPattern(String pattern) throws DateTimeException {
+	public static String getNowByPattern(String pattern) throws DateTimeException {
 		LocalDateTime now = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
 		return now.format(formatter);
 	}
 
-	public static String getCurrentDateTime() {
-		return getCurrentDateTimeByPattern(YYYY_MM_DD_HH_MM_SS);
+	public static String getNowByPattern() {
+		return getNowByPattern(YYYY_MM_DD_HH_MM_SS);
 	}
 
 	/**
