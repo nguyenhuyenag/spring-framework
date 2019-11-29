@@ -9,6 +9,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,23 +32,29 @@ import com.util.JsonUtils;
 
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
-	// private ThreadLocal<Integer> rememberMe = new ThreadLocal<>();
+	private static final Logger LOG = LoggerFactory.getLogger(JWTLoginFilter.class);
 
-	public JWTLoginFilter(AuthenticationManager auth) {
+	private RedisTemplate<String, String> redis;
+
+	public JWTLoginFilter(RedisTemplate<String, String> redisTemplate, AuthenticationManager am) {
 		super(new AntPathRequestMatcher("/auth/login"));
-		this.setAuthenticationManager(auth);
+		this.redis = redisTemplate;
+		this.setAuthenticationManager(am);
 	}
 
 	@Override
-	public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) throws JsonParseException, JsonMappingException, IOException {
+	public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res)
+			throws JsonParseException, JsonMappingException, IOException {
 		try {
 			LoginRequest login = JsonUtils.readValue(req.getInputStream(), LoginRequest.class);
-			UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword(), new ArrayList<>());
+			UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(login.getUsername(),
+					login.getPassword(), new ArrayList<>());
 			return getAuthenticationManager().authenticate(auth);
 		} catch (AuthenticationException e) {
 			res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			res.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
-			ApiError error = new ApiError(401, "Unauthorized", "The username or password is incorrect", req.getRequestURI());
+			ApiError error = new ApiError(401, "Unauthorized", "The username or password is incorrect",
+					req.getRequestURI());
 			String json = JsonUtils.writeAsString(error);
 			res.getWriter().write(json);
 		}
@@ -53,7 +62,8 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	}
 
 	@Override
-	protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain, Authentication auth) throws IOException, ServletException {
+	protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain,
+			Authentication auth) throws IOException, ServletException {
 		User user = (User) auth.getPrincipal();
 		String username = user.getUsername();
 		String json = JsonUtils.writeAsString(new LoginResponse(user.getRole(), username));
@@ -63,13 +73,16 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 		for (GrantedAuthority authority : authorities) {
 			role = authority.getAuthority();
 		}
-		String token = TokenHandler.buildToken(username, role);
+		String jwt = TokenHandler.buildToken(username, role);
 		res.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
-		res.addHeader(HttpHeaders.AUTHORIZATION, TokenHandler.PREFIX + token);
+		res.addHeader(HttpHeaders.AUTHORIZATION, TokenHandler.PREFIX + jwt);
+		redis.opsForValue().set(username, jwt);
+		LOG.info("Storage JWT to Redis");
 	}
 
 	@Override
-	protected void unsuccessfulAuthentication(HttpServletRequest req, HttpServletResponse res, AuthenticationException e) throws IOException, ServletException {
+	protected void unsuccessfulAuthentication(HttpServletRequest req, HttpServletResponse res,
+			AuthenticationException e) throws IOException, ServletException {
 		res.getWriter().write("Authentication failed, reason: " + e.getMessage());
 	}
 }

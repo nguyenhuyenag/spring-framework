@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -26,6 +28,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private UserDetailsService userDetailsService;
+
+	@Autowired
+	private RedisTemplate<String, String> redisTemplate;
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -57,18 +62,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// UsernamePasswordAuthenticationFilter.class) //
 		// .headers() //
 		// .cacheControl();
-
 		http.csrf().disable() // Disable csrf
 				// .antMatchers("/p/*").hasAnyRole("ADMIN", "USER") //
 				// .antMatchers(HttpMethod.GET, "/api/admin/**").hasRole("ADMIN") //
 				.authorizeRequests() //
 				.antMatchers("/favicon.ico").permitAll() //
+				.antMatchers(HttpMethod.POST, "/auth/logout/").permitAll()
 				.antMatchers("/api/public/**").permitAll() //
-				.antMatchers("/admin/*").hasRole("ADMIN") //
+				.antMatchers("/admin/**").hasRole("ADMIN") //
 				.anyRequest().authenticated().and() //
-				.addFilterBefore(new JWTLoginFilter(authenticationManager()),
+				.addFilterBefore(new JWTLoginFilter(redisTemplate, authenticationManager()),
 						UsernamePasswordAuthenticationFilter.class) //
-				.addFilterBefore(new JWTAuthenticationFilter(authenticationManager()),
+				.addFilterBefore(new JWTAuthenticationFilter(redisTemplate, authenticationManager()),
 						UsernamePasswordAuthenticationFilter.class) //
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and() //
 				.exceptionHandling() //

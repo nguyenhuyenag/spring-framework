@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 import com.util.DateTimeUtils;
 
 @RestController
-@RequestMapping("api/public")
+@RequestMapping("api")
 public class PublicController {
 
 	@Autowired

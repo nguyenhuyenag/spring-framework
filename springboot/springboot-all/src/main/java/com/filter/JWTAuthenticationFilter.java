@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,18 +29,24 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
 
 	private static final Logger LOG = LoggerFactory.getLogger(JWTAuthenticationFilter.class);
 
-	public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
-		super(authenticationManager);
+	@Autowired
+	RedisTemplate<String, String> redis;
+
+	public JWTAuthenticationFilter(RedisTemplate<String, String> redisTemplate, AuthenticationManager am) {
+		super(am);
+		this.redis = redisTemplate;
 	}
 
-	private UsernamePasswordAuthenticationToken getAuthentication(String token) throws TokenExpiredException {
-		String jwt = token.replace(TokenHandler.PREFIX, "");
+	private UsernamePasswordAuthenticationToken getAuthentication(String header) throws TokenExpiredException {
+		String jwt = header.replace(TokenHandler.PREFIX, "");
+		String username = TokenHandler.getUsername(jwt);
+		String jwtRedis = redis.opsForValue().get(username);
+		System.out.println(jwtRedis);
 		boolean expiration = TokenHandler.isExpiration(jwt);
 		if (expiration) {
 			LOG.warn("Token expiration");
 			throw new TokenExpiredException("Token expiration");
 		} else {
-			String username = TokenHandler.getUsername(jwt);
 			String role = TokenHandler.getRole(jwt);
 			if (username != null) {
 				return new UsernamePasswordAuthenticationToken(username, null,
@@ -49,19 +57,18 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
 	}
 
 	/**
-	 * Xác thực bằng API
+	 * Xác thực bằng API bằng JWT
 	 */
 	@Override
 	protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
 			throws IOException, ServletException {
-		String token = req.getHeader(HttpHeaders.AUTHORIZATION);
-		if (StringUtils.isEmpty(token) || !token.startsWith(TokenHandler.PREFIX)) {
-			// LOG.info("Couldn't find Bearer string");
+		String header = req.getHeader(HttpHeaders.AUTHORIZATION);
+		if (StringUtils.isEmpty(header) || !header.startsWith(TokenHandler.PREFIX)) {
 			chain.doFilter(req, res);
 			return;
 		}
 		try {
-			SecurityContextHolder.getContext().setAuthentication(getAuthentication(token));
+			SecurityContextHolder.getContext().setAuthentication(getAuthentication(header));
 		} catch (TokenExpiredException e) {
 			res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			res.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);

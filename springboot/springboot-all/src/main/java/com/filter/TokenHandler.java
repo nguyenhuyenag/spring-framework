@@ -4,7 +4,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpHeaders;
 
 import com.util.DateTimeUtils;
 
@@ -19,7 +22,7 @@ public class TokenHandler {
 	public static final String TOKEN_EXPIRES 	= "Token expires";
 	private static final String SECRET 			= "JWT_TOKEN_SECRET";
 	private static final byte[] SECRET_ARRAY 	= SECRET.getBytes();
-	private static final long EXPIRATION_TIME	= DateTimeUtils.ONE_MINUTE / 2;
+	private static final long EXPIRATION_TIME	= DateTimeUtils.ONE_HOUR;
 
 	private static final String ISS = "echisan";
 	private static final String ROLE_CLAIMS = "rol";
@@ -44,27 +47,6 @@ public class TokenHandler {
 				.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME)) //
 				.compact();
 	}
-
-	// /**
-	// * Get username from token
-	// * @param token jwt token
-	// * @return username
-	// */
-	// public static String getUsername(String token) {
-	// try {
-	// // if (StringUtils.isEmpty(token)) { return StringUtils.EMPTY; }
-	// return Jwts.parser() //
-	// .setSigningKey(SECRET_ARRAY) //
-	// .parseClaimsJws(token.replace(PREFIX, StringUtils.EMPTY)) //
-	// .getBody() //
-	// .getSubject();
-	// } catch (UnsupportedJwtException | MalformedJwtException | SignatureException
-	// | ExpiredJwtException
-	// | IllegalArgumentException e) {
-	// e.printStackTrace();
-	// }
-	// return StringUtils.EMPTY;
-	// }
 
 	private static Claims getTokenBody(String token) {
 		return Jwts.parser().setSigningKey(SECRET_ARRAY).parseClaimsJws(token).getBody();
@@ -94,6 +76,19 @@ public class TokenHandler {
 		} catch (ExpiredJwtException e) {
 			return true;
 		}
+	}
+	
+	/**
+	 * Get JWT from {@code HttpServletRequest}
+	 * @param req is HttpServletRequest
+	 * @return JWT or {@link StringUtils#EMPTY} if the request does not have a header
+	 */
+	public static String getJwtFromRequest(HttpServletRequest req) {
+		String token = req.getHeader(HttpHeaders.AUTHORIZATION);
+		if (StringUtils.isNotEmpty(token)) {
+			return token.replace(TokenHandler.PREFIX, "");
+		}
+		return StringUtils.EMPTY;
 	}
 
 }
