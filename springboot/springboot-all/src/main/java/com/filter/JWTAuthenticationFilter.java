@@ -56,7 +56,7 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
 			throws IOException, ServletException {
 		String token = req.getHeader(HttpHeaders.AUTHORIZATION);
 		if (StringUtils.isEmpty(token) || !token.startsWith(TokenHandler.PREFIX)) {
-			LOG.info("Couldn't find Bearer string");
+			// LOG.info("Couldn't find Bearer string");
 			chain.doFilter(req, res);
 			return;
 		}

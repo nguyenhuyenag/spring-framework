@@ -20,22 +20,9 @@ import org.springframework.stereotype.Component;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class CorsFilter implements Filter {
 
-	// private static final Logger LOG = LoggerFactory.getLogger(CorsFilter.class);
-
-//	@Override
-//	public void destroy() {
-//
-//	}
-
-//	@Override
-//	public void init(FilterConfig config) throws ServletException {
-//
-//	}
-
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		// LOG.info("Adding CORS Headers...");
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
 		res.setHeader("Access-Control-Allow-Origin", "*");

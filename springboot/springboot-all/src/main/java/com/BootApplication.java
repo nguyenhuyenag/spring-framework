@@ -23,10 +23,10 @@ public class BootApplication extends SpringBootServletInitializer implements Com
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(BootApplication.class);
 	}
-	
+
 	@Autowired
 	UserRepository repository;
-	
+
 	@Autowired
 	PasswordEncoder encoder;
 

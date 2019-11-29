@@ -17,7 +17,7 @@ public class DateTimeUtils {
 
 	public static final String HH_MM_SS				=	"HH:mm:ss";
 	public static final String YYYY_MM_DD			=	"dd-MM-yyyy";
-	public static final String YYYY_MM_DD_HH_MM_SS	=	"dd-MM-yyyy HH:mm:ss";
+	public static final String DD_MM_YYYY_HH_MM_SS	=	"dd-MM-yyyy HH:mm:ss";
 
 	/**
 	 * Get current date time
@@ -32,7 +32,7 @@ public class DateTimeUtils {
 	}
 
 	public static String getNow() {
-		return getNowByPattern(YYYY_MM_DD_HH_MM_SS);
+		return getNowByPattern(DD_MM_YYYY_HH_MM_SS);
 	}
 
 	/**

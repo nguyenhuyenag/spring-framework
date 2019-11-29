@@ -27,10 +27,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserDetailsService userDetailsService;
 
-	// private final String[] PERMIT_ALL_GET = { "/api/user/load-all" };
-
-	// private final String[] PERMIT_ALL_POST = { "/api/user/register" };
-
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
@@ -67,7 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				// .antMatchers(HttpMethod.GET, "/api/admin/**").hasRole("ADMIN") //
 				.authorizeRequests() //
 				.antMatchers("/favicon.ico").permitAll() //
-				.antMatchers("/api/public/*").permitAll() //
+				.antMatchers("/api/public/**").permitAll() //
 				.antMatchers("/admin/*").hasRole("ADMIN") //
 				.anyRequest().authenticated().and() //
 				.addFilterBefore(new JWTLoginFilter(authenticationManager()),
