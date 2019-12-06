@@ -7,16 +7,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.entity.User;
-import com.request.RegisterRequest;
 import com.service.UserService;
 
 @Controller
-@RequestMapping("api/user")
+@RequestMapping("api")
 public class UserController {
 
 	@Autowired
@@ -25,13 +22,7 @@ public class UserController {
 	@GetMapping("load-all")
 	private ResponseEntity<List<User>> loadAll() {
 		List<User> list = userService.loadAll();
-		return new ResponseEntity<List<User>>(list, HttpStatus.OK);
-	}
-
-	@PostMapping("register")
-	private ResponseEntity<Void> register(@RequestBody RegisterRequest dto) {
-		userService.register(dto);
-		return new ResponseEntity<Void>(HttpStatus.CREATED);
+		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 
 }
