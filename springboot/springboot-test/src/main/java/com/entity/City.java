@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
  */
 @Entity
 public class City implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -26,7 +27,7 @@ public class City implements Serializable {
 
 	// bi-directional many-to-one association to Country
 	@ManyToOne
-	@JoinColumn(name = "CountryCode")
+	@JoinColumn(name = "country_code")
 	private Country country;
 
 	public City() {

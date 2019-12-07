@@ -9,10 +9,10 @@ import org.springframework.stereotype.Repository;
 import com.entity.City;
 
 @Repository
-public interface CityRepository extends JpaRepository<City, Long> {
+public interface CityRepository extends JpaRepository<City, Integer> {
 
 	// Native SQL
-	@Query(value = "select * from User", nativeQuery = true)
-	List<City> getAllUser();
+	@Query(value = "select * from City", nativeQuery = true)
+	List<City> getAllCity();
 
 }

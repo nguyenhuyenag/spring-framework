@@ -9,26 +9,30 @@ import javax.persistence.*;
  */
 @Embeddable
 public class CountrylanguagePK implements Serializable {
-	
-	//default serial version id, required for serializable classes.
+
+	// default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
-	@Column(insertable=false, updatable=false)
+	@Column(insertable = false, updatable = false)
 	private String countryCode;
 
 	private String language;
 
 	public CountrylanguagePK() {
 	}
+
 	public String getCountryCode() {
 		return this.countryCode;
 	}
+
 	public void setCountryCode(String countryCode) {
 		this.countryCode = countryCode;
 	}
+
 	public String getLanguage() {
 		return this.language;
 	}
+
 	public void setLanguage(String language) {
 		this.language = language;
 	}
@@ -40,10 +44,8 @@ public class CountrylanguagePK implements Serializable {
 		if (!(other instanceof CountrylanguagePK)) {
 			return false;
 		}
-		CountrylanguagePK castOther = (CountrylanguagePK)other;
-		return 
-			this.countryCode.equals(castOther.countryCode)
-			&& this.language.equals(castOther.language);
+		CountrylanguagePK castOther = (CountrylanguagePK) other;
+		return this.countryCode.equals(castOther.countryCode) && this.language.equals(castOther.language);
 	}
 
 	public int hashCode() {
@@ -51,7 +53,7 @@ public class CountrylanguagePK implements Serializable {
 		int hash = 17;
 		hash = hash * prime + this.countryCode.hashCode();
 		hash = hash * prime + this.language.hashCode();
-		
+
 		return hash;
 	}
 }

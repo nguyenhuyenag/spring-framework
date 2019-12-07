@@ -1,8 +1,11 @@
 package com;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import com.repository.CityRepository;
 
 @SpringBootApplication
 public class BootApplication implements CommandLineRunner {
@@ -11,9 +14,12 @@ public class BootApplication implements CommandLineRunner {
 		SpringApplication.run(BootApplication.class, args);
 	}
 
+	@Autowired
+	CityRepository repository;
+
 	@Override
 	public void run(String... args) throws Exception {
-
+		// System.out.println(repository.findAll().size());
 	}
 
 }

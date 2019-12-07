@@ -4,13 +4,13 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
 /**
  * The persistent class for the country database table.
  * 
  */
 @Entity
 public class Country implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -44,12 +44,12 @@ public class Country implements Serializable {
 
 	private float surfaceArea;
 
-	//bi-directional many-to-one association to City
-	@OneToMany(mappedBy="country")
+	// bi-directional many-to-one association to City
+	@OneToMany(mappedBy = "country")
 	private List<City> cities;
 
-	//bi-directional many-to-one association to Countrylanguage
-	@OneToMany(mappedBy="country")
+	// bi-directional many-to-one association to Countrylanguage
+	@OneToMany(mappedBy = "country")
 	private List<Countrylanguage> countrylanguages;
 
 	public Country() {
