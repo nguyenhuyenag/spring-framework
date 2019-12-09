@@ -30,11 +30,22 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
 	private static final Logger LOG = LoggerFactory.getLogger(JWTAuthenticationFilter.class);
 
 	@Autowired
-	RedisTemplate<String, String> redis;
+	private RedisTemplate<String, String> redis;
 
 	public JWTAuthenticationFilter(RedisTemplate<String, String> redis, AuthenticationManager am) {
 		super(am);
 		this.redis = redis;
+	}
+
+	/**
+	 * Kiểm tra jwt trên Redis
+	 * @param username là username
+	 * @param token là chuỗi jwt
+	 * @return {@code true} nếu token có trên Redis, ngược lại {@code false}
+	 */
+	private boolean validate(String username, String token) {
+		String redisToken = redis.opsForValue().get(username);
+		return token.equals(redisToken);
 	}
 
 	private UsernamePasswordAuthenticationToken getAuthentication(String header) throws TokenExpiredException {
@@ -42,10 +53,13 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
 		boolean expiration = TokenHandler.checkExpiration(token);
 		if (expiration) {
 			LOG.warn("Token expiration");
-			throw new TokenExpiredException("Token expiration");
+			throw new TokenExpiredException("Token expiration or remove");
 		} else {
 			String role = TokenHandler.getRole(token);
 			String username = TokenHandler.getUsername(token);
+			if (!validate(username, token)) {
+				throw new TokenExpiredException("Token expiration or remove");
+			}
 			if (username != null) {
 				return new UsernamePasswordAuthenticationToken(username, null,
 						Collections.singleton(new SimpleGrantedAuthority(role)));
