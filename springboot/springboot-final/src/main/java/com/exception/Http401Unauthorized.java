@@ -18,9 +18,6 @@ import com.util.JsonUtils;
 @Component
 public class Http401Unauthorized implements AuthenticationEntryPoint {
 
-	// private static final Logger LOG =
-	// LoggerFactory.getLogger(Http401Unauthorized.class);
-
 	@Override
 	public void commence(HttpServletRequest req, HttpServletResponse res, AuthenticationException e)
 			throws IOException, ServletException {

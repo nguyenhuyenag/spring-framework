@@ -30,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	private UserDetailsService userDetailsService;
 
 	@Autowired
-	private RedisTemplate<String, String> redisTemplate;
+	private RedisTemplate<String, String> redis;
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -67,13 +67,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				// .antMatchers(HttpMethod.GET, "/api/admin/**").hasRole("ADMIN") //
 				.authorizeRequests() //
 				.antMatchers("/favicon.ico").permitAll() //
-				.antMatchers(HttpMethod.POST, "/auth/logout/").permitAll()
+				.antMatchers(HttpMethod.POST, "/auth/logout/").permitAll() //
 				.antMatchers("/api/public/**").permitAll() //
 				.antMatchers("/admin/**").hasRole("ADMIN") //
 				.anyRequest().authenticated().and() //
-				.addFilterBefore(new JWTLoginFilter(redisTemplate, authenticationManager()),
+				.addFilterBefore(new JWTLoginFilter(redis, authenticationManager()),
 						UsernamePasswordAuthenticationFilter.class) //
-				.addFilterBefore(new JWTAuthenticationFilter(redisTemplate, authenticationManager()),
+				.addFilterBefore(new JWTAuthenticationFilter(redis, authenticationManager()),
 						UsernamePasswordAuthenticationFilter.class) //
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and() //
 				.exceptionHandling() //
