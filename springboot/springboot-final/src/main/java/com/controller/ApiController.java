@@ -12,14 +12,14 @@ import com.util.DateTimeUtils;
 
 @RestController
 @RequestMapping("api")
-public class PublicController {
+public class ApiController {
 
 	@Autowired
 	private RestTemplate restTemplate;
 
 	private static final String URL = "https://jsonplaceholder.typicode.com/todos";
 
-	@GetMapping("now")
+	@GetMapping("timestamp")
 	private ResponseEntity<String> now() {
 		String now = DateTimeUtils.getNow();
 		return new ResponseEntity<>(now, HttpStatus.OK);

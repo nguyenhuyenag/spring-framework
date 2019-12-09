@@ -67,9 +67,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				// .antMatchers(HttpMethod.GET, "/api/admin/**").hasRole("ADMIN") //
 				.authorizeRequests() //
 				.antMatchers("/favicon.ico").permitAll() //
-				.antMatchers(HttpMethod.POST, "/auth/logout/").permitAll() //
 				.antMatchers("/api/public/**").permitAll() //
 				.antMatchers("/admin/**").hasRole("ADMIN") //
+				.antMatchers(HttpMethod.POST, "/auth/logout/").permitAll() //
 				.anyRequest().authenticated().and() //
 				.addFilterBefore(new JWTLoginFilter(redis, authenticationManager()),
 						UsernamePasswordAuthenticationFilter.class) //

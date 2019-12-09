@@ -18,18 +18,19 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 public class TokenHandler {
 
-	public static final String PREFIX 			= "Bearer ";
-	public static final String TOKEN_EXPIRES 	= "Token expires";
-	private static final String SECRET 			= "JWT_TOKEN_SECRET";
-	private static final byte[] SECRET_ARRAY 	= SECRET.getBytes();
-	private static final long EXPIRATION_TIME	= DateTimeUtils.ONE_HOUR;
+	public static final String PREFIX 			=	"Bearer ";
+	public static final String TOKEN_EXPIRES 	=	"Token expires";
+	private static final String SECRET 			= 	"JWT_TOKEN_SECRET";
+	private static final byte[] SECRET_ARRAY 	= 	SECRET.getBytes();
+	private static final long EXPIRATION_TIME	= 	DateTimeUtils.ONE_HOUR;
 
 	private static final String ISS = "echisan";
 	private static final String ROLE_CLAIMS = "rol";
 
 	/**
-	 * Build token from username
+	 * Build token
 	 * @param username is username
+	 * @param role is role
 	 * @return jwt
 	 */
 	public static String buildToken(String username, String role) {
@@ -57,8 +58,8 @@ public class TokenHandler {
 	 * @param jwt token
 	 * @return username
 	 */
-	public static String getUsername(String jwt) {
-		return getTokenBody(jwt).getSubject();
+	public static String getUsername(String token) {
+		return getTokenBody(token).getSubject();
 	}
 
 	public static String getRole(String token) {
@@ -70,9 +71,9 @@ public class TokenHandler {
 	 * @param jwt is token
 	 * @return {@code true} if token is expiration, otherwise {@code false}
 	 */
-	public static boolean isExpiration(String jwt) {
+	public static boolean checkExpiration(String token) {
 		try {
-			return getTokenBody(jwt).getExpiration().before(new Date());
+			return getTokenBody(token).getExpiration().before(new Date());
 		} catch (ExpiredJwtException e) {
 			return true;
 		}

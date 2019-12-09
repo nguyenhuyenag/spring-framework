@@ -32,22 +32,20 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
 	@Autowired
 	RedisTemplate<String, String> redis;
 
-	public JWTAuthenticationFilter(RedisTemplate<String, String> redisTemplate, AuthenticationManager am) {
+	public JWTAuthenticationFilter(RedisTemplate<String, String> redis, AuthenticationManager am) {
 		super(am);
-		this.redis = redisTemplate;
+		this.redis = redis;
 	}
 
 	private UsernamePasswordAuthenticationToken getAuthentication(String header) throws TokenExpiredException {
-		String jwt = header.replace(TokenHandler.PREFIX, "");
-		String username = TokenHandler.getUsername(jwt);
-		String jwtRedis = redis.opsForValue().get(username);
-		System.out.println(jwtRedis);
-		boolean expiration = TokenHandler.isExpiration(jwt);
+		String token = header.replace(TokenHandler.PREFIX, "");
+		boolean expiration = TokenHandler.checkExpiration(token);
 		if (expiration) {
 			LOG.warn("Token expiration");
 			throw new TokenExpiredException("Token expiration");
 		} else {
-			String role = TokenHandler.getRole(jwt);
+			String role = TokenHandler.getRole(token);
+			String username = TokenHandler.getUsername(token);
 			if (username != null) {
 				return new UsernamePasswordAuthenticationToken(username, null,
 						Collections.singleton(new SimpleGrantedAuthority(role)));

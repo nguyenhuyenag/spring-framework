@@ -1,8 +1,5 @@
 package com;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -35,22 +32,25 @@ public class Application extends SpringBootServletInitializer implements Command
 	PasswordEncoder encoder;
 
 	@Autowired
-	private RedisTemplate<String, String> template;
+	RedisTemplate<String, String> redis;
 
-	public void redisKeyValue() {
-		template.opsForValue().set("java", "hello world");
-		System.out.println("Value of key `java`: " + template.opsForValue().get("java"));
-		template.delete("java");
-		System.out.println("Value of key `loda`: " + template.opsForValue().get("java"));
-	}
-
-	public void redisList() {
-		List<String> list = new ArrayList<>();
-		list.add("Hello");
-		list.add("redis");
-		template.opsForList().rightPushAll("loda_list", list);
-		System.out.println("Size of key loda: " + template.opsForList().size("loda_list"));
-	}
+	// public void redisKeyValue() {
+	// redis.opsForValue().set("java", "hello world");
+	// System.out.println("Value of key `java`: " +
+	// redis.opsForValue().get("java"));
+	// redis.delete("java");
+	// System.out.println("Value of key `loda`: " +
+	// redis.opsForValue().get("java"));
+	// }
+	//
+	// public void redisList() {
+	// List<String> list = new ArrayList<>();
+	// list.add("Hello");
+	// list.add("redis");
+	// redis.opsForList().rightPushAll("loda_list", list);
+	// System.out.println("Size of key loda: " +
+	// redis.opsForList().size("loda_list"));
+	// }
 
 	@Override
 	public void run(String... args) throws Exception {

@@ -36,9 +36,9 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
 	private RedisTemplate<String, String> redis;
 
-	public JWTLoginFilter(RedisTemplate<String, String> redisTemplate, AuthenticationManager am) {
+	public JWTLoginFilter(RedisTemplate<String, String> redis, AuthenticationManager am) {
 		super(new AntPathRequestMatcher("/auth/login"));
-		this.redis = redisTemplate;
+		this.redis = redis;
 		this.setAuthenticationManager(am);
 	}
 
@@ -53,8 +53,11 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 		} catch (AuthenticationException e) {
 			res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			res.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
-			ApiError error = new ApiError(401, "Unauthorized", "The username or password is incorrect",
-					req.getRequestURI());
+			ApiError error = new ApiError();
+			error.setStatus(401);
+			error.setError("Unauthorized");
+			error.setMessage("The username or password is incorrect");
+			error.setPath(req.getRequestURI());
 			String json = JsonUtils.writeAsString(error);
 			res.getWriter().write(json);
 		}
@@ -73,10 +76,10 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 		for (GrantedAuthority authority : authorities) {
 			role = authority.getAuthority();
 		}
-		String jwt = TokenHandler.buildToken(username, role);
+		String token = TokenHandler.buildToken(username, role);
 		res.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
-		res.addHeader(HttpHeaders.AUTHORIZATION, TokenHandler.PREFIX + jwt);
-		redis.opsForValue().set(username, jwt);
+		res.addHeader(HttpHeaders.AUTHORIZATION, TokenHandler.PREFIX + token);
+		redis.opsForValue().set(username, token);
 		LOG.info("Storage JWT to Redis");
 	}
 
