@@ -28,9 +28,7 @@ public class RedisConfig<V, K> {
 	@Primary
 	public RedisTemplate<K, V> redisTemplate(RedisConnectionFactory redisFactory) {
 		// tạo ra một RedisTemplate
-		// Với Key là Object
-		// Value là Object
-		// RedisTemplate giúp chúng ta thao tác với Redis
+		// RedisTemplate giúp thao tác với Redis
 		RedisTemplate<K, V> template = new RedisTemplate<>();
 		template.setConnectionFactory(redisFactory);
 		return template;

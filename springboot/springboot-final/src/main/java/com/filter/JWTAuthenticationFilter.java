@@ -52,7 +52,7 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
 		String token = header.replace(TokenHandler.PREFIX, "");
 		boolean expiration = TokenHandler.checkExpiration(token);
 		if (expiration) {
-			LOG.warn("Token expiration");
+			LOG.warn("Token expiration or remove");
 			throw new TokenExpiredException("Token expiration or remove");
 		} else {
 			String role = TokenHandler.getRole(token);
