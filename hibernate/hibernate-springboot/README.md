@@ -63,6 +63,8 @@
 	
 	- Nếu tên trong entity và bảng giống nhau thì không cần dùng @Column
 	
+	- Cột kiểu int, chứa giá trị NULL khi map với class sẽ lỗi
+	
 # Composite Primary Key (Bảng có nhiều khóa chính)
 	
 	- @Embeddable
