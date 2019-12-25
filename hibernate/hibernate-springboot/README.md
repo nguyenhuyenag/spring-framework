@@ -8,9 +8,15 @@
 	
 # @Entity & @Table
 
-	- Đánh dấu 1 JavaBean trở thành một entity
+	- Đánh dấu 1 JavaBean trở thành một Entity
 	
-	- Nếu không sử dụng @Table trong entity thì mặc định tên bảng trong database sẽ là tên lớp của entity
+	- Nếu không sử dụng @Table trong Entity thì mặc định tên bảng sẽ là tên lớp của Entity
+	
+	- Entity khớp với một bảng lấy tên theo thứ tự ưu tiên:
+
+		1. `name` trong @Table
+		2. `name` trong @Entity
+		3. `name` của class
 	
 # @Id
 
@@ -18,30 +24,44 @@
 	
 	- Một entity bắt buộc phải có ít nhất một thuộc tính primary key đi kèm với @Id
 
-# @GeneratedValue
+# @Transient
 
-	- strategy = GenerationType.(TABLE, SEQUENCE, AUTO, IDENTITY)
+	- Sử dụng khi Entity chứa 1 field mà bảng không có, xem trường company trong User.java
+	
+		- Unknown column 'user0_.company' in 'field list' 
+
+# @GeneratedValue (fix): https://gpcoder.com/6338-cac-annotation-cua-hibernate/#GeneratedValue
+
+	- Dùng để Hibernate tự động tạo ra giá trị và gán vào một cột khi insert mới một Entity
+
+	// strategy = GenerationType.TABLE	// hoặc SEQUENCE, IDENTITY
+	
+	- strategy = GenerationType.AUTO: Giá trị được sinh ra bởi SEQUENCE hoặc tự tăng (nếu là IDENTITY)
+	
+	- GenerationType.IDENTITY: Chỉ có MySQL, DB2, SQL Server, Sybase và PostgreSQL,...hỗ trỡ. Oracle không hỗ trợ
 	
 # @Column
 	
-	- columnDefinition: Định nghĩa cấu trúc của một ccột, ví dụ
+	- `columnDefinition`: Định nghĩa cấu trúc của một ccột, ví dụ
 	
 		@Column(name = "name", columnDefinition = "VARCHAR(4) NOT NULL")
 		private String name;
 		
 		=> Khi dùng JPA Tool để tạo bảng ta sẽ nhận được: `name` VARCHAR(4) NOT NULL
 	
-	- unique: CÓ/KHÔNG thể chứa giá trị giống nhau. Mặc định là TRUE (chỉ có tác dụng bằng câu lệnh)
+	- `unique`: CÓ/KHÔNG thể chứa giá trị giống nhau. Mặc định là TRUE (chỉ có tác dụng bằng câu lệnh)
 	
-	- nullable: CÓ/KHÔNG thể chứa giá trị NULL (chỉ có tác dụng bằng câu lệnh)
+	- `nullable`: CÓ/KHÔNG thể chứa giá trị NULL (chỉ có tác dụng bằng câu lệnh)
 	
-	- insertable:	Cho phép cột insert, mặc định là TRUE, nếu FALSE sẽ báo lỗi
+	- `insertable`:	Cho phép cột insert, mặc định là TRUE, nếu FALSE sẽ báo lỗi
 	
 					=> `Field 'name' doesn't have a default value`
 	
-	- updatable: Cho phép cột cập nhật giá trị, mặc định là TRUE
+	- `updatable`: Cho phép cột cập nhật giá trị, mặc định là TRUE
 	
-	- length: Độ dài giá trị của cột (mặc định nó là 255)
+	- `length`: Độ dài giá trị của cột (mặc định nó là 255)
+	
+	- Nếu tên trong entity và bảng giống nhau thì không cần dùng @Column
 	
 # Composite Primary Key (Bảng có nhiều khóa chính)
 	
@@ -74,7 +94,15 @@
 	- @JoinColumn: Chỉ rõ mapping qua cột company_id trong table staff, quy tắc tự động
 		
 		TenClassChuKhoaChinh_TenKhoaChinh	=> Ví dụ `company_id`
+		
+# @OrderBy
+
+	- Dùng để sắp xếp một danh sách, vì vậy nó có thể được sử dụng cùng với @OneToMany, @ManyToMany
 	
+			@OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
+			@OrderBy("title")
+			private Set<Post> posts;
+				
 # @OneToOne
 
 	- Một bản ghi chỉ cho phép duy nhất một bản ghi khác tham chiếu tới nó
@@ -84,6 +112,7 @@
 	- @JoinColumn(name = "person_id") biểu thị rằng 2 đối tượng mapping qua column person_id 
 	Trường hợp dùng chung id thì ta thay bằng annotation @PrimaryKeyJoinColumn
 	
+
 # @ElementCollection
 
 	- Dùng thay thế cho @OneToMany trong những trường hợp mapping 1-nhiều mà không cần phải tạo
@@ -169,9 +198,9 @@
 
 	Có 3 giá trị cho TemporalType:
 	
-	- TemporalType.DATE: Lưu trữ ngày tháng năm (bỏ đi thời gian)
-	- TemporalType.TIME: Lưu trữ thời gian (Giờ phút giây)
-	- TemporalType.TIMESTAMP: Lưu trữ ngày tháng và cả thời gian
+	- TemporalType.DATE 		 -	Lưu trữ ngày tháng năm (bỏ đi thời gian)
+	- TemporalType.TIME 		 - 	Lưu trữ thời gian (Giờ phút giây)
+	- TemporalType.TIMESTAMP	 - 	Lưu trữ ngày tháng và cả thời gian
 
 # JPA Callbacks Method
 

@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -25,6 +26,10 @@ public class User {
 
 	@Column
 	private String name;
+	
+	// @Column
+	@Transient // Đánh dấu cột này không có trong DB
+	private String company;
 
 	public User(final Integer code, final String name) {
 		this.code = code;

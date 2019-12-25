@@ -1,6 +1,5 @@
 # boot-all
 
-
 Try searching for redis folder on your machine, in my case, I had redis-server running in another application. Switch to that directory and run:
 
 > redis-cli ping
