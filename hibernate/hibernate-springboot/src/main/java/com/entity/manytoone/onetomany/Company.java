@@ -14,13 +14,6 @@ import javax.persistence.Table;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-
-@Getter
-@Setter
-@RequiredArgsConstructor
 @Entity
 @Table(name = "company")
 public class Company implements Serializable {
@@ -31,6 +24,7 @@ public class Company implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	@SuppressWarnings("unused")
 	private String name;
 
 	// Một Company có nhiều Staff => @OneToMany đặt ở Company

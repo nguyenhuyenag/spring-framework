@@ -9,15 +9,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.annotations.GenericGenerator;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "employee")
 public class Employee {
@@ -29,6 +20,7 @@ public class Employee {
 	@GenericGenerator(name = "generator_id", strategy = "com.entity.generator.GeneratorId")
 	private String id;
 
+	@SuppressWarnings("unused")
 	private String name;
 
 	@Override

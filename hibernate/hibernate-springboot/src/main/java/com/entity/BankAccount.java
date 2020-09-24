@@ -4,15 +4,10 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+//@Getter
+//@Setter
+//@NoArgsConstructor
+//@AllArgsConstructor
 @Entity
 @Table(name = "bank_account")
 public class BankAccount {
@@ -20,5 +15,30 @@ public class BankAccount {
 	@Id
 	private Integer id;
 	private int balance = 0;
+
+	public BankAccount() {
+		super();
+	}
+
+	public BankAccount(Integer id, int balance) {
+		this.id = id;
+		this.balance = balance;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public int getBalance() {
+		return balance;
+	}
+
+	public void setBalance(int balance) {
+		this.balance = balance;
+	}
 
 }

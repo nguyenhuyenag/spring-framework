@@ -18,10 +18,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
-
 /*-
  *	MySQL				JPA
  *
@@ -34,9 +30,6 @@ import lombok.RequiredArgsConstructor;
  *	camelCase			@Column(name = "camelcase")
  *						String camelCase;
  */
-@Data
-@AllArgsConstructor
-@RequiredArgsConstructor
 @Entity
 @Table(name = "mysql_name")
 public class MySQLName implements Serializable {
@@ -47,8 +40,11 @@ public class MySQLName implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	@SuppressWarnings("unused")
 	private String name;
+	@SuppressWarnings("unused")
 	private String age;
+	@SuppressWarnings("unused")
 	private String phone;
 
 	@Column(name = "camelcase")

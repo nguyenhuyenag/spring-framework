@@ -8,17 +8,10 @@ import javax.persistence.GenerationType;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
-
 /**
  * Class implement interface Serializable và có các phương thức equals(),
  * hashCode()
  */
-@Data
-@AllArgsConstructor
-@RequiredArgsConstructor
 public class UserId implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -26,6 +19,7 @@ public class UserId implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	@SuppressWarnings("unused")
 	private Integer code;
 
 	@Override
