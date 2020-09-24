@@ -12,20 +12,15 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.UpdateTimestamp;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-
 /*-
 	ApplicationContext context = SpringApplication.run(LearnApplication.class, args);
 	UserRepository userRepository = context.getBean(UserRepository.class);
 	userRepository.findAll().forEach(System.out::println);
 */
-@Getter
-@Setter
-@AllArgsConstructor
-@RequiredArgsConstructor
+// @Getter
+// @Setter
+// @AllArgsConstructor
+// @RequiredArgsConstructor
 @Entity
 @Table(name = "t_user")
 public class User implements Serializable {
@@ -45,5 +40,57 @@ public class User implements Serializable {
 	@UpdateTimestamp
 	@Column(name = "execute_time")
 	private Date executeTime;
+
+	public User() {
+		super();
+	}
+
+	public User(Integer id, String firstname, String lastname, String emailAddress, Date executeTime) {
+		this.id = id;
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.emailAddress = emailAddress;
+		this.executeTime = executeTime;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getFirstname() {
+		return firstname;
+	}
+
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
+
+	public String getLastname() {
+		return lastname;
+	}
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
+
+	public String getEmailAddress() {
+		return emailAddress;
+	}
+
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
+	}
+
+	public Date getExecuteTime() {
+		return executeTime;
+	}
+
+	public void setExecuteTime(Date executeTime) {
+		this.executeTime = executeTime;
+	}
 
 }

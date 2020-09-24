@@ -3,14 +3,20 @@ package com.boot.component.servicerepository;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-
-@Data
-@AllArgsConstructor
+// @Data
+// @AllArgsConstructor
 public class Firefox {
 
+	@SuppressWarnings("unused")
 	private String name;
+
+	public Firefox() {
+		super();
+	}
+
+	public Firefox(String name) {
+		this.name = name;
+	}
 
 	@Override
 	public String toString() {
