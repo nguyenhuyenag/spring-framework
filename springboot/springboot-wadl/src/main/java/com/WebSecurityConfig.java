@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -29,9 +28,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserDetailsService userDetailsService;
 
-	@Autowired
-	private RedisTemplate<String, String> redis;
-
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
@@ -44,36 +40,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		// http.csrf().disable().authorizeRequests(); // Disable CSRF
-		// http.exceptionHandling() //
-		// .authenticationEntryPoint(new Http401Unauthorized()) // 401
-		// .accessDeniedHandler(new Http403Forbidden()); // 403
-		// http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-		// // disable Spring session
-		// http.authorizeRequests() //
-		// .antMatchers("/").permitAll() //
-		// .antMatchers("/favicon.ico").permitAll() //
-		// // .antMatchers(HttpMethod.GET, PERMIT_ALL_GET).permitAll() //
-		// // .antMatchers(HttpMethod.POST, PERMIT_ALL_POST).permitAll() //
-		// .anyRequest().authenticated(); //
-		// http.addFilterBefore(new JWTLoginFilter(authenticationManager()),
-		// UsernamePasswordAuthenticationFilter.class) //
-		// .addFilterBefore(new JWTAuthenticationFilter(authenticationManager()),
-		// UsernamePasswordAuthenticationFilter.class) //
-		// .headers() //
-		// .cacheControl();
 		http.csrf().disable() // Disable csrf
-				// .antMatchers("/p/*").hasAnyRole("ADMIN", "USER") //
-				// .antMatchers(HttpMethod.GET, "/api/admin/**").hasRole("ADMIN") //
 				.authorizeRequests() //
 				.antMatchers("/favicon.ico").permitAll() //
 				.antMatchers("/api/public/**").permitAll() //
 				.antMatchers("/admin/**").hasRole("ADMIN") //
 				.antMatchers(HttpMethod.POST, "/auth/logout/").permitAll() //
 				.anyRequest().authenticated().and() //
-				.addFilterBefore(new JWTLoginFilter(redis, authenticationManager()),
+				.addFilterBefore(new JWTLoginFilter(authenticationManager()),
 						UsernamePasswordAuthenticationFilter.class) //
-				.addFilterBefore(new JWTAuthenticationFilter(redis, authenticationManager()),
+				.addFilterBefore(new JWTAuthenticationFilter(authenticationManager()),
 						UsernamePasswordAuthenticationFilter.class) //
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and() //
 				.exceptionHandling() //

@@ -9,9 +9,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,13 +29,10 @@ import com.util.JsonUtils;
 
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
-	private static final Logger LOG = LoggerFactory.getLogger(JWTLoginFilter.class);
+	// private static final Logger LOG = LoggerFactory.getLogger(JWTLoginFilter.class);
 
-	private RedisTemplate<String, String> redis;
-
-	public JWTLoginFilter(RedisTemplate<String, String> redis, AuthenticationManager am) {
+	public JWTLoginFilter(AuthenticationManager am) {
 		super(new AntPathRequestMatcher("/auth/login"));
-		this.redis = redis;
 		this.setAuthenticationManager(am);
 	}
 
@@ -79,8 +73,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 		String token = TokenHandler.buildToken(username, role);
 		res.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
 		res.addHeader(HttpHeaders.AUTHORIZATION, TokenHandler.PREFIX + token);
-		redis.opsForValue().set(username, token);
-		LOG.info("Storage JWT to Redis");
+		// LOG.info("Storage JWT to Redis");
 	}
 
 	@Override
