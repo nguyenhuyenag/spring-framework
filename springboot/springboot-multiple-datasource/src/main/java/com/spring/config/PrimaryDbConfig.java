@@ -20,9 +20,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableAutoConfiguration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-		transactionManagerRef = "transactionManager",
-		entityManagerFactoryRef = "entityManagerFactory",
-		basePackages = { "com.spring.repository.primary" }
+	transactionManagerRef = "transactionManager",
+	entityManagerFactoryRef = "entityManagerFactory",
+	basePackages = { "com.spring.repository.primary" }
 )
 public class PrimaryDbConfig {
 	

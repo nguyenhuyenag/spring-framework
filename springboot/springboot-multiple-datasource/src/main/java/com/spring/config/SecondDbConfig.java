@@ -21,9 +21,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-		transactionManagerRef = "secondTransactionManager",
-		entityManagerFactoryRef = "secondEntityManagerFactory"
-		//basePackages = { "com.spring.repository.second" }
+	transactionManagerRef = "secondTransactionManager",
+	entityManagerFactoryRef = "secondEntityManagerFactory"
+	// basePackages = { "com.spring.repository.second" }
 )
 public class SecondDbConfig {
 	
