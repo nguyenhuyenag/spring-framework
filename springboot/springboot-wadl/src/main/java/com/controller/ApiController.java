@@ -19,13 +19,13 @@ public class ApiController {
 
 	private static final String URL = "https://jsonplaceholder.typicode.com/todos";
 
-	@GetMapping("timestamp")
+	@GetMapping("public/timestamp")
 	private ResponseEntity<String> now() {
-		String now = DateTimeUtils.getNow();
-		return new ResponseEntity<>(now, HttpStatus.OK);
+		String time = DateTimeUtils.getNow();
+		return new ResponseEntity<>(time, HttpStatus.OK);
 	}
 
-	@GetMapping("get-json")
+	@GetMapping("public/get-json")
 	private ResponseEntity<String> getJson() {
 		String json = restTemplate.getForObject(URL, String.class);
 		return new ResponseEntity<>(json, HttpStatus.OK);
