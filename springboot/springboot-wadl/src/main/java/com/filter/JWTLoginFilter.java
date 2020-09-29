@@ -52,7 +52,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 			error.setError("Unauthorized");
 			error.setMessage("The username or password is incorrect");
 			error.setPath(req.getRequestURI());
-			String json = JsonUtils.writeAsString(error);
+			String json = JsonUtils.toJSON(error);
 			res.getWriter().write(json);
 		}
 		return null;
@@ -63,7 +63,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 			Authentication auth) throws IOException, ServletException {
 		User user = (User) auth.getPrincipal();
 		String username = user.getUsername();
-		String json = JsonUtils.writeAsString(new LoginResponse(user.getRole(), username));
+		String json = JsonUtils.toJSON(new LoginResponse(user.getRole(), username));
 		res.getWriter().write(json);
 		String role = "";
 		Collection<? extends GrantedAuthority> authorities = user.getAuthorities();

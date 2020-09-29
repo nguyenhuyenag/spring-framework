@@ -65,9 +65,8 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
 			res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			res.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
 			String url = req.getRequestURI();
-			String json = JsonUtils.writeAsString(new ApiError(401, "Unauthorized", e.getMessage(), url));
+			String json = JsonUtils.toJSON(new ApiError(401, "Unauthorized", e.getMessage(), url));
 			res.getWriter().write(json);
-			// res.flushBuffer();
 			return;
 		}
 		super.doFilterInternal(req, res, chain);

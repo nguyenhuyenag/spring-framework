@@ -1,5 +1,8 @@
 package com.controller;
 
+import java.io.IOException;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,10 +11,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.dto.JSONClass;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.response.ApiResponse;
 import com.util.DateTimeUtils;
+import com.util.JsonUtils;
 
 @RestController
-@RequestMapping("api")
+@RequestMapping("api/public")
 public class ApiController {
 
 	@Autowired
@@ -19,16 +27,19 @@ public class ApiController {
 
 	private static final String URL = "https://jsonplaceholder.typicode.com/todos";
 
-	@GetMapping("public/timestamp")
-	private ResponseEntity<String> now() {
+	@GetMapping("timestamp")
+	private ResponseEntity<ApiResponse> now() {
 		String time = DateTimeUtils.getNow();
-		return new ResponseEntity<>(time, HttpStatus.OK);
+		ApiResponse api = new ApiResponse("OK_200", "Xử lý dữ liệu thành công", time);
+		return new ResponseEntity<>(api, HttpStatus.OK);
 	}
 
-	@GetMapping("public/get-json")
-	private ResponseEntity<String> getJson() {
+	@GetMapping("get-json")
+	private ResponseEntity<ApiResponse> getJson() throws JsonParseException, JsonMappingException, IOException {
 		String json = restTemplate.getForObject(URL, String.class);
-		return new ResponseEntity<>(json, HttpStatus.OK);
+		List<JSONClass> list = JsonUtils.toList(json);
+		ApiResponse api = new ApiResponse("OK_200", "Xử lý dữ liệu thành công", list);
+		return new ResponseEntity<>(api, HttpStatus.OK);
 	}
 
 }

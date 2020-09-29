@@ -32,7 +32,7 @@ public class Http403Forbidden implements AccessDeniedHandler {
 		if (auth != null) {
 			LOG.warn("Account `" + auth.getName() + "` attempted to access the protected URL: " + url);
 		}
-		String json = JsonUtils.writeAsString(new ApiError(403, "Forbidden", "Access Denied", url));
+		String json = JsonUtils.toJSON(new ApiError(403, "Forbidden", "Access Denied", url));
 		res.getWriter().write(json);
 	}
 

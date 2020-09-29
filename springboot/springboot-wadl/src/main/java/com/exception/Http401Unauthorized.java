@@ -23,7 +23,7 @@ public class Http401Unauthorized implements AuthenticationEntryPoint {
 			throws IOException, ServletException {
 		res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		res.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
-		String json = JsonUtils.writeAsString(new ApiError(401, "Unauthorized", e.getMessage(), req.getRequestURI()));
+		String json = JsonUtils.toJSON(new ApiError(401, "Unauthorized", e.getMessage(), req.getRequestURI()));
 		res.getWriter().write(json);
 	}
 
