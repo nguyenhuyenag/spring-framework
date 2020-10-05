@@ -52,8 +52,7 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
 	 * Xác thực bằng API bằng JWT
 	 */
 	@Override
-	protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
-			throws IOException, ServletException {
+	protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
 		String header = req.getHeader(HttpHeaders.AUTHORIZATION);
 		if (StringUtils.isEmpty(header) || !header.startsWith(TokenHandler.PREFIX)) {
 			chain.doFilter(req, res);

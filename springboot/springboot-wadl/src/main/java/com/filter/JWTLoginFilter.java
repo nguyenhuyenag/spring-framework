@@ -41,8 +41,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 			throws JsonParseException, JsonMappingException, IOException {
 		try {
 			LoginRequest login = JsonUtils.readValue(req.getInputStream(), LoginRequest.class);
-			UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(login.getUsername(),
-					login.getPassword(), new ArrayList<>());
+			UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword(), new ArrayList<>());
 			return getAuthenticationManager().authenticate(auth);
 		} catch (AuthenticationException e) {
 			res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -73,7 +72,6 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 		String token = TokenHandler.buildToken(username, role);
 		res.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
 		res.addHeader(HttpHeaders.AUTHORIZATION, TokenHandler.PREFIX + token);
-		// LOG.info("Storage JWT to Redis");
 	}
 
 	@Override

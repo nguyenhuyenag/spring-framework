@@ -1,6 +1,5 @@
 package com.controller;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,14 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.dto.JSONClass;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.response.ApiResponse;
 import com.util.DateTimeUtils;
 import com.util.JsonUtils;
 
 @RestController
-@RequestMapping("api/public")
+@RequestMapping("api")
 public class ApiController {
 
 	@Autowired
@@ -27,7 +24,7 @@ public class ApiController {
 
 	private static final String URL = "https://jsonplaceholder.typicode.com/todos";
 
-	@GetMapping("timestamp")
+	@GetMapping("public/timestamp")
 	private ResponseEntity<ApiResponse> now() {
 		String time = DateTimeUtils.getNow();
 		ApiResponse api = new ApiResponse("OK_200", "Xử lý dữ liệu thành công", time);
@@ -35,7 +32,7 @@ public class ApiController {
 	}
 
 	@GetMapping("get-json")
-	private ResponseEntity<ApiResponse> getJson() throws JsonParseException, JsonMappingException, IOException {
+	private ResponseEntity<ApiResponse> getJson() {
 		String json = restTemplate.getForObject(URL, String.class);
 		List<JSONClass> list = JsonUtils.toList(json);
 		ApiResponse api = new ApiResponse("OK_200", "Xử lý dữ liệu thành công", list);

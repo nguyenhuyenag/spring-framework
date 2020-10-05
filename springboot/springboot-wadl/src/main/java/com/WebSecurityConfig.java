@@ -40,21 +40,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable() // Disable csrf
+		http.csrf().disable() // disable csrf
 				.authorizeRequests() //
 				.antMatchers("/favicon.ico").permitAll() //
 				.antMatchers("/api/public/**").permitAll() //
 				.antMatchers("/admin/**").hasRole("ADMIN") //
 				.antMatchers(HttpMethod.POST, "/auth/logout/").permitAll() //
 				.anyRequest().authenticated().and() //
-				.addFilterBefore(new JWTLoginFilter(authenticationManager()),
-						UsernamePasswordAuthenticationFilter.class) //
-				.addFilterBefore(new JWTAuthenticationFilter(authenticationManager()),
-						UsernamePasswordAuthenticationFilter.class) //
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and() //
+				.addFilterBefore(new JWTLoginFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class) //
+				.addFilterBefore(new JWTAuthenticationFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class) //
+				.sessionManagement() //
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and() //
 				.exceptionHandling() //
-				.authenticationEntryPoint(new Http401Unauthorized()) //
-				.accessDeniedHandler(new Http403Forbidden()).and() //
+				.authenticationEntryPoint(new Http401Unauthorized()) // 401
+				.accessDeniedHandler(new Http403Forbidden()).and() //	403
 				.headers().cacheControl();
 	}
 

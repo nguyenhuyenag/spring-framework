@@ -19,8 +19,7 @@ import com.util.JsonUtils;
 public class Http401Unauthorized implements AuthenticationEntryPoint {
 
 	@Override
-	public void commence(HttpServletRequest req, HttpServletResponse res, AuthenticationException e)
-			throws IOException, ServletException {
+	public void commence(HttpServletRequest req, HttpServletResponse res, AuthenticationException e) throws IOException, ServletException {
 		res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		res.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
 		String json = JsonUtils.toJSON(new ApiError(401, "Unauthorized", e.getMessage(), req.getRequestURI()));

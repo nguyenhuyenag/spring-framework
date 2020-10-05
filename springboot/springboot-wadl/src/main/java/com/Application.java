@@ -13,15 +13,15 @@ import com.repository.UserRepository;
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer implements CommandLineRunner {
 
-	// JAR
-	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
-	}
-
 	// WAR
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(Application.class);
+	}
+
+	// JAR
+	public static void main(String[] args) {
+		SpringApplication.run(Application.class, args);
 	}
 
 	@Autowired

@@ -23,8 +23,7 @@ public class Http403Forbidden implements AccessDeniedHandler {
 	private static final Logger LOG = LoggerFactory.getLogger(Http403Forbidden.class);
 
 	@Override
-	public void handle(HttpServletRequest req, HttpServletResponse res, AccessDeniedException e)
-			throws IOException, ServletException {
+	public void handle(HttpServletRequest req, HttpServletResponse res, AccessDeniedException e) throws IOException, ServletException {
 		res.setStatus(HttpServletResponse.SC_FORBIDDEN);
 		res.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
 		String url = req.getRequestURI();
