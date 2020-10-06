@@ -12,7 +12,7 @@
 	</parent>
 
 	<groupId>com</groupId>
-	<artifactId>springboot-wadl</artifactId>
+	<artifactId>spring-boot-wadl</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>Application</name>

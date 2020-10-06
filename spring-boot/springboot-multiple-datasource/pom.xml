@@ -9,11 +9,12 @@
 		<version>2.1.8.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
+	
 	<groupId>com</groupId>
-	<artifactId>springboot-multiple-datasource</artifactId>
+	<artifactId>spring-boot-multiple-datasource</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>Boot</name>
+	<name>BootApplication</name>
 	<description>Project for Spring Boot</description>
 
 	<properties>
