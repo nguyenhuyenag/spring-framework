@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+// import org.slf4j.Logger;
+// import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,23 +16,23 @@ import com.service.UserService;
 @Service
 public class UserServiceImpl implements UserService {
 
-	private static final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);
+	// private static final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);
 
 	@Autowired
 	UserRepository userRepository;
 
 	@Override
 	public void init() {
-		String firstName, lastName, email;
+		String name, email;
 		List<User> list = new ArrayList<>();
 		for (int i = 0; i < 5; i++) {
-			firstName = RandomStringUtils.randomAlphabetic(5);
-			lastName = RandomStringUtils.randomAlphabetic(5);
-			email = firstName.toLowerCase() + "@" + lastName.toLowerCase() + ".com";
-			list.add(new User(null, StringUtils.capitalize(firstName), StringUtils.capitalize(lastName), email, null));
+			name = RandomStringUtils.randomAlphabetic(5);
+			email = name.toLowerCase() + "@mail.com";
+			list.add(new User(null, name, email, null));
 		}
 		userRepository.saveAll(list);
-		LOG.info("Save all complete");
+		// LOG.info("Save all complete");
+		System.out.println("Save all complete");
 	}
 
 	@Override
@@ -51,9 +50,9 @@ public class UserServiceImpl implements UserService {
 		userRepository.deleteById(id);
 	}
 
-	@Override
-	public long countByLastname(String lastname) {
-		return userRepository.countByLastname(lastname);
-	}
+//	@Override
+//	public long countByLastname(String lastname) {
+//		return userRepository.countByLastname(lastname);
+//	}
 
 }

@@ -2,9 +2,6 @@ package com.entity;
 
 import javax.persistence.Table;
 
-// @Getter
-// @Setter
-// @NoArgsConstructor
 @Table(name = "todos")
 public class Todos {
 

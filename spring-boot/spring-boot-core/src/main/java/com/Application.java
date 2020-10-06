@@ -3,11 +3,14 @@ package com;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.service.SpringTransaction;
+import com.service.UserService;
 
 @SpringBootApplication
+@EnableAutoConfiguration
 public class Application implements CommandLineRunner {
 
 	public static void main(String[] args) {
@@ -15,11 +18,15 @@ public class Application implements CommandLineRunner {
 	}
 
 	@Autowired
+	UserService service;
+
+	@Autowired
 	SpringTransaction iTest;
 
 	@Override
 	public void run(String... args) throws Exception {
-		iTest.testRollBack();
+		// service.init();
+		// iTest.testRollBack();
 	}
 
 }

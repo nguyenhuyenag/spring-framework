@@ -22,14 +22,8 @@ public class SpringTransactionImpl implements SpringTransaction {
 		try {
 			for (int i = 1; i <= 3; i++) {
 				User entity = new User();
-				String first = RandomStringUtils.randomAlphabetic(5).toLowerCase();
-				String last = RandomStringUtils.randomAlphabetic(5).toLowerCase();
-				entity.setFirstname(first);
-				if (i == 2) {
-					entity.setFirstname(first + first);
-				}
-				entity.setLastname(last);
-				entity.setEmailAddress(first + "@" + last + ".com");
+				String name = RandomStringUtils.randomAlphabetic(5).toLowerCase();
+				entity.setEmail(name + "@mail.com");
 				repository.save(entity);
 				System.out.println("OK! ...............");
 			}
@@ -46,14 +40,9 @@ public class SpringTransactionImpl implements SpringTransaction {
 		try {
 			for (int i = 1; i <= 3; i++) {
 				User entity = new User();
-				String first = RandomStringUtils.randomAlphabetic(5).toLowerCase();
-				String last = RandomStringUtils.randomAlphabetic(5).toLowerCase();
-				entity.setFirstname(first);
-				if (i == 2) {
-					entity.setFirstname(first + first);
-				}
-				entity.setLastname(last);
-				entity.setEmailAddress(first + "@" + last + ".com");
+				String name = RandomStringUtils.randomAlphabetic(5).toLowerCase();
+				entity.setName(name);
+				entity.setEmail(name + "@mail.com");
 				repository.save(entity);
 				System.out.println("OK! ...............");
 			}

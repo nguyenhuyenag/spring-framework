@@ -1,6 +1,5 @@
 package com.boot.configuration;
 
-// @Data
 public abstract class Connector {
 
 	private String url;

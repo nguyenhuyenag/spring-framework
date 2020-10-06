@@ -10,6 +10,6 @@ public interface UserService {
 
 	void deleteById(long id);
 
-	long countByLastname(String lastname);
+	// long countByLastname(String lastname);
 
 }

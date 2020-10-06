@@ -15,37 +15,38 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	// Query creation from method names
 
-	long countByLastname(String lastname);
+	// long countByLastname(String lastname);
 
-	@Query("SELECT DISTINCT u.firstname FROM User u")
-	List<String> findDistinctUserByFirstname();
+	@Query("SELECT DISTINCT u.name FROM User u")
+	List<String> findDistinctUserByName();
 
-	User findFirstByOrderByLastnameAsc();
+	// User findFirstByOrderByLastnameAsc();
 
 	// long deleteByLastname(String lastname);
 
-	User findByFirstname(String firstname);
+	// User findByFirstname(String firstname);
 
-	User findUserByLastname(String lastname);
+	User findUserByName(String lastname);
 
-	List<User> findAllByLastname(String lastname);
+	// List<User> findAllByLastname(String lastname);
 
-	List<User> findDistinctUserByFirstnameOrLastname(String firstname, String lastname);
+	// List<User> findDistinctUserByFirstnameOrLastname(String firstname, String
+	// lastname);
 
-	List<User> findByFirstnameIgnoreCase(String firstname);
+	// List<User> findByFirstnameIgnoreCase(String firstname);
 
-	List<User> findByFirstnameAllIgnoreCase(String firstname);
+	// List<User> findByFirstnameAllIgnoreCase(String firstname);
 
-	List<User> findAllByOrderByFirstnameAsc(); // don't miss "by"
+	// List<User> findAllByOrderByFirstnameAsc(); // don't miss "by"
 
-	List<User> findAllByOrderByEmailAddressDesc();
+	// List<User> findAllByOrderByEmailAddressDesc();
 
 	// JPQL
-	@Query(value = "SELECT u FROM User u ORDER BY email_address")
+	@Query(value = "SELECT u FROM User u ORDER BY email")
 	List<User> JPQL();
 
 	// JPQL
-	@Query(value = "SELECT m FROM User m WHERE m.firstname LIKE :input%")
+	@Query(value = "SELECT m FROM User m WHERE m.name LIKE :input%")
 	List<User> startWith(@Param("input") String input);
 
 	// Native SQL

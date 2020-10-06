@@ -1,21 +1,27 @@
 package com.boot.tight.coupling;
 
 interface Sort {
+	
 	void sort(int[] array);
+	
 }
 
 class QuickSort implements Sort {
+	
 	@Override
 	public void sort(int[] array) {
 		System.out.println("I'm Quick Sort Algorithm");
 	}
+	
 }
 
 class BubbleSort implements Sort {
+	
 	@Override
 	public void sort(int[] array) {
 		System.out.println("I'm Bubble Sort Algorithm");
 	}
+	
 }
 
 public class SortAlgorithm {

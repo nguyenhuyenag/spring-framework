@@ -17,10 +17,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 	UserRepository userRepository = context.getBean(UserRepository.class);
 	userRepository.findAll().forEach(System.out::println);
 */
-// @Getter
-// @Setter
-// @AllArgsConstructor
-// @RequiredArgsConstructor
 @Entity
 @Table(name = "t_user")
 public class User implements Serializable {
@@ -31,25 +27,23 @@ public class User implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	private String firstname;
-	private String lastname;
+	private String name;
 
-	@Column(name = "email_address")
-	private String emailAddress;
+	@Column(name = "e_mail")
+	private String email;
 
 	@UpdateTimestamp
 	@Column(name = "execute_time")
 	private Date executeTime;
 
 	public User() {
-		super();
+		
 	}
 
-	public User(Integer id, String firstname, String lastname, String emailAddress, Date executeTime) {
+	public User(Integer id, String name, String email, Date executeTime) {
 		this.id = id;
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.emailAddress = emailAddress;
+		this.name = name;
+		this.email = email;
 		this.executeTime = executeTime;
 	}
 
@@ -61,28 +55,20 @@ public class User implements Serializable {
 		this.id = id;
 	}
 
-	public String getFirstname() {
-		return firstname;
+	public String getName() {
+		return name;
 	}
 
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getLastname() {
-		return lastname;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
-	}
-
-	public String getEmailAddress() {
-		return emailAddress;
-	}
-
-	public void setEmailAddress(String emailAddress) {
-		this.emailAddress = emailAddress;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public Date getExecuteTime() {

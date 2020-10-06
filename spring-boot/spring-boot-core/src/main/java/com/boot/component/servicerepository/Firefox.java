@@ -3,8 +3,6 @@ package com.boot.component.servicerepository;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-// @Data
-// @AllArgsConstructor
 public class Firefox {
 
 	@SuppressWarnings("unused")

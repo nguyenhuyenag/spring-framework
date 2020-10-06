@@ -1,3 +1,2 @@
-# angular
+# Spring Boot Test
 
-- Client auto logout when jwt token expired
