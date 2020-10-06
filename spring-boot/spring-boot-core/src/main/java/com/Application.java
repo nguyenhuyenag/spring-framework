@@ -6,6 +6,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.boot.jpa.criteria.UserRepositoryByCriteria;
+import com.entity.User;
 import com.service.SpringTransaction;
 import com.service.UserService;
 
@@ -23,10 +25,17 @@ public class Application implements CommandLineRunner {
 	@Autowired
 	SpringTransaction iTest;
 
+	@Autowired
+	UserRepositoryByCriteria criteria;
+
 	@Override
 	public void run(String... args) throws Exception {
 		// service.init();
 		// iTest.testRollBack();
+		User user = criteria.getUserByEmail("vrfme@yandex.com");
+		if (user != null) {
+			System.out.println(user.getId());
+		}
 	}
 
 }
