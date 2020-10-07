@@ -31,7 +31,7 @@ public class Application implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		// service.init();
-		// iTest.testRollBack();
+		iTest.testRollBack();
 		User user = criteria.getUserByEmail("vrfme@yandex.com");
 		if (user != null) {
 			System.out.println(user.getId());
