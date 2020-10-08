@@ -7,15 +7,14 @@ import org.springframework.context.ApplicationContext;
 @SpringBootApplication(scanBasePackages = { "learn.of.component.scan" })
 public class ScanBasePackage {
 
-	public static void call(String[] args) {
-
-		ApplicationContext context = SpringApplication.run(ScanBasePackage.class, args);
-
+	// Sử dụng SpringApplication.run() trong Application.java
+	public static void main() {
+		ApplicationContext context = SpringApplication.run(ScanBasePackage.class);
 		try {
 			Car girl = context.getBean(Car.class);
 			System.out.println("Bean: " + girl.toString());
 		} catch (Exception e) {
-			System.out.println("Bean Girl không tồn tại");
+			System.out.println("Bean Car không tồn tại");
 		}
 
 		try {
@@ -24,7 +23,7 @@ public class ScanBasePackage {
 				System.out.println("Bean: " + otherGirl.toString());
 			}
 		} catch (Exception e) {
-			System.out.println("Bean Girl không tồn tại");
+			System.out.println("Bean OtherCar không tồn tại");
 		}
 	}
 
