@@ -34,7 +34,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * 
  *	- Không thể thực hiện autowire với các dữ liệu nguyên thủy như int, String, ...
  *	
- *- Khi autowiring tự động, đôi khi sẽ link tới những bean không tồn tại, sử dụng required = true để chắc chắn bean được prefer tới có tồn tại
+ * 	- Khi autowiring tự động, đôi khi sẽ link tới những bean không tồn tại, sử dụng required = true để chắc chắn bean được prefer tới có tồn tại
  */
 public class Main {
 
