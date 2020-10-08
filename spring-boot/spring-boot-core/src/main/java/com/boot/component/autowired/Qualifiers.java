@@ -10,22 +10,22 @@ import lombok.Data;
 
 @Component("dell")
 class Dell implements PC {
-	
+
 	@Override
 	public void getName() {
 		System.out.println("PC Dell");
 	}
-	
+
 }
 
 @Component("hp")
 class Hp implements PC {
-	
+
 	@Override
 	public void getName() {
 		System.out.println("PC HP");
 	}
-	
+
 }
 
 @Data

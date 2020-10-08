@@ -5,7 +5,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
 @ComponentScan("learn.of.component.scan")
-// @ComponentScan({"a.b.c","a.d.e"}) // multiple package scan
+// @ComponentScan({"a.b.c","a.d.e"}) // multiple scan
 public class ComponentScans {
 
 	public static void call(String[] args) {

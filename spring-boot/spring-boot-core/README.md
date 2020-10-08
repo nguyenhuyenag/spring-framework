@@ -1,4 +1,6 @@
-# Tight coupling (liên kết ràng buộc) & Loosely coupled
+# Spring & Spring Boot
+
+# Tight coupling (liên kết ràng buộc) & loosely coupled
 
 	- Các class không nên phụ thuộc vào các kế thừa cấp thấp, mà nên phụ thuộc vào abstract class
 
@@ -81,6 +83,7 @@
 		> Tạo 1 instance của class này
 
 		> Tìm & gọi các method có đánh dấu @Bean để lấy ra các Bean và đưa vào Context
+
 # Spring JPA
 
 	find...By, read...By, query...By, count..By, và get..By

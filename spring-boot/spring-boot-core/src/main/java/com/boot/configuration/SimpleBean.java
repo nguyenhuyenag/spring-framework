@@ -1,11 +1,13 @@
 package com.boot.configuration;
 
-import lombok.Data;
-
-@Data
+// @Data
 public class SimpleBean {
 
 	private String username;
+
+	public SimpleBean(String username) {
+		setUsername(username);
+	}
 
 	public String getUsername() {
 		return username;
@@ -13,10 +15,6 @@ public class SimpleBean {
 
 	public void setUsername(String username) {
 		this.username = username;
-	}
-
-	public SimpleBean(String username) {
-		setUsername(username);
 	}
 
 }

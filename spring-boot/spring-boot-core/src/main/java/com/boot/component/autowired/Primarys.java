@@ -11,17 +11,17 @@ import lombok.Data;
 @Primary // bean luôn được ưu tiên
 @Component
 class Asus implements Laptop {
-	
+
 	@Override
 	public void getName() {
 		System.out.println("Laptop Asus");
 	}
-	
+
 }
 
 @Component
 class Acer implements Laptop {
-	
+
 	@Override
 	public void getName() {
 		System.out.println("Laptop Asus");

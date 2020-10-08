@@ -36,7 +36,7 @@ public class AppConfig {
 	}
 
 	@SuppressWarnings("null")
-	public static void main() {
+	public static void main(String[] args) {
 
 		ApplicationContext context = null;
 
