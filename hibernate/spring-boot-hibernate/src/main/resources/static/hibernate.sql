@@ -56,18 +56,17 @@ CREATE TABLE `empl_position` (
   PRIMARY KEY (`empl_id`, `position`)
 );
 
-CREATE TABLE `product` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NULL,
-  PRIMARY KEY (`id`)
-);
-
+/*--- many to many ---*/
 CREATE TABLE `category` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NULL,
   PRIMARY KEY (`id`)
 );
-
+CREATE TABLE `product` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`)
+);
 CREATE TABLE `product_category` (
   `product_id` INT NOT NULL,
   `category_id` INT NOT NULL,
@@ -75,6 +74,7 @@ CREATE TABLE `product_category` (
   FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
   FOREIGN KEY (`product_id`) REFERENCES `product`(`id`)
 );
+/*--- end many to many ---*/
 
 CREATE TABLE `country` (
   `id` INT NOT NULL AUTO_INCREMENT,

@@ -147,7 +147,7 @@
 	
 	- Ví dụ khi xóa country thì các province liên quan cũng bị xóa, tương tự khi insert, ...
 	
-	- Dùng trong mối quan hệ 1-nhiều
+	- Dùng trong mối quan hệ 1 - nhiều
 	
 	- Cú pháp
 	
@@ -225,3 +225,4 @@
 	@PostRemove: Thực thi sau khi entity bị xóa
 
 # repositoty.findById(12).orElseThrow(() -> new EntityNotFoundException());
+

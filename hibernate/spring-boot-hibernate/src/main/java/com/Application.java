@@ -1,30 +1,28 @@
 package com;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.repository.UserRepository;
+import com.service.ManyToManyService;
 
 @SpringBootApplication
 public class Application implements CommandLineRunner {
 
-	private static final Logger LOG = LoggerFactory.getLogger(Application.class);
+	// private static final Logger LOG = LoggerFactory.getLogger(Application.class);
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}
 	
 	@Autowired
-	UserRepository repository;
+	private ManyToManyService repository;
 
 	@Override
 	public void run(String... args) throws Exception {
-		LOG.info("OK!");
-		// repository.findAll().forEach(System.out::println);
+		// Insert 1 category với nhiều product
+		// repository.demoInsert1();
 	}
 
 }
