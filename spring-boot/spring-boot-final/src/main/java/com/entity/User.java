@@ -1,6 +1,7 @@
 package com.entity;
 
 import java.util.Collection;
+import java.util.Collections;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -70,27 +71,27 @@ public class User implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return null;
+		return Collections.emptyList();
 	}
 
 	@Override
-	public boolean isAccountNonExpired() {
-		return false;
-	}
+    public boolean isAccountNonExpired() {
+        return true;
+    }
 
-	@Override
-	public boolean isAccountNonLocked() {
-		return false;
-	}
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
 
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return false;
-	}
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
 
-	@Override
-	public boolean isEnabled() {
-		return false;
-	}
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 
 }
