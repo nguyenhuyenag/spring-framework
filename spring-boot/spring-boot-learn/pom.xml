@@ -11,7 +11,7 @@
 	</parent>
 
 	<groupId>com</groupId>
-	<artifactId>spring-boot-core</artifactId>
+	<artifactId>spring-boot-learn</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>Application</name>
