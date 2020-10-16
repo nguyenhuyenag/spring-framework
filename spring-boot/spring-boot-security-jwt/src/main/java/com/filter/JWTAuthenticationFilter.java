@@ -27,42 +27,13 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
 	 @Autowired
 	 private UserDetailsService userDetailsService;
-
-//	private UsernamePasswordAuthenticationToken getAuthentication(String header) throws TokenExpiredException {
-//		String token = header.replace(TokenHandler.PREFIX, "");
-//		boolean expiration = TokenHandler.checkExpiration(token);
-//		if (expiration) {
-//			LOG.warn("Token expiration or remove");
-//			throw new TokenExpiredException("Token expiration or remove");
-//		} else {
-//			String role = TokenHandler.getRole(token);
-//			String username = TokenHandler.getUsername(token);
-//			if (username != null) {
-//				return new UsernamePasswordAuthenticationToken(username, null,
-//						Collections.singleton(new SimpleGrantedAuthority(role)));
-//			}
-//		}
-//		return null;
-//	}
+	 
+	 public JWTAuthenticationFilter(UserDetailsService service) {
+		 this.userDetailsService = service;
+	 }
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
-//		String header = req.getHeader(HttpHeaders.AUTHORIZATION);
-//		if (StringUtils.isEmpty(header) || !header.startsWith(TokenHandler.PREFIX)) {
-//			chain.doFilter(req, res);
-//			return;
-//		}
-//		try {
-//			SecurityContextHolder.getContext().setAuthentication(getAuthentication(header));
-//		} catch (TokenExpiredException e) {
-//			res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-//			res.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
-//			String url = req.getRequestURI();
-//			String json = JsonUtils.toJSON(new ApiError(401, "Unauthorized", e.getMessage(), url));
-//			res.getWriter().write(json);
-//			return;
-//		}
-//		super.doFilterInternal(req, res, chain);
 		String header = req.getHeader(HttpHeaders.AUTHORIZATION);
         String token = null, username = null;
         if (header != null && header.startsWith(TokenHandler.PREFIX)) {
@@ -80,12 +51,9 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
         	LOG.warn("couldn't find bearer string, will ignore the header");
         }
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-
-            if (TokenHandler.validateToken(token, userDetails)) {
-                UsernamePasswordAuthenticationToken authentication = TokenHandler.getAuthentication(token, SecurityContextHolder.getContext().getAuthentication(), userDetails);
-                //UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN")));
+            UserDetails user = userDetailsService.loadUserByUsername(username);
+            if (TokenHandler.validateToken(token, user)) {
+                UsernamePasswordAuthenticationToken authentication = TokenHandler.getAuthentication(token, SecurityContextHolder.getContext().getAuthentication(), user);
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
                 LOG.info("authenticated user " + username + ", setting security context");
                 SecurityContextHolder.getContext().setAuthentication(authentication);

@@ -14,6 +14,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -39,6 +40,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 		try {
 			LoginRequest login = JsonUtils.readValue(req.getInputStream(), LoginRequest.class);
 			UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword(), new ArrayList<>());
+			SecurityContextHolder.getContext().setAuthentication(auth);
 			return getAuthenticationManager().authenticate(auth);
 		} catch (AuthenticationException e) {
 			res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -57,15 +59,6 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	@Override
 	protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain,
 			Authentication auth) throws IOException, ServletException {
-		//User user = (User) auth.getPrincipal();
-		//String username = user.getUsername();
-		// String json = JsonUtils.toJSON(new LoginResponse(user.getRole(), username));
-		//res.getWriter().write(json);
-		//String role = "";
-		//Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
-		//for (GrantedAuthority authority : authorities) {
-		//	role = authority.getAuthority();
-		//}
 		String token = TokenHandler.generateToken(auth);
 		String json = JsonUtils.toJSON(new LoginResponse(token));
 		res.getWriter().write(json);
