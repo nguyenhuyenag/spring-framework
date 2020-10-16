@@ -40,11 +40,8 @@ public class MySQLName implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@SuppressWarnings("unused")
 	private String name;
-	@SuppressWarnings("unused")
 	private String age;
-	@SuppressWarnings("unused")
 	private String phone;
 
 	@Column(name = "camelcase")
