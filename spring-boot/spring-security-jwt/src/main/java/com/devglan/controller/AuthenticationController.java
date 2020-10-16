@@ -19,7 +19,7 @@ import com.devglan.model.LoginUser;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/token")
+@RequestMapping("auth")
 public class AuthenticationController {
 
     @Autowired
@@ -28,7 +28,7 @@ public class AuthenticationController {
     @Autowired
     private TokenProvider jwtTokenUtil;
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @RequestMapping(value = "login", method = RequestMethod.POST)
     public ResponseEntity<?> register(@RequestBody LoginUser loginUser) throws AuthenticationException {
         final Authentication authentication = authenticationManager.authenticate(
         		new UsernamePasswordAuthenticationToken(

@@ -19,7 +19,7 @@ import com.devglan.model.UserDto;
 import com.devglan.service.UserService;
 
 @RestController
-@RequestMapping
+@RequestMapping("api")
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class UserController {
 
@@ -35,8 +35,8 @@ public class UserController {
 	}
 
 	// @Secured({"ROLE_ADMIN", "ROLE_USER"})
+	@GetMapping("get-users")
 	@PreAuthorize("hasRole('ADMIN')")
-	@GetMapping("get-all")
 	public List<User> listUser() {
 		return userService.findAll();
 	}

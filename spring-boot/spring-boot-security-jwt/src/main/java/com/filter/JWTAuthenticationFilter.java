@@ -36,8 +36,8 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
 		String header = req.getHeader(HttpHeaders.AUTHORIZATION);
         String token = null, username = null;
-        if (header != null && header.startsWith(TokenHandler.PREFIX)) {
-			token = header.replace(TokenHandler.PREFIX, "");
+        if (header != null && header.startsWith(TokenHandler.TOKEN_PREFIX)) {
+			token = header.replace(TokenHandler.TOKEN_PREFIX, "");
             try {
                 username = TokenHandler.getUsernameFromToken(token);
             } catch (IllegalArgumentException e) {

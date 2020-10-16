@@ -22,14 +22,11 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 public class TokenHandler {
 
-	public static final String PREFIX 			=	"Bearer ";
+	public static final String TOKEN_PREFIX 	=	"Bearer ";
 	private static final String SIGNING_KEY 	= 	"JWT_TOKEN_SECRET";
-	//private static final byte[] SECRET_ARRAY 	= 	SIGNING_KEY.getBytes();
+	public static final String AUTHORITIES_KEY 	= 	"scopes";
 	private static final long EXPIRATION_TIME	= 	DateTimeUtils.ONE_HOUR;
 
-	//private static final String ISS 			= 	"ISS";
-	//private static final String ROLE_CLAIMS 	= 	"role";
-	public static final String AUTHORITIES_KEY 	= "scopes";
 
 	public static String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);

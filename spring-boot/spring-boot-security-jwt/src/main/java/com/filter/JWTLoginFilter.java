@@ -21,7 +21,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.request.LoginRequest;
-import com.response.ApiError;
 import com.response.LoginResponse;
 import com.util.JsonUtils;
 
@@ -37,23 +36,23 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res)
 			throws JsonParseException, JsonMappingException, IOException {
-		try {
+		//try {
 			LoginRequest login = JsonUtils.readValue(req.getInputStream(), LoginRequest.class);
 			UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword(), new ArrayList<>());
 			SecurityContextHolder.getContext().setAuthentication(auth);
 			return getAuthenticationManager().authenticate(auth);
-		} catch (AuthenticationException e) {
-			res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-			res.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
-			ApiError error = new ApiError();
-			error.setStatus(401);
-			error.setError("Unauthorized");
-			error.setMessage("The username or password is incorrect");
-			error.setPath(req.getRequestURI());
-			String json = JsonUtils.toJSON(error);
-			res.getWriter().write(json);
-		}
-		return null;
+//		} catch (AuthenticationException e) {
+//			res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+//			res.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
+//			ApiError error = new ApiError();
+//			error.setStatus(401);
+//			error.setError("Unauthorized");
+//			error.setMessage("The username or password is incorrect");
+//			error.setPath(req.getRequestURI());
+//			String json = JsonUtils.toJSON(error);
+//			res.getWriter().write(json);
+//		}
+//		return null;
 	}
 
 	@Override
