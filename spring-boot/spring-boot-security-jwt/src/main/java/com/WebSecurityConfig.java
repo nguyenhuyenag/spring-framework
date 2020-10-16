@@ -35,7 +35,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder am) throws Exception {
-		am.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+		am.userDetailsService(userDetailsService) //
+		  .passwordEncoder(passwordEncoder());
 	}
 
 	@Override
@@ -48,7 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.POST, "/auth/logout/").permitAll() //
 				.anyRequest().authenticated().and() //
 				.addFilterBefore(new JWTLoginFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class) //
-				.addFilterBefore(new JWTAuthenticationFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class) //
+				.addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class) //
 				.sessionManagement() //
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and() //
 				.exceptionHandling() //

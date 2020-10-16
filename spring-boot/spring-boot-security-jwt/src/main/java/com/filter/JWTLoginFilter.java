@@ -2,7 +2,6 @@ package com.filter;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -15,11 +14,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.entity.User;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.request.LoginRequest;
@@ -60,18 +57,20 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	@Override
 	protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain,
 			Authentication auth) throws IOException, ServletException {
-		User user = (User) auth.getPrincipal();
-		String username = user.getUsername();
-		String json = JsonUtils.toJSON(new LoginResponse(user.getRole(), username));
+		//User user = (User) auth.getPrincipal();
+		//String username = user.getUsername();
+		// String json = JsonUtils.toJSON(new LoginResponse(user.getRole(), username));
+		//res.getWriter().write(json);
+		//String role = "";
+		//Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
+		//for (GrantedAuthority authority : authorities) {
+		//	role = authority.getAuthority();
+		//}
+		String token = TokenHandler.generateToken(auth);
+		String json = JsonUtils.toJSON(new LoginResponse(token));
 		res.getWriter().write(json);
-		String role = "";
-		Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
-		for (GrantedAuthority authority : authorities) {
-			role = authority.getAuthority();
-		}
-		String token = TokenHandler.buildToken(username, role);
 		res.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
-		res.addHeader(HttpHeaders.AUTHORIZATION, TokenHandler.PREFIX + token);
+		// res.addHeader(HttpHeaders.AUTHORIZATION, TokenHandler.PREFIX + token);
 	}
 
 	@Override

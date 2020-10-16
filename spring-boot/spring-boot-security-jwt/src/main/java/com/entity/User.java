@@ -1,27 +1,21 @@
 package com.entity;
 
-import java.util.Collection;
-import java.util.Collections;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-//@Getter
-//@Setter
-//@NoArgsConstructor
-//@AllArgsConstructor
 @Entity
 @Table(name = "user")
-public class User implements UserDetails {
-
-	private static final long serialVersionUID = 3815742486645600824L;
+public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +23,13 @@ public class User implements UserDetails {
 
 	private String username;
 	private String password;
-	private String role;
+
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name = "USER_ROLES", joinColumns = { //
+		@JoinColumn(name = "USER_ID") }, //
+		inverseJoinColumns = { //
+		@JoinColumn(name = "ROLE_ID") }) //
+	private Set<Role> roles;
 
 	public Long getId() {
 		return id;
@@ -55,37 +55,12 @@ public class User implements UserDetails {
 		this.password = password;
 	}
 
-	public String getRole() {
-		return role;
+	public Set<Role> getRoles() {
+		return roles;
 	}
 
-	public void setRole(String role) {
-		this.role = role;
-	}
-
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return Collections.singleton(new SimpleGrantedAuthority(this.role));
-	}
-
-	@Override
-	public boolean isAccountNonExpired() {
-		return true;
-	}
-
-	@Override
-	public boolean isAccountNonLocked() {
-		return true;
-	}
-
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
-
-	@Override
-	public boolean isEnabled() {
-		return true;
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
 	}
 
 }
