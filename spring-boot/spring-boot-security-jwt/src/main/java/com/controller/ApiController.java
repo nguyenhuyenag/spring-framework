@@ -9,50 +9,37 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 import com.entity.User;
 import com.repository.UserRepository;
-import com.response.ApiResponse;
-import com.util.DateTimeUtils;
 
 @RestController
 @RequestMapping("api")
 public class ApiController {
 
-	@Autowired
-	private RestTemplate restTemplate;
+	// @Autowired
+	// private RestTemplate restTemplate;
 
 	@Autowired
 	private UserRepository repository;
 
-	// private static final String URL = "https://jsonplaceholder.typicode.com/todos";
+	// private static final String URL =
+	// "https://jsonplaceholder.typicode.com/todos";
 
-	@GetMapping("public/timestamp")
-	private ResponseEntity<ApiResponse> now() {
-		String time = DateTimeUtils.getNow();
-		ApiResponse api = new ApiResponse("OK_200", "Xử lý dữ liệu thành công", time);
-		return new ResponseEntity<>(api, HttpStatus.OK);
+	@GetMapping("users")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	public ResponseEntity<User> getOne(@RequestParam(value = "id") Long id) {
+		Optional<User> u = repository.findById(id);
+		return new ResponseEntity<>(u.get(), HttpStatus.OK);
 	}
 
-	@GetMapping("get-json")
-	@PreAuthorize("hasRole('USER')")
-	private ResponseEntity<ApiResponse> getJson() {
-		// String json = restTemplate.getForObject(URL, String.class);
-//		Optional<User> u = repository.findById(5L);
-//		if (u.isPresent()) {
-//			return new ResponseEntity<>(api, HttpStatus.OK);
-//		}
-		ApiResponse api = new ApiResponse("OK_200", "Xử lý dữ liệu thành công", null);
-		return new ResponseEntity<>(api, HttpStatus.OK);
-	}
-
+	// @Secured({"ROLE_ADMIN", "ROLE_USER"})
 	@GetMapping("get-users")
 	@PreAuthorize("hasRole('ADMIN')")
-	private ResponseEntity<List<User>> getUsers() {
-		List<User> list = repository.findAll();
-		return new ResponseEntity<>(list, HttpStatus.OK);
+	public List<User> listUser() {
+		return repository.findAll();
 	}
 
 }
