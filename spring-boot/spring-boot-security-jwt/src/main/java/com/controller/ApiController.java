@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.entity.User;
 import com.repository.UserRepository;
@@ -19,14 +20,22 @@ import com.repository.UserRepository;
 @RequestMapping("api")
 public class ApiController {
 
-	// @Autowired
-	// private RestTemplate restTemplate;
-
 	@Autowired
 	private UserRepository repository;
 
-	// private static final String URL =
-	// "https://jsonplaceholder.typicode.com/todos";
+	private static final String URL = "https://jsonplaceholder.typicode.com/todos";
+
+	@GetMapping("get-json")
+	private ResponseEntity<String> getJson() {
+		RestTemplate restTemplate = new RestTemplate();
+		String json = "";
+		try {
+			json = restTemplate.getForObject(URL, String.class);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<>(json, HttpStatus.OK);
+	}
 
 	@GetMapping("users")
 	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
@@ -35,9 +44,9 @@ public class ApiController {
 		return new ResponseEntity<>(u.get(), HttpStatus.OK);
 	}
 
-	// @Secured({"ROLE_ADMIN", "ROLE_USER"})
 	@GetMapping("get-users")
 	@PreAuthorize("hasRole('ADMIN')")
+	// @Secured({"ROLE_ADMIN", "ROLE_USER"})
 	public List<User> listUser() {
 		return repository.findAll();
 	}
