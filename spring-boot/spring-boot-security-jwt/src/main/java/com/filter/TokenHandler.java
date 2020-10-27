@@ -27,7 +27,6 @@ public class TokenHandler {
 	public static final String AUTHORITIES_KEY 	= 	"scopes";
 	private static final long EXPIRATION_TIME	= 	DateTimeUtils.ONE_DAY;
 
-
 	public static String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
     }

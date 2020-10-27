@@ -41,21 +41,21 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
             try {
                 username = TokenHandler.getUsernameFromToken(token);
             } catch (IllegalArgumentException e) {
-            	LOG.error("an error occured during getting username from token", e);
+            	LOG.error("An error occured during getting username from token", e);
             } catch (ExpiredJwtException e) {
-            	LOG.warn("the token is expired and not valid anymore", e);
+            	LOG.warn("The token is expired and not valid anymore", e);
             } catch(SignatureException e){
             	LOG.error("Authentication Failed. Username or Password not valid.");
             }
         } else {
-        	LOG.warn("couldn't find bearer string, will ignore the header");
+        	LOG.warn("Couldn't find bearer string, will ignore the header");
         }
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails user = userDetailsService.loadUserByUsername(username);
             if (TokenHandler.validateToken(token, user)) {
                 UsernamePasswordAuthenticationToken authentication = TokenHandler.getAuthentication(token, SecurityContextHolder.getContext().getAuthentication(), user);
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
-                LOG.info("authenticated user " + username + ", setting security context");
+                LOG.info("Authenticated user " + username + ", setting security context");
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }
