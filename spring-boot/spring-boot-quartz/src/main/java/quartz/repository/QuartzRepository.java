@@ -14,12 +14,12 @@ import quartz.entity.Quartz;
 @Repository
 public interface QuartzRepository extends JpaRepository<Quartz, Integer> {
 
-	@Query("select max(t.id) from Quartz t")
+	@Query("select max(t.id) from quartz t")
 	Optional<Integer> findMaxById();
 
 	@Modifying
 	@Transactional
-	@Query(value = "alter table Quartz auto_increment = 1", nativeQuery = true)
+	@Query(value = "alter table quartz auto_increment = 1", nativeQuery = true)
 	void resetId();
 
 }

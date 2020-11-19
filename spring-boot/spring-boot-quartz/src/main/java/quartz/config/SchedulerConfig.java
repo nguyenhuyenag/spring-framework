@@ -9,7 +9,6 @@ import org.quartz.Trigger;
 import org.quartz.spi.JobFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.context.ApplicationContext;
@@ -64,7 +63,8 @@ public class SchedulerConfig {
 	}
 
 	@Bean
-	@Qualifier("simpleJobDetail")
+	// @Primary
+	// @Qualifier("Job1")
 	public SimpleTriggerFactoryBean simpleJobTrigger(JobDetail job) {
 		LOG.info("simpleJobTrigger");
 		SimpleTriggerFactoryBean factory = new SimpleTriggerFactoryBean();
@@ -74,5 +74,5 @@ public class SchedulerConfig {
 		factory.setRepeatCount(SimpleTrigger.REPEAT_INDEFINITELY);
 		return factory;
 	}
-
+	
 }

@@ -28,14 +28,14 @@ public class Quartz {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	private String content;
+	private String text;
 
 	@UpdateTimestamp
 	@Column(name = "excuse_time")
 	private Date excuseTime;
 
 	public Quartz(final String content) {
-		this.content = content;
+		this.text = content;
 	}
 
 	@Override
