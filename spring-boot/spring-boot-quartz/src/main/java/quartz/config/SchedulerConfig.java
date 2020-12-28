@@ -70,7 +70,7 @@ public class SchedulerConfig {
 		SimpleTriggerFactoryBean factory = new SimpleTriggerFactoryBean();
 		factory.setJobDetail(job);
 		factory.setStartDelay(0L);
-		factory.setRepeatInterval(interval); // milliseconds
+		factory.setRepeatInterval(interval * 1000); // milliseconds
 		factory.setRepeatCount(SimpleTrigger.REPEAT_INDEFINITELY);
 		return factory;
 	}
