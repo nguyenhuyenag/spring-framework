@@ -1,4 +1,4 @@
-package com;
+package com.template;
 
 import java.util.Date;
 
@@ -13,10 +13,10 @@ import org.springframework.stereotype.Service;
 import com.mongodb.client.result.UpdateResult;
 
 @Service
-public class EmployeeRepositoryCustomImpl implements EmployeeRepositoryCustom {
+public class EmployeeServiceImpl implements EmployeeService {
 
 	@Autowired
-	MongoTemplate mongoTemplate;
+	private MongoTemplate mongoTemplate;
 
 	public long getMaxEmpId() {
 		Query query = new Query();

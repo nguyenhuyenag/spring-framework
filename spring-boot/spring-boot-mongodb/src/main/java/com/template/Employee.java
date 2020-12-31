@@ -1,4 +1,4 @@
-package com;
+package com.template;
 
 import java.util.Date;
 
@@ -7,6 +7,11 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 @Document(collection = "Employee")
 public class Employee {
 
@@ -22,38 +27,6 @@ public class Employee {
 
 	@Field(value = "Hire_Date")
 	private Date hireDate;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getEmpNo() {
-		return empNo;
-	}
-
-	public void setEmpNo(String empNo) {
-		this.empNo = empNo;
-	}
-
-	public String getFullName() {
-		return fullName;
-	}
-
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
-	}
-
-	public Date getHireDate() {
-		return hireDate;
-	}
-
-	public void setHireDate(Date hireDate) {
-		this.hireDate = hireDate;
-	}
 
 	@Override
 	public String toString() {

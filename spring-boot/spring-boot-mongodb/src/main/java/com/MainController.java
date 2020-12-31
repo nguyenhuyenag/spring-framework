@@ -8,13 +8,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.template.Employee;
+import com.template.EmployeeRepository;
+import com.template.EmployeeService;
+
 @RestController
 public class MainController {
 
 	private static final String[] NAMES = { "Tom", "Jerry", "Donald" };
 
 	@Autowired
-	private EmployeeRepositoryCustom employeeRepositoryCustom;
+	private EmployeeService employeeRepositoryCustom;
 
 	@Autowired
 	private EmployeeRepository employeeRepository;
