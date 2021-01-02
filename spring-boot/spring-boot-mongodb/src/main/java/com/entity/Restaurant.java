@@ -1,5 +1,7 @@
 package com.entity;
 
+import java.util.List;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.data.annotation.Id;
@@ -22,6 +24,9 @@ public class Restaurant {
 	
 	@Field(value = "restaurant_id")
 	private String restaurantId;
+	
+	private Address address;
+	private List<Grades> grades;
 
 	@Override
 	public String toString() {

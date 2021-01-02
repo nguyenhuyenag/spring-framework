@@ -6,6 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.repository.RestaurantRepotitory;
+import com.template.RestaurantService;
 
 @SpringBootApplication
 public class BootApplication implements CommandLineRunner {
@@ -15,19 +16,15 @@ public class BootApplication implements CommandLineRunner {
 	}
 	
 	@Autowired
+	RestaurantService service;
+
+	@Autowired
 	RestaurantRepotitory repository;
 
 	@Override
 	public void run(String... args) throws Exception {
-		repository.findAll().stream().limit(5).forEach(t -> System.out.println(t));
+		// repository.findAll().stream().limit(3).forEach(t -> System.out.println(t.getAddress()));
+		System.out.println(service.findByRestaurantId("30075445").toString());
 	}
-	
-//	@Bean
-//    public MongoTemplate mongoTemplate(MongoDbFactory mongoDbFactory, MongoMappingContext context) {
-//        MappingMongoConverter converter = new MappingMongoConverter(new DefaultDbRefResolver(mongoDbFactory), context);
-//        converter.setTypeMapper(new DefaultMongoTypeMapper(null));
-//        MongoTemplate mongoTemplate = new MongoTemplate(mongoDbFactory, converter);
-//        return mongoTemplate;
-//    }
 
 }
