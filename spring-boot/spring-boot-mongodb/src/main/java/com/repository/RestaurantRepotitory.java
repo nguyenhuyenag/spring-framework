@@ -11,6 +11,8 @@ public interface RestaurantRepotitory extends MongoRepository<Restaurant, String
 	
 	Restaurant findByName(String name);
 	
+	List<Restaurant> findByRestaurantIdGreaterThan(String id); // LessThan
+	
 	List<Restaurant> findByNameEndingWith(String regexp);
 	
 	List<Restaurant> findByNameStartingWith(String regexp);
@@ -28,6 +30,5 @@ public interface RestaurantRepotitory extends MongoRepository<Restaurant, String
 	
 	@Query("{ 'restaurantId' : { $gt: ?0, $lt: ?1 } }")
 	List<Restaurant> findByRestaurantIdBetween(int from, int to);
-
 	
 }
