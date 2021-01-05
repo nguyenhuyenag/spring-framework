@@ -33,11 +33,16 @@ public class BootApplication implements CommandLineRunner {
 		// service.findLessThanAndGreatThan().forEach(t -> System.out.println(t));
 		// service.page(1, 2).forEach(print);
 		// service.page(3, 4).forEach(print);
+		service.findIn();
+		
+		
+		
+		service
 		
 		// spring mongo
-		// repository.findByNameStartingWith("C").forEach(show);
 		// repository.findByNameEndingWith("C").forEach(show);
-		repository.findByRestaurantIdBetween("40361521", "40361921").forEach(show);
+		// repository.findByNameStartingWith("C").forEach(show);
+		// repository.findByRestaurantIdBetween("40361521", "40361921").forEach(show);
 		// repository.findByNameLikeOrderByRestaurantIdDesc("A");
 		// repository.findByNameUsingJSON("Morris Park Bake Shop").forEach(show);
 		// repository.findRestaurantByRegexpName("^A").forEach(show);

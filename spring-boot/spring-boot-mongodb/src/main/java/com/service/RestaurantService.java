@@ -6,6 +6,8 @@ import com.entity.Restaurant;
 
 public interface RestaurantService {
 	
+	void findIn(); // in
+	
 	Restaurant findByRestaurantId(String id);
 	
 	List<Restaurant> findByRegex();
