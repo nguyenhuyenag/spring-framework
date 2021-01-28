@@ -12,11 +12,20 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.UpdateTimestamp;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 /*-
-	ApplicationContext context = SpringApplication.run(LearnApplication.class, args);
-	UserRepository userRepository = context.getBean(UserRepository.class);
-	userRepository.findAll().forEach(System.out::println);
+	ApplicationContext context = SpringApplication.run(LearnApplication.class, args); // context
+	UserRepository userRepository = context.getBean(UserRepository.class); // bean
+	userRepository.findAll().forEach(System.out::println); // su dung
 */
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "t_user")
 public class User implements Serializable {
@@ -36,47 +45,9 @@ public class User implements Serializable {
 	@Column(name = "execute_time")
 	private Date executeTime;
 
-	public User() {
-		
-	}
-
-	public User(Integer id, String name, String email, Date executeTime) {
-		this.id = id;
-		this.name = name;
-		this.email = email;
-		this.executeTime = executeTime;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public Date getExecuteTime() {
-		return executeTime;
-	}
-
-	public void setExecuteTime(Date executeTime) {
-		this.executeTime = executeTime;
+	@Override
+	public String toString() {
+		return "{id: " + this.id + ", name: " + this.name + ", email: " + this.email + "}";
 	}
 
 }

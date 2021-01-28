@@ -6,7 +6,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.boot.jpa.criteria.UserRepositoryByCriteria;
+import com.boot.pageable.PageableJPA;
+import com.repository.UserRepository;
 import com.service.SpringTransaction;
 import com.service.UserService;
 
@@ -25,11 +26,14 @@ public class Application implements CommandLineRunner {
 	SpringTransaction iTest;
 
 	@Autowired
-	UserRepositoryByCriteria criteria;
+	UserRepository userRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
-
+		// PageableJPA.init();
+		// PageableJPA.info();
+		// PageableJPA.sortPage();
+		PageableJPA.showAllPage();
 	}
 
 }
