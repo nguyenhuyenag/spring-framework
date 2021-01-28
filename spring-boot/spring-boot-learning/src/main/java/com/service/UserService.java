@@ -2,7 +2,7 @@ package com.service;
 
 public interface UserService {
 
-	void init();
+	int init();
 
 	long count();
 

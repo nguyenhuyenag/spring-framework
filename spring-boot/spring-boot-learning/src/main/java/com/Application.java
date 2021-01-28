@@ -6,10 +6,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.boot.di.HiepSy;
-import com.boot.di.NhiemVu;
-import com.boot.di.CuuCongChua;
-import com.boot.di.DietRong;
 import com.boot.jpa.criteria.UserRepositoryByCriteria;
 import com.service.SpringTransaction;
 import com.service.UserService;
@@ -33,18 +29,6 @@ public class Application implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		// service.init();
-		
-		HiepSy hs = null;
-
-		NhiemVu dietrong = new DietRong();
-		hs = new HiepSy(dietrong);
-		hs.thucHienNhiemVu();
-
-		// HiepSy hs = null;
-		NhiemVu ccc = new CuuCongChua();
-		hs = new HiepSy(ccc);
-		hs.thucHienNhiemVu();
 
 	}
 

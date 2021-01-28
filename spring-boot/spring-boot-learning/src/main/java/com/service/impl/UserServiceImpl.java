@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void init() {
+	public int init() {
 		String name, email;
 		List<User> list = new ArrayList<>();
 		for (int i = 0; i < 10; i++) {
@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
 			list.add(new User(null, name, email, null));
 		}
 		userRepository.saveAll(list);
-		System.out.println("Save all complete");
+		return list.size();
 	}
 
 	@Override
