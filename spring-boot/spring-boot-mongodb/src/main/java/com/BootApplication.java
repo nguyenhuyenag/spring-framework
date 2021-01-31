@@ -9,7 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.entity.Restaurant;
 import com.repository.RestaurantRepotitory;
-import com.service.RestaurantService;
 
 @SpringBootApplication
 public class BootApplication implements CommandLineRunner {
@@ -19,25 +18,19 @@ public class BootApplication implements CommandLineRunner {
 	}
 	
 	@Autowired
-	RestaurantService service;
-
-	@Autowired
 	RestaurantRepotitory repository;
 
 	@Override
 	public void run(String... args) throws Exception {
-		Consumer<Restaurant> show = System.out::println;
+		//Consumer<Restaurant> show = System.out::println;
 		// System.out.println(service.findByRegex().size());
 		// System.out.println(service.findByRestaurantId("30075445").toString());
 		// service.findByRegex().forEach(t -> System.out.println(t));
 		// service.findLessThanAndGreatThan().forEach(t -> System.out.println(t));
 		// service.page(1, 2).forEach(print);
 		// service.page(3, 4).forEach(print);
-		service.findIn();
+		// service.findIn();
 		
-		
-		
-		service
 		
 		// spring mongo
 		// repository.findByNameEndingWith("C").forEach(show);
