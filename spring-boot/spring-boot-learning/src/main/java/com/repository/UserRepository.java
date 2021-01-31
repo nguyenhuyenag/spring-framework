@@ -17,9 +17,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	// long countByLastname(String lastname);
 
-	@Query("SELECT DISTINCT u.name FROM User u")
-	List<String> findDistinctUserByName();
-
 	// User findFirstByOrderByLastnameAsc();
 
 	// long deleteByLastname(String lastname);
@@ -40,6 +37,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	// List<User> findAllByOrderByFirstnameAsc(); // don't miss "by"
 
 	// List<User> findAllByOrderByEmailAddressDesc();
+	
+	@Query("SELECT DISTINCT u.name FROM User u")
+	List<String> findDistinctUserByName();
+	
+	@Query("select u.email from User u")
+	List<String> getAllEmails();
 
 	// JPQL
 	@Query(value = "SELECT u FROM User u ORDER BY email")

@@ -6,7 +6,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.boot.pageable.PageableJPA;
 import com.repository.UserRepository;
 import com.service.SpringTransaction;
 import com.service.UserService;
@@ -33,7 +32,9 @@ public class Application implements CommandLineRunner {
 		// PageableJPA.init();
 		// PageableJPA.info();
 		// PageableJPA.sortPage();
-		PageableJPA.showAllPage();
+		// PageableJPA.showAllPage();
+		// userRepository.getAllEmails().forEach(t->System.out.println(t));
+		// System.out.println(userRepository.getAllEmails());
 	}
 
 }

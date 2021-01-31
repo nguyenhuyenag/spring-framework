@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
 	// LoggerFactory.getLogger(UserServiceImpl.class);
 
 	@Autowired
-	UserRepository userRepository;
+	private UserRepository userRepository;
 
 	private String randomMail() {
 		List<String> list = Arrays.asList("yahoo.com", "gmail.com", "yandex.com", "amazon.com");
@@ -33,11 +33,16 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int init() {
 		String name, email;
+		List<String> listEmails = userRepository.getAllEmails();
 		List<User> list = new ArrayList<>();
-		for (int i = 0; i < 10; i++) {
+		while (list.size() < 49) {
 			name = RandomStringUtils.randomAlphabetic(5);
 			email = name.toLowerCase() + "@" + randomMail();
-			list.add(new User(null, name, email, null));
+			if (!listEmails.contains(email)) {
+				list.add(new User(null, name, email, null));
+			} else {
+				System.out.println("Duplicate email!");
+			}
 		}
 		userRepository.saveAll(list);
 		return list.size();

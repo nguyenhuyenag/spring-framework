@@ -45,7 +45,8 @@ public class PageableJPA {
 
 	// Sort theo tên, lấy ra 5 user ở page 1. Lưu ý, phương thức này sắp xếp trước rồi mới chia page
 	public static void sortPage() {
-		Page<User> page = repository.findAll(PageRequest.of(1, 5, Sort.by("email")));
+		// Page<User> page = repository.findAll(PageRequest.of(1, 5, Sort.by("email")));
+		Page<User> page = repository.findAll(PageRequest.of(1, 5, Sort.Direction.ASC, "email"));
 		page.forEach(System.out::println);
 	}
 	
