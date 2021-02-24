@@ -25,7 +25,7 @@ public class Application extends SpringBootServletInitializer implements Command
 
 	@Autowired
 	VocabService repository;
-
+	
 	@Override
 	public void run(String... args) throws Exception {
 		// System.out.println("min: " + repository.findMinId());

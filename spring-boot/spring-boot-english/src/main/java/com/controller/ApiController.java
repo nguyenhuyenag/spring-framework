@@ -12,10 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.entity.Vocabulary;
 import com.repository.VocabRepository;
 import com.service.VocabService;
+import com.service.XSSFService;
 
 @RestController
 @RequestMapping("api")
 public class ApiController {
+	
+	@Autowired
+	XSSFService xssfService;
 
 	@Autowired
 	private VocabService service;
@@ -33,6 +37,12 @@ public class ApiController {
 	private ResponseEntity<Vocabulary> getRandomVocab() {
 		Vocabulary dict = service.getRandomVocab();
 		return new ResponseEntity<>(dict, HttpStatus.OK);
+	}
+	
+	@GetMapping("import-excel")
+	private ResponseEntity<Void> importExcel() {
+		xssfService.importExcel();
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 }

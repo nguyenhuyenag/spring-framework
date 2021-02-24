@@ -3,6 +3,7 @@ package com.service.impl;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,8 +33,14 @@ public class VocabServiceImpl implements VocabService {
 
 	@Override
 	public Vocabulary getVocabById(int id) {
-		Optional<Vocabulary> dict = repository.findById(id);
-		return dict.isPresent() ? dict.get() : null;
+		Optional<Vocabulary> opt = repository.findById(id);
+		if (opt.isPresent()) {
+			Vocabulary vocab = opt.get();
+			// first char uppercase
+			vocab.setMean(StringUtils.capitalize(vocab.getMean()));
+			return vocab;
+		}
+		return null;
 	}
 	
 	// Sinh ngẫu nhiên 1 số trong đoạn [min, max] ngoại trừ số t
