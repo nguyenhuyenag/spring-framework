@@ -1,6 +1,5 @@
 package com.service.impl;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -63,7 +62,6 @@ public class VocabServiceImpl implements VocabService {
 	@Override
 	public Vocabulary getRandomVocab(String flag) {
 		while (true) {
-			System.out.println(Arrays.toString(ignoreWords.toArray()));
 			int id = randomExcept(cid);
 			cid = id;
 			Vocabulary vocab = getVocabById(id);
