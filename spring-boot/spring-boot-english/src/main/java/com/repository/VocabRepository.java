@@ -19,5 +19,5 @@ public interface VocabRepository extends JpaRepository<Vocabulary, Integer> {
 	
 	@Query(value = "select lower(v.word) from vocab v", nativeQuery = true)
 	List<String> findAllVocab();
-
+	
 }

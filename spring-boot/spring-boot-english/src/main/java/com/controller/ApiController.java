@@ -34,8 +34,9 @@ public class ApiController {
 	}
 
 	@GetMapping("random-vocab")
-	private ResponseEntity<Vocabulary> getRandomVocab() {
-		Vocabulary dict = service.getRandomVocab();
+	private ResponseEntity<Vocabulary> getRandomVocab(String flag) {
+		Vocabulary dict = service.getRandomVocab(flag);
+		System.out.println("flag: " + flag);
 		return new ResponseEntity<>(dict, HttpStatus.OK);
 	}
 	

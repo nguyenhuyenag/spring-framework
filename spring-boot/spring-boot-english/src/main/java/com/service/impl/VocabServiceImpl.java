@@ -6,6 +6,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.transaction.Transactional;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,7 +61,7 @@ public class VocabServiceImpl implements VocabService {
 	}
 
 	@Override
-	public Vocabulary getRandomVocab() {
+	public Vocabulary getRandomVocab(String flag) {
 		while (true) {
 			System.out.println(Arrays.toString(ignoreWords.toArray()));
 			int id = randomExcept(cid);
@@ -68,11 +70,21 @@ public class VocabServiceImpl implements VocabService {
 			if (vocab != null) {
 				String word = vocab.getWord();
 				if (!ignoreWords.contains(word)) {
-					ignoreWords.add(word);
+					ignoreWords.add(word);		// add to ignore list
+					if ("1".equals(flag)) {
+						increaseCountById(vocab); 	// count++
+					}
 					return vocab;
 				}
 			}
 		}
+	}
+
+	@Transactional
+	@Override
+	public void increaseCountById(Vocabulary vocab) {
+		vocab.setCount(vocab.getCount() + 1);
+		repository.save(vocab);
 	}
 
 }

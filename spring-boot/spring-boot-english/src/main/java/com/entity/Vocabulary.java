@@ -26,6 +26,7 @@ public class Vocabulary {
 	private String word;
 	private String mean;
 	private String pronounce;
+	private int count = 0;
 
 	public Vocabulary(String word, String pronounce, String mean) {
 		this.word = word;
