@@ -14,5 +14,4 @@ public interface VocabService {
 	
 	void increaseCountById(Vocabulary vocab);
 
-
 }

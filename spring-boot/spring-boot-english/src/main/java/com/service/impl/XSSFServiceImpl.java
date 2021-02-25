@@ -28,21 +28,23 @@ public class XSSFServiceImpl implements XSSFService {
 
 	private static final String FILE_NAME = Paths.get(PathUtils.RESOURCES, "data/vocabulary.xlsx").toString();
 
-	public static String getCell(XSSFRow row, int i) {
+	private String getCell(XSSFRow row, int i) {
 		if (row == null) {
 			return "";
 		}
 		try {
 			XSSFCell cell = row.getCell(i);
-			return cell != null ? cell.getStringCellValue() : "";
+			return cell != null ? cell.getStringCellValue().trim().toLowerCase() : "";
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return "";
 	}
 
-	// update vocab
-	// dùng equals để định nghĩa 2 vocab = nhau
+	private Vocabulary rowToVocab(XSSFRow row) {
+		return new Vocabulary(getCell(row, 0), getCell(row, 1), getCell(row, 2));
+	}
+
 	@Override
 	public void importExcel() {
 		try ( //
@@ -54,23 +56,29 @@ public class XSSFServiceImpl implements XSSFService {
 				String sheetName = itr.next().getSheetName();
 				char c = sheetName.charAt(0);
 				if (sheetName.length() == 1 && ('A' <= c || c <= 'Z')) {
-					List<String> currentList = repository.findAllVocab();
-					List<Vocabulary> listWords = new ArrayList<>();
+					List<Vocabulary> listVocab = new ArrayList<>();
 					XSSFSheet worksheet = workbook.getSheet(sheetName);
 					// XSSFSheet worksheet = workbook.getSheetAt(16);
 					for (int i = 0; i <= worksheet.getLastRowNum(); i++) {
 						XSSFRow row = worksheet.getRow(i);
 						if (row != null) {
-							String word = getCell(row, 0).trim().toLowerCase();
-							if (!currentList.contains(word)) {
-								String pro = getCell(row, 1).trim().toLowerCase();
-								String mean = getCell(row, 2).trim().toLowerCase();
-								listWords.add(new Vocabulary(word, pro, mean));
+							Vocabulary entity = rowToVocab(row);						// new word
+							Vocabulary vcb = repository.findByWord(entity.getWord());	// word from db
+							if (vcb == null) { 				// chưa có
+								listVocab.add(entity); 		// thêm mới
+							} else { 						// đã có
+								if (!vcb.equals(entity)) { 	// so sánh để update
+									vcb.setPronounce(entity.getPronounce());
+									vcb.setMean(entity.getMean());
+									repository.save(vcb);
+									System.out.println("Update: " + vcb.getWord());
+								}
 							}
 						}
 					}
-					if (listWords.size() > 0) {
-						repository.saveAll(listWords);
+					if (listVocab.size() > 0) {
+						repository.saveAll(listVocab);
+						System.out.println("Add new " + listVocab.size() + " word");
 					}
 				}
 			}

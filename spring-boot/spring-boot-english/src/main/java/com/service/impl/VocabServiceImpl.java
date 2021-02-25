@@ -70,7 +70,7 @@ public class VocabServiceImpl implements VocabService {
 			if (vocab != null) {
 				String word = vocab.getWord();
 				if (!ignoreWords.contains(word)) {
-					ignoreWords.add(word);		// add to ignore list
+					ignoreWords.add(word);			// add to ignore list
 					if ("1".equals(flag)) {
 						increaseCountById(vocab); 	// count++
 					}

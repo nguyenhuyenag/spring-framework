@@ -16,8 +16,11 @@ public interface VocabRepository extends JpaRepository<Vocabulary, Integer> {
 
 	@Query(value = "select max(id) from vocab", nativeQuery = true)
 	Integer findMaxId();
-	
+
 	@Query(value = "select lower(v.word) from vocab v", nativeQuery = true)
 	List<String> findAllVocab();
-	
+
+	// @Query(value = "select v.* from vocab v where v.word = :word", nativeQuery = true)
+	Vocabulary findByWord(String word);
+
 }

@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
-import com.service.VocabService;
+import com.repository.VocabRepository;
 
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer implements CommandLineRunner {
@@ -24,13 +24,11 @@ public class Application extends SpringBootServletInitializer implements Command
 	}
 
 	@Autowired
-	VocabService repository;
+	VocabRepository repository;
 	
 	@Override
 	public void run(String... args) throws Exception {
-		// System.out.println("min: " + repository.findMinId());
-		// System.out.println("max: " + repository.findMaxId());
-		// System.out.println(repository.getDictById(1));
+		
 	}
 
 }

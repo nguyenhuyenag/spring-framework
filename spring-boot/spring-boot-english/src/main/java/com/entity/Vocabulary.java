@@ -39,4 +39,24 @@ public class Vocabulary {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
 	}
 
+	private boolean equal(String s1, String s2) {
+		return s1.trim().equalsIgnoreCase(s2.trim());
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Vocabulary) {
+			Vocabulary vcb = (Vocabulary) obj;
+			if (equal(this.word, vcb.word) && equal(this.pronounce, vcb.pronounce) && equal(this.mean, vcb.mean)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return this.word.hashCode();
+	}
+
 }

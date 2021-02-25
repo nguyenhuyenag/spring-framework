@@ -32,18 +32,17 @@ public class ApiController {
 		List<Vocabulary> list = repository.findAll();
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
-
-	@GetMapping("random-vocab")
-	private ResponseEntity<Vocabulary> getRandomVocab(String flag) {
-		Vocabulary dict = service.getRandomVocab(flag);
-		System.out.println("flag: " + flag);
-		return new ResponseEntity<>(dict, HttpStatus.OK);
-	}
 	
-	@GetMapping("import-excel")
+	@GetMapping("import-data")
 	private ResponseEntity<Void> importExcel() {
 		xssfService.importExcel();
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
+	@GetMapping("random-vocab")
+	private ResponseEntity<Vocabulary> getRandomVocab(String flag) {
+		Vocabulary dict = service.getRandomVocab(flag);
+		return new ResponseEntity<>(dict, HttpStatus.OK);
+	}
+	
 }
