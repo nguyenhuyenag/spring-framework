@@ -47,6 +47,7 @@ public class XSSFServiceImpl implements XSSFService {
 
 	@Override
 	public void importExcel() {
+		int size, count = 0;
 		try ( //
 			FileInputStream excelFile = new FileInputStream(new File(FILE_NAME)); //
 			XSSFWorkbook workbook = new XSSFWorkbook(excelFile); //
@@ -76,14 +77,18 @@ public class XSSFServiceImpl implements XSSFService {
 							}
 						}
 					}
-					if (listVocab.size() > 0) {
+					size = listVocab.size();
+					if (size > 0) {
 						repository.saveAll(listVocab);
-						System.out.println("Add new " + listVocab.size() + " word");
+						count += size;
 					}
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+		if (count > 0) {
+			System.out.println("Add new " + count + " word");
 		}
 	}
 
