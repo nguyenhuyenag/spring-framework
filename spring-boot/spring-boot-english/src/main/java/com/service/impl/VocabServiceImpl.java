@@ -1,6 +1,9 @@
 package com.service.impl;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.apache.commons.lang3.StringUtils;
@@ -13,11 +16,12 @@ import com.service.VocabService;
 
 @Service
 public class VocabServiceImpl implements VocabService {
-	
-	private int cid = 1;
 
 	@Autowired
 	private VocabRepository repository;
+
+	private int cid = 1;
+	private Set<String> ignoreWords = new HashSet<>();
 
 	@Override
 	public int findMinId() {
@@ -42,7 +46,7 @@ public class VocabServiceImpl implements VocabService {
 		}
 		return null;
 	}
-	
+
 	// Sinh ngẫu nhiên 1 số trong đoạn [min, max] ngoại trừ số t
 	private int randomExcept(int t) {
 		int min = findMinId(), max = findMaxId();
@@ -57,11 +61,16 @@ public class VocabServiceImpl implements VocabService {
 	@Override
 	public Vocabulary getRandomVocab() {
 		while (true) {
+			System.out.println(Arrays.toString(ignoreWords.toArray()));
 			int id = randomExcept(cid);
 			cid = id;
-			Vocabulary dict = getVocabById(id);
-			if (dict != null) {
-				return dict;
+			Vocabulary vocab = getVocabById(id);
+			if (vocab != null) {
+				String word = vocab.getWord();
+				if (!ignoreWords.contains(word)) {
+					ignoreWords.add(word);
+					return vocab;
+				}
 			}
 		}
 	}
