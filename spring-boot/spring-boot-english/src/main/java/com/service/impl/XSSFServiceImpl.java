@@ -1,7 +1,7 @@
 package com.service.impl;
 
-import java.io.File;
 import java.io.FileInputStream;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -26,7 +26,7 @@ public class XSSFServiceImpl implements XSSFService {
 	@Autowired
 	private VocabRepository repository;
 
-	private static final String FILE_NAME = Paths.get(PathUtils.RESOURCES, "data/vocabulary.xlsx").toString();
+	private static final Path FILE = Paths.get(PathUtils.RESOURCES, "/data/vocabulary.xlsx");
 
 	private String getCell(XSSFRow row, int i) {
 		if (row == null) {
@@ -49,8 +49,12 @@ public class XSSFServiceImpl implements XSSFService {
 	public List<String> importExcel() {
 		int size, count = 0;
 		List<String> msg = new ArrayList<>();
+		if (!PathUtils.exists(FILE)) {
+			msg.add("File not found!");
+			return msg;
+		}
 		try ( //
-			FileInputStream excelFile = new FileInputStream(new File(FILE_NAME)); //
+			FileInputStream excelFile = new FileInputStream(FILE.toFile()); //
 			XSSFWorkbook workbook = new XSSFWorkbook(excelFile); //
 		) {
 			Iterator<Sheet> itr = workbook.sheetIterator();
@@ -71,7 +75,7 @@ public class XSSFServiceImpl implements XSSFService {
 							} else { 						// đã có
 								if (!vcb.equals(entity)) { 	// so sánh để update
 									vcb.setPronounce(entity.getPronounce());
-									vcb.setMean(entity.getMean());
+									vcb.setTranslate(entity.getTranslate());
 									repository.save(vcb);
 									msg.add("Update: " + vcb.getWord());
 								}

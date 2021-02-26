@@ -24,13 +24,13 @@ public class Vocabulary {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String word;
-	private String mean;
+	private String translate;
 	private String pronounce;
 	private int count = 0;
 
 	public Vocabulary(String word, String pronounce, String mean) {
 		this.word = word;
-		this.mean = mean;
+		this.translate = mean;
 		this.pronounce = pronounce;
 	}
 
@@ -47,7 +47,7 @@ public class Vocabulary {
 	public boolean equals(Object obj) {
 		if (obj instanceof Vocabulary) {
 			Vocabulary vcb = (Vocabulary) obj;
-			if (equal(this.word, vcb.word) && equal(this.pronounce, vcb.pronounce) && equal(this.mean, vcb.mean)) {
+			if (equal(this.word, vcb.word) && equal(this.pronounce, vcb.pronounce) && equal(this.translate, vcb.translate)) {
 				return true;
 			}
 		}

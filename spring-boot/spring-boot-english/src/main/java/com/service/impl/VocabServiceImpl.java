@@ -45,7 +45,7 @@ public class VocabServiceImpl implements VocabService {
 						increaseCountById(vocab); // count++
 					}
 					// first char uppercase
-					vocab.setMean(StringUtils.capitalize(vocab.getMean()));
+					vocab.setTranslate(StringUtils.capitalize(vocab.getTranslate()));
 					return vocab;
 				}
 			}
