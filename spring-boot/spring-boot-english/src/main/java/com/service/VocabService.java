@@ -4,11 +4,7 @@ import com.entity.Vocabulary;
 
 public interface VocabService {
 
-	int findMinId();
-
-	int findMaxId();
-
-	Vocabulary getVocabById(int id);
+	//Vocabulary getVocabById(int id);
 
 	Vocabulary getRandomVocab(String flag);
 	

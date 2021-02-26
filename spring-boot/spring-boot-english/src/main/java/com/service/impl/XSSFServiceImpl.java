@@ -46,8 +46,9 @@ public class XSSFServiceImpl implements XSSFService {
 	}
 
 	@Override
-	public void importExcel() {
+	public List<String> importExcel() {
 		int size, count = 0;
+		List<String> msg = new ArrayList<>();
 		try ( //
 			FileInputStream excelFile = new FileInputStream(new File(FILE_NAME)); //
 			XSSFWorkbook workbook = new XSSFWorkbook(excelFile); //
@@ -72,7 +73,7 @@ public class XSSFServiceImpl implements XSSFService {
 									vcb.setPronounce(entity.getPronounce());
 									vcb.setMean(entity.getMean());
 									repository.save(vcb);
-									System.out.println("Update: " + vcb.getWord());
+									msg.add("Update: " + vcb.getWord());
 								}
 							}
 						}
@@ -88,8 +89,9 @@ public class XSSFServiceImpl implements XSSFService {
 			e.printStackTrace();
 		}
 		if (count > 0) {
-			System.out.println("Add new " + count + " word");
+			msg.add("Add new " + count + " word");
 		}
+		return msg;
 	}
 
 }

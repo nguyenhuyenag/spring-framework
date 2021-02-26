@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.entity.Vocabulary;
-import com.repository.VocabRepository;
 import com.service.VocabService;
 import com.service.XSSFService;
 
@@ -24,19 +23,19 @@ public class ApiController {
 	@Autowired
 	private VocabService service;
 
-	@Autowired
-	private VocabRepository repository;
+	//@Autowired
+	//private VocabRepository repository;
 
-	@GetMapping("get-data")
-	private ResponseEntity<List<Vocabulary>> getData() {
-		List<Vocabulary> list = repository.findAll();
-		return new ResponseEntity<>(list, HttpStatus.OK);
-	}
+//	@GetMapping("get-data")
+//	private ResponseEntity<List<Vocabulary>> getData() {
+//		List<Vocabulary> list = repository.findAll();
+//		return new ResponseEntity<>(list, HttpStatus.OK);
+//	}
 	
 	@GetMapping("import-data")
-	private ResponseEntity<Void> importExcel() {
-		xssfService.importExcel();
-		return new ResponseEntity<>(HttpStatus.OK);
+	private ResponseEntity<List<String>> importExcel() {
+		List<String> list = xssfService.importExcel();
+		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 
 	@GetMapping("random-vocab")
