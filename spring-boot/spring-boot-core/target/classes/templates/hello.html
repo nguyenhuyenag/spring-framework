@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Hello</title>
+	<!--css-->
+	<link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
+</head>
+<body>
+	<h1 th:text="'Hello: ' + ${name}"></h1>
+	<!-- <p>Today is: <span th:text="${today}"> </span></p> -->
+	<form method="get" action="hello">
+		<input name="name" />
+		<button type="submit">Submit</button>
+	</form>
+	<h2><a href="/">Back Index</a></h2>
+</body>
+</html>

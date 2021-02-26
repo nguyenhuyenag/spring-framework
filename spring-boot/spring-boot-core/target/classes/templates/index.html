@@ -1,0 +1,32 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+<title>Index</title>
+</head>
+<body>
+	<h1>Index</h1>
+	<a href="about">About</a>
+	<form method="get" action="hello">
+		<input name="name" />
+		<button type="submit">Submit</button>
+	</form>
+</body>
+</html> -->
+
+<!-- http://localhost:8080 -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8" />
+	<title>Thymeleaf</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<!--css-->
+	<link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
+</head>
+<body>
+	<h1 th:utext="#{web.title}"></h1>
+	<a th:href="@{/profile}" class="btn btn-primary">Profile</a>
+	<a th:href="@{/hello}" class="btn btn-primary">Hello</a>
+</body>
+</html>
