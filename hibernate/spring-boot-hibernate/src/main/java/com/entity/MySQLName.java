@@ -32,6 +32,7 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "mysql_name")
+@SuppressWarnings("unused")
 public class MySQLName implements Serializable {
 
 	private static final long serialVersionUID = 1L;

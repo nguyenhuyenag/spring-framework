@@ -23,7 +23,7 @@ public class HibernateUtils {
 		return new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
 	}
 
-	//@SuppressWarnings("unused")
+	@SuppressWarnings("unused")
 	private static SessionFactory buildSessionFactory2() {
 		Configuration config = new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(com.User.class);
 		ServiceRegistry service = new StandardServiceRegistryBuilder().applySettings(config.getProperties()).build();
@@ -31,7 +31,7 @@ public class HibernateUtils {
 		return sessionFactory;
 	}
 
-	//@SuppressWarnings("unused")
+	@SuppressWarnings("unused")
 	private static SessionFactory buildSessionFactory3() {
 		try {
 			ServiceRegistry service = new StandardServiceRegistryBuilder().configure().build();

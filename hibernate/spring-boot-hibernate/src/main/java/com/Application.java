@@ -17,7 +17,7 @@ public class Application implements CommandLineRunner {
 	}
 	
 	@Autowired
-	private ManyToManyService repository;
+	ManyToManyService repository;
 
 	@Override
 	public void run(String... args) throws Exception {
