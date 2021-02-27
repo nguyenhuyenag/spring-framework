@@ -1,4 +1,5 @@
 # Folder
+**/.mvn/
 **/target/
 **/.settings/
 
@@ -19,3 +20,4 @@
 *.properties
 *.MF
 *.prefs
+
