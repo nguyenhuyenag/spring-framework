@@ -24,8 +24,8 @@ public class Vocabulary {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String word;
-	private String translate;
 	private String pronounce;
+	private String translate;
 	private int count = 0;
 
 	public Vocabulary(String word, String pronounce, String mean) {

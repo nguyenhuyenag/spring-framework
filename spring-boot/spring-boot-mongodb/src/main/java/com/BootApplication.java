@@ -1,13 +1,10 @@
 package com;
 
-import java.util.function.Consumer;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.entity.Restaurant;
 import com.repository.RestaurantRepotitory;
 
 @SpringBootApplication
@@ -30,7 +27,6 @@ public class BootApplication implements CommandLineRunner {
 		// service.page(1, 2).forEach(print);
 		// service.page(3, 4).forEach(print);
 		// service.findIn();
-		
 		
 		// spring mongo
 		// repository.findByNameEndingWith("C").forEach(show);
