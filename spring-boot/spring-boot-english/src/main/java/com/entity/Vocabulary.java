@@ -28,10 +28,10 @@ public class Vocabulary {
 	private String translate;
 	private int count = 0;
 
-	public Vocabulary(String word, String pronounce, String mean) {
+	public Vocabulary(String word, String pronounce, String translate) {
 		this.word = word;
-		this.translate = mean;
 		this.pronounce = pronounce;
+		this.translate = translate;
 	}
 
 	@Override
