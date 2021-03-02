@@ -95,6 +95,9 @@ public class XSSFServiceImpl implements XSSFService {
 		if (count > 0) {
 			msg.add("Add new " + count + " word");
 		}
+		if (msg.size() == 0) {
+			msg.add("No change!");
+		}
 		return msg;
 	}
 
