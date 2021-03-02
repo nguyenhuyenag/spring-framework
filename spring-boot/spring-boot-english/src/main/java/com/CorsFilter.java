@@ -18,15 +18,16 @@ import org.springframework.http.HttpMethod;
 public class CorsFilter implements Filter {
 
 	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+			throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
 		res.setHeader("Access-Control-Allow-Origin", "*");
 		res.setHeader("Access-Control-Allow-Credentials", "true");
 		res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
 		res.setHeader("Access-Control-Max-Age", "3600");
-		// res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-		res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Authorization, Origin, Accept, Access-Control-Request-Method, Access-Control-Request-Headers");
+		res.setHeader("Access-Control-Allow-Headers",
+				"X-Requested-With, Content-Type, Authorization, Origin, Accept, Access-Control-Request-Method, Access-Control-Request-Headers");
 		res.setHeader("Content-Type", "application/json;charset=utf-8");
 		res.setHeader("Access-Control-Expose-Headers", "Authorization");
 		if (HttpMethod.OPTIONS.name().equalsIgnoreCase(req.getMethod())) {

@@ -26,8 +26,6 @@ import com.util.JsonUtils;
 
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
-	// private static final Logger LOG = LoggerFactory.getLogger(JWTLoginFilter.class);
-
 	public JWTLoginFilter(AuthenticationManager am) {
 		super(new AntPathRequestMatcher("/auth/login"));
 		this.setAuthenticationManager(am);
@@ -36,23 +34,11 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res)
 			throws JsonParseException, JsonMappingException, IOException {
-		//try {
-			LoginRequest login = JsonUtils.readValue(req.getInputStream(), LoginRequest.class);
-			UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword(), new ArrayList<>());
-			SecurityContextHolder.getContext().setAuthentication(auth);
-			return getAuthenticationManager().authenticate(auth);
-//		} catch (AuthenticationException e) {
-//			res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-//			res.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
-//			ApiError error = new ApiError();
-//			error.setStatus(401);
-//			error.setError("Unauthorized");
-//			error.setMessage("The username or password is incorrect");
-//			error.setPath(req.getRequestURI());
-//			String json = JsonUtils.toJSON(error);
-//			res.getWriter().write(json);
-//		}
-//		return null;
+		LoginRequest login = JsonUtils.readValue(req.getInputStream(), LoginRequest.class);
+		UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(login.getUsername(),
+				login.getPassword(), new ArrayList<>());
+		SecurityContextHolder.getContext().setAuthentication(auth);
+		return getAuthenticationManager().authenticate(auth);
 	}
 
 	@Override
@@ -62,7 +48,6 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 		String json = JsonUtils.toJSON(new LoginResponse(token));
 		res.getWriter().write(json);
 		res.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
-		// res.addHeader(HttpHeaders.AUTHORIZATION, TokenHandler.PREFIX + token);
 	}
 
 	@Override

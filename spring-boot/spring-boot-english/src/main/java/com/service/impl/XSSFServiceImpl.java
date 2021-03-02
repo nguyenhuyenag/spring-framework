@@ -26,7 +26,7 @@ public class XSSFServiceImpl implements XSSFService {
 	@Autowired
 	private VocabRepository repository;
 
-	private static final Path FILE = Paths.get(PathUtils.RESOURCES, "/data/vocabulary.xlsx");
+	private final Path FILE = Paths.get("D:/GDrive/ToCompany/english/vocabulary.xlsx");
 
 	private String getCell(XSSFRow row, int i) {
 		if (row == null) {
