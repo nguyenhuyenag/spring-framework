@@ -24,13 +24,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	private UserRepository repository;
 
 	private Set<SimpleGrantedAuthority> getAuthority(User user) {
-		Set<SimpleGrantedAuthority> authorities = new HashSet<>();
+		Set<SimpleGrantedAuthority> auth = new HashSet<>();
 		user.getRoles().forEach(role -> {
-			// authorities.add(new SimpleGrantedAuthority(role.getName()));
-			authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
+			auth.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
 		});
-		// return Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"));
-		return authorities;
+		return auth;
 	}
 
 	@Override
@@ -39,7 +37,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			throw new UsernameNotFoundException("Username is empty!");
 		}
 		final Optional<User> user = repository.findByUsername(username);
-		// return user.orElseThrow(() -> new UsernameNotFoundException("User `" + username + "` was not found!"));
 		if (user.isPresent()) {
 			return new org.springframework.security.core.userdetails //
 					   .User(user.get().getUsername(), user.get().getPassword(), getAuthority(user.get()));

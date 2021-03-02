@@ -21,18 +21,6 @@ public class VocabServiceImpl implements VocabService {
 
 	private Set<String> ignoreWords = new HashSet<>();
 
-//	@Override
-//	public Vocabulary getVocabById(int id) {
-//		Optional<Vocabulary> opt = repository.findById(id);
-//		if (opt.isPresent()) {
-//			Vocabulary vocab = opt.get();
-//			// first char uppercase
-//			vocab.setMean(StringUtils.capitalize(vocab.getMean()));
-//			return vocab;
-//		}
-//		return null;
-//	}
-
 	@Override
 	public Vocabulary getRandomVocab(String flag) {
 		while (true) {

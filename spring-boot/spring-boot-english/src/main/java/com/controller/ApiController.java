@@ -23,15 +23,6 @@ public class ApiController {
 	@Autowired
 	private VocabService service;
 
-	//@Autowired
-	//private VocabRepository repository;
-
-//	@GetMapping("get-data")
-//	private ResponseEntity<List<Vocabulary>> getData() {
-//		List<Vocabulary> list = repository.findAll();
-//		return new ResponseEntity<>(list, HttpStatus.OK);
-//	}
-	
 	@GetMapping("import-data")
 	private ResponseEntity<List<String>> importExcel() {
 		List<String> list = xssfService.importExcel();
