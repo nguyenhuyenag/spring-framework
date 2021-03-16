@@ -40,12 +40,14 @@ public class VocabServiceImpl implements VocabService {
 		String word = vocab.getWord();
 		if (!ignoreWords.contains(word)) {	// check exits
 			ignoreWords.add(word);
-			if ("1".equals(flag)) {
-				increaseCountById(vocab);	// increate count
+			if (StringUtils.isNotEmpty(vocab.getPronounce())) {
+				if ("1".equals(flag)) {
+					increaseCountById(vocab); // increate count
+				}
+				// string fist uppercase
+				vocab.setTranslate(StringUtils.capitalize(vocab.getTranslate()));
+				return vocab;
 			}
-			// string fist uppercase
-			vocab.setTranslate(StringUtils.capitalize(vocab.getTranslate()));
-			return vocab;
 		}
 		return null;
 	}
