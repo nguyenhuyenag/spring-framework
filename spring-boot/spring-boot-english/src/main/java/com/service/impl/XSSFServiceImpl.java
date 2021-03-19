@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -42,7 +43,13 @@ public class XSSFServiceImpl implements XSSFService {
 	}
 
 	private Vocabulary rowToVocab(XSSFRow row) {
-		return new Vocabulary(getCell(row, 0), getCell(row, 1), getCell(row, 2));
+		String word = getCell(row, 0);
+		String pronounce = getCell(row, 1);
+		String translate = getCell(row, 2);
+		if (StringUtils.isNotEmpty(word) && StringUtils.isNotEmpty(translate)) {
+			return new Vocabulary(word, pronounce, translate);
+		}
+		return null;
 	}
 
 	@Override
@@ -68,16 +75,19 @@ public class XSSFServiceImpl implements XSSFService {
 					for (int i = 0; i <= worksheet.getLastRowNum(); i++) {
 						XSSFRow row = worksheet.getRow(i);
 						if (row != null) {
-							Vocabulary entity = rowToVocab(row);						// new word
-							Vocabulary vcb = repository.findByWord(entity.getWord());	// word from db
-							if (vcb == null) { 				// chưa có
-								listVocab.add(entity); 		// thêm mới
-							} else { 						// đã có
-								if (!vcb.equals(entity)) { 	// so sánh để update
-									vcb.setPronounce(entity.getPronounce());
-									vcb.setTranslate(entity.getTranslate());
-									repository.save(vcb);
-									msg.add("Update: " + vcb.getWord());
+							Vocabulary entity = rowToVocab(row);							// get new word
+							if(entity != null) {
+								Vocabulary vcb = repository.findByWord(entity.getWord());	// get word from db
+								if (vcb == null) { 				// chưa có
+									listVocab.add(entity); 		// thêm mới
+								} else { 						// đã có
+									if (!vcb.equals(entity)) { 	// so sánh để update
+										vcb.setPronounce(entity.getPronounce());
+										vcb.setTranslate(entity.getTranslate());
+										// BeanUtils.copyProperties(entity, vcb, "id, word, count");
+										repository.save(vcb);
+										msg.add("Update: " + vcb.getWord());
+									}
 								}
 							}
 						}
