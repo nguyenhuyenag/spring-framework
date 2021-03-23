@@ -28,7 +28,11 @@
 
 	- Sử dụng khi Entity chứa 1 field mà bảng không có, xem trường company trong User.java
 	
-		- Unknown column 'user0_.company' in 'field list' 
+		- Unknown column 'user0_.company' in 'field list'
+
+	- Field được đánh dấu @Transient sẽ được JPA bỏ qua, dữ liệu load lên từ bảng sẽ là null và không save dữ liệu xuống bảng
+
+	- Xem thêm tại: https://stackoverflow.com/q/1281952/7068014
 
 # @GeneratedValue (fix): https://gpcoder.com/6338-cac-annotation-cua-hibernate/#GeneratedValue
 

@@ -1,3 +1,7 @@
+CREATE SCHEMA IF NOT EXISTS `hibernate`;
+
+USE `hibernate`;
+
 CREATE TABLE `clazz` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
@@ -103,4 +107,5 @@ CREATE TABLE `hibernate`.`customer` (
   `address` VARCHAR(45) NULL,
   `created_datetime` DATETIME NULL,
   `updated_datetime` DATETIME NULL,
-  PRIMARY KEY (`id`));
+  PRIMARY KEY (`id`)
+);
