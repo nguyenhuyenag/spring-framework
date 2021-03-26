@@ -2,7 +2,7 @@
 	
 # @Component
 
-	- Là 1 annotation đánh dấu trên CLASS để Spring biết nó là 1 Bean (hoặc dependency) và được Spring quản lý
+	- Là 1 annotation đánh dấu trên class để Spring biết nó là 1 Bean (hoặc dependency) và được Spring quản lý
   
 	- Các Bean trong Context đều là singleton. Trong trường hợp muốn mỗi lần sử dụng là một instance mới thì đánh dấu Bean đó bằng @Scope("prototype")
 	
