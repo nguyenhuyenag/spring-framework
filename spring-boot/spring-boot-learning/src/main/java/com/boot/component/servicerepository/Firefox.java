@@ -3,9 +3,9 @@ package com.boot.component.servicerepository;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+@SuppressWarnings("unused")
 public class Firefox {
 
-	@SuppressWarnings("unused")
 	private String name;
 
 	public Firefox() {
