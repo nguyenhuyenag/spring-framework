@@ -20,12 +20,12 @@ import com.repository.UserRepository;
 
 @RestController
 @RequestMapping("user")
-public class RestfulController {
+public class ParamController {
 
 	@Autowired
 	private UserRepository repository;
 
-	@GetMapping("rest-controller")
+	@GetMapping("list-user")
 	private ResponseEntity<List<User>> getAll() {
 		List<User> list = repository.findAll();
 		// HttpHeaders responseHeaders = new HttpHeaders();
@@ -77,7 +77,7 @@ public class RestfulController {
 			System.out.println(e.getKey() + " => " + e.getValue());
 		}
 		String result = "Parameters are: " + entrys;
-		return new ResponseEntity<>(result, HttpStatus.OK);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
 	/*-

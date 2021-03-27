@@ -13,17 +13,15 @@ import com.dto.Info;
 @Controller
 public class WebController {
 
-	// Nhận request GET
 	@GetMapping("/") // Nếu người dùng request tới địa chỉ "/"
 	public String index() {
 		return "index"; // Trả về file index.html
 	}
 
-	@GetMapping("hello")
-	// Model là một object của Spring, được gắn vào trong mọi request
+	@GetMapping("home")
 	public String hello(@RequestParam(name = "name", defaultValue = "Java") String name, Model model) {
 		model.addAttribute("name", name);
-		return "hello";
+		return "home";
 	}
 
 	@GetMapping("profile")
@@ -31,7 +29,6 @@ public class WebController {
 		List<Info> list = new ArrayList<>();
 		list.add(new Info("Nickname", "nguyenhuyenag"));
 		list.add(new Info("Git", "https://github.com/nguyenhuyenag"));
-		// Đưa thông tin vào Model
 		model.addAttribute("listProfile", list);
 		// Trả về template profile.html
 		return "profile";

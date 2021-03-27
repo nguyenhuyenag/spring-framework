@@ -2,7 +2,7 @@
 	
 # @Component
 
-	- Là một annotation đánh dấu trên class để Spring biết nó là Bean (hoặc dependency) và được Spring quản lý.
+	- Là một annotation đánh dấu trên class để Spring biết nó là Bean (hoặc dependency) và được Spring IoC container quản lý.
 
 # @Scope
   
@@ -42,21 +42,25 @@
 	
 	- Bean life cycle: https://i.imgur.com/5SxxUQ0.jpg
 
-# @Service & @Repository (3Layer: Presentation Layers, Busines Logic Layers, Data Access Layers)
+# 3Layer: Presentation Layers, Busines Logic Layers, Data Access Layers
 
-	- @Service đánh dấu một CLASS là tầng Service, phục vụ các logic nghiệp vụ.
+	- @Controller (Presentation)
+
+	- @Service (Busines Logic): Đánh dấu một class là tầng Service, phục vụ các logic nghiệp vụ.
 	
-	- @Repository đánh dấu một CLASS đảm nhiệm giao tiếp với database.
+	- @Repository (Data Access): Đánh dấu một class đảm nhiệm giao tiếp với database.
 	
-	- Bản chất @Service & @Repository cũng chính là @Component và có thể thay thế cho nhau.
+	- Bản chất cả 3 đều là @Component và có thể thay thế cho nhau.
 
-# @Bean & @Configuration
+# @Configuration và @Bean
 
-	- @Bean đánh dấu trên METHOD để Spring Boot biết đây là Bean và sẽ đưa Bean này vào Context
+	- @Bean đánh dấu trên method, hàm này trả về một object và được đăng ký, quản lý bởi Spring IoC container.
 
-	- @Configuration đánh dấu trên CLASS để Spring Boot biết đây là nơi định nghĩa ra các Bean
+	- @Configuration đánh dấu trên class để Spring biết đây là nơi định nghĩa ra các Bean.
 
 	- @Bean sẽ nằm trong các class có đánh dấu @Configuration
+	
+	- Nếu method được đánh dấu bởi @Bean có tham số, thì Spring Boot sẽ tự inject các Bean đã có trong Context vào làm tham số.
 	
 	- Về bản chất, @Configuration cũng là @Component
 	

@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
 		String name, email;
 		List<String> listEmails = userRepository.getAllEmails();
 		List<User> list = new ArrayList<>();
-		while (list.size() < 49) {
+		while (list.size() < 5) {
 			name = RandomStringUtils.randomAlphabetic(5);
 			email = name.toLowerCase() + "@" + randomMail();
 			if (!listEmails.contains(email)) {
