@@ -1,4 +1,4 @@
-package com.boot.component;
+package com.boot.component.autowired.other;
 
 public interface Computer {
 

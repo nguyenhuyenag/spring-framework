@@ -8,6 +8,9 @@ import org.springframework.context.ApplicationContext;
 
 import com.boot.component.Hat;
 import com.boot.component.autowired.GirlFriend;
+import com.boot.component.autowired.primary.HP;
+import com.boot.component.autowired.primary.Laptop;
+import com.boot.component.autowired.primary.UseLaptop;
 
 @SpringBootApplication
 @EnableAutoConfiguration
@@ -24,11 +27,16 @@ public class Application implements CommandLineRunner {
 	}
 
 	public static void main(String[] args) {
+		
 		ApplicationContext ctx = SpringApplication.run(Application.class, args);
-		GirlFriend g = ctx.getBean(GirlFriend.class);
-		System.out.println(g);
-		System.out.println(g.outfit);
-		g.outfit.wear();
+		
+//		GirlFriend g = ctx.getBean(GirlFriend.class);
+//		System.out.println(g);
+//		System.out.println(g.outfit);
+//		g.outfit.wear();
+		
+		UseLaptop laptop = ctx.getBean(UseLaptop.class);
+		laptop.use();
 	}
 
 }

@@ -28,7 +28,7 @@
 
 	- Vấn đề của @Autowired
 
-		+ Trường hợp dùng @Autowired khi Spring Boot có 2 Bean cùng loại, khi đó sẽ xuất hiện lỗi
+		+ Khi có 2 Bean cùng loại, sẽ xuất hiện lỗi
 		
 			=> “Field ... in ... required a single bean, but 2 were found”.
 		
