@@ -12,10 +12,10 @@ import org.springframework.stereotype.Component;
  * 
  * 		ApplicationContext context = SpringApplication.run(Application.class, args);
  * 		try {
- * 			Firefox firefox = context.getBean(Firefox.class);
- * 			firefox.show();
+ * 			Edge edge = context.getBean(Edge.class);
+ * 			edge.show();
  * 		} catch (Exception e) {
- * 			System.out.println("Bean Firefox không tồn tại!");
+ * 			System.out.println("Bean Edge không tồn tại!");
  * 		}
  * 		try {
  * 			Google google = context.getBean(Google.class);
@@ -34,7 +34,7 @@ import org.springframework.stereotype.Component;
  * 
  */
 @Component
-public class Firefox {
+public class Edge {
 
 	public void show() {
 		System.out.println("I'm Firefox");

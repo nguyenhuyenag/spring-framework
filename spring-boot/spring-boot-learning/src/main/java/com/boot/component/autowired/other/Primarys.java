@@ -1,4 +1,4 @@
-package com.boot.component.autowired;
+package com.boot.component.autowired.other;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;

@@ -2,41 +2,39 @@
 	
 # @Component
 
-	- Là một annotation đánh dấu trên class để Spring biết nó là 1 Bean (hoặc dependency) và được Spring quản lý.
+	- Là một annotation đánh dấu trên class để Spring biết nó là Bean (hoặc dependency) và được Spring quản lý.
+
+# @Scope
   
-	- Các Bean trong Context đều là singleton. Trong trường hợp muốn mỗi lần sử dụng là một instance mới thì đánh dấu Bean đó bằng @Scope("prototype")
+	- Các Bean trong Context đều là singleton. Nếu muốn mỗi lần sử dụng là một instance mới thì đánh dấu Bean đó bằng @Scope("prototype")
 	
 		@Component
 		@Scope("prototype")
 		public class User {
 		
 		}
+		
+	- Cacs Scope trong spring: Singleton, Prototype, Request, Session, Global-Session.
 
 # @Autowired
 
-	- Đánh dấu trên OBJECT
+	- Đánh dấu trên object, thứ tự ưu tiên khi inject bean: Constructor > Setter > Reflection.
 	
-	- Thứ tự ưu tiên khi inject bean: Constructor > Setter > Reflection
+	- @Autowired(required = true): Nếu spring không tìm thấy bean để inject thì nó sẽ báo lỗi (mặc định).
 	
-	- Thuộc tính required của annotation @Autowired mặc định là true.
+	- @Autowired(required = false): Nếu spring không tìm thấy bean để inject thì nó sẽ inject null.
 	
-	- @Autowired(required = true): Nếu spring không tìm thấy bean để inject thì nó sẽ báo lỗi (mặc định)
-	
-	- @Autowired(required = false): Nếu spring không tìm thấy bean để inject thì nó sẽ inject null
-	
-	- Không thể Autowire với các dữ liệu nguyên thủy
+	- Không thể Autowire với các dữ liệu nguyên thủy.
 
-# Vấn đề của @Autowired
+	- Vấn đề của @Autowired
 
-	- Trường hợp dùng @Autowired khi Spring Boot có 2 Bean cùng loại, khi đó sẽ xuất hiện lỗi
-	
-		=> “Field ... in ... required a single bean, but 2 were found”
-	
-	=> @Primary: Ưu tiên chọn Bean được đánh dấu nếu có bean cũng loại
-	
-	=> @Qualifier: Xác định tên của Bean muốn chỉ định inject
-	
-	- Xem: learn.of.component.autowired
+		+ Trường hợp dùng @Autowired khi Spring Boot có 2 Bean cùng loại, khi đó sẽ xuất hiện lỗi
+		
+			=> “Field ... in ... required a single bean, but 2 were found”.
+		
+		+ @Primary: Ưu tiên chọn Bean được đánh dấu nếu có bean cũng loại.
+		
+		+ @Qualifier: Xác định tên của Bean muốn chỉ định inject.
 	
 # @PostConstruct & @PreDestroy
 
