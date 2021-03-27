@@ -32,25 +32,23 @@
 		
 			=> “Field ... in ... required a single bean, but 2 were found”.
 		
-		+ @Primary: Ưu tiên chọn Bean được đánh dấu nếu có bean cũng loại.
-		
-		+ @Qualifier: Xác định tên của Bean muốn chỉ định inject.
+		+ Sử dụng @Primary hoặc @Qualifier
 	
 # @PostConstruct & @PreDestroy
 
-	- @PostConstruct đánh dấu trên METHOD bên trong Bean và method này sẽ được gọi sau khi Bean đó được khởi tạo
+	- @PostConstruct: Đánh dấu trên method bên trong Bean và method này sẽ được gọi sau khi Bean đó được khởi tạo.
 	
-	- @PreDestroy đánh dấu trên METHOD bên trong Bean và method này sẽ được gọi sau khi Bean bị xóa
+	- @PreDestroy: Tương tự, method này sẽ được gọi sau khi Bean bị xóa.
 	
 	- Bean life cycle: https://i.imgur.com/5SxxUQ0.jpg
 
-# @Service & @Repository (MVC)
+# @Service & @Repository (3Layer: Presentation Layers, Busines Logic Layers, Data Access Layers)
 
-	- @Service đánh dấu một CLASS là tầng Service, phục vụ các logic nghiệp vụ
+	- @Service đánh dấu một CLASS là tầng Service, phục vụ các logic nghiệp vụ.
 	
-	- @Repository đánh dấu một CLASS đảm nhiệm giao tiếp với database
+	- @Repository đánh dấu một CLASS đảm nhiệm giao tiếp với database.
 	
-	- Bản chất @Service & @Repository cũng chính là @Component và có thể thay thế cho nhau
+	- Bản chất @Service & @Repository cũng chính là @Component và có thể thay thế cho nhau.
 
 # @Bean & @Configuration
 
