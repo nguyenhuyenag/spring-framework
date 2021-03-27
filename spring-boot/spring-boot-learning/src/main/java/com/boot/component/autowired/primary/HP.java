@@ -7,7 +7,7 @@ public class HP implements Laptop {
 
 	@Override
 	public void start() {
-		System.out.println("Start HP laptop");
+		System.out.println("I'm HP");
 	}
 
 }
