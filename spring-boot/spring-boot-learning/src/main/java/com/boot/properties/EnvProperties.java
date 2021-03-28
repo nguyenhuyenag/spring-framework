@@ -5,13 +5,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
 @Configuration
-public class AutoConfig implements EnvironmentAware {
+public class EnvProperties implements EnvironmentAware {
 
 	private static Environment env;
 	
 	@Override
     public void setEnvironment(final Environment environment) {
-		AutoConfig.env = environment;
+		EnvProperties.env = environment;
     }
 
 	public String getValue() {
