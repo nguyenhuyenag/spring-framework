@@ -29,11 +29,13 @@ public class ParamController {
 	private ResponseEntity<List<User>> getAll() {
 		List<User> list = repository.findAll();
 		// HttpHeaders responseHeaders = new HttpHeaders();
-		return ResponseEntity.ok().body(list);
+		return ResponseEntity.ok(list);
 	}
 
 	/**
 	 * /user/id/11
+	 * 
+	 * 11 được gọi là tham số đường dẫn
 	 */
 	@GetMapping("id/{id}")
 	// @ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "Was Not Found")
