@@ -7,12 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.model.DBUtils;
-import com.model.Dept;
 import com.model.Language;
 
 @Controller
-public class MainController {
+public class ForEachController {
 
 	private static List<Language> list = new ArrayList<>();
 
@@ -26,26 +24,19 @@ public class MainController {
 		list.add(new Language("Javascript"));
 	}
 
-	@GetMapping({ "/", "home" })
-	public String index(Model model) {
-		String message = "Spring Boot + JSP";
-		model.addAttribute("message", message);
-		return "home";
-	}
-
-	@GetMapping("language")
+	@GetMapping("for-each")
 	public String viewPersonList(Model model) {
 		String msg = "Ngôn ngữ lập trình";
 		model.addAttribute("msg", msg);
 		model.addAttribute("languages", list);
-		return "language";
+		return "for-each";
 	}
 
-	@GetMapping("core-example-01")
-	public String core(Model model) {
-		List<Dept> list = DBUtils.queryDepartments();
-		model.addAttribute("departments", list);
-		return "core-example-01";
-	}
+//	@GetMapping("core-example-01")
+//	public String core(Model model) {
+//		List<Dept> list = DBUtils.queryDepartments();
+//		model.addAttribute("departments", list);
+//		return "core-example-01";
+//	}
 
 }
