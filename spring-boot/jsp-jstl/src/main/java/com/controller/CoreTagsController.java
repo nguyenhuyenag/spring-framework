@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.model.Language;
 
 @Controller
-public class ForEachController {
+public class CoreTagsController {
 
 	private static List<Language> list = new ArrayList<>();
 
@@ -32,11 +32,9 @@ public class ForEachController {
 		return "for-each";
 	}
 
-//	@GetMapping("core-example-01")
-//	public String core(Model model) {
-//		List<Dept> list = DBUtils.queryDepartments();
-//		model.addAttribute("departments", list);
-//		return "core-example-01";
-//	}
+	@GetMapping("el")
+	public String core() {
+		return "el";
+	}
 
 }

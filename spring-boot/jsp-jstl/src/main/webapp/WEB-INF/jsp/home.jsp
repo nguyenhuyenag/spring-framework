@@ -22,7 +22,6 @@
 				<ul class="nav navbar-nav">
 					<!-- <li class="active"><a href="/">Home</a></li> -->
 					<li><a href="${CONTEXT_PATH}/language">Language</a></li>
-					<%-- <li><a href="${CONTEXT_PATH}/change-password">Change password</a></li> --%>
 				</ul>
 			</div>
 		</div>
@@ -31,9 +30,9 @@
 	<div class="container">
 		<div class="starter-template">
 			<h1>Spring Boot JSP + JSTL</h1>
-			<%-- <h2>Message: ${message}</h2> --%>
 			<ul>
 				<li><a href="${CONTEXT_PATH}/for-each">For Each</a></li>
+				<li><a href="${CONTEXT_PATH}/el">Expression Language</a></li>
 			</ul>
 		</div>
 	</div>
