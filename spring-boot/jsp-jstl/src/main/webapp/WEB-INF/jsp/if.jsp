@@ -6,7 +6,7 @@
 <html>
 <head>
 	<meta charset="UTF-8" />
-	<title>${title} (EL)</title>
+	<title>${title}</title>
 	<link rel="stylesheet"  href="static/style.css">
 </head>
 <body>

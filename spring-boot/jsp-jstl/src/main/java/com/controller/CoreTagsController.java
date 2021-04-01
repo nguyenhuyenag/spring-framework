@@ -26,15 +26,21 @@ public class CoreTagsController {
 
 	@GetMapping("for-each")
 	public String viewPersonList(Model model) {
-		String msg = "Ngôn ngữ lập trình";
-		model.addAttribute("msg", msg);
+		model.addAttribute("title", "For Each");
 		model.addAttribute("languages", list);
 		return "for-each";
 	}
 
 	@GetMapping("el")
-	public String core() {
+	public String el(Model model) {
+		model.addAttribute("title", "Expression Language");
 		return "el";
+	}
+	
+	@GetMapping("if")
+	public String ifView(Model model) {
+		model.addAttribute("title", "If Condition");
+		return "if";
 	}
 
 }
