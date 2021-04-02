@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.model.DBUtils;
+import com.model.Dept;
 import com.model.Language;
 
 @Controller
@@ -39,8 +41,16 @@ public class CoreTagsController {
 	
 	@GetMapping("if")
 	public String ifView(Model model) {
+		List<Dept> list = DBUtils.queryDepartments();
 		model.addAttribute("title", "If Condition");
+		model.addAttribute("departments", list);
 		return "if";
 	}
-
+	
+	@GetMapping("if-else")
+	public String condition(Model model) {
+		model.addAttribute("title", "If Else Condition");
+		return "if-else";
+	}
+	
 }

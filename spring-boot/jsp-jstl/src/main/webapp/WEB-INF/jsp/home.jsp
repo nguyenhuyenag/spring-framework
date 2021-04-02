@@ -34,6 +34,7 @@
 				<li><a href="${CONTEXT_PATH}/for-each">For Each</a></li>
 				<li><a href="${CONTEXT_PATH}/el">Expression Language</a></li>
 				<li><a href="${CONTEXT_PATH}/if">If</a></li>
+				<li><a href="${CONTEXT_PATH}/if-else">If - Else</a></li>
 			</ul>
 		</div>
 	</div>
