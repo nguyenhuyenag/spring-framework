@@ -12,20 +12,27 @@
 <body>
 	<a href="${CONTEXT_PATH}/home">Home</a>
 	<h1>${title}</h1>
-	<c:choose>
-		<%-- Khi tham số color == 'red' --%>
-		<c:when test="${param.color == 'red'}">
-			<p style="color: red;">RED COLOR</p>
-		</c:when>
-		<%-- Khi tham số color == 'blue' --%>
-		<c:when test="${param.color == 'blue'}">
-			<p style="color: blue;">BLUE COLOR</p>
-		</c:when>
-		<%-- Các trường hợp khác --%>
-		<c:otherwise>
-			<b>Other color</b>
-		</c:otherwise>
-	</c:choose>
+	<c:if test="${empty colorForm.color}">
+		<p>ColorForm.color is EMPTY or NULL</p>
+	</c:if>
+	<c:if test="${not empty colorForm.color}">
+		Selected Value: <c:out value="${colorForm.color}" />
+		<%-- <c:out value="${empty colorForm.color}" /> --%>
+		<c:choose>
+			<%-- Khi tham số color == 'red' --%>
+			<c:when test="${colorForm.color == 'red'}">
+				<p style="color: red;">RED COLOR</p>
+			</c:when>
+			<%-- Khi tham số color == 'blue' --%>
+			<c:when test="${param.color == 'blue'}">
+				<p style="color: blue;">BLUE COLOR</p>
+			</c:when>
+			<%-- Các trường hợp khác --%>
+			<c:otherwise>
+				<p>OTHER COLOR</p>
+			</c:otherwise>
+		</c:choose>
+	</c:if>
 	<form:form action="if-else" modelAttribute="colorForm">  
         Red <form:radiobutton path="color" value="red" />
 		<br>

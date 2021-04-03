@@ -73,8 +73,9 @@ public class CoreTagsController {
 		if (result.hasErrors()) {
 			return new ModelAndView("error");
 		}
+		model.addAttribute("title", "If Else Condition");
 		model.addAttribute("colorForm", colorForm);
-		return new ModelAndView("if-else", "colorForm", new ColorForm());
+		return new ModelAndView("if-else");
 	}
 
 }
