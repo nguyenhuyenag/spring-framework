@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.model.ColorForm;
@@ -20,6 +21,7 @@ import com.model.Dept;
 import com.model.Language;
 
 @Controller
+@RequestMapping("core-tags")
 public class CoreTagsController {
 
 	private static List<Language> list = new ArrayList<>();
@@ -38,13 +40,13 @@ public class CoreTagsController {
 	public String viewPersonList(Model model) {
 		model.addAttribute("title", "For Each");
 		model.addAttribute("languages", list);
-		return "for-each";
+		return "core-tags/for-each";
 	}
 
 	@GetMapping("el")
 	public String el(Model model) {
 		model.addAttribute("title", "Expression Language");
-		return "el";
+		return "core-tags/el";
 	}
 
 	@GetMapping("if")
@@ -52,19 +54,13 @@ public class CoreTagsController {
 		List<Dept> list = DBUtils.queryDepartments();
 		model.addAttribute("title", "If Condition");
 		model.addAttribute("departments", list);
-		return "if";
+		return "core-tags/if";
 	}
-
-	// @GetMapping("if-else")
-	// public String condition(Model model) {
-	// model.addAttribute("title", "If Else Condition");
-	// return "if-else";
-	// }
 
 	@GetMapping("if-else")
 	public ModelAndView ifelseView(Model model) {
 		model.addAttribute("title", "If Else Condition");
-		return new ModelAndView("if-else", "colorForm", new ColorForm());
+		return new ModelAndView("core-tags/if-else", "colorForm", new ColorForm());
 	}
 
 	@PostMapping("if-else")
@@ -75,7 +71,23 @@ public class CoreTagsController {
 		}
 		model.addAttribute("title", "If Else Condition");
 		model.addAttribute("colorForm", colorForm);
-		return new ModelAndView("if-else");
+		return new ModelAndView("core-tags/if-else");
+	}
+	
+	@GetMapping("cout")
+	public String cout(Model model) {
+		String name = "I'm Java";
+		String mail = null;
+		model.addAttribute("title", "Cout");
+		model.addAttribute("name", name);
+		model.addAttribute("mail", mail);
+		return "core-tags/cout";
+	}
+	
+	@GetMapping("set")
+	public String setView(Model model) {
+		model.addAttribute("title", "c:set");
+		return "core-tags/set";
 	}
 
 }

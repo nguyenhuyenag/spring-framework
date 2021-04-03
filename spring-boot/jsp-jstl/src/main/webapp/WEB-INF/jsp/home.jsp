@@ -21,7 +21,7 @@
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
 					<!-- <li class="active"><a href="/">Home</a></li> -->
-					<li><a href="${CONTEXT_PATH}/language">Language</a></li>
+					<li><a href="${CONTEXT_PATH}/core-tags/language">Language</a></li>
 				</ul>
 			</div>
 		</div>
@@ -31,11 +31,13 @@
 		<div class="starter-template">
 			<h1>Spring Boot JSP + JSTL</h1>
 			<ul>
-				<li><a href="${CONTEXT_PATH}/for-each">For Each</a></li>
-				<li><a href="${CONTEXT_PATH}/el">Expression Language</a></li>
-				<li><a href="${CONTEXT_PATH}/if">If</a></li>
-				<li><a href="${CONTEXT_PATH}/if-else">If - Else</a></li>
-				<li><a href="${CONTEXT_PATH}/employee">Form submit</a></li>
+				<li><a href="${CONTEXT_PATH}/core-tags/for-each">For Each</a></li>
+				<li><a href="${CONTEXT_PATH}/core-tags/el">Expression Language</a></li>
+				<li><a href="${CONTEXT_PATH}/core-tags/if">If</a></li>
+				<li><a href="${CONTEXT_PATH}/core-tags/if-else">If - Else</a></li>
+				<li><a href="${CONTEXT_PATH}/form/employee">Form submit</a></li>
+				<li><a href="${CONTEXT_PATH}/core-tags/cout">Cout</a></li>
+				<li><a href="${CONTEXT_PATH}/core-tags/set">Set</a></li>
 			</ul>
 		</div>
 	</div>

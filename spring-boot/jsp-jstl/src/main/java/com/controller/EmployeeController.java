@@ -13,11 +13,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.model.Employee;
 
 @Controller
+@RequestMapping("form")
 public class EmployeeController {
 
 	@RequestMapping(value = "employee", method = RequestMethod.GET)
 	public ModelAndView showForm() {
-		return new ModelAndView("employee", "employee", new Employee());
+		return new ModelAndView("form/employee", "employee", new Employee());
 	}
 
 	@RequestMapping(value = "add-employee", method = RequestMethod.POST)
@@ -29,6 +30,6 @@ public class EmployeeController {
 		model.addAttribute("name", employee.getName());
 		model.addAttribute("contactNumber", employee.getContactNumber());
 		model.addAttribute("id", employee.getId());
-		return "add-employee";
+		return "form/add-employee";
 	}
 }
