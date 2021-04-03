@@ -3,10 +3,18 @@ package com.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.model.ColorForm;
 import com.model.DBUtils;
 import com.model.Dept;
 import com.model.Language;
@@ -38,7 +46,7 @@ public class CoreTagsController {
 		model.addAttribute("title", "Expression Language");
 		return "el";
 	}
-	
+
 	@GetMapping("if")
 	public String ifView(Model model) {
 		List<Dept> list = DBUtils.queryDepartments();
@@ -46,11 +54,27 @@ public class CoreTagsController {
 		model.addAttribute("departments", list);
 		return "if";
 	}
-	
+
+	// @GetMapping("if-else")
+	// public String condition(Model model) {
+	// model.addAttribute("title", "If Else Condition");
+	// return "if-else";
+	// }
+
 	@GetMapping("if-else")
-	public String condition(Model model) {
+	public ModelAndView ifelseView(Model model) {
 		model.addAttribute("title", "If Else Condition");
-		return "if-else";
+		return new ModelAndView("if-else", "colorForm", new ColorForm());
 	}
-	
+
+	@PostMapping("if-else")
+	public ModelAndView submit(@Valid @ModelAttribute("colorForm") ColorForm colorForm, //
+			BindingResult result, ModelMap model) {
+		if (result.hasErrors()) {
+			return new ModelAndView("error");
+		}
+		model.addAttribute("colorForm", colorForm);
+		return new ModelAndView("if-else", "colorForm", new ColorForm());
+	}
+
 }

@@ -6,7 +6,8 @@
 <head>
 </head>
 <body>
-	<h3>Welcome, Enter The Employee Details</h3>
+	<a href="${CONTEXT_PATH}/home">Home</a>
+	<h3>Form Submit</h3>
 	<form:form method="POST" action="/add-employee" modelAttribute="employee">
 		<table>
 			<tr>

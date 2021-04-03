@@ -6,6 +6,7 @@
 <head>
 </head>
 <body>
+	<a href="${CONTEXT_PATH}/employee">Back</a>
 	<h2>Submitted Employee Information</h2>
 	<table>
 		<tr>

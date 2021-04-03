@@ -12,8 +12,6 @@
 <body>
 	<a href="${CONTEXT_PATH}/home">Home</a>
 	<h1>${title}</h1>
-
-	<h2>c:choose,c:when,c:otherwise example</h2>
 	<c:choose>
 		<%-- Khi tham số color == 'red' --%>
 		<c:when test="${param.color == 'red'}">
@@ -28,18 +26,16 @@
 			<b>Other color</b>
 		</c:otherwise>
 	</c:choose>
-<%-- 	<form:form method="POST" action="/if-else" modelAttribute="employee">
-		<p>Please select color</p>
-		<input type="radio" id="red" name="color" value="red"> <label for="red">Red</label>
-		<br/>
-		<input type="radio" id="blue" name="color" value="blue"> <label for=blue>Female</label>
-		<br/>
-		<input type="radio" id="other" name="color" value="other"> <label for="other">Other</label>
-		<br/>
-		<br/>
-		<input type="submit" value="Submit">
-	</form:form> --%>
-	
+	<form:form action="if-else" modelAttribute="colorForm">  
+        Red <form:radiobutton path="color" value="red" />
+		<br>
+        Blue <form:radiobutton path="color" value="blue" />
+		<br>
+        Other <form:radiobutton path="color" value="other" />
+		<br>
+		<br>
+		<input type="submit" value="Submit" />
+	</form:form>
 </body>
 
 </html>

@@ -35,6 +35,7 @@
 				<li><a href="${CONTEXT_PATH}/el">Expression Language</a></li>
 				<li><a href="${CONTEXT_PATH}/if">If</a></li>
 				<li><a href="${CONTEXT_PATH}/if-else">If - Else</a></li>
+				<li><a href="${CONTEXT_PATH}/employee">Form submit</a></li>
 			</ul>
 		</div>
 	</div>

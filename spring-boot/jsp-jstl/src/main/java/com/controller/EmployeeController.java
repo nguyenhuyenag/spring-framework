@@ -15,12 +15,12 @@ import com.model.Employee;
 @Controller
 public class EmployeeController {
 
-	@RequestMapping(value = "/employee", method = RequestMethod.GET)
+	@RequestMapping(value = "employee", method = RequestMethod.GET)
 	public ModelAndView showForm() {
-		return new ModelAndView("employee-view", "employee", new Employee());
+		return new ModelAndView("employee", "employee", new Employee());
 	}
 
-	@RequestMapping(value = "/add-employee", method = RequestMethod.POST)
+	@RequestMapping(value = "add-employee", method = RequestMethod.POST)
 	public String submit(@Valid @ModelAttribute("employee") Employee employee, //
 			BindingResult result, ModelMap model) {
 		if (result.hasErrors()) {
@@ -29,6 +29,6 @@ public class EmployeeController {
 		model.addAttribute("name", employee.getName());
 		model.addAttribute("contactNumber", employee.getContactNumber());
 		model.addAttribute("id", employee.getId());
-		return "addEmployee";
+		return "add-employee";
 	}
 }
