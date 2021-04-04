@@ -86,8 +86,40 @@ public class CoreTagsController {
 	
 	@GetMapping("set")
 	public String setView(Model model) {
+		ColorForm color = new ColorForm();
 		model.addAttribute("title", "c:set");
+		model.addAttribute("colorObject", color);
 		return "core-tags/set";
+	}
+	
+	@GetMapping("set2")
+	public String set2View(Model model) {
+		model.addAttribute("title", "c:set 2");
+		return "core-tags/set2";
+	}
+	
+	@GetMapping("remove")
+	public String removeView(Model model) {
+		model.addAttribute("title", "c:remove");
+		return "core-tags/remove";
+	}
+	
+	@GetMapping("catch")
+	public String catchView(Model model) {
+		model.addAttribute("title", "c:catch");
+		return "core-tags/catch";
+	}
+	
+	@GetMapping("for-tokens")
+	public String forTokensView(Model model) {
+		model.addAttribute("title", "c:forTokens");
+		return "core-tags/for-tokens";
+	}
+	
+	@GetMapping("url")
+	public String urlView(Model model) {
+		model.addAttribute("title", "c:url");
+		return "core-tags/url";
 	}
 
 }
