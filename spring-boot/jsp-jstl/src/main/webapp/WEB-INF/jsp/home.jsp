@@ -43,6 +43,8 @@
 				<li><a href="${CONTEXT_PATH}/core-tags/catch">Catch</a></li>
 				<li><a href="${CONTEXT_PATH}/core-tags/for-tokens">ForTokens</a></li>
 				<li><a href="${CONTEXT_PATH}/core-tags/url">Url</a></li>
+				<li><a class="red" href="${CONTEXT_PATH}/core-tags/import">Import</a></li>
+				<li><a href="${CONTEXT_PATH}/core-tags/redirect">Redirect</a></li>
 			</ul>
 		</div>
 	</div>

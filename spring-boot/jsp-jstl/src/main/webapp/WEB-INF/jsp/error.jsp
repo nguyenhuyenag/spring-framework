@@ -6,14 +6,12 @@
 <html>
 <head>
 	<meta charset="UTF-8" />
-	<%-- <title>${title}</title> --%>
-	<!-- <link rel="stylesheet" href="static/style.css"> -->
 </head>
 <body>
 	<h3>Please enter the correct details</h3>
 	<table>
 		<tr>
-			<td><a href="employee">Retry</a></td>
+			<td><a href="/home">Home</a></td>
 		</tr>
 	</table>
 </body>

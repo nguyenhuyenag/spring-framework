@@ -121,5 +121,17 @@ public class CoreTagsController {
 		model.addAttribute("title", "c:url");
 		return "core-tags/url";
 	}
-
+	
+	@GetMapping("import")
+	public String importView(Model model) {
+		model.addAttribute("title", "c:import");
+		return "core-tags/import";
+	}
+	
+	@GetMapping("redirect")
+	public String redirectView(Model model) {
+		model.addAttribute("title", "c:redirect");
+		return "core-tags/redirect";
+	}
+	
 }
