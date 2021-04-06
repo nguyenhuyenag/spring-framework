@@ -44,7 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable() // disable csrf
 				.authorizeRequests() //
-				.antMatchers("/favicon.ico", "/api/get-json", "/download/**").permitAll() //
+				.antMatchers("/favicon.ico", "/api/get-json", "/download/**", "/test/**").permitAll() //
 				.anyRequest().authenticated().and()
 				.exceptionHandling() //
 				.authenticationEntryPoint(unauthorizedHandler).and()

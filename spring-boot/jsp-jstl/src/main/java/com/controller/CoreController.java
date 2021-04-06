@@ -22,7 +22,7 @@ import com.model.Language;
 
 @Controller
 @RequestMapping("core-tags")
-public class CoreTagsController {
+public class CoreController {
 
 	private static List<Language> list = new ArrayList<>();
 
