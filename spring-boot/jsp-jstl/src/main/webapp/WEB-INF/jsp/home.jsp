@@ -30,7 +30,8 @@
 	<!-- end menu -->
 	<div class="container">
 		<div class="starter-template">
-			<h1>Spring Boot JSP + JSTL</h1>
+			<h2>Spring Boot JSP + JSTL</h2>
+			<h3>1) Core</h3>
 			<ul>
 				<li><a href="${CONTEXT_PATH}/core-tags/for-each">For Each</a></li>
 				<li><a href="${CONTEXT_PATH}/core-tags/el">Expression Language</a></li>
@@ -45,6 +46,11 @@
 				<li><a href="${CONTEXT_PATH}/core-tags/url">Url</a></li>
 				<li><a class="red" href="${CONTEXT_PATH}/core-tags/import">Import</a></li>
 				<li><a href="${CONTEXT_PATH}/core-tags/redirect">Redirect</a></li>
+			</ul>
+			<h3>2) Format</h3>
+			<ul>
+				<li><a class="red" href="${CONTEXT_PATH}/format/bundle">Bundle</a></li>
+				<li><a href="${CONTEXT_PATH}/format/format-number">Format Number</a></li>
 			</ul>
 		</div>
 	</div>
