@@ -11,7 +11,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public class SendMail {
-	
+
 	public static void send() {
 		final String username = "bathudaide@gmail.com";
 		final String password = "Khongcomatkhau@#1991";
@@ -43,5 +43,5 @@ public class SendMail {
 			e.printStackTrace();
 		}
 	}
-	
+
 }
