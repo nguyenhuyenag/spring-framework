@@ -1,4 +1,4 @@
-package com;
+package com.mail;
 
 import java.util.Properties;
 
@@ -11,10 +11,10 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public class SendMail {
-
+	
 	public static void send() {
 		final String username = "bathudaide@gmail.com";
-		final String password = "Khongcomatkhau@#1991";
+		final String password = "";
 
 		Properties prop = new Properties();
 		prop.put("mail.smtp.host", "smtp.gmail.com");
@@ -43,5 +43,5 @@ public class SendMail {
 			e.printStackTrace();
 		}
 	}
-
+	
 }

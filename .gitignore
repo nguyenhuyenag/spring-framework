@@ -23,3 +23,5 @@
 *.prefs
 *.iml
 
+spring-boot/send-mail/mvnw
+*.cmd

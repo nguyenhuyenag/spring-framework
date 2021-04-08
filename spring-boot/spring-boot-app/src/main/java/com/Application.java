@@ -22,7 +22,7 @@ public class Application extends SpringBootServletInitializer implements Command
 
 	@Override
 	public void run(String... args) throws Exception {
-		SendMail.send();
+		
 	}
 
 }
