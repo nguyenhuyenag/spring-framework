@@ -1,6 +1,5 @@
 # Folder
 **/.mvn/
-**/.idea
 **/target/
 **/.settings/
 
@@ -17,7 +16,6 @@
 *.MF
 *.log
 *.iml
-*.cmd
 *.class
 *.prefs
 *.project
