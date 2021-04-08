@@ -15,8 +15,10 @@
 # File
 *.MF
 *.log
+*.cmd
 *.iml
 *.class
 *.prefs
 *.project
 *.classpath
+
