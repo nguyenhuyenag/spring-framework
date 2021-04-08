@@ -23,5 +23,3 @@
 *.project
 *.classpath
 *.properties
-
-spring-boot/send-mail/mvnw
