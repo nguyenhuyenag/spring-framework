@@ -28,13 +28,13 @@ public class SendMail {
 				return new PasswordAuthentication(username, password);
 			}
 		});
+		
+		String to = "huyen.nv@ts24corp.com, huyen.nv@ts24corp.com";
 
 		try {
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(username));
-			message.setRecipients(Message.RecipientType.TO,
-					// InternetAddress.parse("to_username_a@gmail.com, to_username_b@yahoo.com")
-					InternetAddress.parse("nguyenhuyenag@gmail.com"));
+			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
 			message.setSubject("Testing Gmail SSL");
 			message.setText("Dear Mail Crawler," + "\n\n Please do not spam my email!");
 			Transport.send(message);
