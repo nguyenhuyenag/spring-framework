@@ -1,27 +1,27 @@
 # Folder
 **/.mvn/
+**/.idea
 **/target/
 **/.settings/
-**/.idea
 
-# Package Files
+# Package
 *.jar
 *.war
 *.nar
 *.ear
 *.zip
-*.tar.gz
 *.rar
+*.tar.gz
 
 # File
-*.class
-*.log
-*.classpath
-*.project
-*.properties
 *.MF
-*.prefs
+*.log
 *.iml
+*.cmd
+*.class
+*.prefs
+*.project
+*.classpath
+*.properties
 
 spring-boot/send-mail/mvnw
-*.cmd
