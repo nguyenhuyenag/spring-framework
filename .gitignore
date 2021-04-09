@@ -2,6 +2,7 @@
 **/.mvn/
 **/target/
 **/.settings/
+**/.sts4-cache/
 
 # Package
 *.jar
