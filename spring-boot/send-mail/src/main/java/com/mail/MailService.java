@@ -52,15 +52,15 @@ public class MailService {
 	}
 
 	/**
-	 * @param email là chuỗi các email phân cách bởi dấu phẩy
+	 * @param listEmail là chuỗi các email phân cách bởi dấu phẩy
 	 */
-	public static boolean toManyCC(String email) {
+	private static boolean toMany(String listEmail, RecipientType type) {
 		try {
 			Message message = new MimeMessage(buildSession());
 			message.setFrom(new InternetAddress(PropertiesReader.MAIL_USERNAME));
-			message.setRecipients(RecipientType.CC, InternetAddress.parse(email));
+			message.setRecipients(type, InternetAddress.parse(listEmail));
 			message.setSubject("Testing Gmail");
-			message.setText("Dear Mail, This is content of email.");
+			message.setText("Dear fen, this is content of email.");
 			Transport.send(message);
 			return true;
 		} catch (MessagingException e) {
@@ -68,20 +68,13 @@ public class MailService {
 		}
 		return false;
 	}
-	
+
+	public static boolean toManyCC(String email) {
+		return toMany(email, RecipientType.CC);
+	}
+
 	public static boolean toManyBCC(String email) {
-		try {
-			Message message = new MimeMessage(buildSession());
-			message.setFrom(new InternetAddress(PropertiesReader.MAIL_USERNAME));
-			message.addRecipients(RecipientType.BCC, InternetAddress.parse(email));
-			message.setSubject("Testing Gmail");
-			message.setText("Dear Mail, This is content of email.");
-			Transport.send(message);
-			return true;
-		} catch (MessagingException e) {
-			e.printStackTrace();
-		}
-		return false;
+		return toMany(email, RecipientType.BCC);
 	}
 
 }
