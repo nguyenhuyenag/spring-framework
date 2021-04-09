@@ -3,6 +3,7 @@ package com.mail;
 import java.util.Properties;
 
 import javax.mail.Message;
+import javax.mail.Message.RecipientType;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
@@ -35,35 +36,52 @@ public class MailService {
 		});
 	}
 
-	public static void toOne(String email) {
+	public static boolean toOne(String email) {
 		try {
 			Message message = new MimeMessage(buildSession());
 			message.setFrom(new InternetAddress(PropertiesReader.MAIL_USERNAME));
 			message.setRecipient(Message.RecipientType.TO, new InternetAddress(email));
-			message.setSubject("Testing Gmail SSL");
-			message.setText("Dear Mail Crawler," + "\n\n Please do not spam my email!");
+			message.setSubject("Testing Gmail");
+			message.setText("Dear Mail, This is content of email.");
 			Transport.send(message);
-			System.out.println("Done");
+			return true;
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
+		return false;
 	}
 
 	/**
-	 * @param emails là chuỗi các email phân cách bởi dấu phẩy
+	 * @param email là chuỗi các email phân cách bởi dấu phẩy
 	 */
-	public static void toMany(String emails) {
+	public static boolean toManyCC(String email) {
 		try {
 			Message message = new MimeMessage(buildSession());
 			message.setFrom(new InternetAddress(PropertiesReader.MAIL_USERNAME));
-			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(emails));
-			message.setSubject("Testing Gmail SSL");
-			message.setText("Dear Mail Crawler," + "\n\n Please do not spam my email!");
+			message.setRecipients(RecipientType.CC, InternetAddress.parse(email));
+			message.setSubject("Testing Gmail");
+			message.setText("Dear Mail, This is content of email.");
 			Transport.send(message);
-			System.out.println("Done");
+			return true;
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
+		return false;
+	}
+	
+	public static boolean toManyBCC(String email) {
+		try {
+			Message message = new MimeMessage(buildSession());
+			message.setFrom(new InternetAddress(PropertiesReader.MAIL_USERNAME));
+			message.addRecipients(RecipientType.BCC, InternetAddress.parse(email));
+			message.setSubject("Testing Gmail");
+			message.setText("Dear Mail, This is content of email.");
+			Transport.send(message);
+			return true;
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 }
