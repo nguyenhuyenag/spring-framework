@@ -22,9 +22,9 @@ import javax.mail.internet.MimeMultipart;
  * 
  * - Allow less secure apps => ON
  * 
- * - CC (Carbon Copy): Người nhận xem được danh sách các người nhận
+ * - CC (Carbon Copy): 		Người nhận xem được danh sách các người nhận
  * 
- * - (Blind Carbon Copy): Người nhận không xem được danh sách các người nhận
+ * - (Blind Carbon Copy): 	Người nhận không xem được danh sách các người nhận
  */
 public class MailService {
 	

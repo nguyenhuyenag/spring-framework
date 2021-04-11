@@ -10,7 +10,7 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com</groupId>
-	<artifactId>send-mail-2</artifactId>
+	<artifactId>send-mail</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Boot</name>
 	<description>Project for Spring Boot</description>
