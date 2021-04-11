@@ -31,6 +31,10 @@
 	<div class="container">
 		<div class="starter-template">
 			<h2>Spring Boot JSP + JSTL</h2>
+			<h3>HttpServletRequest</h3>
+			<ul>
+				<li><a href="${CONTEXT_PATH}/request">Request</a></li>
+			</ul>
 			<h3>1) Core</h3>
 			<ul>
 				<li><a href="${CONTEXT_PATH}/core-tags/for-each">For Each</a></li>
