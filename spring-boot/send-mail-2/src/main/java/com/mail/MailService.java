@@ -1,15 +1,21 @@
 package com.mail;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Properties;
 
+import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.Message.RecipientType;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 /*-
  * - https://myaccount.google.com/lesssecureapps?pli=1
@@ -21,6 +27,8 @@ import javax.mail.internet.MimeMessage;
  * - (Blind Carbon Copy): Người nhận không xem được danh sách các người nhận
  */
 public class MailService {
+	
+	private final static String HOME = System.getProperty("user.dir");
 
 	private static final Session buildSession() {
 		Properties prop = new Properties();
@@ -75,6 +83,38 @@ public class MailService {
 
 	public static boolean toManyBCC(String email) {
 		return toMany(email, RecipientType.BCC);
+	}
+	
+	public static boolean sendMailWithAttachment(String email) {
+		try {
+			Message message = new MimeMessage(buildSession());
+			message.setFrom(new InternetAddress(PropertiesReader.MAIL_USERNAME));
+			message.setRecipient(Message.RecipientType.TO, new InternetAddress(email));
+			message.setSubject("Test Mail Subject");
+
+			Multipart multipart = new MimeMultipart();
+
+			// Content
+			BodyPart content = new MimeBodyPart();
+			content.setText("This is message body");
+			multipart.addBodyPart(content);
+
+			// AttachFile
+			String[] fileNames = { "img1.jpg", "data.txt" };
+			for (String name : fileNames) {
+				MimeBodyPart attachmentPart = new MimeBodyPart();
+				attachmentPart.attachFile(new File(HOME + "/file/" + name));
+				multipart.addBodyPart(attachmentPart);
+			}
+			
+			// Final
+			message.setContent(multipart);
+			Transport.send(message);
+			return true;
+		} catch (MessagingException | IOException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 }

@@ -22,5 +22,11 @@ public class MailController {
 		String email = "nguyenhuyenag@gmail.com, nguyenhuyen_ag@yahoo.com";
 		return "Status: " + MailService.toManyBCC(email);
 	}
+	
+	@GetMapping("send-mail-attachment")
+	private String sendMailWithAttachment() {
+		String email = "nguyenhuyen_ag@yahoo.com";
+		return "Status: " + MailService.sendMailWithAttachment(email);
+	}
 
 }

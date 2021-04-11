@@ -11,7 +11,7 @@
 	</script>
 </head>
 <body>
-	<h2>Java Mail</h2>
+	<h2>Java mail</h2>
 	<ul>
 		<c:forEach items="${listUrls}" var="url">
 			<li><a href="${CONTEXT_PATH}/${url}">${url}</a></li>

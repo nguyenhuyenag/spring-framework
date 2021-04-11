@@ -16,6 +16,7 @@ public class HomeController {
 		list.add("send-one");
 		list.add("send-mail-cc");
 		list.add("send-mail-bcc");
+		list.add("send-mail-attachment");
 		model.addAttribute("listUrls", list);
 		return "home";
 	}
