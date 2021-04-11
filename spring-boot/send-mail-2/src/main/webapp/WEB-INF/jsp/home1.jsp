@@ -4,11 +4,11 @@
 <html>
 <head>
 	<meta charset="UTF-8" />
-	<title>Java Mail</title>
+	<title>Home 1</title>
 	<link rel="shortcut icon" href="#">
 </head>
 <body>
-	<h2>Java Mail</h2>
+	<h2>Home 1</h2>
 </body>
 
 </html>
