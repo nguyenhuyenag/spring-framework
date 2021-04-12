@@ -59,7 +59,7 @@
 		</c:forEach>
 	</ul>
 	<h2>7) From XML</h2>
-	<c:import url="http://localhost:8081/static/citizens.xml" var="citizenXML" />
+	<c:import url="http://localhost:8081/jstl/static/citizens.xml" var="citizenXML" />
 	<x:parse var="doc" xml="${citizenXML}" />
 	<table border="1">
 		<x:forEach var="citizen" select="$doc/citizens/citizen">

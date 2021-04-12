@@ -21,7 +21,7 @@ import com.model.Dept;
 import com.model.Language;
 
 @Controller
-@RequestMapping("core-tags")
+@RequestMapping("core")
 public class CoreController {
 
 	private static List<Language> list = new ArrayList<>();
@@ -40,13 +40,13 @@ public class CoreController {
 	public String viewPersonList(Model model) {
 		model.addAttribute("title", "For Each");
 		model.addAttribute("languages", list);
-		return "core-tags/for-each";
+		return "core/for-each";
 	}
 
 	@GetMapping("el")
 	public String el(Model model) {
 		model.addAttribute("title", "Expression Language");
-		return "core-tags/el";
+		return "core/el";
 	}
 
 	@GetMapping("if")
@@ -54,13 +54,13 @@ public class CoreController {
 		List<Dept> list = DBUtils.queryDepartments();
 		model.addAttribute("title", "If Condition");
 		model.addAttribute("departments", list);
-		return "core-tags/if";
+		return "core/if";
 	}
 
 	@GetMapping("if-else")
 	public ModelAndView ifelseView(Model model) {
 		model.addAttribute("title", "If Else Condition");
-		return new ModelAndView("core-tags/if-else", "colorForm", new ColorForm());
+		return new ModelAndView("core/if-else", "colorForm", new ColorForm());
 	}
 
 	@PostMapping("if-else")
@@ -71,7 +71,7 @@ public class CoreController {
 		}
 		model.addAttribute("title", "If Else Condition");
 		model.addAttribute("colorForm", colorForm);
-		return new ModelAndView("core-tags/if-else");
+		return new ModelAndView("core/if-else");
 	}
 	
 	@GetMapping("cout")
@@ -81,7 +81,7 @@ public class CoreController {
 		model.addAttribute("title", "Cout");
 		model.addAttribute("name", name);
 		model.addAttribute("mail", mail);
-		return "core-tags/cout";
+		return "core/cout";
 	}
 	
 	@GetMapping("set")
@@ -89,49 +89,49 @@ public class CoreController {
 		ColorForm color = new ColorForm();
 		model.addAttribute("title", "c:set");
 		model.addAttribute("colorObject", color);
-		return "core-tags/set";
+		return "core/set";
 	}
 	
 	@GetMapping("set2")
 	public String set2View(Model model) {
 		model.addAttribute("title", "c:set 2");
-		return "core-tags/set2";
+		return "core/set2";
 	}
 	
 	@GetMapping("remove")
 	public String removeView(Model model) {
 		model.addAttribute("title", "c:remove");
-		return "core-tags/remove";
+		return "core/remove";
 	}
 	
 	@GetMapping("catch")
 	public String catchView(Model model) {
 		model.addAttribute("title", "c:catch");
-		return "core-tags/catch";
+		return "core/catch";
 	}
 	
 	@GetMapping("for-tokens")
 	public String forTokensView(Model model) {
 		model.addAttribute("title", "c:forTokens");
-		return "core-tags/for-tokens";
+		return "core/for-tokens";
 	}
 	
 	@GetMapping("url")
 	public String urlView(Model model) {
 		model.addAttribute("title", "c:url");
-		return "core-tags/url";
+		return "core/url";
 	}
 	
 	@GetMapping("import")
 	public String importView(Model model) {
 		model.addAttribute("title", "c:import");
-		return "core-tags/import";
+		return "core/import";
 	}
 	
 	@GetMapping("redirect")
 	public String redirectView(Model model) {
 		model.addAttribute("title", "c:redirect");
-		return "core-tags/redirect";
+		return "core/redirect";
 	}
 	
 }
