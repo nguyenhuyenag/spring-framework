@@ -5,7 +5,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>fmt:formatNumber</title>
+	<title>${title}</title>
 </head>
 <body>
 	<h2>${title}</h2>

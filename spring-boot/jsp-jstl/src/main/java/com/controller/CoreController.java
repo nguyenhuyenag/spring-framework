@@ -134,4 +134,10 @@ public class CoreController {
 		return "core/redirect";
 	}
 	
+	@GetMapping("param")
+	public String param(Model model) {
+		model.addAttribute("title", "c:param");
+		return "core/param";
+	}
+	
 }
