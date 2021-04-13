@@ -4,6 +4,7 @@
 <html>
 <head>
 	<meta charset="UTF-8" />
+	<link rel="shortcut icon" href="#">
 	<title>Home</title>
 		<link rel="stylesheet"  href="./static/style.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -12,6 +13,7 @@
 			<c:set var="CONTEXT_PATH" value="${pageContext.request.contextPath}" scope="session"/>
 			<c:set var="CONTEXT_CORE" value="${CONTEXT_PATH}/core" scope="session"/>
 			<c:set var="CONTEXT_FORMAT" value="${CONTEXT_PATH}/format" scope="session"/>
+			/* <c:set var="CONTEXT_FUNCTIONS" value="${CONTEXT_PATH}/functions" scope="session"/> */
 		</script>
 	</head>
 <body>
@@ -64,6 +66,10 @@
 				<li><a href="${CONTEXT_FORMAT}/param">Param</a></li>
 				<li><a href="${CONTEXT_FORMAT}/format-number">Format Number</a></li>
 				<li><a href="${CONTEXT_FORMAT}/format-date">Format Date</a></li>
+			</ul>
+			<h3>3) Functions</h3>
+			<ul>
+				<li><a href="${CONTEXT_PATH}/functions">Functions</a></li>
 			</ul>
 		</div>
 	</div>
