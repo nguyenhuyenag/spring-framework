@@ -34,7 +34,7 @@
 	<div class="container">
 		<div class="starter-template">
 			<h2>Spring Boot JSP + JSTL</h2>
-			<h3>0) HttpServletRequest</h3>
+			<h3>1) JSP</h3>
 			<ul>
 				<li><a href="${CONTEXT_PATH}/request">Request</a></li>
 				<li><a href="${CONTEXT_PATH}/view">Create View</a></li>
@@ -43,7 +43,7 @@
 				<li><a href="${CONTEXT_PATH}/view3">Create View 3</a></li>
 				<li><a href="${CONTEXT_PATH}/pass-data/page-1">Send data to another JSP</a></li>
 			</ul>
-			<h3>1) Core</h3>
+			<h3>2) Core</h3>
 			<ul>
 				<li><a href="${CONTEXT_CORE}/for-each">For Each</a></li>
 				<li><a href="${CONTEXT_CORE}/el">Expression Language</a></li>
@@ -60,14 +60,14 @@
 				<li><a href="${CONTEXT_CORE}/redirect">Redirect</a></li>
 				<li><a href="${CONTEXT_CORE}/param">Param</a></li>
 			</ul>
-			<h3>2) Format</h3>
+			<h3>3) Format</h3>
 			<ul>
 				<li><a href="${CONTEXT_FORMAT}/bundle" class="red">Bundle</a></li>
 				<li><a href="${CONTEXT_FORMAT}/param">Param</a></li>
 				<li><a href="${CONTEXT_FORMAT}/format-number">Format Number</a></li>
 				<li><a href="${CONTEXT_FORMAT}/format-date">Format Date</a></li>
 			</ul>
-			<h3>3) Functions</h3>
+			<h3>4) Functions</h3>
 			<ul>
 				<li><a href="${CONTEXT_PATH}/functions">Functions</a></li>
 			</ul>

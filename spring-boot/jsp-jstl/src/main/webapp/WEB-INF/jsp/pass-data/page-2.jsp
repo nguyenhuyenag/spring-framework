@@ -14,7 +14,8 @@
 		String username = request.getParameter("username");
 		session.setAttribute("username", username);
 	%>
-	<b>Data form Page 1:</b> <%=session.getAttribute("username")%>
+	<b>Data form Page 1:</b>
+	<input type="text"  name="usnername" value="<%=session.getAttribute("username")%>" />
 </body>
 
 </html>
