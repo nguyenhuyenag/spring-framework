@@ -8,12 +8,11 @@
 	<title>Home</title>
 		<link rel="stylesheet"  href="./static/style.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-		<!-- Global variable -->
+		<!-- global variable -->
 		<script type="text/javascript">
 			<c:set var="CONTEXT_PATH" value="${pageContext.request.contextPath}" scope="session"/>
 			<c:set var="CONTEXT_CORE" value="${CONTEXT_PATH}/core" scope="session"/>
 			<c:set var="CONTEXT_FORMAT" value="${CONTEXT_PATH}/format" scope="session"/>
-			/* <c:set var="CONTEXT_FUNCTIONS" value="${CONTEXT_PATH}/functions" scope="session"/> */
 		</script>
 	</head>
 <body>
@@ -42,6 +41,7 @@
 				<li><a href="${CONTEXT_PATH}/view1">Create View 1</a></li>
 				<li><a href="${CONTEXT_PATH}/view2">Create View 2</a></li>
 				<li><a href="${CONTEXT_PATH}/view3">Create View 3</a></li>
+				<li><a href="${CONTEXT_PATH}/pass-data/page-1">Send data to another JSP</a></li>
 			</ul>
 			<h3>1) Core</h3>
 			<ul>
