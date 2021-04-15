@@ -11,7 +11,7 @@ public class FunctionsController {
 	@GetMapping("functions")
 	public String functions(Model model) {
 		model.addAttribute("title", "Functions");
-		return "functions";
+		return "functions/functions";
 	}
 	
 }

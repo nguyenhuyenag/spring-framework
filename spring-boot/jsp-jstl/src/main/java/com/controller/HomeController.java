@@ -13,5 +13,11 @@ public class HomeController {
 		model.addAttribute("message", message);
 		return "home";
 	}
+	
+	@GetMapping("test")
+	public String test(Model model) {
+		model.addAttribute("title", "Tags and Directives");
+		return "test";
+	}
 
 }

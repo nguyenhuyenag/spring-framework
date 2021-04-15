@@ -9,6 +9,7 @@
 </head>
 
 <body>
+	<a href="${CONTEXT_PATH}/home">Home</a>
 	<h1 class="red">1) contains & containsIgnoreCase</h1>
 	<h2>1.1) fn:contains</h2>
 	<c:if test="${fn:contains('Welcome to JSTL Functions tags', 'jstl')}">

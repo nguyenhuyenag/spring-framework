@@ -5,7 +5,7 @@
 <head>
 	<meta charset="UTF-8" />
 	<link rel="shortcut icon" href="#">
-	<title>Home</title>
+	<title>Spring JSP</title>
 		<link rel="stylesheet"  href="./static/style.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 		<!-- global variable -->
@@ -13,10 +13,10 @@
 			<c:set var="CONTEXT_PATH" value="${pageContext.request.contextPath}" scope="session"/>
 			<c:set var="CONTEXT_CORE" value="${CONTEXT_PATH}/core" scope="session"/>
 			<c:set var="CONTEXT_FORMAT" value="${CONTEXT_PATH}/format" scope="session"/>
+			<c:set var="CONTEXT_IMPLICIT" value="${CONTEXT_PATH}/implicit" scope="session"/>
 		</script>
 	</head>
 <body>
-	<!-- menu -->
 	<div class="navbar navbar-inverse">
 		<div class="container">
 			<div class="navbar-header">
@@ -30,12 +30,16 @@
 			</div>
 		</div>
 	</div>
-	<!-- end menu -->
 	<div class="container">
 		<div class="starter-template">
 			<h2>Spring Boot JSP + JSTL</h2>
+			<h3>5) Implicit Object</h3>
+			<ul>
+				<li><a href="${CONTEXT_IMPLICIT}/request?name=Java&version=8&company=oracle">Request</a></li>
+			</ul>
 			<h3>1) JSP</h3>
 			<ul>
+				<li><a href="${CONTEXT_PATH}/test" class="red">Test</a></li>
 				<li><a href="${CONTEXT_PATH}/request">Request</a></li>
 				<li><a href="${CONTEXT_PATH}/view">Create View</a></li>
 				<li><a href="${CONTEXT_PATH}/view1">Create View 1</a></li>

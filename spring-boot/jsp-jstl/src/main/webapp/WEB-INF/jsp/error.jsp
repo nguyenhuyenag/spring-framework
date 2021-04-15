@@ -11,7 +11,7 @@
 	<h3>Please enter the correct details</h3>
 	<table>
 		<tr>
-			<td><a href="/home">Home</a></td>
+			<td><a href="./home">Home</a></td>
 		</tr>
 	</table>
 </body>
