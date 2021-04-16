@@ -10,7 +10,7 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com</groupId>
-	<artifactId>jsp-jstl</artifactId>
+	<artifactId>spring-jsp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Boot</name>
 	<description>Project for Spring Boot</description>
