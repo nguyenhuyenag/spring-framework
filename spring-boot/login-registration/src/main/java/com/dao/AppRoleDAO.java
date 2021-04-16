@@ -1,5 +1,7 @@
 package com.dao;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -19,12 +21,17 @@ public class AppRoleDAO {
 	private EntityManager entityManager;
 
 	public List<String> getRoleNames(Long userId) {
-		String sql = "Select ur.appRole.roleName from " + UserRole.class.getName() + " ur " //
+		String sql = "select ur.appRole.roleName from " + UserRole.class.getName() + " ur " //
 				+ " where ur.appUser.userId = :userId ";
-
+		System.out.println("SQL: " + sql);
 		Query query = this.entityManager.createQuery(sql, String.class);
 		query.setParameter("userId", userId);
-		return query.getResultList();
+		List<String> list = new ArrayList<>();
+		Iterator<?> iterator = query.getResultList().iterator();
+		while (iterator.hasNext()) {
+			list.add(iterator.next().toString());
+		}
+		return list;
 	}
 
 }
