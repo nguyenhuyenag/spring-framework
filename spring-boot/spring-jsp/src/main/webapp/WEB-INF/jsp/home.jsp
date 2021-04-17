@@ -45,7 +45,8 @@
 				<li><a href="${CONTEXT_PATH}/view1">Create View 1</a></li>
 				<li><a href="${CONTEXT_PATH}/view2">Create View 2</a></li>
 				<li><a href="${CONTEXT_PATH}/view3">Create View 3</a></li>
-				<li><a href="${CONTEXT_PATH}/pass-data/page-1">Send data to another JSP</a></li>
+				<li><a href="${CONTEXT_PATH}/pass-data/send-by-request-1">Send data by request</a></li>
+				<li><a href="${CONTEXT_PATH}/pass-data/send-by-session-1">Send data by session</a></li>
 			</ul>
 			<h3>2) Core</h3>
 			<ul>

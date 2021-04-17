@@ -11,14 +11,4 @@ public class HandleController {
 		return "request";
 	}
 	
-	@GetMapping("pass-data/page-1")
-	public String index() {
-		return "pass-data/page-1";
-	}
-	
-	@GetMapping("pass-data/page-2")
-	public String passData() {
-		return "pass-data/page-2";
-	}
-	
 }
