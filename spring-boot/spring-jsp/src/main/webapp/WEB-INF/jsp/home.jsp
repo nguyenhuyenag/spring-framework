@@ -47,6 +47,7 @@
 				<li><a href="${CONTEXT_PATH}/view3">Create View 3</a></li>
 				<li><a href="${CONTEXT_PATH}/pass-data/send-by-request-1">Send data by request</a></li>
 				<li><a href="${CONTEXT_PATH}/pass-data/send-by-session-1">Send data by session</a></li>
+				<li><a href="${CONTEXT_PATH}/pass-data/send-by-localstorage-1">Send data by localstorage</a></li>
 			</ul>
 			<h3>2) Core</h3>
 			<ul>

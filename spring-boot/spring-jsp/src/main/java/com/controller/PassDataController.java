@@ -26,4 +26,14 @@ public class PassDataController {
 		return "pass-data/send-by-session-2";
 	}
 	
+	@GetMapping("pass-data/send-by-localstorage-1")
+	public String localstorage1() {
+		return "pass-data/send-by-localstorage-1";
+	}
+	
+	@GetMapping("pass-data/send-by-localstorage-2")
+	public String localstorage2() {
+		return "pass-data/send-by-localstorage-2";
+	}
+	
 }
