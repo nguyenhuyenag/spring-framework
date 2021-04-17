@@ -8,7 +8,7 @@
 	<link rel="shortcut icon" href="#">
 </head>
 <body>
-	<a href="${CONTEXT_PATH}/pass-data/page-1">Back</a>
+	<a href="${CONTEXT_PATH}/pass-data/send-by-session-1">Back</a>
 	<h2>Send data by session (page 2)</h2>
 	<%
 		String name = request.getParameter("name");
