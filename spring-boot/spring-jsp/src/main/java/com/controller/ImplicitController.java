@@ -11,7 +11,7 @@ public class ImplicitController {
 
 	@GetMapping("request")
 	public String request(Model model) {
-		model.addAttribute("title", "Request Implicit Object");
+		model.addAttribute("title", "Request");
 		return "implicit/request";
 	}
 

@@ -5,12 +5,13 @@
 <head>
 	<title>${title}</title>
 	<link rel="shortcut icon" href="#">
-	<link rel="stylesheet"  href="./static/style.css">
+	<link rel="stylesheet"  href="${CONTEXT_PATH}/static/style.css">
 </head>
 
 <body>
 	<a href="${CONTEXT_PATH}/home">Home</a>
 	<h1 class="red">1) contains & containsIgnoreCase</h1>
+	
 	<h2>1.1) fn:contains</h2>
 	<c:if test="${fn:contains('Welcome to JSTL Functions tags', 'jstl')}">
 		Source String contains jstl.
@@ -18,7 +19,9 @@
 	<c:if test="${fn:contains('Welcome to JSTL Functions tags', 'JSTL')}">
 		Source String contains JSTL.
 	</c:if>
+	
 	<br>
+	
 	<h2>1.2) fn:containsIgnoreCase</h2>
 	<c:if test="${fn:containsIgnoreCase('Welcome to JSTL Functions tags', 'jstl')}">
 		Source String contains jstl.
@@ -37,6 +40,7 @@
 	<c:out value="${fn:toUpperCase('Welcome to 12jstl@ @#functions')}"/>
 	
 	<h1 class="red">3) startsWith & endsWith</h1>
+	
 	<h2>3.1) fn:startsWith</h2>
 	<c:if test="${fn:startsWith('Welcome to JSTL Functions tags', 'Welcome to JSTL')}">
 		Source String starts with 'Welcome to JSTL' <br>
@@ -47,6 +51,7 @@
 	<c:if test="${fn:startsWith('Welcome to JSTL Functions tags', 'to JSTL Functions')}">
 		Source String starts with 'to JSTL Functions' <br>
 	</c:if>
+	
 	<h2>3.2) fn:endsWith</h2>
 	<c:if test="${fn:endsWith('Welcome to JSTL Functions tags', 'tags')}">
 		Source String ends with 'tagsL' <br>
