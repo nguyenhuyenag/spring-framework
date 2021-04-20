@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -88,13 +87,12 @@ public class LoginController {
 				re.addCookie(cookie);
 			}
 		}
-		return "redirect:/login";
+		return "redirect:/home";
 	}
 
 	public Account checkCookie(HttpServletRequest request) {
-		Cookie[] cookies = request.getCookies();
-		// Account account = null;
 		String username = "", password = "";
+		Cookie[] cookies = request.getCookies();
 		for (Cookie cookie : cookies) {
 			if (cookie.getName().equalsIgnoreCase("username")) {
 				username = cookie.getValue();

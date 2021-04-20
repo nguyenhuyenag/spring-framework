@@ -22,8 +22,6 @@
 	<div style="border: 1px solid #ccc; padding:5px; margin-bottom: 20px;">
 	   <a href="${CONTEXT_PATH}/info">User Info</a>
 	     | &nbsp;
-	   <a href="@{/admin}">Admin</a>
-	     | &nbsp;
 	   <a href="${CONTEXT_PATH}/logout">Logout</a>
 	</div>
 </body>
