@@ -1,4 +1,4 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE HTML>
 <html>
@@ -11,7 +11,7 @@
 
 	<h2>User Info Page</h2>
 	<h3>
-		Welcome: <span>${request.userPrincipal.name}</span>
+		Welcome: <span>${pageContext.request.userPrincipal.name}</span>
 	</h3>
 	<b>This is protected page!</b>
 
