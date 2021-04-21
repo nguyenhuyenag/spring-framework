@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE HTML>
+<html>
 <head>
 	<title>${title}</title>
 	<link rel="shortcut icon" href="#">
