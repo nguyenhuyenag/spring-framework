@@ -7,6 +7,10 @@
 		| &nbsp;
 	<a href="/admin">Admin</a>
 		| &nbsp;
+	<c:if test="${pageContext.request.userPrincipal == null}">
+		<a href="/login">Login</a>
+			| &nbsp;
+	</c:if>
 	<c:if test="${pageContext.request.userPrincipal != null}">
 		<a href="/logout">Logout</a>
 	</c:if>

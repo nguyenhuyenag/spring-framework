@@ -2,6 +2,8 @@ package com.controller;
 
 import java.security.Principal;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -13,14 +15,14 @@ import com.util.WebUtils;
 @Controller
 public class MainController {
 
-	@GetMapping({ "/", "/welcome" })
-	public String welcomePage(Model model) {
-		model.addAttribute("title", "Welcome");
-		model.addAttribute("message", "This is welcome page!");
-		return "welcomePage";
+	@GetMapping({ "/", "home" })
+	public String homePage(Model model) {
+		model.addAttribute("title", "home");
+		model.addAttribute("message", "This is Home page!");
+		return "homePage";
 	}
 
-	@GetMapping("/admin")
+	@GetMapping("admin")
 	public String adminPage(Model model, Principal principal) {
 		User loginedUser = (User) ((Authentication) principal).getPrincipal();
 		String userInfo = WebUtils.toString(loginedUser);
@@ -28,18 +30,22 @@ public class MainController {
 		return "adminPage";
 	}
 
-	@GetMapping("/login")
-	public String loginPage(Model model) {
+	@GetMapping("login")
+	public String loginPage(Model model, HttpServletRequest req) {
+		Principal principal = req.getUserPrincipal();
+		if (principal != null) {
+			return "redirect:home";
+		}
 		return "loginPage";
 	}
 
-	@GetMapping("/logoutSuccessful")
+	@GetMapping("logoutSuccessful")
 	public String logoutSuccessfulPage(Model model) {
 		model.addAttribute("title", "Logout");
 		return "logoutSuccessfulPage";
 	}
 
-	@GetMapping("/userInfo")
+	@GetMapping("userInfo")
 	public String userInfo(Model model, Principal principal) {
 		// Sau khi user login thanh cong se co principal
 		String userName = principal.getName();
@@ -50,7 +56,7 @@ public class MainController {
 		return "userInfoPage";
 	}
 
-	@GetMapping("/403")
+	@GetMapping("403")
 	public String accessDenied(Model model, Principal principal) {
 		if (principal != null) {
 			User loginedUser = (User) ((Authentication) principal).getPrincipal();
