@@ -10,8 +10,10 @@
 <body>
 	<!-- Include _menu.html -->
 	<%@ include file="menu.jsp" %>
+	
 	<h2>
 		Message: <span>${message}</span>
 	</h2>
+	
 </body>
 </html>

@@ -3,13 +3,13 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-	<title>User Info</title>
+	<title>${title}</title>
 </head>
 <body>
 	<!-- Include _menu.html -->
-	<%@ include file="menu.jsp"%>
+	<%@ include file="menu.jsp" %>
 
-	<h2>User Info Page</h2>
+	<h2>Admin Page</h2>
 	<h3>
 		Welcome : <span>${request.userPrincipal.name}</span>
 	</h3>
@@ -19,7 +19,7 @@
 	<br />
 
 	<c:if test="${userInfo != null}">
-		<div>${userInfo}</div>	
+		<div>${userInfo}</div>
 	</c:if>
 </body>
 
