@@ -1,9 +1,9 @@
-table {
+/* table {
 	border-collapse: collapse;
-	border-spacing: 0px; /* cellspacing */
+	border-spacing: 0px; cellspacing
 }
 
-th, td { padding: 5px; } /* cellpadding */
+th, td { padding: 5px; } cellpadding
 
 table, th, td {
   border: 1px solid black;
@@ -11,4 +11,4 @@ table, th, td {
 
 .red {
 	color: red;
-}
+} */
