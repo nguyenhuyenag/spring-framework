@@ -22,12 +22,9 @@ public class MainController {
 
 	@GetMapping("/admin")
 	public String adminPage(Model model, Principal principal) {
-
 		User loginedUser = (User) ((Authentication) principal).getPrincipal();
-
 		String userInfo = WebUtils.toString(loginedUser);
 		model.addAttribute("userInfo", userInfo);
-
 		return "adminPage";
 	}
 
@@ -44,17 +41,12 @@ public class MainController {
 
 	@GetMapping("/userInfo")
 	public String userInfo(Model model, Principal principal) {
-
 		// Sau khi user login thanh cong se co principal
 		String userName = principal.getName();
-
 		System.out.println("User Name: " + userName);
-
 		User loginedUser = (User) ((Authentication) principal).getPrincipal();
-
 		String userInfo = WebUtils.toString(loginedUser);
 		model.addAttribute("userInfo", userInfo);
-
 		return "userInfoPage";
 	}
 
@@ -62,11 +54,8 @@ public class MainController {
 	public String accessDenied(Model model, Principal principal) {
 		if (principal != null) {
 			User loginedUser = (User) ((Authentication) principal).getPrincipal();
-
 			String userInfo = WebUtils.toString(loginedUser);
-
 			model.addAttribute("userInfo", userInfo);
-
 			String message = "Hi " + principal.getName() //
 					+ "<br> You do not have permission to access this page!";
 			model.addAttribute("message", message);
