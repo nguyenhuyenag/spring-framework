@@ -1,4 +1,4 @@
-package com;
+package com.controller;
 
 import java.util.List;
 
@@ -11,6 +11,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.model.Product;
+import com.service.ProductService;
 
 @Controller
 public class ProductController {
