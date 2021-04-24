@@ -9,8 +9,7 @@ import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.ServletRequestUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import com.model.Product;
 import com.service.ProductService;
@@ -21,15 +20,21 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 
-	@RequestMapping(value = { "/", "product" }, method = RequestMethod.GET)
+	@GetMapping({ "/", "home" })
+	public String home() {
+		return "home";
+	}
+
+	@GetMapping("product")
 	public String index(HttpServletRequest request, ModelMap model) {
 		List<Product> products = productService.findAll();
-		PagedListHolder<?> pagedListHolder = new PagedListHolder<>(products);
+		PagedListHolder<Product> pagedList = new PagedListHolder<>(products);
 		int page = ServletRequestUtils.getIntParameter(request, "p", 0);
-		pagedListHolder.setPage(page);
-		pagedListHolder.setPageSize(3);
-		model.put("pagedListHolder", pagedListHolder);
-		return "index";
+		pagedList.setPage(page); // trang hiện tại
+		pagedList.setPageSize(7); // số dòng mỗi trang
+		// System.out.println("getPageCount(): " + pagedListHolder.getPageCount());
+		model.put("pagedListHolder", pagedList);
+		return "product";
 	}
 
 }
