@@ -14,7 +14,7 @@
 		<c:param name="p" value="~" />
 	</c:url>
 	<!-- Include _menu.html -->
-	<%@ include file="menu.jsp" %>
+	<%@ include file="../menu.jsp" %>
 	<div class="container" style="margin-top: 20px;">
 		<tg:paging pagedListHolder="${pagedListHolder}" pageUrl="${pageUrl}" />
 		<table class="table table-bordered">

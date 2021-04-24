@@ -34,7 +34,7 @@ public class ProductController {
 		pagedList.setPageSize(7); // số dòng mỗi trang
 		// System.out.println("getPageCount(): " + pagedListHolder.getPageCount());
 		model.put("pagedListHolder", pagedList);
-		return "product";
+		return "product/product";
 	}
 
 }
