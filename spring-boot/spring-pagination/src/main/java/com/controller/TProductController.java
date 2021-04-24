@@ -22,7 +22,7 @@ public class TProductController {
 	@Autowired
 	private TProductService service;
 	
-	@RequestMapping("/")
+	@RequestMapping("page")
 	public String viewHomePage(Model model) {
 		return viewPage(model, 1, "name", "asc");
 	}
@@ -47,7 +47,7 @@ public class TProductController {
 		
 		model.addAttribute("listProducts", listProducts);
 		
-		return "index";
+		return "tproduct/index";
 	}	
 	
 	@RequestMapping("/new")

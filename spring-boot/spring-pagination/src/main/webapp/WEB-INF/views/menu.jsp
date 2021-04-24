@@ -7,7 +7,8 @@
 		</div>
 		<div id="navbar" class="collapse navbar-collapse">
 			<ul class="nav navbar-nav">
-				<li><a href="${CONTEXT_PATH}/product">Product</a></li>
+				<li><a href="${CONTEXT_PATH}/product">Product 1</a></li>
+				<li><a href="${CONTEXT_PATH}/page">Product 2</a></li>
 			</ul>
 		</div>
 	</div>
