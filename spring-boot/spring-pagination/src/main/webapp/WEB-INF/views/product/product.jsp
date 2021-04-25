@@ -1,7 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="tg" tagdir="/WEB-INF/tags" %>
-<%-- <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %> --%>
 
 <html>
 <head>
@@ -9,12 +7,17 @@
 	<title>Spring Data Pagination</title>
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 </head>
+
 <body>
+	
 	<c:url value="/product" var="pageUrl">
 		<c:param name="p" value="~" />
+	
 	</c:url>
+	
 	<!-- Include _menu.html -->
 	<%@ include file="../menu.jsp" %>
+	
 	<div class="container" style="margin-top: 20px;">
 		<tg:paging pagedListHolder="${pagedListHolder}" pageUrl="${pageUrl}" />
 		<table class="table table-bordered">

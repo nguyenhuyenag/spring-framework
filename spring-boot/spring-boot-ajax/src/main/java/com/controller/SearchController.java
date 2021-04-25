@@ -14,17 +14,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.model.AjaxResponseBody;
 import com.model.SearchCriteria;
 import com.model.User;
-import com.service.UserService;
+import com.service.SearchService;
 
 @Controller
-public class AjaxController {
+public class SearchController {
 
 	@Autowired
-	private UserService userService;
+	private SearchService searchService;
 
-	@GetMapping("/")
+	@GetMapping("search")
 	public String index() {
-		return "ajax";
+		return "search";
 	}
 
 	@PostMapping("/api/search")
@@ -32,10 +32,14 @@ public class AjaxController {
 		AjaxResponseBody result = new AjaxResponseBody();
 		// If error, just return a 400 bad request, along with the error message
 		if (errors.hasErrors()) {
-			result.setMsg(errors.getAllErrors().stream().map(x -> x.getDefaultMessage()).collect(Collectors.joining(",")));
+			result.setMsg( //
+				errors.getAllErrors().stream() //
+				.map(x -> x.getDefaultMessage()) //
+				.collect(Collectors.joining(",")) //
+			);
 			return ResponseEntity.badRequest().body(result);
 		}
-		List<User> users = userService.findByUserNameOrEmail(search.getUsername());
+		List<User> users = searchService.findByUserNameOrEmail(search.getUsername());
 		if (users.isEmpty()) {
 			result.setMsg("no user found!");
 		} else {
