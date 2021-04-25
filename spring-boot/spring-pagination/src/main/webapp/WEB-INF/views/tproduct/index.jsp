@@ -5,12 +5,12 @@
 <head>
 	<meta charset="ISO-8859-1">
 	<title>Product Manager</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 </head>
 <body>
 	<!-- Include _menu.html -->
 	<%@ include file="../menu.jsp" %>
-	<div align="center">
-		<h1>Product Manager</h1>
+	<div class="container" style="margin-top: 20px;" align="center">
 		<a href="${CONTEXT_PATH}/new">Create New Product</a>
 		<br/><br/>
 		<table class="table table-bordered">

@@ -1,5 +1,4 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<!-- menu -->
 <div class="navbar navbar-inverse">
 	<div class="container">
 		<div class="navbar-header">
