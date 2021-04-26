@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -29,11 +31,18 @@ public class UserController {
 
 	@DeleteMapping("delete")
 	public String delete(@RequestParam String email, Model model) {
-		// System.out.println("email: " + email);
 		List<User> list = userService.getListUser();
 		list.removeIf(t -> t.getEmail().equalsIgnoreCase(email));
 		model.addAttribute("listUser", list);
-		return "user"; // ResponseEntity.ok("Delete success");
+		return "user";
+	}
+
+	@PutMapping("add")
+	public String add(@RequestBody User user, Model model) {
+		List<User> list = userService.getListUser();
+		list.add(user);
+		model.addAttribute("listUser", list);
+		return "user";
 	}
 
 }

@@ -5,26 +5,24 @@
 <html>
 
 <head>
-	<title>User</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Spring Boot AJAX</title>
 	<link rel="shortcut icon" href="#">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-	<script type="text/javascript">
-		<c:set var="CONTEXT_PATH" value="${pageContext.request.contextPath}" scope="session"/>
-	</script>
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 
 <body>
 	<div class="container" style="margin-top: 20px;" align="center">
-		<button class="btn btn-success" id="btn-get-list">Add new</button>
+		<button class="btn btn-success" id="btn-get-list" data-toggle="modal" data-target="#myModal">Add new</button>
 		<br /><br />
 		<table class="table table-bordered">
 			<thead>
 				<tr>
-					<th>Họ tên</th>
+					<th>Name</th>
 					<th>Email</th>
-					<th>Xóa</th>
+					<th>Delete</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -33,7 +31,7 @@
 						<td>${user.name}</td>
 						<td>${user.email}</td>
 						<td>
-							<button class="btn btn-danger" onclick="delete_user('${user.email}')">Xóa</button>
+							<button class="btn btn-danger" onclick="delete_user('${user.email}')">Delete</button>
 						</td>
 					</tr>
 				</c:forEach>
@@ -41,24 +39,78 @@
 		</table>
 		<button class="btn btn-primary" id="btn-get-list">Reload</button>
 	</div>
-	<!-- <form>
-		<label for="fname">Họ tên:</label><br>
-		<input type="text" id="fname" name="fname"><br>
-		<label for="femail">Email:</label><br>
-		<input type="email" id="femail" name="femail"><br>
-		<label for="fphone">Phone:</label><br>
-		<input type="text" id="fphone" name="fphone"><br>
-		<label for="fpassword">Password:</label><br>
-		<input type="password" id="fpassword" name="fpassword"><br>
-		<br>
-		<button id="btn-add-new">Tạo mới</button>
-	</form> -->
+
+	<!-- Modal -->
+	<div class="modal fade" id="myModal" role="dialog">
+		<div class="modal-dialog" style="width: 500px;">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Modal Header</h4>
+				</div>
+				<div class="modal-body">
+					<p>Some text in the modal.</p>
+					<form id="addForm">
+						<div class="form-group">
+							<label for="name" class="col-form-label">Name:</label>
+							<input type="text" class="form-control" name="name" value="Abc">
+						</div>
+						<div class="form-group">
+							<label for="email" class="col-form-label">Email:</label>
+							<input type="text" class="form-control" name="email" value="abc@abc.com">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" style="float: left;" onclick="add(event)">Add</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<script type="text/javascript">
-		$(document).ready(function(){
+		$(document).ready(function() {
 			// hello();
-        });
-		
+		});
+		function add(e) {
+			// cach 1
+			var elements = document.getElementById("addForm").elements;
+			var obj = {};
+			for (var i = 0; i < elements.length; i++) {
+				var item = elements.item(i);
+				obj[item.name] = item.value;
+			}
+			//console.log(JSON.stringify(obj));
+
+			// cach 2
+			var formData = new FormData($('#addForm')[0]);
+			const formObject = Object.fromEntries(formData);
+			//console.log(formObject);
+
+			// cach 3
+			const form = new FormData($('#addForm')[0]);
+			const email = form.get("email");
+			//console.log(email);
+
+			// cach 4
+			//console.log($('#addForm').serialize());
+
+			$.ajax({
+				type : "PUT",
+				url : "/user/add/",
+				dataType : "json",
+				data : JSON.stringify(obj),
+				contentType : "application/json; charset=utf-8",
+				success : function(data) {
+					console.log("SUCCESS : ", data);
+				},
+				error : function(e) {
+					console.log("ERROR : ", e);
+				}
+			});
+		}
 		function delete_user(email) {
 			console.log(email);
 			$.ajax({
@@ -73,80 +125,6 @@
 				}
 			});
 		}
-
-/* 		function hello() {
-			console.log("Hello World");
-		}; */
-
-		/* function insertNewUser(user) {
-			$('.list-user').append(`
-			     <tr data-id="${user.id}">
-					<td>${user.id}</td>
-					<td>${user.name}</td>
-					<td>${user.email}</td>
-					<td>${user.phone}</td>
-					<td>${user.avatar}</td>
-					<td>${user.birthday}</td>
-					<td>
-						<button onclick="delete_user(${user.id})">Xóa</button>
-					</td>
-				</tr>
-			`)
-		} */
-
-		/* $('#btn-get-list').click(function() {
-			$.ajax({
-			   	url: 'http://localhost:8080/users',
-			   	type: 'GET',
-			   	error: function(data) {
-			   		alert(data.responseJSON.message)
-			   	},
-			   	success: function(data) {
-			   	    $('.list-user').html("")
-			     	for (user of data) {
-			     		insertNewUser(user)
-			     	}
-			   	}
-			});	
-		})
-
-		$('#btn-add-new').click(function() {
-			event.preventDefault()
-			name = $('#fname').val()
-			phone = $('#fphone').val()
-			email = $('#femail').val()
-			password = $('#fpassword').val()
-
-			// TODO: Validate thông tin ở đây
-
-			req = {
-				name: name,
-				email: email,
-				phone: phone,
-				password: password
-			}
-			console.log(req)
-			var myJSON = JSON.stringify(req);
-			console.log(myJSON)
-			$.ajax({
-			   	url: 'http://localhost:8080/users',
-			   	type: 'POST',
-			   	data: myJSON,
-			   	dataType: "json",
-			   	contentType: "application/json; charset=utf-8",
-			   	error: function(data) {
-			   		alert(data.responseJSON.message)
-			   	},
-			   	success: function(data) {
-			   		alert("Tạo mới thành công")
-			   	    insertNewUser(data)
-			   	    $('#fname').val('')
-			   	    $('#femail').val('')
-			   	    $('#fphone').val('')
-			   	    $('#fpassword').val('')
-			   	}
-			});
-		}) */
 	</script>
 </body>
 </html>
