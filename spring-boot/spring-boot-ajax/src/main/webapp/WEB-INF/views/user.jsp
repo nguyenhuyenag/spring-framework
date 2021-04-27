@@ -69,6 +69,8 @@
 			</div>
 		</div>
 	</div>
+	
+	<div id="feedback"></div>
 
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -99,15 +101,23 @@
 
 			$.ajax({
 				type : "PUT",
-				url : "/user/add/",
-				dataType : "json",
+				contentType : "application/json",
+				url : "/user/add",
 				data : JSON.stringify(obj),
-				contentType : "application/json; charset=utf-8",
+				dataType : 'json',
+				cache : false,
+				timeout : 600000,
 				success : function(data) {
+					var json = "<h4>Ajax Response</h4><pre>" + JSON.stringify(data, null, 4) + "</pre>";
+					$('#feedback').html(json);
 					console.log("SUCCESS : ", data);
+					$("#btn-search").prop("disabled", false);
 				},
 				error : function(e) {
+					var json = "<h4>Ajax Response</h4><pre>" + e.responseText + "</pre>";
+					$('#feedback').html(json);
 					console.log("ERROR : ", e);
+					$("#btn-search").prop("disabled", false);
 				}
 			});
 		}

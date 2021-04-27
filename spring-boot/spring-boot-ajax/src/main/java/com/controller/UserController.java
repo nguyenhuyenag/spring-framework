@@ -3,6 +3,7 @@ package com.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -38,11 +39,12 @@ public class UserController {
 	}
 
 	@PutMapping("add")
-	public String add(@RequestBody User user, Model model) {
+	// @ResponseBody
+	public ResponseEntity<?> add(@RequestBody User user, Model model) {
 		List<User> list = userService.getListUser();
 		list.add(user);
 		model.addAttribute("listUser", list);
-		return "user";
+		return ResponseEntity.ok(list);
 	}
 
 }
