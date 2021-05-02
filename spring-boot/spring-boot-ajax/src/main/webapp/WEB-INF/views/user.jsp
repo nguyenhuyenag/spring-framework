@@ -31,7 +31,7 @@
 						<td>${user.name}</td>
 						<td>${user.email}</td>
 						<td>
-							<button class="btn btn-danger" onclick="delete_user('${user.email}')">Delete</button>
+							<button class="btn btn-danger" onclick="deleteUser('${user.email}')">Delete</button>
 						</td>
 					</tr>
 				</c:forEach>
@@ -87,13 +87,13 @@
 			//console.log(JSON.stringify(obj));
 
 			// cach 2
-			var formData = new FormData($('#addForm')[0]);
-			const formObject = Object.fromEntries(formData);
+			//var formData = new FormData($('#addForm')[0]);
+			//const formObject = Object.fromEntries(formData);
 			//console.log(formObject);
 
 			// cach 3
-			const form = new FormData($('#addForm')[0]);
-			const email = form.get("email");
+			//const form = new FormData($('#addForm')[0]);
+			//const email = form.get("email");
 			//console.log(email);
 
 			// cach 4
@@ -111,7 +111,8 @@
 					var json = "<h4>Ajax Response</h4><pre>" + JSON.stringify(data, null, 4) + "</pre>";
 					$('#feedback').html(json);
 					console.log("SUCCESS : ", data);
-					$("#btn-search").prop("disabled", false);
+					// $("#btn-search").prop("disabled", false);
+					location.reload();
 				},
 				error : function(e) {
 					var json = "<h4>Ajax Response</h4><pre>" + e.responseText + "</pre>";
@@ -121,17 +122,28 @@
 				}
 			});
 		}
-		function delete_user(email) {
-			console.log(email);
+		
+		function deleteUser(email) {
 			$.ajax({
 				type : "DELETE",
+				contentType : "application/json",
 				url : "/user/delete?email=" + email,
+				// data : JSON.stringify(obj),
+				dataType : 'json',
+				cache : false,
+				timeout : 600000,
 				success : function(data) {
+					var json = "<h4>Ajax Response</h4><pre>" + JSON.stringify(data, null, 4) + "</pre>";
+					$('#feedback').html(json);
 					console.log("SUCCESS : ", data);
-					window.location.reload();
+					// $("#btn-search").prop("disabled", false);
+					location.reload();
 				},
 				error : function(e) {
+					var json = "<h4>Ajax Response</h4><pre>" + e.responseText + "</pre>";
+					$('#feedback').html(json);
 					console.log("ERROR : ", e);
+					$("#btn-search").prop("disabled", false);
 				}
 			});
 		}

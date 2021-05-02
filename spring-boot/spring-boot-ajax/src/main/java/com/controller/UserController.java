@@ -30,19 +30,18 @@ public class UserController {
 		return "user";
 	}
 
-	@DeleteMapping("delete")
-	public String delete(@RequestParam String email, Model model) {
-		List<User> list = userService.getListUser();
-		list.removeIf(t -> t.getEmail().equalsIgnoreCase(email));
-		model.addAttribute("listUser", list);
-		return "user";
-	}
-
 	@PutMapping("add")
-	// @ResponseBody
 	public ResponseEntity<?> add(@RequestBody User user, Model model) {
 		List<User> list = userService.getListUser();
 		list.add(user);
+		model.addAttribute("listUser", list);
+		return ResponseEntity.ok(list);
+	}
+
+	@DeleteMapping("delete")
+	public ResponseEntity<?> delete(@RequestParam String email, Model model) {
+		List<User> list = userService.getListUser();
+		list.removeIf(t -> t.getEmail().equalsIgnoreCase(email));
 		model.addAttribute("listUser", list);
 		return ResponseEntity.ok(list);
 	}

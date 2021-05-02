@@ -57,46 +57,28 @@
 		<c:if test="${totalPages > 1}">
 			<div>
 				Total Items: <b>${totalItems}</b>
-				
 				&nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp;
-				
 				<c:if test="${currentPage > 1}">
 					<a href="/page/1?sortField=${sortField}&sortDir=${sortDir}">First</a>
 				</c:if>
-<%-- 				<c:if test="${currentPage > 1}">
-					<span>First</span>
-				</c:if> --%>
 				&nbsp;&nbsp;
-				
 				<c:if test="${currentPage > 1}">
 					<a href="/page/${currentPage - 1}?sortField=${sortField}&sortDir=${sortDir}">Previous</a>
 				</c:if>
-<%-- 				<c:if test="${currentPage > 1}">
-					<span>Previous</span>
-				</c:if> --%>
 				&nbsp;&nbsp;
-				
 				<c:forEach var="i" begin="1" end="${totalPages}">
 					<c:if test="${currentPage != i}">
 						<a href="/page/${i}?sortField=${sortField}&sortDir=${sortDir}">${i}</a>
 					</c:if>
 				</c:forEach>
-<%-- 				<span th:each="i: ${#numbers.sequence(1, totalPages)}">
-					<a th:if="${currentPage != i}" th:href="@{'/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
-					<span th:unless="${currentPage != i}">[[${i}]]</span>
-					
-				</span> --%>
 				&nbsp;
 				<c:if test="${currentPage < totalPages}">
 					<a href="/page/${currentPage + 1}?sortField=${sortField}&sortDir=${sortDir}">Next</a>
 				</c:if>
-		<%-- 		<span th:unless="${currentPage < totalPages}">Next</span>
-				 --%>
 				&nbsp;&nbsp;
 				<c:if test="${currentPage < totalPages}">
 					<a href="/page/${totalPages}?sortField=${sortField}&sortDir=${sortDir}">Last</a>
 				</c:if>
-				<%-- <span th:unless="${currentPage < totalPages}">Last</span> --%>
 			</div>
 		</c:if>
 	</div>

@@ -20,11 +20,6 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 
-	@GetMapping({ "/", "home" })
-	public String home() {
-		return "home";
-	}
-
 	@GetMapping("product")
 	public String index(HttpServletRequest request, ModelMap model) {
 		List<Product> products = productService.findAll();
