@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.entity.Vocabulary;
@@ -14,9 +13,8 @@ import com.service.VocabService;
 import com.service.XSSFService;
 
 @RestController
-@RequestMapping("api")
 public class ApiController {
-	
+
 	@Autowired
 	XSSFService xssfService;
 
@@ -34,5 +32,5 @@ public class ApiController {
 		Vocabulary dict = service.getRandomVocab2(flag);
 		return new ResponseEntity<>(dict, HttpStatus.OK);
 	}
-	
+
 }

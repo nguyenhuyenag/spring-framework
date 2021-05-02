@@ -47,7 +47,8 @@ public class Vocabulary {
 	public boolean equals(Object obj) {
 		if (obj instanceof Vocabulary) {
 			Vocabulary vcb = (Vocabulary) obj;
-			if (equal(this.word, vcb.word) && equal(this.pronounce, vcb.pronounce) && equal(this.translate, vcb.translate)) {
+			if (equal(this.word, vcb.word) && equal(this.pronounce, vcb.pronounce)
+					&& equal(this.translate, vcb.translate)) {
 				return true;
 			}
 		}
