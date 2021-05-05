@@ -22,7 +22,7 @@ public class ApiController {
 	private VocabService service;
 
 	@GetMapping("import-data")
-	private ResponseEntity<List<String>> importExcel() {
+	private ResponseEntity<?> importExcel() {
 		List<String> list = xssfService.importExcel();
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}

@@ -1,6 +1,9 @@
 create schema if not exists `english`;
+
 use `english`;
+
 drop table if exists `vocab`;
+
 create table `vocab` (
 	`id` int unsigned not null auto_increment,
 	`word` varchar(45) not null,
