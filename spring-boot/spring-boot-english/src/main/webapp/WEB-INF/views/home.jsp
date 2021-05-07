@@ -18,6 +18,7 @@
 		<div class="starter-template">
 			<ul>
 				<li><a href="/import-data">Import data</a></li>
+				<li><a href="/incomplete">Incomplete</a></li>
 			</ul>
 		</div>
 	</div>

@@ -12,11 +12,11 @@ import com.entity.Vocabulary;
 @Repository
 public interface VocabRepository extends JpaRepository<Vocabulary, Integer> {
 
-	@Query(value = "select min(id) from vocab", nativeQuery = true)
-	Integer findMinId();
+	//@Query(value = "select min(id) from vocab", nativeQuery = true)
+	//Integer findMinId();
 
-	@Query(value = "select lower(v.word) from vocab v", nativeQuery = true)
-	List<String> findAllVocab();
+	//@Query(value = "select lower(v.word) from vocab v", nativeQuery = true)
+	//List<String> findAllVocab();
 
 	// @Query(value = "select v.* from vocab v where v.word = :pword", nativeQuery = true)
 	Vocabulary findByWord(String pword);
@@ -27,5 +27,8 @@ public interface VocabRepository extends JpaRepository<Vocabulary, Integer> {
 	// Lấy n dòng đầu tiên có count <= pcount
 	@Query(value = "select t.* from vocab t where t.count <= :pcount order by t.count limit :n", nativeQuery = true)
 	List<Vocabulary> getListVocabLimitByCount(@Param("pcount") int pcount, @Param("n") int n);
+	
+	@Query(value = "select word from vocab where pronounce = \"\" or translate = \"\" order by word", nativeQuery = true)
+	List<String> incomplete();
 
 }

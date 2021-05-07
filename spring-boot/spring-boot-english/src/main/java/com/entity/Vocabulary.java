@@ -15,28 +15,25 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "vocab")
-@NoArgsConstructor
 public class Vocabulary {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+
 	private String word;
 	private String pronounce;
 	private String translate;
+
 	private int count = 0;
 
 	public Vocabulary(String word, String pronounce, String translate) {
 		this.word = word;
 		this.pronounce = pronounce;
 		this.translate = translate;
-	}
-
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
 	}
 
 	private boolean equal(String s1, String s2) {
@@ -58,6 +55,11 @@ public class Vocabulary {
 	@Override
 	public int hashCode() {
 		return this.word.hashCode();
+	}
+
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
 	}
 
 }

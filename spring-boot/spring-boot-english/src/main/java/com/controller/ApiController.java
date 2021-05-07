@@ -31,5 +31,11 @@ public class ApiController {
 		Vocabulary dict = service.getRandomVocab2(flag);
 		return ResponseEntity.ok(dict);
 	}
+	
+	@GetMapping("incomplete")
+	private ResponseEntity<?> incomplete() {
+		List<String> data = service.incomplete();
+		return ResponseEntity.ok(data);
+	}
 
 }

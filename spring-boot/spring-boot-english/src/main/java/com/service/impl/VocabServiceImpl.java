@@ -86,4 +86,9 @@ public class VocabServiceImpl implements VocabService {
 		repository.save(vocab);
 	}
 
+	@Override
+	public List<String> incomplete() {
+		return repository.incomplete();
+	}
+
 }
