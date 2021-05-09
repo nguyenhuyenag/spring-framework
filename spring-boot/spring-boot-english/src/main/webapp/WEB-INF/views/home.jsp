@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8" />
-	<title>Spring JSP</title>
+	<title>English</title>
 	<link rel="shortcut icon" href="#">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 </head>
