@@ -22,41 +22,37 @@ public class BaseController {
 	@Autowired
 	private GoogleUtils googleUtils;
 
-	@RequestMapping(value = { "/", "/login" })
+	@RequestMapping({ "/", "login" })
 	public String login() {
 		return "login";
 	}
 
-	@RequestMapping("/login-google")
+	@RequestMapping("login-google")
 	public String loginGoogle(HttpServletRequest request) throws ClientProtocolException, IOException {
 		String code = request.getParameter("code");
-		
 		if (code == null || code.isEmpty()) {
 			return "redirect:/login?google=error";
 		}
-
 		String accessToken = googleUtils.getToken(code);
-		
 		GooglePojo googlePojo = googleUtils.getUserInfo(accessToken);
 		UserDetails userDetail = googleUtils.buildUser(googlePojo);
-		UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetail, null,
-				userDetail.getAuthorities());
+		UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetail, null, userDetail.getAuthorities());
 		authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		return "redirect:/user";
 	}
 
-	@RequestMapping("/user")
+	@RequestMapping("user")
 	public String user() {
 		return "user";
 	}
 
-	@RequestMapping("/admin")
+	@RequestMapping("admin")
 	public String admin() {
 		return "admin";
 	}
 
-	@RequestMapping("/403")
+	@RequestMapping("403")
 	public String accessDenied() {
 		return "403";
 	}
