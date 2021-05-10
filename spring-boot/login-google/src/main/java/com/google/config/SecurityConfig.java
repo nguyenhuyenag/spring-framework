@@ -21,10 +21,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth.inMemoryAuthentication().passwordEncoder(passwordEncoder()).
-			withUser("kai").password("$2a$04$Q2Cq0k57zf2Vs/n3JXwzmerql9RzElr.J7aQd3/Sq0fw/BdDFPAj.").roles("ADMIN");
+			withUser("admin").password("$2a$10$VvFOKL7OKvmcOdHgCL5U3uUZfdt4W0dZbzkQKbVr/F5p3chrq02C.").roles("ADMIN");
 		auth.inMemoryAuthentication().passwordEncoder(passwordEncoder()).
-			withUser("sena").password("$2a$04$Q2Cq0k57zf2Vs/n3JXwzmerql9RzElr.J7aQd3/Sq0fw/BdDFPAj.").roles("USER");
-//		auth.inMemoryAuthentication().passwordEncoder(NoOpPasswordEncoder.getInstance()).withUser("sena").password("123456").roles("USER");
+			withUser("user").password("$2a$10$VvFOKL7OKvmcOdHgCL5U3uUZfdt4W0dZbzkQKbVr/F5p3chrq02C.").roles("USER");
+		// auth.inMemoryAuthentication().passwordEncoder(NoOpPasswordEncoder.getInstance()).withUser("sena").password("123456").roles("USER");
 	}
 
 	@Override

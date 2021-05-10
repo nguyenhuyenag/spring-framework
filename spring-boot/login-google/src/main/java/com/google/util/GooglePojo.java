@@ -1,4 +1,4 @@
-package com.google.common;
+package com.google.util;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
