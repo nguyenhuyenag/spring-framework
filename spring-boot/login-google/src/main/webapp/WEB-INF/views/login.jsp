@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,11 +7,9 @@
 </head>
 <body>
 	<h2>Spring Boot Security Login with Google+</h2>
-	<a href="https://accounts.google.com/o/oauth2/auth?scope=email&approval_prompt=force&response_type=code&redirect_uri=${HOSTNAME}&client_id=${CLIENT_ID}">
-		Login With Gmail
-	</a>
+	<a href="${URL}">Login With Gmail</a>
 	<br />
-	<form name='login-form' action="j_spring_security_login" method='POST'>
+	<form name='login-form' action="/j_spring_security_login" method='POST'>
 		<table>
 			<tr>
 				<td>Username:</td>

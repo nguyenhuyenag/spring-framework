@@ -1,19 +1,16 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
-<title>Spring Boot Security Hello</title>
+	<title>Spring Boot Security</title>
 </head>
 <body>
 	<h2>User Page</h2>
-	<h3>
-		Welcome : <span th:utext="${#request.userPrincipal.name}"></span>
-	</h3>
-
-	<a th:href="@{/admin}">Admin Page</a>
-
-	<br/><br/>
-	<form th:action="@{/j_spring_security_logout}" method="post">
-		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+	<h3>Welcome: ${request.userPrincipal.name}</h3>
+	<a href="/admin">Admin Page</a>
+	<br />
+	<br />
+	<form action="/j_spring_security_logout" method="POST">
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		<input type="submit" value="Logout" />
 	</form>
 </body>

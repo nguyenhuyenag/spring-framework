@@ -36,12 +36,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// Khi người dùng đã login, với vai trò USER, Nhưng truy cập vào trang yêu cầu vai trò ADMIN, sẽ chuyển hướng tới trang /403
 		http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
 		// Cấu hình cho Login Form.
-		http.authorizeRequests().and().formLogin()//
-				.loginProcessingUrl("/j_spring_security_login")//
-				.loginPage("/login")//
-				.defaultSuccessUrl("/user")//
-				.failureUrl("/login?message=error")//
-				.usernameParameter("username")//
+		http.authorizeRequests().and().formLogin() //
+				.loginProcessingUrl("/j_spring_security_login") //
+				.loginPage("/login") //
+				.defaultSuccessUrl("/user") //
+				.failureUrl("/login?message=error") //
+				.usernameParameter("username") //
 				.passwordParameter("password")
 				// Cấu hình cho Logout Page.
 				.and().logout().logoutUrl("/j_spring_security_logout").logoutSuccessUrl("/login?message=logout");
