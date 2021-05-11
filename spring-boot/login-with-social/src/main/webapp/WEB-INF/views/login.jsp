@@ -3,11 +3,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Login Google</title>
+	<title>Social Login</title>
 </head>
 <body>
-	<h2>Spring Boot Security Login with Google+</h2>
-	<a href="${URL}">Login With Gmail</a>
+	<h2>Spring Boot Security Social Login</h2>
+	<a href="${URL_GOOGLE}">Login With Gmail</a>
+	<br/>
+	<a href="https://www.facebook.com/dialog/oauth?client_id=180439422588509&redirect_uri=https://localhost:8443/login-facebook">Login With Facebook</a>
 	<br />
 	<form name='login-form' action="/j_spring_security_login" method='POST'>
 		<table>

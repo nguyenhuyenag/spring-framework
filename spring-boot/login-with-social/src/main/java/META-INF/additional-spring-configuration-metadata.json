@@ -23,7 +23,25 @@
     "name": "google.link.get.user_info",
     "type": "java.lang.String",
     "description": "A description for 'google.link.get.user_info'"
-  }
-]}    "description": "A description for 'google.link.get.user_info'"
+  },
+  {
+    "name": "facebook.app.id",
+    "type": "java.lang.String",
+    "description": "A description for 'facebook.app.id'"
+  },
+  {
+    "name": "facebook.redirect.uri",
+    "type": "java.lang.String",
+    "description": "A description for 'facebook.redirect.uri'"
+  },
+  {
+    "name": "facebook.link.get.token",
+    "type": "java.lang.String",
+    "description": "A description for 'facebook.link.get.token'"
+  },
+  {
+    "name": "facebook.app.secret",
+    "type": "java.lang.String",
+    "description": "A description for 'facebook.app.secret'"
   }
 ]}
