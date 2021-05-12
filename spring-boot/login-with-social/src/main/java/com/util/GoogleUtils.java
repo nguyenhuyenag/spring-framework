@@ -26,8 +26,7 @@ public class GoogleUtils {
 
 	public String getAssessToken(final String code) throws ClientProtocolException, IOException {
 		String link = env.getProperty("google.link.get.token");
-		String response = Request.Post(link)
-				.bodyForm(Form.form()
+		String response = Request.Post(link).bodyForm(Form.form()
 						.add("client_id", env.getProperty("google.app.id"))
 						.add("client_secret", env.getProperty("google.app.secret"))
 						.add("redirect_uri", env.getProperty("google.redirect.uri"))
