@@ -13,5 +13,7 @@ public interface VocabService {
 	void increaseCountById(Vocabulary vocab);
 	
 	List<String> incomplete();
+	
+	void append();
 
 }

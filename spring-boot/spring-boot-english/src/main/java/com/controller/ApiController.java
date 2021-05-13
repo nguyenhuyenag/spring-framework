@@ -37,5 +37,11 @@ public class ApiController {
 		List<String> data = service.incomplete();
 		return ResponseEntity.ok(data);
 	}
+	
+	@GetMapping("append")
+	private ResponseEntity<?> append() {
+		List<String> data = service.incomplete();
+		return ResponseEntity.ok(data);
+	}
 
 }

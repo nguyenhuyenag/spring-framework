@@ -29,7 +29,7 @@ public class XSSFServiceImpl implements XSSFService {
 
 	private final Path FILE = Paths.get("D:/GDrive/ToCompany/english/vocabulary.xlsx");
 
-	private String getCell(XSSFRow row, int i) {
+	private String getCellValue(XSSFRow row, int i) {
 		if (row == null) {
 			return "";
 		}
@@ -43,9 +43,9 @@ public class XSSFServiceImpl implements XSSFService {
 	}
 
 	private Vocabulary rowToVocab(XSSFRow row) {
-		String word = getCell(row, 0);
-		String pronounce = getCell(row, 1);
-		String translate = getCell(row, 2);
+		String word = getCellValue(row, 0);
+		String pronounce = getCellValue(row, 1);
+		String translate = getCellValue(row, 2);
 		if (StringUtils.isNotEmpty(word) && StringUtils.isNotEmpty(translate)) {
 			return new Vocabulary(word, pronounce, translate);
 		}
