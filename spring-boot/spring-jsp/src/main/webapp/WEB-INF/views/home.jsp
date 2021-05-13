@@ -39,8 +39,8 @@
 			<h3>1) JSP</h3>
 			<ul>
 				<li><a href="${CONTEXT_PATH}/test" class="red">Test</a></li>
-				<li><a href="${CONTEXT_PATH}/request?name=java&version=1.8">Request 1</a></li>
-				<li><a href="${CONTEXT_IMPLICIT}/request?name=Java&version=8&company=oracle">Request (implicit object)</a></li>
+				<li><a href="${CONTEXT_PATH}/send-request?name=java&version=1.8">Request 1</a></li>
+				<li><a href="${CONTEXT_IMPLICIT}/send-request?name=Java&version=8&company=oracle">Request (implicit object)</a></li>
 				<li><a href="${CONTEXT_PATH}/view">Create View</a></li>
 				<li><a href="${CONTEXT_PATH}/view1">Create View 1</a></li>
 				<li><a href="${CONTEXT_PATH}/view2">Create View 2</a></li>

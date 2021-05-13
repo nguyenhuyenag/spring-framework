@@ -19,7 +19,7 @@
 				"method" : '${pageContext.request.method}',
 				"characterEncoding" : '${pageContext.request.characterEncoding}',
 				"queryString" : '${pageContext.request.queryString}',
-				"param1" : '${pageContext.request.queryString}',
+				"controller path" : '${controller_path}',
 			};
 			function makeUL() {
 				var list = document.createElement('ul');
