@@ -5,11 +5,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com</groupId>
-	<artifactId>apache-httpclient</artifactId>
+	<artifactId>httpclient</artifactId>
 	<version>1.0</version>
 	<packaging>jar</packaging>
 
-	<name>apache-httpclient</name>
+	<name>httpclient</name>
 	<description>Spring Boot Security Social Login</description>
 
 	<parent>
