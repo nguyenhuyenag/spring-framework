@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -14,18 +13,18 @@ public class Test {
 
 	private final static Path FILE = Paths.get("D:/GDrive/ToCompany/english/vocabulary1.xlsx");
 
-	private static String getCell(XSSFRow row, int i) {
-		if (row == null) {
-			return "";
-		}
-		try {
-			XSSFCell cell = row.getCell(i);
-			return cell != null ? cell.getStringCellValue().trim().toLowerCase() : "";
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return "";
-	}
+//	private static String getCell(XSSFRow row, int i) {
+//		if (row == null) {
+//			return "";
+//		}
+//		try {
+//			XSSFCell cell = row.getCell(i);
+//			return cell != null ? cell.getStringCellValue().trim().toLowerCase() : "";
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return "";
+//	}
 
 	public static void main(String[] args) {
 		try ( //
