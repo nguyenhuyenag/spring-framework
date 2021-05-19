@@ -4,7 +4,6 @@ import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,11 +21,11 @@ public class EmployeeController {
 	}
 
 	@RequestMapping(value = "add-employee", method = RequestMethod.POST)
-	public String submit(@Valid @ModelAttribute("employee") Employee employee, //
-			BindingResult result, ModelMap model) {
-		if (result.hasErrors()) {
-			return "error";
-		}
+	public String submit(@Valid @ModelAttribute("employee") Employee employee, ModelMap model) {
+		// BindingResult result
+		// if (result.hasErrors()) {
+		// 	return "error";
+		// }
 		model.addAttribute("name", employee.getName());
 		model.addAttribute("contactNumber", employee.getContactNumber());
 		model.addAttribute("id", employee.getId());
