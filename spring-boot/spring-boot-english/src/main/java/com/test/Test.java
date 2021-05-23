@@ -11,7 +11,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class Test {
 
-	private final static Path FILE = Paths.get("D:/GDrive/ToCompany/english/vocabulary1.xlsx");
+	private final static Path FILE = Paths.get("D:/GDrive/ToCompany/english/vocabulary_new.xlsx");
 
 //	private static String getCell(XSSFRow row, int i) {
 //		if (row == null) {
@@ -28,10 +28,10 @@ public class Test {
 
 	public static void main(String[] args) {
 		try ( //
-				FileInputStream excelFile = new FileInputStream(FILE.toFile()); //
-				XSSFWorkbook workbook = new XSSFWorkbook(excelFile); //
+			FileInputStream excelFile = new FileInputStream(FILE.toFile()); //
+			XSSFWorkbook workbook = new XSSFWorkbook(excelFile); //
 		) {
-			XSSFSheet sheet = workbook.getSheet("A");
+			XSSFSheet sheet = workbook.getSheet("new");
 			// XSSFRow row = sheet.getRow(sheet.getLastRowNum());
 			// System.out.println(getCell(row, 0));
 			// System.out.println(getCell(row, 1));
@@ -44,6 +44,7 @@ public class Test {
 			FileOutputStream out = new FileOutputStream(FILE.toFile());
 		    workbook.write(out);
 		    out.close();
+		    System.out.println("OK");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
