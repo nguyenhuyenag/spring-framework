@@ -11,9 +11,9 @@
     </definition>  
  
     <!-- Home Page  -->
-    <definition name="home" extends="base.definition">  
-        <put-attribute name="title" value="Home Page" />  
-        <put-attribute name="body" value="/WEB-INF/views/home.jsp" />  
+    <definition name="vocabulary" extends="base.definition">  
+        <put-attribute name="title" value="Vocabulary" />  
+        <put-attribute name="body" value="/WEB-INF/views/vocabulary.jsp" />  
     </definition>
        
     <!-- ContactUs Page -->

@@ -5,13 +5,13 @@
 </style>
 
 <nav id="topheader" class="navbar navbar-expand-md navbar-dark bg-dark mb-1">
-	<a class="navbar-brand text-uppercase" href="/home">spring boot</a>
+	<a class="navbar-brand text-uppercase" href="/vocabulary">English</a>
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse">
 		<span class="navbar-toggler-icon"></span>
 	</button>
 	<div class="collapse navbar-collapse" id="navbarCollapse">
 		<ul class="navbar-nav mr-auto">
-			<li id="home" class="nav-item"><a class="nav-link" href="/home">Home</a></li>
+			<li id="vocabulary" class="nav-item"><a class="nav-link" href="/vocabulary">Vocabulary</a></li>
 			<li id="contact" class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
 		</ul>
 		<form class="form-inline mt-2 mt-md-0">
@@ -23,7 +23,7 @@
 
 <script type="text/javascript">
 	$(function () {
-		let menu = ["home", "contact"];
+		let menu = ["vocabulary", "contact"];
 		let i, len = menu.length;
 		let path = window.location.pathname.replace("/", "");
 		for (i = 0; i < len; i++) {
