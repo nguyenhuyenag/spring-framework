@@ -14,9 +14,9 @@
 
 <body>
     <tiles:insertAttribute name="header" />
-    <div role="main" class="container bg-success">
+    <div role="main" class="container">
 		<tiles:insertAttribute name="body" />
     </div>
-	<tiles:insertAttribute name="footer" />
+    <tiles:insertAttribute name="footer" />
 </body>
 </html>
