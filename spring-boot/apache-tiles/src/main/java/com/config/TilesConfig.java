@@ -10,7 +10,8 @@ import org.springframework.web.servlet.view.tiles3.TilesView;
 @Configuration
 public class TilesConfig {
 
-	@Bean(name = "viewResolver")
+	@Bean
+	// @Bean(name = "viewResolver")
 	public ViewResolver getViewResolver() {
 		UrlBasedViewResolver viewResolver = new UrlBasedViewResolver();
 		// TilesView 3
@@ -18,11 +19,13 @@ public class TilesConfig {
 		return viewResolver;
 	}
 
-	@Bean(name = "tilesConfigurer")
+	@Bean
+	// @Bean(name = "tilesConfigurer")
 	public TilesConfigurer getTilesConfigurer() {
 		TilesConfigurer tilesConfigurer = new TilesConfigurer();
 		// TilesView 3
-		tilesConfigurer.setDefinitions("/WEB-INF/tiles.xml");
+		String[] defs = { "/WEB-INF/tiles.xml" };
+		tilesConfigurer.setDefinitions(defs);
 		return tilesConfigurer;
 	}
 
