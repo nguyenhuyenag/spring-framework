@@ -14,6 +14,8 @@ public interface VocabService {
 	
 	List<String> incomplete();
 	
-	void append();
+	// void append();
+	
+	Vocabulary search(String word);
 
 }

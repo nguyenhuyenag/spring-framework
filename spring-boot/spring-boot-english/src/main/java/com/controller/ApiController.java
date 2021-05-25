@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.entity.Vocabulary;
@@ -41,6 +42,13 @@ public class ApiController {
 	@GetMapping("append")
 	private ResponseEntity<?> append() {
 		List<String> data = service.incomplete();
+		return ResponseEntity.ok(data);
+	}
+	
+	@PostMapping("search")
+	private ResponseEntity<Vocabulary> search(String word) {
+		// System.out.println("word: "+word);
+		Vocabulary data = service.search(word);
 		return ResponseEntity.ok(data);
 	}
 

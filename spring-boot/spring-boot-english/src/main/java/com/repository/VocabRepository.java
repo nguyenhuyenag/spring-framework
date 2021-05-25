@@ -1,6 +1,7 @@
 package com.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,7 +20,7 @@ public interface VocabRepository extends JpaRepository<Vocabulary, Integer> {
 	//List<String> findAllVocab();
 
 	// @Query(value = "select v.* from vocab v where v.word = :pword", nativeQuery = true)
-	Vocabulary findByWord(String pword);
+	Vocabulary findByWord(String word);
 	
 	@Query(value = "select v.* from vocab v order by rand() limit 1", nativeQuery = true)
 	Vocabulary getRandomWord();

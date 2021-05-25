@@ -1,8 +1,5 @@
 package com.service.impl;
 
-import java.io.FileInputStream;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -11,9 +8,6 @@ import java.util.concurrent.ThreadLocalRandom;
 import javax.transaction.Transactional;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +25,7 @@ public class VocabServiceImpl implements VocabService {
 
 	private Set<String> ignoreWords = new HashSet<>();
 	
-	private final Path FILE = Paths.get("D:/GDrive/ToCompany/english/vocabulary.xlsx");
+	// private final Path FILE = Paths.get("D:/GDrive/ToCompany/english/vocabulary.xlsx");
 
 	/**
 	 * Random ngẫu nhiên trong List: [min, max + 1]
@@ -100,25 +94,23 @@ public class VocabServiceImpl implements VocabService {
 	}
 
 	@Override
-	public void append() {
-		try ( //
-				FileInputStream excelFile = new FileInputStream(FILE.toFile()); //
-				XSSFWorkbook workbook = new XSSFWorkbook(excelFile); //
-		) {
-//			Iterator<Sheet> itr = workbook.sheetIterator();
-//			while (itr.hasNext()) {
-//				String sheetName = itr.next().getSheetName();
-//				char c = sheetName.charAt(0);
-//				if (sheetName.length() == 1 && ('A' <= c || c <= 'Z')) {
-//
-//				}
-//			}
-			XSSFSheet sheet = workbook.getSheet("A");
-			XSSFRow row = sheet.getRow(sheet.getLastRowNum());
-			System.out.println(row.toString());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public Vocabulary search(String word) {
+		Vocabulary v = repository.findByWord(word);
+		return v != null ? v : null;
 	}
+
+//	@Override
+//	public void append() {
+//		try ( //
+//				FileInputStream excelFile = new FileInputStream(FILE.toFile()); //
+//				XSSFWorkbook workbook = new XSSFWorkbook(excelFile); //
+//		) {
+//			XSSFSheet sheet = workbook.getSheet("A");
+//			XSSFRow row = sheet.getRow(sheet.getLastRowNum());
+//			System.out.println(row.toString());
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 }

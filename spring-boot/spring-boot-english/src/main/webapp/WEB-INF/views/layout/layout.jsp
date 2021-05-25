@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="static/css/bootstrap.min.css">
     <script src="static/script/jquery.min.js"></script>
     <script src="static/script/bootstrap.min.js"></script>
+    <script src="static/script/common.js"></script>
 </head>
 
 <body>
