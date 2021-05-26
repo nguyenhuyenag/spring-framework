@@ -33,11 +33,11 @@ public class ApiController {
 		return ResponseEntity.ok(dict);
 	}
 	
-	@GetMapping("incomplete")
-	private ResponseEntity<?> incomplete() {
-		List<String> data = service.incomplete();
-		return ResponseEntity.ok(data);
-	}
+//	@GetMapping("incomplete")
+//	private ResponseEntity<?> incomplete() {
+//		List<String> data = service.incomplete();
+//		return ResponseEntity.ok(data);
+//	}
 	
 	@GetMapping("append")
 	private ResponseEntity<?> append() {

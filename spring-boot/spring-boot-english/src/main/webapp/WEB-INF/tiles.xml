@@ -4,22 +4,19 @@
         
 <tiles-definitions>  
  
-    <!-- Base Define -->
     <definition name="base.definition" template="/WEB-INF/views/layout/layout.jsp">  
         <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />  
         <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />  
     </definition>  
  
-    <!-- Home Page  -->
     <definition name="vocabulary" extends="base.definition">  
         <put-attribute name="title" value="Vocabulary" />  
         <put-attribute name="body" value="/WEB-INF/views/vocabulary.jsp" />  
     </definition>
        
-    <!-- ContactUs Page -->
-    <definition name="contact" extends="base.definition">  
-        <put-attribute name="title" value="Contact Page" />  
-        <put-attribute name="body" value="/WEB-INF/views/contact.jsp" />  
+    <definition name="incomplete" extends="base.definition">  
+        <put-attribute name="title" value="Incomplete Page" />  
+        <put-attribute name="body" value="/WEB-INF/views/incomplete-page.jsp" />  
     </definition>    
    
 </tiles-definitions>

@@ -1,7 +1,6 @@
 package com.repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -31,5 +30,8 @@ public interface VocabRepository extends JpaRepository<Vocabulary, Integer> {
 	
 	@Query(value = "select word from vocab where pronounce = \"\" or translate = \"\" order by word", nativeQuery = true)
 	List<String> incomplete();
+	
+	@Query(value = "select t.* from vocab t where pronounce = \"\" or translate = \"\" order by word", nativeQuery = true)
+	List<Vocabulary> incompleteVocabulary();
 
 }

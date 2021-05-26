@@ -99,6 +99,11 @@ public class VocabServiceImpl implements VocabService {
 		return v != null ? v : null;
 	}
 
+	@Override
+	public List<Vocabulary> incompleteVocabulary() {
+		return repository.incompleteVocabulary();
+	}
+
 //	@Override
 //	public void append() {
 //		try ( //

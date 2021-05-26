@@ -29,15 +29,16 @@
                 <td><span id="translate"></span></td>
             </tr>
             <tr id="no-result">
-                <td colspan="3"><span class="text-danger">No result</span></td>
+                <td colspan="4"><span class="text-danger">No result</span></td>
             </tr>
         </tbody>
     </table>
     <div class="col">
         <button class="btn btn-primary m-1"><span aria-hidden="true">&larr;</span>&nbsp;Previous</button>
-        <button onclick="random();" class="btn btn-primary m-1">Next&nbsp;<span aria-hidden="true">&rarr;</span></button>
-        <button class="btn btn-primary">
-            <span class="spinner-border spinner-border-sm"></span>Next..
+        <button id="btn-random" class="btn btn-primary m-1" onclick="random();">
+            Next&nbsp;
+            <span id="icon-next" aria-hidden="true">&rarr;</span>
+            <span id="icon-loading" class="spinner-border spinner-border-sm"></span>
         </button>
     </div>
 </div>
@@ -45,33 +46,18 @@
 <script type="text/javascript">
     $(function () {
         $('#no-result').hide();
-        random();
+        $('#icon-loading').hide();
+
         $("#search-form").submit(function (event) {
             // stop submit the form, we will post it manually
             event.preventDefault();
             search();
         });
+
+        random();
     });
-    function random() {
-        $.ajax({
-            type: "GET",
-            url: "random-vocab",
-            dataType: 'json',
-            contentType: "application/json",
-            success: function (data) {
-                // console.log("DATA : ", data);
-                $('#no').text(data.id);
-                $('#_word').text(data.word);
-                $('#pronounce').text(data.pronounce);
-                $('#translate').text(data.translate);
-            },
-            error: function (e) {
-                console.log("ERROR : ", e);
-            }
-        });
-    }
+
     function search() {
-        $("#btn-search").prop("disabled", true);
         $.ajax({
             type: "POST",
             contentType: "application/json",
@@ -90,6 +76,46 @@
                 console.log("ERROR : ", e);
             }
         });
-        $("#btn-search").prop("disabled", false);
+    }
+
+    function random() {
+        $('#icon-next').hide();
+        $('#icon-loading').show();
+        $('#btn-random').prop('disabled', true);
+        setTimeout(function () {
+            $.ajax({
+                type: "GET",
+                url: "random-vocab",
+                dataType: 'json',
+                contentType: "application/json",
+                success: function (data) {
+                    $('#no').text(data.id);
+                    $('#_word').text(data.word);
+                    $('#pronounce').text(data.pronounce);
+                    $('#translate').text(data.translate);
+                },
+                error: function (e) {
+                    console.log("ERROR : ", e);
+                }
+            });
+            $('#icon-next').show();
+            $('#icon-loading').hide();
+            $('#btn-random').prop('disabled', false);
+        }, 150);
+    }
+
+    document.onkeydown = function (e) {
+        // console.log(e.key);
+        // console.log(e.keyCode);
+        switch (e.key) {
+            case 'ArrowLeft':
+                console.log(e.key);
+                break;
+            case 'ArrowRight':
+                random();
+                break;
+            default:
+                console.log(e.key);
+        }
     }
 </script>

@@ -12,18 +12,14 @@
 	<div class="collapse navbar-collapse" id="navbarCollapse">
 		<ul class="navbar-nav mr-auto">
 			<li id="vocabulary" class="nav-item"><a class="nav-link" href="/vocabulary">Vocabulary</a></li>
-			<li id="contact" class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
+			<li id="incomplete" class="nav-item"><a class="nav-link" href="/incomplete">Incomplete </a></li>
 		</ul>
-		<!-- <form class="form-inline mt-2 mt-md-0">
-			<input class="form-control mr-sm-2" type="text" placeholder="Search">
-			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-		</form> -->
 	</div>
 </nav>
 
 <script type="text/javascript">
 	$(function () {
-		let menu = ["vocabulary", "contact"];
+		let menu = ["vocabulary", "incomplete"];
 		let i, len = menu.length;
 		let path = window.location.pathname.replace("/", "");
 		for (i = 0; i < len; i++) {
