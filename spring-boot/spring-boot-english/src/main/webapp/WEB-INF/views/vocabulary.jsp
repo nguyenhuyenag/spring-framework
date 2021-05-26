@@ -1,24 +1,32 @@
+<style>
+    .btn {
+        width: 150px;
+    }
+</style>
+
 <div class="container text-center">
     <h1 class="m-4">Vocabulary</h1>
     <div class="search">
         <form class="form-inline mt-2 mt-md-0 float-right" id="search-form">
-            <input class="form-control mr-sm-2" type="text" id="word" placeholder="Search">
+            <input type="text" id="word" required class="form-control mr-sm-2" placeholder="Search">
             <button id="bth-search" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
     </div>
     <table class="table table-bordered">
         <thead class="thead-light">
             <tr>
-                <th style="width: 20%">No</th>
-                <th style="width: 40%">Vocabulary</th>
-                <th style="width: 40%">Pronounce</th>
+                <th style="width: 10%">No</th>
+                <th style="width: 30%">Word</th>
+                <th style="width: 30%">Pronounce</th>
+                <th style="width: 30%">Translate</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
+            <tr id="has-result">
                 <td><span id="no"></span></td>
-                <td><span id="word"></span></td>
+                <td><span id="_word"></span></td>
                 <td><span id="pronounce"></span></td>
+                <td><span id="translate"></span></td>
             </tr>
             <tr id="no-result">
                 <td colspan="3"><span class="text-danger">No result</span></td>
@@ -26,16 +34,13 @@
         </tbody>
     </table>
     <div class="col">
-        <button class="btn btn-primary m-1">Previous</button>
-        <button onclick="random();" class="btn btn-primary m-1">Next</button>
+        <button class="btn btn-primary m-1"><span aria-hidden="true">&larr;</span>&nbsp;Previous</button>
+        <button onclick="random();" class="btn btn-primary m-1">Next&nbsp;<span aria-hidden="true">&rarr;</span></button>
+        <button class="btn btn-primary">
+            <span class="spinner-border spinner-border-sm"></span>Next..
+        </button>
     </div>
 </div>
-
-<style>
-    .btn {
-        width: 150px;
-    }
-</style>
 
 <script type="text/javascript">
     $(function () {
@@ -50,14 +55,15 @@
     function random() {
         $.ajax({
             type: "GET",
-            contentType: "application/json",
             url: "random-vocab",
             dataType: 'json',
+            contentType: "application/json",
             success: function (data) {
-                // $('#no-result').show();
+                // console.log("DATA : ", data);
                 $('#no').text(data.id);
-                $('#word').text(data.word);
+                $('#_word').text(data.word);
                 $('#pronounce').text(data.pronounce);
+                $('#translate').text(data.translate);
             },
             error: function (e) {
                 console.log("ERROR : ", e);
@@ -65,17 +71,20 @@
         });
     }
     function search() {
-        // console.log('aaaaaaaa');
-        var search = {}
-        search["word"] = $("#word").val();
         $("#btn-search").prop("disabled", true);
         $.ajax({
             type: "POST",
             contentType: "application/json",
             url: "search?word=" + $("#word").val(),
             success: function (data) {
-                console.log("CHECK : ", isNull(data));
-                console.log("SUCCESS : ", data);
+                // console.log("DATA : ", data);
+                if (StringUtils.isEmpty(data)) {
+                    $('#no-result').show();
+                    $('#has-result').hide();
+                } else {
+                    $('#no-result').hide();
+                    $('#has-result').show();
+                }
             },
             error: function (e) {
                 console.log("ERROR : ", e);

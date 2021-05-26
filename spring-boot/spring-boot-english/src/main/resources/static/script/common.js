@@ -1,8 +1,8 @@
-
-function isNull(object) {
-	console.log(typeof(object));
-	if (object) {
-		return true;
-	}
-	return false;
-}
+//
+//function isNull(object) {
+//	console.log(typeof(object));
+//	if (object) {
+//		return true;
+//	}
+//	return false;
+//}
