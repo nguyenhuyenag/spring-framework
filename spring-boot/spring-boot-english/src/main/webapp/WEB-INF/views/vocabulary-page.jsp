@@ -21,27 +21,54 @@
 			<li class="page-item">
 				<a class="page-link" href="#">Prev</a>
 			</li>
-			<li class="page-item active">
-				<a class="page-link" href="#">${page + 1}</a>
-			</li>
-			<li class="page-item">
-				<a class="page-link" href="#">${page + 2}</a>
-			</li>
-			<li class="page-item">
-				<a class="page-link" href="#">${page + 3}</a>
-			</li>
-			<li class="page-item">
-				<a class="page-link" href="#">${page + 4}</a>
-			</li>
-			<li class="page-item">
-				<a class="page-link" href="#">${page + 5}</a>
-			</li>
-			<li class="page-item">
-				<a class="page-link three-dot" href="#">...</a>
-			</li>
-			<li class="page-item">
-				<a class="page-link" href="#">${total}</a>
-			</li>
+			<c:set var="MIN_SIZE" value="5"/>
+			<c:choose>
+				<c:when test="${total <= MIN_SIZE}">
+					<c:forEach var="i" begin="1" end="${total}">
+						<li class="page-item page-${i}">
+							<a class="page-link" href="#">${i}</a>
+						</li>
+					</c:forEach>
+				</c:when>
+				<c:otherwise>
+					<c:if test="${page < MIN_SIZE}">
+						<c:forEach var="i" begin="1" end="${MIN_SIZE}">
+							<li class="page-item page-${i}">
+								<a class="page-link" href="#">${i}</a>
+							</li>
+						</c:forEach>
+					</c:if>
+					<c:if test="${page >= MIN_SIZE}">
+						<li class="page-item page-1">
+							<a class="page-link" href="#">${1}</a>
+						</li>
+						<li class="page-item">
+							<a class="page-link three-dot" href="#">...</a>
+						</li>
+						<li class="page-item page-${page-2}">
+							<a class="page-link" href="#">${page-2}</a>
+						</li>
+						<li class="page-item page-${page-1}">
+							<a class="page-link" href="#">${page-1}</a>
+						</li>
+						<li class="page-item page-${page}">
+							<a class="page-link" href="#">${page}</a>
+						</li>
+						<li class="page-item page-${page+1}">
+							<a class="page-link" href="#">${page+1}</a>
+						</li>
+						<li class="page-item page-${page+2}">
+							<a class="page-link" href="#">${page+2}</a>
+						</li>
+					</c:if>
+					<li class="page-item">
+						<a class="page-link three-dot" href="#">...</a>
+					</li>
+					<li class="page-item">
+						<a class="page-link" href="#">${total}</a>
+					</li>
+				</c:otherwise>
+			</c:choose>
 			<li class="page-item">
 				<a class="page-link" href="#">Next</a>
 			</li>
@@ -77,3 +104,10 @@
 		</tbody>
 	</table>
 </div>
+
+<script>
+	$(function() {
+		// current page & active page
+		$('.page-' + '${page}').addClass("active");
+	});
+</script>
