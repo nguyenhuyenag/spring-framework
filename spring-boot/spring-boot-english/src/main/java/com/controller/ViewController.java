@@ -16,9 +16,9 @@ public class ViewController {
 	@Autowired
 	private VocabService service;
 
-	@GetMapping({ "/", "vocabulary" })
+	@GetMapping({ "/", "random" })
 	public String homePage(Model model) {
-		return "vocabulary";
+		return "random";
 	}
 
 	@GetMapping("incomplete")

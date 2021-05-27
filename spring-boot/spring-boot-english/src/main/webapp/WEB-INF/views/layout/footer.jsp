@@ -1,11 +1,20 @@
-<script>
-	$(function() {
-		$('.year').text(new Date().getFullYear());
-	});
-</script>
+<style>
+	footer {
+		height: 50px;
+		display: flex;
+		color: #b7bbc8;
+		align-items: center;
+	}
+</style>
 
-<footer class="fixed-bottom bg-light text-center text-lg-start">
-	<div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+<footer class="fixed-bottom justify-content-center bg-dark">
+	<div>
 		&copy; <span class="year"></span> Copyright by <b>nguyenhuyenag</b>
 	</div>
 </footer>
+
+<script>
+	$(function () {
+		$('.year').text(new Date().getFullYear());
+	});
+</script>

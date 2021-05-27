@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <div class="container text-center">
-	<h1 class="m-4">Incomplete</h1>
+	<h1 class="mb-3">Incomplete</h1>
 	<table class="table table-bordered">
 		<thead class="thead-light">
 			<tr>
@@ -14,9 +14,9 @@
 		<tbody>
 			<c:choose>
 				<c:when test="${not empty listData}">
-					<c:forEach items="${listData}" var="vocab">
+					<c:forEach items="${listData}" var="vocab" varStatus="status">
 						<tr>
-							<td>${vocab.id}</td>
+							<td>${status.index + 1}</td>
 							<td>${vocab.word}</td>
 							<td>${vocab.pronounce}</td>
 							<td>${vocab.translate}</td>
