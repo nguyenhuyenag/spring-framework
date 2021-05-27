@@ -2,21 +2,26 @@
 <!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"  
        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">  
         
-<tiles-definitions>  
- 
+<tiles-definitions>
+
     <definition name="base.definition" template="/WEB-INF/views/layout/layout.jsp">  
         <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />  
         <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />  
-    </definition>  
- 
+    </definition>
+
     <definition name="random" extends="base.definition">  
         <put-attribute name="title" value="Vocabulary" />  
         <put-attribute name="body" value="/WEB-INF/views/random-page.jsp" />  
     </definition>
-       
+
     <definition name="incomplete" extends="base.definition">  
         <put-attribute name="title" value="Incomplete Page" />  
         <put-attribute name="body" value="/WEB-INF/views/incomplete-page.jsp" />  
-    </definition>    
+    </definition>
+
+    <definition name="vocabulary" extends="base.definition">  
+        <put-attribute name="title" value="Vocabulary Page" />  
+        <put-attribute name="body" value="/WEB-INF/views/vocabulary-page.jsp" />  
+    </definition> 
    
 </tiles-definitions>

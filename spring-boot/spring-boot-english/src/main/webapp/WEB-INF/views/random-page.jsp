@@ -5,13 +5,14 @@
 </style>
 
 <div class="container text-center">
-    <h1 class="m-4">Vocabulary</h1>
+    <h1 class="m-4">Random</h1>
     <div class="search">
         <form class="form-inline mt-2 mt-md-0 float-right" id="search-form">
             <input type="text" id="word" required class="form-control mr-sm-2" placeholder="Search">
             <button id="bth-search" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
     </div>
+    <br /> <br />
     <table class="table table-bordered">
         <thead class="thead-light">
             <tr>
@@ -36,7 +37,7 @@
     <div class="col">
         <button class="btn btn-primary m-1"><span aria-hidden="true">&larr;</span>&nbsp;Previous</button>
         <button id="btn-random" class="btn btn-primary m-1" onclick="random();">
-            Next&nbsp;
+            Random&nbsp;
             <span id="icon-next" aria-hidden="true">&rarr;</span>
             <span id="icon-loading" class="spinner-border spinner-border-sm"></span>
         </button>
@@ -63,7 +64,6 @@
             contentType: "application/json",
             url: "search?word=" + $("#word").val(),
             success: function (data) {
-                // console.log("DATA : ", data);
                 if (StringUtils.isEmpty(data)) {
                     $('#no-result').show();
                     $('#has-result').hide();
@@ -81,6 +81,8 @@
     function random() {
         $('#icon-next').hide();
         $('#icon-loading').show();
+        $('#no-result').hide();
+        $('#has-result').show();
         $('#btn-random').prop('disabled', true);
         setTimeout(function () {
             $.ajax({

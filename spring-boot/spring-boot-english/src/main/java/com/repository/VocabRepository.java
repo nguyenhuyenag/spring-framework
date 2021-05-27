@@ -33,5 +33,7 @@ public interface VocabRepository extends JpaRepository<Vocabulary, Integer> {
 	
 	@Query(value = "select t.* from vocab t where pronounce = \"\" or translate = \"\" order by word", nativeQuery = true)
 	List<Vocabulary> incompleteVocabulary();
+	
+	// List<Vocabulary> findAllByOrderByWord();
 
 }

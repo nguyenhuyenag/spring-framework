@@ -2,6 +2,8 @@ package com.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
 import com.entity.Vocabulary;
 
 public interface VocabService {
@@ -17,5 +19,9 @@ public interface VocabService {
 	Vocabulary search(String word);
 
 	List<Vocabulary> incompleteVocabulary();
+	
+	List<Vocabulary> findAll();
+	
+	Page<Vocabulary> pagination(int page);
 
 }

@@ -12,7 +12,6 @@
 	
 	<c:url value="/product" var="pageUrl">
 		<c:param name="p" value="~" />
-	
 	</c:url>
 	
 	<!-- Include _menu.html -->

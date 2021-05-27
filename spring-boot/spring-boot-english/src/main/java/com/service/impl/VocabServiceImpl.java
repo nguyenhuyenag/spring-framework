@@ -9,6 +9,9 @@ import javax.transaction.Transactional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.entity.Vocabulary;
@@ -22,10 +25,13 @@ public class VocabServiceImpl implements VocabService {
 	private VocabRepository repository;
 
 	private final int N = 4;
+	
+	private static final int SIZE = 10;
 
 	private Set<String> ignoreWords = new HashSet<>();
-	
-	// private final Path FILE = Paths.get("D:/GDrive/ToCompany/english/vocabulary.xlsx");
+
+	// private final Path FILE =
+	// Paths.get("D:/GDrive/ToCompany/english/vocabulary.xlsx");
 
 	/**
 	 * Random ngẫu nhiên trong List: [min, max + 1]
@@ -40,7 +46,7 @@ public class VocabServiceImpl implements VocabService {
 	 */
 	private Vocabulary handle(Vocabulary vocab, String flag) {
 		String word = vocab.getWord();
-		if (!ignoreWords.contains(word)) {	// check exits
+		if (!ignoreWords.contains(word)) { // check exits
 			ignoreWords.add(word);
 			if (StringUtils.isNotEmpty(vocab.getPronounce())) {
 				if ("1".equals(flag)) {
@@ -104,18 +110,15 @@ public class VocabServiceImpl implements VocabService {
 		return repository.incompleteVocabulary();
 	}
 
-//	@Override
-//	public void append() {
-//		try ( //
-//				FileInputStream excelFile = new FileInputStream(FILE.toFile()); //
-//				XSSFWorkbook workbook = new XSSFWorkbook(excelFile); //
-//		) {
-//			XSSFSheet sheet = workbook.getSheet("A");
-//			XSSFRow row = sheet.getRow(sheet.getLastRowNum());
-//			System.out.println(row.toString());
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
+	@Override
+	public List<Vocabulary> findAll() {
+		return repository.findAll(Sort.by(Sort.Direction.ASC, "word"));
+	}
+
+	@Override
+	public Page<Vocabulary> pagination(int page) {
+		Page<Vocabulary> listPage = repository.findAll(PageRequest.of(page, SIZE));
+		return listPage; // .getContent();
+	}
 
 }

@@ -9,6 +9,7 @@
     <link rel="shortcut icon" href="#">
     <!-- css -->
     <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- script -->
     <script src="static/script/jquery.min.js"></script>
     <script src="static/script/bootstrap.min.js"></script>
