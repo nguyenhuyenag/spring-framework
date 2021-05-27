@@ -26,7 +26,7 @@ public class VocabServiceImpl implements VocabService {
 
 	private final int N = 4;
 	
-	private static final int SIZE = 10;
+	private static final int SIZE = 20;
 
 	private Set<String> ignoreWords = new HashSet<>();
 

@@ -23,34 +23,25 @@
 			<li class="page-item">
 				<a class="page-link" onclick="gotoPage('${page - 1}'); return false;" href="#">Prev</a>
 			</li>
-			<!-- chỉ có 5 trang-->
-			<!-- <c:if test="${total <= MIN_SIZE}">
+			<c:if test="${total <= MIN_SIZE}">
 				<c:forEach var="i" begin="1" end="${total}">
 					<li class="page-item page-${i}">
 						<a class="page-link" onclick="gotoPage('${i}'); return false;" href="#">${i}</a>
 					</li>
 				</c:forEach>
-			</c:if> -->
-			
-			<!-- nhiều hơn 5 trang-->
+			</c:if>
 			<c:if test="${total > MIN_SIZE}">
-				<!-- (1) -->
-				<li class="page-item page-1">
-					<a class="page-link" onclick="gotoPage(1); return false;" href="#">${1}</a>
-				</li>
-				<!-- (1 -> 5) -->
 				<c:if test="${page < MIN_SIZE}">
-					<c:forEach var="i" begin="2" end="${MIN_SIZE}">
+					<c:forEach var="i" begin="1" end="${MIN_SIZE}">
 						<li class="page-item page-${i}">
 							<a class="page-link" onclick="gotoPage('${i}'); return false;" href="#">${i}</a>
 						</li>
 					</c:forEach>
-					<li class="page-item">
-						<a class="page-link three-dot" href="#">...</a>
-					</li>
 				</c:if>
-				<!--  -->
-				<c:if test="${MIN_SIZE <= page && page <= total - MIN_SIZE}">
+				<c:if test="${page >= MIN_SIZE}">
+					<li class="page-item page-1">
+						<a class="page-link" onclick="gotoPage(1); return false;" href="#">${1}</a>
+					</li>
 					<li class="page-item">
 						<a class="page-link three-dot" href="#">...</a>
 					</li>
@@ -59,23 +50,11 @@
 							<a class="page-link" onclick="gotoPage('${i}'); return false;" href="#">${i}</a>
 						</li>
 					</c:forEach>
-					<li class="page-item">
-						<a class="page-link three-dot" href="#">...</a>
-					</li>
 				</c:if>
-				<!-- middle -->
-				<c:if test="${page > total - MIN_SIZE}">
-					<li class="page-item">
-						<a class="page-link three-dot" href="#">...</a>
-					</li>
-					<c:forEach var="i" begin="${total - MIN_SIZE}" end="${total - 1}">
-						<li class="page-item page-${i}">
-							<a class="page-link" onclick="gotoPage('${i}'); return false;" href="#">${i}</a>
-						</li>
-					</c:forEach>
-				</c:if>
-				<!--  (total) -->
-				<li class="page-item page-${total}">
+				<li class="page-item">
+					<a class="page-link three-dot" href="#">...</a>
+				</li>
+				<li class="page-item">
 					<a class="page-link" onclick="gotoPage('${total}'); return false;" href="#">${total}</a>
 				</li>
 			</c:if>
