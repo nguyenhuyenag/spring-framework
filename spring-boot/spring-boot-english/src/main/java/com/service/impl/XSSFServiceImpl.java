@@ -48,9 +48,9 @@ public class XSSFServiceImpl implements XSSFService {
 	}
 
 	private Vocabulary rowToVocab(XSSFRow row) {
-		String word = getCellValue(row, 0);
-		String pronounce = getCellValue(row, 1);
-		String translate = getCellValue(row, 2);
+		String word 		= getCellValue(row, 0);
+		String pronounce 	= getCellValue(row, 1);
+		String translate	= getCellValue(row, 2);
 		if (StringUtils.isNotEmpty(word) && StringUtils.isNotEmpty(translate)) {
 			return new Vocabulary(word, pronounce, translate);
 		}
@@ -66,8 +66,8 @@ public class XSSFServiceImpl implements XSSFService {
 			return msg;
 		}
 		try ( //
-				FileInputStream file = new FileInputStream(FILE.toFile()); //
-				XSSFWorkbook workbook = new XSSFWorkbook(file); //
+			FileInputStream file = new FileInputStream(FILE.toFile()); //
+			XSSFWorkbook workbook = new XSSFWorkbook(file); //
 		) {
 			Iterator<Sheet> itr = workbook.sheetIterator();
 			while (itr.hasNext()) {
@@ -76,7 +76,6 @@ public class XSSFServiceImpl implements XSSFService {
 				if (sheetName.length() == 1 && ('A' <= c || c <= 'Z')) {
 					List<Vocabulary> listVocab = new ArrayList<>();
 					XSSFSheet sheet = workbook.getSheet(sheetName);
-					// XSSFSheet worksheet = workbook.getSheetAt(16);
 					for (int i = 0; i <= sheet.getLastRowNum(); i++) {
 						XSSFRow row = sheet.getRow(i);
 						if (row != null) {

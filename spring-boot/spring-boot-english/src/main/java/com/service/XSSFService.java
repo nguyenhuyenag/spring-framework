@@ -3,9 +3,9 @@ package com.service;
 import java.util.List;
 
 public interface XSSFService {
-	
-	List<String> importExcel();
-	
+
 	void addNew();
-	
+
+	List<String> importExcel();
+
 }

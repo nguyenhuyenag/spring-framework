@@ -32,22 +32,9 @@ public class ApiController {
 		Vocabulary dict = service.getRandomVocab2(flag);
 		return ResponseEntity.ok(dict);
 	}
-	
-//	@GetMapping("incomplete")
-//	private ResponseEntity<?> incomplete() {
-//		List<String> data = service.incomplete();
-//		return ResponseEntity.ok(data);
-//	}
-	
-	@GetMapping("append")
-	private ResponseEntity<?> append() {
-		List<String> data = service.incomplete();
-		return ResponseEntity.ok(data);
-	}
-	
+
 	@PostMapping("search")
 	private ResponseEntity<Vocabulary> search(String word) {
-		// System.out.println("word: "+word);
 		Vocabulary data = service.search(word);
 		return ResponseEntity.ok(data);
 	}
