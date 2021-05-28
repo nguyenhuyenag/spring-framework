@@ -6,4 +6,6 @@ public interface XSSFService {
 	
 	List<String> importExcel();
 	
+	void addNew();
+	
 }

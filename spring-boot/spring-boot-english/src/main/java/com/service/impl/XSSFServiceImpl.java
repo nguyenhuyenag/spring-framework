@@ -1,13 +1,18 @@
 package com.service.impl;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -27,7 +32,7 @@ public class XSSFServiceImpl implements XSSFService {
 	@Autowired
 	private VocabRepository repository;
 
-	private final Path FILE = Paths.get("D:/GDrive/ToCompany/english/vocabulary.xlsx");
+	private final Path FILE = Paths.get("D:/GDrive/ToCompany/english/vocabulary_new.xlsx");
 
 	private String getCellValue(XSSFRow row, int i) {
 		if (row == null) {
@@ -61,8 +66,8 @@ public class XSSFServiceImpl implements XSSFService {
 			return msg;
 		}
 		try ( //
-			FileInputStream excelFile = new FileInputStream(FILE.toFile()); //
-			XSSFWorkbook workbook = new XSSFWorkbook(excelFile); //
+				FileInputStream file = new FileInputStream(FILE.toFile()); //
+				XSSFWorkbook workbook = new XSSFWorkbook(file); //
 		) {
 			Iterator<Sheet> itr = workbook.sheetIterator();
 			while (itr.hasNext()) {
@@ -70,18 +75,18 @@ public class XSSFServiceImpl implements XSSFService {
 				char c = sheetName.charAt(0);
 				if (sheetName.length() == 1 && ('A' <= c || c <= 'Z')) {
 					List<Vocabulary> listVocab = new ArrayList<>();
-					XSSFSheet worksheet = workbook.getSheet(sheetName);
+					XSSFSheet sheet = workbook.getSheet(sheetName);
 					// XSSFSheet worksheet = workbook.getSheetAt(16);
-					for (int i = 0; i <= worksheet.getLastRowNum(); i++) {
-						XSSFRow row = worksheet.getRow(i);
+					for (int i = 0; i <= sheet.getLastRowNum(); i++) {
+						XSSFRow row = sheet.getRow(i);
 						if (row != null) {
-							Vocabulary entity = rowToVocab(row);							// get new word
-							if(entity != null) {
-								Vocabulary vcb = repository.findByWord(entity.getWord());	// get word from db
-								if (vcb == null) { 				// chưa có
-									listVocab.add(entity); 		// thêm mới
-								} else { 						// đã có
-									if (!vcb.equals(entity)) { 	// so sánh để update
+							Vocabulary entity = rowToVocab(row); // get new word
+							if (entity != null) {
+								Vocabulary vcb = repository.findByWord(entity.getWord()); // get word from db
+								if (vcb == null) { // chưa có
+									listVocab.add(entity); // thêm mới
+								} else { // đã có
+									if (!vcb.equals(entity)) { // so sánh để update
 										vcb.setPronounce(entity.getPronounce());
 										vcb.setTranslate(entity.getTranslate());
 										// BeanUtils.copyProperties(entity, vcb, "id, word, count");
@@ -109,6 +114,60 @@ public class XSSFServiceImpl implements XSSFService {
 			msg.add("No change!");
 		}
 		return msg;
+	}
+
+	public Set<Vocabulary> getAllWordInSheet(String sheetName) {
+		Set<Vocabulary> data = new LinkedHashSet<>();
+		try ( //
+				FileInputStream file = new FileInputStream(FILE.toFile()); //
+				XSSFWorkbook workbook = new XSSFWorkbook(file); //
+		) {
+			XSSFSheet sheet = workbook.getSheet(sheetName);
+			for (int i = 0; i <= sheet.getLastRowNum(); i++) {
+				XSSFRow row = sheet.getRow(i);
+				Vocabulary entity = rowToVocab(row);
+				data.add(entity);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return data;
+	}
+
+	@Override
+	public void addNew() {
+		try ( //
+				FileInputStream file = new FileInputStream(FILE.toFile()); //
+				XSSFWorkbook workbook = new XSSFWorkbook(file); //
+		) {
+			Set<Vocabulary> data = getAllWordInSheet("NEW");
+			for (Vocabulary v : data) {
+				String sheetName = String.valueOf(v.getWord().charAt(0)).toUpperCase();
+
+				XSSFSheet sheet = workbook.getSheet(sheetName);
+
+				int i = sheet.getLastRowNum() + 1;
+
+				XSSFRow row = sheet.createRow(i);
+
+				row.createCell(0).setCellValue(v.getWord());
+
+				XSSFCell cell = row.createCell(1);
+				cell.setCellValue(v.getPronounce());
+
+				CellStyle cellStyle = workbook.createCellStyle();
+				cellStyle.setAlignment(HorizontalAlignment.CENTER);
+				cell.setCellStyle(cellStyle);
+
+				row.createCell(2).setCellValue(v.getTranslate());
+			}
+			FileOutputStream out = new FileOutputStream(FILE.toFile());
+			workbook.write(out);
+			out.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("OK");
 	}
 
 }
