@@ -18,51 +18,73 @@
 	total page: ${total}
 </pre>
 	<c:set var="MIN_SIZE" value="5" />
+	<!-- pagination -->
 	<nav aria-label="Search results pages">
 		<ul class="pagination pagination-sm">
+			<!--  (previous) -->
 			<li class="page-item">
 				<a class="page-link" onclick="gotoPage('${page - 1}'); return false;" href="#">Prev</a>
 			</li>
+			<!-- (1) -->
+			<li class="page-item page-1">
+				<a class="page-link" onclick="gotoPage('1'); return false;" href="#">${1}</a>
+			</li>
+			<!-- three dots -->
+			<c:if test="${page >= MIN_SIZE || page >= total - MIN_SIZE}">
+				<li class="page-item">
+					<a class="page-link three-dot" href="#">...</a>
+				</li>
+			</c:if>
+			<!-- không quá 5 trang-->
 			<c:if test="${total <= MIN_SIZE}">
-				<c:forEach var="i" begin="1" end="${total}">
+				<c:forEach var="i" begin="2" end="${total - 1}">
 					<li class="page-item page-${i}">
 						<a class="page-link" onclick="gotoPage('${i}'); return false;" href="#">${i}</a>
 					</li>
 				</c:forEach>
 			</c:if>
+			<!-- nhiều hơn 5 trang-->
 			<c:if test="${total > MIN_SIZE}">
 				<c:if test="${page < MIN_SIZE}">
-					<c:forEach var="i" begin="1" end="${MIN_SIZE}">
+					<c:forEach var="i" begin="2" end="${MIN_SIZE}">
 						<li class="page-item page-${i}">
 							<a class="page-link" onclick="gotoPage('${i}'); return false;" href="#">${i}</a>
 						</li>
 					</c:forEach>
 				</c:if>
-				<c:if test="${page >= MIN_SIZE}">
-					<li class="page-item page-1">
-						<a class="page-link" onclick="gotoPage(1); return false;" href="#">${1}</a>
-					</li>
-					<li class="page-item">
-						<a class="page-link three-dot" href="#">...</a>
-					</li>
+				<c:if test="${MIN_SIZE <= page && page <= total - MIN_SIZE}">
 					<c:forEach var="i" begin="${page - 2}" end="${page + 2}">
 						<li class="page-item page-${i}">
 							<a class="page-link" onclick="gotoPage('${i}'); return false;" href="#">${i}</a>
 						</li>
 					</c:forEach>
 				</c:if>
+				<c:if test="${page > total - MIN_SIZE}">
+					<c:forEach var="i" begin="${total - MIN_SIZE}" end="${total - 1}">
+						<li class="page-item page-${i}">
+							<a class="page-link" onclick="gotoPage('${i}'); return false;" href="#">${i}</a>
+						</li>
+					</c:forEach>
+				</c:if>
+			</c:if>
+			<!-- three dots -->
+			<c:if test="${page <= MIN_SIZE || page < total - MIN_SIZE + 1}">
 				<li class="page-item">
 					<a class="page-link three-dot" href="#">...</a>
 				</li>
-				<li class="page-item">
-					<a class="page-link" onclick="gotoPage('${total}'); return false;" href="#">${total}</a>
-				</li>
 			</c:if>
+			
+			<!--  (end) -->
+			<li class="page-item page-${total}">
+				<a class="page-link" onclick="gotoPage('${total}'); return false;" href="#">${total}</a>
+			</li>
+			<!--  (next) -->
 			<li class="page-item">
 				<a class="page-link" onclick="gotoPage('${page + 1}'); return false;" href="#">Next</a>
 			</li>
 		</ul>
 	</nav>
+	<!-- table content -->
 	<table class="table table-bordered">
 		<thead class="thead-light">
 			<tr>

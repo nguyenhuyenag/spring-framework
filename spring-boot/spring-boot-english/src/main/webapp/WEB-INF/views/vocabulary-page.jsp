@@ -14,18 +14,31 @@
 	<h1 class="mb-3">Vocabulary</h1>
 	<div id="feedback"></div>
 	<pre>
-	current page: ${page}
-	total page: ${total}
+	current page: ${CURRENT_PAGE}
+	TOTAL page: ${TOTAL}
 </pre>
-	<c:set var="MIN_SIZE" value="5" />
+	<c:set var="PAGE_INCR" value="5" />
+	<!-- pagination -->
 	<nav aria-label="Search results pages">
 		<ul class="pagination pagination-sm">
-			<li class="page-item">
-				<a class="page-link" onclick="gotoPage('${page - 1}'); return false;" href="#">Prev</a>
+			<!--  (previous) -->
+			<li class="page-item prev">
+				<a class="page-link" onclick="gotoPage('${CURRENT_PAGE - 1}'); return false;" href="#">Prev</a>
 			</li>
-			<!-- chỉ có 5 trang-->
-			<!-- <c:if test="${total <= MIN_SIZE}">
-				<c:forEach var="i" begin="1" end="${total}">
+			<!-- (1) -->
+			<li class="page-item page-1">
+				<a class="page-link" onclick="gotoPage('1'); return false;" href="#">${1}</a>
+			</li>
+			<!-- three dots -->
+			<c:if test="${CURRENT_PAGE >= PAGE_INCR || page >= TOTAL - PAGE_INCR}">
+				<li class="page-item">
+					<a class="page-link three-dot" href="#">...</a>
+				</li>
+			</c:if>
+			
+			<!-- không quá 5 trang-->
+			<!-- <c:if test="${TOTAL <= PAGE_INCR}">
+				<c:forEach var="i" begin="2" end="${TOTAL - 1}">
 					<li class="page-item page-${i}">
 						<a class="page-link" onclick="gotoPage('${i}'); return false;" href="#">${i}</a>
 					</li>
@@ -33,57 +46,48 @@
 			</c:if> -->
 			
 			<!-- nhiều hơn 5 trang-->
-			<c:if test="${total > MIN_SIZE}">
-				<!-- (1) -->
-				<li class="page-item page-1">
-					<a class="page-link" onclick="gotoPage(1); return false;" href="#">${1}</a>
-				</li>
-				<!-- (1 -> 5) -->
-				<c:if test="${page < MIN_SIZE}">
-					<c:forEach var="i" begin="2" end="${MIN_SIZE}">
-						<li class="page-item page-${i}">
-							<a class="page-link" onclick="gotoPage('${i}'); return false;" href="#">${i}</a>
-						</li>
-					</c:forEach>
-					<li class="page-item">
-						<a class="page-link three-dot" href="#">...</a>
+			<c:if test="${TOTAL > PAGE_INCR}">
+				<c:choose>
+					<c:when test="${CURRENT_PAGE < PAGE_INCR}">
+						<c:set var="BEGIN_VALUE" value="2" />
+						<c:set var="END_VALUE" value="${PAGE_INCR}" />
+					</c:when>
+					<c:when test="${TOTAL - PAGE_INCR + 1 < CURRENT_PAGE}">
+						<c:set var="BEGIN_VALUE" value="${TOTAL - PAGE_INCR + 1}" />
+						<c:set var="END_VALUE" value="${TOTAL - 1}" />
+					</c:when>
+					<c:otherwise>
+						<c:set var="BEGIN_VALUE" value="${CURRENT_PAGE - 2}" />
+						<c:set var="END_VALUE" value="${CURRENT_PAGE + 2}" />
+					</c:otherwise>
+				</c:choose>
+				<c:forEach var="i" begin="${BEGIN_VALUE}" end="${END_VALUE}">
+					<li class="page-item page-${i}">
+						<a class="page-link" onclick="gotoPage('${i}'); return false;" href="#">${i}</a>
 					</li>
-				</c:if>
-				<!--  -->
-				<c:if test="${MIN_SIZE <= page && page <= total - MIN_SIZE}">
-					<li class="page-item">
-						<a class="page-link three-dot" href="#">...</a>
-					</li>
-					<c:forEach var="i" begin="${page - 2}" end="${page + 2}">
-						<li class="page-item page-${i}">
-							<a class="page-link" onclick="gotoPage('${i}'); return false;" href="#">${i}</a>
-						</li>
-					</c:forEach>
-					<li class="page-item">
-						<a class="page-link three-dot" href="#">...</a>
-					</li>
-				</c:if>
-				<!-- middle -->
-				<c:if test="${page > total - MIN_SIZE}">
-					<li class="page-item">
-						<a class="page-link three-dot" href="#">...</a>
-					</li>
-					<c:forEach var="i" begin="${total - MIN_SIZE}" end="${total - 1}">
-						<li class="page-item page-${i}">
-							<a class="page-link" onclick="gotoPage('${i}'); return false;" href="#">${i}</a>
-						</li>
-					</c:forEach>
-				</c:if>
-				<!--  (total) -->
-				<li class="page-item page-${total}">
-					<a class="page-link" onclick="gotoPage('${total}'); return false;" href="#">${total}</a>
+				</c:forEach>
+			</c:if>
+			
+			<!-- three dots -->
+			<c:if test="${CURRENT_PAGE <= PAGE_INCR || CURRENT_PAGE <= TOTAL - PAGE_INCR + 1}">
+				<li class="page-item">
+					<a class="page-link three-dot" href="#">...</a>
 				</li>
 			</c:if>
-			<li class="page-item">
-				<a class="page-link" onclick="gotoPage('${page + 1}'); return false;" href="#">Next</a>
+			
+			<!--  (end) -->
+			<li class="page-item page-${TOTAL}">
+				<a class="page-link" onclick="gotoPage('${TOTAL}'); return false;" href="#">${TOTAL}</a>
+			</li>
+
+			<!--  (next) -->
+			<li class="page-item next">
+				<a class="page-link" onclick="gotoPage('${CURRENT_PAGE + 1}'); return false;" href="#">Next</a>
 			</li>
 		</ul>
 	</nav>
+
+	<!-- table content -->
 	<table class="table table-bordered">
 		<thead class="thead-light">
 			<tr>
@@ -117,8 +121,21 @@
 
 <script>
 	$(function () {
-		// current page & active page
-		$('.page-' + '${page}').addClass("active");
+		var total = '${TOTAL}';
+		var currentPage = '${CURRENT_PAGE}';
+		
+		$('.page-' + currentPage).addClass('active');
+		
+		switch(currentPage) {
+			case '1':
+				$('.prev').addClass('disabled');
+				break;
+			case total:
+				$('.next').addClass('disabled');
+				break;
+			default:
+				console.log('do something!');
+		}
 	});
 
 	function gotoPage(page) {

@@ -35,11 +35,11 @@ public class ViewController {
 	@GetMapping("vocabulary")
 	public String vocabulary(Model model, HttpServletRequest req) {
 		int page = ServletRequestUtils.getIntParameter(req, "page", 1);
-		// System.out.println("PAGE: " + page);
+		page = page < 1 ? 1 : page;
 		Page<Vocabulary> listPage = service.pagination(page - 1);
 		model.addAttribute("listData", listPage.getContent());
-		model.addAttribute("page", page);
-		model.addAttribute("total", listPage.getTotalPages());
+		model.addAttribute("CURRENT_PAGE", page);
+		model.addAttribute("TOTAL", listPage.getTotalPages());
 		return "vocabulary";
 	}
 
