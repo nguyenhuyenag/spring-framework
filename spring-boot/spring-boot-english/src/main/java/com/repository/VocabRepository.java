@@ -2,7 +2,10 @@ package com.repository;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -10,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import com.entity.Vocabulary;
 
 @Repository
+@Transactional
 public interface VocabRepository extends JpaRepository<Vocabulary, Integer> {
 
 	//@Query(value = "select min(id) from vocab", nativeQuery = true)
@@ -34,6 +38,8 @@ public interface VocabRepository extends JpaRepository<Vocabulary, Integer> {
 	@Query(value = "select t.* from vocab t where pronounce = \"\" or translate = \"\" order by word", nativeQuery = true)
 	List<Vocabulary> incompleteVocabulary();
 	
-	// List<Vocabulary> findAllByOrderByWord();
+	@Modifying
+	@Query(value = "delete from vocab t where t.word = :word", nativeQuery = true)
+	void deleteByWord(@Param("word") String word);
 
 }

@@ -30,9 +30,6 @@ public class VocabServiceImpl implements VocabService {
 
 	private Set<String> ignoreWords = new HashSet<>();
 
-	// private final Path FILE =
-	// Paths.get("D:/GDrive/ToCompany/english/vocabulary.xlsx");
-
 	/**
 	 * Random ngẫu nhiên trong List: [min, max + 1]
 	 */
@@ -119,6 +116,11 @@ public class VocabServiceImpl implements VocabService {
 	public Page<Vocabulary> pagination(int page) {
 		Page<Vocabulary> listPage = repository.findAll(PageRequest.of(page, SIZE));
 		return listPage; // .getContent();
+	}
+
+	@Override
+	public void deleteByWord(String word) {
+		repository.deleteByWord(word);
 	}
 
 }

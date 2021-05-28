@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,6 +38,12 @@ public class ApiController {
 	private ResponseEntity<Vocabulary> search(String word) {
 		Vocabulary data = service.search(word);
 		return ResponseEntity.ok(data);
+	}
+	
+	@DeleteMapping("delete")
+	private String delete(String word) {
+		service.deleteByWord(word);
+		return "OK";
 	}
 
 }

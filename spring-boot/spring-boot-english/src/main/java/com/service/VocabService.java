@@ -23,5 +23,7 @@ public interface VocabService {
 	List<Vocabulary> findAll();
 	
 	Page<Vocabulary> pagination(int page);
+	
+	void deleteByWord(String word);
 
 }
