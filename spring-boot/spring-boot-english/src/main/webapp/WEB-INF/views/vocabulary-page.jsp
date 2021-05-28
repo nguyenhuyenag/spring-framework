@@ -29,24 +29,17 @@
 			<li class="page-item page-1">
 				<a class="page-link" onclick="gotoPage('1'); return false;" href="#">${1}</a>
 			</li>
-			<!-- three dots -->
-			<c:if test="${CURRENT_PAGE >= PAGE_INCR || page >= TOTAL - PAGE_INCR}">
-				<li class="page-item">
-					<a class="page-link three-dot" href="#">...</a>
-				</li>
-			</c:if>
 			
-			<!-- không quá 5 trang-->
-			<!-- <c:if test="${TOTAL <= PAGE_INCR}">
+			<!-- không quá 6 trang-->
+			<c:if test="${TOTAL <= PAGE_INCR + 1}">
 				<c:forEach var="i" begin="2" end="${TOTAL - 1}">
 					<li class="page-item page-${i}">
 						<a class="page-link" onclick="gotoPage('${i}'); return false;" href="#">${i}</a>
 					</li>
 				</c:forEach>
-			</c:if> -->
-			
-			<!-- nhiều hơn 5 trang-->
-			<c:if test="${TOTAL > PAGE_INCR}">
+			</c:if>
+			<!-- nhiều hơn 6 trang-->
+			<c:if test="${TOTAL > PAGE_INCR + 1}">
 				<c:choose>
 					<c:when test="${CURRENT_PAGE < PAGE_INCR}">
 						<c:set var="BEGIN_VALUE" value="2" />
@@ -61,18 +54,21 @@
 						<c:set var="END_VALUE" value="${CURRENT_PAGE + 2}" />
 					</c:otherwise>
 				</c:choose>
+				<c:if test="${CURRENT_PAGE >= PAGE_INCR || CURRENT_PAGE >= TOTAL - PAGE_INCR}">
+					<li class="page-item">
+						<span class="page-link three-dot">...</span>
+					</li>
+				</c:if>
 				<c:forEach var="i" begin="${BEGIN_VALUE}" end="${END_VALUE}">
 					<li class="page-item page-${i}">
 						<a class="page-link" onclick="gotoPage('${i}'); return false;" href="#">${i}</a>
 					</li>
 				</c:forEach>
-			</c:if>
-			
-			<!-- three dots -->
-			<c:if test="${CURRENT_PAGE <= PAGE_INCR || CURRENT_PAGE <= TOTAL - PAGE_INCR + 1}">
-				<li class="page-item">
-					<a class="page-link three-dot" href="#">...</a>
-				</li>
+				<c:if test="${CURRENT_PAGE <= PAGE_INCR || CURRENT_PAGE <= TOTAL - PAGE_INCR + 1}">
+					<li class="page-item">
+						<span class="page-link three-dot">...</span>
+					</li>
+				</c:if>
 			</c:if>
 			
 			<!--  (end) -->
@@ -120,25 +116,38 @@
 </div>
 
 <script>
+	var total = parseInt('${TOTAL}');
+	var currentPage = parseInt('${CURRENT_PAGE}');
+
 	$(function () {
-		var total = '${TOTAL}';
-		var currentPage = '${CURRENT_PAGE}';
-		
 		$('.page-' + currentPage).addClass('active');
 		
 		switch(currentPage) {
-			case '1':
+			case 1:
 				$('.prev').addClass('disabled');
 				break;
 			case total:
 				$('.next').addClass('disabled');
 				break;
 			default:
-				console.log('do something!');
+				// console.log('do something!');
 		}
 	});
 
 	function gotoPage(page) {
 		window.location.replace("http://localhost:8080/vocabulary?page=" + page);
+	}
+
+	document.onkeydown = function(e) {
+		switch (e.key) {
+            case 'ArrowLeft':
+				gotoPage(currentPage - 1);
+                break;
+            case 'ArrowRight':
+				gotoPage(currentPage + 1);
+                break;
+            default:
+                // console.log(e.key);
+        }
 	}
 </script>
