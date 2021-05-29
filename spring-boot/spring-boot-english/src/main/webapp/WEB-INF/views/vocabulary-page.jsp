@@ -10,8 +10,8 @@
 	}
 </style>
 
-<div class="container text-center">
-	<h1 class="mb-3">Vocabulary</h1>
+<div class="container">
+	<h1 class="mb-3 text-center">Vocabulary</h1>
 	<div id="feedback"></div>
 	<c:set var="PAGE_INCR" value="5" />
 	<!-- pagination -->
@@ -77,7 +77,7 @@
 	</nav>
 
 	<!-- table content -->
-	<table class="table table-bordered">
+	<table class="table table-bordered text-center">
 		<thead class="thead-light">
 			<tr>
 				<th style="width: 20%">No</th>
@@ -97,7 +97,8 @@
 							<td>${vocab.pronounce}</td>
 							<td>${vocab.translate}</td>
 							<td>
-								<button class="btn btn-success">
+								<button onclick="editV('${vocab.word}', '${vocab.pronounce}', '${vocab.translate}')" class="btn btn-success" data-toggle="modal"
+									data-target="#editModal">
 									Edit <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 								</button>
 							</td>
@@ -112,6 +113,37 @@
 			</c:choose>
 		</tbody>
 	</table>
+
+	<!-- Edit Modal -->
+	<div class="modal fade" id="editModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Edit Data</h5>
+					<button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+				</div>
+				<div class="modal-body" id="attachment-body-content">
+					<form id="edit-form">
+						<div class="form-group">
+							<label class="col-form-label" for="form-word"><strong>Word</strong></label>
+							<input name="form-word" class="form-control" id="form-word" disabled>
+						</div>
+						<div class="form-group">
+							<label class="col-form-label" for="form-pronounce"><strong>Pronounce</strong></label>
+							<input name="form-pronounce" class="form-control" id="form-pronounce" required>
+						</div>
+						<div class="form-group">
+							<label class="col-form-label" for="form-translate"><strong>Translate</strong></label>
+							<input name="form-translate" class="form-control" id="form-translate" required>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <script>
@@ -120,8 +152,8 @@
 
 	$(function () {
 		$('.page-' + currentPage).addClass('active');
-		
-		switch(currentPage) {
+
+		switch (currentPage) {
 			case 1:
 				$('.prev').addClass('disabled');
 				break;
@@ -129,7 +161,7 @@
 				$('.next').addClass('disabled');
 				break;
 			default:
-				// console.log('do something!');
+			// console.log('do something!');
 		}
 	});
 
@@ -137,16 +169,23 @@
 		window.location.replace("http://localhost:8080/vocabulary?page=" + page);
 	}
 
-	document.onkeydown = function(e) {
+	document.onkeydown = function (e) {
 		switch (e.key) {
-            case 'ArrowLeft':
+			case 'ArrowLeft':
 				gotoPage(currentPage - 1);
-                break;
-            case 'ArrowRight':
+				break;
+			case 'ArrowRight':
 				gotoPage(currentPage + 1);
-                break;
-            default:
-                // console.log(e.key);
-        }
+				break;
+			default:
+			// console.log(e.key);
+		}
+	}
+
+	function editV(word, pronounce, translate) {
+		var form = document.forms['edit-form'];
+		form['form-word'].value = word;
+		form['form-pronounce'].value = pronounce;
+		form['form-translate'].value = translate;
 	}
 </script>
