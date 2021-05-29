@@ -60,10 +60,10 @@ public class XSSFServiceImpl implements XSSFService {
 	@Override
 	public List<String> importExcel() {
 		int size, count = 0;
-		List<String> msg = new ArrayList<>();
+		List<String> message = new ArrayList<>();
 		if (!PathUtils.exists(FILE)) {
-			msg.add("File not found!");
-			return msg;
+			message.add("File not found!");
+			return message;
 		}
 		try ( //
 			FileInputStream file = new FileInputStream(FILE.toFile()); //
@@ -90,7 +90,7 @@ public class XSSFServiceImpl implements XSSFService {
 										vcb.setTranslate(entity.getTranslate());
 										// BeanUtils.copyProperties(entity, vcb, "id, word, count");
 										repository.save(vcb);
-										msg.add("Update: " + vcb.getWord());
+										message.add("Update: " + vcb.getWord());
 									}
 								}
 							}
@@ -107,12 +107,12 @@ public class XSSFServiceImpl implements XSSFService {
 			e.printStackTrace();
 		}
 		if (count > 0) {
-			msg.add("Add new " + count + " word");
+			message.add("Add new " + count + " word");
 		}
-		if (msg.size() == 0) {
-			msg.add("No change!");
+		if (message.size() == 0) {
+			message.add("No change!");
 		}
-		return msg;
+		return message;
 	}
 
 	public Set<Vocabulary> getAllWordInSheet(String sheetName) {

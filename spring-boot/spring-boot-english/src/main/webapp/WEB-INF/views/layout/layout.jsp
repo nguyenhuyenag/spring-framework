@@ -7,13 +7,13 @@
 <head>
     <title>English</title>
     <link rel="shortcut icon" href="#">
-    <!-- css -->
-    <link rel="stylesheet" href="static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- script -->
     <script src="static/script/jquery.min.js"></script>
     <script src="static/script/bootstrap.min.js"></script>
     <script src="static/script/string-utils.js"></script>
+    <!-- css -->
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script>
         $(function () {
             $("input[required], select[required]").attr("oninvalid", "this.setCustomValidity('Đây là thông tin bắt buộc')");

@@ -13,10 +13,6 @@
 <div class="container text-center">
 	<h1 class="mb-3">Vocabulary</h1>
 	<div id="feedback"></div>
-	<pre>
-	current page: ${CURRENT_PAGE}
-	TOTAL page: ${TOTAL}
-</pre>
 	<c:set var="PAGE_INCR" value="5" />
 	<!-- pagination -->
 	<nav aria-label="Search results pages">
@@ -29,7 +25,6 @@
 			<li class="page-item page-1">
 				<a class="page-link" onclick="gotoPage('1'); return false;" href="#">${1}</a>
 			</li>
-			
 			<!-- không quá 6 trang-->
 			<c:if test="${TOTAL <= PAGE_INCR + 1}">
 				<c:forEach var="i" begin="2" end="${TOTAL - 1}">
@@ -70,12 +65,10 @@
 					</li>
 				</c:if>
 			</c:if>
-			
 			<!--  (end) -->
 			<li class="page-item page-${TOTAL}">
 				<a class="page-link" onclick="gotoPage('${TOTAL}'); return false;" href="#">${TOTAL}</a>
 			</li>
-
 			<!--  (next) -->
 			<li class="page-item next">
 				<a class="page-link" onclick="gotoPage('${CURRENT_PAGE + 1}'); return false;" href="#">Next</a>
@@ -87,10 +80,11 @@
 	<table class="table table-bordered">
 		<thead class="thead-light">
 			<tr>
-				<th style="width: 10%">No</th>
-				<th style="width: 30%">Word</th>
-				<th style="width: 30%">Pronounce</th>
-				<th style="width: 30%">Translate</th>
+				<th style="width: 20%">No</th>
+				<th style="width: 20%">Word</th>
+				<th style="width: 20%">Pronounce</th>
+				<th style="width: 20%">Translate</th>
+				<th style="width: 20%">Edit</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -102,6 +96,11 @@
 							<td>${vocab.word}</td>
 							<td>${vocab.pronounce}</td>
 							<td>${vocab.translate}</td>
+							<td>
+								<button class="btn btn-success">
+									Edit <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+								</button>
+							</td>
 						</tr>
 					</c:forEach>
 				</c:when>
