@@ -12,8 +12,16 @@
 	<div class="collapse navbar-collapse" id="navbarCollapse">
 		<ul class="navbar-nav mr-auto">
 			<li id="random" class="nav-item"><a class="nav-link" href="/random">Random</a></li>
-			<li id="vocabulary" class="nav-item"><a class="nav-link" href="/vocabulary">Vocabulary </a></li>
-			<li id="incomplete" class="nav-item"><a class="nav-link" href="/incomplete">Incomplete </a></li>
+			<li id="vocabulary" class="nav-item"><a class="nav-link" href="/vocabulary">Vocabulary</a></li>
+			<li id="incomplete" class="nav-item"><a class="nav-link" href="/incomplete">Incomplete</a></li>
+			<li id="incomplete" class="nav-item"><a class="nav-link" href="#">Export (???)</a></li>
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-toggle="dropdown">Dictionary</a>
+				<div class="dropdown-menu">
+				  <a class="dropdown-item" href="https://translate.google.com/?sl=en&tl=vi" target="_blank">Google</a>
+				  <a class="dropdown-item" href="https://dictionary.cambridge.org/dictionary/" target="_blank">Cambridge</a>
+				</div>
+			  </li>
 		</ul>
 	</div>
 </nav>

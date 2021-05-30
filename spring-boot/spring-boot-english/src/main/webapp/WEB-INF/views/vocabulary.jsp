@@ -171,18 +171,18 @@
 		window.location.replace("http://localhost:8080/vocabulary?page=" + page);
 	}
 
-	document.onkeydown = function (e) {
-		switch (e.key) {
-			case 'ArrowLeft':
-				gotoPage(currentPage - 1);
-				break;
-			case 'ArrowRight':
-				gotoPage(currentPage + 1);
-				break;
-			default:
-			// console.log(e.key);
-		}
-	}
+	// document.onkeydown = function (e) {
+	// 	switch (e.key) {
+	// 		case 'ArrowLeft':
+	// 			gotoPage(currentPage - 1);
+	// 			break;
+	// 		case 'ArrowRight':
+	// 			gotoPage(currentPage + 1);
+	// 			break;
+	// 		default:
+	// 		// console.log(e.key);
+	// 	}
+	// }
 
 	function openModal(word, pronounce, translate) {
 		$('#icon-loading').hide();

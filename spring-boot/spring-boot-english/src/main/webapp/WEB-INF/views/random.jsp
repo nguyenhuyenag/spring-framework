@@ -35,7 +35,7 @@
                 </td>
             </tr>
             <tr id="no-result">
-                <td colspan="4"><span class="text-danger">No result</span></td>
+                <td colspan="5"><span class="text-danger">No result</span></td>
             </tr>
         </tbody>
     </table>
