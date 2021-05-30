@@ -123,4 +123,12 @@ public class VocabServiceImpl implements VocabService {
 		repository.deleteByWord(word);
 	}
 
+	@Override
+	public Vocabulary update(Vocabulary v) {
+		Vocabulary entity = repository.findByWord(v.getWord());
+		entity.setPronounce(v.getPronounce());
+		entity.setTranslate(v.getTranslate());
+		return repository.save(entity);
+	}
+
 }

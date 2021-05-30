@@ -25,5 +25,7 @@ public interface VocabService {
 	Page<Vocabulary> pagination(int page);
 	
 	void deleteByWord(String word);
+	
+	Vocabulary update(Vocabulary v);
 
 }

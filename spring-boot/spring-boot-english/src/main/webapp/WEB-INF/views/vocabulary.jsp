@@ -94,10 +94,10 @@
 						<tr>
 							<td>${status.index + 1}</td>
 							<td>${vocab.word}</td>
-							<td>${vocab.pronounce}</td>
-							<td>${vocab.translate}</td>
+							<td id="tb-pronounce-${vocab.id}">${vocab.pronounce}</td>
+							<td id="tb-translate-${vocab.id}">${vocab.translate}</td>
 							<td>
-								<button onclick="editV('${vocab.word}', '${vocab.pronounce}', '${vocab.translate}')" class="btn btn-success" data-toggle="modal"
+								<button onclick="openModal('${vocab.word}', '${vocab.pronounce}', '${vocab.translate}')" class="btn btn-success" data-toggle="modal"
 									data-target="#editModal">
 									Edit <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 								</button>
@@ -115,7 +115,7 @@
 	</table>
 
 	<!-- Edit Modal -->
-	<div class="modal fade" id="editModal">
+	<div class="modal fade" data-backdrop="static" data-keyboard="true" tabindex="-1" id="editModal">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -123,23 +123,25 @@
 					<button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
 				</div>
 				<div class="modal-body" id="attachment-body-content">
-					<form id="edit-form">
+					<form id="editForm">
 						<div class="form-group">
-							<label class="col-form-label" for="form-word"><strong>Word</strong></label>
-							<input name="form-word" class="form-control" id="form-word" disabled>
+							<label class="col-form-label" for="word"><strong>Word</strong></label>
+							<input name="word" class="form-control" id="word" disabled>
 						</div>
 						<div class="form-group">
-							<label class="col-form-label" for="form-pronounce"><strong>Pronounce</strong></label>
-							<input name="form-pronounce" class="form-control" id="form-pronounce" required>
+							<label class="col-form-label" for="pronounce"><strong>Pronounce</strong></label>
+							<input name="pronounce" class="form-control" id="pronounce" required>
 						</div>
 						<div class="form-group">
-							<label class="col-form-label" for="form-translate"><strong>Translate</strong></label>
-							<input name="form-translate" class="form-control" id="form-translate" required>
+							<label class="col-form-label" for="translate"><strong>Translate</strong></label>
+							<input name="translate" class="form-control" id="translate" required>
 						</div>
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
+					<button id="btn-edit" type="button" onclick="edit()" class="btn btn-primary">
+						Save <span id="icon-loading" class="spinner-border spinner-border-sm"></span>
+					</button>
 				</div>
 			</div>
 		</div>
@@ -182,10 +184,41 @@
 		}
 	}
 
-	function editV(word, pronounce, translate) {
-		var form = document.forms['edit-form'];
-		form['form-word'].value = word;
-		form['form-pronounce'].value = pronounce;
-		form['form-translate'].value = translate;
+	function openModal(word, pronounce, translate) {
+		$('#icon-loading').hide();
+		var form = document.forms['editForm'];
+		form['word'].value = word;
+		form['pronounce'].value = pronounce;
+		form['translate'].value = translate;
+	}
+
+	function edit() {
+		$('#btn-edit').prop('disabled', true);
+		$('#icon-loading').show();
+		var obj = {};
+		var elements = document.getElementById("editForm").elements;
+		for (var i = 0; i < elements.length; i++) {
+			var item = elements.item(i);
+			obj[item.name] = item.value;
+		}
+		$.ajax({
+			type : "POST",
+			contentType : "application/json",
+			url : "update",
+			data : JSON.stringify(obj),
+			dataType : 'json',
+			success : function(data) {
+				setInterval(function() {
+					if (StringUtils.isNotEmpty(data)) {
+						$('#tb-pronounce-' + data.id).text(data.pronounce);
+						$('#tb-translate-' + data.id).text(data.translate);
+						$('#editModal').modal('hide');
+					}
+				}, 500);
+			},
+			error : function(e) {
+				console.log(e);
+			}
+		});
 	}
 </script>

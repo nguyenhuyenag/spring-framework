@@ -1,11 +1,10 @@
 <style>
-    .btn {
+    .hd-btn {
         width: 150px;
     }
 </style>
 
-<div class="container text-center">
-    <h1 class="m-4">Random</h1>
+<div class="container mt-4">
     <div class="search">
         <form class="form-inline mt-2 mt-md-0 float-right" id="search-form">
             <input type="text" id="word" required class="form-control mr-sm-2" placeholder="Search">
@@ -13,30 +12,36 @@
         </form>
     </div>
     <br /> <br />
-    <table class="table table-bordered">
+    <table class="table table-bordered text-center">
         <thead class="thead-light">
             <tr>
-                <th style="width: 10%">No</th>
-                <th style="width: 30%">Word</th>
-                <th style="width: 30%">Pronounce</th>
-                <th style="width: 30%">Translate</th>
+                <th style="width: 20%">No</th>
+                <th style="width: 20%">Word</th>
+                <th style="width: 20%">Pronounce</th>
+                <th style="width: 20%">Translate</th>
+                <th style="width: 20%">Edit</th>
             </tr>
         </thead>
         <tbody>
             <tr id="has-result">
-                <td><span id="no"></span></td>
-                <td><span id="_word"></span></td>
-                <td><span id="pronounce"></span></td>
-                <td><span id="translate"></span></td>
+                <td><span id="tb-no"></span></td>
+                <td><span id="tb-word"></span></td>
+                <td><span id="tb-pronounce"></span></td>
+                <td><span id="tb-translate"></span></td>
+                <td>
+                    <button class="btn btn-success">
+                        Edit <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </button>
+                </td>
             </tr>
             <tr id="no-result">
                 <td colspan="4"><span class="text-danger">No result</span></td>
             </tr>
         </tbody>
     </table>
-    <div class="col">
-        <button class="btn btn-primary m-1"><span aria-hidden="true">&larr;</span>&nbsp;Previous</button>
-        <button id="btn-random" class="btn btn-primary m-1" onclick="random();">
+    <div class="col text-center">
+        <button class="btn btn-primary hd-btn m-1"><span aria-hidden="true">&larr;</span>&nbsp;Previous</button>
+        <button class="btn btn-primary hd-btn m-1" id="btn-random" onclick="random();">
             Random&nbsp;
             <span id="icon-next" aria-hidden="true">&rarr;</span>
             <span id="icon-loading" class="spinner-border spinner-border-sm"></span>
@@ -58,6 +63,15 @@
         random();
     });
 
+    function setData(data) {
+        if (StringUtils.isNotEmpty(data)) {
+            $('#tb-no').text(data.id);
+            $('#tb-word').text(data.word);
+            $('#tb-pronounce').text(data.pronounce);
+            $('#tb-translate').text(data.translate);
+        }
+    }
+
     function search() {
         $.ajax({
             type: "POST",
@@ -70,6 +84,7 @@
                 } else {
                     $('#no-result').hide();
                     $('#has-result').show();
+                    setData(data);                 
                 }
             },
             error: function (e) {
@@ -91,10 +106,7 @@
                 dataType: 'json',
                 contentType: "application/json",
                 success: function (data) {
-                    $('#no').text(data.id);
-                    $('#_word').text(data.word);
-                    $('#pronounce').text(data.pronounce);
-                    $('#translate').text(data.translate);
+                    setData(data);
                 },
                 error: function (e) {
                     console.log("ERROR : ", e);
