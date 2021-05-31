@@ -14,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -118,7 +119,7 @@ public class VocabServiceImpl implements VocabService {
 	@Override
 	public Page<Vocabulary> pagination(int page) {
 		Page<Vocabulary> listPage = repository.findAll(PageRequest.of(page, SIZE));
-		return listPage; // .getContent();
+		return listPage;
 	}
 
 	@Override
@@ -209,6 +210,12 @@ public class VocabServiceImpl implements VocabService {
 		}
 
 		return noun + "s";
+	}
+
+	@Override
+	public Page<Vocabulary> searchByWord(String word, int page) {
+		Pageable pageable = PageRequest.of(page, 5);
+		return repository.searchByWord(word, pageable);
 	}
 
 }

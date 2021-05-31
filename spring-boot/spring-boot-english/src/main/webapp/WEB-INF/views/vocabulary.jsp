@@ -4,7 +4,6 @@
 	.page-item {
 		padding: 0 3px 0 3px;
 	}
-
 	.three-dot {
 		border: 0;
 	}
@@ -14,69 +13,76 @@
 	<h1 class="mb-3 text-center">Vocabulary</h1>
 	<div id="feedback"></div>
 	<c:set var="PAGE_INCR" value="5" />
-	
-	<!-- pagination -->
-	<nav>
-		<ul class="pagination pagination-sm">
-			<!--  (previous) -->
-			<li class="page-item prev">
-				<a class="page-link" onclick="gotoPage('${CURRENT_PAGE - 1}'); return false;" href="#">Prev</a>
-			</li>
-			<!-- (1) -->
-			<li class="page-item page-1">
-				<a class="page-link" onclick="gotoPage('1'); return false;" href="#">${1}</a>
-			</li>
-			<!-- không quá 6 trang-->
-			<c:if test="${TOTAL <= PAGE_INCR + 1}">
-				<c:forEach var="i" begin="2" end="${TOTAL - 1}">
-					<li class="page-item page-${i}">
-						<a class="page-link" onclick="gotoPage('${i}'); return false;" href="#">${i}</a>
-					</li>
-				</c:forEach>
-			</c:if>
-			<!-- nhiều hơn 6 trang-->
-			<c:if test="${TOTAL > PAGE_INCR + 1}">
-				<c:choose>
-					<c:when test="${CURRENT_PAGE < PAGE_INCR}">
-						<c:set var="BEGIN_VALUE" value="2" />
-						<c:set var="END_VALUE" value="${PAGE_INCR}" />
-					</c:when>
-					<c:when test="${TOTAL - PAGE_INCR + 1 < CURRENT_PAGE}">
-						<c:set var="BEGIN_VALUE" value="${TOTAL - PAGE_INCR + 1}" />
-						<c:set var="END_VALUE" value="${TOTAL - 1}" />
-					</c:when>
-					<c:otherwise>
-						<c:set var="BEGIN_VALUE" value="${CURRENT_PAGE - 2}" />
-						<c:set var="END_VALUE" value="${CURRENT_PAGE + 2}" />
-					</c:otherwise>
-				</c:choose>
-				<c:if test="${CURRENT_PAGE >= PAGE_INCR || CURRENT_PAGE >= TOTAL - PAGE_INCR}">
-					<li class="page-item">
-						<span class="page-link three-dot">...</span>
-					</li>
+	<div class="clearfix">
+		<!-- pagination -->
+		<nav class="float-left">
+			<ul class="pagination pagination-sm">
+				<!--  (previous) -->
+				<li class="page-item prev">
+					<a class="page-link" onclick="gotoPage('${CURRENT_PAGE - 1}'); return false;" href="#">Prev</a>
+				</li>
+				<!-- (1) -->
+				<li class="page-item page-1">
+					<a class="page-link" onclick="gotoPage('1'); return false;" href="#">${1}</a>
+				</li>
+				<!-- không quá 6 trang-->
+				<c:if test="${TOTAL <= PAGE_INCR + 1}">
+					<c:forEach var="i" begin="2" end="${TOTAL - 1}">
+						<li class="page-item page-${i}">
+							<a class="page-link" onclick="gotoPage('${i}'); return false;" href="#">${i}</a>
+						</li>
+					</c:forEach>
 				</c:if>
-				<c:forEach var="i" begin="${BEGIN_VALUE}" end="${END_VALUE}">
-					<li class="page-item page-${i}">
-						<a class="page-link" onclick="gotoPage('${i}'); return false;" href="#">${i}</a>
-					</li>
-				</c:forEach>
-				<c:if test="${CURRENT_PAGE <= PAGE_INCR || CURRENT_PAGE <= TOTAL - PAGE_INCR + 1}">
-					<li class="page-item">
-						<span class="page-link three-dot">...</span>
-					</li>
+				<!-- nhiều hơn 6 trang-->
+				<c:if test="${TOTAL > PAGE_INCR + 1}">
+					<c:choose>
+						<c:when test="${CURRENT_PAGE < PAGE_INCR}">
+							<c:set var="BEGIN_VALUE" value="2" />
+							<c:set var="END_VALUE" value="${PAGE_INCR}" />
+						</c:when>
+						<c:when test="${TOTAL - PAGE_INCR + 1 < CURRENT_PAGE}">
+							<c:set var="BEGIN_VALUE" value="${TOTAL - PAGE_INCR + 1}" />
+							<c:set var="END_VALUE" value="${TOTAL - 1}" />
+						</c:when>
+						<c:otherwise>
+							<c:set var="BEGIN_VALUE" value="${CURRENT_PAGE - 2}" />
+							<c:set var="END_VALUE" value="${CURRENT_PAGE + 2}" />
+						</c:otherwise>
+					</c:choose>
+					<c:if test="${CURRENT_PAGE >= PAGE_INCR || CURRENT_PAGE >= TOTAL - PAGE_INCR}">
+						<li class="page-item">
+							<span class="page-link three-dot">...</span>
+						</li>
+					</c:if>
+					<c:forEach var="i" begin="${BEGIN_VALUE}" end="${END_VALUE}">
+						<li class="page-item page-${i}">
+							<a class="page-link" onclick="gotoPage('${i}'); return false;" href="#">${i}</a>
+						</li>
+					</c:forEach>
+					<c:if test="${CURRENT_PAGE <= PAGE_INCR || CURRENT_PAGE <= TOTAL - PAGE_INCR + 1}">
+						<li class="page-item">
+							<span class="page-link three-dot">...</span>
+						</li>
+					</c:if>
 				</c:if>
-			</c:if>
-			<!--  (end) -->
-			<li class="page-item page-${TOTAL}">
-				<a class="page-link" onclick="gotoPage('${TOTAL}'); return false;" href="#">${TOTAL}</a>
-			</li>
-			<!--  (next) -->
-			<li class="page-item next">
-				<a class="page-link" onclick="gotoPage('${CURRENT_PAGE + 1}'); return false;" href="#">Next</a>
-			</li>
-		</ul>
-	</nav>
+				<!--  (end) -->
+				<li class="page-item page-${TOTAL}">
+					<a class="page-link" onclick="gotoPage('${TOTAL}'); return false;" href="#">${TOTAL}</a>
+				</li>
+				<!--  (next) -->
+				<li class="page-item next">
+					<a class="page-link" onclick="gotoPage('${CURRENT_PAGE + 1}'); return false;" href="#">Next</a>
+				</li>
+			</ul>
+		</nav>
 
+		<div class="float-right">
+			<form class="form-inline mt-2 mt-md-0 float-right" id="search-form">
+				<input type="text" id="word" required class="form-control mr-sm-2" placeholder="Search">
+				<button id="bth-search" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+			</form>
+		</div>
+	</div>
 	<!-- table content -->
 	<table class="table table-bordered text-center">
 		<thead class="thead-light">

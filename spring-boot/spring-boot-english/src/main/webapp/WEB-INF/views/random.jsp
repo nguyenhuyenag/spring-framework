@@ -5,12 +5,12 @@
 </style>
 
 <div class="container mt-4">
-    <div class="search">
+    <!-- <div class="search">
         <form class="form-inline mt-2 mt-md-0 float-right" id="search-form">
             <input type="text" id="word" required class="form-control mr-sm-2" placeholder="Search">
             <button id="bth-search" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
-    </div>
+    </div> -->
     <br /> <br />
     <table class="table table-bordered text-center">
         <thead class="thead-light">

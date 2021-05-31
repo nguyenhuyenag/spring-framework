@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -24,6 +26,9 @@ public interface VocabRepository extends JpaRepository<Vocabulary, Integer> {
 
 	// @Query(value = "select v.* from vocab v where v.word = :pword", nativeQuery = true)
 	Vocabulary findByWord(String word);
+	
+	@Query(value = "select t.* from vocab where t.word like %:word%", nativeQuery = true)
+	Page<Vocabulary> searchByWord(String word, Pageable pageable);
 	
 	@Query(value = "select v.* from vocab v order by rand() limit 1", nativeQuery = true)
 	Vocabulary getRandomWord();

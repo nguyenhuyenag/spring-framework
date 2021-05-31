@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -37,8 +38,12 @@ public class ViewController {
 	@GetMapping("vocabulary")
 	public String vocabulary(Model model, HttpServletRequest req) {
 		int page = ServletRequestUtils.getIntParameter(req, "page", 1);
-		page = page < 1 ? 1 : page;
+		String search = ServletRequestUtils.getStringParameter(req, "search", "");
 		Page<Vocabulary> listPage = service.pagination(page - 1);
+		if (StringUtils.isNotEmpty(search)) {
+			listPage = service.searchByWord(search, page);
+		}
+		page = page < 1 ? 1 : page;
 		model.addAttribute("listData", listPage.getContent());
 		model.addAttribute("CURRENT_PAGE", page);
 		model.addAttribute("TOTAL", listPage.getTotalPages());
