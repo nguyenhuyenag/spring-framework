@@ -14,8 +14,9 @@
 	<h1 class="mb-3 text-center">Vocabulary</h1>
 	<div id="feedback"></div>
 	<c:set var="PAGE_INCR" value="5" />
+	
 	<!-- pagination -->
-	<nav aria-label="Search results pages">
+	<nav>
 		<ul class="pagination pagination-sm">
 			<!--  (previous) -->
 			<li class="page-item prev">

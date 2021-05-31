@@ -14,21 +14,22 @@
 			<li id="random" class="nav-item"><a class="nav-link" href="/random">Random</a></li>
 			<li id="vocabulary" class="nav-item"><a class="nav-link" href="/vocabulary">Vocabulary</a></li>
 			<li id="incomplete" class="nav-item"><a class="nav-link" href="/incomplete">Incomplete</a></li>
-			<li id="incomplete" class="nav-item"><a class="nav-link" href="#">Export (???)</a></li>
-			<li class="nav-item dropdown">
+			<li id="plural-noun" class="nav-item"><a class="nav-link" href="/plural-noun">Plural Noun</a></li>
+			<!-- <li id="incomplete" class="nav-item"><a class="nav-link" href="#">Export (???)</a></li> -->
+			<!-- <li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-toggle="dropdown">Dictionary</a>
 				<div class="dropdown-menu">
 				  <a class="dropdown-item" href="https://translate.google.com/?sl=en&tl=vi" target="_blank">Google</a>
 				  <a class="dropdown-item" href="https://dictionary.cambridge.org/dictionary/" target="_blank">Cambridge</a>
 				</div>
-			  </li>
+			  </li> -->
 		</ul>
 	</div>
 </nav>
 
 <script type="text/javascript">
 	$(function () {
-		let menu = ["random", "incomplete", "vocabulary"];
+		let menu = ["random", "incomplete", "vocabulary", "plural-noun"];
 		let i, len = menu.length;
 		let path = window.location.pathname.replace("/", "");
 		for (i = 0; i < len; i++) {

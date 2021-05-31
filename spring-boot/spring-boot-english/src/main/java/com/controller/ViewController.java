@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.entity.Vocabulary;
 import com.service.VocabService;
@@ -41,6 +43,17 @@ public class ViewController {
 		model.addAttribute("CURRENT_PAGE", page);
 		model.addAttribute("TOTAL", listPage.getTotalPages());
 		return "vocabulary";
+	}
+	
+	@GetMapping("plural-noun")
+	public String pluralNoun(Model model) {
+		return "plural-noun";
+	}
+	
+	@ResponseBody
+	@PostMapping("plural-noun")
+	public String pluralNouns(Model model, String noun) {
+		return service.pluralNoun(noun);
 	}
 
 }

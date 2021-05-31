@@ -27,5 +27,7 @@ public interface VocabService {
 	void deleteByWord(String word);
 	
 	Vocabulary update(Vocabulary v);
+	
+	String pluralNoun(String noun);
 
 }
