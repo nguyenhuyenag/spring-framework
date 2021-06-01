@@ -1,3 +1,4 @@
+<%@ page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <style>
@@ -125,7 +126,7 @@
 	<div class="modal fade" data-backdrop="static" data-keyboard="true" tabindex="-1" id="editModal">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-header">
+				<div class="modal-header bg-light">
 					<h5 class="modal-title">Edit Data</h5>
 					<button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
 				</div>
@@ -145,8 +146,8 @@
 						</div>
 					</form>
 				</div>
-				<div class="modal-footer">
-					<button id="btn-edit" type="button" onclick="edit()" class="btn btn-primary">
+				<div class="modal-footer bg-light">
+					<button id="btn-save" type="button" onclick="save();" class="btn btn-primary">
 						Save <span id="icon-loading" class="spinner-border spinner-border-sm"></span>
 					</button>
 				</div>
@@ -160,6 +161,7 @@
 	var currentPage = parseInt('${CURRENT_PAGE}');
 
 	$(function () {
+		handleRequiredMessage('Nhập từ khóa cần tìm');
 		$('.page-' + currentPage).addClass('active');
 
 		switch (currentPage) {
@@ -193,15 +195,17 @@
 
 	function openModal(word, pronounce, translate) {
 		$('#icon-loading').hide();
+		$('#btn-save').removeClass('disabled');
 		var form = document.forms['editForm'];
 		form['word'].value = word;
 		form['pronounce'].value = pronounce;
 		form['translate'].value = translate;
 	}
 
-	function edit() {
-		$('#btn-edit').prop('disabled', true);
+	function save() {
 		$('#icon-loading').show();
+		$('#btn-save').addClass('disabled');
+		
 		var obj = {};
 		var elements = document.getElementById("editForm").elements;
 		for (var i = 0; i < elements.length; i++) {
@@ -212,15 +216,15 @@
 			type : "POST",
 			contentType : "application/json",
 			url : "update",
-			data : JSON.stringify(obj),
 			dataType : 'json',
+			data : JSON.stringify(obj),
 			success : function(data) {
-				setInterval(function() {
-					if (StringUtils.isNotEmpty(data)) {
-						$('#tb-pronounce-' + data.id).text(data.pronounce);
-						$('#tb-translate-' + data.id).text(data.translate);
-						$('#editModal').modal('hide');
-					}
+				if (StringUtils.isNotEmpty(data)) {
+					$('#tb-pronounce-' + data.id).text(data.pronounce);
+					$('#tb-translate-' + data.id).text(data.translate);
+				}
+				setTimeout(function() {
+					$('#editModal').modal('hide');
 				}, 500);
 			},
 			error : function(e) {

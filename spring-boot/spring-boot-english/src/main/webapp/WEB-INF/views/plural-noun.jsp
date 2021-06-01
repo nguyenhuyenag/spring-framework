@@ -1,21 +1,25 @@
+<style>
+    button {
+        width: 100px;
+    }
+</style>
 
-<div class="container text-center">
-    <div class="bg-warning">
-        <form class="form-inline" id="noun-form">
-            <input id="noun" class="form-control mr-sm-2" placeholder="Search" required>
+<div class="container">
+    <div class="" align=center>
+        <h3>Plural Noun</h3>
+        <form id="noun-form" style="width: 300px;">
+            <div class="form-group">
+                <input id="noun" class="form-control mr-sm-2" placeholder="Search" required>
+            </div>
             <button type="submit" class="btn btn-outline-success">OK</button>
         </form>
-        <h4 class="result mt-3"></h4>
+        <div class="result mt-1 display-4"></div>
     </div>
-
-    <!-- <div class="d-flex" style="width: 300px;">
-        <input class="form-control mr-1">
-        <button class="btn btn-primary">OK</button>
-    </div> -->
 </div>
 
 <script type="text/javascript">
     $(function () {
+        handleRequiredMessage('');
         $("#noun-form").submit(function (event) {
             event.preventDefault();
             send();
@@ -29,7 +33,7 @@
             success: function (data) {
                 console.log(data);
                 if (StringUtils.isNotEmpty(data)) {
-                    $('.result').addClass('bg-success');
+                    // $('.result').addClass('bg-success');
                     $('.result').text(data);
                 }
             },

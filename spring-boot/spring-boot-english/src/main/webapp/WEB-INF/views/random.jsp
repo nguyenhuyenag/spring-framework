@@ -11,6 +11,10 @@
             <button id="bth-search" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
     </div> -->
+    <ul>
+        <li>hide word</li>
+        <li>hide translate</li>
+    </ul>
     <br /> <br />
     <table class="table table-bordered text-center">
         <thead class="thead-light">
