@@ -11,8 +11,8 @@
 </style>
 
 <div class="container">
-	<h1 class="mb-3 text-center">Vocabulary</h1>
-	<!-- <div id="feedback"></div> -->
+	<!-- <h1 class="mb-3 text-center">Vocabulary</h1> -->
+	<div id="feedback"></div>
 	<c:set var="PAGE_INCR" value="5" />
 	<div class="clearfix">
 		<!-- pagination -->

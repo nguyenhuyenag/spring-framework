@@ -6,7 +6,7 @@
 
 <div class="container">
     <div class="" align=center>
-        <h3>Plural Noun</h3>
+        <h1>Plural Noun</h1>
         <form id="noun-form" style="width: 300px;">
             <div class="form-group">
                 <input id="noun" class="form-control mr-sm-2" placeholder="Search" required>

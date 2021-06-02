@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -35,30 +34,26 @@ public class ViewController {
 		return "incomplete"; // <-- tiles name
 	}
 
-	@GetMapping("vocabulary")
-	public String vocabulary(Model model, HttpServletRequest req) {
-		int page = ServletRequestUtils.getIntParameter(req, "page", 1);
-		String search = ServletRequestUtils.getStringParameter(req, "search", "");
-		Page<Vocabulary> listPage = service.pagination(page - 1);
-		if (StringUtils.isNotEmpty(search)) {
-			listPage = service.searchByWord(search, page);
-		}
-		page = page < 1 ? 1 : page;
-		model.addAttribute("listData", listPage.getContent());
-		model.addAttribute("CURRENT_PAGE", page);
-		model.addAttribute("TOTAL", listPage.getTotalPages());
-		return "vocabulary";
-	}
-	
 	@GetMapping("plural-noun")
 	public String pluralNoun(Model model) {
 		return "plural-noun";
 	}
-	
+
 	@ResponseBody
 	@PostMapping("plural-noun")
 	public String pluralNouns(Model model, String noun) {
 		return service.pluralNoun(noun);
+	}
+
+	@GetMapping("vocabulary")
+	public String vocabulary(Model model, HttpServletRequest req) {
+		int page = ServletRequestUtils.getIntParameter(req, "page", 1);
+		int pageSize = ServletRequestUtils.getIntParameter(req, "pageSize", 20);
+		Page<Vocabulary> listPage = service.pagination(page, pageSize);
+		model.addAttribute("listData", listPage.getContent());
+		model.addAttribute("CURRENT_PAGE", page);
+		model.addAttribute("TOTAL", listPage.getTotalPages());
+		return "vocabulary";
 	}
 
 }

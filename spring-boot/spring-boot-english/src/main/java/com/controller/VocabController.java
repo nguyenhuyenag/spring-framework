@@ -1,7 +1,5 @@
 package com.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,29 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.entity.Vocabulary;
 import com.service.VocabService;
-import com.service.XSSFService;
 
 @RestController
-public class ApiController {
-
-	@Autowired
-	XSSFService xssfService;
+public class VocabController {
 
 	@Autowired
 	private VocabService service;
-
-	@GetMapping("xssf/import-data")
-	private ResponseEntity<?> importExcel() {
-		List<String> list = xssfService.importExcel();
-		return ResponseEntity.ok(list);
-	}
-
-	@GetMapping("xssf/add-new")
-	private ResponseEntity<String> addNew() {
-		int count = xssfService.addNew();
-		String data = "Add new " + count + " vocabulary";
-		return ResponseEntity.ok(data);
-	}
 
 	@GetMapping("random-vocab")
 	private ResponseEntity<Vocabulary> getRandomVocab(String flag) {

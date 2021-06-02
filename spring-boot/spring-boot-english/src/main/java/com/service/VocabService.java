@@ -22,7 +22,7 @@ public interface VocabService {
 	
 	List<Vocabulary> findAll();
 	
-	Page<Vocabulary> pagination(int page);
+	Page<Vocabulary> pagination(int page, int pageSize);
 	
 	Page<Vocabulary> searchByWord(String word, int page);
 	

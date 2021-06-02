@@ -9,12 +9,12 @@
     <div class="p-4 d-flex justify-content-center">
         <div>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="hidden-word">
+                <input class="form-check-input" type="checkbox" id="hidden-word">
                 <label class="form-check-label" for="hidden-word">Hidden word</label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckCheckedDisabled">
-                <label class="form-check-label" for="flexCheckCheckedDisabled">Hidden translate</label>
+                <input class="form-check-input" type="checkbox" value="" id="hidden-translate">
+                <label class="form-check-label" for="hidden-translate">Hidden translate</label>
             </div>
         </div>
     </div>
@@ -75,11 +75,19 @@
         });
 
         random();
-
-        // checkbox
-        var test = localStorage.input === 'true'? true: false;
-        $('#hidden-word').prop('checked', test);
+        checkbox('hidden-word');
+        checkbox('hidden-translate');
     });
+
+    function checkbox(checkboxId) {
+        let v = localStorage.getItem(checkboxId);
+        if (v == 'true') {
+            $('#' + checkboxId).prop('checked', true);
+        }
+        $('#' + checkboxId).change(function() {
+            localStorage.setItem(checkboxId, this.checked);
+        });
+    }
 
     function setData(data) {
         if (StringUtils.isNotEmpty(data)) {

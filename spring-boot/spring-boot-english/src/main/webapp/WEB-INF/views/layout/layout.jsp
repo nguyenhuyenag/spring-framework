@@ -38,7 +38,7 @@
     <div>
         <tiles:insertAttribute name="header" />
         <!-- footer: height: 50px; -->
-        <div class="container" style="margin-bottom: 50px; width: 1000px; height: 850px; background-color:white;">
+        <div class="container" style="margin-bottom: 50px; width: 1000px; background-color:white;">
             <tiles:insertAttribute name="body" />
         </div>
         <tiles:insertAttribute name="footer" />

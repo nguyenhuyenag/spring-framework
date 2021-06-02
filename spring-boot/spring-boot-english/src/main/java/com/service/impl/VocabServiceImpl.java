@@ -30,7 +30,7 @@ public class VocabServiceImpl implements VocabService {
 
 	private final int N = 4;
 
-	private static final int SIZE = 20;
+	// private static final int SIZE = 20;
 
 	private Set<String> ignoreWords = new HashSet<>();
 
@@ -118,8 +118,9 @@ public class VocabServiceImpl implements VocabService {
 	}
 
 	@Override
-	public Page<Vocabulary> pagination(int page) {
-		Page<Vocabulary> listPage = repository.findAll(PageRequest.of(page, SIZE));
+	public Page<Vocabulary> pagination(int page, int pageSize) {
+		PageRequest pageRequest = PageRequest.of(Math.max(0, page - 1), pageSize);
+		Page<Vocabulary> listPage = repository.findAll(pageRequest);
 		return listPage;
 	}
 
