@@ -4,18 +4,28 @@
     }
 </style>
 
-<div class="container mt-4">
-    <ul>
-        <li>hide word</li>
-        <li>hide translate</li>
-    </ul>
-    <div class="search">
+<div class="container">
+    <!-- check box -->
+    <div class="p-4 d-flex justify-content-center">
+        <div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="hidden-word">
+                <label class="form-check-label" for="hidden-word">Hidden word</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckCheckedDisabled">
+                <label class="form-check-label" for="flexCheckCheckedDisabled">Hidden translate</label>
+            </div>
+        </div>
+    </div>
+    <!-- search -->
+    <!-- <div class="search pb-4 mb-4">
         <form class="form-inline mt-2 mt-md-0 float-right" id="search-form">
             <input type="text" id="word" required class="form-control mr-sm-2" placeholder="Search">
             <button id="bth-search" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
-    </div>
-    <br /> <br />
+    </div> -->
+    <!-- table-->
     <table class="table table-bordered text-center">
         <thead class="thead-light">
             <tr>
@@ -65,6 +75,10 @@
         });
 
         random();
+
+        // checkbox
+        var test = localStorage.input === 'true'? true: false;
+        $('#hidden-word').prop('checked', test);
     });
 
     function setData(data) {
@@ -88,7 +102,7 @@
                 } else {
                     $('#no-result').hide();
                     $('#has-result').show();
-                    setData(data);                 
+                    setData(data);
                 }
             },
             error: function (e) {
@@ -132,7 +146,7 @@
                 random();
                 break;
             default:
-                // console.log(e.key);
+            // console.log(e.key);
         }
     }
 </script>
