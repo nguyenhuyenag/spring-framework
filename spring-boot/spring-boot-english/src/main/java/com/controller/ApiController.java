@@ -23,16 +23,23 @@ public class ApiController {
 	@Autowired
 	private VocabService service;
 
-	@GetMapping("import-data")
+	@GetMapping("xssf/import-data")
 	private ResponseEntity<?> importExcel() {
 		List<String> list = xssfService.importExcel();
 		return ResponseEntity.ok(list);
 	}
 
+	@GetMapping("xssf/add-new")
+	private ResponseEntity<String> addNew() {
+		int count = xssfService.addNew();
+		String data = "Add new " + count + " vocabulary";
+		return ResponseEntity.ok(data);
+	}
+
 	@GetMapping("random-vocab")
 	private ResponseEntity<Vocabulary> getRandomVocab(String flag) {
-		Vocabulary dict = service.getRandomVocab2(flag);
-		return ResponseEntity.ok(dict);
+		Vocabulary v = service.getRandomVocab2(flag);
+		return ResponseEntity.ok(v);
 	}
 
 	@PostMapping("search")
@@ -40,13 +47,13 @@ public class ApiController {
 		Vocabulary data = service.search(word);
 		return ResponseEntity.ok(data);
 	}
-	
+
 	@DeleteMapping("delete")
 	private String delete(String word) {
 		service.deleteByWord(word);
 		return "OK";
 	}
-	
+
 	@PostMapping("update")
 	private ResponseEntity<Vocabulary> update(@RequestBody Vocabulary v) {
 		Vocabulary data = service.update(v);

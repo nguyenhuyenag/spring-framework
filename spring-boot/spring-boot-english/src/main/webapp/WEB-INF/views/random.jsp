@@ -5,16 +5,16 @@
 </style>
 
 <div class="container mt-4">
-    <!-- <div class="search">
-        <form class="form-inline mt-2 mt-md-0 float-right" id="search-form">
-            <input type="text" id="word" required class="form-control mr-sm-2" placeholder="Search">
-            <button id="bth-search" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
-    </div> -->
     <ul>
         <li>hide word</li>
         <li>hide translate</li>
     </ul>
+    <div class="search">
+        <form class="form-inline mt-2 mt-md-0 float-right" id="search-form">
+            <input type="text" id="word" required class="form-control mr-sm-2" placeholder="Search">
+            <button id="bth-search" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
     <br /> <br />
     <table class="table table-bordered text-center">
         <thead class="thead-light">
@@ -127,13 +127,12 @@
         // console.log(e.keyCode);
         switch (e.key) {
             case 'ArrowLeft':
-                console.log(e.key);
                 break;
             case 'ArrowRight':
                 random();
                 break;
             default:
-                console.log(e.key);
+                // console.log(e.key);
         }
     }
 </script>

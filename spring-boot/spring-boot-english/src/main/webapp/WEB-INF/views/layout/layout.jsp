@@ -5,7 +5,8 @@
 <html lang="vi">
 
 <head>
-    <title>English</title>
+    <!-- <title>English</title> -->
+    <title><tiles:getAsString name="title"/></title>
     <link rel="shortcut icon" href="#">
     <!-- css -->
     <link rel="stylesheet" href="static/css/bootstrap.min.css">

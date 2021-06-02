@@ -103,6 +103,7 @@ public class VocabServiceImpl implements VocabService {
 	@Override
 	public Vocabulary search(String word) {
 		Vocabulary v = repository.findByWord(word);
+		// Vocabulary v = repository.advanceSearchByWord(word);
 		return v != null ? v : null;
 	}
 

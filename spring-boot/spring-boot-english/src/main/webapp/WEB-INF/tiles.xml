@@ -10,17 +10,17 @@
     </definition>
 
     <definition name="random" extends="base.definition">  
-        <put-attribute name="title" value="Vocabulary" />  
+        <put-attribute name="title" value="Random" />  
         <put-attribute name="body" value="/WEB-INF/views/random.jsp" />  
     </definition>
 
-    <definition name="incomplete" extends="base.definition">  
-        <put-attribute name="title" value="Incomplete Page" />  
+    <definition name="incomplete" extends="base.definition">
+        <put-attribute name="title" value="Incomplete" />  
         <put-attribute name="body" value="/WEB-INF/views/incomplete.jsp" />  
     </definition>
 
     <definition name="vocabulary" extends="base.definition">  
-        <put-attribute name="title" value="Vocabulary Page" />  
+        <put-attribute name="title" value="Vocabulary" />  
         <put-attribute name="body" value="/WEB-INF/views/vocabulary.jsp" />  
     </definition>
 

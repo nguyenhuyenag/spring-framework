@@ -27,6 +27,9 @@ public interface VocabRepository extends JpaRepository<Vocabulary, Integer> {
 	// @Query(value = "select v.* from vocab v where v.word = :pword", nativeQuery = true)
 	Vocabulary findByWord(String word);
 	
+	@Query(value = "select t.* from vocab t where t.word = :key or t.translate like \"%:key%\"", nativeQuery = true)
+	Vocabulary advanceSearchByWord(String key);
+	
 	@Query(value = "select t.* from vocab where t.word like %:word%", nativeQuery = true)
 	Page<Vocabulary> searchByWord(String word, Pageable pageable);
 	
