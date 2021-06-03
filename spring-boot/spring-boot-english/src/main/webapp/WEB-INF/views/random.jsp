@@ -19,21 +19,21 @@
         </div>
     </div>
     <!-- search -->
-    <!-- <div class="search pb-4 mb-4">
+    <div class="search pb-4 mb-4">
         <form class="form-inline mt-2 mt-md-0 float-right" id="search-form">
             <input type="text" id="word" required class="form-control mr-sm-2" placeholder="Search">
             <button id="bth-search" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
-    </div> -->
+    </div>
     <!-- table-->
     <table class="table table-bordered text-center">
         <thead class="thead-light">
             <tr>
-                <th style="width: 20%">No</th>
-                <th style="width: 20%">Word</th>
-                <th style="width: 20%">Pronounce</th>
-                <th style="width: 20%">Translate</th>
-                <th style="width: 20%">Edit</th>
+                <th style="width: 10%">No</th>
+                <th style="width: 30%">Word</th>
+                <th style="width: 30%">Pronounce</th>
+                <th style="width: 30%">Translate</th>
+                <!-- <th style="width: 20%">Edit</th> -->
             </tr>
         </thead>
         <tbody>
@@ -42,14 +42,14 @@
                 <td><span id="tb-word"></span></td>
                 <td><span id="tb-pronounce"></span></td>
                 <td><span id="tb-translate"></span></td>
-                <td>
+                <!-- <td>
                     <button class="btn btn-success">
                         Edit <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                     </button>
-                </td>
+                </td> -->
             </tr>
             <tr id="no-result">
-                <td colspan="5"><span class="text-danger">No result</span></td>
+                <td colspan="4"><span class="text-danger">No result</span></td>
             </tr>
         </tbody>
     </table>
@@ -77,6 +77,13 @@
         random();
         checkbox('hidden-word');
         checkbox('hidden-translate');
+
+        if ($('#hidden-word').is(":checked")) {
+            $('#tb-word').css('color', 'white');
+        }
+        if ($('#hidden-translate').is(":checked")) {
+            $('#tb-translate').css('color', 'white');
+        }
     });
 
     function checkbox(checkboxId) {
@@ -84,8 +91,23 @@
         if (v == 'true') {
             $('#' + checkboxId).prop('checked', true);
         }
-        $('#' + checkboxId).change(function() {
+        $('#' + checkboxId).change(function () {
             localStorage.setItem(checkboxId, this.checked);
+            if (this.checked) {
+                if (checkboxId.endsWith('word')) {
+                    $('#tb-word').css('color', 'white');
+                }
+                if (checkboxId.endsWith('translate')) {
+                    $('#tb-translate').css('color', 'white');
+                }
+            } else {
+                if (checkboxId.endsWith('word')) {
+                    $('#tb-word').css('color', 'black');
+                }
+                if (checkboxId.endsWith('translate')) {
+                    $('#tb-translate').css('color', 'black');
+                }
+            }
         });
     }
 
@@ -111,6 +133,7 @@
                     $('#no-result').hide();
                     $('#has-result').show();
                     setData(data);
+                    // localStorage.setItem('vocab', data);
                 }
             },
             error: function (e) {
