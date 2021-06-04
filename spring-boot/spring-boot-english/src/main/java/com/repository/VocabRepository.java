@@ -23,6 +23,8 @@ public interface VocabRepository extends JpaRepository<Vocabulary, Integer> {
 
 	//@Query(value = "select lower(v.word) from vocab v", nativeQuery = true)
 	//List<String> findAllVocab();
+	
+	List<Vocabulary> findAllByOrderByWord();
 
 	// @Query(value = "select v.* from vocab v where v.word = :pword", nativeQuery = true)
 	Vocabulary findByWord(String word);

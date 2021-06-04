@@ -61,7 +61,7 @@ public class XSSFServiceImpl implements XSSFService {
 	public List<String> importExcel() {
 		int size, count = 0;
 		List<String> message = new ArrayList<>();
-		if (!PathUtils.exists(FILE)) {
+		if (PathUtils.isNotExist(FILE)) {
 			message.add("File not found!");
 			return message;
 		}

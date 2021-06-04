@@ -6,6 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.repository.VocabRepository;
+import com.service.FTPService;
 
 @SpringBootApplication
 public class Application implements CommandLineRunner {
@@ -16,10 +17,13 @@ public class Application implements CommandLineRunner {
 
 	@Autowired
 	VocabRepository repository;
+	
+	@Autowired
+	FTPService service;
 
 	@Override
 	public void run(String... args) throws Exception {
-		
+		service.exportJSON();
 	}
 
 }

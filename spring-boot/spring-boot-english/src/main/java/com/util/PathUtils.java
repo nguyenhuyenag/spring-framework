@@ -1,25 +1,40 @@
 package com.util;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class PathUtils {
-	
+
+	// File.separator => '\'
+
 	/**
 	 * Project directory
 	 */
 	public static final String HOME = System.getProperty("user.dir");
-	
-	public static final String RESOURCES = Paths.get(HOME, "src/main/resources").toString();
-	
+
 	/**
 	 * Test whether a file or directory exists
-	 * @param path the path to the file to test
-	 * @return {@code true} if the file exists, otherwise {@code false}
 	 */
-	public static boolean exists(Path path) {
+	public static boolean exist(Path path) {
 		return (path != null && Files.exists(path));
 	}
 	
+	public static boolean isNotExist(Path path) {
+		return !exist(path);
+	}
+
+	/**
+	 * Tạo thư mục
+	 */
+	public static boolean createDirectories(Path dir) {
+		try {
+			Files.createDirectories(dir);
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
 }

@@ -15,7 +15,7 @@ public class Application implements CommandLineRunner {
 		SpringApplication.run(Application.class, args);
 	}
 
-	@Autowired
+	@Autowired 
 	VocabRepository repository;
 
 	@Override
@@ -24,6 +24,7 @@ public class Application implements CommandLineRunner {
 		v.setWord("light");
 		v.setPronounce("laɪ-t");
 		v.setTranslate("nhẹ, ánh sáng");
+		repository.deleteAll();
 		repository.save(v);
 	}
 

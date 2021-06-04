@@ -6,8 +6,9 @@
 
 <head>
     <!-- <title>English</title> -->
-    <title><tiles:getAsString name="title"/></title>
     <link rel="shortcut icon" href="#">
+    <title><tiles:getAsString name="title"/></title>
+    <link rel="icon" href="//www.w3schools.com/favicon.ico" type="image/x-icon">
     <!-- css -->
     <link rel="stylesheet" href="static/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">

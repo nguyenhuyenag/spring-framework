@@ -2,6 +2,7 @@ package com.entity;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -17,6 +18,7 @@ public class Vocabulary {
 
 	@Id
 	private String id;
+	// private ObjectId id;
 
 	private String word;
 	private String pronounce;
