@@ -168,12 +168,15 @@
     }
 
     document.onkeydown = function (e) {
-        // console.log(e.key);
-        // console.log(e.keyCode);
-        switch (e.key) {
-            case 'ArrowLeft':
+//         console.log("key: ", e.key, ", code: ", e.keyCode);
+        switch (e.keyCode) {
+            //case 32:
+                // console.log("key: ", e.key, ", code: ", e.keyCode);
+                // checkbox('hidden-translate');
+                //break;
+            case 37: // ArrowLeft
                 break;
-            case 'ArrowRight':
+            case 39: // ArrowRight
                 random();
                 break;
             default:

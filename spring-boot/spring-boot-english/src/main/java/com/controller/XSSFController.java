@@ -1,5 +1,6 @@
 package com.controller;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +25,10 @@ public class XSSFController {
 	}
 
 	@GetMapping("add-new")
-	private ResponseEntity<String> addNew() {
+	private ResponseEntity<?> addNew() {
 		int count = xssfService.addNew();
 		String data = "Add new " + count + " vocabulary";
-		return ResponseEntity.ok(data);
+		return ResponseEntity.ok(Arrays.asList(data));
 	}
 
 }

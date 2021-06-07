@@ -5,8 +5,8 @@ import java.io.FileOutputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -115,8 +115,8 @@ public class XSSFServiceImpl implements XSSFService {
 		return message;
 	}
 
-	public Set<Vocabulary> getAllWordInSheet(String sheetName) {
-		Set<Vocabulary> data = new LinkedHashSet<>();
+	private Set<Vocabulary> getAllWordInSheet(String sheetName) {
+		Set<Vocabulary> data = new HashSet<>();
 		try ( //
 			FileInputStream file = new FileInputStream(FILE.toFile()); //
 			XSSFWorkbook workbook = new XSSFWorkbook(file); //
@@ -145,17 +145,12 @@ public class XSSFServiceImpl implements XSSFService {
 			Set<Vocabulary> data = getAllWordInSheet("NEW");
 			for (Vocabulary v : data) {
 				String sheetName = String.valueOf(v.getWord().charAt(0)).toUpperCase();
-
 				XSSFSheet sheet = workbook.getSheet(sheetName);
-
 				// last row
 				int i = sheet.getLastRowNum() + 1;
-
 				XSSFRow row = sheet.createRow(i);
-
 				// word
 				row.createCell(0).setCellValue(v.getWord());
-
 				// pronounce
 				XSSFCell cell1 = row.createCell(1);
 				cell1.setCellValue(v.getPronounce());
@@ -163,11 +158,11 @@ public class XSSFServiceImpl implements XSSFService {
 				CellStyle cellStyle = workbook.createCellStyle();
 				cellStyle.setAlignment(HorizontalAlignment.CENTER);
 				cell1.setCellStyle(cellStyle);
-
 				// translate
 				row.createCell(2).setCellValue(v.getTranslate());
 				count++;
 			}
+			
 			if (!data.isEmpty()) {
 				FileOutputStream out = new FileOutputStream(FILE.toFile());
 				workbook.write(out);

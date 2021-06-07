@@ -16,13 +16,13 @@
 			<li id="incomplete" class="nav-item"><a class="nav-link" href="/incomplete">Incomplete</a></li>
 			<li id="plural-noun" class="nav-item"><a class="nav-link" href="/plural-noun">Plural Noun</a></li>
 			<!-- <li id="incomplete" class="nav-item"><a class="nav-link" href="#">Export (???)</a></li> -->
-			<!-- <li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-toggle="dropdown">Dictionary</a>
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-toggle="dropdown">API</a>
 				<div class="dropdown-menu">
-				  <a class="dropdown-item" href="https://translate.google.com/?sl=en&tl=vi" target="_blank">Google</a>
+				  <a class="dropdown-item" href="/xssf/import-data" target="_blank">Import Data</a>
 				  <a class="dropdown-item" href="https://dictionary.cambridge.org/dictionary/" target="_blank">Cambridge</a>
 				</div>
-			  </li> -->
+			  </li>
 		</ul>
 	</div>
 </nav>

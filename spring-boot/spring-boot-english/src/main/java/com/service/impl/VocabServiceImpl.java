@@ -51,8 +51,6 @@ public class VocabServiceImpl implements VocabService {
 			ignoreWords.add(word);
 			if (StringUtils.isNotEmpty(vocab.getPronounce())) {
 				increaseCountById(vocab); // increate count
-				// string fist uppercase
-				vocab.setTranslate(StringUtils.capitalize(vocab.getTranslate()));
 				return vocab;
 			}
 		}
