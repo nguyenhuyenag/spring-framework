@@ -17,6 +17,9 @@
     <script src="static/script/bootstrap.min.js"></script>
     <script src="static/script/string-utils.js"></script>
     <script>
+        $(function () {
+            handleRequiredMessage('');
+        });
         function handleRequiredMessage(msg) {
             if (StringUtils.isEmpty(msg)) {
                 msg = 'Đây là thông tin bắt buộc';
@@ -24,9 +27,6 @@
             $("input[required], select[required]").attr("oninvalid", "this.setCustomValidity('" + msg + "')");
             $("input[required], select[required]").attr("oninput", "setCustomValidity('')");
         }
-        $(function () {
-            handleRequiredMessage('');
-        });
     </script>
     <style>
         body {

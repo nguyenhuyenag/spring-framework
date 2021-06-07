@@ -20,7 +20,7 @@
     </div>
     <!-- search -->
     <div class="search pb-4 mb-4">
-        <form class="form-inline mt-2 mt-md-0 float-right" id="search-form">
+        <form class="form-inline mt-2 mt-md-0 float-right" id="search-form" autocomplete="off">
             <input type="text" id="word" required class="form-control mr-sm-2" placeholder="Search">
             <button id="bth-search" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
