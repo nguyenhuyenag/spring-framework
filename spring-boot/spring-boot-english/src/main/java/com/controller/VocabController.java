@@ -18,8 +18,8 @@ public class VocabController {
 	private VocabService service;
 
 	@GetMapping("random-vocab")
-	private ResponseEntity<Vocabulary> getRandomVocab(String flag) {
-		Vocabulary v = service.getRandomVocab2(flag);
+	private ResponseEntity<Vocabulary> getRandomVocab() {
+		Vocabulary v = service.getRandomVocab2();
 		return ResponseEntity.ok(v);
 	}
 

@@ -45,14 +45,12 @@ public class VocabServiceImpl implements VocabService {
 	/**
 	 * Kiểm tra không trùng với từ phía trước và tăng biến count
 	 */
-	private Vocabulary handle(Vocabulary vocab, String flag) {
+	private Vocabulary handle(Vocabulary vocab) {
 		String word = vocab.getWord();
 		if (!ignoreWords.contains(word)) { // check exits
 			ignoreWords.add(word);
 			if (StringUtils.isNotEmpty(vocab.getPronounce())) {
-				if ("1".equals(flag)) {
-					increaseCountById(vocab); // increate count
-				}
+				increaseCountById(vocab); // increate count
 				// string fist uppercase
 				vocab.setTranslate(StringUtils.capitalize(vocab.getTranslate()));
 				return vocab;
@@ -66,7 +64,7 @@ public class VocabServiceImpl implements VocabService {
 		while (true) {
 			Vocabulary vocab = repository.getRandomWord();
 			if (vocab != null) {
-				vocab = handle(vocab, flag);
+				vocab = handle(vocab);
 				if (vocab != null) {
 					return vocab;
 				}
@@ -75,13 +73,13 @@ public class VocabServiceImpl implements VocabService {
 	}
 
 	@Override
-	public Vocabulary getRandomVocab2(String flag) {
+	public Vocabulary getRandomVocab2() {
 		while (true) {
 			Vocabulary vocab = repository.getRandomWord();
 			List<Vocabulary> list = repository.getListVocabLimitByCount(vocab.getCount(), N);
 			list.add(vocab);
 			vocab = randomFromList(list);
-			vocab = handle(vocab, flag);
+			vocab = handle(vocab);
 			if (vocab != null) {
 				return vocab;
 			}
@@ -147,7 +145,7 @@ public class VocabServiceImpl implements VocabService {
 			return noun;
 		}
 
-		// special 2
+		// irregular nouns
 		Map<String, String> map = new HashMap<>();
 		map.put("man", "men");
 		map.put("woman", "women");
@@ -155,12 +153,20 @@ public class VocabServiceImpl implements VocabService {
 		map.put("child", "children");
 		map.put("mouse", "mice");
 		map.put("foot", "feet");
-		map.put("goose", "geese");
 		map.put("tooth", "teeth");
 		map.put("brother", "brethren");
-		map.put("louse", "lice");
+		map.put("thesis", "theses");
 		map.put("die", "dice");
+		map.put("focus", "foci");
 		map.put("ox", "oxen");
+		map.put("cactus", "cacti");
+		map.put("goose", "geese");
+		map.put("fungus", "fungi");
+		map.put("nucleus", "nuclei");
+		map.put("louse", "lice");
+		map.put("syllabus", "syllabi/syllabuses");
+		map.put("analysis", "analyses");
+		map.put("datum", "data");
 		if (map.get(noun.toLowerCase()) != null) {
 			return map.get(noun.toLowerCase());
 		}

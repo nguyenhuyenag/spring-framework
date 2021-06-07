@@ -35,7 +35,7 @@ public interface VocabRepository extends JpaRepository<Vocabulary, Integer> {
 	@Query(value = "select t.* from vocab where t.word like %:word%", nativeQuery = true)
 	Page<Vocabulary> searchByWord(String word, Pageable pageable);
 	
-	@Query(value = "select v.* from vocab v order by rand() limit 1", nativeQuery = true)
+	@Query(value = "select t.* from vocab t order by rand() limit 1", nativeQuery = true)
 	Vocabulary getRandomWord();
 	
 	// Lấy n dòng đầu tiên có count <= pcount

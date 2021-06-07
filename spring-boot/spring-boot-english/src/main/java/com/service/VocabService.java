@@ -10,7 +10,7 @@ public interface VocabService {
 
 	Vocabulary getRandomVocab(String flag);
 
-	Vocabulary getRandomVocab2(String flag);
+	Vocabulary getRandomVocab2();
 
 	void increaseCountById(Vocabulary vocab);
 	

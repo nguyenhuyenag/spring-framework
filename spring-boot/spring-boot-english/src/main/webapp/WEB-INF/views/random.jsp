@@ -8,11 +8,11 @@
     <!-- check box -->
     <div class="p-4 d-flex justify-content-center">
         <div>
-            <div class="form-check">
+            <div tabindex="2" class="form-check">
                 <input class="form-check-input" type="checkbox" id="hidden-word">
                 <label class="form-check-label" for="hidden-word">Hidden word</label>
             </div>
-            <div class="form-check">
+            <div tabindex="1" class="form-check">
                 <input class="form-check-input" type="checkbox" value="" id="hidden-translate">
                 <label class="form-check-label" for="hidden-translate">Hidden translate</label>
             </div>
@@ -151,7 +151,7 @@
         setTimeout(function () {
             $.ajax({
                 type: "GET",
-                url: "random-vocab",
+                url: "/random-vocab",
                 dataType: 'json',
                 contentType: "application/json",
                 success: function (data) {
