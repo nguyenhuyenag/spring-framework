@@ -1,6 +1,7 @@
 package com.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
 import com.entity.Vocabulary;
 
@@ -19,8 +20,8 @@ import com.entity.Vocabulary;
 //
 //import com.entity.Vocabulary;
 //
-//@Repository
 //@Transactional
+@Repository
 public interface VocabRepository extends MongoRepository<Vocabulary, String> {
 //
 //	//@Query(value = "select min(id) from vocab", nativeQuery = true)

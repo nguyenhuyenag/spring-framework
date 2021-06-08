@@ -24,7 +24,7 @@ import com.service.VocabService;
 
 @Service
 public class VocabServiceImpl implements VocabService {
-
+	
 	@Autowired
 	private VocabRepository repository;
 

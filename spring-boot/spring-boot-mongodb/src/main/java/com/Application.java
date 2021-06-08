@@ -5,7 +5,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.entity.Vocabulary;
 import com.repository.VocabRepository;
 
 @SpringBootApplication
@@ -20,12 +19,13 @@ public class Application implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		Vocabulary v = new Vocabulary();
-		v.setWord("light");
-		v.setPronounce("laɪ-t");
-		v.setTranslate("nhẹ, ánh sáng");
-		repository.deleteAll();
-		repository.save(v);
+//		Vocabulary v = new Vocabulary();
+//		v.setWord("light");
+//		v.setPronounce("laɪ-t");
+//		v.setTranslate("nhẹ, ánh sáng");
+//		repository.deleteAll();
+//		repository.save(v);
+		// repository.findAll().stream().limit(5).forEach(t->System.out.println(t));
 	}
 
 }
