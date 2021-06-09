@@ -1,14 +1,11 @@
 package com;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
 
-import com.entity.Vocabulary;
 import com.repository.VocabRepository;
 
 @SpringBootApplication
@@ -32,18 +29,18 @@ public class Application implements CommandLineRunner {
 //		});
 //		repository.saveAll(list);
 		
-		Optional<Vocabulary> opt = repository.findByWord("abc");
-		if (opt.isPresent()) {
-			// repository.delete(opt.get());
-			// System.out.println("DELETE");
-			// repository.save(new Vocabulary("abc", "abc", "abc"));
-			
-			// System.out.println(opt.get());
-			// Vocabulary v = opt.get();
-			// v.setTranslate("ddddddddddddddddddd");
-			// v.setCreatedDatetime(new Date());
-			// repository.save(v);
-		}
+//		Optional<Vocabulary> opt = repository.findByWord("abc");
+//		if (opt.isPresent()) {
+//			// repository.delete(opt.get());
+//			// System.out.println("DELETE");
+//			// repository.save(new Vocabulary("abc", "abc", "abc"));
+//			
+//			// System.out.println(opt.get());
+//			// Vocabulary v = opt.get();
+//			// v.setTranslate("ddddddddddddddddddd");
+//			// v.setCreatedDatetime(new Date());
+//			// repository.save(v);
+//		}
 	}
 
 }

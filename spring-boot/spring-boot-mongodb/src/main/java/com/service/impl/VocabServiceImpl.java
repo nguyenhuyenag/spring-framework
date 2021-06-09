@@ -52,7 +52,7 @@ public class VocabServiceImpl implements VocabService {
 	}
 
 	@Override
-	public List<Vocabulary> findAllSortByWord() {
+	public List<Vocabulary> findAllAndSort() {
 		return repository.findAll(Sort.by(Sort.Direction.ASC, "word"));
 	}
 
@@ -65,6 +65,22 @@ public class VocabServiceImpl implements VocabService {
 	@Override
 	public List<Vocabulary> findByCountBetween(int from, int to) {
 		return repository.findByCountBetween(from, to);
+	}
+
+	@Override
+	public Vocabulary findByWord(String word) {
+		Optional<Vocabulary> opt = repository.findByWord(word);
+		return opt.isPresent() ? opt.get() : null;
+	}
+
+	@Override
+	public boolean deleteByWord(String word) {
+		Optional<Vocabulary> opt = repository.findByWord(word);
+		if (opt.isPresent()) {
+			repository.delete(opt.get());
+			return true;
+		}
+		return false;
 	}
 
 }

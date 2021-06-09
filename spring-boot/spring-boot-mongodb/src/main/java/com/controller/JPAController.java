@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +24,7 @@ public class JPAController {
 
 	@Autowired
 	private VocabService service;
-	
+
 	private Map<String, String> map = new HashMap<>();
 
 	@PostMapping("insert")
@@ -43,25 +44,45 @@ public class JPAController {
 		}
 		return ResponseEntity.ok(Arrays.asList(dto.getWord() + " doesn't existed!"));
 	}
+
+	@GetMapping("find-by-word")
+	public ResponseEntity<?> findByWord(String word) {
+		Vocabulary v = service.findByWord(word);
+		if (v != null) {
+			return ResponseEntity.ok(v);
+		}
+		List<String> list = Arrays.asList(word + " doesn't existed!");
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(list);
+	}
 	
+	@GetMapping("delete-by-word")
+	public ResponseEntity<?> deleteByWord(String word) {
+		boolean b = service.deleteByWord(word);
+		if (b) {
+			return ResponseEntity.ok(b);
+		}
+		List<String> list = Arrays.asList(word + " doesn't existed!");
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(list);
+	}
+
 	@GetMapping("find-all")
 	public ResponseEntity<?> findAll() {
 		List<?> list = service.findAll();
 		return ResponseEntity.ok(list);
 	}
-	
+
 	@GetMapping("find-by-count-between")
 	public ResponseEntity<?> findByCountBetween(int from, int to) {
 		List<?> list = service.findByCountBetween(from, to);
 		return ResponseEntity.ok(list);
 	}
 
-	@GetMapping("find-all-sort-by-word")
-	public ResponseEntity<?> findAllSortByWord() {
-		List<?> list = service.findAllSortByWord();
+	@GetMapping("find-all-and-sort")
+	public ResponseEntity<?> findAllAndSort() {
+		List<?> list = service.findAllAndSort();
 		return ResponseEntity.ok(list);
 	}
-	
+
 	// JSON
 	@GetMapping("find-by-json")
 	public ResponseEntity<?> findByJSON(String word) {

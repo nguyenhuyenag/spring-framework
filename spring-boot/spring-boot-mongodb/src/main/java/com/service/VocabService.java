@@ -13,7 +13,11 @@ public interface VocabService {
 	
 	List<Vocabulary> findAll();
 	
-	List<Vocabulary> findAllSortByWord();
+	Vocabulary findByWord(String word);
+	
+	boolean deleteByWord(String word);
+	
+	List<Vocabulary> findAllAndSort();
 	
 	List<Vocabulary> findByCountBetween(int from, int to);
 	
