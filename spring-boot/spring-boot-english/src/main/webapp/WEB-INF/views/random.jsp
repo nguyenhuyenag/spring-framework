@@ -168,7 +168,7 @@
     }
 
     document.onkeydown = function (e) {
-//         console.log("key: ", e.key, ", code: ", e.keyCode);
+        // console.log("key: ", e.key, ", code: ", e.keyCode);
         switch (e.keyCode) {
             //case 32:
                 // console.log("key: ", e.key, ", code: ", e.keyCode);
@@ -177,7 +177,10 @@
             case 37: // ArrowLeft
                 break;
             case 39: // ArrowRight
-                random();
+                // console.log(document.activeElement);
+                if (document.activeElement.tagName !== 'INPUT') {
+                    random();
+                }
                 break;
             default:
             // console.log(e.key);
