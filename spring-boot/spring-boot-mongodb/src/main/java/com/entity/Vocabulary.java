@@ -1,9 +1,16 @@
 package com.entity;
 
+import java.util.Date;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,18 +19,26 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Document(collection = "vocabulary") // neu ten class va collection khong giong nhau
+@Document(collection = "vocabulary")
 public class Vocabulary {
 
 	@Id
-	private String id;
-	// private ObjectId id;
+	private String id; // ObjectId id;
 
 	private String word;
 	private String pronounce;
 	private String translate;
-
 	private int count = 0;
+
+	@CreatedDate
+	@DateTimeFormat(iso = ISO.DATE_TIME)
+	@Field(value = "created_datetime")
+	private Date createdDatetime;
+
+	@LastModifiedDate
+	@DateTimeFormat(iso = ISO.DATE_TIME)
+	@Field(value = "last_modified_date")
+	private Date lastModifiedDate;
 
 	public Vocabulary(String word, String pronounce, String translate) {
 		this.word = word;

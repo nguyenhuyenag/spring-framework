@@ -27,6 +27,8 @@
             <h1>MongoDB</h1>
             <h3>Spring JPA</h3>
             <ol>
+                <li><a href="jpa/insert" target="_blank">Insert (Post)</a></li>
+                <li><a href="jpa/update" target="_blank">Update (Post)</a></li>
                 <li><a href="jpa/find-all" target="_blank">Find all</a></li>
                 <li><a href="jpa/find-all-sort-by-word" target="_blank">Find all and sort by word</a></li>
             </ol>
