@@ -14,10 +14,12 @@
                 counter-reset: section;
                 background-color: #f8f9fa !important;
             }
-
             h3::before {
                 counter-increment: section;
                 content: ""counter(section) ") ";
+            }
+            a {
+                text-decoration: none;
             }
         </style>
     </head>
@@ -26,11 +28,14 @@
         <div class="container">
             <h1>MongoDB</h1>
             <h3>Spring JPA</h3>
+            <h3>JPA</h3>
             <ol>
                 <li><a href="jpa/insert" target="_blank">Insert (Post)</a></li>
                 <li><a href="jpa/update" target="_blank">Update (Post)</a></li>
                 <li><a href="jpa/find-all" target="_blank">Find all</a></li>
+                <li><a href="jpa/find-by-count-between?from=10&to=15" target="_blank">Find between</a></li>
                 <li><a href="jpa/find-all-sort-by-word" target="_blank">Find all and sort by word</a></li>
+                <li><a href="jpa/find-by-json?word=among" target="_blank">Find by JSON</a></li>
             </ol>
             <h3>MongoTemplate</h3>
             <ol>

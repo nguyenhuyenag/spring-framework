@@ -15,4 +15,9 @@ public interface VocabService {
 	
 	List<Vocabulary> findAllSortByWord();
 	
+	List<Vocabulary> findByCountBetween(int from, int to);
+	
+	// JSON
+	Vocabulary findByWordUsingJSON(String word);
+	
 }

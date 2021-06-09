@@ -1,7 +1,9 @@
 package com.controller;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,8 @@ public class JPAController {
 
 	@Autowired
 	private VocabService service;
+	
+	private Map<String, String> map = new HashMap<>();
 
 	@PostMapping("insert")
 	public ResponseEntity<?> insert(@RequestBody InsertDTO dto) {
@@ -39,10 +43,16 @@ public class JPAController {
 		}
 		return ResponseEntity.ok(Arrays.asList(dto.getWord() + " doesn't existed!"));
 	}
-
+	
 	@GetMapping("find-all")
 	public ResponseEntity<?> findAll() {
 		List<?> list = service.findAll();
+		return ResponseEntity.ok(list);
+	}
+	
+	@GetMapping("find-by-count-between")
+	public ResponseEntity<?> findByCountBetween(int from, int to) {
+		List<?> list = service.findByCountBetween(from, to);
 		return ResponseEntity.ok(list);
 	}
 
@@ -50,6 +60,17 @@ public class JPAController {
 	public ResponseEntity<?> findAllSortByWord() {
 		List<?> list = service.findAllSortByWord();
 		return ResponseEntity.ok(list);
+	}
+	
+	// JSON
+	@GetMapping("find-by-json")
+	public ResponseEntity<?> findByJSON(String word) {
+		Vocabulary v = service.findByWordUsingJSON(word);
+		if (v != null) {
+			return ResponseEntity.ok(v);
+		}
+		map.put("message", "Not found!");
+		return ResponseEntity.ok(map);
 	}
 
 }

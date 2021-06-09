@@ -3,6 +3,8 @@ package com.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,8 @@ import com.service.VocabService;
 
 @Service
 public class VocabServiceImpl implements VocabService {
+	
+	private static final Log log = LogFactory.getLog(VocabServiceImpl.class);
 
 	@Autowired
 	private VocabRepository repository;
@@ -25,8 +29,9 @@ public class VocabServiceImpl implements VocabService {
 			return null;
 		}
 		Vocabulary entity = new Vocabulary(dto.getWord(), dto.getPronounce(), dto.getTranslate());
-		return repository.insert(entity);
-		// return repository.save(entity);
+		entity = repository.insert(entity); // repository.save(entity);
+		log.info("Insert: " + dto.getWord());
+		return entity;
 	}
 
 	@Override
@@ -49,6 +54,17 @@ public class VocabServiceImpl implements VocabService {
 	@Override
 	public List<Vocabulary> findAllSortByWord() {
 		return repository.findAll(Sort.by(Sort.Direction.ASC, "word"));
+	}
+
+	@Override
+	public Vocabulary findByWordUsingJSON(String word) {
+		Optional<Vocabulary> opt = repository.findByWord(word.toLowerCase());
+		return opt.isPresent() ? opt.get() : null;
+	}
+
+	@Override
+	public List<Vocabulary> findByCountBetween(int from, int to) {
+		return repository.findByCountBetween(from, to);
 	}
 
 }
