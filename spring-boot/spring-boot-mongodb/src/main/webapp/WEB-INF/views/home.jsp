@@ -38,6 +38,7 @@
             <!-- JSON -->
             <li><a href="jpa/find-by-json?word=among" target="_blank">Find by JSON</a></li>
             <li><a href="jpa/find-between-by-json?from=11&to=12" target="_blank">Find between by JSON</a></li>
+            <li><a href="jpa/find-with-or-conditons" target="_blank">Find with OR conditions</a></li>
         </ol>
         <h3>MongoTemplate</h3>
         <ol>

@@ -47,6 +47,10 @@ public class Application implements CommandLineRunner {
 //			// repository.save(v);
 //		}
 		
+		// repository.deleteAll();
+		
+		// fileService.importData();
+		
 	}
 
 }

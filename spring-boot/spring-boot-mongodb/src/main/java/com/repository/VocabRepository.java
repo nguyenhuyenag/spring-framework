@@ -9,8 +9,8 @@ import org.springframework.stereotype.Repository;
 
 import com.entity.Vocabulary;
 
-//@Transactional
 @Repository
+//@Transactional
 public interface VocabRepository extends MongoRepository<Vocabulary, String> {
 
 	Optional<Vocabulary> findByWord(String word);
@@ -23,5 +23,15 @@ public interface VocabRepository extends MongoRepository<Vocabulary, String> {
 
 	@Query("{ 'count' : { $gte: ?0, $lte: ?1 } }")
 	List<Vocabulary> findBetweenByJSON(int from, int to);
+
+	// word = ^a or word = ^z
+	// @Query("{$or : ['word' : { $regex: ?0 }, 'word' : { $regex: ?1 }]}")
+	@Query("{$or : [{word: ?0}, {word : ?1}]}")
+	//TODO
+	List<Vocabulary> findWithORConditons(String startWith1, String startWith2);
+	
+	// word = ^a and count >= x
+	@Query("{$and : [{$or : [{noOfPages: {$gt: 275}}, {noOfPages : {$lt: 200}}]}, {$or : [{id: {$gt: 103}}, {id : {$lt: 102}}]}]}")
+	List<Vocabulary> findWithANDConditions();
 
 }

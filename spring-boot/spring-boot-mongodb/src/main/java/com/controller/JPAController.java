@@ -99,5 +99,11 @@ public class JPAController {
 		List<Vocabulary> list = service.findBetweenByJSON(from, to);
 		return ResponseEntity.ok(list);
 	}
+	
+	@GetMapping("find-with-or-conditons")
+	public ResponseEntity<?> findWithORConditons() {
+		List<Vocabulary> list = service.findWithORConditons("adjective", "budget");
+		return ResponseEntity.ok(list);
+	}
 
 }

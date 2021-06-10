@@ -88,4 +88,9 @@ public class VocabServiceImpl implements VocabService {
 		return repository.findBetweenByJSON(from, to);
 	}
 
+	@Override
+	public List<Vocabulary> findWithORConditons(String startWith1, String startWith2) {
+		return repository.findWithORConditons(startWith1, startWith2);
+	}
+
 }

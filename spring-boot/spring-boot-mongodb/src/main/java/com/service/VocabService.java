@@ -26,4 +26,6 @@ public interface VocabService {
 	
 	List<Vocabulary> findBetweenByJSON(int from, int to);
 	
+	List<Vocabulary> findWithORConditons(String startWith1, String startWith2);
+	
 }
