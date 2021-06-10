@@ -71,8 +71,8 @@ public class JPAController {
 		return ResponseEntity.ok(list);
 	}
 
-	@GetMapping("find-by-count-between")
-	public ResponseEntity<?> findByCountBetween(int from, int to) {
+	@GetMapping("find-between")
+	public ResponseEntity<?> findBetween(int from, int to) {
 		List<?> list = service.findByCountBetween(from, to);
 		return ResponseEntity.ok(list);
 	}

@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
 
 import com.repository.VocabRepository;
+import com.service.FileService;
 
 @SpringBootApplication
 @EnableMongoAuditing
@@ -19,13 +20,17 @@ public class Application implements CommandLineRunner {
 	@Autowired 
 	VocabRepository repository;
 	
+	@Autowired
+	FileService fileService;
+	
 	@Override
 	public void run(String... args) throws Exception {
 		
 //		List<Vocabulary> list = repository.findAll();
-//		list.forEach(t -> {
-//			int count = ThreadLocalRandom.current().nextInt(0, 99 + 1);
-//			t.setCount(count);
+//		repository.findAll().forEach(t -> {
+//			// int count = ThreadLocalRandom.current().nextInt(0, 99 + 1);
+//			// t.setCount(count);
+//			// t.setCreatedDatetime(new Date());
 //		});
 //		repository.saveAll(list);
 		
@@ -41,6 +46,7 @@ public class Application implements CommandLineRunner {
 //			// v.setCreatedDatetime(new Date());
 //			// repository.save(v);
 //		}
+		
 	}
 
 }

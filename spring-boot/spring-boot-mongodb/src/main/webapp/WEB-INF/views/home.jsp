@@ -27,14 +27,13 @@
     <div class="container">
         <h1>MongoDB</h1>
         <h3>Spring JPA</h3>
-        <h3>JPA</h3>
         <ol>
             <li><a href="jpa/insert" target="_blank">Insert (Post)</a></li>
             <li><a href="jpa/update" target="_blank">Update (Post)</a></li>
             <li><a href="jpa/find-by-word?word=beef" target="_blank">Find by word</a></li>
             <li><a href="jpa/delete-by-word?word=beef" target="_blank">Delete by word</a></li>
             <li><a href="jpa/find-all" target="_blank">Find all</a></li>
-            <li><a href="jpa/find-by-count-between?from=10&to=15" target="_blank">Find between</a></li>
+            <li><a href="jpa/find-between?from=10&to=15" target="_blank">Find between</a></li>
             <li><a href="jpa/find-all-and-sort" target="_blank">Find all and sort</a></li>
             <li><a href="jpa/find-by-json?word=among" target="_blank">Find by JSON</a></li>
         </ol>

@@ -3,6 +3,7 @@ package com.service.impl;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,8 +22,12 @@ public class FTPServiceImpl implements FTPService {
 
 	@Override
 	public void exportJSON() {
-		Path path = Paths.get("file/data.json");
+		Path path = Paths.get("file/english.json");
 		List<Vocabulary> list = repository.findAllByOrderByWord();
+		list.forEach(t -> {
+			int count = ThreadLocalRandom.current().nextInt(0, 99 + 1);
+			t.setCount(count);
+		});
 		String content = JsonUtils.collectionToJSON(list);
 		System.out.println(content);
 		FilesUtils.writeStringToFile(path, content, false);
