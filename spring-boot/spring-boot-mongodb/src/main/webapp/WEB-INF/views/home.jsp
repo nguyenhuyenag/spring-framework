@@ -35,7 +35,9 @@
             <li><a href="jpa/find-all" target="_blank">Find all</a></li>
             <li><a href="jpa/find-between?from=10&to=15" target="_blank">Find between</a></li>
             <li><a href="jpa/find-all-and-sort" target="_blank">Find all and sort</a></li>
+            <!-- JSON -->
             <li><a href="jpa/find-by-json?word=among" target="_blank">Find by JSON</a></li>
+            <li><a href="jpa/find-between-by-json?from=11&to=12" target="_blank">Find between by JSON</a></li>
         </ol>
         <h3>MongoTemplate</h3>
         <ol>

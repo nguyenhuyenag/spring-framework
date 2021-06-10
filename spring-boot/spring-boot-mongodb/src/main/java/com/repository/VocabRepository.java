@@ -21,4 +21,7 @@ public interface VocabRepository extends MongoRepository<Vocabulary, String> {
 	@Query("{ 'name' : ?0 }")
 	Optional<Vocabulary> findByWordUsingJSON(String word);
 
+	@Query("{ 'count' : { $gte: ?0, $lte: ?1 } }")
+	List<Vocabulary> findBetweenByJSON(int from, int to);
+
 }

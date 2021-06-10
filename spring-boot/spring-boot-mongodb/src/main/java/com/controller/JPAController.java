@@ -93,5 +93,11 @@ public class JPAController {
 		map.put("message", "Not found!");
 		return ResponseEntity.ok(map);
 	}
+	
+	@GetMapping("find-between-by-json")
+	public ResponseEntity<?> findBetweenByJSON(int from, int to) {
+		List<Vocabulary> list = service.findBetweenByJSON(from, to);
+		return ResponseEntity.ok(list);
+	}
 
 }

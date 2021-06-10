@@ -24,4 +24,6 @@ public interface VocabService {
 	// JSON
 	Vocabulary findByWordUsingJSON(String word);
 	
+	List<Vocabulary> findBetweenByJSON(int from, int to);
+	
 }

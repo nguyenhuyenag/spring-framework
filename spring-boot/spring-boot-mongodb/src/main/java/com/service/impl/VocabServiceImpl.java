@@ -83,4 +83,9 @@ public class VocabServiceImpl implements VocabService {
 		return false;
 	}
 
+	@Override
+	public List<Vocabulary> findBetweenByJSON(int from, int to) {
+		return repository.findBetweenByJSON(from, to);
+	}
+
 }
