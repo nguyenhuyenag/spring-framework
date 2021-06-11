@@ -39,19 +39,21 @@
             <!-- JSON -->
             <li><a href="jpa/find-by-json?word=among" target="_blank">Find by JSON</a></li>
             <li><a href="jpa/find-between-by-json?from=11&to=12" target="_blank">Find between by JSON</a></li>
-            <li><a href="jpa/find-with-or-conditons" target="_blank">Find with OR conditions</a></li>
+            <li><a href="jpa/find-with-or-conditons" target="_blank">Find with OR conditions ???</a></li>
+            <li><a href="jpa/find-with-and-conditons" target="_blank">Find with AND conditions ???</a></li>
+            <li><a href="jpa/find-and-sort-by-json" target="_blank">Find and sort by JSON</a></li>
             <!-- Regex -->
             <li>
                 <form id="regexForm">
                     Find with regex
-                    <input id="regex" name="text" placeholder="Regex">
+                    <input id="regex" value="^a" placeholder="Regex">
                     <input type="submit" value="Find" onClick='submitForm()'>
                 </form>
             </li>
         </ol>
         <h3>MongoTemplate</h3>
         <ol>
-            <li><a href="jpa/find-all" target="_blank">Find all</a></li>
+            <li><a href="template/find-all" target="_blank">Find all</a></li>
             <li><a href="jpa/find-all-sort-by-word" target="_blank">Find all and sort by word</a></li>
         </ol>
     </div>

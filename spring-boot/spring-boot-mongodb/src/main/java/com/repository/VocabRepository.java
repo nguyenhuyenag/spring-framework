@@ -23,13 +23,17 @@ public interface VocabRepository extends MongoRepository<Vocabulary, String> {
 
 	@Query("{ 'count' : { $gte: ?0, $lte: ?1 } }")
 	List<Vocabulary> findBetweenByJSON(int from, int to);
+	
+	// 1: asc, -1: desc
+	@Query(value = "{count : 97}", sort = "{word : -1}")
+	List<Vocabulary> findAndSortByJSON();
 
-	@Query("{$or : [{word: ?0}, {word : ?1}]}")
 	// TODO
+	@Query("{$or : [{word: ?0}, {word : ?1}]}")
 	List<Vocabulary> findWithORConditons(String startWith1, String startWith2);
 
-	@Query("{$and : [{$or : [{noOfPages: {$gt: 275}}, {noOfPages : {$lt: 200}}]}, {$or : [{id: {$gt: 103}}, {id : {$lt: 102}}]}]}")
 	// TODO
+	@Query("{$and : [{$or : [{noOfPages: {$gt: 275}}, {noOfPages : {$lt: 200}}]}, {$or : [{id: {$gt: 103}}, {id : {$lt: 102}}]}]}")
 	List<Vocabulary> findWithANDConditions();
 
 	// Regex

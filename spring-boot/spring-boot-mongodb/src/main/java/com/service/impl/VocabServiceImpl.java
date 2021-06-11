@@ -98,4 +98,9 @@ public class VocabServiceImpl implements VocabService {
 		return repository.findWithRegex(regex);
 	}
 
+	@Override
+	public List<Vocabulary> findAndSortByJSON() {
+		return repository.findAndSortByJSON();
+	}
+
 }

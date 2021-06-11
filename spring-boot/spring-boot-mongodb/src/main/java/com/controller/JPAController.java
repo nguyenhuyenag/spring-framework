@@ -82,6 +82,12 @@ public class JPAController {
 		List<?> list = service.findAllAndSort();
 		return ResponseEntity.ok(list);
 	}
+	
+	@GetMapping("find-and-sort-by-json")
+	public ResponseEntity<?> findAndSortJSON() {
+		List<?> list = service.findAndSortByJSON();
+		return ResponseEntity.ok(list);
+	}
 
 	// Regex
 	@GetMapping("find-with-regex")

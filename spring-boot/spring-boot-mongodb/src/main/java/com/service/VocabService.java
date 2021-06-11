@@ -28,6 +28,8 @@ public interface VocabService {
 	Vocabulary findByWordUsingJSON(String word);
 
 	List<Vocabulary> findBetweenByJSON(int from, int to);
+	
+	List<Vocabulary> findAndSortByJSON();
 
 	List<Vocabulary> findWithORConditons(String startWith1, String startWith2);
 
