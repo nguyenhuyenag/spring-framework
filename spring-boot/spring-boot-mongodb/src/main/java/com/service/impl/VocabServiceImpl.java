@@ -16,7 +16,7 @@ import com.service.VocabService;
 
 @Service
 public class VocabServiceImpl implements VocabService {
-	
+
 	private static final Log log = LogFactory.getLog(VocabServiceImpl.class);
 
 	@Autowired
@@ -91,6 +91,11 @@ public class VocabServiceImpl implements VocabService {
 	@Override
 	public List<Vocabulary> findWithORConditons(String startWith1, String startWith2) {
 		return repository.findWithORConditons(startWith1, startWith2);
+	}
+
+	@Override
+	public List<Vocabulary> findWithRegex(String regex) {
+		return repository.findWithRegex(regex);
 	}
 
 }

@@ -9,6 +9,7 @@
     <link rel="icon" href="//spring.io/images/favicon-9d25009f65637a49ac8d91eb1cf7b75e.ico" type="image/x-icon">
     <!-- css -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         body {
             counter-reset: section;
@@ -39,6 +40,14 @@
             <li><a href="jpa/find-by-json?word=among" target="_blank">Find by JSON</a></li>
             <li><a href="jpa/find-between-by-json?from=11&to=12" target="_blank">Find between by JSON</a></li>
             <li><a href="jpa/find-with-or-conditons" target="_blank">Find with OR conditions</a></li>
+            <!-- Regex -->
+            <li>
+                <form id="regexForm">
+                    Find with regex
+                    <input id="regex" name="text" placeholder="Regex">
+                    <input type="submit" value="Find" onClick='submitForm()'>
+                </form>
+            </li>
         </ol>
         <h3>MongoTemplate</h3>
         <ol>
@@ -46,6 +55,12 @@
             <li><a href="jpa/find-all-sort-by-word" target="_blank">Find all and sort by word</a></li>
         </ol>
     </div>
+    <script>
+        function submitForm() {
+            let url = encodeURI('jpa/find-with-regex?regex=' + $('#regex').val());
+            var win = window.open(url, '_blank');
+        }
+    </script>
 </body>
 
 </html>

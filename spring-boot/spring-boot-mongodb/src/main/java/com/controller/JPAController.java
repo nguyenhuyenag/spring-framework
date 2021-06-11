@@ -54,7 +54,7 @@ public class JPAController {
 		List<String> list = Arrays.asList(word + " doesn't existed!");
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(list);
 	}
-	
+
 	@GetMapping("delete-by-word")
 	public ResponseEntity<?> deleteByWord(String word) {
 		boolean b = service.deleteByWord(word);
@@ -83,6 +83,13 @@ public class JPAController {
 		return ResponseEntity.ok(list);
 	}
 
+	// Regex
+	@GetMapping("find-with-regex")
+	public ResponseEntity<?> findWithRegex(String regex) {
+		List<?> list = service.findWithRegex(regex);
+		return ResponseEntity.ok(list);
+	}
+
 	// JSON
 	@GetMapping("find-by-json")
 	public ResponseEntity<?> findByJSON(String word) {
@@ -93,13 +100,13 @@ public class JPAController {
 		map.put("message", "Not found!");
 		return ResponseEntity.ok(map);
 	}
-	
+
 	@GetMapping("find-between-by-json")
 	public ResponseEntity<?> findBetweenByJSON(int from, int to) {
 		List<Vocabulary> list = service.findBetweenByJSON(from, to);
 		return ResponseEntity.ok(list);
 	}
-	
+
 	@GetMapping("find-with-or-conditons")
 	public ResponseEntity<?> findWithORConditons() {
 		List<Vocabulary> list = service.findWithORConditons("adjective", "budget");
