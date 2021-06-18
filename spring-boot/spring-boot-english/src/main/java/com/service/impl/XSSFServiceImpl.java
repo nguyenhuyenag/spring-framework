@@ -145,6 +145,10 @@ public class XSSFServiceImpl implements XSSFService {
 			Set<Vocabulary> data = getAllWordInSheet("NEW");
 			for (Vocabulary v : data) {
 				String sheetName = String.valueOf(v.getWord().charAt(0)).toUpperCase();
+				Set<Vocabulary> set = getAllWordInSheet(sheetName);
+				if (!set.add(v)) {
+					continue;
+				}
 				XSSFSheet sheet = workbook.getSheet(sheetName);
 				// last row
 				int i = sheet.getLastRowNum() + 1;

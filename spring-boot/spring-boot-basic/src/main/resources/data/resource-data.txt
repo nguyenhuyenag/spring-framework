@@ -1,0 +1,2 @@
+Access a File from the
+Classpath in a Spring Application

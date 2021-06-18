@@ -5,8 +5,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.repository.VocabRepository;
 import com.service.FTPService;
+import com.service.XSSFService;
 
 @SpringBootApplication
 public class Application implements CommandLineRunner {
@@ -16,14 +16,15 @@ public class Application implements CommandLineRunner {
 	}
 
 	@Autowired
-	VocabRepository repository;
-	
+	XSSFService xssfService;
+
 	@Autowired
 	FTPService service;
 
 	@Override
 	public void run(String... args) throws Exception {
 		// service.exportJSON();
+		// xssfService.addNew();
 	}
 
 }

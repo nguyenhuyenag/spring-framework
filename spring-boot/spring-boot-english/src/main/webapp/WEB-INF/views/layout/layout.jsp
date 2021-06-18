@@ -8,7 +8,8 @@
     <!-- <title>English</title> -->
     <link rel="shortcut icon" href="#">
     <title><tiles:getAsString name="title"/></title>
-    <link rel="icon" href="//spring.io/images/favicon-9d25009f65637a49ac8d91eb1cf7b75e.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="//voz.vn/styles/next/xenforo/smilies/popopo/big_smile.png">
+    <!-- <link rel="icon" type="image/x-icon" href="//https://voz.vn/styles/next/xenforo/smilies/popopo/beat_brick.png?v=01"> -->
     <!-- css -->
     <link rel="stylesheet" href="static/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
