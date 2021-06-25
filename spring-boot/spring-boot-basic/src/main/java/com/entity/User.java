@@ -41,7 +41,7 @@ public class User implements Serializable {
 	@Column(name = "e_mail")
 	private String email;
 
-	@UpdateTimestamp
+	@UpdateTimestamp // hibernate
 	@Column(name = "execute_time")
 	private Date executeTime;
 

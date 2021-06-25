@@ -1,8 +1,11 @@
 package com;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import com.service.SpringTransaction;
 
 @SpringBootApplication
 public class Application implements CommandLineRunner {
@@ -11,16 +14,14 @@ public class Application implements CommandLineRunner {
 		SpringApplication.run(Application.class, args);
 	}
 
-	// PageableJPA.init();
-	// PageableJPA.info();
-	// PageableJPA.sortPage();
-	// PageableJPA.showAllPage();
-	// userRepository.getAllEmails().forEach(t->System.out.println(t));
-	// System.out.println(userRepository.getAllEmails());
+	@Autowired
+	SpringTransaction transaction;
 		
 	@Override
 	public void run(String... args) throws Exception {
-		
+		// transaction.testRollBack();
+		// System.out.println(TransactionAspectSupport.currentTransactionStatus().isNewTransaction());
+		transaction.rollBackWithStatus();
 	}
 
 }

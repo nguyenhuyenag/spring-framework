@@ -3,6 +3,7 @@ package com.service.impl;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
@@ -17,8 +18,10 @@ public class SpringTransactionImpl implements SpringTransaction {
 	UserRepository repository;
 
 	@Override
-	@Transactional
+	@Transactional(propagation = Propagation.SUPPORTS)
 	public void rollBackWithStatus() {
+		System.out.println(TransactionAspectSupport.currentTransactionStatus());
+		System.out.println(TransactionAspectSupport.currentTransactionStatus().isNewTransaction());
 		try {
 			for (int i = 1; i <= 3; i++) {
 				User entity = new User();
