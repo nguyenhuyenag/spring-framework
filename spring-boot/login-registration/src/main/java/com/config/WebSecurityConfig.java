@@ -9,11 +9,10 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
-
-import com.service.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -23,7 +22,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	private DataSource dataSource;
 
 	@Autowired
-	private UserDetailsServiceImpl userDetailsService;
+	private UserDetailsService userDetailsService;
 
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
@@ -32,9 +31,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		// Cài đặt dịch vụ để tìm kiếm User trong Database.
-		auth.userDetailsService(userDetailsService) //
-				.passwordEncoder(passwordEncoder()); // Và cài đặt PasswordEncoder.
+		auth.userDetailsService(userDetailsService) // cài đặt dịch vụ để tìm kiếm User trong Database
+			.passwordEncoder(passwordEncoder()); //  cài đặt PasswordEncoder.
 	}
 
 	@Override
@@ -70,7 +68,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		// Cấu hình Remember Me.
 		http.authorizeRequests().and() //
-				.rememberMe().tokenRepository(this.persistentTokenRepository()) //
+				.rememberMe().tokenRepository(persistentTokenRepository()) //
 				.tokenValiditySeconds(1 * 24 * 60 * 60); // 24h
 	}
 
