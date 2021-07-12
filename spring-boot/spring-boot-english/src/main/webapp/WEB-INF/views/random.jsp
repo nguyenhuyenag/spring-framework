@@ -168,19 +168,26 @@
     }
 
     document.onkeydown = function (e) {
-        // console.log("key: ", e.key, ", code: ", e.keyCode);
+        console.log("key: ", e.key, ", code: ", e.keyCode);
         switch (e.keyCode) {
             //case 32:
                 // console.log("key: ", e.key, ", code: ", e.keyCode);
                 // checkbox('hidden-translate');
                 //break;
-            case 37: // ArrowLeft
-                break;
             case 39: // ArrowRight
                 // console.log(document.activeElement);
                 if (document.activeElement.tagName !== 'INPUT') {
                     random();
                 }
+                break;
+            case 84: // key t
+            	if ($('#hidden-translate').is(":checked")) {
+            		$('#tb-translate').css('color', 'black');
+            		$('#hidden-translate').prop('checked', false);
+            	} else {
+                    $('#tb-translate').css('color', 'white');
+            		$('#hidden-translate').prop('checked', true);
+            	}
                 break;
             default:
             // console.log(e.key);
