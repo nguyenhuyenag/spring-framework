@@ -113,8 +113,11 @@
 
     function setData(data) {
         if (StringUtils.isNotEmpty(data)) {
+            let word = data.word.toLowerCase();
+            // https://translate.google.com/?sl=en&tl=vi&op=translate&text=xxx
+            let url = "https://dictionary.cambridge.org/dictionary/english/" + word;
             $('#tb-no').text(data.id);
-            $('#tb-word').text(data.word);
+            $('#tb-word').html("<a target='_blank' href='" + url + "'>" + word + "</a>");
             $('#tb-pronounce').text(data.pronounce);
             $('#tb-translate').text(data.translate);
         }
@@ -170,27 +173,23 @@
     document.onkeydown = function (e) {
         console.log("key: ", e.key, ", code: ", e.keyCode);
         switch (e.keyCode) {
-            //case 32:
-                // console.log("key: ", e.key, ", code: ", e.keyCode);
-                // checkbox('hidden-translate');
-                //break;
             case 39: // ArrowRight
-                // console.log(document.activeElement);
                 if (document.activeElement.tagName !== 'INPUT') {
                     random();
                 }
                 break;
             case 84: // key t
-            	if ($('#hidden-translate').is(":checked")) {
-            		$('#tb-translate').css('color', 'black');
-            		$('#hidden-translate').prop('checked', false);
-            	} else {
-                    $('#tb-translate').css('color', 'white');
-            		$('#hidden-translate').prop('checked', true);
-            	}
+            if (document.activeElement.tagName !== 'INPUT') {
+                    if ($('#hidden-translate').is(":checked")) {
+                        $('#tb-translate').css('color', 'black');
+                        $('#hidden-translate').prop('checked', false);
+                    } else {
+                        $('#tb-translate').css('color', 'white');
+                        $('#hidden-translate').prop('checked', true);
+                    }
+                }
                 break;
             default:
-            // console.log(e.key);
         }
     }
 </script>
