@@ -179,7 +179,7 @@
                 }
                 break;
             case 84: // key t
-            if (document.activeElement.tagName !== 'INPUT') {
+                if (document.activeElement.tagName !== 'INPUT') {
                     if ($('#hidden-translate').is(":checked")) {
                         $('#tb-translate').css('color', 'black');
                         $('#hidden-translate').prop('checked', false);

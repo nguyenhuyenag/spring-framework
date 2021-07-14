@@ -1,10 +1,14 @@
 package com;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.entity.User;
+import com.repository.UserRepository;
 
 @SpringBootApplication
 public class BootApplication implements CommandLineRunner {
@@ -12,15 +16,24 @@ public class BootApplication implements CommandLineRunner {
 	public static void main(String[] args) {
 		SpringApplication.run(BootApplication.class, args);
 	}
-	
+
 	@Autowired
-	PasswordEncoder encoder;
+	UserRepository repository;
 
 	@Override
 	public void run(String... args) throws Exception {
-		System.out.println(encoder.encode("123"));
-		// System.out.println(MD5Encoder.encode("123".getBytes()));
-		System.out.println(encoder.matches("123", "e10adc3949ba59abbe56e057f20f883e"));
+		
+		//Optional<User> opt = repository.findById(1);
+		//if (opt.isPresent()) {
+			// opt.get().getUserRoles().forEach(t -> System.out.println(t.getRole().getRoleName()));
+		//}
+		
+		repository.findListRolesByUserId(1).forEach(t->System.out.println(t));
+		
+		Optional<User> opt = repository.findByUsername("user1");
+		if (opt.isPresent()) {
+			System.out.println(opt.get().toString());
+		}
 	}
 
 }
