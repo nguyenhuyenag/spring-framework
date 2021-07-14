@@ -18,6 +18,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 			+ "FROM role t1 "
 			+ "JOIN user_role t2 ON t1.role_id = t2.role_id "
 			+ "WHERE t2.user_id = :userId", nativeQuery = true)
-	List<String> findListRolesByUserId(int userId);
+	List<String> getListRolesByUserId(int userId);
 
 }

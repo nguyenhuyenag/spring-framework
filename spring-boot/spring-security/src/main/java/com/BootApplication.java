@@ -1,13 +1,10 @@
 package com;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.entity.User;
 import com.repository.UserRepository;
 
 @SpringBootApplication
@@ -28,12 +25,12 @@ public class BootApplication implements CommandLineRunner {
 			// opt.get().getUserRoles().forEach(t -> System.out.println(t.getRole().getRoleName()));
 		//}
 		
-		repository.findListRolesByUserId(1).forEach(t->System.out.println(t));
+		// repository.getListRolesByUserId(1).forEach(t->System.out.println(t));
 		
-		Optional<User> opt = repository.findByUsername("user1");
-		if (opt.isPresent()) {
-			System.out.println(opt.get().toString());
-		}
+		//Optional<User> opt = repository.findByUsername("user1");
+		//if (opt.isPresent()) {
+		//	System.out.println(opt.get().toString());
+		//}
 	}
 
 }
