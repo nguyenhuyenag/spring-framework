@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.repository.UserRepository;
 
@@ -13,6 +14,9 @@ public class BootApplication implements CommandLineRunner {
 	public static void main(String[] args) {
 		SpringApplication.run(BootApplication.class, args);
 	}
+	
+	@Autowired
+	PasswordEncoder encoder;
 
 	@Autowired
 	UserRepository repository;
@@ -31,6 +35,8 @@ public class BootApplication implements CommandLineRunner {
 		//if (opt.isPresent()) {
 		//	System.out.println(opt.get().toString());
 		//}
+		
+		// System.out.println(encoder.encode("123"));
 	}
 
 }

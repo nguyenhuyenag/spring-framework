@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,22 +26,29 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Optional<User> opt = repository.findByUsername(username);
 		if (!opt.isPresent()) {
-			System.out.println("User not found! " + username);
-			throw new UsernameNotFoundException("User " + username + " was not found in the database!");
+			// throw new UsernameNotFoundException("User `" + username + "` was not found!");
+			throw new BadCredentialsException("User `" + username + "` was not found!");
 		}
 		User user = opt.get();
 		System.out.println("Found User: " + user);
-		List<String> roleNames = repository.getListRolesByUserId(user.getUserId());
-		List<GrantedAuthority> listGrant = new ArrayList<>();
-		if (roleNames != null) {
-			for (String role : roleNames) {
+		List<String> listRoles = repository.getListRolesByUserId(user.getUserId());
+		List<GrantedAuthority> listGrants = new ArrayList<>();
+		if (listRoles != null) {
+			for (String role : listRoles) {
 				// ROLE_USER, ROLE_ADMIN, ...
-				GrantedAuthority authority = new SimpleGrantedAuthority(role);
-				listGrant.add(authority);
+				// GrantedAuthority authority = new SimpleGrantedAuthority(role);
+				listGrants.add(new SimpleGrantedAuthority(role));
 			}
 		}
-		return (UserDetails) new org.springframework.security.core.userdetails.User(user.getUsername(),
-				user.getPassword(), listGrant);
+		// return (UserDetails) new org.springframework.security.core.userdetails
+		// .User(user.getUsername(), user.getPassword(), listGrants);
+		boolean status = false;
+        UserDetails userDetails = org.springframework.security.core.userdetails
+        		.User.withUsername(user.getUsername())
+        			 .password(user.getPassword())
+        			 // .disabled(status)
+        			 .authorities(listGrants).build();
+        return userDetails;
 	}
 
 }
