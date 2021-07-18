@@ -3,14 +3,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>${title}</title>
+	<title>Admin Page</title>
+	<link rel="shortcut icon" href="#">
 </head>
 <body>
 	<%@ include file="menu.jsp" %>
 
 	<h2>Admin Page</h2>
 	<h3>
-		Welcome: <span>${request.userPrincipal.name}</span>
+		Welcome: <span>${pageContext.request.userPrincipal.name}</span>
 	</h3>
 	<b>This is protected page!</b>
 

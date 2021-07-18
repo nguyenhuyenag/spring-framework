@@ -2,6 +2,7 @@
 <html>
 <head>
 	<title>Logout</title>
+	<link rel="shortcut icon" href="#">
 </head>
 
 <body>

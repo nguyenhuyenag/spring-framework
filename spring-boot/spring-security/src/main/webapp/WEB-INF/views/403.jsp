@@ -4,6 +4,7 @@
 <html>
 <head>
 	<title>Access Denied</title>
+	<link rel="shortcut icon" href="#">
 </head>
  
 <body>

@@ -4,6 +4,7 @@
 <html>
 <head>
 	<title>Login</title>
+	<link rel="shortcut icon" href="#">
 </head>
 <body>
 	<%@ include file="menu.jsp" %>

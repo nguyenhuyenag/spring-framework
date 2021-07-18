@@ -5,6 +5,7 @@ import java.security.Principal;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,12 +32,20 @@ public class AuthController {
 	
 	@GetMapping("user-info")
 	public String userInfo(Model model, Principal principal) {
-		// Sau khi user login thanh cong se co principal
-		String username = principal.getName();
-		System.out.println("User Name: " + username);
+		// Cach 1: Sau khi user login thanh cong se co principal
+		System.out.println("From Principal");
+		System.out.println("Username: " + principal.getName());
 		User loginedUser = (User) ((Authentication) principal).getPrincipal();
 		String userInfo = WebUtils.toString(loginedUser);
 		model.addAttribute("userInfo", userInfo);
+
+		// Cach 2:
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = (User) auth.getPrincipal();
+		System.out.println("From SecurityContextHolder");
+		System.out.println("Username: " + user.getUsername());
+		System.out.println("Role: " + auth.getAuthorities());
+		
 		return "user-info";
 	}
 	
@@ -58,6 +67,14 @@ public class AuthController {
 			model.addAttribute("message", message);
 		}
 		return "403";
+	}
+	
+	@GetMapping("security-taglib") // Spring Security - Taglib
+	public String securityTaglib(Model model, Principal principal) {
+		if (principal != null) {
+			
+		}
+		return "security-taglib";
 	}
 
 }

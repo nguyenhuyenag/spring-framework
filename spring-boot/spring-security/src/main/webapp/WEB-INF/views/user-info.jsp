@@ -3,7 +3,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>User Page</title>
+	<title>User Page</title>
+	<link rel="shortcut icon" href="#">
 </head>
 <body>
 	<%@ include file="menu.jsp"%>
