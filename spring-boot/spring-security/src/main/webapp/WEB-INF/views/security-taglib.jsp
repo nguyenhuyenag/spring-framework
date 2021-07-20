@@ -26,7 +26,7 @@
 	
 	    isAuthenticated: <c:out value="${isAuthenticated}"/>
 	    
-		<sec:authorize access="isAuthenticated()">Logout</sec:authorize> 
+		<sec:authorize access="isAuthenticated()">Logout</sec:authorize>
 		
 		<sec:authorize access="hasRole('ADMIN')">Hello Admin</sec:authorize>
 	
