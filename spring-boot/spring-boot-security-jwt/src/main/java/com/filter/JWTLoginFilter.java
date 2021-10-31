@@ -61,7 +61,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 		String token = TokenHandler.generateToken(auth);
 		String json = JsonUtils.toJSON(new LoginResponse(token));
 		res.getWriter().write(json);
-		res.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
+		res.addHeader(HttpHeaders.CONTENT_TYPE, "application/json;charset=UTF-8");
 		// res.addHeader(HttpHeaders.AUTHORIZATION, TokenHandler.PREFIX + token);
 	}
 

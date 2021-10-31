@@ -27,7 +27,7 @@ import javax.mail.internet.MimeMultipart;
  * - (Blind Carbon Copy): 	Người nhận không xem được danh sách các người nhận
  */
 public class MailService {
-	
+
 	private final static String HOME = System.getProperty("user.dir");
 
 	private static final Session buildSession() {
@@ -84,7 +84,7 @@ public class MailService {
 	public static boolean toManyBCC(String email) {
 		return toMany(email, RecipientType.BCC);
 	}
-	
+
 	public static boolean sendMailWithAttachment(String email) {
 		try {
 			Message message = new MimeMessage(buildSession());
@@ -106,7 +106,7 @@ public class MailService {
 				attachmentPart.attachFile(new File(HOME + "/file/" + name));
 				multipart.addBodyPart(attachmentPart);
 			}
-			
+
 			// Final
 			message.setContent(multipart);
 			Transport.send(message);
