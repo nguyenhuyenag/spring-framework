@@ -23,7 +23,7 @@ public class PageableJPA {
 	}
 
 	public static void init() {
-		// Lấy ra 5 user đầu tiên: PageRequest.of(0, 5) tương đương với lấy ra page đầu tiên, mỗi page 5 phần tử
+		// Lấy ra 5 user đầu tiên: PageRequest.of(0, 5) tương đương với lấy ra page đầu tiên (page 0), mỗi page 5 phần tử
 		// Page đầu tiên
 		Page<User> page = repository.findAll(PageRequest.of(0, 5));
 		System.out.println("In ra 5 user đầu tiên: ");
