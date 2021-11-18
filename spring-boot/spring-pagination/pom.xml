@@ -40,6 +40,11 @@
 			<artifactId>spring-boot-devtools</artifactId>
 			<version>2.1.8.RELEASE</version><!--$NO-MVN-MAN-VER$ -->
 		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.9</version>
+		</dependency>
 		<!-- JSTL tag lib -->
 		<dependency>
 			<groupId>javax.servlet.jsp.jstl</groupId>

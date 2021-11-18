@@ -30,11 +30,7 @@ public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-
 	private String name;
-
-	@Column(name = "e_mail")
-	private String email;
 
 	@UpdateTimestamp
 	@Column(name = "execute_time")
@@ -42,7 +38,7 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		return "{id: " + this.id + ", name: " + this.name + ", email: " + this.email + "}";
+		return "{id: " + this.id + ", name: " + this.name + "}";
 	}
 
 }
