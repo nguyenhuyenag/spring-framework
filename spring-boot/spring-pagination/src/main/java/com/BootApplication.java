@@ -10,9 +10,6 @@ import com.model.User;
 import com.repository.UserRepository;
 import com.test.PageableJPA;
 
-import antlr.StringUtils;
-import net.bytebuddy.utility.RandomString;
-
 @SpringBootApplication
 public class BootApplication implements CommandLineRunner {
 
@@ -25,12 +22,12 @@ public class BootApplication implements CommandLineRunner {
 	
 	@Override
 	public void run(String... args) throws Exception {
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 7; i++) {
 			User u = new User();
 			u.setName(RandomStringUtils.randomAlphanumeric(5).toUpperCase());
-			// repository.save(u);
+			repository.save(u);
 		}
-		PageableJPA.showAllPage(3);
+		PageableJPA.showAllPage(7);
 		// System.out.println("OK");
 	}
 
