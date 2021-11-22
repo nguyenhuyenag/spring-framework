@@ -80,18 +80,27 @@ public class PageableJPA {
 		if (list == null) {
 			throw new IllegalArgumentException("To create a Page, the list mustn't be null!");
 		}
+		int total = list.size();
 		int start = pageable.getPageNumber() * pageable.getPageSize();
-		if (start > list.size()) {
+		if (start > total) {
 			return new PageImpl<>(new ArrayList<>(), pageable, 0);
 		}
-		int end = Math.min(start + pageable.getPageSize(), list.size());
-		return new PageImpl<>(list.subList(start, end), pageable, list.size());
+		int end = Math.min(start + pageable.getPageSize(), total);
+		return new PageImpl<>(list.subList(start, end), pageable, total);
 	}
 
 	public static <T> List<List<T>> createPageFromList(List<T> list, int nPage) {
-		int size = list.size();
-		int sizeOfPage = size / nPage;
 		List<List<T>> result = new ArrayList<>();
+		if (list == null || list.size() == 0) {
+			return result;
+		}
+		int sizeOfPage = 0;
+		int total = list.size();
+		if (total % nPage == 0) {
+			sizeOfPage = total / nPage;
+		} else {
+			sizeOfPage = total / nPage + 1;
+		}
 		for (int i = 0; i < nPage; i++) {
 			Page<T> page = createPageFromList(list, PageRequest.of(i, sizeOfPage));
 			result.add(page.getContent());
