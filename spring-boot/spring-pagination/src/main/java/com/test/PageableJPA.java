@@ -1,9 +1,11 @@
 package com.test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -67,10 +69,34 @@ public class PageableJPA {
 			System.out.println("Current page: " + (page.getNumber() + 1));
 			System.out.println("Number of Elements: " + page.getNumberOfElements());
 			page.forEach(System.out::println);
-			page = repository.findAll(page.nextPageable());
+			page = repository.findAllWithTypeId(page.nextPageable());
 			i++;
 			System.out.println();
 		}
+	}
+
+	// pageable = PageRequest.of(i, sizeOfPage)
+	public static <T> Page<T> createPageFromList(List<T> list, Pageable pageable) {
+		if (list == null) {
+			throw new IllegalArgumentException("To create a Page, the list mustn't be null!");
+		}
+		int start = pageable.getPageNumber() * pageable.getPageSize();
+		if (start > list.size()) {
+			return new PageImpl<>(new ArrayList<>(), pageable, 0);
+		}
+		int end = Math.min(start + pageable.getPageSize(), list.size());
+		return new PageImpl<>(list.subList(start, end), pageable, list.size());
+	}
+
+	public static <T> List<List<T>> createPageFromList(List<T> list, int nPage) {
+		int size = list.size();
+		int sizeOfPage = size / nPage;
+		List<List<T>> result = new ArrayList<>();
+		for (int i = 0; i < nPage; i++) {
+			Page<T> page = createPageFromList(list, PageRequest.of(i, sizeOfPage));
+			result.add(page.getContent());
+		}
+		return result;
 	}
 
 }

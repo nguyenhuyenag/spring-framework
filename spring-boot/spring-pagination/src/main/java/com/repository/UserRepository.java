@@ -11,7 +11,7 @@ import com.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-	@Query(value = "SELECT t FROM User t WHERE t.id % 2 = 0")
+	@Query(value = "SELECT t FROM User t")
 	Page<User> findAllWithTypeId(Pageable pageable);
 
 }
