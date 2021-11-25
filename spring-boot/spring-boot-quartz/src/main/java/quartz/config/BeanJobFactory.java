@@ -17,8 +17,9 @@ public final class BeanJobFactory extends SpringBeanJobFactory implements Applic
 
 	@Override
 	protected Object createJobInstance(final TriggerFiredBundle bundle) throws Exception {
-		final Object instance = super.createJobInstance(bundle);
-		factory.autowireBean(instance);
-		return instance;
+		final Object job = super.createJobInstance(bundle);
+		factory.autowireBean(job);
+		return job;
 	}
+
 }
