@@ -34,8 +34,7 @@ public class PageableJPA {
 
 		// Page tiếp theo
 		System.out.println("In ra 5 user tiếp theo: ");
-		// page = userRepository.findAll(PageRequest.of(1, 5)); // Sử dụng PageRequest
-		// mới
+		// page = userRepository.findAll(PageRequest.of(1, 5)); // Sử dụng PageRequest mới
 		page = repository.findAll(page.nextPageable()); // Tận dụng đối tượng Page trước đó
 		page.forEach(System.out::println);
 	}
