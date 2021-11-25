@@ -33,11 +33,13 @@ public class BootApplication implements CommandLineRunner {
 			// repository.save(u);
 		}
 		int size = 10;
-		int page = 3;
-		List<Integer> list = IntStream.rangeClosed(1, size) //
-				.boxed() //
-				.collect(Collectors.toList());
+		int page = 11;
+//		List<Integer> list = IntStream.rangeClosed(1, size) //
+//				.boxed() //
+//				.collect(Collectors.toList());
+		List<User> list = repository.findAll();
 		System.out.println("List: " + Arrays.toString(list.toArray()));
+		System.out.println("Page: " + page);
 		PageableJPA.createPageFromList(list, page).forEach(t -> System.out.println(t.toString()));
 	}
 

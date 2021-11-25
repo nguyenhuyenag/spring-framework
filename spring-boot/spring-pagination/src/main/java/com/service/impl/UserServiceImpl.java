@@ -41,10 +41,8 @@ public class UserServiceImpl implements UserService {
 
 	public void pagingWithSorting(int pageNo, int pageSize) {
 		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by("email"));
-		// Pageable pageRequest = PageRequest.of(page, size,
-		// Sort.by(sortby).ascending());
-		// Pageable pageRequest = PageRequest.of(page, size,
-		// Sort.by(sortby).descending());
+		// Pageable pageRequest = PageRequest.of(page, size, Sort.by(sortby).ascending());
+		// Pageable pageRequest = PageRequest.of(page, size, Sort.by(sortby).descending());
 		Page<User> pagedResult = repository.findAll(paging);
 		pagedResult.getContent();
 	}

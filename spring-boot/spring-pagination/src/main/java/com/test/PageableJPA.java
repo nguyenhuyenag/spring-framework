@@ -61,8 +61,8 @@ public class PageableJPA {
 
 	public static void showAllPage(int elementPerPage) {
 		int i = 0;
-		// Page<User> page = repository.findAll(PageRequest.of(0, elementPerPage));
-		Page<User> page = repository.findAllWithTypeId(PageRequest.of(0, elementPerPage));
+		Page<User> page = repository.findAll(PageRequest.of(0, elementPerPage));
+		// Page<User> page = repository.findAllWithTypeId(PageRequest.of(0, elementPerPage));
 		System.out.println("Tổng số lượng user: " + page.getTotalElements());
 		while (i < page.getTotalPages()) {
 			System.out.println("Current page: " + (page.getNumber() + 1));
