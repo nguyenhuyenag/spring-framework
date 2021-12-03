@@ -1,6 +1,6 @@
 package com.service.impl;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
@@ -31,13 +31,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		}
 		final Optional<User> opt = repository.findByUsername(username);
 		if (opt.isPresent()) {
-			return new org.springframework.security.core.userdetails //
-					.User(opt.get().getUsername(), opt.get().getPassword(), new ArrayList<>());
+			User user = opt.get();
+			return org.springframework.security.core.userdetails.User //
+					.withUsername(user.getUsername()) //
+					.password(user.getPassword()) //
+					.disabled(user.getStatus() == 0 ? true : false) //
+					.authorities(new HashSet<>()) //
+					.build();
 		} else {
 			LOG.info("[loadUserByUsername]: Account `" + username + "` was not found!");
 			throw new UsernameNotFoundException("Account `" + username + "` was not found!");
 		}
 	}
 
-	
 }

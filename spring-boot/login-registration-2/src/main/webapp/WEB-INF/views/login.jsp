@@ -15,7 +15,9 @@
 	<h2 class="text-center mt-4">Đăng nhập</h2>
 	<c:if test="${not empty param.error && not empty SPRING_SECURITY_LAST_EXCEPTION}">
 	    <div class="alert alert-danger text-center" role="alert">
-	    	Tên đăng nhập hoặc mật khẩu không đúng!
+	    	Tên đăng nhập hoặc mật khẩu không đúng! <br/>
+	    	${SPRING_SECURITY_LAST_EXCEPTION.message} <br/>
+	    	<%-- <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}" /> --%>
 		</div>
 	</c:if>
 	<form class="pd-3" name='f' action="${CONTEXT_PATH}/j_spring_security_check" method='POST'>

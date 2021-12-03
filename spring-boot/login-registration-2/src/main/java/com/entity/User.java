@@ -15,6 +15,7 @@ public class User implements Serializable {
 	@Id
 	private String username;
 	private String password;
+	private int status = 0;
 
 	public String getUsername() {
 		return username;
@@ -30,6 +31,14 @@ public class User implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
 }
