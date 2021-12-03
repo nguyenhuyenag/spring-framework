@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"  
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">  
+        
+<tiles-definitions>  
+    <!-- Base Define -->
+    <definition name="base.definition" template="/WEB-INF/views/layout/layout.jsp">  
+        <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />  
+        <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />  
+    </definition>  
+    <!-- Home  -->
+    <!-- <definition name="home" extends="base.definition">  
+        <put-attribute name="title" value="Home Page" />  
+        <put-attribute name="body" value="/WEB-INF/views/home.jsp" />  
+    </definition> -->
+    <!-- Login -->
+    <definition name="login" extends="base.definition">  
+        <put-attribute name="title" value="Đăng nhập" />  
+        <put-attribute name="body" value="/WEB-INF/views/login.jsp" />  
+    </definition>
+    <!-- TraCuu -->
+    <definition name="tracuu" extends="base.definition">  
+        <put-attribute name="title" value="Tra Cứu Thông Tin" />  
+        <put-attribute name="body" value="/WEB-INF/views/tracuu.jsp" />  
+    </definition>
+    <definition name="doimatkhau" extends="base.definition">  
+		<put-attribute name="title" value="Đổi mật khẩu" />  
+		<put-attribute name="body" value="/WEB-INF/views/doimatkhau.jsp" />  
+	</definition>
+    <definition name="get-user" extends="base.definition">  
+		<put-attribute name="title" value="Get User" />  
+		<put-attribute name="body" value="/WEB-INF/views/get-user.jsp" />  
+	</definition>
+</tiles-definitions>

@@ -172,7 +172,7 @@
 				$('.next').addClass('disabled');
 				break;
 			default:
-			// console.log('do something!');
+				// console.log('do something!');
 		}
 	});
 
