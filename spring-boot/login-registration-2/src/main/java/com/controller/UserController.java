@@ -18,8 +18,8 @@ public class UserController {
 	public String loginPage(Model model, Principal principal, Authentication authentication, HttpServletRequest req) {
 		// model.addAttribute("username", fromBean());
 		model.addAttribute("username", principal.getName());
-		// model.addAttribute("username", authentication.getName());
 		// model.addAttribute("username", fromHttpRequest(req));
+		// model.addAttribute("username", authentication.getName());
 		return "get-user";
 	}
 

@@ -18,6 +18,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private UserDetailsService userDetailsService;
+	
+	@Autowired
+    private LoginFailureHandler loginFailureHandler;
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -42,12 +45,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				// Submit URL của trang login
 				.loginProcessingUrl("/j_spring_security_check") // Submit URL
 				.loginPage("/login") //
+				.failureHandler(loginFailureHandler) // 
 				.defaultSuccessUrl("/tracuu") //
 				.failureUrl("/login?error=true") //
 				.usernameParameter("username") //
 				.passwordParameter("password")
 				// cấu hình logout
-				.and().logout().logoutUrl("/logout").logoutSuccessUrl("/login?logout");
+				.and().logout().logoutUrl("/logout")
+				.logoutSuccessUrl("/login?logout");
 	}
 
 }

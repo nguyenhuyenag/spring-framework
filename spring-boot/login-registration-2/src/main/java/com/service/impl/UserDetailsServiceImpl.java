@@ -3,7 +3,6 @@ package com.service.impl;
 import java.util.HashSet;
 import java.util.Optional;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,23 +24,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		if (StringUtils.isEmpty(username)) {
-			LOG.info("Username is empty!");
-			throw new UsernameNotFoundException("Username is empty!");
-		}
 		final Optional<User> opt = repository.findByUsername(username);
-		if (opt.isPresent()) {
-			User user = opt.get();
-			return org.springframework.security.core.userdetails.User //
-					.withUsername(user.getUsername()) //
-					.password(user.getPassword()) //
-					.disabled(user.getStatus() == 0 ? true : false) //
-					.authorities(new HashSet<>()) //
-					.build();
-		} else {
+		if (!opt.isPresent()) {
 			LOG.info("[loadUserByUsername]: Account `" + username + "` was not found!");
 			throw new UsernameNotFoundException("Account `" + username + "` was not found!");
 		}
+		User user = opt.get();
+		return org.springframework.security.core.userdetails.User //
+				.withUsername(user.getUsername()) //
+				.password(user.getPassword()) //
+				.disabled(user.getStatus() == 0 ? true : false) //
+				.authorities(new HashSet<>()) //
+				.build();
 	}
-
 }

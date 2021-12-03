@@ -15,17 +15,16 @@
 	<h2 class="text-center mt-4">Đăng nhập</h2>
 	<c:if test="${not empty param.error && not empty SPRING_SECURITY_LAST_EXCEPTION}">
 	    <div class="alert alert-danger text-center" role="alert">
-	    	Tên đăng nhập hoặc mật khẩu không đúng! <br/>
 	    	${SPRING_SECURITY_LAST_EXCEPTION.message} <br/>
 	    	<%-- <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}" /> --%>
 		</div>
 	</c:if>
 	<form class="pd-3" name='f' action="${CONTEXT_PATH}/j_spring_security_check" method='POST'>
 		<div class="form-outline mb-4">
-			<input type="text" class="form-control" name='username' value='' placeholder="Tên đăng nhập" required />
+			<input type="text" class="form-control" name='username' value='huyennv1' placeholder="Tên đăng nhập" required />
 		</div>
 		<div class="form-outline mb-4">
-			<input type="password" class="form-control" name='password' value='' placeholder="Mật khẩu" required />
+			<input type="password" class="form-control" name='password' value='123456' placeholder="Mật khẩu" required />
 		</div>
 		<button type="submit" class="btn btn-primary btn-block bg-color">Login</button>
 	</form>
