@@ -31,10 +31,10 @@ public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 		if (opt.isPresent()) {
 			User user = opt.get();
 			if (user.getStatus() == 0) {
-				exception = new DisabledException("Your account has been disabled!");
+				exception = new DisabledException("[LoginFailureHandler]: Your account has been disabled!");
 			}
 		} else {
-			exception = new UsernameNotFoundException("Account `" + username + "` was not found!");
+			exception = new UsernameNotFoundException("[LoginFailureHandler]: Account `" + username + "` was not found!");
 		}
 		super.setDefaultFailureUrl("/login?error=true");
 		super.onAuthenticationFailure(request, response, exception);

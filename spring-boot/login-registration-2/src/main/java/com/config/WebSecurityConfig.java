@@ -19,8 +19,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserDetailsService userDetailsService;
 	
-	// @Autowired
-    // private LoginFailureHandler loginFailureHandler;
+	@Autowired
+    private LoginFailureHandler loginFailureHandler;
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -50,7 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.passwordParameter("password")
 				.defaultSuccessUrl("/tracuu") //
 				.failureUrl("/login?error=true") //
-				.failureHandler(new LoginFailureHandler()) // 
+				.failureHandler(loginFailureHandler) // 
 				// cấu hình logout
 				.and().logout().logoutUrl("/logout")
 				.logoutSuccessUrl("/login?logout");

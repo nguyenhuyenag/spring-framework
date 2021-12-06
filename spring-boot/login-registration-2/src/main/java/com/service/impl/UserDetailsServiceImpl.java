@@ -27,7 +27,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		final Optional<User> opt = repository.findByUsername(username);
 		if (!opt.isPresent()) {
 			LOG.info("[loadUserByUsername]: Account `" + username + "` was not found!");
-			throw new UsernameNotFoundException("Account `" + username + "` was not found!");
+			throw new UsernameNotFoundException("[UserDetailsServiceImpl: Account `" + username + "` was not found!");
 		}
 		User user = opt.get();
 		return org.springframework.security.core.userdetails.User //
