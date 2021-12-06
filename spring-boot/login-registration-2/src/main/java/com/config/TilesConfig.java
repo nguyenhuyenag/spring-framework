@@ -24,8 +24,8 @@ public class TilesConfig {
 	public TilesConfigurer getTilesConfigurer() {
 		TilesConfigurer tilesConfigurer = new TilesConfigurer();
 		// TilesView 3
-		String[] defs = { "/WEB-INF/tiles.xml" };
-		tilesConfigurer.setDefinitions(defs);
+		// String[] defs = { "/WEB-INF/tiles.xml" };
+		tilesConfigurer.setDefinitions(new String[] { "/WEB-INF/tiles.xml" });
 		return tilesConfigurer;
 	}
 
