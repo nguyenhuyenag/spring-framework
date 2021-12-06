@@ -1,3 +1,2 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
-
-<h3>404_Not_Found: </h3>
+<h3 class="text-center">Page_404_Not_Found</h3>

@@ -19,8 +19,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserDetailsService userDetailsService;
 	
-	@Autowired
-    private LoginFailureHandler loginFailureHandler;
+	// @Autowired
+    // private LoginFailureHandler loginFailureHandler;
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -39,7 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		// Các trang không yêu cầu login
 		http.authorizeRequests()
-			.antMatchers("/", "/login", "/logout", "/404", "/static/**").permitAll()
+			.antMatchers("/", "/login", "/logout", "/static/**").permitAll()
 		 	.anyRequest().authenticated();
 		
 		// Cấu hình cho login
@@ -50,7 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.passwordParameter("password")
 				.defaultSuccessUrl("/tracuu") //
 				.failureUrl("/login?error=true") //
-				.failureHandler(loginFailureHandler) // 
+				.failureHandler(new LoginFailureHandler()) // 
 				// cấu hình logout
 				.and().logout().logoutUrl("/logout")
 				.logoutSuccessUrl("/login?logout");
