@@ -30,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService) // cài đặt dịch vụ để tìm kiếm User trong Database
-			.passwordEncoder(passwordEncoder()); //  cài đặt PasswordEncoder.
+			.passwordEncoder(passwordEncoder()); 	// cài đặt PasswordEncoder
 	}
 
 	@Override
@@ -40,16 +40,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// Các trang không yêu cầu login
 		http.authorizeRequests().antMatchers("/", "/login", "/logout", "/static/**").permitAll()
 		 	.anyRequest().authenticated();
+		
 		// Cấu hình cho login
-		http.authorizeRequests().and().formLogin()//
-				// Submit URL của trang login
+		http.authorizeRequests().and().formLogin() //
 				.loginProcessingUrl("/j_spring_security_check") // Submit URL
 				.loginPage("/login") //
-				.failureHandler(loginFailureHandler) // 
-				.defaultSuccessUrl("/tracuu") //
-				.failureUrl("/login?error=true") //
 				.usernameParameter("username") //
 				.passwordParameter("password")
+				.defaultSuccessUrl("/tracuu") //
+				.failureUrl("/login?error=true") //
+				.failureHandler(loginFailureHandler) // 
 				// cấu hình logout
 				.and().logout().logoutUrl("/logout")
 				.logoutSuccessUrl("/login?logout");

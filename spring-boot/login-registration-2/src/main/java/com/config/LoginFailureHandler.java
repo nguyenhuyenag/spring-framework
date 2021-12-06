@@ -1,7 +1,6 @@
 package com.config;
 
 import java.io.IOException;
-import java.security.Principal;
 import java.util.Optional;
 
 import javax.servlet.ServletException;
@@ -27,8 +26,7 @@ public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) throws IOException, ServletException {
-		Principal principal = request.getUserPrincipal();
-        String username = principal.getName();
+        String username = request.getParameter("username");
 		final Optional<User> opt = repository.findByUsername(username);
 		if (opt.isPresent()) {
 			User user = opt.get();
