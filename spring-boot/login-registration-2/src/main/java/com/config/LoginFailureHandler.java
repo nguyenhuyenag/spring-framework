@@ -26,15 +26,14 @@ public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) throws IOException, ServletException {
-        String username = request.getParameter("username");
+		String username = request.getParameter("username");
 		final Optional<User> opt = repository.findByUsername(username);
-		if (opt.isPresent()) {
-			User user = opt.get();
-			if (user.getStatus() == 0) {
-				exception = new DisabledException("[LoginFailureHandler]: Your account has been disabled!");
-			}
-		} else {
+		if (!opt.isPresent()) {
 			exception = new UsernameNotFoundException("[LoginFailureHandler]: Account `" + username + "` was not found!");
+		}
+		User user = opt.get();
+		if (user.getStatus() == 0) {
+			exception = new DisabledException("[LoginFailureHandler]: Your account has been disabled!");
 		}
 		super.setDefaultFailureUrl("/login?error=true");
 		super.onAuthenticationFailure(request, response, exception);

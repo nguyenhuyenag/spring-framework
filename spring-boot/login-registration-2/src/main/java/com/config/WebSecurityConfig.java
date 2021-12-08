@@ -49,7 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.usernameParameter("username") //
 				.passwordParameter("password")
 				.defaultSuccessUrl("/tracuu") //
-				.failureUrl("/login?error=true") //
+				// .failureUrl("/login?error=true") //
 				.failureHandler(loginFailureHandler) // 
 				// cấu hình logout
 				.and().logout().logoutUrl("/logout")
