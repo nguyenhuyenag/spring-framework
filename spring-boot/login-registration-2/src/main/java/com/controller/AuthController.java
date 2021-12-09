@@ -17,7 +17,7 @@ public class AuthController {
 	public String loginPage(HttpServletRequest req) {
 		Principal principal = req.getUserPrincipal();
 		if (principal != null) {
-			return "redirect:login";
+			return "redirect:tracuu";
 		}
 		return "login";
 	}

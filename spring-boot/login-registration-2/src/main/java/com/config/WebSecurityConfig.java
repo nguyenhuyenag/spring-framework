@@ -41,7 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable();
 		// các trang không yêu cầu login
 		http.authorizeRequests()
-			.antMatchers("/", "/login", "/logout", "/j_spring_security_check", "/static/**").permitAll()
+			.antMatchers("/", "/login", "/logout", "/callback", "/j_spring_security_check", "/static/**").permitAll()
 		 	.anyRequest().authenticated();
 		http.authorizeRequests().and()
 			.formLogin() // cấu hình cho login

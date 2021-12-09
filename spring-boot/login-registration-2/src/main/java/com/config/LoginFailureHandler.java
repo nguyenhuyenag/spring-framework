@@ -1,7 +1,6 @@
 package com.config;
 
 import java.io.IOException;
-import java.util.Optional;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -35,11 +34,10 @@ public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 		String password = request.getParameter("password");
 		System.out.println("[LoginFailureHandler]: Username: " + username);
 		System.out.println("[LoginFailureHandler]: PWD: " + password);
-		final Optional<User> opt = userService.findByUsername(username);
-		if (!opt.isPresent()) {
+		User user = userService.findByUsername(username);
+		if (user == null) {
 			exception = new UsernameNotFoundException("[LoginFailureHandler]: Account `" + username + "` was not found!");
 		}
-		User user = opt.get();
 		userService.increaseFailedAttempt(username);
 		if (user.getStatus() == 0) {
 			exception = new DisabledException("[LoginFailureHandler]: Your account has been disabled!");

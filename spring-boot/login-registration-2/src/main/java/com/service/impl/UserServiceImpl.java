@@ -17,10 +17,11 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository repository;
-	
+
 	@Override
-	public Optional<User> findByUsername(String username) {
-		return repository.findByUsername(username);
+	public User findByUsername(String username) {
+		Optional<User> opt = repository.findByUsername(username);
+		return opt.orElse(null);
 	}
 
 	@Override
