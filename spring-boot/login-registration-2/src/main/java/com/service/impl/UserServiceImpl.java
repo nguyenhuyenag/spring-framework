@@ -2,59 +2,45 @@ package com.service.impl;
 
 import java.util.Optional;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.entity.User;
 import com.repository.UserRepository;
 import com.service.UserService;
-import com.util.ListMessage;
+import com.util.DateTimeUtils;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-	@Autowired
-	private PasswordEncoder encoder;
+	private long LOCK_TIME = 5 * DateTimeUtils.ONE_MINUTE;
 
 	@Autowired
 	private UserRepository repository;
-
+	
 	@Override
-	public String changePassword(String username, String password, String newPassword, String nhaplaimatkhaumoi) {
-		String message = validate(username, password, newPassword, nhaplaimatkhaumoi);
-		if (StringUtils.isNotEmpty(message)) {
-			return message;
-		}
-		repository.changePassword(username, encoder.encode(newPassword));
-		return "OK";
+	public Optional<User> findByUsername(String username) {
+		return repository.findByUsername(username);
 	}
 
-	private String validate(String username, String password, String newPassword, String repeatPassword) {
-		Optional<User> opt = repository.findByUsername(username);
-		if (opt.isPresent()) {
-			User user = opt.get();
-			if (!encoder.matches(password, user.getPassword())) {
-				return ListMessage.PWD_WRONG;
-			}
-		}
-		if (StringUtils.isEmpty(newPassword)) {
-			return StringUtils.replace(ListMessage.FIELD_REQUIED, "%s", "mật khẩu mới");
-		}
-		if (StringUtils.isEmpty(repeatPassword)) {
-			return StringUtils.replace(ListMessage.FIELD_REQUIED, "%s", "lại mật khẩu mới");
-		}
-		if (password.equals(newPassword)) {
-			return ListMessage.PWD_DUPLICATE;
-		}
-		if (!newPassword.equals(repeatPassword) ) {
-			return ListMessage.PWD_REPEAT_WRONG;
-		}
-		if (newPassword.length() < 6) {
-			return ListMessage.PWD_LENGTH_MIN;
-		}
-		return "";
+	@Override
+	public void increaseFailedAttempt(String username) {
+		repository.increaseFailedAttempt(username);
+	}
+
+	@Override
+	public void resetFailedAttempt(String username) {
+		repository.resetFailedAttempt(username);
+	}
+
+	@Override
+	public void lock(String username) {
+		repository.lock(username, DateTimeUtils.getLaterDate(LOCK_TIME));
+	}
+
+	@Override
+	public void unlock(String username) {
+		repository.unlock(username);
 	}
 
 }

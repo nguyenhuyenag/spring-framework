@@ -1,7 +1,19 @@
 package com.service;
 
-public interface UserService {
+import java.util.Optional;
 
-	String changePassword(String username, String password, String newPassword, String nhaplaimatkhaumoi);
+import com.entity.User;
+
+public interface UserService {
+	
+	Optional<User> findByUsername(String username);
+
+	void lock(String username);
+	
+	void unlock(String username);
+
+	void resetFailedAttempt(String username);
+
+	void increaseFailedAttempt(String username);
 
 }

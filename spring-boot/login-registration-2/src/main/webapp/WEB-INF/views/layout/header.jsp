@@ -23,7 +23,7 @@
 			<ul class="navbar-nav mr-auto">
 				<!-- <li id="tracuu" class="nav-item"><a class="nav-link" href="./tracuu">Tra Cứu</a></li> -->
 				<li id="get-user" class="nav-item"><a class="nav-link" href="./get-user">Get user</a></li>
-				<li id="doimatkhau" class="nav-item"><a class="nav-link" href="./doimatkhau">Đổi mật khẩu</a></li>
+				<!-- <li id="doimatkhau" class="nav-item"><a class="nav-link" href="./doimatkhau">Đổi mật khẩu</a></li> -->
 				<li id="logout" class="nav-item"><a class="nav-link" href="./logout">Đăng xuất</a></li>
 			</ul>
 		</div>
@@ -32,7 +32,7 @@
 
 <script type="text/javascript">
 	$(function () {
-		let menu = ["tracuu", "doimatkhau", "get-user"];
+		let menu = ["tracuu", "get-user"];
 		let i, len = menu.length;
 		let path = window.location.pathname.replace("/", "");
 		for (i = 0; i < len; i++) {

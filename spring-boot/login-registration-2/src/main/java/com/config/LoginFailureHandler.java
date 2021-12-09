@@ -15,26 +15,40 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationFa
 import org.springframework.stereotype.Component;
 
 import com.entity.User;
-import com.repository.UserRepository;
+import com.service.UserService;
 
 @Component
 public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
+	private static final int MAX_FAILED_ATTEMPTS = 5;
+
+	// @Autowired
+	// private UserRepository userService;
+	
 	@Autowired
-	private UserRepository repository;
+	private UserService userService;
 
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) throws IOException, ServletException {
 		String username = request.getParameter("username");
-		final Optional<User> opt = repository.findByUsername(username);
+		String password = request.getParameter("password");
+		System.out.println("[LoginFailureHandler]: Username: " + username);
+		System.out.println("[LoginFailureHandler]: PWD: " + password);
+		final Optional<User> opt = userService.findByUsername(username);
 		if (!opt.isPresent()) {
 			exception = new UsernameNotFoundException("[LoginFailureHandler]: Account `" + username + "` was not found!");
 		}
 		User user = opt.get();
+		userService.increaseFailedAttempt(username);
 		if (user.getStatus() == 0) {
 			exception = new DisabledException("[LoginFailureHandler]: Your account has been disabled!");
 		}
+//		if (user.getFailedAttempt() >= MAX_FAILED_ATTEMPTS) {
+//			userService.lock(username);
+//            exception = new LockedException("Your account has been locked due to " + MAX_FAILED_ATTEMPTS +  "failed attempts."
+//                    + " It will be unlocked after 5 minutes.");
+//		}
 		super.setDefaultFailureUrl("/login?error=true");
 		super.onAuthenticationFailure(request, response, exception);
 	}

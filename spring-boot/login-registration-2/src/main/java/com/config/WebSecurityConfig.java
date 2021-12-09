@@ -21,6 +21,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
     private LoginFailureHandler loginFailureHandler;
+	
+	@Autowired
+    private LoginSuccessHandler loginSuccessHandler;
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -36,23 +39,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable();
-
-		// Các trang không yêu cầu login
+		// các trang không yêu cầu login
 		http.authorizeRequests()
-			.antMatchers("/", "/login", "/logout", "/static/**").permitAll()
+			.antMatchers("/", "/login", "/logout", "/j_spring_security_check", "/static/**").permitAll()
 		 	.anyRequest().authenticated();
-		
-		// Cấu hình cho login
-		http.authorizeRequests().and().formLogin() //
-				.loginProcessingUrl("/j_spring_security_check") // Submit URL
+		http.authorizeRequests().and()
+			.formLogin() // cấu hình cho login
+				.loginProcessingUrl("/j_spring_security_check") // submit URL
 				.loginPage("/login") //
 				.usernameParameter("username") //
 				.passwordParameter("password")
+				// .permitAll()
 				.defaultSuccessUrl("/tracuu") //
 				// .failureUrl("/login?error=true") //
-				.failureHandler(loginFailureHandler) // 
-				// cấu hình logout
-				.and().logout().logoutUrl("/logout")
+				.successHandler(loginSuccessHandler)
+				.failureHandler(loginFailureHandler).and() // 
+			.logout() // cấu hình logout
+				.invalidateHttpSession(true)
+				.logoutUrl("/logout")
 				.logoutSuccessUrl("/login?logout");
 	}
 

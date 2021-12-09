@@ -1,5 +1,6 @@
 package com.repository;
 
+import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,12 +17,24 @@ public interface UserRepository extends JpaRepository<User, String> {
 
 	Optional<User> findByUsername(String email);
 
-	@Query(value = "SELECT t.* FROM users t WHERE t.username = :username ", nativeQuery = true)
-	public User getUser(@Param("username") String username);
+	@Modifying
+	@Transactional
+	@Query(value = "UPDATE user t SET t.failed_attempt = 0 WHERE t.username = :username", nativeQuery = true)
+	void resetFailedAttempt(@Param("username") String username);
 
 	@Modifying
 	@Transactional
-	@Query(value = "UPDATE users t SET t.password = :password WHERE t.username = :username ", nativeQuery = true)
-	public void changePassword(@Param("username") String username, @Param("password") String password);
+	@Query(value = "UPDATE user t SET t.account_locked = 1, t.lock_time = :locktime WHERE t.username = :username", nativeQuery = true)
+	void lock(@Param("username") String username, @Param("locktime") Date locktime);
+	
+	@Modifying
+	@Transactional
+	@Query(value = "UPDATE user t SET t.account_locked = 0 WHERE t.username = :username", nativeQuery = true)
+	void unlock(@Param("username") String username);
+	
+	@Modifying
+	@Transactional
+	@Query(value = "UPDATE user t SET t.failed_attempt = (t.failed_attempt + 1) WHERE t.username = :username", nativeQuery = true)
+	void increaseFailedAttempt(@Param("username") String username);
 
 }

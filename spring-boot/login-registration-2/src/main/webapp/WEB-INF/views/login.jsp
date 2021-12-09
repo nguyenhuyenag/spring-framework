@@ -23,7 +23,7 @@
 			<input type="text" class="form-control" name='username' value='huyennv' placeholder="Tên đăng nhập" required />
 		</div>
 		<div class="form-outline mb-4">
-			<input type="password" class="form-control" name='password' value='123456' placeholder="Mật khẩu" required />
+			<input type="password" class="form-control" name='password' value='1234561' placeholder="Mật khẩu" required />
 		</div>
 		<button type="submit" class="btn btn-primary btn-block bg-color">Login</button>
 	</form>

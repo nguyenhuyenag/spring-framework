@@ -18,9 +18,7 @@ public class User implements Serializable {
 	private int status = 0;
 	// @Column(name = "failed_attempt")
 	private int failedAttempt = 0;
-	// @Column(name = "account_non_locked")
-	private int accountNonLocked = 0;
-	// @Column(name = "lock_time")
+	private int accountLocked = 0;
 	private String lockTime;
 
 	public String getUsername() {
@@ -55,20 +53,20 @@ public class User implements Serializable {
 		this.failedAttempt = failedAttempt;
 	}
 
-	public int getAccountNonLocked() {
-		return accountNonLocked;
-	}
-
-	public void setAccountNonLocked(int accountNonLocked) {
-		this.accountNonLocked = accountNonLocked;
-	}
-
 	public String getLockTime() {
 		return lockTime;
 	}
 
 	public void setLockTime(String lockTime) {
 		this.lockTime = lockTime;
+	}
+
+	public int getAccountLocked() {
+		return accountLocked;
+	}
+
+	public void setAccountLocked(int accountLocked) {
+		this.accountLocked = accountLocked;
 	}
 
 }
