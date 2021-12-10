@@ -15,11 +15,11 @@ public class User implements Serializable {
 	@Id
 	private String username;
 	private String password;
-	private int status = 0;
+	private int disabled = 0;
 	// @Column(name = "failed_attempt")
 	private int failedAttempt = 0;
 	private int accountLocked = 0;
-	private String lockTime;
+	private String lockAttemptTime;
 
 	public String getUsername() {
 		return username;
@@ -37,14 +37,6 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
-	public int getStatus() {
-		return status;
-	}
-
-	public void setStatus(int status) {
-		this.status = status;
-	}
-
 	public int getFailedAttempt() {
 		return failedAttempt;
 	}
@@ -53,20 +45,28 @@ public class User implements Serializable {
 		this.failedAttempt = failedAttempt;
 	}
 
-	public String getLockTime() {
-		return lockTime;
-	}
-
-	public void setLockTime(String lockTime) {
-		this.lockTime = lockTime;
-	}
-
 	public int getAccountLocked() {
 		return accountLocked;
 	}
 
 	public void setAccountLocked(int accountLocked) {
 		this.accountLocked = accountLocked;
+	}
+
+	public String getLockAttemptTime() {
+		return lockAttemptTime;
+	}
+
+	public void setLockAttemptTime(String lockAttemptTime) {
+		this.lockAttemptTime = lockAttemptTime;
+	}
+
+	public int getDisabled() {
+		return disabled;
+	}
+
+	public void setDisabled(int disabled) {
+		this.disabled = disabled;
 	}
 
 }

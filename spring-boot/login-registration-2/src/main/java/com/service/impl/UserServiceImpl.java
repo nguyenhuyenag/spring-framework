@@ -13,7 +13,7 @@ import com.util.DateTimeUtils;
 @Service
 public class UserServiceImpl implements UserService {
 
-	private long LOCK_TIME = 5 * DateTimeUtils.ONE_MINUTE;
+	private final long LOCK_ATTEMPT_TIME = 30 * DateTimeUtils.ONE_SECOND;
 
 	@Autowired
 	private UserRepository repository;
@@ -35,8 +35,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void lock(String username) {
-		repository.lock(username, DateTimeUtils.getLaterDate(LOCK_TIME));
+	public void lockAttempt(String username) {
+		repository.lockAttempt(username, DateTimeUtils.getLaterDate(LOCK_ATTEMPT_TIME));
 	}
 
 	@Override

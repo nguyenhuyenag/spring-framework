@@ -24,8 +24,8 @@ public interface UserRepository extends JpaRepository<User, String> {
 
 	@Modifying
 	@Transactional
-	@Query(value = "UPDATE user t SET t.account_locked = 1, t.lock_time = :locktime WHERE t.username = :username", nativeQuery = true)
-	void lock(@Param("username") String username, @Param("locktime") Date locktime);
+	@Query(value = "UPDATE user t SET t.account_locked = 1, t.lock_attempt_time = :locktime WHERE t.username = :username", nativeQuery = true)
+	void lockAttempt(@Param("username") String username, @Param("locktime") Date locktime);
 	
 	@Modifying
 	@Transactional

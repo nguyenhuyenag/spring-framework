@@ -26,5 +26,6 @@
 			<input type="password" class="form-control" name='password' value='1234561' placeholder="Mật khẩu" required />
 		</div>
 		<button type="submit" class="btn btn-primary btn-block bg-color">Login</button>
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 	</form>
 </div>

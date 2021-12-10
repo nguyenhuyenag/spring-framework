@@ -6,7 +6,7 @@ public interface UserService {
 
 	User findByUsername(String username);
 
-	void lock(String username);
+	void lockAttempt(String username);
 
 	void unlock(String username);
 

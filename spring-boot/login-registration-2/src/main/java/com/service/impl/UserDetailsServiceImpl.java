@@ -1,7 +1,6 @@
 package com.service.impl;
 
 import java.util.HashSet;
-import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.entity.User;
-import com.repository.UserRepository;
+import com.service.UserService;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -20,20 +19,19 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	private static final Logger LOG = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
 
 	@Autowired
-	private UserRepository repository;
+	private UserService userService;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		final Optional<User> opt = repository.findByUsername(username);
-		if (!opt.isPresent()) {
+		final User user = userService.findByUsername(username);
+		if (user == null) {
 			LOG.info("[loadUserByUsername]: Account `" + username + "` was not found!");
 			throw new UsernameNotFoundException("[UserDetailsServiceImpl: Account `" + username + "` was not found!");
 		}
-		User user = opt.get();
 		return org.springframework.security.core.userdetails.User //
 				.withUsername(user.getUsername()) //
 				.password(user.getPassword()) //
-				.disabled(user.getStatus() == 0 ? true : false) //
+				.disabled(user.getDisabled() == 0 ? false : true) //
 				.authorities(new HashSet<>()) //
 				.build();
 	}
