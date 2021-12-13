@@ -13,7 +13,7 @@ public class DateTimeUtils {
 	public static final long ONE_MINUTE					= 	TimeUnit.MINUTES.toMillis(1);
 	public static final long ONE_HOUR					=	3600000;
 	public static final long ONE_DAY					=	86400000;
-	public static final String MYSQL_DATETIME_PATTERN	=	"yyyy-MM-dd HH:mm:ss";
+	public static final String MYSQL_DATETIME_PATTERN	=	"dd-MM-yyyy HH:mm:ss";
 
 	public static Date getLaterDate(long amounts) {
 		return new Date(System.currentTimeMillis() + amounts);
@@ -34,7 +34,7 @@ public class DateTimeUtils {
 		return null;
 	}
 	
-	public static boolean lockAttempt(String strDate) {
+	public static boolean checkLockAttempt(String strDate) {
 		Date now = new Date();
 		Date date = stringToDate(strDate, MYSQL_DATETIME_PATTERN);
 		return now.before(date);

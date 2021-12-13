@@ -26,7 +26,7 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 		String password = request.getParameter("password");
 		System.out.println("[LoginSuccessHandler]: Username: " + username);
 		System.out.println("[LoginSuccessHandler]: PWD: " + password);
-		userService.resetFailedAttempt(username);
+		// userService.resetFailedAttempt(username);
 		userService.unlock(username);
 		// super.setDefaultTargetUrl("");
 		super.onAuthenticationSuccess(request, response, authentication);

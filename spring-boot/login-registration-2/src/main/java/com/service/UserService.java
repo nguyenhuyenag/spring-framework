@@ -10,8 +10,8 @@ public interface UserService {
 
 	void unlock(String username);
 
-	void resetFailedAttempt(String username);
+	// void resetFailedAttempt(String username);
 
-	void increaseFailedAttempt(String username);
+	// void increaseFailedAttempt(String username);
 
 }

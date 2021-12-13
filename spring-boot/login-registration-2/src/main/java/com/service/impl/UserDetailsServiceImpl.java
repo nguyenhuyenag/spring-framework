@@ -21,17 +21,32 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Autowired
 	private UserService userService;
 
+	// @Autowired
+	// private HttpServletRequest request;
+	// private String getClientIP() {
+	// String xfHeader = request.getHeader("X-Forwarded-For");
+	// if (xfHeader == null) {
+	// return request.getRemoteAddr();
+	// }
+	// return xfHeader.split(",")[0];
+	// }
+
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		boolean disabled = false;
+		String uname = null, password = null;
 		final User user = userService.findByUsername(username);
 		if (user == null) {
 			LOG.info("[loadUserByUsername]: Account `" + username + "` was not found!");
-			throw new UsernameNotFoundException("[UserDetailsServiceImpl: Account `" + username + "` was not found!");
+		} else {
+			uname = user.getUsername();
+			password = user.getPassword();
+			disabled = user.getDisabled() == 0 ? false : true;
 		}
 		return org.springframework.security.core.userdetails.User //
-				.withUsername(user.getUsername()) //
-				.password(user.getPassword()) //
-				.disabled(user.getDisabled() == 0 ? false : true) //
+				.withUsername(uname) //
+				.password(password) //
+				.disabled(disabled) //
 				.authorities(new HashSet<>()) //
 				.build();
 	}

@@ -1,5 +1,6 @@
 package com.service.impl;
 
+import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,18 +26,9 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void increaseFailedAttempt(String username) {
-		repository.increaseFailedAttempt(username);
-	}
-
-	@Override
-	public void resetFailedAttempt(String username) {
-		repository.resetFailedAttempt(username);
-	}
-
-	@Override
 	public void lockAttempt(String username) {
-		repository.lockAttempt(username, DateTimeUtils.getLaterDate(LOCK_ATTEMPT_TIME));
+		Date date = DateTimeUtils.getLaterDate(LOCK_ATTEMPT_TIME);
+		repository.lockAttempt(username, date);
 	}
 
 	@Override
