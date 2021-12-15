@@ -16,8 +16,6 @@ public class User implements Serializable {
 	private String username;
 	private String password;
 	private int disabled = 0;
-	// @Column(name = "failed_attempt")
-	// private int failedAttempt = 0;
 	private int lockAttempt = 0;
 	private String lockAttemptTime;
 
@@ -36,14 +34,6 @@ public class User implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-//	public int getFailedAttempt() {
-//		return failedAttempt;
-//	}
-//
-//	public void setFailedAttempt(int failedAttempt) {
-//		this.failedAttempt = failedAttempt;
-//	}
 
 	public String getLockAttemptTime() {
 		return lockAttemptTime;
