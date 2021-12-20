@@ -1,4 +1,4 @@
-package com;
+package com.config;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -59,9 +59,9 @@ public class SpringFoxConfig {
                 "Swagger API AAAAAAAAAAAAAAAAAAA",
                 "Some custom description of API BBBBBBBBBBBBBB.",
                 "@2021",
-                "Terms of service",
-                new Contact("Deft", "http://abc.net/", "abc@abc.com"),
-                "License of API", "API license URL", Collections.emptyList());
+                "Terms of serviceeeeeee",
+                new Contact("Deftttttt", "http://abc.net/", "abc@abc.com"),
+                "License of APIIIIIIII", "API license URL", Collections.emptyList());
     }
 
 }

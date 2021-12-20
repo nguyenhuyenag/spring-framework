@@ -1,6 +1,8 @@
-package com;
+package com.controller;
 
 import org.springframework.web.bind.annotation.*;
+
+import com.model.Book;
 
 import java.util.Arrays;
 import java.util.List;
