@@ -46,10 +46,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 			.antMatchers(AUTH_WHITELIST).permitAll()
 			.anyRequest().authenticated();
-		
-//		http.authorizeRequests().
-//        antMatchers(AUTH_WHITELIST).permitAll()  // whitelist Swagger UI resources
-//        .anyRequest().authenticated();
 	}
 
 }
