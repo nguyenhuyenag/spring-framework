@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.model.Book;
 
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("book")
@@ -29,6 +31,11 @@ public class BookController {
 
 	@GetMapping("/")
 	@ApiOperation(value = "Hàm lấy danh sách Book")
+	@ApiResponses(value = { //
+		@ApiResponse(code = 200, message = "Success", response = String.class), //
+		@ApiResponse(code = 422, message = "Student not found"), //
+		@ApiResponse(code = 417, message = "Exception failed") //
+	})
 	public List<Book> getAllBook() {
 		return list;
 	}
