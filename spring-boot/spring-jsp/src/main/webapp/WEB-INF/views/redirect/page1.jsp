@@ -6,8 +6,7 @@
 <body>
 	<h2>Page1</h2>
 	<form:form method="GET" action="redirect">
-    Name: <input type="text" name="name">
-		<br />
+    Name: <input type="text" name="name" value="java"> <br />
 		<input type="submit" value="Redirect" />
 	</form:form>
 </body>

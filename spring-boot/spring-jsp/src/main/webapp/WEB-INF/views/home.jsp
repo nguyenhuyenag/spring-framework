@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
@@ -48,6 +49,7 @@
 				<li><a href="${CONTEXT_PATH}/pass-data/send-by-request-1">Send data by request</a></li>
 				<li><a href="${CONTEXT_PATH}/pass-data/send-by-session-1">Send data by session</a></li>
 				<li><a href="${CONTEXT_PATH}/pass-data/send-by-localstorage-1">Send data by localstorage</a></li>
+				<li><a href="${CONTEXT_PATH}/page1">RedirectAttributes</a></li>
 			</ul>
 			<h3>2) Core</h3>
 			<ul>
@@ -63,7 +65,7 @@
 				<li><a href="${CONTEXT_CORE}/for-tokens">ForTokens</a></li>
 				<li><a href="${CONTEXT_CORE}/url">Url</a></li>
 				<li><a href="${CONTEXT_CORE}/import" class="red">Import</a></li>
-				<li><a href="${CONTEXT_CORE}/redirect">Redirect</a></li>
+				<li><a href="${CONTEXT_CORE}/redirect">Redirect (Tự động chuyển hướng)</a></li>
 				<li><a href="${CONTEXT_CORE}/param">Param</a></li>
 			</ul>
 			<h3>3) Format</h3>
