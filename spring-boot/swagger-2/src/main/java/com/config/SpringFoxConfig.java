@@ -1,6 +1,7 @@
 package com.config;
 
 import java.util.Collections;
+import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,7 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
+import springfox.documentation.service.Parameter;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -36,14 +38,8 @@ public class SpringFoxConfig {
 				.paths(PathSelectors.any()) //
 				// .paths(PathSelectors.ant("/NHD/**")) //
 				.build() //
-				.apiInfo(apiInfo())
-				.globalOperationParameters(Collections.singletonList(new ParameterBuilder()
-                                .name("Authorization")
-                                .description("JWT Authorization token")
-                                .modelRef(new ModelRef("string"))
-                                .parameterType("header")
-                                .required(false)
-                                .build()));
+				.apiInfo(apiInfo());
+				// .globalOperationParameters(JWTAuthorization());
 	}
 
 	private ApiInfo apiInfo() {
@@ -55,6 +51,16 @@ public class SpringFoxConfig {
 			"License of API", "API license URL", //
 			Collections.emptyList()
 		);
+	}
+	
+	List<Parameter> JWTAuthorization() {
+		return Collections.singletonList(new ParameterBuilder() //
+                .name("Authorization") //
+                .description("JWT Authorization token") //
+                .modelRef(new ModelRef("string")) //
+                .parameterType("header") //
+                .required(false) //
+                .build());
 	}
 
 }

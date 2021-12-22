@@ -29,32 +29,33 @@ public class BookController {
 		list.add(new Book("C++", 89));
 	}
 
-	@GetMapping("/")
+	@GetMapping("get-all")
 	@ApiOperation(value = "Hàm lấy danh sách Book")
-	@ApiResponses(value = { //
-		@ApiResponse(code = 200, message = "Success", response = String.class), //
-		@ApiResponse(code = 422, message = "Student not found"), //
-		@ApiResponse(code = 417, message = "Exception failed") //
-	})
 	public List<Book> getAllBook() {
 		return list;
 	}
 
-//	@GetMapping("/{id}")
-//	public Book getBookById(@PathVariable String id) {
-//		return new Book(id, "Book A", "Deft", 10000);
-//	}
-//
+	@GetMapping("find-by-name")
+	@ApiOperation(value = "Hàm tìm kiếm Book theo tên")
+	@ApiResponses(value = { //
+			@ApiResponse(code = 200, message = "Success", response = String.class), //
+			@ApiResponse(code = 422, message = "Book not found"), //
+			@ApiResponse(code = 417, message = "Exception failed") //
+	})
+	public Book findBook(String name) {
+		for (Book book : list) {
+			if (book.getName().toLowerCase().contains(name.toLowerCase())) {
+				return book;
+			}
+		}
+		return null;
+	}
+
 	@ApiOperation(value = "Hàm tạo mới Book")
-	@PostMapping("/")
+	@PostMapping("create")
 	public Book create(@RequestBody Book book) {
 		list.add(book);
 		return book;
 	}
-//
-//	@PutMapping("/")
-//	public void update(@RequestBody Book book) {
-//		System.out.println(book.getId());
-//	}
 
 }
