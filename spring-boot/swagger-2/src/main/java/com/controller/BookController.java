@@ -3,6 +3,7 @@ package com.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,31 +32,38 @@ public class BookController {
 
 	@GetMapping("get-all")
 	@ApiOperation(value = "Hàm lấy danh sách Book")
-	public List<Book> getAllBook() {
-		return list;
+	@ApiResponses(value = { //
+			@ApiResponse(code = 200, message = "Success", response = String.class), //
+			@ApiResponse(code = 999, message = "Book not found", response = String.class) //
+		})
+	public ResponseEntity<List<Book>> getAllBook() {
+		return ResponseEntity.ok(list);
 	}
 
 	@GetMapping("find-by-name")
-	@ApiOperation(value = "Hàm tìm kiếm Book theo tên")
+	@ApiOperation(value = "Hàm tìm kiếm theo tên")
 	@ApiResponses(value = { //
-			@ApiResponse(code = 200, message = "Success", response = String.class), //
-			@ApiResponse(code = 422, message = "Book not found"), //
-			@ApiResponse(code = 417, message = "Exception failed") //
+		@ApiResponse(code = 200, message = "Success", response = String.class), //
+		@ApiResponse(code = 999, message = "Book not found", response = String.class) //
 	})
-	public Book findBook(String name) {
+	public ResponseEntity<Book> findBook(String name) {
 		for (Book book : list) {
 			if (book.getName().toLowerCase().contains(name.toLowerCase())) {
-				return book;
+				return ResponseEntity.ok(book);
 			}
 		}
-		return null;
+		return ResponseEntity.notFound().build();
 	}
 
-	@ApiOperation(value = "Hàm tạo mới Book")
 	@PostMapping("create")
-	public Book create(@RequestBody Book book) {
+	@ApiOperation(value = "Hàm tạo Book")
+	@ApiResponses(value = { //
+			@ApiResponse(code = 200, message = "Success", response = String.class), //
+			@ApiResponse(code = 999, message = "Book not found", response = String.class) //
+		})
+	public ResponseEntity<Book> create(@RequestBody Book book) {
 		list.add(book);
-		return book;
+		return ResponseEntity.status(201).body(book);
 	}
 
 }

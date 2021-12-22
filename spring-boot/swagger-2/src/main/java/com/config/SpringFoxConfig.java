@@ -35,11 +35,11 @@ public class SpringFoxConfig {
 				.ignoredParameterTypes(HIDDEN_MODELS)
 				.select() //
 				.apis(RequestHandlerSelectors.basePackage("com.controller")) //
-				.paths(PathSelectors.any()) //
-				// .paths(PathSelectors.ant("/NHD/**")) //
+				.paths(PathSelectors.any()) // .ant("/book/**")
 				.build() //
 				.apiInfo(apiInfo());
 				// .globalOperationParameters(JWTAuthorization());
+
 	}
 
 	private ApiInfo apiInfo() {
