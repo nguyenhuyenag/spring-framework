@@ -64,12 +64,12 @@ public class JsonUtils {
 	 * @return Object
 	 */
 	public static <T> T readValue(InputStream is, Class<T> type) {
-		if (Objects.nonNull(is)) {
-			try {
+		try {
+			if (is != null) {
 				return MAPPER.readValue(is, type);
-			} catch (IOException e) {
-				e.printStackTrace();
 			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		return null;
 	}

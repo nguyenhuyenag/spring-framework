@@ -2,27 +2,33 @@ package com.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.HandlerMapping;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @Controller
-public class HandleController {
+public class SendRequestController {
+	
+	@Autowired
+	HttpServletRequest req;
+	
+	public String info() {
+		return req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort();
+	}
 
 	@GetMapping("send-request")
 	public String request(HttpServletRequest req, Model model) {
 		// Map<String, String[]> map = req.getParameterMap();
 		// map.forEach((k, v) -> System.out.println(k + ": " + Arrays.toString(v)));
-
-		ServletUriComponentsBuilder.fromCurrentRequest();
-		ServletUriComponentsBuilder.fromCurrentRequestUri();
+		
+		System.out.println(info());
 
 		// pattern will be either "/search/{subpath}/other" or
 		// "/find/other/{subpath}", depending on the url requested
-		String bestMatchPattern = (String ) req.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE);
+		String bestMatchPattern = (String) req.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE);
 		String path = (String) req.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
 		
 		AntPathMatcher apm = new AntPathMatcher();
@@ -32,6 +38,7 @@ public class HandleController {
 		System.out.println("Pattern matched 2: " + bestMatchPattern);
 		System.out.println("Pattern final: " + finalPath);
 		model.addAttribute("controller_path", bestMatchPattern);
+		
 		return "send-request";
 	}
 

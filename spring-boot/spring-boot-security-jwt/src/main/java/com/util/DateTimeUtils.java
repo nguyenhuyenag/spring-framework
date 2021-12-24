@@ -15,35 +15,12 @@ public class DateTimeUtils {
 	public static final long ONE_HOUR				=	3600000;
 	public static final long ONE_DAY				=	86400000;
 
-	// public static final String HH_MM_SS			=	"HH:mm:ss";
-	// public static final String YYYY_MM_DD		=	"dd-MM-yyyy";
-	public static final String DD_MM_YYYY_HH_MM_SS	=	"dd-MM-yyyy HH:mm:ss";
-
-	/**
-	 * Get current date time
-	 * @param pattern
-	 * @return Current date time
-	 * @throws DateTimeException
-	 */
 	public static String getNowByPattern(String pattern) throws DateTimeException {
 		LocalDateTime now = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
 		return now.format(formatter);
 	}
 
-	public static String getNow() {
-		return getNowByPattern(DD_MM_YYYY_HH_MM_SS);
-	}
-
-	/**
-	 * Get later date
-	 * <pre>
-	 * getLaterDate(ONE_HOURS)		= 1 giờ sau
-	 * getLaterDate( ONE_DAY )		= 1 ngày sau
-	 * </pre>
-	 * @param amounts là thời gian tính bằng mili giây
-	 * @return Date
-	 */
 	public static Date getLaterDate(long amounts) {
 		return new Date(System.currentTimeMillis() + amounts);
 	}

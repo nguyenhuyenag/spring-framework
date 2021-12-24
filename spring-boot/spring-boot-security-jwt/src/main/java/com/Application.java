@@ -8,8 +8,6 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.repository.UserRepository;
-
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer implements CommandLineRunner {
 
@@ -25,14 +23,11 @@ public class Application extends SpringBootServletInitializer implements Command
 	}
 
 	@Autowired
-	UserRepository repository;
-
-	@Autowired
 	PasswordEncoder encoder;
 
 	@Override
 	public void run(String... args) throws Exception {
-		repository.findAll().forEach(t->System.out.println(t));
+
 	}
 
 }
