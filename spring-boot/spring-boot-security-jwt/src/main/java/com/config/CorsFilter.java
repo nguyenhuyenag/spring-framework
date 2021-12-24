@@ -12,9 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpMethod;
 
-//@Component
-//@WebFilter("/*")
-//@Order(Ordered.HIGHEST_PRECEDENCE)
+// @Component
+// @WebFilter("/*")
+// @Order(Ordered.HIGHEST_PRECEDENCE)
 public class CorsFilter implements Filter {
 
 	@Override
@@ -25,7 +25,6 @@ public class CorsFilter implements Filter {
 		res.setHeader("Access-Control-Allow-Credentials", "true");
 		res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
 		res.setHeader("Access-Control-Max-Age", "3600");
-		// res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
 		res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Authorization, Origin, Accept, Access-Control-Request-Method, Access-Control-Request-Headers");
 		res.setHeader("Content-Type", "application/json;charset=utf-8");
 		res.setHeader("Access-Control-Expose-Headers", "Authorization");

@@ -23,15 +23,14 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
 	private String username;
 	private String password;
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(name = "USER_ROLES", joinColumns = { //
-		@JoinColumn(name = "USER_ID") }, //
-		inverseJoinColumns = { //
-		@JoinColumn(name = "ROLE_ID") }) //
+	@JoinTable(name = "user_roles", //
+		joinColumns = { @JoinColumn(name = "user_id") }, //
+		inverseJoinColumns = { @JoinColumn(name = "role_id") } //
+	)
 	private Set<Role> roles;
 
 	public Long getId() {
@@ -65,7 +64,7 @@ public class User {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
-	
+
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);

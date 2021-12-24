@@ -42,18 +42,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable() // disable csrf
-				.authorizeRequests() //
-				.antMatchers("/favicon.ico", "/api/get-json").permitAll() //
-				.anyRequest().authenticated().and()
-				.exceptionHandling() //
-				.authenticationEntryPoint(unauthorizedHandler).and()
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)//.and() //
-				.and()
-				.addFilterBefore(new JWTLoginFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class) //
-				.addFilterBefore(new JWTAuthenticationFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class); //
-				//.accessDeniedHandler(new Http403Forbidden()).and() //	403
-				//.headers().cacheControl();
+		http.csrf().disable()
+			.authorizeRequests() //
+			.antMatchers("/favicon.ico", "/api/get-json").permitAll() //
+			.anyRequest().authenticated().and() //
+			.exceptionHandling() //
+			.authenticationEntryPoint(unauthorizedHandler).and() //
+			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //
+			.and()
+			.addFilterBefore(new JWTLoginFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class) //
+			.addFilterBefore(new JWTAuthenticationFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class); //
+			//.accessDeniedHandler(new Http403Forbidden()).and() //	403
+			//.headers().cacheControl();
 	}
 
 }
