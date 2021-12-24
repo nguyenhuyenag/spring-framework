@@ -51,7 +51,6 @@ public class LoginController {
 			HttpResponse response = client.execute(httpPost);
 			System.out.println("Status:" + response.getStatusLine().toString());
 			String content = IOUtils.toString(response.getEntity().getContent(), StandardCharsets.UTF_8);
-			// System.out.println(content);
 			return new ResponseEntity<String>(content, HttpStatus.OK);
 		}
 	}

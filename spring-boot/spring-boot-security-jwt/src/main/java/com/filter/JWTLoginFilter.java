@@ -45,6 +45,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 		return getAuthenticationManager().authenticate(auth);
 	}
 
+	// login successful
 	@Override
 	protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain,
 			Authentication auth) throws IOException, ServletException {
@@ -55,6 +56,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 		// res.addHeader(HttpHeaders.AUTHORIZATION, TokenHandler.PREFIX + token);
 	}
 
+	// login fail
 	@Override
 	protected void unsuccessfulAuthentication(HttpServletRequest req, HttpServletResponse res,
 			AuthenticationException e) throws IOException, ServletException {
