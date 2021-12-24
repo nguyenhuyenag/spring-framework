@@ -14,9 +14,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.exception.CustomAccessDeniedHandler;
-import com.exception.CustomHttp403ForbiddenEntryPoint;
-import com.exception.JWTAuthenticationEntryPoint;
+import com.exception.Http403;
+import com.exception.Http401;
 import com.filter.JWTAuthenticationFilter;
 import com.filter.JWTLoginFilter;
 
@@ -29,7 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	private UserDetailsService userDetailsService;
 	
 	@Autowired
-	private JWTAuthenticationEntryPoint unauthorizedHandler;
+	private Http401 unauthorizedHandler;
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -48,13 +47,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/favicon.ico", "/auth/login-handle").permitAll() //
 			.anyRequest().authenticated()
 			.and()
-				.exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
-			.and()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //
 			.and()
 				.addFilterBefore(new JWTLoginFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class) //
 				.addFilterBefore(new JWTAuthenticationFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class) //
-				.exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler()); // .and() // 403
+				.exceptionHandling()
+				.authenticationEntryPoint(unauthorizedHandler)
+				.accessDeniedHandler(new Http403()); // .and() // 403
 				// .exceptionHandling().authenticationEntryPoint(new CustomHttp403ForbiddenEntryPoint());
 				// .headers().cacheControl();
 	}
