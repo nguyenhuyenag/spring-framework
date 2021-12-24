@@ -20,6 +20,10 @@ public class DateTimeUtils {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
 		return now.format(formatter);
 	}
+	
+	public static String getNow() throws DateTimeException {
+		return getNowByPattern("dd/MM/yyy HH:mm:ss");
+	}
 
 	public static Date getLaterDate(long amounts) {
 		return new Date(System.currentTimeMillis() + amounts);

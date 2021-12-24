@@ -1,4 +1,4 @@
-package com.filter;
+package com.exception;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -19,4 +19,5 @@ public class JWTAuthenticationEntryPoint implements AuthenticationEntryPoint, Se
 			AuthenticationException authException) throws IOException {
 		response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
 	}
+	
 }

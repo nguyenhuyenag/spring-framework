@@ -19,7 +19,7 @@ public class TokenHandler {
 	public static final String TOKEN_PREFIX 	=	"Bearer ";
 	public static final String SIGNING_KEY 		= 	"JWT_TOKEN_SECRET";
 	public static final String AUTHORITIES_KEY 	= 	"scopes";
-	private static final long EXPIRATION_TIME	= 	DateTimeUtils.ONE_HOUR;
+	private static final long EXPIRATION_TIME	= 	DateTimeUtils.ONE_MINUTE;
 
 	public static String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);

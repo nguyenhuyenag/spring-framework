@@ -14,7 +14,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.filter.JWTAuthenticationEntryPoint;
+import com.exception.CustomAccessDeniedHandler;
+import com.exception.CustomHttp403ForbiddenEntryPoint;
+import com.exception.JWTAuthenticationEntryPoint;
 import com.filter.JWTAuthenticationFilter;
 import com.filter.JWTLoginFilter;
 
@@ -27,7 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	private UserDetailsService userDetailsService;
 	
 	@Autowired
-    private JWTAuthenticationEntryPoint unauthorizedHandler;
+	private JWTAuthenticationEntryPoint unauthorizedHandler;
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -35,9 +37,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder am) throws Exception {
-		am.userDetailsService(userDetailsService) //
-		  .passwordEncoder(passwordEncoder());
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 	}
 
 	@Override
@@ -45,15 +46,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable()
 			.authorizeRequests() //
 			.antMatchers("/favicon.ico", "/auth/login-handle").permitAll() //
-			.anyRequest().authenticated().and() //
-			.exceptionHandling() //
-			.authenticationEntryPoint(unauthorizedHandler).and() //
-			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //
+			.anyRequest().authenticated()
 			.and()
-			.addFilterBefore(new JWTLoginFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class) //
-			.addFilterBefore(new JWTAuthenticationFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class); //
-			//.accessDeniedHandler(new Http403Forbidden()).and() //	403
-			//.headers().cacheControl();
+				.exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
+			.and()
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //
+			.and()
+				.addFilterBefore(new JWTLoginFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class) //
+				.addFilterBefore(new JWTAuthenticationFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class) //
+				.exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler()); // .and() // 403
+				// .exceptionHandling().authenticationEntryPoint(new CustomHttp403ForbiddenEntryPoint());
+				// .headers().cacheControl();
 	}
 
 }
