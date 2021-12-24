@@ -11,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import com.entity.User;
 import com.repository.UserRepository;
@@ -26,25 +25,23 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	private Set<SimpleGrantedAuthority> getAuthority(User user) {
 		Set<SimpleGrantedAuthority> authorities = new HashSet<>();
 		user.getRoles().forEach(role -> {
-			// authorities.add(new SimpleGrantedAuthority(role.getName()));
 			authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
 		});
-		// return Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"));
 		return authorities;
 	}
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		if (StringUtils.isEmpty(username)) {
-			throw new UsernameNotFoundException("Username is empty!");
-		}
-		final Optional<User> user = repository.findByUsername(username);
-		// return user.orElseThrow(() -> new UsernameNotFoundException("User `" + username + "` was not found!"));
-		if (user.isPresent()) {
-			return new org.springframework.security.core.userdetails //
-					   .User(user.get().getUsername(), user.get().getPassword(), getAuthority(user.get()));
-		} else {
+		final Optional<User> opt = repository.findByUsername(username);
+		if (!opt.isPresent()) {
 			throw new UsernameNotFoundException("User `" + username + "` was not found!");
 		}
+		User user = opt.get();
+		return org.springframework.security.core.userdetails.User //
+				.withUsername(user.getUsername()) //
+				.password(user.getPassword()) //
+				.disabled(false) //
+				.authorities(getAuthority(user)) //
+				.build();
 	}
 }

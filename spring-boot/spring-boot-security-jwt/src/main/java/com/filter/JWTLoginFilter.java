@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -70,4 +69,5 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 			AuthenticationException e) throws IOException, ServletException {
 		res.getWriter().write("Authentication failed, reason: " + e.getMessage());
 	}
+	
 }
