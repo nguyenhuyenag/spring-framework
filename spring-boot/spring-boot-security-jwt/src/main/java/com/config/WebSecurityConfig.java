@@ -53,8 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.addFilterBefore(new JWTAuthenticationFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class) //
 				.exceptionHandling()
 				.authenticationEntryPoint(unauthorizedHandler)
-				.accessDeniedHandler(new Http403()); // .and() // 403
-				// .exceptionHandling().authenticationEntryPoint(new CustomHttp403ForbiddenEntryPoint());
+				.accessDeniedHandler(new Http403());
 				// .headers().cacheControl();
 	}
 
