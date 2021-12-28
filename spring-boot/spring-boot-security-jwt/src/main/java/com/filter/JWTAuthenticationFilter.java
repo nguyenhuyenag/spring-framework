@@ -3,6 +3,7 @@ package com.filter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.stream.Collectors;
 
 import javax.servlet.FilterChain;
@@ -26,9 +27,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.JwtParser;
-import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureException;
 
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
@@ -64,8 +62,8 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (username != null && auth == null) {
 			UserDetails user = userDetailsService.loadUserByUsername(username);
-			if (TokenHandler.validateToken(token, user)) {
-				UsernamePasswordAuthenticationToken authToken = getAuthentication(token, auth, user);
+			if (TokenHandler.validateToken(user, token)) {
+				UsernamePasswordAuthenticationToken authToken = getAuthentication(token, user);
 				authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
 				LOG.info("Authenticated user " + username + ", setting security context");
 				SecurityContextHolder.getContext().setAuthentication(authToken);
@@ -73,16 +71,19 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 		}
 		chain.doFilter(req, res);
 	}
-	
-	private UsernamePasswordAuthenticationToken getAuthentication(final String token, final Authentication existingAuth, final UserDetails userDetails) {
-        final JwtParser jwtParser = Jwts.parser().setSigningKey(TokenHandler.SIGNING_KEY);
-        final Jws<Claims> claimsJws = jwtParser.parseClaimsJws(token);
-        final Claims claims = claimsJws.getBody();
-        final Collection<GrantedAuthority> authorities = //
-                Arrays.stream(claims.get(TokenHandler.AUTHORITIES_KEY).toString().split(",")) //
-                       .map(SimpleGrantedAuthority::new) //
-                       .collect(Collectors.toList());
-        return new UsernamePasswordAuthenticationToken(userDetails, "", authorities);
-    }
+
+	private UsernamePasswordAuthenticationToken getAuthentication(final String token, final UserDetails userDetails) {
+		// {sub=huyennv, scopes=ROLE_USER,ROLE_ADMIN, iat=1640672980, exp=1640759380}
+		Claims claims = TokenHandler.getAllClaimsFromToken(token);
+		Collection<GrantedAuthority> authorities = Collections.emptyList();
+		Object scopes = claims.get(TokenHandler.AUTHORITIES_KEY);
+		if (scopes != null) {
+			// [ROLE_USER, ROLE_ADMIN]
+			authorities = Arrays.stream(scopes.toString().split(",")) //
+								.map(SimpleGrantedAuthority::new) //
+								.collect(Collectors.toSet());
+		}
+		return new UsernamePasswordAuthenticationToken(userDetails, "", authorities);
+	}
 
 }

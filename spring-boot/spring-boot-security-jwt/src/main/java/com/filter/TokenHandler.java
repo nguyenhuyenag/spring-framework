@@ -16,52 +16,52 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 public class TokenHandler {
 
-	public static final String TOKEN_PREFIX 	=	"Bearer ";
-	public static final String SIGNING_KEY 		= 	"JWT_TOKEN_SECRET";
-	public static final String AUTHORITIES_KEY 	= 	"scopes";
-	private static final long EXPIRATION_TIME	= 	DateTimeUtils.ONE_MINUTE;
+	public static final String TOKEN_PREFIX 	= "Bearer ";
+	public static final String SIGNING_KEY 		= "JWT_TOKEN_SECRET";
+	public static final String AUTHORITIES_KEY 	= "scopes";
+	private static final long EXPIRATION_TIME 	= DateTimeUtils.ONE_DAY;
+
+	private static <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
+		Claims claims = getAllClaimsFromToken(token);
+		return claimsResolver.apply(claims);
+	}
 
 	public static String getUsernameFromToken(String token) {
-        return getClaimFromToken(token, Claims::getSubject);
-    }
+		return getClaimFromToken(token, Claims::getSubject);
+	}
 
-    public static Date getExpirationDateFromToken(String token) {
-        return getClaimFromToken(token, Claims::getExpiration);
-    }
+	public static Claims getAllClaimsFromToken(String token) {
+		return Jwts.parser() //
+				.setSigningKey(SIGNING_KEY) //
+				.parseClaimsJws(token) //
+				.getBody();
+	}
 
-    public static <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = getAllClaimsFromToken(token);
-        return claimsResolver.apply(claims);
-    }
+	private static Date getExpirationDateFromToken(String token) {
+		return getClaimFromToken(token, Claims::getExpiration);
+	}
 
-    private static Claims getAllClaimsFromToken(String token) {
-        return Jwts.parser() //
-                .setSigningKey(SIGNING_KEY) //
-                .parseClaimsJws(token) //
-                .getBody();
-    }
+	private static boolean isTokenExpired(String token) {
+		Date expiration = getExpirationDateFromToken(token);
+		return expiration.before(new Date());
+	}
 
-    private static Boolean isTokenExpired(String token) {
-        final Date expiration = getExpirationDateFromToken(token);
-        return expiration.before(new Date());
-    }
+	public static String generateToken(Authentication authentication) {
+		String authorities = authentication.getAuthorities().stream() //
+				.map(GrantedAuthority::getAuthority) //
+				.collect(Collectors.joining(","));
+		return Jwts.builder() //
+				.setSubject(authentication.getName()) //
+				.claim(AUTHORITIES_KEY, authorities) //
+				.signWith(SignatureAlgorithm.HS512, SIGNING_KEY) //
+				.setIssuedAt(new Date(System.currentTimeMillis())) //
+				.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME)) //
+				.compact();
+	}
 
-    public static String generateToken(Authentication authentication) {
-        final String authorities = authentication.getAuthorities().stream() //
-                .map(GrantedAuthority::getAuthority) //
-                .collect(Collectors.joining(","));
-        return Jwts.builder() //
-                .setSubject(authentication.getName()) //
-                .claim(AUTHORITIES_KEY, authorities) //
-                .signWith(SignatureAlgorithm.HS512, SIGNING_KEY) //
-                .setIssuedAt(new Date(System.currentTimeMillis())) //
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME)) //
-                .compact();
-    }
-
-    public static Boolean validateToken(String token, UserDetails userDetails) {
-        final String username = getUsernameFromToken(token);
-        return (!isTokenExpired(token) && username.equals(userDetails.getUsername()));
-    }
+	public static Boolean validateToken(UserDetails userDetails, String token) {
+		String username = getUsernameFromToken(token);
+		return (!isTokenExpired(token) && username.equals(userDetails.getUsername()));
+	}
 
 }
