@@ -1,0 +1,11 @@
+package com.exception;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+@ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "The given Database parameters are incorrect!")
+public class InvalidDbPropertiesException extends RuntimeException {
+
+	private static final long serialVersionUID = -4943550528437869196L;
+
+}
