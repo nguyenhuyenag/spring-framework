@@ -11,10 +11,13 @@ import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 
@@ -37,11 +40,11 @@ public class Post {
 	}
 
 	public static void postJson() throws ClientProtocolException, IOException {
-		ObjectMapper mapper = new ObjectMapper();
-		HttpPost httpPost = new HttpPost("http://localhost:8080/post-json");
+		HttpPost httpPost = new HttpPost("http://localhost:8082/auth/login");
 		Map<String, String> map = new HashMap<>();
-		map.put("username", "huyennv");
+		map.put("email", "lam.ln@ts24corp.com");
 		map.put("password", "123456");
+		ObjectMapper mapper = new ObjectMapper();
 		StringEntity entity = new StringEntity(mapper.writeValueAsString(map));
 		httpPost.setEntity(entity);
 		httpPost.setHeader("Accept", "application/json");
@@ -54,9 +57,25 @@ public class Post {
 		}
 	}
 
+	public static void postJson2() throws ClientProtocolException, IOException {
+		HttpClient httpClient = HttpClientBuilder.create().build();
+		HttpPost httpPost = new HttpPost("http://localhost:8082/auth/login");
+
+		String json = "{\"email\": \"lam.ln@ts24corp.com\", \"password\": \"123456\"}";
+		StringEntity entity = new StringEntity(json, ContentType.APPLICATION_JSON);
+	    httpPost.setEntity(entity);
+	    httpPost.setHeader("Accept", "application/json");
+	    httpPost.setHeader("Content-type", "application/json");
+		
+		HttpResponse response = httpClient.execute(httpPost);
+		String content = IOUtils.toString(response.getEntity().getContent(), StandardCharsets.UTF_8);
+		System.out.println(content);
+	}
+
 	public static void main(String[] args) throws ClientProtocolException, IOException {
 		// postParams();
-		postJson();
+		// postJson();
+		postJson2();
 	}
 
 }

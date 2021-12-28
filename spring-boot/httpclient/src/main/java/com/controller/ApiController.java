@@ -1,8 +1,10 @@
 package com.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.http.entity.StringEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,6 +51,12 @@ public class ApiController {
 	public ResponseEntity<?> postParams(@RequestBody Login login) {
 		login.setPassword("1234567890");
 		return ResponseEntity.ok(login);
+	}
+	
+	@GetMapping("string-entity")
+	public ResponseEntity<?> stringEntity() throws UnsupportedEncodingException {
+		StringEntity se = new StringEntity("abc");
+		return ResponseEntity.ok(se);
 	}
 
 }
