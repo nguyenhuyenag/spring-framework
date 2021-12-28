@@ -2,7 +2,6 @@ package com.multitenant;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.SQLSyntaxErrorException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
@@ -28,41 +27,39 @@ public class MultiTenantManager {
 	public static Logger LOG = LoggerFactory.getLogger(MultiTenantManager.class);
 
 	@Value("${spring.datasource.url}")
-	private String DATASOURCE_URL;
+	private String URL;
 
 	@Value("${spring.datasource.username}")
-	private String DATASOURCE_USERNAME;
+	private String USERNAME;
 
 	@Value("${spring.datasource.password}")
-	private String DATASOURCE_PASSWORD;
+	private String PASSWORD;
 
 	@Value("${spring.datasource.driver-class-name}")
-	private String DATASOURCE_DRIVER_CLASSNAME;
+	private String DRIVER_CLASSNAME;
 	
-	private final static ThreadLocal<String> currentTenant = new ThreadLocal<>();
-	private final static Map<Object, Object> tenantDataSources = new ConcurrentHashMap<>();
+	private static final ThreadLocal<String> currentTenant = new ThreadLocal<>();
+	private static final Map<Object, Object> tenantDataSources = new ConcurrentHashMap<>();
 
-	private static DataSourceProperties properties;
+	private static DataSourceProperties dataSourceProperties;
 	private static AbstractRoutingDataSource multiTenantDataSource;
 	private static Function<String, DataSourceProperties> tenantResolver;
 
-	// private static final String MSG_RESOLVING_TENANT_ID = "[!] Could not resolve
-	// tenant ID '{}'!";
-	// private static final String MSG_INVALID_TENANT_ID = "[!] DataSource not found
-	// for given tenant Id '{}'!";
+	// private static final String MSG_RESOLVING_TENANT_ID = "[!] Could not resolve tenant ID '{}'!";
+	// private static final String MSG_INVALID_TENANT_ID = "[!] DataSource not found for given tenant Id '{}'!";
 	// private static final String MSG_INVALID_DB_PROPERTIES_ID = "[!] DataSource properties related to the given tenant ('{}') is invalid!";
 
 	@Autowired
 	public MultiTenantManager(DataSourceProperties properties) {
-		MultiTenantManager.properties = properties;
+		MultiTenantManager.dataSourceProperties = properties;
 	}
 
 	private DriverManagerDataSource defaultDataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setUrl(DATASOURCE_URL);
-		dataSource.setDriverClassName(DATASOURCE_DRIVER_CLASSNAME);
-		dataSource.setUsername(DATASOURCE_USERNAME);
-		dataSource.setPassword(DATASOURCE_PASSWORD);
+		dataSource.setUrl(URL);
+		dataSource.setDriverClassName(DRIVER_CLASSNAME);
+		dataSource.setUsername(USERNAME);
+		dataSource.setPassword(PASSWORD);
 		return dataSource;
 	}
 
@@ -79,19 +76,19 @@ public class MultiTenantManager {
 		multiTenantDataSource.afterPropertiesSet();
 		return multiTenantDataSource;
 	}
-
+	
 	public static void setTenant(String databasename, String username, String password) {
-		// System.out.println(DATA_USERNAME);
 		String url = "jdbc:mysql://localhost:3306/" + databasename + "?useUnicode=true&characterEncoding=utf-8";
-		if (!url.equalsIgnoreCase(properties.getUrl())) {
+		if (!url.equalsIgnoreCase(dataSourceProperties.getUrl())) {
 			DataSource dataSource = DataSourceBuilder.create() //
-					.driverClassName(properties.getDriverClassName()) //
+					.driverClassName(dataSourceProperties.getDriverClassName()) //
 					.url(url) //
 					.username(username) //
 					.password(password) //
 					.build();
 			// check that new connection is 'live', if not - throw exception
 			try (Connection c = dataSource.getConnection()) {
+				System.out.println(tenantDataSources.toString());
 				tenantDataSources.put(databasename, dataSource);
 				multiTenantDataSource.afterPropertiesSet();
 				LOG.debug("[d] Tenant '{}' added.", databasename);
@@ -110,8 +107,7 @@ public class MultiTenantManager {
 			try {
 				DataSourceProperties dataSource = tenantResolver.apply(databasename);
 				LOG.debug("[d] Datasource properties resolved for tenant ID '{}'", databasename);
-				String url = dataSource.getUrl();
-				System.out.println("URL:" + url);
+				// String url = dataSource.getUrl();
 				String username = dataSource.getUsername();
 				String password = dataSource.getPassword();
 				setTenant(databasename, username, password);
@@ -119,8 +115,7 @@ public class MultiTenantManager {
 				// throw new TenantResolvingException(e, "Could not resolve the tenant!");
 			}
 		} else {
-			// throw new TenantNotFoundException(format("Tenant %s not found!",
-			// databasename));
+			// throw new TenantNotFoundException(format("Tenant %s not found!", databasename));
 		}
 		currentTenant.set(databasename);
 		LOG.debug("[d] Tenant '{}' set as current.", databasename);
