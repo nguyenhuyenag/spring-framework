@@ -54,7 +54,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 			} catch (ExpiredJwtException e) {
 				LOG.warn("The token is expired and not valid anymore", e);
 			} catch (SignatureException e) {
-				LOG.error("Authentication Failed. Username or Password not valid.");
+				LOG.error("Authentication Failed. Username or password not valid.");
 			}
 		} else {
 			LOG.warn("Couldn't find bearer string, will ignore the header");

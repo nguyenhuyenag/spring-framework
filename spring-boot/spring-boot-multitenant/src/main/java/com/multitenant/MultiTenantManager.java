@@ -1,9 +1,8 @@
 package com.multitenant;
 
-import static java.lang.String.format;
-
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.SQLSyntaxErrorException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
@@ -22,7 +21,6 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
 import com.exception.InvalidDbPropertiesException;
-import com.exception.InvalidTenantIdExeption;
 
 @Configuration
 public class MultiTenantManager {
@@ -40,7 +38,7 @@ public class MultiTenantManager {
 
 	@Value("${spring.datasource.driver-class-name}")
 	private String DATASOURCE_DRIVER_CLASSNAME;
-
+	
 	private final static ThreadLocal<String> currentTenant = new ThreadLocal<>();
 	private final static Map<Object, Object> tenantDataSources = new ConcurrentHashMap<>();
 
@@ -48,9 +46,11 @@ public class MultiTenantManager {
 	private static AbstractRoutingDataSource multiTenantDataSource;
 	private static Function<String, DataSourceProperties> tenantResolver;
 
-	private static final String MSG_RESOLVING_TENANT_ID = "[!] Could not resolve tenant ID '{}'!";
-	private static final String MSG_INVALID_TENANT_ID = "[!] DataSource not found for given tenant Id '{}'!";
-	private static final String MSG_INVALID_DB_PROPERTIES_ID = "[!] DataSource properties related to the given tenant ('{}') is invalid!";
+	// private static final String MSG_RESOLVING_TENANT_ID = "[!] Could not resolve
+	// tenant ID '{}'!";
+	// private static final String MSG_INVALID_TENANT_ID = "[!] DataSource not found
+	// for given tenant Id '{}'!";
+	// private static final String MSG_INVALID_DB_PROPERTIES_ID = "[!] DataSource properties related to the given tenant ('{}') is invalid!";
 
 	@Autowired
 	public MultiTenantManager(DataSourceProperties properties) {
@@ -80,75 +80,75 @@ public class MultiTenantManager {
 		return multiTenantDataSource;
 	}
 
-	private static void setCurrentTenant(String tenantId)
-			throws SQLException, TenantNotFoundException, TenantResolvingException {
-		if (tenantIsAbsent(tenantId)) {
-			if (tenantResolver != null) {
-				DataSourceProperties properties;
-				try {
-					properties = tenantResolver.apply(tenantId);
-					LOG.debug("[d] Datasource properties resolved for tenant ID '{}'", tenantId);
-				} catch (Exception e) {
-					throw new TenantResolvingException(e, "Could not resolve the tenant!");
-				}
-				String url = properties.getUrl();
-				System.out.println("URL:" + url);
-				String username = properties.getUsername();
-				String password = properties.getPassword();
-				handleAddTenant(tenantId, username, password);
-			} else {
-				throw new TenantNotFoundException(format("Tenant %s not found!", tenantId));
+	public static void setTenant(String databasename, String username, String password) {
+		// System.out.println(DATA_USERNAME);
+		String url = "jdbc:mysql://localhost:3306/" + databasename + "?useUnicode=true&characterEncoding=utf-8";
+		if (!url.equalsIgnoreCase(properties.getUrl())) {
+			DataSource dataSource = DataSourceBuilder.create() //
+					.driverClassName(properties.getDriverClassName()) //
+					.url(url) //
+					.username(username) //
+					.password(password) //
+					.build();
+			// check that new connection is 'live', if not - throw exception
+			try (Connection c = dataSource.getConnection()) {
+				tenantDataSources.put(databasename, dataSource);
+				multiTenantDataSource.afterPropertiesSet();
+				LOG.debug("[d] Tenant '{}' added.", databasename);
+			} catch (SQLException e) {
+				throw new InvalidDbPropertiesException();
 			}
 		}
-		currentTenant.set(tenantId);
-		LOG.debug("[d] Tenant '{}' set as current.", tenantId);
 	}
 
-	private static void handleAddTenant(String databasename, String username, String password)
-			throws SQLException {
-		String url = "jdbc:mysql://localhost:3306/" + databasename + "?useUnicode=true&characterEncoding=utf-8";
-		DataSource dataSource = DataSourceBuilder.create() //
-				.driverClassName(properties.getDriverClassName()) //
-				.url(url) //
-				.username(username) //
-				.password(password) //
-				.build();
+	private static boolean exist(String databasename) {
+		return tenantDataSources.containsKey(databasename);
+	}
 
-		// Check that new connection is 'live'. If not - throw exception
-		try (Connection c = dataSource.getConnection()) {
-			tenantDataSources.put(databasename, dataSource);
-			multiTenantDataSource.afterPropertiesSet();
-			LOG.debug("[d] Tenant '{}' added.", databasename);
+	public static void switchTenant(String databasename) {
+		if (!exist(databasename) && tenantResolver != null) {
+			try {
+				DataSourceProperties dataSource = tenantResolver.apply(databasename);
+				LOG.debug("[d] Datasource properties resolved for tenant ID '{}'", databasename);
+				String url = dataSource.getUrl();
+				System.out.println("URL:" + url);
+				String username = dataSource.getUsername();
+				String password = dataSource.getPassword();
+				setTenant(databasename, username, password);
+			} catch (Exception e) {
+				// throw new TenantResolvingException(e, "Could not resolve the tenant!");
+			}
+		} else {
+			// throw new TenantNotFoundException(format("Tenant %s not found!",
+			// databasename));
 		}
+		currentTenant.set(databasename);
+		LOG.debug("[d] Tenant '{}' set as current.", databasename);
 	}
 
-	private static boolean tenantIsAbsent(String databasename) {
-		return !tenantDataSources.containsKey(databasename);
-	}
+//	public static void switchTenant(String databasename) {
+//		try {
+//			MultiTenantManager.setTenant(databasename);
+//		} catch (SQLException e) {
+//			LOG.error(MSG_INVALID_DB_PROPERTIES_ID, databasename);
+//			throw new InvalidDbPropertiesException();
+//		} catch (TenantNotFoundException e) {
+//			LOG.error(MSG_INVALID_TENANT_ID, databasename);
+//			throw new InvalidTenantIdExeption();
+//		} catch (TenantResolvingException e) {
+//			LOG.error(MSG_RESOLVING_TENANT_ID, databasename);
+//			throw new InvalidTenantIdExeption();
+//		}
+//	}
 
-	public static void setTenant(String databasename) {
-		try {
-			MultiTenantManager.setCurrentTenant(databasename);
-		} catch (SQLException e) {
-			LOG.error(MSG_INVALID_DB_PROPERTIES_ID, databasename);
-			throw new InvalidDbPropertiesException();
-		} catch (TenantNotFoundException e) {
-			LOG.error(MSG_INVALID_TENANT_ID, databasename);
-			throw new InvalidTenantIdExeption();
-		} catch (TenantResolvingException e) {
-			LOG.error(MSG_RESOLVING_TENANT_ID, databasename);
-			throw new InvalidTenantIdExeption();
-		}
-	}
-
-	public static void addTenant(String databasename, String username, String password) {
-		try {
-			MultiTenantManager.handleAddTenant(databasename, username, password);
-		} catch (SQLException e) {
-			LOG.error(MSG_INVALID_DB_PROPERTIES_ID, databasename);
-			throw new InvalidDbPropertiesException();
-		}
-	}
+//	public static void addTenant(String databasename, String username, String password) {
+//		try {
+//			MultiTenantManager.handleAddTenant(databasename, username, password);
+//		} catch (SQLException e) {
+//			LOG.error(MSG_INVALID_DB_PROPERTIES_ID, databasename);
+//			throw new InvalidDbPropertiesException();
+//		}
+//	}
 
 	// private DataSource removeTenant(String tenantId) {
 	// Object removedDataSource = tenantDataSources.remove(tenantId);

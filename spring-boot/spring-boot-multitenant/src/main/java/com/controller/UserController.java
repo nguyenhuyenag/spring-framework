@@ -16,8 +16,8 @@ public class UserController {
 
 	@GetMapping("user")
 	private ResponseEntity<?> user(String databasename, String username, String password) {
-		MultiTenantManager.addTenant(databasename, username, password);
-		MultiTenantManager.setTenant(databasename);
+		MultiTenantManager.setTenant(databasename, username, password);
+		MultiTenantManager.switchTenant(databasename);
 		return ResponseEntity.ok(repository.findAll());
 	}
 
