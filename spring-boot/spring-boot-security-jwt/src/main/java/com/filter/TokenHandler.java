@@ -38,7 +38,7 @@ public class TokenHandler {
 	}
 
 	private static Date getExpirationDateFromToken(String token) {
-		return getClaimFromToken(token, Claims::getExpiration);
+		return getClaimFromToken(token, t -> t.getExpiration());
 	}
 
 	private static boolean isTokenExpired(String token) {

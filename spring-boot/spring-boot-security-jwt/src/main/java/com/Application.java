@@ -27,7 +27,7 @@ public class Application extends SpringBootServletInitializer implements Command
 
 	@Override
 	public void run(String... args) throws Exception {
-
+		// Assert.notNull(null, "password cannot be null");
 	}
 
 }
