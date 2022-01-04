@@ -38,16 +38,19 @@ public class ApiController {
 	}
 
 	@GetMapping("user-info")
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+	// @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	public ResponseEntity<User> userInfo(Principal principal) {
 		String username = principal.getName();
-		Optional<User> u = repository.findByUsername(username);
-		return new ResponseEntity<>(u.get(), HttpStatus.OK);
+		Optional<User> opt = repository.findByUsername(username);
+		User user = opt.get();
+		user.setPassword(null);
+		user.setRoles(null);
+		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
 
 	@GetMapping("get-all-user")
 	@PreAuthorize("hasRole('ADMIN')")
-	// @Secured({"ROLE_ADMIN", "ROLE_USER"})
 	public List<User> listUser() {
 		return repository.findAll();
 	}

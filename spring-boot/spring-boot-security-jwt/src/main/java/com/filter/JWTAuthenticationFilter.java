@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,10 +77,10 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 		// {sub=huyennv, scopes=ROLE_USER,ROLE_ADMIN, iat=1640672980, exp=1640759380}
 		Claims claims = TokenHandler.getAllClaimsFromToken(token);
 		Collection<GrantedAuthority> authorities = Collections.emptyList();
-		Object scopes = claims.get(TokenHandler.AUTHORITIES_KEY);
-		if (scopes != null) {
+		String scopes = claims.get(TokenHandler.AUTHORITIES_KEY).toString();
+		if (StringUtils.isNotEmpty(scopes)) {
 			// [ROLE_USER, ROLE_ADMIN]
-			authorities = Arrays.stream(scopes.toString().split(",")) //
+			authorities = Arrays.stream(scopes.split(",")) //
 								.map(SimpleGrantedAuthority::new) //
 								.collect(Collectors.toSet());
 		}
