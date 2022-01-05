@@ -2,8 +2,6 @@ package com.controller;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,8 +21,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.reponse.ErrorResponse;
 import com.request.LoginRequest;
+import com.util.JsonUtils;
 
 @Controller
 @RequestMapping("auth")
@@ -38,25 +37,28 @@ public class LoginController {
 	}
 
 	@PostMapping("login-handle")
-	private ResponseEntity<?> login(@RequestBody LoginRequest login) throws ClientProtocolException, IOException {
+	private ResponseEntity<?> login(@RequestBody(required = false) LoginRequest login, HttpServletRequest req)
+			throws ClientProtocolException, IOException {
+		if (login == null) {
+			ErrorResponse error = new ErrorResponse();
+			error.setError("Required request body is missing");
+			error.setMessage("");
+			error.setPath(req.getRequestURI());
+			return ResponseEntity.ok(error);
+		}
 		HttpPost httpPost = new HttpPost(url() + "/auth/login");
-		Map<String, String> map = new HashMap<>();
-		map.put("username", login.getUsername());
-		map.put("password", login.getPassword());
-		// System.out.println(mapper.writeValueAsString(map));
-		ObjectMapper mapper = new ObjectMapper();
-		StringEntity entity = new StringEntity(mapper.writeValueAsString(map));
+		StringEntity entity = new StringEntity(JsonUtils.toJSON(login));
 		httpPost.setEntity(entity);
-		httpPost.setHeader("Accept", "application/json");
-		httpPost.setHeader("Content-type", "application/json");
-		try (CloseableHttpClient client = HttpClients.createDefault();) {
+		// httpPost.setHeader("Accept", "application/json");
+		// httpPost.setHeader("Content-type", "application/json");
+		try (CloseableHttpClient client = HttpClients.createDefault()) {
 			HttpResponse response = client.execute(httpPost);
-			// System.out.println("Status:" + response.getStatusLine().toString());
-			// String content = IOUtils.toString(response.getEntity().getContent(), StandardCharsets.UTF_8);
+			System.out.println("Status: " + response.getStatusLine());
+			// IOUtils.toString(response.getEntity().getContent());
 			String content = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
 			if (content.contains("token")) {
-				JsonNode json = mapper.readTree(content);
-				return new ResponseEntity<JsonNode>(json, HttpStatus.OK);
+				JsonNode jsonNode = JsonUtils.toJsonNode(content);
+				return ResponseEntity.status(HttpStatus.OK).body(jsonNode);
 			}
 			return new ResponseEntity<String>(content, HttpStatus.OK);
 		}

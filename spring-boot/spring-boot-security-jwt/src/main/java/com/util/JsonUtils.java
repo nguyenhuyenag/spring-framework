@@ -2,14 +2,12 @@ package com.util;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 import java.util.Objects;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JsonUtils {
@@ -44,18 +42,18 @@ public class JsonUtils {
 	 * @param array
 	 * @return List<T>
 	 */
-	public static <T> List<T> toList(String json) {
-		try {
-			return MAPPER.readValue(json, new TypeReference<List<T>>() {});
-		} catch (JsonParseException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+//	public static <T> List<T> toList(String json) {
+//		try {
+//			return MAPPER.readValue(json, new TypeReference<List<T>>() {});
+//		} catch (JsonParseException e) {
+//			e.printStackTrace();
+//		} catch (JsonMappingException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		return null;
+//	}
 	
 	/**
 	 * InputStream to Object
@@ -69,6 +67,17 @@ public class JsonUtils {
 				return MAPPER.readValue(is, type);
 			}
 		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static JsonNode toJsonNode(String jsonString) {
+		try {
+			return MAPPER.readTree(jsonString);
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
 		return null;
