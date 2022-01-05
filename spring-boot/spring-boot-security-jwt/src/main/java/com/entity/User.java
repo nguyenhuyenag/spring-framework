@@ -16,6 +16,11 @@ import javax.persistence.Table;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 @Entity
 @Table(name = "user")
 public class User {
@@ -25,46 +30,20 @@ public class User {
 	private Long id;
 	private String username;
 	private String password;
-
+	private int failedCounter = 0;
+	private int loginDisabled = 0;
+	
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "user_roles", //
 		joinColumns = { @JoinColumn(name = "user_id") }, //
 		inverseJoinColumns = { @JoinColumn(name = "role_id") } //
 	)
 	private Set<Role> roles;
-
-	public Long getId() {
-		return id;
+	
+	public boolean isLoginDisabled() {
+		return loginDisabled != 0;
 	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public Set<Role> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
-	}
-
+	
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);

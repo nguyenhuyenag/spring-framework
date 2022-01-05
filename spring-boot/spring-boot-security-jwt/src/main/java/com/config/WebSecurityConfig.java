@@ -18,11 +18,15 @@ import com.exception.Http401;
 import com.exception.Http403;
 import com.filter.JWTAuthenticationFilter;
 import com.filter.JWTLoginFilter;
+import com.service.UserService;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+	
+	@Autowired
+	private UserService userService;
 
 	@Autowired
 	private UserDetailsService userDetailsService;
@@ -49,7 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.and()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //
 			.and()
-				.addFilterBefore(new JWTLoginFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class) //
+				.addFilterBefore(new JWTLoginFilter(authenticationManager(), userService), UsernamePasswordAuthenticationFilter.class) //
 				.addFilterBefore(new JWTAuthenticationFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class) //
 				.exceptionHandling()
 				.authenticationEntryPoint(unauthorizedHandler)

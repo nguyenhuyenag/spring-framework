@@ -1,5 +1,6 @@
 package com.util;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
@@ -65,6 +66,17 @@ public class JsonUtils {
 		try {
 			if (is != null) {
 				return MAPPER.readValue(is, type);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static <T> T readValue(BufferedReader br, Class<T> type) {
+		try {
+			if (br != null) {
+				return MAPPER.readValue(br, type);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

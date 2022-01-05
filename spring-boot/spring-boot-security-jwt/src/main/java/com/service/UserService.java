@@ -3,12 +3,13 @@ package com.service;
 import java.util.List;
 
 import com.entity.User;
-import com.request.RegisterRequest;
 
 public interface UserService {
+	
+	User findByUsername(String username);
+	
+	boolean save(User user);
 
 	List<User> loadAll();
-
-	void register(RegisterRequest dto);
 
 }

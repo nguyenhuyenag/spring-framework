@@ -26,15 +26,15 @@ public class TokenHandler {
 		return claimsResolver.apply(claims);
 	}
 
-	public static String getUsernameFromToken(String token) {
-		return getClaimFromToken(token, Claims::getSubject);
-	}
-
 	public static Claims getAllClaimsFromToken(String token) {
 		return Jwts.parser() //
 				.setSigningKey(SIGNING_KEY) //
 				.parseClaimsJws(token) //
 				.getBody();
+	}
+	
+	public static String getUsernameFromToken(String token) {
+		return getClaimFromToken(token, Claims::getSubject);
 	}
 
 	private static Date getExpirationDateFromToken(String token) {

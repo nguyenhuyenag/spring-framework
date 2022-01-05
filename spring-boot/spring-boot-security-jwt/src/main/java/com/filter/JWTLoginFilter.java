@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,21 +17,31 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.entity.User;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.request.LoginRequest;
 import com.response.LoginResponse;
+import com.service.UserService;
 import com.util.JsonUtils;
 
+// @Component
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
+	
+	private final int MAX_ATTEMPT = 5;
+	
+	@Autowired
+	private UserService userService;
+	
+	// @Autowired
+	// UserRepository userRepository;
 
-	// private final int MAX_ATTEMPT = 5;
-	// private LoginRequest login = new LoginRequest();
-	// public static Map<String, LoginAttempt> countAttempt = new ConcurrentHashMap<>();
+	private LoginRequest login = new LoginRequest();
 
-	public JWTLoginFilter(AuthenticationManager am) {
+	public JWTLoginFilter(AuthenticationManager am, UserService userService) {
 		super(new AntPathRequestMatcher("/auth/login"));
 		this.setAuthenticationManager(am);
+		this.userService = userService;
 	}
 
 	@Override
@@ -38,7 +49,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 			throws JsonParseException, JsonMappingException, IOException {
 		UsernamePasswordAuthenticationToken auth = null;
 		try {
-			LoginRequest login = JsonUtils.readValue(req.getInputStream(), LoginRequest.class);
+			this.login = JsonUtils.readValue(req.getInputStream(), LoginRequest.class);
 			if (login != null) {
 				auth = new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword());
 			}
@@ -64,7 +75,29 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	@Override
 	protected void unsuccessfulAuthentication(HttpServletRequest req, HttpServletResponse res,
 			AuthenticationException failed) throws IOException, ServletException {
+		whenLoginFailure();
 		res.getWriter().write("Authentication failed, reason: " + failed.getMessage());
+	}
+
+	public void whenLoginFailure() {
+		if (this.login != null) {
+			// System.out.println(this.login.getUsername());
+			// System.out.println(userService == null);
+			// System.out.println(userRepository == null);
+			User user = userService.findByUsername(this.login.getUsername());
+			if (user != null && !user.isLoginDisabled()) {
+				int failedCounter = user.getFailedCounter();
+				if (MAX_ATTEMPT < failedCounter + 1) {
+					// disabling the account
+					user.setLoginDisabled(1);
+					// user.setFailedCounter(0); // reset counter
+				} else {
+					// let's update the counter
+					user.setFailedCounter(failedCounter + 1);
+				}
+				userService.save(user);
+			}
+		}
 	}
 
 }
