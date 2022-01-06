@@ -64,7 +64,7 @@ public class LoginController {
 				error.setPath(req.getRequestURI());
 				return ResponseEntity.status(HttpStatus.OK).body(error);
 			} else {
-				user.setLoginDisabled(0);
+				// user.setLoginDisabled(0);
 				userService.save(user);
 			}
 		}
