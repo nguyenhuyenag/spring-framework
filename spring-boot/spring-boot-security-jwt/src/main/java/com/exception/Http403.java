@@ -14,18 +14,19 @@ import com.util.JsonUtils;
 
 public class Http403 implements AccessDeniedHandler {
 
-    @Override
-    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException)
-            throws IOException, ServletException {
-    	// response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access denied");
-    	response.setStatus(403);
-		response.setContentType("application/json;charset=UTF-8");
+	@Override
+	public void handle(HttpServletRequest req, HttpServletResponse res, AccessDeniedException adx)
+			throws IOException, ServletException {
+		res.setStatus(403);
+		res.setContentType("application/json;charset=UTF-8");
+		
 		ErrorResponse error = new ErrorResponse();
 		error.setStatus(403);
-		error.setError("Access denieddddd");
-		error.setMessage("");
-		error.setPath(request.getRequestURI());
-    	response.getWriter().write(JsonUtils.toJSON(error));
-    }
+		error.setError("Access denied");
+		error.setMessage("From Http403");
+		error.setPath(req.getRequestURI());
+		
+		res.getWriter().write(JsonUtils.toJSON(error));
+	}
 
 }

@@ -45,8 +45,8 @@ public class LoginController {
 	@PostMapping("login-handle")
 	private ResponseEntity<?> login(@RequestBody(required = false) LoginRequest login, HttpServletRequest req)
 			throws ClientProtocolException, IOException {
+		ErrorResponse error = new ErrorResponse();
 		if (login == null) {
-			ErrorResponse error = new ErrorResponse();
 			error.setError("Required request body is missing");
 			error.setMessage("");
 			error.setPath(req.getRequestURI());
@@ -57,12 +57,11 @@ public class LoginController {
 			Date timeDisabled = user.getTimeLoginDisabled(); 
 			if (timeDisabled != null && timeDisabled.after(new Date())) {
 				// khoa tai khoan
-				ErrorResponse error = new ErrorResponse();
 				// error.setStatus(401);
 				error.setError("Unauthorized");
 				error.setMessage("Your account is disabled!");
 				error.setPath(req.getRequestURI());
-				return ResponseEntity.status(200).body(error);
+				return ResponseEntity.ok(error);
 			} else {
 				user.setLoginDisabled(0);
 				userService.save(user);
@@ -75,7 +74,7 @@ public class LoginController {
 		// httpPost.setHeader("Content-type", "application/json");
 		try (CloseableHttpClient client = HttpClients.createDefault()) {
 			HttpResponse response = client.execute(httpPost);
-			System.out.println("Status: " + response.getStatusLine());
+			// System.out.println("Status: " + response.getStatusLine());
 			// IOUtils.toString(response.getEntity().getContent());
 			String content = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
 			if (content.contains("token")) {

@@ -73,16 +73,18 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	protected void unsuccessfulAuthentication(HttpServletRequest req, HttpServletResponse res,
 			AuthenticationException failed) throws IOException, ServletException {
 		whenLoginFailure();
+		
 		res.setStatus(401);
 		res.setContentType("application/json;charset=UTF-8");
 		
 		ErrorResponse error = new ErrorResponse();
 		error.setStatus(401);
 		error.setError("Unauthorized");
-		error.setMessage("From unsuccessfulAuthentication()");
+		error.setMessage("From JWTLoginFilter.unsuccessfulAuthentication()");
 		error.setPath(req.getRequestURI());
 		
-		res.getWriter().write(JsonUtils.toJSON(error));
+		String json = JsonUtils.toJSON(error);
+		res.getWriter().write(json);
 	}
 
 	public void whenLoginFailure() {
