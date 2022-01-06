@@ -23,25 +23,21 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.request.LoginRequest;
 import com.response.LoginResponse;
 import com.service.UserService;
+import com.util.DateTimeUtils;
 import com.util.JsonUtils;
 
-// @Component
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
-	
-	private final int MAX_ATTEMPT = 5;
 	
 	@Autowired
 	private UserService userService;
 	
-	// @Autowired
-	// UserRepository userRepository;
-
+	private final int MAX_ATTEMPT = 5;
 	private LoginRequest login = new LoginRequest();
 
-	public JWTLoginFilter(AuthenticationManager am, UserService userService) {
+	public JWTLoginFilter(AuthenticationManager am, UserService service) {
 		super(new AntPathRequestMatcher("/auth/login"));
+		this.userService = service;
 		this.setAuthenticationManager(am);
-		this.userService = userService;
 	}
 
 	@Override
@@ -81,19 +77,15 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
 	public void whenLoginFailure() {
 		if (this.login != null) {
-			// System.out.println(this.login.getUsername());
-			// System.out.println(userService == null);
-			// System.out.println(userRepository == null);
 			User user = userService.findByUsername(this.login.getUsername());
 			if (user != null && !user.isLoginDisabled()) {
 				int failedCounter = user.getFailedCounter();
 				if (MAX_ATTEMPT < failedCounter + 1) {
-					// disabling the account
-					user.setLoginDisabled(1);
-					// user.setFailedCounter(0); // reset counter
+					user.setFailedCounter(0); // reset counter
+					user.setLoginDisabled(1); // disabling the account
+					user.setTimeLoginDisabled(DateTimeUtils.later(DateTimeUtils.ONE_MINUTE));
 				} else {
-					// let's update the counter
-					user.setFailedCounter(failedCounter + 1);
+					user.setFailedCounter(failedCounter + 1); // update the counter
 				}
 				userService.save(user);
 			}

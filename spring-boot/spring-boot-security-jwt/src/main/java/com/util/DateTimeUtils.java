@@ -25,7 +25,7 @@ public class DateTimeUtils {
 		return getNowByPattern("dd/MM/yyy HH:mm:ss");
 	}
 
-	public static Date getLaterDate(long amounts) {
+	public static Date later(long amounts) {
 		return new Date(System.currentTimeMillis() + amounts);
 	}
 	

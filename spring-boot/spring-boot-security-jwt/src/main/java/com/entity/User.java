@@ -1,5 +1,6 @@
 package com.entity;
 
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -32,6 +33,7 @@ public class User {
 	private String password;
 	private int failedCounter = 0;
 	private int loginDisabled = 0;
+	private Date timeLoginDisabled;
 	
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "user_roles", //

@@ -2,6 +2,7 @@ package com.controller;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,14 +21,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.entity.User;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.reponse.ErrorResponse;
 import com.request.LoginRequest;
+import com.service.UserService;
 import com.util.JsonUtils;
 
 @Controller
 @RequestMapping("auth")
 public class LoginController {
+	
+	@Autowired
+	private UserService userService;
 
 	@Autowired
 	HttpServletRequest req;
@@ -45,6 +51,22 @@ public class LoginController {
 			error.setMessage("");
 			error.setPath(req.getRequestURI());
 			return ResponseEntity.ok(error);
+		}
+		User user = userService.findByUsername(login.getUsername());
+		if (user != null) {
+			Date timeDisabled = user.getTimeLoginDisabled(); 
+			if (timeDisabled != null && timeDisabled.after(new Date())) {
+				// tai khoan dang bi khoa
+				ErrorResponse error = new ErrorResponse();
+				error.setStatus(401);
+				error.setError("Unauthorized");
+				error.setMessage("Your account was disable!");
+				error.setPath(req.getRequestURI());
+				return ResponseEntity.status(HttpStatus.OK).body(error);
+			} else {
+				user.setLoginDisabled(0);
+				userService.save(user);
+			}
 		}
 		HttpPost httpPost = new HttpPost(url() + "/auth/login");
 		StringEntity entity = new StringEntity(JsonUtils.toJSON(login));
