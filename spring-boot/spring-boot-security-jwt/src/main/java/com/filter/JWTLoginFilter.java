@@ -20,6 +20,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import com.entity.User;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.reponse.ErrorResponse;
 import com.request.LoginRequest;
 import com.response.LoginResponse;
 import com.service.UserService;
@@ -72,7 +73,16 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	protected void unsuccessfulAuthentication(HttpServletRequest req, HttpServletResponse res,
 			AuthenticationException failed) throws IOException, ServletException {
 		whenLoginFailure();
-		res.getWriter().write("Authentication failed, reason: " + failed.getMessage());
+		res.setStatus(401);
+		res.setContentType("application/json;charset=UTF-8");
+		
+		ErrorResponse error = new ErrorResponse();
+		error.setStatus(401);
+		error.setError("Unauthorized");
+		error.setMessage("From unsuccessfulAuthentication()");
+		error.setPath(req.getRequestURI());
+		
+		res.getWriter().write(JsonUtils.toJSON(error));
 	}
 
 	public void whenLoginFailure() {

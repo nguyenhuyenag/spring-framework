@@ -56,9 +56,9 @@ public class LoginController {
 		if (user != null) {
 			Date timeDisabled = user.getTimeLoginDisabled(); 
 			if (timeDisabled != null && timeDisabled.after(new Date())) {
-				// tai khoan dang bi khoa
+				// khoa tai khoan
 				ErrorResponse error = new ErrorResponse();
-				error.setStatus(401);
+				// error.setStatus(401);
 				error.setError("Unauthorized");
 				error.setMessage("Your account is disabled!");
 				error.setPath(req.getRequestURI());

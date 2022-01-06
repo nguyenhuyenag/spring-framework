@@ -24,7 +24,7 @@ public class ErrorResponse {
 	}
 	 */
 	// customizing timestamp serialization format
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
+	@JsonFormat(pattern = "yyy-MM-dd HH:mm:ss")
 	private Date timestamp;
 	private int status;
 	private String error;

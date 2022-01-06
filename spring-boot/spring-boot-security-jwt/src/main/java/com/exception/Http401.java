@@ -26,8 +26,8 @@ public class Http401 implements AuthenticationEntryPoint, Serializable {
 		response.setContentType("application/json;charset=UTF-8");
 		ErrorResponse error = new ErrorResponse();
 		error.setStatus(401);
-		error.setError("Unauthorizedddddddd");
-		error.setMessage("");
+		error.setError("Unauthorized");
+		error.setMessage("From Http401.class");
 		error.setPath(request.getRequestURI());
     	response.getWriter().write(JsonUtils.toJSON(error));
 	}
