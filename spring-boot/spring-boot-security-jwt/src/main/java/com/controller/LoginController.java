@@ -60,11 +60,11 @@ public class LoginController {
 				ErrorResponse error = new ErrorResponse();
 				error.setStatus(401);
 				error.setError("Unauthorized");
-				error.setMessage("Your account was disable!");
+				error.setMessage("Your account is disabled!");
 				error.setPath(req.getRequestURI());
-				return ResponseEntity.status(HttpStatus.OK).body(error);
+				return ResponseEntity.status(200).body(error);
 			} else {
-				// user.setLoginDisabled(0);
+				user.setLoginDisabled(0);
 				userService.save(user);
 			}
 		}
