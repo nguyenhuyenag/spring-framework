@@ -16,7 +16,7 @@ import com.util.JsonUtils;
 public class Http401 implements AuthenticationEntryPoint {
 
 	@Override
-	public void commence(HttpServletRequest req, HttpServletResponse res, AuthenticationException aex)
+	public void commence(HttpServletRequest req, HttpServletResponse res, AuthenticationException failed)
 			throws IOException {
 		res.setStatus(401);
 		res.setContentType("application/json;charset=UTF-8");

@@ -49,8 +49,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable()
 			.authorizeRequests() //
 			.antMatchers("/favicon.ico", "/auth/login-handle").permitAll() //
-			.anyRequest().authenticated()
-			.and()
+			.anyRequest().authenticated() //
+			.and() //
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //
 			.and()
 				.addFilterBefore(new JWTLoginFilter(authenticationManager(), userService), UsernamePasswordAuthenticationFilter.class) //

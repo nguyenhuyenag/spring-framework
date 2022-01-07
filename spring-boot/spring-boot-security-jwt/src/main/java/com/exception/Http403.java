@@ -15,7 +15,7 @@ import com.util.JsonUtils;
 public class Http403 implements AccessDeniedHandler {
 
 	@Override
-	public void handle(HttpServletRequest req, HttpServletResponse res, AccessDeniedException adx)
+	public void handle(HttpServletRequest req, HttpServletResponse res, AccessDeniedException failed)
 			throws IOException, ServletException {
 		res.setStatus(403);
 		res.setContentType("application/json;charset=UTF-8");
