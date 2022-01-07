@@ -20,11 +20,11 @@ import com.entity.User;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.reponse.ErrorResponse;
+import com.reponse.LoginResponse;
 import com.request.LoginRequest;
-import com.response.LoginResponse;
 import com.service.UserService;
-import com.util.DateTimeUtils;
 import com.util.JsonUtils;
+import com.util.TimeUtils;
 
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	
@@ -94,7 +94,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 				if (MAX_ATTEMPT < failedCounter + 1) {
 					user.setFailedCounter(0); // reset counter
 					user.setLoginDisabled(1); // disabling the account
-					user.setTimeLoginDisabled(DateTimeUtils.later(DateTimeUtils.ONE_MINUTE));
+					user.setTimeLoginDisabled(TimeUtils.after().minute(5));
 				} else {
 					user.setFailedCounter(failedCounter + 1); // update the counter
 				}

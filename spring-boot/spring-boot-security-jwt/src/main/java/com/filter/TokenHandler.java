@@ -8,7 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.util.DateTimeUtils;
+import com.util.TimeUtils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -17,9 +17,9 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class TokenHandler {
 
 	public static final String TOKEN_PREFIX 	= "Bearer ";
-	public static final String SIGNING_KEY 		= "JWT_TOKEN_SECRET";
 	public static final String AUTHORITIES_KEY 	= "scopes";
-	private static final long EXPIRATION_TIME 	= DateTimeUtils.ONE_DAY;
+	public static final String SIGNING_KEY 		= "JWT_TOKEN_SECRET";
+	private static final Date EXPIRATION_TIME 	= TimeUtils.after().day(1);
 
 	private static <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
 		Claims claims = getAllClaimsFromToken(token);
@@ -54,8 +54,8 @@ public class TokenHandler {
 				.setSubject(authentication.getName()) //
 				.claim(AUTHORITIES_KEY, authorities) //
 				.signWith(SignatureAlgorithm.HS512, SIGNING_KEY) //
-				.setIssuedAt(new Date(System.currentTimeMillis())) //
-				.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME)) //
+				.setIssuedAt(TimeUtils.now()) //
+				.setExpiration(EXPIRATION_TIME) //
 				.compact();
 	}
 

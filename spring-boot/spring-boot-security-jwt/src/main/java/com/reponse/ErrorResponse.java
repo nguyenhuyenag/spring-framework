@@ -2,10 +2,7 @@ package com.reponse;
 
 import java.util.Date;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.util.TimeUtils;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -14,30 +11,17 @@ import lombok.Setter;
 @Setter
 public class ErrorResponse {
 
-	/*-
-	 * {
-	    "timestamp": "2022-01-04T02:47:53.158+00:00",
-	    "status": 403,
-	    "error": "Forbidden",
-	    "message": "",
-	    "path": "/api/get-json"
-	}
-	 */
-	// customizing timestamp serialization format
-	@JsonFormat(pattern = "yyy-MM-dd HH:mm:ss")
-	private Date timestamp;
+	// @JsonFormat(shape = JsonFormat.Shape.NUMBER) // 1641523030071
+	// @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private String timestamp;
+
 	private int status;
 	private String error;
 	private String message;
 	private String path;
 
 	public ErrorResponse() {
-		this.timestamp = new Date();
-	}
-	
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+		this.timestamp = TimeUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss");
 	}
 
 }
