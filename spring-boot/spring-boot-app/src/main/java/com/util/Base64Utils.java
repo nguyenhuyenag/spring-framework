@@ -12,10 +12,10 @@ public class Base64Utils {
 //		return Base64.getEncoder().encode(byteArr);
 //	}
 
-//	public static String encodeToString(byte[] byteArr) {
-//		byte[] arr = Base64.getEncoder().encode(byteArr);
-//		return new String(arr, StandardCharsets.UTF_8);
-//	}
+	public static String encodeToString(byte[] byteArr) {
+		byte[] arr = Base64.getEncoder().encode(byteArr);
+		return new String(arr, StandardCharsets.UTF_8);
+	}
 
 //	public static String encodeToString(String str) {
 //		byte[] byteArr = str.getBytes(StandardCharsets.UTF_8);

@@ -16,9 +16,14 @@ public class FileStoreServiceImpl implements FileStoreService {
 	private FileStoreRepository fileStoreRepository;
 
 	@Override
-	public FileStore findById(String id) {
-		Optional<FileStore> opt = fileStoreRepository.findById(id);
+	public FileStore findByFileId(String id) {
+		Optional<FileStore> opt = fileStoreRepository.findByFileId(id);
 		return opt.orElseGet(null);
+	}
+
+	@Override
+	public void save(FileStore fileStore) {
+		fileStoreRepository.save(fileStore);
 	}
 
 }

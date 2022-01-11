@@ -10,6 +10,6 @@ import com.entity.FileStore;
 @Repository
 public interface FileStoreRepository extends JpaRepository<FileStore, String> {
 
-	Optional<FileStore> findById(String id);
+	Optional<FileStore> findByFileId(String id);
 
 }

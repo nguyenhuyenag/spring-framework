@@ -4,6 +4,8 @@ import com.entity.FileStore;
 
 public interface FileStoreService {
 
-	FileStore findById(String id);
+	FileStore findByFileId(String id);
+	
+	void save(FileStore fileStore);
 
 }
