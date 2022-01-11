@@ -4,20 +4,27 @@ import javax.servlet.ServletContext;
 
 import org.springframework.http.MediaType;
 
+// @Component
 public class MediaTypeUtils {
 
-	// abc.zip
-	// abc.pdf,..
-	public static MediaType getMediaTypeForFileName(ServletContext servletContext, String fileName) {
-		// application/pdf
-		// application/xml
-		// image/gif, ...
-		String mineType = servletContext.getMimeType(fileName);
+	private static ServletContext servletContext;
+
+	public MediaTypeUtils(ServletContext context) {
+		MediaTypeUtils.servletContext = context;
+	}
+
+	// input: abc.zip, abc.pdf,..
+	// output: application/pdf, application/xml, image/gif, ...
+	public static MediaType getMediaTypeForFileName(String fileName) {
 		try {
-			return MediaType.parseMediaType(mineType);
+			if (servletContext != null) {
+				String mineType = servletContext.getMimeType(fileName);
+				return MediaType.parseMediaType(mineType);
+			}
 		} catch (Exception e) {
-			return MediaType.APPLICATION_OCTET_STREAM;
+			e.printStackTrace();
 		}
+		return MediaType.APPLICATION_OCTET_STREAM;
 	}
 
 }
