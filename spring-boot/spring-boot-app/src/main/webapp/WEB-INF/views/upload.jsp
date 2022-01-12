@@ -6,8 +6,8 @@
 <head>
 	<title>Upload</title>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
 
@@ -16,12 +16,13 @@
 		<p><a href="/">Back</a></p>
 		<h2>Upload File</h2>
 		<form id="formUploadFile" method="POST" action="upload" enctype="multipart/form-data">
-			File: <input type="file" name="multipartFile" /> <br /> <br/>
+			<input type="file" name="multipartFile" />
+			<br/> <br />
+			<!-- <input type="file" name="multipartFile" accept="image/png, image/jpeg" required /> -->
 			<input type="submit" value="Submit" />
 		</form>
 		<div class="progress" id="progressbox" style="height: 45px; width: 50%" >
-			<div class="progress-bar progress-bar-striped active" id="progressbar"
-				style="width: 0%">
+			<div class="progress-bar progress-bar-striped active" id="progressbar" style="width: 0%">
 				<div id="status" style="text-align: center; width: 100%; margin-top: 10px"></div>
 			</div>
 		</div>
@@ -30,20 +31,19 @@
 
 <script>
 	function resetProgressBar() {
+	    $("#status").html(0 + '%');
 	    $("#progressbar").width(0 + '%');
 	    $("#progressbar").addClass('progress-bar-striped active')
-	    $("#status").html(0 + '%');
 	}
 	
 	$(function() {
-		var exist = false;
 	    $('#formUploadFile').submit(function(e) {	
             e.preventDefault();
             $(this).ajaxSubmit({
                 beforeSubmit: function() {
                 	resetProgressBar();
                 },
-                uploadProgress: function (event, position, total, percentComplete){	
+                uploadProgress: function (event, position, total, percentComplete) {	
                     console.log(percentComplete + "");
         	        $("#progressbar").width(percentComplete + '%');
         	        if (percentComplete < 100) {

@@ -1,8 +1,5 @@
 package com.controller;
 
-import java.io.File;
-
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
@@ -52,13 +49,10 @@ public class FTPController {
 	}
 
 	@PostMapping("upload")
-	public String uploadFile(Model model, MyFile myFile) {
+	public String upload(MyFile myFile) {
 		try {
 			MultipartFile multipartFile = myFile.getMultipartFile();
 			String fileName = multipartFile.getOriginalFilename();
-			File file = new File(fileName);
-			FileUtils.copyInputStreamToFile(multipartFile.getInputStream(), file);
-			filesize(file);
 			FileStore fileStore = new FileStore();
 			fileStore.setFileName(fileName);
 			String content = Base64Utils.encodeToString(multipartFile.getBytes());
@@ -68,30 +62,6 @@ public class FTPController {
 			e.printStackTrace();
 		}
 		return "upload";
-	}
-	
-	public static void filesize(File file) {
-		if (file.exists()) {
-			double bytes = file.length();
-			double kilobytes = (bytes / 1024);
-			double megabytes = (kilobytes / 1024);
-			double gigabytes = (megabytes / 1024);
-			double terabytes = (gigabytes / 1024);
-			double petabytes = (terabytes / 1024);
-			double exabytes = (petabytes / 1024);
-			double zettabytes = (exabytes / 1024);
-			double yottabytes = (zettabytes / 1024);
-			// console
-			System.out.println("bytes : " + bytes);
-			System.out.println("kilobytes : " + kilobytes);
-			System.out.println("megabytes : " + megabytes);
-			System.out.println("gigabytes : " + gigabytes);
-			System.out.println("terabytes : " + terabytes);
-			System.out.println("petabytes : " + petabytes);
-			System.out.println("exabytes : " + exabytes);
-			System.out.println("zettabytes : " + zettabytes);
-			System.out.println("yottabytes : " + yottabytes);
-		}
 	}
 
 }
