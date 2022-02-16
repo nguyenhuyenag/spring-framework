@@ -14,9 +14,9 @@
 <body>
 	<div class="container">
 		<p><a href="/">Back</a></p>
-		<h2>Upload File</h2>
-		<form id="formUploadFile" method="POST" action="upload" enctype="multipart/form-data">
-			<input type="file" name="multipartFile" />
+		<h2>Upload Multi File</h2>
+		<form id="formUploadFile" method="POST" action="multi-upload" enctype="multipart/form-data">
+			<input type="file" name="multipartFile" accept="image/png, image/jpeg" multiple required />
 			<br/> <br />
 			<input type="submit" value="Submit" />
 		</form>

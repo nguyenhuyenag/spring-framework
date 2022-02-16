@@ -6,7 +6,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.entity.FileStore;
+import com.entity.MultiFile;
 import com.entity.MyFile;
 import com.service.FileStoreService;
 import com.util.Base64Utils;
@@ -23,7 +23,7 @@ import com.util.MediaTypeUtils;
 @RequestMapping("ftp")
 public class FTPController {
 
-	private static final String DEFAULT_ID = "B5LUDZCNLSJ0VLYDAES0";
+	private static final String DEFAULT_ID = "J9VWJBPIJKQCMFY4F8UM";
 
 	@Autowired
 	FileStoreService fileStoreService;
@@ -62,6 +62,29 @@ public class FTPController {
 			e.printStackTrace();
 		}
 		return "upload";
+	}
+
+	@GetMapping("multi-upload")
+	public String multiUpload() {
+		return "multi-upload";
+	}
+
+	@PostMapping("multi-upload")
+	public String multiUpload(MultiFile myFile) {
+		try {
+			MultipartFile[] multipartFiles = myFile.getMultipartFile();
+			for (MultipartFile multipartFile : multipartFiles) {
+				String fileName = multipartFile.getOriginalFilename();
+				FileStore fileStore = new FileStore();
+				fileStore.setFileName(fileName);
+				String content = Base64Utils.encodeToString(multipartFile.getBytes());
+				fileStore.setFileContent(content);
+				fileStoreService.save(fileStore);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "multi-upload";
 	}
 
 }
