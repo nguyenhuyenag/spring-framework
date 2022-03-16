@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -40,7 +41,7 @@ public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 			exception = new UsernameNotFoundException(
 					"[LoginFailureHandler]: Tài khoản `" + username + "` không tồn tại!");
 		} else {
-			handleError(exception, user, username);
+			exception = handleError(user, username);
 //			loginAttemptService.loginFailed(username);
 //			if (loginAttemptService.isBlocked(username)) {
 //				userService.lockAttempt(username);
@@ -65,18 +66,17 @@ public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 		super.onAuthenticationFailure(request, response, exception);
 	}
 
-	private void handleError(AuthenticationException exception, User user, String username) {
+	private AuthenticationException handleError(User user, String username) {
 		loginAttemptService.loginFailed(username);
 		if (loginAttemptService.isBlocked(username)) {
 			userService.lockAttempt(username);
 			loginAttemptService.resetAttemptsCache(username);
-			exception = new DisabledException("[LoginFailureHandler]: Login quá 5 lần, tài khoản bị khóa tạm thời");
-			return;
+			return new DisabledException("[LoginFailureHandler]: Login quá 5 lần, tài khoản bị khóa tạm thời");
 		}
 		if (user.getDisabled() != 0) {
-			exception = new DisabledException("[LoginFailureHandler]: Tài khoản chưa kích hoạt!");
-			return;
+			return new DisabledException("[LoginFailureHandler]: Tài khoản chưa kích hoạt!");
 		}
+		return new BadCredentialsException("[LoginFailureHandler]: Tài khoản chưa kích hoạt!");
 	}
 
 }
