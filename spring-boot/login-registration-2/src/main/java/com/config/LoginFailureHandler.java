@@ -69,7 +69,7 @@ public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 	private AuthenticationException handleError(User user, String username) {
 		loginAttemptService.loginFailed(username);
 		if (loginAttemptService.isBlocked(username)) {
-			userService.lockAttempt(username);
+			// userService.lockAttempt(username);
 			loginAttemptService.resetAttemptsCache(username);
 			return new DisabledException("[LoginFailureHandler]: Login quá 5 lần, tài khoản bị khóa tạm thời");
 		}
