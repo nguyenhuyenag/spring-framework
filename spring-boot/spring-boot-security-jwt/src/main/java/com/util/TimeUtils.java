@@ -6,73 +6,12 @@ import java.util.Date;
 
 public class TimeUtils {
 
-	public static class AfterDateTime {
-
-		private AfterDateTime() {
-
-		}
-
-		private static class SingletonHelper {
-			private static final AfterDateTime INSTANCE = new AfterDateTime();
-		}
-
-		public static AfterDateTime getInstance() {
-			return SingletonHelper.INSTANCE;
-		}
-
-		private Date get(int timeType, int amount) {
-			Calendar calendar = Calendar.getInstance();
-			calendar.add(timeType, amount);
-			return calendar.getTime();
-		}
-
-		public Date day(int amount) {
-			return get(Calendar.DATE, amount);
-		}
-
-		public Date minute(int amount) {
-			return get(Calendar.MINUTE, amount);
-		}
-
-	}
-
-	static class BeforeDateTime {
-
-		private BeforeDateTime() {
-
-		}
-
-		private static class SingletonHelper {
-			private static final BeforeDateTime INSTANCE = new BeforeDateTime();
-		}
-
-		public static BeforeDateTime getInstance() {
-			return SingletonHelper.INSTANCE;
-		}
-
-		private Date get(int timeType, int amount) {
-			Calendar calendar = Calendar.getInstance();
-			calendar.add(timeType, -amount);
-			return calendar.getTime();
-		}
-
-		public Date day(int amount) {
-			return get(Calendar.DATE, amount);
-		}
-
-		public Date minute(int amount) {
-			return get(Calendar.MINUTE, amount);
-		}
-
-	}
-
 	private TimeUtils() {
 
 	}
 
 	public static Date now() {
-		Calendar calendar = Calendar.getInstance();
-		return calendar.getTime();
+		return new Date();
 	}
 
 	public static BeforeDateTime before() {
@@ -88,11 +27,64 @@ public class TimeUtils {
 		return sdf.format(date);
 	}
 
-	public static void main(String[] args) {
-		Date after = TimeUtils.after().day(1);
-		Date before = TimeUtils.before().day(1);
-		System.out.println(after);
-		System.out.println(before);
+	static class Handle {
+
+		private Date get(int timeType, int amount) {
+			Calendar calendar = Calendar.getInstance();
+			calendar.add(timeType, amount);
+			return calendar.getTime();
+		}
+
+		public Date day(int amount) {
+			return get(Calendar.DATE, amount);
+		}
+
+		public Date minute(int amount) {
+			return get(Calendar.MINUTE, amount);
+		}
+
+		public Date second(int amount) {
+			return get(Calendar.SECOND, amount);
+		}
+
 	}
+
+	public static class AfterDateTime extends Handle {
+
+		private AfterDateTime() {
+
+		}
+
+		private static class SingletonHelper {
+			private static final AfterDateTime INSTANCE = new AfterDateTime();
+		}
+
+		static AfterDateTime getInstance() {
+			return SingletonHelper.INSTANCE;
+		}
+
+	}
+
+	public static class BeforeDateTime extends Handle {
+
+		private BeforeDateTime() {
+
+		}
+
+		private static class SingletonHelper {
+			private static final BeforeDateTime INSTANCE = new BeforeDateTime();
+		}
+
+		static BeforeDateTime getInstance() {
+			return SingletonHelper.INSTANCE;
+		}
+	}
+
+//	public static void main(String[] args) {
+//		Date after = TimeUtils.after().day(1);
+//		Date before = TimeUtils.before().day(1);
+//		System.out.println(after);
+//		System.out.println(before);
+//	}
 
 }
