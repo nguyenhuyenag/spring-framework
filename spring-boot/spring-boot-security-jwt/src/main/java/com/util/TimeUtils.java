@@ -6,6 +6,66 @@ import java.util.Date;
 
 public class TimeUtils {
 
+	public static class AfterDateTime {
+
+		private AfterDateTime() {
+
+		}
+
+		private static class SingletonHelper {
+			private static final AfterDateTime INSTANCE = new AfterDateTime();
+		}
+
+		public static AfterDateTime getInstance() {
+			return SingletonHelper.INSTANCE;
+		}
+
+		private Date get(int timeType, int amount) {
+			Calendar calendar = Calendar.getInstance();
+			calendar.add(timeType, amount);
+			return calendar.getTime();
+		}
+
+		public Date day(int amount) {
+			return get(Calendar.DATE, amount);
+		}
+
+		public Date minute(int amount) {
+			return get(Calendar.MINUTE, amount);
+		}
+
+	}
+
+	static class BeforeDateTime {
+
+		private BeforeDateTime() {
+
+		}
+
+		private static class SingletonHelper {
+			private static final BeforeDateTime INSTANCE = new BeforeDateTime();
+		}
+
+		public static BeforeDateTime getInstance() {
+			return SingletonHelper.INSTANCE;
+		}
+
+		private Date get(int timeType, int amount) {
+			Calendar calendar = Calendar.getInstance();
+			calendar.add(timeType, -amount);
+			return calendar.getTime();
+		}
+
+		public Date day(int amount) {
+			return get(Calendar.DATE, amount);
+		}
+
+		public Date minute(int amount) {
+			return get(Calendar.MINUTE, amount);
+		}
+
+	}
+
 	private TimeUtils() {
 
 	}
@@ -22,7 +82,7 @@ public class TimeUtils {
 	public static AfterDateTime after() {
 		return AfterDateTime.getInstance();
 	}
-	
+
 	public static String format(Date date, String pattern) {
 		SimpleDateFormat sdf = new SimpleDateFormat(pattern);
 		return sdf.format(date);
