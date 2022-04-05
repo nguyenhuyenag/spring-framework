@@ -14,8 +14,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.exception.Http401;
-import com.exception.Http403;
 import com.filter.JWTAuthenticationFilter;
 import com.filter.JWTLoginFilter;
 import com.service.UserService;
@@ -31,8 +29,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserDetailsService userDetailsService;
 	
-	@Autowired
-	private Http401 unauthorizedHandler;
+	// @Autowired
+	// private Http401 unauthorizedHandler;
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -47,11 +45,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable()
+			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // no session cookie for API endpoints
+			.and()
 			.authorizeRequests() // no web forms for the REST API so no CSRF tokens will be created or checked
 			.antMatchers("/favicon.ico", "/auth/login-handle").permitAll() //
 			.anyRequest().authenticated() //
-			.and() //
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // no session cookie for API endpoints
 			.and()
 				.addFilterBefore(new JWTLoginFilter(authenticationManager(), userService), UsernamePasswordAuthenticationFilter.class) //
 				.addFilterBefore(new JWTAuthenticationFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class) //
