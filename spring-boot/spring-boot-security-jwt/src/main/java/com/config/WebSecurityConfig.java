@@ -55,9 +55,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.and()
 				.addFilterBefore(new JWTLoginFilter(authenticationManager(), userService), UsernamePasswordAuthenticationFilter.class) //
 				.addFilterBefore(new JWTAuthenticationFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class) //
-				.exceptionHandling()
-				.authenticationEntryPoint(unauthorizedHandler)
-				.accessDeniedHandler(new Http403());
+				.exceptionHandling();
+				//.authenticationEntryPoint(unauthorizedHandler)
+				//.accessDeniedHandler(new Http403());
 				// .headers().cacheControl();
 	}
 
