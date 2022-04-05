@@ -47,11 +47,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable()
-			.authorizeRequests() //
+			.authorizeRequests() // no web forms for the REST API so no CSRF tokens will be created or checked
 			.antMatchers("/favicon.ico", "/auth/login-handle").permitAll() //
 			.anyRequest().authenticated() //
 			.and() //
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // no session cookie for API endpoints
 			.and()
 				.addFilterBefore(new JWTLoginFilter(authenticationManager(), userService), UsernamePasswordAuthenticationFilter.class) //
 				.addFilterBefore(new JWTAuthenticationFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class) //
