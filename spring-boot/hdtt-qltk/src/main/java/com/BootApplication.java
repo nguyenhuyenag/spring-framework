@@ -27,8 +27,8 @@ public class BootApplication extends SpringBootServletInitializer implements Com
 
 	@Override
 	public void run(String... args) throws Exception {
-		String s = "123456";
-		System.out.println(passwordEncoder.encode(s));
+		// String s = "123456";
+		// System.out.println(passwordEncoder.encode(s));
 	}
 
 }

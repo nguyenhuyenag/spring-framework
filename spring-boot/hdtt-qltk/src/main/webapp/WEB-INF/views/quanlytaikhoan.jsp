@@ -44,16 +44,17 @@
                 { data: 'email' },
                 { data: 'mstTcgp' },
                 { data: 'fullname' },
-                { 
-                	data: "active",
-                	"render": function (data, type, full, meta) {
-                		let s = "Disable";
+                { data: "active",
+                	"render": function (data, type, row, meta) {
+                		let text = "Disable";
                 		let cname = "btn btn-danger";
                 		if (data != 0) {
-                			s = "Active";
+                			text = "Active";
                 			cname = "btn btn-success";
                 		}
-                		return '<button type="button" class="' + cname + '">' + s + '</button>';
+						// let e = row['email'];
+						let ee = row.email;
+                		return '<button type="button" onclick="changeUserStatus(\`'+ ee + '\`)" class="' + cname + '">' + text + '</button>';
 					}	
                 },
                 {
@@ -71,11 +72,15 @@
             "searching": false,
             "bLengthChange": false,
 		});
-		$('#example tbody').on('click', 'tr', function () {
-            var data = table.row(this).data();
-            console.log(data);
-        });
+		//$('#example tbody').on('click', 'tr', function () {
+            // var data = table.row(this).data();
+            // console.log(data);
+        //});
 	});
+
+	function changeUserStatus(v) {
+		console.log(v);
+	}
 
 	/* function recordNotFound() {
 		$('<tr>').append(
