@@ -37,7 +37,7 @@
 			"ajax": {
 				"url": "get-all-user",
 				"type": "GET",
-				"dataSrc": ""
+				"dataSrc": "" // data flat
 			},
 			columns: [
 				{
