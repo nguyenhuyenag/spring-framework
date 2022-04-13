@@ -1,13 +1,13 @@
-<%@ page contentType="text/html;charset=UTF-8"%>
-<%-- <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> --%>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%-- <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> --%>
 
 <style>
-    table tbody tr {
-        cursor: pointer;
-    }
-    button {
-    	width: 75px !important;
-    }
+	table tbody tr {
+		cursor: pointer;
+	}
+	button {
+		width: 75px !important;
+	}
 </style>
 
 <div class="container">
@@ -27,59 +27,70 @@
 </div>
 
 <script type="text/javascript">
-	$(function() {
+	$(function () {
+		initTable();
+	});
+
+	function initTable() {
 		// $.getJSON("get-all-user", function(data) {console.log(data);});
-		var table = $('#example').DataTable({
-			"ajax" : {
-				"url" : "get-all-user",
-				"type" : "GET",
+		let table = $('#example').DataTable({
+			"ajax": {
+				"url": "get-all-user",
+				"type": "GET",
 				"dataSrc": ""
 			},
 			columns: [
-                {
+				{
 					"render": function (data, type, full, meta) {
 						return meta.row + 1;
 					}
 				},
-                { data: 'email' },
-                { data: 'mstTcgp' },
-                { data: 'fullname' },
-                { data: "active",
-                	"render": function (data, type, row, meta) {
-                		let text = "Disable";
-                		let cname = "btn btn-danger";
-                		if (data != 0) {
-                			text = "Active";
-                			cname = "btn btn-success";
-                		}
-						// let e = row['email'];
-						let ee = row.email;
-                		return '<button type="button" onclick="changeUserStatus(\`'+ ee + '\`)" class="' + cname + '">' + text + '</button>';
-					}	
-                },
-                {
+				{ data: 'email' },
+				{ data: 'mstTcgp' },
+				{ data: 'fullname' },
+				{
+					data: "active",
+					"render": function (data, type, row, meta) {
+						let text = "Disable";
+						let cname = "btn btn-danger";
+						if (data != 0) {
+							text = "Active";
+							cname = "btn btn-success";
+						}
+						return '<button type="button" onclick="changeUserStatus(\`' + row['email'] + '\`)" class="' + cname + '">' + text + '</button>';
+					}
+				},
+				{
 					"render": function (data, type, full, meta) {
 						return '<button type="button" class="btn btn-primary">Edit</button>';
 					}
 				},
-            ],
-            columnDefs: [
-                { "className": "dt-center", "targets": [0, 4] }
-            ],
-            "info": false,
-            "paging": false,
-            "ordering": false,
-            "searching": false,
-            "bLengthChange": false,
+			],
+			columnDefs: [
+				{ "className": "dt-center", "targets": [0, 4] }
+			],
+			"info": false,
+			"paging": false,
+			"ordering": false,
+			"searching": false,
+			"bLengthChange": false,
+			"destroy": true
 		});
-		//$('#example tbody').on('click', 'tr', function () {
-            // var data = table.row(this).data();
-            // console.log(data);
-        //});
-	});
+	}
 
-	function changeUserStatus(v) {
-		console.log(v);
+	function changeUserStatus(email) {
+		$.ajax({
+			type: "POST",
+			contentType: "application/json",
+			url: "change-user-status?email=" + email,
+			success: function (data) {
+				// console.log(data);
+				initTable();
+			},
+			error: function (e) {
+				console.log("ERROR : ", e);
+			}
+		});
 	}
 
 	/* function recordNotFound() {
@@ -89,32 +100,32 @@
 	} */
 
 	/*function init() {
-	    $.ajax({
-	        type: "POST",
-	        contentType: "application/json",
-	        url: "get-all-user",
-	        success: function (data) {
-	        	console.log(data);
-	            $("#result-table-body").empty();
-	        	if (data != null && data.length > 0) {
-	            	$.each(data, function (i, item) {
-	                    $('<tr>').append(
-	                    	$('<td>').text(i + 1),
-	                    	$('<td>').text(item.email),
-	                    	$('<td>').text(item.mstTcgp),
-	                    	$('<td>').text(item.fullname),
-	                    	$('<td>').html(handleButton(item.active)),
-	                    	$('<td>').html('<button style="width: 80px;" type="button" class="btn btn-primary">Edit</button>')
-	                    ).appendTo('#result-table');
-	                });
-	        	} else {
-	        		recordNotFound();
-	        	}
-	        },
-	        error: function (e) {
-	            console.log("ERROR : ", e);
-	        }
-	    });
+		$.ajax({
+			type: "POST",
+			contentType: "application/json",
+			url: "get-all-user",
+			success: function (data) {
+				console.log(data);
+				$("#result-table-body").empty();
+				if (data != null && data.length > 0) {
+					$.each(data, function (i, item) {
+						$('<tr>').append(
+							$('<td>').text(i + 1),
+							$('<td>').text(item.email),
+							$('<td>').text(item.mstTcgp),
+							$('<td>').text(item.fullname),
+							$('<td>').html(handleButton(item.active)),
+							$('<td>').html('<button style="width: 80px;" type="button" class="btn btn-primary">Edit</button>')
+						).appendTo('#result-table');
+					});
+				} else {
+					recordNotFound();
+				}
+			},
+			error: function (e) {
+				console.log("ERROR : ", e);
+			}
+		});
 	}*/
 
 	/* function handleButton(v) {

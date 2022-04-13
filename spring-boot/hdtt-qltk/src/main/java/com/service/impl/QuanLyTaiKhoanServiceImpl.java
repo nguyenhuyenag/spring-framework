@@ -22,4 +22,14 @@ public class QuanLyTaiKhoanServiceImpl implements QuanLyTaiKhoanService {
 		return list;
 	}
 
+	@Override
+	public boolean changeUserStatus(String email) {
+		User user = qltkRepository.findByEmail(email);
+		if (user != null) {
+			user.setActive(user.getActive() == 0 ? 1 : 0);
+			return qltkRepository.save(user) != null;
+		}
+		return false;
+	}
+
 }
