@@ -1,4 +1,4 @@
-package com.multitenant;
+package com.exception;
 
 public class TenantResolvingException extends Exception {
 

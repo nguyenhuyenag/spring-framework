@@ -1,4 +1,4 @@
-package com.multitenant;
+package com.config;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -24,7 +24,7 @@ import com.exception.InvalidDbPropertiesException;
 @Configuration
 public class MultiTenantManager {
 
-	public static Logger LOG = LoggerFactory.getLogger(MultiTenantManager.class);
+	public static final Logger LOG = LoggerFactory.getLogger(MultiTenantManager.class);
 
 	@Value("${spring.datasource.url}")
 	private String URL;
@@ -51,7 +51,7 @@ public class MultiTenantManager {
 
 	@Autowired
 	public MultiTenantManager(DataSourceProperties properties) {
-		MultiTenantManager.dataSourceProperties = properties;
+		dataSourceProperties = properties;
 	}
 
 	private DriverManagerDataSource defaultDataSource() {
