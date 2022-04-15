@@ -12,7 +12,7 @@
 
 <div class="container">
 	<h1 class="text-center mt-3 mb-3">Quản lý tài khoản API</h1>
-	<table id="example" class="table display cell-border" style="width: 100%">
+	<table id="uTable" class="table display cell-border" style="width: 100%">
 		<thead class="thead-light">
 			<tr class="text-center">
 				<th>STT</th>
@@ -24,16 +24,67 @@
 			</tr>
 		</thead>
 	</table>
+	<div class="modal fade" id="editModal" data-backdrop="static" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="editModalLabel">Edit form</h5>
+					<button type="button" class="close" data-dismiss="modal">
+						<span>&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form id="form-edit">
+						<div class="form-group">
+							<label for="email" class="col-form-label">Email:</label>
+							<input type="text" class="form-control" id="email" disabled>
+						</div>
+						<div class="form-group">
+							<label for="mst" class="col-form-label">MST:</label>
+							<input type="text" class="form-control" id="mst">
+						</div>
+						<div class="form-group">
+							<label for="mst" class="col-form-label">Tên:</label>
+							<input type="text" class="form-control" id="fullname">
+						</div>
+						<div class="modal-footer">
+							<button type="submit" class="btn btn-primary">Submit</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <script type="text/javascript">
 	$(function () {
 		initTable();
+		// edit action
+		$("#form-edit").submit(function(e) {
+			e.preventDefault();
+			let obj = {
+				"email": $('#email').val(),
+				"mstTcgp": $('#mst').val(),
+				"fullname": $('#fullname').val()
+			};
+			$.ajax({
+			type: "POST",
+			contentType: "application/json",
+			url: "edit-user",
+			data: JSON.stringify(obj),
+			success: function (s) {
+				initTable();
+			},
+			error: function (e) {
+				console.log("ERROR : ", e);
+			}
+		});
+		});
 	});
 
 	function initTable() {
-		// $.getJSON("get-all-user", function(data) {console.log(data);});
-		let table = $('#example').DataTable({
+		var table = $('#uTable').DataTable({
 			"ajax": {
 				"url": "get-all-user",
 				"type": "GET",
@@ -61,8 +112,10 @@
 					}
 				},
 				{
-					"render": function (data, type, full, meta) {
-						return '<button type="button" class="btn btn-primary">Edit</button>';
+					"targets": -1,
+            		"data": null,
+					"render": function (data, type, row, meta) {
+						return '<button type="button" class="btn-edit btn btn-primary">Edit</button>';
 					}
 				},
 			],
@@ -76,6 +129,15 @@
 			"bLengthChange": false,
 			"destroy": true
 		});
+
+		$('#uTable tbody').on('click', '.btn-edit', function () {
+			$('#editModal').modal('toggle');
+        	let data = table.row($(this).parents('tr')).data();
+			$('#email').val(data.email);
+			$('#mst').val(data.mstTcgp);
+			$('#fullname').val(data.fullname);
+        	// console.log(data);
+    	});
 	}
 
 	function changeUserStatus(email) {
@@ -84,7 +146,6 @@
 			contentType: "application/json",
 			url: "change-user-status?email=" + email,
 			success: function (data) {
-				// console.log(data);
 				initTable();
 			},
 			error: function (e) {
@@ -92,6 +153,7 @@
 			}
 		});
 	}
+
 
 	/* function recordNotFound() {
 		$('<tr>').append(
