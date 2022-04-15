@@ -35,6 +35,12 @@ public class QuanLyTaiKhoanServiceImpl implements QuanLyTaiKhoanService {
 
 	@Override
 	public boolean editUser(EditUserRequest request) {
+		User user = qltkRepository.findByEmail(request.getEmail());
+		if (user != null) {
+			user.setMstTcgp(request.getMstTcgp());
+			user.setFullname(request.getFullname());
+			return qltkRepository.save(user) != null;
+		}
 		return false;
 	}
 

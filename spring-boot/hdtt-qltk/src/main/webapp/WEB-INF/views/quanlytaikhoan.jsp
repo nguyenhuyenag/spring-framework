@@ -132,9 +132,9 @@
 				"ordering": false,
 				"searching": false,
 				"bLengthChange": false,
-				// "destroy": true,
+				"destroy": true,
 				// "stateSave": true,
-				"bDestroy": true,
+				// "bDestroy": true,
 				// "retrieve": true,
 			});
 
