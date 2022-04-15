@@ -103,17 +103,17 @@ public class MultiTenantManager {
 	}
 
 	public static void switchTenant(String databasename) {
-		if (!exist(databasename) && tenantResolver != null) {
-			try {
+		if (tenantResolver != null && !exist(databasename)) {
+			//try {
 				DataSourceProperties dataSource = tenantResolver.apply(databasename);
 				LOG.debug("[d] Datasource properties resolved for tenant ID '{}'", databasename);
 				// String url = dataSource.getUrl();
 				String username = dataSource.getUsername();
 				String password = dataSource.getPassword();
 				setTenant(databasename, username, password);
-			} catch (Exception e) {
+			//} catch (Exception e) {
 				// throw new TenantResolvingException(e, "Could not resolve the tenant!");
-			}
+			//}
 		} else {
 			// throw new TenantNotFoundException(format("Tenant %s not found!", databasename));
 		}
