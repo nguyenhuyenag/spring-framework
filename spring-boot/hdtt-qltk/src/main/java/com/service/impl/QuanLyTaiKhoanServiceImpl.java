@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.entity.User;
 import com.repository.QLTKRepository;
+import com.request.EditUserRequest;
 import com.service.QuanLyTaiKhoanService;
 
 @Service
@@ -27,6 +28,17 @@ public class QuanLyTaiKhoanServiceImpl implements QuanLyTaiKhoanService {
 		User user = qltkRepository.findByEmail(email);
 		if (user != null) {
 			user.setActive(user.getActive() == 0 ? 1 : 0);
+			return qltkRepository.save(user) != null;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean editUser(EditUserRequest request) {
+		User user = qltkRepository.findByEmail(request.getEmail());
+		if (user != null) {
+			user.setMstTcgp(request.getMstTcgp());
+			user.setFullname(request.getFullname());
 			return qltkRepository.save(user) != null;
 		}
 		return false;
