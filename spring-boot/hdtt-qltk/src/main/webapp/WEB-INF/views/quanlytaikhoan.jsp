@@ -60,34 +60,31 @@
 
 <script type="text/javascript">
 	initTable();
-	// edit action
-	// $(function () {
-		$("#form-edit").submit(function (e) {
-			e.preventDefault();
-			let obj = {
-				"email": $('#email').val(),
-				"mstTcgp": $('#mst').val(),
-				"fullname": $('#fullname').val()
-			};
-			$.ajax({
-				type: "POST",
-				contentType: "application/json",
-				url: "edit-user",
-				data: JSON.stringify(obj),
-				success: function (s) {
-					initTable();
-					$('#editModal').modal('hide');
-				},
-				error: function (e) {
-					console.log("ERROR : ", e);
-				}
-			});
+	
+	$("#form-edit").submit(function (e) {
+		e.preventDefault();
+		let obj = {
+			"email": $('#email').val(),
+			"mstTcgp": $('#mst').val(),
+			"fullname": $('#fullname').val()
+		};
+		$.ajax({
+			type: "POST",
+			contentType: "application/json",
+			url: "edit-user",
+			data: JSON.stringify(obj),
+			success: function (s) {
+				initTable();
+				$('#editModal').modal('hide');
+			},
+			error: function (e) {
+				console.log("ERROR : ", e);
+			}
 		});
-	//});
+	});
 
 	function initTable() {
 		$(function () {
-			// let table = $('#uTable').DataTable().clear().destroy();
 			let table = $('#uTable').DataTable({
 				"ajax": {
 					"url": "get-all-user",
