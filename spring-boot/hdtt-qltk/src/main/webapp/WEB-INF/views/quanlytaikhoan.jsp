@@ -5,6 +5,7 @@
 	table tbody tr {
 		cursor: pointer;
 	}
+
 	button {
 		width: 75px !important;
 	}
@@ -58,10 +59,10 @@
 </div>
 
 <script type="text/javascript">
-	$(function () {
-		initTable();
-		// edit action
-		$("#form-edit").submit(function(e) {
+	initTable();
+	// edit action
+	// $(function () {
+		$("#form-edit").submit(function (e) {
 			e.preventDefault();
 			let obj = {
 				"email": $('#email').val(),
@@ -69,75 +70,85 @@
 				"fullname": $('#fullname').val()
 			};
 			$.ajax({
-			type: "POST",
-			contentType: "application/json",
-			url: "edit-user",
-			data: JSON.stringify(obj),
-			success: function (s) {
-				initTable();
-			},
-			error: function (e) {
-				console.log("ERROR : ", e);
-			}
+				type: "POST",
+				contentType: "application/json",
+				url: "edit-user",
+				data: JSON.stringify(obj),
+				success: function (s) {
+					initTable();
+					$('#editModal').modal('hide');
+				},
+				error: function (e) {
+					console.log("ERROR : ", e);
+				}
+			});
 		});
-		});
-	});
+	//});
 
 	function initTable() {
-		var table = $('#uTable').DataTable({
-			"ajax": {
-				"url": "get-all-user",
-				"type": "GET",
-				"dataSrc": "" // data flat
-			},
-			columns: [
-				{
-					"render": function (data, type, full, meta) {
-						return meta.row + 1;
-					}
+		$(function () {
+			// let table = $('#uTable').DataTable().clear().destroy();
+			let table = $('#uTable').DataTable({
+				"ajax": {
+					"url": "get-all-user",
+					"type": "GET",
+					"dataSrc": "", // data flat
+					"deferRender": true
 				},
-				{ data: 'email' },
-				{ data: 'mstTcgp' },
-				{ data: 'fullname' },
-				{
-					data: "active",
-					"render": function (data, type, row, meta) {
-						let text = "Disable";
-						let cname = "btn btn-danger";
-						if (data != 0) {
-							text = "Active";
-							cname = "btn btn-success";
+				columns: [
+					{
+						"render": function (data, type, full, meta) {
+							return meta.row + 1;
 						}
-						return '<button type="button" onclick="changeUserStatus(\`' + row['email'] + '\`)" class="' + cname + '">' + text + '</button>';
-					}
-				},
-				{
-					"targets": -1,
-            		"data": null,
-					"render": function (data, type, row, meta) {
-						return '<button type="button" class="btn-edit btn btn-primary">Edit</button>';
-					}
-				},
-			],
-			columnDefs: [
-				{ "className": "dt-center", "targets": [0, 4] }
-			],
-			"info": false,
-			"paging": false,
-			"ordering": false,
-			"searching": false,
-			"bLengthChange": false,
-			"destroy": true
-		});
+					},
+					{ data: 'email' },
+					{ data: 'mstTcgp' },
+					{ data: 'fullname' },
+					{
+						data: "active",
+						"render": function (data, type, row, meta) {
+							let text = "Disable";
+							let cname = "btn btn-danger";
+							if (data != 0) {
+								text = "Active";
+								cname = "btn btn-success";
+							}
+							return '<button type="button" onclick="changeUserStatus(\`' + row['email'] + '\`)" class="' + cname + '">' + text + '</button>';
+						}
+					},
+					{
+						"targets": -1,
+						"data": null,
+						"render": function (data, type, row, meta) {
+							return '<button type="button" class="btn-edit btn btn-primary">Edit</button>';
+						}
+					},
+				],
+				columnDefs: [
+					{ "className": "dt-center", "targets": [0, 4] }
+				],
+				"info": false,
+				"paging": false,
+				"ordering": false,
+				"searching": false,
+				"bLengthChange": false,
+				// "destroy": true,
+				// "stateSave": true,
+				"bDestroy": true,
+				// "retrieve": true,
+			});
 
-		$('#uTable tbody').on('click', '.btn-edit', function () {
-			$('#editModal').modal('toggle');
-        	let data = table.row($(this).parents('tr')).data();
-			$('#email').val(data.email);
-			$('#mst').val(data.mstTcgp);
-			$('#fullname').val(data.fullname);
-        	// console.log(data);
-    	});
+			$('#uTable tbody').on('click', '.btn-edit', function () {
+				let data = table.row($(this).parents('tr')).data();
+				// console.log("data", data);
+				if (data != null) {
+					$('#email').val(data.email);
+					$('#mst').val(data.mstTcgp);
+					$('#fullname').val(data.fullname);
+					$('#editModal').modal('toggle');
+				}
+			});
+		});
 	}
 
 	function changeUserStatus(email) {
