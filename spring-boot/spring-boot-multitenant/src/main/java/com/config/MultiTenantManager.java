@@ -37,7 +37,7 @@ public class MultiTenantManager {
 
 	@Value("${spring.datasource.driver-class-name}")
 	private String DRIVER_CLASSNAME;
-	
+
 	private static final ThreadLocal<String> currentTenant = new ThreadLocal<>();
 	private static final Map<Object, Object> tenantDataSources = new ConcurrentHashMap<>();
 
@@ -45,9 +45,12 @@ public class MultiTenantManager {
 	private static AbstractRoutingDataSource multiTenantDataSource;
 	private static Function<String, DataSourceProperties> tenantResolver;
 
-	// private static final String MSG_RESOLVING_TENANT_ID = "[!] Could not resolve tenant ID '{}'!";
-	// private static final String MSG_INVALID_TENANT_ID = "[!] DataSource not found for given tenant Id '{}'!";
-	// private static final String MSG_INVALID_DB_PROPERTIES_ID = "[!] DataSource properties related to the given tenant ('{}') is invalid!";
+	// private static final String MSG_RESOLVING_TENANT_ID = "[!] Could not resolve
+	// tenant ID '{}'!";
+	// private static final String MSG_INVALID_TENANT_ID = "[!] DataSource not found
+	// for given tenant Id '{}'!";
+	// private static final String MSG_INVALID_DB_PROPERTIES_ID = "[!] DataSource
+	// properties related to the given tenant ('{}') is invalid!";
 
 	@Autowired
 	public MultiTenantManager(DataSourceProperties properties) {
@@ -76,7 +79,7 @@ public class MultiTenantManager {
 		multiTenantDataSource.afterPropertiesSet();
 		return multiTenantDataSource;
 	}
-	
+
 	public static void setTenant(String databasename, String username, String password) {
 		String url = "jdbc:mysql://localhost:3306/" + databasename + "?useUnicode=true&characterEncoding=utf-8";
 		if (!url.equalsIgnoreCase(dataSourceProperties.getUrl())) {
@@ -104,18 +107,19 @@ public class MultiTenantManager {
 
 	public static void switchTenant(String databasename) {
 		if (tenantResolver != null && !exist(databasename)) {
-			//try {
-				DataSourceProperties dataSource = tenantResolver.apply(databasename);
-				LOG.debug("[d] Datasource properties resolved for tenant ID '{}'", databasename);
-				// String url = dataSource.getUrl();
-				String username = dataSource.getUsername();
-				String password = dataSource.getPassword();
-				setTenant(databasename, username, password);
-			//} catch (Exception e) {
-				// throw new TenantResolvingException(e, "Could not resolve the tenant!");
-			//}
+			// try {
+			DataSourceProperties dataSource = tenantResolver.apply(databasename);
+			LOG.debug("[d] Datasource properties resolved for tenant ID '{}'", databasename);
+			// String url = dataSource.getUrl();
+			String username = dataSource.getUsername();
+			String password = dataSource.getPassword();
+			setTenant(databasename, username, password);
+			// } catch (Exception e) {
+			// throw new TenantResolvingException(e, "Could not resolve the tenant!");
+			// }
 		} else {
-			// throw new TenantNotFoundException(format("Tenant %s not found!", databasename));
+			// throw new TenantNotFoundException(format("Tenant %s not found!",
+			// databasename));
 		}
 		currentTenant.set(databasename);
 		LOG.debug("[d] Tenant '{}' set as current.", databasename);
