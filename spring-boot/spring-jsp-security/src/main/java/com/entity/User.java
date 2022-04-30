@@ -42,16 +42,4 @@ public class User implements Serializable {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
 	}
 
-//	public UserRole addUserRole(UserRole userRole) {
-//		getUserRoles().add(userRole);
-//		userRole.setUser(this);
-//		return userRole;
-//	}
-//
-//	public UserRole removeUserRole(UserRole userRole) {
-//		getUserRoles().remove(userRole);
-//		userRole.setUser(null);
-//		return userRole;
-//	}
-
 }

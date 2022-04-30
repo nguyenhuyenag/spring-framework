@@ -42,12 +42,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		}
 		// return (UserDetails) new org.springframework.security.core.userdetails
 		// .User(user.getUsername(), user.getPassword(), listGrants);
-		boolean status = false;
+		// boolean status = false;
         UserDetails userDetails = org.springframework.security.core.userdetails
         		.User.withUsername(user.getUsername())
         			 .password(user.getPassword())
-        			 .disabled(status)
-        			 .authorities(listGrants).build();
+        			 .disabled(user.getEnabled() == 0) //
+        			 .authorities(listGrants)
+        			 .build();
         return userDetails;
 	}
 

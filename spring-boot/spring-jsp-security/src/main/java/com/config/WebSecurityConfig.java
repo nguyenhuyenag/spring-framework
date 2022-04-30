@@ -7,7 +7,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,6 +17,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private UserDetailsService userDetailsService;
+	
+	@Autowired
+    private LoginFailureHandler loginFailureHandler;
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -33,16 +35,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable();
-		
 		// các trang không yêu cầu login
 		http.authorizeRequests().antMatchers("/login", "/logout").permitAll();
-		
 		// yêu cầu phải login với vai trò ROLE_USER hoặc ROLE_ADMIN
 		http.authorizeRequests().antMatchers("/user-info").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
-		
 		// trang chỉ dành cho ADMIN
 		http.authorizeRequests().antMatchers("/admin").access("hasRole('ROLE_ADMIN')");
-		
 		// Cấu hình cho Login Form.
 		http.authorizeRequests()
 			.and()
@@ -53,18 +51,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.passwordParameter("password")
 				.defaultSuccessUrl("/") // the landing page after an unsuccessful login
 				.failureUrl("/login?error=true")
+				.failureHandler(loginFailureHandler)
 			.and()
 				.logout()
 				.logoutUrl("/logout")
-				.clearAuthentication(true)
+				//.clearAuthentication(true)
 				.logoutSuccessUrl("/logout-successful");
-		
 		// AccessDeniedException
 		http.authorizeRequests()
 			.and()
 				.exceptionHandling()
 				.accessDeniedPage("/403");
-		
 		// http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		
 	}

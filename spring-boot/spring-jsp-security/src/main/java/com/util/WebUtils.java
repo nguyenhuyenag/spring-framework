@@ -8,23 +8,23 @@ import org.springframework.security.core.userdetails.User;
 public class WebUtils {
 
 	public static String toString(User user) {
-		StringBuilder sb = new StringBuilder();
-		sb.append("Username: ").append(user.getUsername());
+		StringBuilder builder = new StringBuilder();
+		builder.append("Username: ").append(user.getUsername());
 		Collection<GrantedAuthority> authorities = user.getAuthorities();
 		if (authorities != null && !authorities.isEmpty()) {
-			sb.append(" [");
+			builder.append(" [");
 			boolean first = true;
 			for (GrantedAuthority a : authorities) {
 				if (first) {
-					sb.append(a.getAuthority());
+					builder.append(a.getAuthority());
 					first = false;
 				} else {
-					sb.append(", ").append(a.getAuthority());
+					builder.append(", ").append(a.getAuthority());
 				}
 			}
-			sb.append("]");
+			builder.append("]");
 		}
-		return sb.toString();
+		return builder.toString();
 	}
 
 }
