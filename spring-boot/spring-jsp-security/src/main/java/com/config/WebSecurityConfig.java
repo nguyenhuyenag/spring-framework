@@ -48,6 +48,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/user-info").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
 			// trang chỉ dành cho ADMIN
 			.antMatchers("/admin").access("hasRole('ROLE_ADMIN')");
+		
 		// Cấu hình cho Login Form
 		http.authorizeRequests().and()
 			.formLogin() //
@@ -59,15 +60,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.failureUrl("/login?error=true")
 				.failureHandler(loginFailureHandler).and()
 			.logout()
-				// .logoutUrl("/logout")
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout")) // csrf logout
-				// .clearAuthentication(true)
 				// .logoutSuccessHandler(logoutSuccessHandler());
-				.logoutSuccessUrl("/login?logout");
+				.logoutSuccessUrl("/login?logout")
+				.invalidateHttpSession(true)
+				.deleteCookies("JSESSIONID");
+		
 		// AccessDeniedException
 		http.authorizeRequests().and()
 			.exceptionHandling()
 			.accessDeniedPage("/403");
+		
+		// Remember me
+		http.rememberMe()
+			.key("mySecretKey")
+			.rememberMeParameter("remember") // name of checkbox at login page  
+			.rememberMeCookieName("remember-me-name")
+			.tokenValiditySeconds(1 * 24 * 60 * 60); // 1 days (default is 14 days)
 	}
 	
 }

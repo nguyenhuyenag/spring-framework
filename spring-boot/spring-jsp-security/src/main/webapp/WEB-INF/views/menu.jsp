@@ -2,7 +2,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <div style="border: 1px solid #ccc; padding: 5px; margin-bottom: 20px;">
-	<a href="/">Home</a>
+	<a href="/home">Home</a>
 		&nbsp; | &nbsp;
 	<a href="/user-info">User Info</a>
 		&nbsp; | &nbsp; 

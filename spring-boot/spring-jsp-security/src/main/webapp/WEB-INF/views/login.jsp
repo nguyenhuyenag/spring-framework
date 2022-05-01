@@ -15,11 +15,6 @@
 		<c:if test="${not empty param.error && not empty SPRING_SECURITY_LAST_EXCEPTION}">
 			<div class="alert alert-danger text-center">
 	    	<p>Reason: <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/></p>
-		    	<%-- <c:choose>
-			        <c:when test="${SPRING_SECURITY_LAST_EXCEPTION.message == 'Disabled_Exception'}">
-					</c:when>
-			        <c:otherwise>Tên đăng nhập hoặc mật khẩu không đúng!</c:otherwise>
-		    	</c:choose> --%>
 	    	</div>
 		</c:if>
 		<form name='f' action="${CONTEXT_PATH}/j_spring_security_check" method='POST'>
@@ -34,7 +29,7 @@
 				</tr>
 				<tr>
 					<td>Remember Me?</td>
-					<td><input type="checkbox" name="remember-me" /></td>
+					<td><input type="checkbox" name="remember" /></td>
 				</tr>
 				<tr>
 					<td><input name="submit" type="submit" value="submit" /></td>
