@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -31,39 +32,42 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.userDetailsService(userDetailsService) // cài đặt dịch vụ để tìm kiếm User trong Database
 			.passwordEncoder(passwordEncoder()); 	// cài đặt PasswordEncoder
 	}
+	
+	//	@Bean
+	//	public LogoutSuccessHandler logoutSuccessHandler() {
+	//	    return new CustomLogoutSuccessHandler();
+	//	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable();
-		// các trang không yêu cầu login
-		http.authorizeRequests().antMatchers("/login", "/logout").permitAll();
-		// yêu cầu phải login với vai trò ROLE_USER hoặc ROLE_ADMIN
-		http.authorizeRequests().antMatchers("/user-info").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
-		// trang chỉ dành cho ADMIN
-		http.authorizeRequests().antMatchers("/admin").access("hasRole('ROLE_ADMIN')");
-		// Cấu hình cho Login Form.
+		// http.csrf().disable();
 		http.authorizeRequests()
-			.and()
-				.formLogin() //
+			// các trang không yêu cầu login
+			.antMatchers("/login", "/logout").permitAll()
+			// yêu cầu phải login với vai trò ROLE_USER hoặc ROLE_ADMIN
+			.antMatchers("/user-info").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+			// trang chỉ dành cho ADMIN
+			.antMatchers("/admin").access("hasRole('ROLE_ADMIN')");
+		// Cấu hình cho Login Form
+		http.authorizeRequests().and()
+			.formLogin() //
 				.loginPage("/login") //
 				.loginProcessingUrl("/j_spring_security_check") //  the URL to submit the username and password to
 				.usernameParameter("username")
 				.passwordParameter("password")
 				.defaultSuccessUrl("/") // the landing page after an unsuccessful login
 				.failureUrl("/login?error=true")
-				.failureHandler(loginFailureHandler)
-			.and()
-				.logout()
-				.logoutUrl("/logout")
-				//.clearAuthentication(true)
-				.logoutSuccessUrl("/logout-successful");
+				.failureHandler(loginFailureHandler).and()
+			.logout()
+				// .logoutUrl("/logout")
+				.logoutRequestMatcher(new AntPathRequestMatcher("/logout")) // csrf logout
+				// .clearAuthentication(true)
+				// .logoutSuccessHandler(logoutSuccessHandler());
+				.logoutSuccessUrl("/login?logout");
 		// AccessDeniedException
-		http.authorizeRequests()
-			.and()
-				.exceptionHandling()
-				.accessDeniedPage("/403");
-		// http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-		
+		http.authorizeRequests().and()
+			.exceptionHandling()
+			.accessDeniedPage("/403");
 	}
-
+	
 }

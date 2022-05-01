@@ -25,10 +25,10 @@ public class AuthController {
 		return "login";
 	}
 
-	@GetMapping("logout-successful")
-	public String logoutSuccessfulPage() {
-		return "logout-successful";
-	}
+//	@GetMapping("logout-successful")
+//	public String logoutSuccessfulPage() {
+//		return "logout-successful";
+//	}
 	
 	@GetMapping("user-info")
 	public String userInfo(Model model, Principal principal) {
@@ -69,12 +69,4 @@ public class AuthController {
 		return "403";
 	}
 	
-	@GetMapping("security-taglib") // Spring Security - Taglib
-	public String securityTaglib(Model model, Principal principal) {
-		if (principal != null) {
-			
-		}
-		return "security-taglib";
-	}
-
 }

@@ -8,6 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,7 +19,7 @@ import lombok.Setter;
 @Entity
 public class Role implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -5653427440193976467L;
 
 	@Id
 	@Column(name = "role_id")
@@ -27,19 +30,10 @@ public class Role implements Serializable {
 
 	@OneToMany(mappedBy = "role") // trỏ tới tên biến role ở trong UserRole
 	private List<UserRole> userRoles;
-
-//	public UserRole addUserRole(UserRole userRole) {
-//		getUserRoles().add(userRole);
-//		userRole.setRole(this);
-//
-//		return userRole;
-//	}
-//
-//	public UserRole removeUserRole(UserRole userRole) {
-//		getUserRoles().remove(userRole);
-//		userRole.setRole(null);
-//
-//		return userRole;
-//	}
+	
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+	}
 
 }

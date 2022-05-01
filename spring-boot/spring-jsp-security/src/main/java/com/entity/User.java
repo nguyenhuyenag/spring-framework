@@ -23,7 +23,7 @@ import lombok.Setter;
 @Entity
 public class User implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2557799464431032459L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,6 +34,7 @@ public class User implements Serializable {
 	private String username;
 	private byte enabled;
 
+	// need `fetch = FetchType.EAGER`
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER) // trỏ tới tên biến user ở trong UserRole
 	private List<UserRole> userRoles = new ArrayList<>();
 

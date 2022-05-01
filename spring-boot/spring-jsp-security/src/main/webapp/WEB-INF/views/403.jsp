@@ -10,15 +10,12 @@
 <body>
     <!-- Include _menu.html -->
 	<%@ include file="menu.jsp" %>
-	
  	<c:if test="${message != null}">
     	<h3 style="color: red;">${message}</h3>
  	</c:if>
- 	
- 	<c:if test="${userInfo != null}">
+ 	<%-- <c:if test="${userInfo != null}">
     	<div>${userInfo}</div>
- 	</c:if>
- 	
+ 	</c:if> --%>
 </body>
  
 </html>
