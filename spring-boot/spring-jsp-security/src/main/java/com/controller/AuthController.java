@@ -57,16 +57,4 @@ public class AuthController {
 		return "admin";
 	}
 	
-	@GetMapping("403")
-	public String accessDenied(Model model, Principal principal) {
-		if (principal != null) {
-			User loginedUser = (User) ((Authentication) principal).getPrincipal();
-			String userInfo = WebUtils.toString(loginedUser);
-			model.addAttribute("userInfo", userInfo);
-			String message = "Hi " + principal.getName() + "<br/> You don't have permission to access this page!";
-			model.addAttribute("message", message);
-		}
-		return "403";
-	}
-	
 }

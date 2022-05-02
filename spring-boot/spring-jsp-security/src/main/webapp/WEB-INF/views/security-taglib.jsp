@@ -1,21 +1,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<!DOCTYPE html>
-<html>
 <head>
-	<title>Security Taglib</title>
+    <meta charset="utf-8">
 	<link rel="shortcut icon" href="#">
+    <title>Security Taglib</title>
 </head>
-<body>
-	<%@ include file="menu.jsp" %>
-	
+
+<div class="container">
 	<h2>Spring Security - Taglib</h2>
-	
 	<h3>1) The authorize Tag</h3>
-	
 	<%--
-	
 		<sec:authorize access="hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')" var="isAuthenticated">
 			// todo
 	    </sec:authorize>
@@ -41,7 +36,7 @@
 	</ul>
 	
 	<sec:authorize url="/security-taglib">
-   		This content will only be visible to users who are authorized to send requests to the <b>"/security-taglib"</b> URL. 
+	  		This content will only be visible to users who are authorized to send requests to the <b>"/security-taglib"</b> URL. 
 	</sec:authorize>
 	
 	<h3>2) The authentication tag</h3>
@@ -56,6 +51,4 @@
 		   	...
 		&lt;/form&gt;
 	</pre>
-</body>
-
-</html>
+</div>
