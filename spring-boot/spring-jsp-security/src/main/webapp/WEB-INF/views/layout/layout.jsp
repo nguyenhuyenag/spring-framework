@@ -17,17 +17,10 @@
     <c:set var="CONTEXT_PATH" value="${pageContext.request.contextPath}" scope="session"/>
 </head>
 
-<style>
-	button {
-		cursor: pointer !important;
-	}
-</style>
-
 <body>
-    <tiles:insertAttribute name="header" />
     <div role="main" class="container">
+	    <tiles:insertAttribute name="header" />
 		<tiles:insertAttribute name="body" />
     </div>
-    <%-- <tiles:insertAttribute name="footer" /> --%>
 </body>
 </html>

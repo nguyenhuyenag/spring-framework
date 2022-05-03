@@ -1,18 +1,13 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page isELIgnored="false" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<!DOCTYPE html>
-<html>
 <head>
 	<title>Not Found</title>
 	<link rel="shortcut icon" href="#">
 </head>
- 
-<body>
-    <!-- Include _menu.html -->
-	<%@ include file="menu.jsp" %>
- 	<c:if test="${message != null}">
-    	<h3 style="color: red;">${message}</h3>
- 	</c:if>
-</body>
- 
-</html>
+
+<h1>Page_404</h1>
+<h2>Oops! We ran into some problems.</h2>
+<p>${message}</p>
+<c:out value="${message}" />
+

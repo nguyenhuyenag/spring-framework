@@ -1,6 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<div class="container">
+<head>
+	<title>Login</title>
+	<link rel="shortcut icon" href="#">
+</head>
+
+<div>
 	<h1>Login</h1>
 	<c:if test="${not empty param.error && not empty SPRING_SECURITY_LAST_EXCEPTION}">
 		<div class="alert alert-danger text-center">
@@ -11,7 +16,7 @@
 		<table>
 			<tr>
 				<td>User:</td>
-				<td><input type='text' name='username' value='user1'></td>
+				<td><input type='text' name='username' value='user'></td>
 			</tr>
 			<tr>
 				<td>Password:</td>

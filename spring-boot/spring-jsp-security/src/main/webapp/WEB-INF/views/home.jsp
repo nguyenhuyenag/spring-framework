@@ -1,12 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <head>
-    <meta charset="utf-8">
+	<title>Home</title>
 	<link rel="shortcut icon" href="#">
-    <title>Home</title>
 </head>
 
-<div class="container">
-	<%-- <%@ include file="menu.jsp" %> --%>
-	<h2><span>${message}</span></h2>
+<div>
+	<h2>This is Home page</h2>
 </div>

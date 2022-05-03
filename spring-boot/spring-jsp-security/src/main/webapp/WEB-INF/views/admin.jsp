@@ -7,7 +7,7 @@
 	<link rel="shortcut icon" href="#">
 </head>
 <body>
-	<%@ include file="menu.jsp" %>
+	<%-- <%@ include file="menu.jsp" %> --%>
 
 	<h2>Admin Page</h2>
 	<h3>

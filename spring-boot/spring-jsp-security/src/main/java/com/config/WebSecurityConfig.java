@@ -40,15 +40,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		// http.csrf().disable();
 		http.authorizeRequests()
 			// các trang không yêu cầu login
 			.antMatchers("/login", "/logout").permitAll()
-			// yêu cầu phải login với vai trò ROLE_USER hoặc ROLE_ADMIN
-			.antMatchers("/home", "/user-info")
-				.access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
 			// trang chỉ dành cho ADMIN
-			.antMatchers("/admin").access("hasRole('ROLE_ADMIN')");
+			.antMatchers("/admin").access("hasRole('ROLE_ADMIN')")
+			// yêu cầu phải login với vai trò ROLE_USER hoặc ROLE_ADMIN
+			.antMatchers("/", "/home", "/user-info").authenticated();
+			//.access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
 		
 		// Cấu hình cho Login Form
 		http.authorizeRequests().and()

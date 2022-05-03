@@ -1,13 +1,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
-<!DOCTYPE html>
-<html>
 <head>
-	<title>User Page</title>
+	<title>UserInfo</title>
 	<link rel="shortcut icon" href="#">
 </head>
-<body>
-	<%@ include file="menu.jsp"%>
+
+<div>
 	<h2>User Info</h2>
 	<h3>
 		Welcome: <span>${pageContext.request.userPrincipal.name}</span>
@@ -25,7 +24,4 @@
 	<c:if test="${userInfo != null}">
 		<div>${userInfo}</div>
 	</c:if>
-
-</body>
-
-</html>
+</div>

@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" ?>  
 <!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"  
-       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">  
-        
-<tiles-definitions>  
-    <!-- Base Define -->
-    <definition name="base.definition" template="/WEB-INF/views/layout/layout.jsp">  
-        <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />  
-        <!-- <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />   -->
-    </definition>  
-    <!-- Login -->
-    <definition name="login" extends="base.definition">  
-        <put-attribute name="title" value="Login" />
-        <put-attribute name="body" value="/WEB-INF/views/login.jsp" />  
-    </definition>
-    <definition name="home" extends="base.definition">  
-        <put-attribute name="Home" value="Home" />  
-        <put-attribute name="body" value="/WEB-INF/views/home.jsp" />  
-    </definition>
-    <definition name="security-taglib" extends="base.definition">  
-        <put-attribute name="security-taglib" value="Security Taglib" />  
-        <put-attribute name="body" value="/WEB-INF/views/security-taglib.jsp" />  
-    </definition>
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+	<definition name="base.definition" template="/WEB-INF/views/layout/layout.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
+	</definition>
+	<definition name="login" extends="base.definition">
+		<put-attribute name="body" value="/WEB-INF/views/login.jsp" />
+	</definition>
+	<definition name="home" extends="base.definition">
+		<put-attribute name="body" value="/WEB-INF/views/home.jsp" />
+	</definition>
+	<definition name="user-info" extends="base.definition">
+		<put-attribute name="body" value="/WEB-INF/views/user-info.jsp" />
+	</definition>
+	<definition name="security-taglib" extends="base.definition">
+		<put-attribute name="body" value="/WEB-INF/views/security-taglib.jsp" />
+	</definition>
+	<definition name="404" extends="base.definition">
+		<put-attribute name="body" value="/WEB-INF/views/404.jsp" />
+	</definition>
 </tiles-definitions>

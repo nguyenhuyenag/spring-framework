@@ -3,11 +3,12 @@
 
 <sec:authorize access="isAuthenticated()">
 	<div style="border: 1px solid #ccc; padding: 5px; margin-bottom: 20px;">
-		<a href="/home">Home</a> &nbsp; | &nbsp;
 		<sec:authorize access="isAuthenticated()">
+			<a href="/home">Home</a> &nbsp; | &nbsp; 
 			<a href="/user-info">UserInfo</a> &nbsp; | &nbsp; 
 		</sec:authorize>
 		<a href="/security-taglib">Taglib</a> &nbsp; | &nbsp;
+		<a href="/page-abcdf">404 Error</a> &nbsp; | &nbsp;
 		<sec:authorize access="hasRole('ROLE_ADMIN')">
 			<a href="/admin">Admin</a> &nbsp; | &nbsp;
 		</sec:authorize>

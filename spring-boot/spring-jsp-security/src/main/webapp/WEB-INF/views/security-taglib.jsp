@@ -7,7 +7,7 @@
     <title>Security Taglib</title>
 </head>
 
-<div class="container">
+<div>
 	<h2>Spring Security - Taglib</h2>
 	<h3>1) The authorize Tag</h3>
 	<%--

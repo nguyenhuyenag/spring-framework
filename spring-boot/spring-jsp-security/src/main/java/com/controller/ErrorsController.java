@@ -52,10 +52,8 @@ public class ErrorsController implements ErrorController {
 	}
 
 	@GetMapping("404")
-	public String notfound(Model model, Principal principal) {
-		if (principal != null) {
-			model.addAttribute("message", "Page not found");
-		}
+	public String notfound(Model model) {
+		model.addAttribute("message", "Page not found");
 		return "404";
 	}
 
