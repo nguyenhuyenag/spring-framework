@@ -9,9 +9,10 @@
 		</sec:authorize>
 		<a href="/security-taglib">Taglib</a> &nbsp; | &nbsp;
 		<a href="/page-abcdf">404 Error</a> &nbsp; | &nbsp;
-		<sec:authorize access="hasRole('ROLE_ADMIN')">
+		<sec:authorize access="isAuthenticated">
 			<a href="/admin">Admin</a> &nbsp; | &nbsp;
 		</sec:authorize>
+		<%-- <sec:authorize access="hasRole('ROLE_ADMIN')"></sec:authorize> --%>
 		<sec:authorize access="!isAuthenticated()">
 			<a href="/login">Login</a> &nbsp; | &nbsp;
 		</sec:authorize> 

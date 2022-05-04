@@ -15,6 +15,11 @@
     <!-- script -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <c:set var="CONTEXT_PATH" value="${pageContext.request.contextPath}" scope="session"/>
+    <style type="text/css">
+    	button {
+			cursor: pointer !important;
+		}
+    </style>
 </head>
 
 <body>

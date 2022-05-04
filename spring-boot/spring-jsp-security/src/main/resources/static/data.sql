@@ -4,9 +4,9 @@ create table `user` (
 	`user_id` bigint not null auto_increment,
 	`username` varchar(36) not null,
 	`password` varchar(128) not null,
-	`enabled` bit(1) not null default 0,
+	`enabled` int(1) not null default 0,
 	primary key (`user_id`),
-	unique (`user_id`, `user_name`)
+	unique (`user_id`, `username`)
 );
 
 create table `role` (
@@ -30,8 +30,8 @@ insert into `role` values
 (2,'ROLE_USER');
 
 insert into `user`(user_id, username, password) values 
-(1,'admin1','$2a$10$pri5gk9l.tsziw9fxhts8o8mz9e97k2fzbfvgffassituil.tcrfu'),
-(2,'user1','$2a$10$pri5gk9l.tsziw9fxhts8o8mz9e97k2fzbfvgffassituil.tcrfu');
+(1,'admin1','$2a$10$gT3kPX1zM27rnGdCTwwAJ.OaO0gdDg9eb3YCkr7fySFl2n3uB27yq'),
+(2,'user1','$2a$10$gT3kPX1zM27rnGdCTwwAJ.OaO0gdDg9eb3YCkr7fySFl2n3uB27yq');
 
 insert into `user_role` values 
 (1,1,1),
