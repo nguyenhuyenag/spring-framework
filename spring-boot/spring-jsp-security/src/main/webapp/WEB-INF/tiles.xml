@@ -3,25 +3,27 @@
        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 
 <tiles-definitions>
+	<!-- layout -->
 	<definition name="base.definition" template="/WEB-INF/views/layout/layout.jsp">
 		<put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
 	</definition>
-	<definition name="login" extends="base.definition">
+	<!-- body -->
+	<definition extends="base.definition" name="login">
 		<put-attribute name="body" value="/WEB-INF/views/login.jsp" />
 	</definition>
-	<definition name="home" extends="base.definition">
+	<definition extends="base.definition" name="home">
 		<put-attribute name="body" value="/WEB-INF/views/home.jsp" />
 	</definition>
-	<definition name="user-info" extends="base.definition">
+	<definition extends="base.definition" name="user-info">
 		<put-attribute name="body" value="/WEB-INF/views/user-info.jsp" />
 	</definition>
-	<definition name="security-taglib" extends="base.definition">
+	<definition extends="base.definition" name="security-taglib">
 		<put-attribute name="body" value="/WEB-INF/views/security-taglib.jsp" />
 	</definition>
-	<definition name="403" extends="base.definition">
+	<definition extends="base.definition" name="403">
 		<put-attribute name="body" value="/WEB-INF/views/403.jsp" />
 	</definition>
-	<definition name="404" extends="base.definition">
+	<definition extends="base.definition" name="404">
 		<put-attribute name="body" value="/WEB-INF/views/404.jsp" />
 	</definition>
 </tiles-definitions>

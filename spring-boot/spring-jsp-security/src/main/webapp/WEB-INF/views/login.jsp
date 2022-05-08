@@ -12,7 +12,7 @@
     	<p>Reason: <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/></p>
     	</div>
 	</c:if>
-	<form name='f' action="${CONTEXT_PATH}/j_spring_security_check" method='POST'>
+	<form action="${CONTEXT_PATH}/j_spring_security_check" method='POST'>
 		<table>
 			<tr>
 				<td>User:</td>
@@ -28,6 +28,7 @@
 			</tr>
 			<tr>
 				<td><input name="submit" type="submit" value="submit" /></td>
+				<!-- <td><button name="submit" type="submit">submit</button></td> -->
 			</tr>
 		</table>
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>

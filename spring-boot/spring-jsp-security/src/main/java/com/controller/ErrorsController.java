@@ -4,6 +4,7 @@ import java.security.Principal;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
@@ -25,9 +26,10 @@ public class ErrorsController implements ErrorController {
 	}
 
 	@RequestMapping("error")
-	public String handleError(HttpServletRequest request) {
+	public String handleError(HttpServletRequest request, HttpServletResponse response) {
 		Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
 		if (status != null) {
+			System.out.println("_____Status: " + response.getStatus());
 			Integer statusCode = Integer.valueOf(status.toString());
 			if (statusCode == HttpStatus.NOT_FOUND.value()) {
 				return "404";
