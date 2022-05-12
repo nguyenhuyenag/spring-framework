@@ -11,4 +11,9 @@ public class HomeController {
 		return "home";
 	}
 
+	@GetMapping("security-taglib") // Spring Security - Taglib
+	public String securityTaglib() {
+		return "security-taglib";
+	}
+
 }
