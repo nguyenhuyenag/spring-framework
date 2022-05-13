@@ -6,6 +6,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.repository.UserRepository;
+
 @SpringBootApplication
 public class BootApplication implements CommandLineRunner {
 
@@ -15,10 +17,14 @@ public class BootApplication implements CommandLineRunner {
 	
 	@Autowired
 	PasswordEncoder encoder;
+	
+	@Autowired
+	UserRepository repository;
 
 	@Override
 	public void run(String... args) throws Exception {
-		// System.out.println(encoder.encode("123"));
+		repository.updateUsername("user", "user123");
+		System.out.println("OK");
 	}
 
 }
