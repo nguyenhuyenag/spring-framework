@@ -1,10 +1,13 @@
 package com.controller;
 
 import java.security.Principal;
+import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -29,7 +32,7 @@ public class UserController {
 		if (principal != null) {
 			System.out.println("From Principal");
 			System.out.println("Username: " + principal.getName());
-			org.springframework.security.core.userdetails.User loginedUser = (User) ((Authentication) principal).getPrincipal();
+			User loginedUser = (User) ((Authentication) principal).getPrincipal();
 			String userInfo = WebUtils.toString(loginedUser);
 			model.addAttribute("userInfo", userInfo);
 		}
@@ -47,7 +50,7 @@ public class UserController {
 
 	@GetMapping("admin")
 	public String adminPage(Model model, Principal principal) {
-		org.springframework.security.core.userdetails.User loginedUser = (User) ((Authentication) principal).getPrincipal();
+		User loginedUser = (User) ((Authentication) principal).getPrincipal();
 		String userInfo = WebUtils.toString(loginedUser);
 		model.addAttribute("userInfo", userInfo);
 		return "admin";
@@ -59,11 +62,16 @@ public class UserController {
 	}
 
 	@PostMapping("edit-user")
-	private String _____editUser(@ModelAttribute EditUser editUser) {
+	private String _____editUser(@ModelAttribute EditUser editUser, Principal principal) {
 		System.out.println(editUser.toString());
-		Optional<com.entity.User> opt = userRepository.findByUsername(editUser.getUsername());
-		if (opt.isPresent()) {
-
+		if (principal != null) {
+			Optional<com.entity.User> opt = userRepository.findByUsername(principal.getName());
+			userRepository.updateUsername(principal.getName(), editUser.getUsername());
+			Collection<SimpleGrantedAuthority> nowAuthorities = (Collection<SimpleGrantedAuthority>) SecurityContextHolder
+					.getContext().getAuthentication().getAuthorities();
+			UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+					editUser.getUsername(), opt.get().getPassword(), nowAuthorities);
+			SecurityContextHolder.getContext().setAuthentication(authentication);
 		}
 		return "edit-user";
 	}
