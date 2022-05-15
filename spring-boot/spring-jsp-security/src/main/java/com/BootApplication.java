@@ -18,7 +18,7 @@ public class BootApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		// System.out.println(encoder.encode("123"));
+		// System.out.println(encoder.encode("123456"));
 	}
 
 }
