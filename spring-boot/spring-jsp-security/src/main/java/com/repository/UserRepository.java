@@ -28,6 +28,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	@Query(value = "UPDATE user t SET " //
 			+ "t.username = :newUsername, t.password = :password " //
 			+ "WHERE t.username = :oldUsername", nativeQuery = true)
-	void updateUsername(String oldUsername, String newUsername, String password);
+	void updateUsernameAndPassword(String oldUsername, String newUsername, String password);
 
 }

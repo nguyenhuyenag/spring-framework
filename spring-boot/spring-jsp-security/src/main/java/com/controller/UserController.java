@@ -23,7 +23,7 @@ import com.util.WebUtils;
 
 @Controller
 public class UserController {
-	
+
 	@Autowired
 	PasswordEncoder encoder;
 
@@ -69,24 +69,20 @@ public class UserController {
 	private String _____editUser(@ModelAttribute EditUser editUser, Principal principal) {
 		System.out.println(editUser.toString());
 		if (principal != null) {
-			// Optional<com.entity.User> opt = userRepository.findByUsername(principal.getName());
-			userRepository.updateUsername(principal.getName(), editUser.getUsername(), encoder.encode(editUser.getPassword()));
-			
-			// TODO: Cach 1
-			// Collection<SimpleGrantedAuthority> nowAuthorities = (Collection<SimpleGrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-			// UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(editUser.getUsername(), opt.get().getPassword(), nowAuthorities);
-			// SecurityContextHolder.getContext().setAuthentication(authentication);
-			
-			// TODO: Cach 2
-			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			Set<GrantedAuthority> updatedAuthorities = new HashSet<>(auth.getAuthorities());
-			// updatedAuthorities.add(...); // add your role here [e.g., new SimpleGrantedAuthority("ROLE_NEW_ROLE")]
-			// new UsernamePasswordAuthenticationToken(auth.getPrincipal(), auth.getCredentials(), updatedAuthorities);
-			Authentication newAuth = new UsernamePasswordAuthenticationToken(editUser.getUsername(), "?????", updatedAuthorities);
-			// System.out.println(auth.getPrincipal().toString());
+			String password = encoder.encode(editUser.getPassword());
+			userRepository.updateUsernameAndPassword(principal.getName(), editUser.getUsername(), password);
+			Authentication newAuth = auth(editUser);
 			SecurityContextHolder.getContext().setAuthentication(newAuth);
 		}
 		return "edit-user";
+	}
+
+	private Authentication auth(EditUser editUser) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Set<GrantedAuthority> updatedAuths = new HashSet<>(auth.getAuthorities());
+		// updatedAuthorities.add(...); // add your role here [e.g., new SimpleGrantedAuthority("ROLE_NEW")]
+		// new UsernamePasswordAuthenticationToken(auth.getPrincipal(), auth.getCredentials(), updatedAuthorities);
+		return new UsernamePasswordAuthenticationToken(editUser.getUsername(), "?????", updatedAuths);
 	}
 
 }
