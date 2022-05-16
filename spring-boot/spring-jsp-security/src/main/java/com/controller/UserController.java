@@ -81,7 +81,7 @@ public class UserController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Set<GrantedAuthority> updatedAuths = new HashSet<>(auth.getAuthorities());
 		// updatedAuthorities.add(...); // add your role here [e.g., new SimpleGrantedAuthority("ROLE_NEW")]
-		// new UsernamePasswordAuthenticationToken(auth.getPrincipal(), auth.getCredentials(), updatedAuthorities);
+		// new UsernamePasswordAuthenticationToken(auth.getPrincipal(), auth.getCredentials(), updatedAuths);
 		return new UsernamePasswordAuthenticationToken(editUser.getUsername(), "?????", updatedAuths);
 	}
 
