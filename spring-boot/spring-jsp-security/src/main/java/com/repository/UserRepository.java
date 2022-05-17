@@ -3,11 +3,12 @@ package com.repository;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.entity.User;
 
@@ -24,7 +25,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
 	@Modifying
 	@Transactional
-	@Query(value = "UPDATE user t SET t.username = :newusername WHERE t.username = :oldusername", nativeQuery = true)
-	void updateUsername(String oldusername, String newusername);
+	@Query(value = "UPDATE user t SET " //
+			+ "t.username = :newUsername, t.password = :password " //
+			+ "WHERE t.username = :oldUsername", nativeQuery = true)
+	void updateUsernameAndPassword(String oldUsername, String newUsername, String password);
 
 }
