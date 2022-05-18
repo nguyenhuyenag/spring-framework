@@ -1,19 +1,16 @@
 package com;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.model.User;
-import com.repository.UserRepository;
-import com.test.PageableJPA;
+import com.test.PageUtils;
 
 @SpringBootApplication
 public class BootApplication implements CommandLineRunner {
@@ -22,25 +19,25 @@ public class BootApplication implements CommandLineRunner {
 		SpringApplication.run(BootApplication.class, args);
 	}
 
-	@Autowired
-	UserRepository repository;
-
+	int count = 0;
+	
 	@Override
 	public void run(String... args) throws Exception {
-		for (int i = 0; i < 12; i++) {
-			User u = new User();
-			u.setName(RandomStringUtils.randomAlphanumeric(5).toUpperCase());
-			// repository.save(u);
+		while (true) {
+			int total =  ThreadLocalRandom.current().nextInt(0, 1000);
+			List<Integer> list = IntStream.rangeClosed(1, total).boxed().collect(Collectors.toList());
+			int page = ThreadLocalRandom.current().nextInt(1, total);
+			System.err.println("Total: " + total + ", page: " + page);
+			List<List<Integer>> split = PageUtils.createPageFromList(list, page);
+			split.forEach(t -> {
+				count += t.size();
+				// System.out.println(t.toString());
+			});
+			System.err.println("Check: " + (count - list.size()));
+			TimeUnit.SECONDS.sleep(1);
+			count = 0;
+			System.out.println();
 		}
-		int size = 10;
-		int page = 11;
-//		List<Integer> list = IntStream.rangeClosed(1, size) //
-//				.boxed() //
-//				.collect(Collectors.toList());
-		List<User> list = repository.findAll();
-		System.out.println("List: " + Arrays.toString(list.toArray()));
-		System.out.println("Page: " + page);
-		PageableJPA.createPageFromList(list, page).forEach(t -> System.out.println(t.toString()));
 	}
 
 }
