@@ -1,13 +1,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<!DOCTYPE html>
 <html>
 <head>
 	<title>Admin Page</title>
 	<link rel="shortcut icon" href="#">
 </head>
+
 <body>
-	<%-- <%@ include file="menu.jsp" %> --%>
 
 	<h2>Admin Page</h2>
 	<h3>
@@ -22,6 +21,4 @@
 		<div>${userInfo}</div>
 	</c:if>
 </body>
-
-</html>
 

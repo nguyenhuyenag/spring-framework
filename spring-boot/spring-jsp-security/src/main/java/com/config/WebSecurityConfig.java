@@ -46,8 +46,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			// trang chỉ dành cho ADMIN
 			.antMatchers("/admin").access("hasRole('ROLE_ADMIN')")
 			// yêu cầu phải login với vai trò ROLE_USER hoặc ROLE_ADMIN
-			.antMatchers("/", "/home", "/user-info").authenticated();
 			//.access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
+			.antMatchers("/**").authenticated();
 		
 		// Cấu hình cho Login Form
 		http.authorizeRequests().and()
