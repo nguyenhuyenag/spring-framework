@@ -1,5 +1,9 @@
-{"properties": [{
-  "name": "app.message",
-  "type": "java.lang.String",
-  "description": "A description for 'app.message'"
-}]}
+{
+	"properties": [
+		{
+			"name": "app.message",
+			"type": "java.lang.String",
+			"description": "A description for 'app.message'"
+		}
+	]
+}
