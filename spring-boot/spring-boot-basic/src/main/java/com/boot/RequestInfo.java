@@ -20,11 +20,11 @@ public class RequestInfo {
 		map.put("Protocol", req.getScheme());
 		map.put("Server Name", req.getServerName());
 		map.put("Server Port", String.valueOf(req.getServerPort()));
-		// map.put("Local Port", String.valueOf(req.getLocalPort()));
 		map.put("Context Path", req.getContextPath());
 		map.put("Servlet Path", req.getServletPath());
 		map.put("Base URL", get1BaseUrl());
 		map.put("Request URL", req.getRequestURL().toString());
+		// map.put("Local Port", String.valueOf(req.getLocalPort()));
 		// map.put("Request URI", req.getRequestURI());
 		// map.put("URL 2", get2BaseUrl(req));
 		// map.put("Encoding", req.getCharacterEncoding());

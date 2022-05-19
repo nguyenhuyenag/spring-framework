@@ -23,7 +23,8 @@ public class Application implements CommandLineRunner {
 		// transaction.testRollBack();
 		// System.out.println(TransactionAspectSupport.currentTransactionStatus().isNewTransaction());
 		// transaction.rollBackWithStatus();
-		ResourceFile.byClassPathResource();
+		// ResourceFile.byClassPathResource();
+		ResourceFile.readPropertiesToMap();
 	}
 
 }

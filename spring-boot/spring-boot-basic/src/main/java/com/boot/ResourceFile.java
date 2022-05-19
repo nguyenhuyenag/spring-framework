@@ -6,11 +6,12 @@ import java.io.InputStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
 public class ResourceFile {
-	
+
 	private static final Logger LOG = LoggerFactory.getLogger(ResourceFile.class);
 
 	public static File byClassPathResource() {
@@ -34,6 +35,17 @@ public class ResourceFile {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public static void readPropertiesToMap() {
+		try {
+			PropertiesFactoryBean factory = new PropertiesFactoryBean();
+			factory.setLocation(new ClassPathResource("basic.properties"));
+			factory.afterPropertiesSet();
+			factory.getObject().forEach((k, v) -> System.out.println(k + ", " + v));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
