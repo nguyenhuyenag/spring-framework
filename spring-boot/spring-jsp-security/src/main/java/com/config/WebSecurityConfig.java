@@ -77,6 +77,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.rememberMeParameter("remember") // name of checkbox at login page  
 			.rememberMeCookieName("remember-me-name")
 			.tokenValiditySeconds(1 * 24 * 60 * 60); // 1 days (default is 14 days)
+		
+		// http.sessionManagement().maximumSessions(1); // limit login 
 	}
 	
 }
