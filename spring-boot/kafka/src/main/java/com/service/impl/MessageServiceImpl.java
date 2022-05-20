@@ -1,5 +1,8 @@
 package com.service.impl;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -45,9 +48,11 @@ public class MessageServiceImpl implements MessageService {
 
 	@Override
 	public void send() {
-		int count = 0;
+		DateFormat df = new SimpleDateFormat("dd-MM-yyy HH:mm:ss");
 		while (true) {
-			ListenableFuture<SendResult<String, Object>> future = kafkaTemplate.send(KAFKA_TOPIC_PRODUCER, longText());
+			Date date = new Date();
+			String message = date.getTime() + " " + df.format(date);
+			ListenableFuture<SendResult<String, Object>> future = kafkaTemplate.send(KAFKA_TOPIC_PRODUCER, message);
 			future.addCallback(new ListenableFutureCallback<SendResult<String, Object>>() {
 				@Override
 				public void onSuccess(SendResult<String, Object> result) {
@@ -60,16 +65,10 @@ public class MessageServiceImpl implements MessageService {
 					LOG.info("Send fail: {}", e.getMessage());
 				}
 			});
-			count++;
-			if (count == 50) {
-				count = 0;
-				try {
-					int time = 10;
-					Thread.sleep(time * 1000);
-					LOG.info("Sleeping {}s .........", time);
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-				}
+			try {
+				Thread.sleep(2 * 1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 		}
 	}

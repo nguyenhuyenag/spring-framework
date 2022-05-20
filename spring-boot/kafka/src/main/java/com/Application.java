@@ -11,6 +11,7 @@ import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.PartitionInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -69,12 +70,17 @@ public class Application extends SpringBootServletInitializer implements Command
 		}
 	}
 
+	@Value("${kafka.auto.send:false}")
+	boolean isSend;
+
 	@Autowired
 	private MessageService messageService;
 
 	@Override
 	public void run(String... args) throws Exception {
-		// messageService.send();
+		if (isSend) {
+			messageService.send();
+		}
 		// countPartions();
 	}
 

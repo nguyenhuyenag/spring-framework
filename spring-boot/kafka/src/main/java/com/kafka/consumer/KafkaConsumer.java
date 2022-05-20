@@ -37,20 +37,20 @@ public class KafkaConsumer {
 		autoStartup = "${kafka.auto.startup}", //
 		topics = "${kafka.topic.consumer}", //
 		id = "id1", //
-		groupId = "group-id-11144", //
+		groupId = "group-id-11", // groupId của 2 Listener phải giống nhau, nếu khác sẽ cùng đọc dữ liệu
 		containerFactory = KafkaConstant.KAFKA_LISTENER_CONTAINER_FACTORY)
 	public void listenPartition1(@Payload String message, @Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partition) {
-		LOG.info("Listener 1: Partition = {}, Message size = {}", partition, message.length());
+		LOG.info("Listener 1: Partition = {}, Message size = {}", partition, message);
 	}
 
 	@KafkaListener( //
 		autoStartup = "${kafka.auto.startup}", //
 		topics = "${kafka.topic.consumer}", //
 		id = "id2", //
-		groupId = "group-id-11212", //
+		groupId = "group-id-11", //
 		containerFactory = KafkaConstant.KAFKA_LISTENER_CONTAINER_FACTORY)
 	public void listenPartition2(@Payload String message, @Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partition) {
-		LOG.info("Listener 2: Partition = {}, Message size = {}", partition, message.length());
+		LOG.info("Listener 2: Partition = {}, Message size = {}", partition, message);
 	}
 
 }
