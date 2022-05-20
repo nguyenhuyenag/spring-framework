@@ -2,7 +2,7 @@ package com.service;
 
 public interface MessageService {
 
-	void send(int amount);
+	void send();
 
 	void received(String message);
 
