@@ -47,8 +47,7 @@ public class MessageServiceImpl implements MessageService {
 	public void send() {
 		int count = 0;
 		while (true) {
-			String message = longText();
-			ListenableFuture<SendResult<String, Object>> future = kafkaTemplate.send(KAFKA_TOPIC_PRODUCER, message);
+			ListenableFuture<SendResult<String, Object>> future = kafkaTemplate.send(KAFKA_TOPIC_PRODUCER, longText());
 			future.addCallback(new ListenableFutureCallback<SendResult<String, Object>>() {
 				@Override
 				public void onSuccess(SendResult<String, Object> result) {
@@ -58,15 +57,16 @@ public class MessageServiceImpl implements MessageService {
 
 				@Override
 				public void onFailure(Throwable e) {
-					LOG.info("Send fail");
+					LOG.info("Send fail: {}", e.getMessage());
 				}
 			});
 			count++;
 			if (count == 50) {
 				count = 0;
 				try {
-					Thread.sleep(10 * 1000);
-					LOG.info("Sleeping 15s .........");
+					int time = 10;
+					Thread.sleep(time * 1000);
+					LOG.info("Sleeping {}s .........", time);
 				} catch (InterruptedException e1) {
 					e1.printStackTrace();
 				}

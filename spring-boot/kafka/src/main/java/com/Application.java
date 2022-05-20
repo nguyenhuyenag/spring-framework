@@ -62,8 +62,7 @@ public class Application extends SpringBootServletInitializer implements Command
 		try (KafkaConsumer<String, String> consumer = new KafkaConsumer<>(config);) {
 			Map<String, List<PartitionInfo>> topics = consumer.listTopics();
 			for (Map.Entry<String, List<PartitionInfo>> entry : topics.entrySet()) {
-				// System.out.println("Key = " + entry.getKey() + ", Value = " +
-				// entry.getValue());
+				// System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
 				System.out.println("Topic name: " + entry.getKey());
 				System.out.println("Partions: " + Integer.toString(entry.getValue().size()) + "\n");
 			}
@@ -75,7 +74,7 @@ public class Application extends SpringBootServletInitializer implements Command
 
 	@Override
 	public void run(String... args) throws Exception {
-		messageService.send();
+		// messageService.send();
 		// countPartions();
 	}
 

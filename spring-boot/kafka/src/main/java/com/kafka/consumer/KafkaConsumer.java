@@ -37,7 +37,7 @@ public class KafkaConsumer {
 		autoStartup = "${kafka.auto.startup}", //
 		topics = "${kafka.topic.consumer}", //
 		id = "id1", //
-		groupId = "group-id-1", //
+		groupId = "group-id-11144", //
 		containerFactory = KafkaConstant.KAFKA_LISTENER_CONTAINER_FACTORY)
 	public void listenPartition1(@Payload String message, @Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partition) {
 		LOG.info("Listener 1: Partition = {}, Message size = {}", partition, message.length());
@@ -47,7 +47,7 @@ public class KafkaConsumer {
 		autoStartup = "${kafka.auto.startup}", //
 		topics = "${kafka.topic.consumer}", //
 		id = "id2", //
-		groupId = "group-id-1", //
+		groupId = "group-id-11212", //
 		containerFactory = KafkaConstant.KAFKA_LISTENER_CONTAINER_FACTORY)
 	public void listenPartition2(@Payload String message, @Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partition) {
 		LOG.info("Listener 2: Partition = {}, Message size = {}", partition, message.length());
