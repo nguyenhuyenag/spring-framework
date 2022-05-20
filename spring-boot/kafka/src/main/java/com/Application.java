@@ -1,15 +1,24 @@
 package com;
 
+import java.time.Duration;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.ListTopicsOptions;
 import org.apache.kafka.clients.admin.NewTopic;
+import org.apache.kafka.clients.consumer.Consumer;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.clients.consumer.OffsetAndTimestamp;
 import org.apache.kafka.common.PartitionInfo;
+import org.apache.kafka.common.TopicPartition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -63,7 +72,8 @@ public class Application extends SpringBootServletInitializer implements Command
 		try (KafkaConsumer<String, String> consumer = new KafkaConsumer<>(config);) {
 			Map<String, List<PartitionInfo>> topics = consumer.listTopics();
 			for (Map.Entry<String, List<PartitionInfo>> entry : topics.entrySet()) {
-				// System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+				// System.out.println("Key = " + entry.getKey() + ", Value = " +
+				// entry.getValue());
 				System.out.println("Topic name: " + entry.getKey());
 				System.out.println("Partions: " + Integer.toString(entry.getValue().size()) + "\n");
 			}
@@ -76,12 +86,94 @@ public class Application extends SpringBootServletInitializer implements Command
 	@Autowired
 	private MessageService messageService;
 
+	// private static long kPollTimeout = 100;
+	// private static int kNumRecordsToProcess = 10;
+	private static long startTimestamp = 1653035185447l;
+
 	@Override
 	public void run(String... args) throws Exception {
+
 		if (isSend) {
 			messageService.send();
 		}
-		// countPartions();
+
+		Consumer<?, ?> consumer = consumerFactory.createConsumer();
+
+		String TOPIC = "topicName2022";
+
+		// get info of all partitions of a topic
+		List<PartitionInfo> partitionsInfo = consumer.partitionsFor(TOPIC);
+
+		// create TopicPartition list
+		Set<TopicPartition> partitions = new HashSet<>();
+		for (PartitionInfo p : partitionsInfo) {
+			partitions.add(new TopicPartition(p.topic(), p.partition()));
+		}
+
+		// Consumer will read from all partitions
+		consumer.assign(partitions);
+
+		Map<TopicPartition, Long> timestamps = new HashMap<>();
+		for (TopicPartition tp : partitions) {
+			timestamps.put(tp, startTimestamp);
+		}
+		// get the offset for that time in each partition
+		Map<TopicPartition, OffsetAndTimestamp> offsets = consumer.offsetsForTimes(timestamps);
+		for (TopicPartition tp : partitions) {
+			System.out.println(offsets.get(tp).offset());
+			consumer.seek(tp, offsets.get(tp).offset());
+		}
+		int count = 0;
+		while (true) {
+			final ConsumerRecords<?, ?> consumerRecords = consumer.poll(Duration.ofMillis(100));
+			for (ConsumerRecord<?, ?> record : consumerRecords) {
+				count++;
+				// record.key()
+				System.out.println("Partition: " + record.partition() + ", Offset:" + record.offset() + ", Value: "
+						+ record.value() + ", Time: " + record.timestamp());
+				if (count >= 5) {
+					consumer.close();
+					return;
+				}
+			}
+		}
 	}
+
+//	public static class SeekToTimeOnRebalance implements ConsumerRebalanceListener {
+//		private Consumer<?, ?> consumer;
+//		private final Long startTimestamp;
+//
+//		public SeekToTimeOnRebalance(Consumer<?, ?> consumer, Long startTimestamp) {
+//			this.consumer = consumer;
+//			this.startTimestamp = startTimestamp;
+//		}
+//
+//		@Override
+//		public void onPartitionsAssigned(Collection<TopicPartition> partitions) {
+//			Map<TopicPartition, Long> timestampsToSearch = new HashMap<>();
+//			for (TopicPartition partition : partitions) {
+//				timestampsToSearch.put(partition, startTimestamp);
+//			}
+//			// for each assigned partition, find the earliest offset in that partition with
+//			// a timestamp
+//			// greater than or equal to the input timestamp
+//			Map<TopicPartition, OffsetAndTimestamp> outOffsets = consumer.offsetsForTimes(timestampsToSearch);
+//			for (TopicPartition partition : partitions) {
+//				long seekOffset = outOffsets.get(partition).offset();
+//				long currentPosition = consumer.position(partition);
+//				// seek to the offset returned by the offsetsForTimes API
+//				// if it is beyond the current position
+//				if (seekOffset >= currentPosition) {
+//					consumer.seek(partition, seekOffset);
+//				}
+//			}
+//		}
+//
+//		@Override
+//		public void onPartitionsRevoked(Collection<TopicPartition> partitions) {
+//			
+//		}
+//
+//	}
 
 }
