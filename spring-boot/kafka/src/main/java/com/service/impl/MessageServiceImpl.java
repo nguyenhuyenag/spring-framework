@@ -82,7 +82,7 @@ public class MessageServiceImpl implements MessageService {
 		ThreadReceive threadReceive = new ThreadReceive(message);
 		Future<?> f = executor.submit(threadReceive);
 		try {
-			System.out.println(f.get());
+			LOG.info("receivedByThread: {}", f.get());
 		} catch (InterruptedException | ExecutionException e) {
 			e.printStackTrace();
 		}

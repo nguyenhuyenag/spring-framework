@@ -1,23 +1,29 @@
 package com.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.stereotype.Service;
 
 import com.model.Message;
 import com.repository.MessageRepository;
+import com.util.SpringUtils;
 
-import lombok.NoArgsConstructor;
-
-@NoArgsConstructor
-@Component
+@Service
+@Configurable
+// @NoArgsConstructor
 public class ThreadReceive implements Runnable {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(ThreadReceive.class);
 
-	@Autowired
+	// @Autowired
 	private MessageRepository repository;
 
 	private String content;
 	
-//	@Autowired
+	public ThreadReceive() {}
+
+////	@Autowired
 //	public ThreadReceive(MessageRepository repository) {
 //		this.repository = repository;
 //	}
@@ -28,8 +34,13 @@ public class ThreadReceive implements Runnable {
 
 	@Override
 	public void run() {
-		repository.save(new Message(content));
-		System.out.println("OK");
+		repository = SpringUtils.ctx.getBean(MessageRepository.class);
+		if (repository != null) {
+			repository.save(new Message(content));
+		} else {
+			LOG.info("Repository is NULL!");
+			System.exit(-1);
+		}
 	}
 
 }
