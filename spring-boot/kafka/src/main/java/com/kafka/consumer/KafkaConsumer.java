@@ -46,7 +46,7 @@ public class KafkaConsumer {
 		containerFactory = KafkaConstant.KAFKA_LISTENER_CONTAINER_FACTORY)
 	public void listenPartition1(@Payload String message, @Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partition) {
 		LOG.info("Listener 1: Partition = {}, Message size = {}", partition, message.length());
-		servive.received(message);
+		servive.receivedByThread(message);
 	}
 
 	@KafkaListener( //
@@ -57,7 +57,7 @@ public class KafkaConsumer {
 		containerFactory = KafkaConstant.KAFKA_LISTENER_CONTAINER_FACTORY)
 	public void listenPartition2(@Payload String message, @Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partition) {
 		LOG.info("Listener 2: Partition = {}, Message size = {}", partition, message.length());
-		servive.received(message);
+		servive.receivedByThread(message);
 	}
 
 }

@@ -1,5 +1,9 @@
 package com.service.impl;
 
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -70,6 +74,19 @@ public class MessageServiceImpl implements MessageService {
 	@Override
 	public void received(String message) {
 		repository.save(new Message(message));
+	}
+
+	@Override
+	public void receivedByThread(String message) {
+		ExecutorService executor = Executors.newSingleThreadExecutor();
+		ThreadReceive threadReceive = new ThreadReceive(message);
+		Future<?> f = executor.submit(threadReceive);
+		try {
+			System.out.println(f.get());
+		} catch (InterruptedException | ExecutionException e) {
+			e.printStackTrace();
+		}
+		executor.shutdown();
 	}
 
 }
