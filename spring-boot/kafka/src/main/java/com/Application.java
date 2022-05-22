@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.kafka.clients.admin.AdminClient;
+import org.apache.kafka.clients.admin.DeleteTopicsResult;
 import org.apache.kafka.clients.admin.ListTopicsOptions;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.consumer.Consumer;
@@ -46,6 +47,25 @@ public class Application extends SpringBootServletInitializer implements Command
 	@Autowired
 	ConsumerFactory<?, ?> consumerFactory;
 
+	@Autowired
+	private MessageService messageService;
+
+	@Value("${kafka.auto.send:false}")
+	boolean isSend;
+
+	private static long startTimestamp = 1653035185447l;
+
+	@Override
+	public void run(String... args) throws Exception {
+		if (isSend) {
+			messageService.send();
+		}
+		// showTopic();
+		// createTopic();
+		// deleteKafkaTopics(Arrays.asList("topicName2022"));
+		showTopicInfor();
+	}
+
 	public void showTopic() {
 		Map<String, Object> config = consumerFactory.getConfigurationProperties();
 		try (AdminClient adminClient = AdminClient.create(config);) {
@@ -54,6 +74,16 @@ public class Application extends SpringBootServletInitializer implements Command
 			System.out.println(adminClient.listTopics(listTopicsOptions).names().get());
 		} catch (InterruptedException | ExecutionException e) {
 			e.printStackTrace();
+		}
+	}
+
+	public void deleteKafkaTopics(List<String> kafkaTopics) {
+		Map<String, Object> config = consumerFactory.getConfigurationProperties();
+		try (AdminClient adminClient = AdminClient.create(config);) {
+			DeleteTopicsResult deleteTopicsResult = adminClient.deleteTopics(kafkaTopics);
+			while (!deleteTopicsResult.all().isDone()) {
+				// Wait for future task to complete
+			}
 		}
 	}
 
@@ -67,49 +97,28 @@ public class Application extends SpringBootServletInitializer implements Command
 		}
 	}
 
-	public void countPartions() {
+	public void showTopicInfor() {
 		Map<String, Object> config = consumerFactory.getConfigurationProperties();
 		try (KafkaConsumer<String, String> consumer = new KafkaConsumer<>(config);) {
 			Map<String, List<PartitionInfo>> topics = consumer.listTopics();
 			for (Map.Entry<String, List<PartitionInfo>> entry : topics.entrySet()) {
-				// System.out.println("Key = " + entry.getKey() + ", Value = " +
-				// entry.getValue());
+				// System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
 				System.out.println("Topic name: " + entry.getKey());
 				System.out.println("Partions: " + Integer.toString(entry.getValue().size()) + "\n");
 			}
 		}
 	}
 
-	@Value("${kafka.auto.send:false}")
-	boolean isSend;
-
-	@Autowired
-	private MessageService messageService;
-
-	// private static long kPollTimeout = 100;
-	// private static int kNumRecordsToProcess = 10;
-	private static long startTimestamp = 1653035185447l;
-
-	@Override
-	public void run(String... args) throws Exception {
-
-		if (isSend) {
-			messageService.send();
-		}
-
+	void seek() {
 		Consumer<?, ?> consumer = consumerFactory.createConsumer();
-
 		String TOPIC = "topicName2022";
-
 		// get info of all partitions of a topic
 		List<PartitionInfo> partitionsInfo = consumer.partitionsFor(TOPIC);
-
 		// create TopicPartition list
 		Set<TopicPartition> partitions = new HashSet<>();
 		for (PartitionInfo p : partitionsInfo) {
 			partitions.add(new TopicPartition(p.topic(), p.partition()));
 		}
-
 		// Consumer will read from all partitions
 		consumer.assign(partitions);
 
