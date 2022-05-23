@@ -34,7 +34,7 @@ public class ThreadReceive implements Runnable {
 
 	@Override
 	public void run() {
-		repository = SpringUtils.ctx.getBean(MessageRepository.class);
+		repository = SpringUtils.CTX.getBean(MessageRepository.class);
 		if (repository != null) {
 			repository.save(new Message(content));
 		} else {

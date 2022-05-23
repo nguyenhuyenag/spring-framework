@@ -7,11 +7,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class SpringUtils {
 
-	public static ApplicationContext ctx;
+	public static ApplicationContext CTX;
 
 	@Autowired
 	private void setApplicationContext(ApplicationContext applicationContext) {
-		SpringUtils.ctx = applicationContext;
+		CTX = applicationContext;
 	}
-
+	
 }

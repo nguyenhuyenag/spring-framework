@@ -1,22 +1,15 @@
 package com;
 
 import java.time.Duration;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ExecutionException;
 
-import org.apache.kafka.clients.admin.AdminClient;
-import org.apache.kafka.clients.admin.DeleteTopicsResult;
-import org.apache.kafka.clients.admin.ListTopicsOptions;
-import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
-import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.consumer.OffsetAndTimestamp;
 import org.apache.kafka.common.PartitionInfo;
 import org.apache.kafka.common.TopicPartition;
@@ -30,6 +23,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.kafka.core.ConsumerFactory;
 
 import com.service.MessageService;
+import com.util.KafkaUtils;
 
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer implements CommandLineRunner {
@@ -60,54 +54,52 @@ public class Application extends SpringBootServletInitializer implements Command
 		if (isSend) {
 			messageService.send();
 		}
-		// showTopic();
-		// createTopic();
-		// deleteKafkaTopics(Arrays.asList("topicName2022"));
-		showTopicInfor();
+		// KafkaUtils.showTopics();
+		KafkaUtils.showTopicsInfor();
 	}
 
-	public void showTopic() {
-		Map<String, Object> config = consumerFactory.getConfigurationProperties();
-		try (AdminClient adminClient = AdminClient.create(config);) {
-			ListTopicsOptions listTopicsOptions = new ListTopicsOptions();
-			listTopicsOptions.listInternal(true);
-			System.out.println(adminClient.listTopics(listTopicsOptions).names().get());
-		} catch (InterruptedException | ExecutionException e) {
-			e.printStackTrace();
-		}
-	}
+//	public void showTopic() {
+//		Map<String, Object> config = consumerFactory.getConfigurationProperties();
+//		try (AdminClient adminClient = AdminClient.create(config);) {
+//			ListTopicsOptions listTopicsOptions = new ListTopicsOptions();
+//			listTopicsOptions.listInternal(true);
+//			System.out.println(adminClient.listTopics(listTopicsOptions).names().get());
+//		} catch (InterruptedException | ExecutionException e) {
+//			e.printStackTrace();
+//		}
+//	}
 
-	public void deleteKafkaTopics(List<String> kafkaTopics) {
-		Map<String, Object> config = consumerFactory.getConfigurationProperties();
-		try (AdminClient adminClient = AdminClient.create(config);) {
-			DeleteTopicsResult deleteTopicsResult = adminClient.deleteTopics(kafkaTopics);
-			while (!deleteTopicsResult.all().isDone()) {
-				// Wait for future task to complete
-			}
-		}
-	}
+//	public void deleteKafkaTopics(List<String> kafkaTopics) {
+//		Map<String, Object> config = consumerFactory.getConfigurationProperties();
+//		try (AdminClient adminClient = AdminClient.create(config);) {
+//			DeleteTopicsResult deleteTopicsResult = adminClient.deleteTopics(kafkaTopics);
+//			while (!deleteTopicsResult.all().isDone()) {
+//				// Wait for future task to complete
+//			}
+//		}
+//	}
 
-	void createTopic() {
-		Map<String, Object> config = consumerFactory.getConfigurationProperties();
-		try (AdminClient adminClient = AdminClient.create(config);) {
-			// new NewTopic(topicName, numPartitions, replicationFactor)
-			NewTopic newTopic = new NewTopic("topicName2022", 12, (short) 1);
-			List<NewTopic> newTopics = Arrays.asList(newTopic);
-			adminClient.createTopics(newTopics);
-		}
-	}
+//	void createTopic() {
+//		Map<String, Object> config = consumerFactory.getConfigurationProperties();
+//		try (AdminClient adminClient = AdminClient.create(config);) {
+//			// new NewTopic(topicName, numPartitions, replicationFactor)
+//			NewTopic newTopic = new NewTopic("topicName2022", 12, (short) 1);
+//			List<NewTopic> newTopics = Arrays.asList(newTopic);
+//			adminClient.createTopics(newTopics);
+//		}
+//	}
 
-	public void showTopicInfor() {
-		Map<String, Object> config = consumerFactory.getConfigurationProperties();
-		try (KafkaConsumer<String, String> consumer = new KafkaConsumer<>(config);) {
-			Map<String, List<PartitionInfo>> topics = consumer.listTopics();
-			for (Map.Entry<String, List<PartitionInfo>> entry : topics.entrySet()) {
-				// System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
-				System.out.println("Topic name: " + entry.getKey());
-				System.out.println("Partions: " + Integer.toString(entry.getValue().size()) + "\n");
-			}
-		}
-	}
+//	public void showTopicInfor() {
+//		Map<String, Object> config = consumerFactory.getConfigurationProperties();
+//		try (KafkaConsumer<String, String> consumer = new KafkaConsumer<>(config);) {
+//			Map<String, List<PartitionInfo>> topics = consumer.listTopics();
+//			for (Map.Entry<String, List<PartitionInfo>> entry : topics.entrySet()) {
+//				// System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+//				System.out.println("Topic name: " + entry.getKey());
+//				System.out.println("Partions: " + Integer.toString(entry.getValue().size()) + "\n");
+//			}
+//		}
+//	}
 
 	void seek() {
 		Consumer<?, ?> consumer = consumerFactory.createConsumer();
