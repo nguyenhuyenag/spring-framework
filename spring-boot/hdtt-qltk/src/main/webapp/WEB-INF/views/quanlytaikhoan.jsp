@@ -11,53 +11,6 @@
 	}
 </style>
 
-<div class="container">
-	<h1 class="text-center mt-3 mb-3">Quản lý tài khoản API</h1>
-	<table id="uTable" class="table display cell-border" style="width: 100%">
-		<thead class="thead-light">
-			<tr class="text-center">
-				<th>STT</th>
-				<th>Email</th>
-				<th>MST</th>
-				<th>Tên</th>
-				<th>Tình trạng</th>
-				<th>Cập nhật</th>
-			</tr>
-		</thead>
-	</table>
-	<div class="modal fade" id="editModal" data-backdrop="static" tabindex="-1">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="editModalLabel">Edit form</h5>
-					<button type="button" class="close" data-dismiss="modal">
-						<span>&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<form id="form-edit">
-						<div class="form-group">
-							<label for="email" class="col-form-label">Email:</label>
-							<input type="text" class="form-control" id="email" disabled>
-						</div>
-						<div class="form-group">
-							<label for="mst" class="col-form-label">MST:</label>
-							<input type="text" class="form-control" id="mst">
-						</div>
-						<div class="form-group">
-							<label for="mst" class="col-form-label">Tên:</label>
-							<input type="text" class="form-control" id="fullname">
-						</div>
-						<div class="modal-footer">
-							<button type="submit" class="btn btn-primary">Submit</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
 <script type="text/javascript">
 	initTable();
 	
@@ -122,7 +75,7 @@
 					},
 				],
 				columnDefs: [
-					{ "className": "dt-center", "targets": [0, 4] }
+					{ "className": "dt-center", "targets": "_all" }
 				],
 				"info": false,
 				"paging": false,
@@ -161,7 +114,6 @@
 			}
 		});
 	}
-
 
 	/* function recordNotFound() {
 		$('<tr>').append(
@@ -209,3 +161,50 @@
 				+ s + '</button>';
 	} */
 </script>
+
+<div class="container">
+	<h1 class="text-center mt-3 mb-3">Quản lý tài khoản API</h1>
+	<table id="uTable" class="table display cell-border" style="width: 100%">
+		<thead class="thead-light">
+			<tr class="text-center">
+				<th>STT</th>
+				<th>Email</th>
+				<th>MST</th>
+				<th>Tên</th>
+				<th>Tình trạng</th>
+				<th>Cập nhật</th>
+			</tr>
+		</thead>
+	</table>
+	<div class="modal fade" id="editModal" data-backdrop="static" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="editModalLabel">Edit form</h5>
+					<button type="button" class="close" data-dismiss="modal">
+						<span>&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form id="form-edit">
+						<div class="form-group">
+							<label for="email" class="col-form-label">Email:</label>
+							<input type="text" class="form-control" id="email" disabled>
+						</div>
+						<div class="form-group">
+							<label for="mst" class="col-form-label">MST:</label>
+							<input type="text" class="form-control" id="mst">
+						</div>
+						<div class="form-group">
+							<label for="mst" class="col-form-label">Tên:</label>
+							<input type="text" class="form-control" id="fullname">
+						</div>
+						<div class="modal-footer">
+							<button type="submit" class="btn btn-primary">Submit</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
