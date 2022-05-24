@@ -1,5 +1,6 @@
 package com.service.impl;
 
+import java.util.Date;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -7,6 +8,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.kafka.clients.producer.RecordMetadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 import com.model.Message;
 import com.repository.MessageRepository;
 import com.service.MessageService;
+import com.util.DatetimeUtils;
 
 @Service
 public class MessageServiceImpl implements MessageService {
@@ -50,12 +53,14 @@ public class MessageServiceImpl implements MessageService {
 	@Override
 	public void send() {
 		while (true) {
-			ListenableFuture<SendResult<String, Object>> future = kafkaTemplate.send(KAFKA_TOPIC_PRODUCER, longText());
+			Date date = new Date(); 
+			String message = date.getTime() + "______" + DatetimeUtils.format(date);
+			ListenableFuture<SendResult<String, Object>> future = kafkaTemplate.send(KAFKA_TOPIC_PRODUCER, message);
 			future.addCallback(new ListenableFutureCallback<SendResult<String, Object>>() {
 				@Override
 				public void onSuccess(SendResult<String, Object> result) {
-					LOG.info("Send successfull, partition = {}, offset = {}", result.getRecordMetadata().partition(),
-							result.getRecordMetadata().offset());
+					RecordMetadata record = result.getRecordMetadata();
+					LOG.info("Send successfull, partition = {}, offset = {}", record.partition(), record.offset());
 				}
 
 				@Override
