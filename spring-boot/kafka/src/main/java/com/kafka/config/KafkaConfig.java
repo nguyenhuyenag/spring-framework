@@ -53,6 +53,7 @@ public class KafkaConfig {
 		config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
 		config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
 		// config.put(JsonDeserializer.TRUSTED_PACKAGES, "com.kafka");
+		// config.put(ProducerConfig.MAX_REQUEST_SIZE_CONFIG, "20971520"); // kich thuoc message
 		return new DefaultKafkaProducerFactory<>(config);
 	}
 
@@ -67,7 +68,7 @@ public class KafkaConfig {
 		Map<String, Object> config = new HashMap<>(kafkaConfig());
 		config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
 		config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class); // or JsonDeserializer
-		config.put(ConsumerConfig.GROUP_ID_CONFIG, KafkaConstant.GROUP_ID);
+		config.put(ConsumerConfig.GROUP_ID_CONFIG, KafkaConstant.CONSUMER_GROUP_ID);
 		// config.put(JsonSerializer.ADD_TYPE_INFO_HEADERS, false);
 		// config.put(JsonDeserializer.TRUSTED_PACKAGES, "com.kafka");
 		// đọc các message của topic từ thời điểm hiển tại (default)
