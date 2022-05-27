@@ -2,6 +2,10 @@ package com.test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -28,18 +32,41 @@ public class PageUtils {
 		if (list == null || list.size() == 0) {
 			return result;
 		}
-		int sizeOfPage = 0;
+		int pageSize = 0;
 		int total = list.size();
 		if (total % nPage == 0) {
-			sizeOfPage = total / nPage;
+			pageSize = total / nPage;
 		} else {
-			sizeOfPage = total / nPage + 1;
+			pageSize = total / nPage + 1;
 		}
 		for (int i = 0; i < nPage; i++) {
-			Page<T> page = createPageFromList(list, PageRequest.of(i, sizeOfPage));
+			Page<T> page = createPageFromList(list, PageRequest.of(i, pageSize));
 			result.add(page.getContent());
 		}
 		return result;
+	}
+	
+	
+	private static int count = 0;
+	
+	public static void main(String[] args) throws InterruptedException {
+		while (true) {
+			int total =  ThreadLocalRandom.current().nextInt(0, 50);
+			List<Integer> list = IntStream.rangeClosed(1, total).boxed().collect(Collectors.toList());
+			int page = ThreadLocalRandom.current().nextInt(3, 10);
+			System.out.println("Total: " + total + ", page: " + page);
+			List<List<Integer>> split = PageUtils.createPageFromList(list, page);
+			split.forEach(t -> {
+				count += t.size();
+				System.out.println(t.toString());
+			});
+			if (count != list.size()) {
+				System.err.println("Check: " + (count - list.size()));
+			}
+			TimeUnit.SECONDS.sleep(2);
+			count = 0;
+			System.out.println();
+		}
 	}
 
 }
