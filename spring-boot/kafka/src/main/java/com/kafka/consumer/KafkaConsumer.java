@@ -2,7 +2,6 @@ package com.kafka.consumer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
@@ -10,15 +9,14 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 import com.kafka.config.KafkaConstant;
-import com.service.MessageService;
 
 @Component
 public class KafkaConsumer {
 
 	private static final Logger LOG = LoggerFactory.getLogger(KafkaConsumer.class);
-	
-	@Autowired
-	private MessageService servive;
+
+	// @Autowired
+	// private MessageService servive;
 
 	/**
 	 * Khi chỉ định Listener thì phải chỉ định đủ tất cả các partitions, nếu không
@@ -45,8 +43,11 @@ public class KafkaConsumer {
 		groupId = "group-id-11", // groupId của 2 Listener phải giống nhau, nếu khác sẽ cùng đọc dữ liệu
 		containerFactory = KafkaConstant.KAFKA_LISTENER_CONTAINER_FACTORY)
 	public void listenPartition1(@Payload String message, @Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partition) {
-		LOG.info("Listener 1: Partition: {}, Message: {}", partition, message);
-		// servive.receivedByThread(message);
+		if (message.length() < 50) {
+			LOG.info("Listener 1: Partition: {}, Message: {}", partition, message);
+		} else {
+			LOG.info("Listener 1: Partition: {}, Message: {}", partition, message.length());
+		}
 	}
 
 //	@KafkaListener( //
