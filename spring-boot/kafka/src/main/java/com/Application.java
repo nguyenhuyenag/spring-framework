@@ -22,7 +22,6 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.kafka.core.ConsumerFactory;
 
-import com.service.MessageService;
 import com.util.KafkaUtils;
 
 @SpringBootApplication
@@ -41,8 +40,8 @@ public class Application extends SpringBootServletInitializer implements Command
 	@Autowired
 	ConsumerFactory<?, ?> consumerFactory;
 
-	@Autowired
-	private MessageService messageService;
+	// @Autowired
+	// private MessageService messageService;
 
 	@Value("${kafka.auto.send:false}")
 	boolean isSend;
@@ -51,9 +50,9 @@ public class Application extends SpringBootServletInitializer implements Command
 
 	@Override
 	public void run(String... args) throws Exception {
-		if (isSend) {
-			messageService.send();
-		}
+//		if (isSend) {
+//			// messageService.send();
+//		}
 		// KafkaUtils.showTopics();
 		KafkaUtils.showTopicsInfor();
 	}

@@ -32,8 +32,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
-		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-security</artifactId> 
-			</dependency> -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -46,8 +44,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-configuration-processor</artifactId>
-			<optional>true</optional>
+			<artifactId>spring-boot-starter-quartz</artifactId>
+			<version>2.4.1</version><!--$NO-MVN-MAN-VER$ -->
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -63,7 +61,6 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<!-- <version>4.5</version> -->
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -76,9 +73,6 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>3.9</version><!--$NO-MVN-MAN-VER$ -->
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/javax.inject/javax.inject -->
-		<!-- <dependency> <groupId>javax.inject</groupId> <artifactId>javax.inject</artifactId> 
-			<version>1</version> </dependency> -->
 	</dependencies>
 
 	<build>
@@ -87,15 +81,6 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-resources-plugin</artifactId> 
-				<version>3.1.0</version>$NO-MVN-MAN-VER$ </plugin> -->
-			<!-- <plugin> <artifactId>maven-resources-plugin</artifactId> <executions> 
-				<execution> <id>copy-resources</id> <phase>validate</phase> <goals> <goal>copy-resources</goal> 
-				</goals> <configuration> <outputDirectory>${pom.basedir}/target/classes/static/</outputDirectory> 
-				<resources> <resource> <directory>${pom.basedir}/src/main/webapp</directory> 
-				</resource> <resource> <directory>${pom.basedir}/src/main/resources</directory> 
-				<filtering>true</filtering> </resource> </resources> <outputFile></outputFile> 
-				</configuration> </execution> </executions> </plugin> -->
 		</plugins>
 	</build>
 
