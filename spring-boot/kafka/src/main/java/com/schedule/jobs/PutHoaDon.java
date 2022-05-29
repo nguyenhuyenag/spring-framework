@@ -2,7 +2,6 @@ package com.schedule.jobs;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -66,47 +65,15 @@ public class PutHoaDon implements Job {
 		executor.shutdown();
 		while (!executor.isTerminated()) {
 			try {
-				LOG.info("In While, thread = {}, task completed = {}", NTHREAD, countTaskCompleted(taskList));
-				TimeUnit.SECONDS.sleep(2);
+				LOG.info("In While, awaitTermination");
+				TimeUnit.SECONDS.sleep(1);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
 		
+		executor.shutdown();
 		LOG.info("Job {} end, countSend = {}, total = {}", jobCount, HoaDonRunable.getCountSend(), listHoaDon.size());
-
-//		while (true) {
-//			if (isCompleted(taskList)) {
-//				LOG.info("Job {} end, countSend = {}, total = {}", jobCount, HoaDonRunable.getCountSend(), listHoaDon.size());
-//				break;
-//			} else {
-//				try {
-//					LOG.info("In While, thread = {}, task completed = {}", NTHREAD, countTaskCompleted(taskList));
-//					TimeUnit.SECONDS.sleep(2);
-//				} catch (InterruptedException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		}
-
-	}
-
-	private boolean isCompleted(List<Future<?>> taskList) {
-		return countTaskCompleted(taskList) == taskList.size();
-	}
-
-	private int countTaskCompleted(List<Future<?>> taskList) {
-		int c = 0;
-		for (Future<?> f : taskList) {
-			try {
-				if (f.get() == null) {
-					c++;
-				}
-			} catch (InterruptedException | ExecutionException e) {
-				e.printStackTrace();
-			}
-		}
-		return c;
 	}
 
 }

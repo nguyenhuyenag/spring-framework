@@ -57,13 +57,13 @@ public class HoaDonRunable implements Runnable {
 	public void run() {
 		doSend();
 	}
-	
+
 	private static int countSend = 0;
-	
+
 	public static int getCountSend() {
 		return countSend;
 	}
-	
+
 	public static int randomIntFrom(int min, int max) {
 		if (max <= min) {
 			throw new IllegalArgumentException("Max must be greater than min");
@@ -81,21 +81,23 @@ public class HoaDonRunable implements Runnable {
 		}
 		init();
 		LOG.info("Job {}, thread {} start, data  = {}", PutHoaDon.jobCount, threadname, data.size());
-		try {
-			for (HoaDon hoadon : data) {
+		for (HoaDon hoadon : data) {
+			try {
 				String guid = hoadon.getGuid().trim();
 				if (poolIds.add(guid)) {
 					String message = hoadon.getNoidungGui();
 					ListenableFuture<SendResult<String, Object>> future = //
 							kafkaTemplate.send(ConfigReader.KAFKA_PRODUCER_TOPIC, message);
+					while (!future.isDone()) {
+						// LOG.info("Wait future is done");
+					}
 					future.addCallback(new ListenableFutureCallback<SendResult<String, Object>>() {
 						@Override
 						public void onSuccess(SendResult<String, Object> result) {
 							LOG.info("Job {}, thread {}, success: {}", PutHoaDon.jobCount, threadname, hoadon.getMatdiep());
 							hoadonService.updateTinhTrangGui(guid);
-							countSend++;
 						}
-
+						
 						@Override
 						public void onFailure(Throwable e) {
 							LOG.info("Send fail: {}", hoadon.getMatdiep());
@@ -103,10 +105,28 @@ public class HoaDonRunable implements Runnable {
 						}
 					});
 				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				countSend++;
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
+	
+//	@Async
+//    public void send(String topic, String message) {
+//        ListenableFuture<SendResult<String, GenericMessage>> future = kafkaTemplate.send(topic, message);
+//        future.addCallback(new ListenableFutureCallback<SendResult<String, GenericMessage>>() {
+//            @Override
+//            public void onSuccess(final SendResult<String, GenericMessage> message) {
+//                LOG.info("sent message= " + message + " with offset= " + message.getRecordMetadata().offset());
+//            }
+//
+//            @Override
+//            public void onFailure(final Throwable throwable) {
+//                LOG.error("unable to send message= " + message, throwable);
+//            }
+//        });
+//    }
 
 }
