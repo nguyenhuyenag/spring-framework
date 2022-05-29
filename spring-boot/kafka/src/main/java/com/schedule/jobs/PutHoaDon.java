@@ -65,14 +65,14 @@ public class PutHoaDon implements Job {
 		executor.shutdown();
 		while (!executor.isTerminated()) {
 			try {
-				LOG.info("In While, awaitTermination");
+				LOG.info("Await termination");
 				TimeUnit.SECONDS.sleep(1);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
 		
-		executor.shutdown();
+		// executor.shutdown();
 		LOG.info("Job {} end, countSend = {}, total = {}", jobCount, HoaDonRunable.getCountSend(), listHoaDon.size());
 	}
 

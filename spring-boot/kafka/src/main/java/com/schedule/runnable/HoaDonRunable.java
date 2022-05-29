@@ -58,10 +58,10 @@ public class HoaDonRunable implements Runnable {
 		doSend();
 	}
 
-	private static int countSend = 0;
+	private static ThreadLocal<Integer> countSend = new ThreadLocal<>();
 
 	public static int getCountSend() {
-		return countSend;
+		return countSend.get();
 	}
 
 	public static int randomIntFrom(int min, int max) {
@@ -94,12 +94,15 @@ public class HoaDonRunable implements Runnable {
 					future.addCallback(new ListenableFutureCallback<SendResult<String, Object>>() {
 						@Override
 						public void onSuccess(SendResult<String, Object> result) {
-							LOG.info("Job {}, thread {}, success: {}", PutHoaDon.jobCount, threadname, hoadon.getMatdiep());
+							countSend.set(countSend.get() + 1);
+							LOG.info("Job {}, thread {}, success: {}", PutHoaDon.jobCount, threadname,
+									hoadon.getMatdiep());
 							hoadonService.updateTinhTrangGui(guid);
 						}
-						
+
 						@Override
 						public void onFailure(Throwable e) {
+							countSend.set(countSend.get() + 1);
 							LOG.info("Send fail: {}", hoadon.getMatdiep());
 							LOG.error(e.getMessage());
 						}
@@ -108,11 +111,11 @@ public class HoaDonRunable implements Runnable {
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
-				countSend++;
+				// countSend++;
 			}
 		}
 	}
-	
+
 //	@Async
 //    public void send(String topic, String message) {
 //        ListenableFuture<SendResult<String, GenericMessage>> future = kafkaTemplate.send(topic, message);
