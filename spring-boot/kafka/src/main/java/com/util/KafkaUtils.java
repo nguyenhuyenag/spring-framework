@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 public class KafkaUtils {
 
 	public static ConsumerFactory<?, ?> consumerFactory() {
-		return SpringUtils.CTX.getBean(ConsumerFactory.class);
+		return SpringUtils.getBean(ConsumerFactory.class);
 	}
 
 	public static Map<String, Object> config() {

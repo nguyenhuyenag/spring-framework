@@ -5,14 +5,20 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@PropertySource({ "classpath:kafka-config.properties", "classpath:config.properties", })
+@PropertySource({ "classpath:kafka-config.properties", "classpath:config.properties" })
 public class ConfigReader {
 
-	public static int JOB_TIME_PUT_HOADON;
+	public static long JOB_TIME_RECALL;
+	public static String KAFKA_PRODUCER_TOPIC;
 
-	@Value("${JOB_TIME_PUT_HOADON}")
-	private void setJOB_TIME_PUT_HOADON(int time) {
-		ConfigReader.JOB_TIME_PUT_HOADON = time;
+	@Value("${JOB_TIME_RECALL}")
+	private void setJOB_TIME_RECALL(long time) {
+		ConfigReader.JOB_TIME_RECALL = time;
+	}
+	
+	@Value("${kafka.producer.topic}")
+	private void setKAFKA_PRODUCER_TOPIC(String topic) {
+		ConfigReader.KAFKA_PRODUCER_TOPIC = topic;
 	}
 
 }

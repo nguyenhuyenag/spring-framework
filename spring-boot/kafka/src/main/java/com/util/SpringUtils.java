@@ -13,5 +13,9 @@ public class SpringUtils {
 	private void setApplicationContext(ApplicationContext applicationContext) {
 		CTX = applicationContext;
 	}
-	
+
+	public static <T> T getBean(Class<T> classT) {
+		return CTX.getBean(classT);
+	}
+
 }

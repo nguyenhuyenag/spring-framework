@@ -20,7 +20,7 @@ public class QuartzRegisterJobs {
 
 	@Bean(name = "triggerPutHoaDon")
 	public SimpleTriggerFactoryBean triggerPutHoaDon(@Qualifier("jobPutHoaDon") JobDetail job) {
-		return QuartzConfig.createTrigger(job, ConfigReader.JOB_TIME_PUT_HOADON);
+		return QuartzConfig.createTrigger(job, ConfigReader.JOB_TIME_RECALL);
 	}
 
 }

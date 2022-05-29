@@ -36,19 +36,19 @@ public class KafkaConsumer {
 //		LOG.info("Listener 0: Partition = {}, Message size = {}", partition, message.length());
 //	}
 
-	@KafkaListener( //
-		autoStartup = "${kafka.auto.startup}", //
-		topics = "${kafka.topic.consumer}", //
-		id = "id1", //
-		groupId = "group-id-11", // groupId của 2 Listener phải giống nhau, nếu khác sẽ cùng đọc dữ liệu
-		containerFactory = KafkaConstant.KAFKA_LISTENER_CONTAINER_FACTORY)
-	public void listenPartition1(@Payload String message, @Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partition) {
-		if (message.length() < 50) {
-			LOG.info("Listener 1: Partition: {}, Message: {}", partition, message);
-		} else {
-			LOG.info("Listener 1: Partition: {}, Message: {}", partition, message.length());
-		}
-	}
+//	@KafkaListener( //
+//		autoStartup = "${kafka.auto.startup}", //
+//		topics = "${kafka.topic.consumer}", //
+//		id = "id1", //
+//		groupId = "group-id-11", // groupId của 2 Listener phải giống nhau, nếu khác sẽ cùng đọc dữ liệu
+//		containerFactory = KafkaConstant.KAFKA_LISTENER_CONTAINER_FACTORY)
+//	public void listenPartition1(@Payload String message, @Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partition) {
+//		if (message.length() < 50) {
+//			LOG.info("Listener 1: Partition: {}, Message: {}", partition, message);
+//		} else {
+//			LOG.info("Listener 1: Partition: {}, Message: {}", partition, message.length());
+//		}
+//	}
 
 //	@KafkaListener( //
 //		autoStartup = "${kafka.auto.startup}", //

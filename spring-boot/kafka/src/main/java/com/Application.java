@@ -22,8 +22,6 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.kafka.core.ConsumerFactory;
 
-import com.util.KafkaUtils;
-
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer implements CommandLineRunner {
 
@@ -54,7 +52,7 @@ public class Application extends SpringBootServletInitializer implements Command
 //			// messageService.send();
 //		}
 		// KafkaUtils.showTopics();
-		KafkaUtils.showTopicsInfor();
+		// KafkaUtils.showTopicsInfor();
 	}
 
 //	public void showTopic() {
