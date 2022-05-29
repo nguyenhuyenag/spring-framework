@@ -34,15 +34,20 @@ public class PutHoaDon implements Job {
 
 	@Value("${LIMIT_QUERY}")
 	private int LIMIT_QUERY;
+	
+	@Value("${JOB_AUTO_START}")
+	private boolean autoStart;
 
-	public static int jobCount = 0; // count job
+	public static int countJob = 0; // count job
 	// private static int count = 0; // count thread completed
 
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
-		jobCount++;
-		LOG.info("Job {} start", jobCount);
-		send();
+		if (autoStart) {
+			countJob++;
+			LOG.info("Job {} start", countJob);
+			send();
+		}
 	}
 
 	private void send() {
@@ -73,7 +78,8 @@ public class PutHoaDon implements Job {
 		}
 		
 		// executor.shutdown();
-		LOG.info("Job {} end, countSend = {}, total = {}", jobCount, HoaDonRunable.getCountSend(), listHoaDon.size());
+		LOG.info("Job {} end, countSend = {}, total = {}", countJob, HoaDonRunable.countSend, listHoaDon.size());
+		HoaDonRunable.countSend = 0;
 	}
 
 }

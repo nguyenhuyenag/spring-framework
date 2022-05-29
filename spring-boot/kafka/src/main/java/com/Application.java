@@ -22,6 +22,8 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.kafka.core.ConsumerFactory;
 
+import com.util.KafkaUtils;
+
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer implements CommandLineRunner {
 
@@ -48,11 +50,8 @@ public class Application extends SpringBootServletInitializer implements Command
 
 	@Override
 	public void run(String... args) throws Exception {
-//		if (isSend) {
-//			// messageService.send();
-//		}
-		// KafkaUtils.showTopics();
-		// KafkaUtils.showTopicsInfor();
+		// System.out.println("checkkkkkkkkkkkkkkkkkkk" + KafkaUtils.isBrokerRunning());
+		KafkaUtils.showTopicsInfor();
 	}
 
 //	public void showTopic() {

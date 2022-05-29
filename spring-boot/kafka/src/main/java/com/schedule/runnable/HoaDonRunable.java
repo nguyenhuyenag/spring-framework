@@ -58,11 +58,7 @@ public class HoaDonRunable implements Runnable {
 		doSend();
 	}
 
-	private static ThreadLocal<Integer> countSend = new ThreadLocal<>();
-
-	public static int getCountSend() {
-		return countSend.get();
-	}
+	public static int countSend = 0;
 
 	public static int randomIntFrom(int min, int max) {
 		if (max <= min) {
@@ -80,7 +76,7 @@ public class HoaDonRunable implements Runnable {
 			e.printStackTrace();
 		}
 		init();
-		LOG.info("Job {}, thread {} start, data  = {}", PutHoaDon.jobCount, threadname, data.size());
+		LOG.info("Job {}, thread {} start, data  = {}", PutHoaDon.countJob, threadname, data.size());
 		for (HoaDon hoadon : data) {
 			try {
 				String guid = hoadon.getGuid().trim();
@@ -94,15 +90,15 @@ public class HoaDonRunable implements Runnable {
 					future.addCallback(new ListenableFutureCallback<SendResult<String, Object>>() {
 						@Override
 						public void onSuccess(SendResult<String, Object> result) {
-							countSend.set(countSend.get() + 1);
-							LOG.info("Job {}, thread {}, success: {}", PutHoaDon.jobCount, threadname,
+							countSend++;
+							LOG.info("Job {}, thread {}, success: {}", PutHoaDon.countJob, threadname,
 									hoadon.getMatdiep());
 							hoadonService.updateTinhTrangGui(guid);
 						}
-
+						
 						@Override
 						public void onFailure(Throwable e) {
-							countSend.set(countSend.get() + 1);
+							countSend++;
 							LOG.info("Send fail: {}", hoadon.getMatdiep());
 							LOG.error(e.getMessage());
 						}
