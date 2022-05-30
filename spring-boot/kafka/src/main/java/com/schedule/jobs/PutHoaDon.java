@@ -34,19 +34,24 @@ public class PutHoaDon implements Job {
 
 	@Value("${LIMIT_QUERY}")
 	private int LIMIT_QUERY;
-	
-	@Value("${JOB_AUTO_START}")
-	private boolean autoStart;
 
-	public static int countJob = 0; // count job
+	@Value("${IS_SEND}")
+	private boolean isSend;
+
+	public static int nJob = 0; // count job
+	private static boolean taskCompleted = true;
 	// private static int count = 0; // count thread completed
 
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
-		if (autoStart) {
-			countJob++;
-			LOG.info("Job {} start", countJob);
-			send();
+		if (isSend) {
+			if (taskCompleted) {
+				nJob++;
+				LOG.info("Job {} start", nJob);
+				send();
+			} else {
+				LOG.info("Job recall but taskCompleted = {}", taskCompleted);
+			}
 		}
 	}
 
@@ -62,11 +67,13 @@ public class PutHoaDon implements Job {
 		}
 		List<List<HoaDon>> listToPage = PageUtils.toPages(listHoaDon, NTHREAD);
 
+		taskCompleted = false;
+
 		for (int i = 0; i < NTHREAD; i++) {
 			HoaDonRunable sm = new HoaDonRunable(i + 1, listToPage.get(i));
 			taskList.add(executor.submit(sm));
 		}
-		
+
 		executor.shutdown();
 		while (!executor.isTerminated()) {
 			try {
@@ -78,8 +85,15 @@ public class PutHoaDon implements Job {
 		}
 		
 		// executor.shutdown();
-		LOG.info("Job {} end, countSend = {}, total = {}", countJob, HoaDonRunable.countSend, listHoaDon.size());
-		HoaDonRunable.countSend = 0;
+		LOG.info("Job {} end", nJob);
+		try {
+			LOG.info("Sleep 10 second...");
+			TimeUnit.SECONDS.sleep(10);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		taskCompleted = true;
 	}
 
 }

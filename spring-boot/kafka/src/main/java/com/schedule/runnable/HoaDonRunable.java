@@ -58,14 +58,7 @@ public class HoaDonRunable implements Runnable {
 		doSend();
 	}
 
-	public static int countSend = 0;
-
-	public static int randomIntFrom(int min, int max) {
-		if (max <= min) {
-			throw new IllegalArgumentException("Max must be greater than min");
-		}
-		return ThreadLocalRandom.current().nextInt(min, max + 1);
-	}
+	// public static int countSend = 0;
 
 	private void doSend() {
 		try {
@@ -76,7 +69,7 @@ public class HoaDonRunable implements Runnable {
 			e.printStackTrace();
 		}
 		init();
-		LOG.info("Job {}, thread {} start, data  = {}", PutHoaDon.countJob, threadname, data.size());
+		LOG.info("Job {}, thread {} start, data  = {}", PutHoaDon.nJob, threadname, data.size());
 		for (HoaDon hoadon : data) {
 			try {
 				String guid = hoadon.getGuid().trim();
@@ -84,21 +77,25 @@ public class HoaDonRunable implements Runnable {
 					String message = hoadon.getNoidungGui();
 					ListenableFuture<SendResult<String, Object>> future = //
 							kafkaTemplate.send(ConfigReader.KAFKA_PRODUCER_TOPIC, message);
+					// Wait future is done
 					while (!future.isDone()) {
 						// LOG.info("Wait future is done");
 					}
 					future.addCallback(new ListenableFutureCallback<SendResult<String, Object>>() {
 						@Override
 						public void onSuccess(SendResult<String, Object> result) {
-							countSend++;
-							LOG.info("Job {}, thread {}, success: {}", PutHoaDon.countJob, threadname,
-									hoadon.getMatdiep());
+							LOG.info("Job {}, thread {}, success: {}", PutHoaDon.nJob, threadname, hoadon.getMatdiep());
+							// wait 1s update database
+							try {
+								TimeUnit.SECONDS.sleep(1);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
 							hoadonService.updateTinhTrangGui(guid);
 						}
 						
 						@Override
 						public void onFailure(Throwable e) {
-							countSend++;
 							LOG.info("Send fail: {}", hoadon.getMatdiep());
 							LOG.error(e.getMessage());
 						}
@@ -106,10 +103,15 @@ public class HoaDonRunable implements Runnable {
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-			} finally {
-				// countSend++;
 			}
 		}
+	}
+	
+	public static int randomIntFrom(int min, int max) {
+		if (max <= min) {
+			throw new IllegalArgumentException("Max must be greater than min");
+		}
+		return ThreadLocalRandom.current().nextInt(min, max + 1);
 	}
 
 //	@Async

@@ -25,7 +25,7 @@ public class KafkaUtils {
 	private static final int ADMIN_CLIENT_TIMEOUT_MS = 5000;
 
 	public static ConsumerFactory<?, ?> consumerFactory() {
-		return SpringUtils.CTX.getBean(ConsumerFactory.class);
+		return SpringUtils.getBean(ConsumerFactory.class);
 	}
 
 	public static Map<String, Object> config() {

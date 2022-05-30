@@ -1,18 +1,5 @@
 package com;
 
-import java.time.Duration;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.apache.kafka.clients.consumer.Consumer;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.clients.consumer.ConsumerRecords;
-import org.apache.kafka.clients.consumer.OffsetAndTimestamp;
-import org.apache.kafka.common.PartitionInfo;
-import org.apache.kafka.common.TopicPartition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -43,15 +30,16 @@ public class Application extends SpringBootServletInitializer implements Command
 	// @Autowired
 	// private MessageService messageService;
 
-	@Value("${kafka.auto.send:false}")
-	boolean isSend;
+	@Value("${kafka.consumer.topic}")
+	String topic;
 
-	private static long startTimestamp = 1653035185447l;
+	//private static long startTimestamp = 1653035185447l;
 
 	@Override
 	public void run(String... args) throws Exception {
 		// System.out.println("checkkkkkkkkkkkkkkkkkkk" + KafkaUtils.isBrokerRunning());
 		KafkaUtils.showTopicsInfor();
+		System.out.println(topic);
 	}
 
 //	public void showTopic() {
@@ -97,44 +85,44 @@ public class Application extends SpringBootServletInitializer implements Command
 //		}
 //	}
 
-	void seek() {
-		Consumer<?, ?> consumer = consumerFactory.createConsumer();
-		String TOPIC = "topicName2022";
-		// get info of all partitions of a topic
-		List<PartitionInfo> partitionsInfo = consumer.partitionsFor(TOPIC);
-		// create TopicPartition list
-		Set<TopicPartition> partitions = new HashSet<>();
-		for (PartitionInfo p : partitionsInfo) {
-			partitions.add(new TopicPartition(p.topic(), p.partition()));
-		}
-		// Consumer will read from all partitions
-		consumer.assign(partitions);
-
-		Map<TopicPartition, Long> timestamps = new HashMap<>();
-		for (TopicPartition tp : partitions) {
-			timestamps.put(tp, startTimestamp);
-		}
-		// get the offset for that time in each partition
-		Map<TopicPartition, OffsetAndTimestamp> offsets = consumer.offsetsForTimes(timestamps);
-		for (TopicPartition tp : partitions) {
-			System.out.println(offsets.get(tp).offset());
-			consumer.seek(tp, offsets.get(tp).offset());
-		}
-		int count = 0;
-		while (true) {
-			final ConsumerRecords<?, ?> consumerRecords = consumer.poll(Duration.ofMillis(100));
-			for (ConsumerRecord<?, ?> record : consumerRecords) {
-				count++;
-				// record.key()
-				System.out.println("Partition: " + record.partition() + ", Offset:" + record.offset() + ", Value: "
-						+ record.value() + ", Time: " + record.timestamp());
-				if (count >= 5) {
-					consumer.close();
-					return;
-				}
-			}
-		}
-	}
+//	void seek() {
+//		Consumer<?, ?> consumer = consumerFactory.createConsumer();
+//		String TOPIC = "topicName2022";
+//		// get info of all partitions of a topic
+//		List<PartitionInfo> partitionsInfo = consumer.partitionsFor(TOPIC);
+//		// create TopicPartition list
+//		Set<TopicPartition> partitions = new HashSet<>();
+//		for (PartitionInfo p : partitionsInfo) {
+//			partitions.add(new TopicPartition(p.topic(), p.partition()));
+//		}
+//		// Consumer will read from all partitions
+//		consumer.assign(partitions);
+//
+//		Map<TopicPartition, Long> timestamps = new HashMap<>();
+//		for (TopicPartition tp : partitions) {
+//			timestamps.put(tp, startTimestamp);
+//		}
+//		// get the offset for that time in each partition
+//		Map<TopicPartition, OffsetAndTimestamp> offsets = consumer.offsetsForTimes(timestamps);
+//		for (TopicPartition tp : partitions) {
+//			System.out.println(offsets.get(tp).offset());
+//			consumer.seek(tp, offsets.get(tp).offset());
+//		}
+//		int count = 0;
+//		while (true) {
+//			final ConsumerRecords<?, ?> consumerRecords = consumer.poll(Duration.ofMillis(100));
+//			for (ConsumerRecord<?, ?> record : consumerRecords) {
+//				count++;
+//				// record.key()
+//				System.out.println("Partition: " + record.partition() + ", Offset:" + record.offset() + ", Value: "
+//						+ record.value() + ", Time: " + record.timestamp());
+//				if (count >= 5) {
+//					consumer.close();
+//					return;
+//				}
+//			}
+//		}
+//	}
 
 //	public static class SeekToTimeOnRebalance implements ConsumerRebalanceListener {
 //		private Consumer<?, ?> consumer;

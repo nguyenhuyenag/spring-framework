@@ -24,11 +24,6 @@ public class HoaDonServiceImpl implements HoaDonService {
 	@Override
 	public void updateTinhTrangGui(String guid) {
 		repository.updateTinhTrangGui(guid);
-		try {
-			TimeUnit.SECONDS.sleep(0);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 	}
 
 	@Override
