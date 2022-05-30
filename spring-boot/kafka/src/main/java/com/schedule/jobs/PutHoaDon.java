@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 import org.quartz.Job;
@@ -32,8 +33,8 @@ public class PutHoaDon implements Job {
 	@Value("${NTHREAD}")
 	private int NTHREAD;
 
-	@Value("${LIMIT_QUERY}")
-	private int LIMIT_QUERY;
+	// @Value("${LIMIT_QUERY}")
+	// private int LIMIT_QUERY;
 
 	@Value("${IS_SEND}")
 	private boolean isSend;
@@ -59,7 +60,7 @@ public class PutHoaDon implements Job {
 		List<Future<?>> taskList = new ArrayList<>();
 		ExecutorService executor = Executors.newFixedThreadPool(NTHREAD);
 
-		List<HoaDon> listHoaDon = service.findAllWithLimit(LIMIT_QUERY);
+		List<HoaDon> listHoaDon = service.findAllWithLimit(randomIntFrom(100, 200));
 		if (listHoaDon.isEmpty()) {
 			service.reset();
 			System.exit(0);
@@ -94,5 +95,12 @@ public class PutHoaDon implements Job {
 		
 		taskCompleted = true;
 	}
+	
+	public static int randomIntFrom(int min, int max) {
+	if (max <= min) {
+		throw new IllegalArgumentException("Max must be greater than min");
+	}
+	return ThreadLocalRandom.current().nextInt(min, max + 1);
+}
 
 }

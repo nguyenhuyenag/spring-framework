@@ -27,7 +27,7 @@ public class HoaDonServiceImpl implements HoaDonService {
 	@Override
 	public void reset() {
 		LOG.info("Reset database ...");
-		historyRepository.deleteAll();
+		// historyRepository.deleteAll();
 		repository.resetTinhTrangGui(); // set = 0
 	}
 
@@ -38,7 +38,9 @@ public class HoaDonServiceImpl implements HoaDonService {
 		if (!historyRepository.existsByMaThongDiep(mtp)) {
 			historyRepository.save(new History(mtp));
 		} else {
+			LOG.info("Duplicate");
 			historyRepository.save(new History(mtp, "Duplicate"));
+			System.exit(0);
 		}
 	}
 
