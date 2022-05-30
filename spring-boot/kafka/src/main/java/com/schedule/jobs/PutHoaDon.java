@@ -61,9 +61,8 @@ public class PutHoaDon implements Job {
 
 		List<HoaDon> listHoaDon = service.findAllWithLimit(LIMIT_QUERY);
 		if (listHoaDon.isEmpty()) {
-			LOG.info("Reset database ...");
 			service.reset();
-			return;
+			System.exit(0);
 		}
 		List<List<HoaDon>> listToPage = PageUtils.toPages(listHoaDon, NTHREAD);
 

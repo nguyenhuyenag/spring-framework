@@ -9,6 +9,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.kafka.core.ConsumerFactory;
 
+import com.repository.HistoryRepository;
 import com.util.KafkaUtils;
 
 @SpringBootApplication
@@ -34,12 +35,17 @@ public class Application extends SpringBootServletInitializer implements Command
 	String topic;
 
 	//private static long startTimestamp = 1653035185447l;
+	
+	@Autowired
+	HistoryRepository historyRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
 		// System.out.println("checkkkkkkkkkkkkkkkkkkk" + KafkaUtils.isBrokerRunning());
 		KafkaUtils.showTopicsInfor();
-		System.out.println(topic);
+		// System.out.println(topic);
+		// System.out.println("AAAAAAAAAAAAAAAAA");
+		// System.out.println(historyRepository.existsByMaThongDiep("V0309478306F3D2B179702E4192B57F4720EC13C529"));
 	}
 
 //	public void showTopic() {

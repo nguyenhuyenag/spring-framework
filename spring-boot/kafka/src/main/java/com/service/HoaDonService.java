@@ -6,9 +6,11 @@ import com.model.HoaDon;
 
 public interface HoaDonService {
 
-	void reset(); // update tinhtrang_gui = 0
+	void reset();
 
-	void updateTinhTrangGui(String guid);
+	void onSuccess(HoaDon hoadon);
+	
+	// void saveHistory(String mathongdiep);
 
 	List<HoaDon> findAllWithLimit(int limit);
 

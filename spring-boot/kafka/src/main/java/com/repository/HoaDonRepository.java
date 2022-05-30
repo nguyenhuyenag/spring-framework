@@ -17,7 +17,7 @@ public interface HoaDonRepository extends JpaRepository<HoaDon, Long> {
 	@Modifying
 	@Transactional
 	@Query(value = "UPDATE tvan_gui_hoadon t SET t.tinhtrang_gui = 0", nativeQuery = true)
-	void reset();
+	void resetTinhTrangGui();
 
 	@Modifying
 	@Transactional

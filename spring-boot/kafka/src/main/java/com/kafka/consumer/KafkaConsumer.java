@@ -1,19 +1,11 @@
 package com.kafka.consumer;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.support.KafkaHeaders;
-import org.springframework.messaging.handler.annotation.Header;
-import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
-
-import com.kafka.config.KafkaConstant;
 
 @Component
 public class KafkaConsumer {
 
-	private static final Logger LOG = LoggerFactory.getLogger(KafkaConsumer.class);
+	// private static final Logger LOG = LoggerFactory.getLogger(KafkaConsumer.class);
 
 	// @Autowired
 	// private MessageService servive;

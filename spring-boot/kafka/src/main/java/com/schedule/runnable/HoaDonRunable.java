@@ -82,21 +82,22 @@ public class HoaDonRunable implements Runnable {
 						// LOG.info("Wait future is done");
 					}
 					future.addCallback(new ListenableFutureCallback<SendResult<String, Object>>() {
+						String mtdiep = hoadon.getMatdiep();
 						@Override
 						public void onSuccess(SendResult<String, Object> result) {
-							LOG.info("Job {}, thread {}, success: {}", PutHoaDon.nJob, threadname, hoadon.getMatdiep());
+							LOG.info("Job {}, thread {}, success: {}", PutHoaDon.nJob, threadname, mtdiep);
 							// wait 1s update database
 							try {
 								TimeUnit.SECONDS.sleep(1);
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 							}
-							hoadonService.updateTinhTrangGui(guid);
+							hoadonService.onSuccess(hoadon);
 						}
-						
+
 						@Override
 						public void onFailure(Throwable e) {
-							LOG.info("Send fail: {}", hoadon.getMatdiep());
+							LOG.info("Send fail: {}", mtdiep);
 							LOG.error(e.getMessage());
 						}
 					});
@@ -106,7 +107,7 @@ public class HoaDonRunable implements Runnable {
 			}
 		}
 	}
-	
+
 	public static int randomIntFrom(int min, int max) {
 		if (max <= min) {
 			throw new IllegalArgumentException("Max must be greater than min");
