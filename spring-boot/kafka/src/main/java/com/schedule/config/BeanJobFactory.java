@@ -12,13 +12,13 @@ public final class BeanJobFactory extends SpringBeanJobFactory implements Applic
 
 	@Override
 	public void setApplicationContext(final ApplicationContext context) {
-		factory = context.getAutowireCapableBeanFactory();
+		this.factory = context.getAutowireCapableBeanFactory();
 	}
 
 	@Override
 	protected Object createJobInstance(final TriggerFiredBundle bundle) throws Exception {
 		final Object job = super.createJobInstance(bundle);
-		factory.autowireBean(job);
+		this.factory.autowireBean(job);
 		return job;
 	}
 

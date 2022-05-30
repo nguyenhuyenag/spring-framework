@@ -57,16 +57,7 @@ public class HoaDonRunable implements Runnable {
 		doSend();
 	}
 
-	// public static int countSend = 0;
-
 	private void doSend() {
-//		try {
-//			int time = randomIntFrom(2, 5);
-//			LOG.info("Sleep {}s before thread {} start", time, threadname);
-//			TimeUnit.SECONDS.sleep(time);
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
 		init();
 		LOG.info("Job {}, thread {} start, data  = {}", PutHoaDon.nJob, threadname, data.size());
 		for (HoaDon hoadon : data) {
@@ -106,13 +97,6 @@ public class HoaDonRunable implements Runnable {
 			}
 		}
 	}
-
-//	public static int randomIntFrom(int min, int max) {
-//		if (max <= min) {
-//			throw new IllegalArgumentException("Max must be greater than min");
-//		}
-//		return ThreadLocalRandom.current().nextInt(min, max + 1);
-//	}
 
 //	@Async
 //    public void send(String topic, String message) {

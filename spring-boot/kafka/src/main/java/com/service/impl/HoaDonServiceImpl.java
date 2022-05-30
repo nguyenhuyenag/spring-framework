@@ -49,9 +49,4 @@ public class HoaDonServiceImpl implements HoaDonService {
 		return repository.findAllWithLimit(limit);
 	}
 
-//	@Override
-//	public void saveHistory(String mathongdiep) {
-//		// historyRepository.existsById(id)
-//	}
-
 }
