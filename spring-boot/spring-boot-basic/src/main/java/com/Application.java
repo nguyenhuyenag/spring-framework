@@ -1,30 +1,35 @@
 package com;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
-import com.boot.ResourceFile;
 import com.service.SpringTransaction;
 
 @SpringBootApplication
 public class Application implements CommandLineRunner {
 	
+	private static ConfigurableApplicationContext context;
+	
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
+		context  = SpringApplication.run(Application.class, args);
 	}
 
-	@Autowired
 	SpringTransaction transaction;
 		
 	@Override
 	public void run(String... args) throws Exception {
-		// transaction.testRollBack();
-		// System.out.println(TransactionAspectSupport.currentTransactionStatus().isNewTransaction());
-		// transaction.rollBackWithStatus();
-		// ResourceFile.byClassPathResource();
-		ResourceFile.readPropertiesToMap();
+		
 	}
+	
+	public static void restart() {
+        Thread thread = new Thread(() -> {
+            context.close();
+            context = SpringApplication.run(Application.class, "--spring.profiles.active=your_profile");
+        });
+        thread.setDaemon(false);
+        thread.start();
+    }
 
 }
