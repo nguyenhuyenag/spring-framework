@@ -1,7 +1,5 @@
 package com.schedule.config;
 
-import java.util.Properties;
-
 import org.apache.commons.lang3.ArrayUtils;
 import org.quartz.Job;
 import org.quartz.JobDetail;
@@ -37,17 +35,17 @@ public class QuartzConfig {
 
 	@Bean
 	public SchedulerFactoryBean scheduler(Trigger... triggers) {
-		Properties properties = new Properties();
-		SchedulerFactoryBean schedulerFactory = new SchedulerFactoryBean();
-		schedulerFactory.setAutoStartup(true);
-		schedulerFactory.setOverwriteExistingJobs(true);
-		schedulerFactory.setWaitForJobsToCompleteOnShutdown(true);
-		schedulerFactory.setQuartzProperties(properties);
-		schedulerFactory.setJobFactory(springBeanJobFactory());
+		// Properties properties = new Properties();
+		SchedulerFactoryBean factory = new SchedulerFactoryBean();
+		factory.setAutoStartup(true);
+		factory.setOverwriteExistingJobs(true);
+		factory.setWaitForJobsToCompleteOnShutdown(true);
+		// factory.setQuartzProperties(properties);
+		factory.setJobFactory(springBeanJobFactory());
 		if (ArrayUtils.isNotEmpty(triggers)) {
-			schedulerFactory.setTriggers(triggers);
+			factory.setTriggers(triggers);
 		}
-		return schedulerFactory;
+		return factory;
 	}
 	
 	public static JobDetailFactoryBean createJobDetail(Class<? extends Job> jobClass) {
@@ -59,13 +57,13 @@ public class QuartzConfig {
 	}
 
 	public static SimpleTriggerFactoryBean createTrigger(JobDetail jobDetail, long timeRepeat) {
-		SimpleTriggerFactoryBean factoryBean = new SimpleTriggerFactoryBean();
-		factoryBean.setJobDetail(jobDetail);
-		factoryBean.setStartDelay(0L);
-		factoryBean.setRepeatInterval(timeRepeat * 1000); // giay
-		factoryBean.setRepeatCount(SimpleTrigger.REPEAT_INDEFINITELY);
-		// factoryBean.setMisfireInstruction(SimpleTrigger.MISFIRE_INSTRUCTION_RESCHEDULE_NEXT_WITH_REMAINING_COUNT);
-		return factoryBean;
+		SimpleTriggerFactoryBean factory = new SimpleTriggerFactoryBean();
+		factory.setJobDetail(jobDetail);
+		factory.setStartDelay(0L);
+		factory.setRepeatInterval(timeRepeat * 1000); // giay
+		factory.setRepeatCount(SimpleTrigger.REPEAT_INDEFINITELY);
+		// factory.setMisfireInstruction(SimpleTrigger.MISFIRE_INSTRUCTION_RESCHEDULE_NEXT_WITH_REMAINING_COUNT);
+		return factory;
 	}
 	
 }

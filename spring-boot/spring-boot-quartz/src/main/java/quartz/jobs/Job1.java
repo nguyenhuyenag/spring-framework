@@ -8,7 +8,7 @@ import org.springframework.web.client.RestTemplate;
 import quartz.dao.Jokes;
 
 @Component
-//@DisallowConcurrentExecution
+// @DisallowConcurrentExecution
 public class Job1 implements Job {
 
 	private final static String URL = "http://api.icndb.com/jokes/random";
