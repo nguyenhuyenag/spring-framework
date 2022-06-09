@@ -1,6 +1,7 @@
 package com.test;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,10 +21,31 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Post {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(Post.class);
+	
+	public static <T> T doPost(Object data, String url, Class<T> type) {
+		try (CloseableHttpClient client = HttpClients.createDefault()) {
+			HttpPost httpPost = new HttpPost(url);
+			StringEntity entity = new StringEntity(JsonUtils.toJSON(data));
+			httpPost.setEntity(entity);
+			httpPost.setHeader("Accept", "application/json");
+			httpPost.setHeader("Content-type", "application/json");
+			HttpResponse response = client.execute(httpPost);
+			LOG.info("Status: {}", response.getStatusLine().toString());
+			InputStream is = response.getEntity().getContent();
+			return JsonUtils.readValue(is, type);
+		} catch (UnsupportedOperationException | IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	public static void postParams() throws ClientProtocolException, IOException {
 		HttpPost httpPost = new HttpPost("http://localhost:8080/post-params");
