@@ -1,0 +1,12 @@
+CREATE DATABASE IF NOT EXISTS spring_server;
+
+USE spring_server;
+
+CREATE TABLE IF NOT EXISTS jokes (
+	id BIGINT NOT NULL,
+	type VARCHAR(45) NULL, 
+	categories VARCHAR(45) NULL,
+	joke LONGTEXT NULL, 
+	create_time DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (id)
+);

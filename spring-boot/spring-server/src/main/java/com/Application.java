@@ -1,14 +1,13 @@
 package com;
 
-import java.util.Date;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
-import com.util.TimeUtils;
+import com.service.JokesService;
 
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer implements CommandLineRunner {
@@ -24,10 +23,12 @@ public class Application extends SpringBootServletInitializer implements Command
 		SpringApplication.run(Application.class, args);
 	}
 	
+	@Autowired
+	JokesService jokesService;
+	
 	@Override
 	public void run(String... args) throws Exception {
-		// Assert.notNull(null, "password cannot be null");
-		System.out.println("TIME: " + TimeUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
+		jokesService.get();
 	}
 
 }

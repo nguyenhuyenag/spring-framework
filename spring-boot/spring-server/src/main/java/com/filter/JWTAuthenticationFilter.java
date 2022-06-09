@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -22,7 +21,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -33,13 +31,6 @@ import io.jsonwebtoken.SignatureException;
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
 	private static final Logger LOG = LoggerFactory.getLogger(JWTAuthenticationFilter.class);
-
-	@Autowired
-	private UserDetailsService userDetailsService;
-
-	public JWTAuthenticationFilter(UserDetailsService service) {
-		this.userDetailsService = service;
-	}
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
@@ -62,7 +53,10 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 		}
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (username != null && auth == null) {
-			UserDetails user = userDetailsService.loadUserByUsername(username);
+			UserDetails user = org.springframework.security.core.userdetails.User //
+									.withUsername("admin") //
+									.password("123456") //
+									.build();
 			if (TokenHandler.validateToken(user, token)) {
 				UsernamePasswordAuthenticationToken authToken = getAuthentication(token, user);
 				authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
@@ -74,15 +68,13 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 	}
 
 	private UsernamePasswordAuthenticationToken getAuthentication(final String token, final UserDetails userDetails) {
-		// {sub=huyennv, scopes=ROLE_USER,ROLE_ADMIN, iat=1640672980, exp=1640759380}
 		Claims claims = TokenHandler.getAllClaimsFromToken(token);
 		Collection<GrantedAuthority> authorities = Collections.emptyList();
 		String scopes = claims.get(TokenHandler.AUTHORITIES_KEY).toString();
 		if (StringUtils.isNotEmpty(scopes)) {
-			// [ROLE_USER, ROLE_ADMIN]
 			authorities = Arrays.stream(scopes.split(",")) //
-								.map(SimpleGrantedAuthority::new) //
-								.collect(Collectors.toSet());
+					.map(SimpleGrantedAuthority::new) //
+					.collect(Collectors.toSet());
 		}
 		return new UsernamePasswordAuthenticationToken(userDetails, "", authorities);
 	}

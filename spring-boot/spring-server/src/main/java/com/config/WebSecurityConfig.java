@@ -8,8 +8,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -21,10 +19,7 @@ import com.filter.JWTLoginFilter;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-	
-	@Autowired
-	private UserDetailsService userDetailsService;
-	
+
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
@@ -32,21 +27,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+		auth.inMemoryAuthentication() //
+			.passwordEncoder(passwordEncoder()) //
+			.withUser("huyennv") //
+			.password(passwordEncoder().encode("123456")) //
+			.roles("ADMIN");
 	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable()
-			.sessionManagement()
-			.sessionCreationPolicy(SessionCreationPolicy.STATELESS) // no session cookie for API endpoints
-			.and()
-			.authorizeRequests() // no web forms for the REST API so no CSRF tokens will be created or checked
-			.antMatchers("/favicon.ico", "/auth/login-handle").permitAll() //
+		http.csrf().disable(); //
+		http.headers().frameOptions().disable();  // Error: localhost refused to connect
+		http.authorizeRequests() //
+			.antMatchers("/auth/**", "/h2-console/**").permitAll() //
 			.anyRequest().authenticated() //
-			.and()
+			.and() //
+			.addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class) //
 			.addFilterBefore(new JWTLoginFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class) //
-			.addFilterBefore(new JWTAuthenticationFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class) //
 			.exceptionHandling();
 	}
 
