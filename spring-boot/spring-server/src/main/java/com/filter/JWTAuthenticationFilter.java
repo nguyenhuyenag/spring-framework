@@ -54,7 +54,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (username != null && auth == null) {
 			UserDetails user = org.springframework.security.core.userdetails.User //
-									.withUsername("admin") //
+									.withUsername("huyennv") //
 									.password("123456") //
 									.build();
 			if (TokenHandler.validateToken(user, token)) {

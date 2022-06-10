@@ -21,6 +21,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,23 +31,6 @@ public class Post {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(Post.class);
 	
-	public static <T> T doPost(Object data, String url, Class<T> type) {
-		try (CloseableHttpClient client = HttpClients.createDefault()) {
-			HttpPost httpPost = new HttpPost(url);
-			StringEntity entity = new StringEntity(JsonUtils.toJSON(data));
-			httpPost.setEntity(entity);
-			httpPost.setHeader("Accept", "application/json");
-			httpPost.setHeader("Content-type", "application/json");
-			HttpResponse response = client.execute(httpPost);
-			LOG.info("Status: {}", response.getStatusLine().toString());
-			InputStream is = response.getEntity().getContent();
-			return JsonUtils.readValue(is, type);
-		} catch (UnsupportedOperationException | IOException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
 	public static void postParams() throws ClientProtocolException, IOException {
 		HttpPost httpPost = new HttpPost("http://localhost:8080/post-params");
 		List<NameValuePair> params = new ArrayList<>();
@@ -93,11 +77,51 @@ public class Post {
 		String content = IOUtils.toString(response.getEntity().getContent(), StandardCharsets.UTF_8);
 		System.out.println(content);
 	}
+	
+	public static <T> T doPost(Object data, String url, Class<T> type) {
+		try (CloseableHttpClient client = HttpClients.createDefault()) {
+			HttpPost httpPost = new HttpPost(url);
+			StringEntity entity = new StringEntity(JsonUtils.toJSON(data));
+			httpPost.setEntity(entity);
+			httpPost.setHeader("Accept", "application/json");
+			httpPost.setHeader("Content-type", "application/json");
+			HttpResponse response = client.execute(httpPost);
+			LOG.info("Status: {}", response.getStatusLine().toString());
+			InputStream is = response.getEntity().getContent();
+			return JsonUtils.readValue(is, type);
+		} catch (UnsupportedOperationException | IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static String doPost(Object data, String url) {
+		try (CloseableHttpClient client = HttpClients.createDefault()) {
+			HttpPost httpPost = new HttpPost(url);
+			StringEntity entity = new StringEntity(JsonUtils.toJSON(data));
+			httpPost.setEntity(entity);
+			httpPost.setHeader("Accept", "application/json");
+			httpPost.setHeader("Content-type", "application/json");
+			HttpResponse response = client.execute(httpPost);
+			LOG.info("Status: {}", response.getStatusLine());
+			return EntityUtils.toString(response.getEntity());
+		} catch (UnsupportedOperationException | IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	public static void main(String[] args) throws ClientProtocolException, IOException {
 		// postParams();
 		// postJson();
-		postJson2();
+		// postJson2();
+		String URL = "http://localhost:8080/auth/login";
+		Map<String, String> login  = new HashMap<>();
+		login.put("username", "huyennv");
+		login.put("password", "123456");;
+		System.out.println(JsonUtils.toJSON(login));
+		String s = doPost(login, URL);
+		System.out.println(s);
 	}
 
 }
