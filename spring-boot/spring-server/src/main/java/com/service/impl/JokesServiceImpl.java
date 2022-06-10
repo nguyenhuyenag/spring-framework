@@ -26,9 +26,14 @@ public class JokesServiceImpl implements JokesService {
 	private final static String URL = "http://api.icndb.com/jokes/random";
 
 	private static final RestTemplate restTemplate = new RestTemplate();
+	
+	@Override
+	public Jokes getOne() {
+		return repository.getOne();
+	}
 
 	@Override
-	public void get() {
+	public void insert() {
 		while (true) {
 			JokesResponse res = restTemplate.getForObject(URL, JokesResponse.class);
 			Jokes jokes = new Jokes();

@@ -37,9 +37,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable(); //
-		http.headers().frameOptions().disable();  // Error: localhost refused to connect
 		http.authorizeRequests() //
-			.antMatchers("/auth/**", "/h2-console/**").permitAll() //
+			//.antMatchers("/auth/*").permitAll() //
 			.anyRequest().authenticated() //
 			.and() //
 			.addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class) //

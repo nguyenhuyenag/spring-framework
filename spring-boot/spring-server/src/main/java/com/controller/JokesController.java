@@ -1,31 +1,27 @@
 package com.controller;
 
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
+
+import com.entity.Jokes;
+import com.service.JokesService;
 
 @RestController
 @RequestMapping("api")
 public class JokesController {
+	
+	@Autowired
+	private JokesService jokesService;
 
-	// @Autowired
-	// private UserRepository repository;
-
-	private static final String URL = "https://jsonplaceholder.typicode.com/todos";
-
-	@GetMapping("get-json")
-	private ResponseEntity<String> getJson() {
-		RestTemplate restTemplate = new RestTemplate();
-		String json = "";
-		try {
-			json = restTemplate.getForObject(URL, String.class);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return new ResponseEntity<>(json, HttpStatus.OK);
+	@PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+	@GetMapping("get-jokes")
+	private ResponseEntity<?> getJkes() {
+		Jokes jokes = jokesService.getOne();
+		return ResponseEntity.ok(jokes);
 	}
 
 //	@GetMapping("user-info")

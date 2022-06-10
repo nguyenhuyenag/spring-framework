@@ -13,6 +13,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
@@ -28,9 +29,9 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Post {
-	
+
 	private static final Logger LOG = LoggerFactory.getLogger(Post.class);
-	
+
 	public static void postParams() throws ClientProtocolException, IOException {
 		HttpPost httpPost = new HttpPost("http://localhost:8080/post-params");
 		List<NameValuePair> params = new ArrayList<>();
@@ -69,15 +70,15 @@ public class Post {
 
 		String json = "{\"email\": \"lam.ln@ts24corp.com\", \"password\": \"123456\"}";
 		StringEntity entity = new StringEntity(json, ContentType.APPLICATION_JSON);
-	    httpPost.setEntity(entity);
-	    httpPost.setHeader("Accept", "application/json");
-	    httpPost.setHeader("Content-type", "application/json");
-		
+		httpPost.setEntity(entity);
+		httpPost.setHeader("Accept", "application/json");
+		httpPost.setHeader("Content-type", "application/json");
+
 		HttpResponse response = httpClient.execute(httpPost);
 		String content = IOUtils.toString(response.getEntity().getContent(), StandardCharsets.UTF_8);
 		System.out.println(content);
 	}
-	
+
 	public static <T> T doPost(Object data, String url, Class<T> type) {
 		try (CloseableHttpClient client = HttpClients.createDefault()) {
 			HttpPost httpPost = new HttpPost(url);
@@ -94,19 +95,40 @@ public class Post {
 		}
 		return null;
 	}
-	
+
 	public static String doPost(Object data, String url) {
 		try (CloseableHttpClient client = HttpClients.createDefault()) {
 			HttpPost httpPost = new HttpPost(url);
 			StringEntity entity = new StringEntity(JsonUtils.toJSON(data));
 			httpPost.setEntity(entity);
-			httpPost.setHeader("Accept", "application/json");
-			httpPost.setHeader("Content-type", "application/json");
 			HttpResponse response = client.execute(httpPost);
-			LOG.info("Status: {}", response.getStatusLine());
+			LOG.info("Status = {}", response.getStatusLine().getStatusCode());
 			return EntityUtils.toString(response.getEntity());
 		} catch (UnsupportedOperationException | IOException e) {
 			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public static String setTimeout(Object data, String url) {
+//			int timeout = 5000;
+//		    RequestConfig config = RequestConfig.custom()
+//		      .setConnectTimeout(timeout)
+//		      .setConnectionRequestTimeout(timeout)
+//		      .setSocketTimeout(timeout)
+//		      .build();
+		final  RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(30 * 1000).build();
+		// try (CloseableHttpClient httpClient = HttpClientBuilder.create().setDefaultRequestConfig(requestConfig).build();) {
+		try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
+			HttpPost httpPost = new HttpPost(url);
+			httpPost.setConfig(requestConfig);
+			StringEntity entity = new StringEntity(JsonUtils.toJSON(data));
+			httpPost.setEntity(entity);
+			final HttpResponse response = httpClient.execute(httpPost);
+			LOG.info("Status = {}", response.getStatusLine().getStatusCode());
+			return EntityUtils.toString(response.getEntity());
+		} catch (UnsupportedOperationException | IOException e) {
+			// e.printStackTrace();
 		}
 		return null;
 	}
@@ -116,11 +138,11 @@ public class Post {
 		// postJson();
 		// postJson2();
 		String URL = "http://localhost:8080/auth/login";
-		Map<String, String> login  = new HashMap<>();
+		Map<String, String> login = new HashMap<>();
 		login.put("username", "huyennv");
-		login.put("password", "123456");;
+		login.put("password", "123456");
 		System.out.println(JsonUtils.toJSON(login));
-		String s = doPost(login, URL);
+		String s = setTimeout(login, URL);
 		System.out.println(s);
 	}
 
