@@ -1,4 +1,4 @@
-package com.reponse;
+package com.response;
 
 import java.util.Date;
 

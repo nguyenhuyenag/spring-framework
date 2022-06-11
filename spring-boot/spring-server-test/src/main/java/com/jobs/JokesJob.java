@@ -2,18 +2,22 @@ package com.jobs;
 
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.service.JokesService;
 
 @Component
 public class JokesJob implements Job {
 	
-	private static final Logger LOG = LoggerFactory.getLogger(JokesJob.class);
+	// private static final Logger LOG = LoggerFactory.getLogger(JokesJob.class);
+	
+	@Autowired
+	private JokesService jokesService;
 
 	@Override
 	public void execute(JobExecutionContext context) {
-		LOG.info("Job1 run...");
+		jokesService.autoInsert();
 	}
 
 }

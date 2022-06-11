@@ -18,9 +18,9 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.reponse.ErrorResponse;
-import com.reponse.LoginResponse;
 import com.request.LoginRequest;
+import com.response.ErrorResponse;
+import com.response.LoginResponse;
 import com.util.JsonUtils;
 
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
