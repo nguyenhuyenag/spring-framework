@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import com.service.JokesService;
 
 @Component
-public class JokesJob implements Job {
+public class JobJokes implements Job {
 	
 	// private static final Logger LOG = LoggerFactory.getLogger(JokesJob.class);
 	

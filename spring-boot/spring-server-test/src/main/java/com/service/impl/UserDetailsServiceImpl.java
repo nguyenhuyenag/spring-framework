@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,8 +23,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Autowired
 	private UserRepository repository;
 
-	private Set<SimpleGrantedAuthority> getAuthority(User user) {
-		Set<SimpleGrantedAuthority> authorities = new HashSet<>();
+	private Set<GrantedAuthority> getAuthority(User user) {
+		Set<GrantedAuthority> authorities = new HashSet<>();
+		if (user.getRoles().isEmpty()) {
+			return authorities;
+		}
 		user.getRoles().forEach(role -> {
 			authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
 		});
@@ -40,7 +44,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		return org.springframework.security.core.userdetails.User //
 				.withUsername(user.getUsername()) //
 				.password(user.getPassword()) //
-				.disabled(false) //
+				// .disabled(false) //
 				.authorities(getAuthority(user)) //
 				.build();
 	}

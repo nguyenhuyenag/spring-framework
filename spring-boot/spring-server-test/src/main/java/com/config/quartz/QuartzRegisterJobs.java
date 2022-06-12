@@ -7,14 +7,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
 
-import com.jobs.JokesJob;
+import com.jobs.JobJokes;
 
 @Configuration
 public class QuartzRegisterJobs {
 
 	@Bean(name = "jobOne")
 	public JobDetailFactoryBean jobOne() {
-		return QuartzConfig.createJobDetail(JokesJob.class);
+		return QuartzConfig.createJobDetail(JobJokes.class);
 	}
 
 	@Bean(name = "triggerOfJobOne")
