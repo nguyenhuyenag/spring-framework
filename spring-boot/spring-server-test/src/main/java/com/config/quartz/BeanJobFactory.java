@@ -3,12 +3,13 @@ package com.config.quartz;
 import org.quartz.spi.TriggerFiredBundle;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.scheduling.quartz.SpringBeanJobFactory;
 
-public final class BeanJobFactory extends SpringBeanJobFactory implements ApplicationContextAware {
+public final class BeanJobFactory extends SpringBeanJobFactory {
 
-	private transient AutowireCapableBeanFactory factory;
+	private AutowireCapableBeanFactory factory;
+	
+	// private transient AutowireCapableBeanFactory factory;
 
 	@Override
 	public void setApplicationContext(final ApplicationContext context) {
