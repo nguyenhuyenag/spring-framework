@@ -54,6 +54,9 @@ public class KafkaConfig {
 		config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
 		// config.put(JsonDeserializer.TRUSTED_PACKAGES, "com.kafka");
 		// config.put(ProducerConfig.MAX_REQUEST_SIZE_CONFIG, "20971520"); // kich thuoc message
+		// https://stackoverflow.com/a/64768870/10910098
+		// config.put(ProducerConfig.LINGER_MS_CONFIG, 10);
+		config.put(ProducerConfig.BATCH_SIZE_CONFIG, 16384); // increase the size of batch buffer
 		return new DefaultKafkaProducerFactory<>(config);
 	}
 
