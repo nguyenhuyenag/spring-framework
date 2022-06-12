@@ -1,4 +1,4 @@
-package com.test;
+package com.httpclient;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -19,7 +19,7 @@ public class Get {
 		HttpGet httpGet = new HttpGet(builder.build());
 		HttpClient client = HttpClients.createDefault();
 		HttpResponse response = client.execute(httpGet);
-		System.out.println("Status:" + response.getStatusLine().toString());
+		System.out.println("Status:" + response.getStatusLine().getStatusCode());
 		String result = IOUtils.toString(response.getEntity().getContent(), StandardCharsets.UTF_8);
 		System.out.println(result);
 	}

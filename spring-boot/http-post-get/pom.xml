@@ -5,12 +5,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com</groupId>
-	<artifactId>httpclient</artifactId>
+	<artifactId>http-post-get</artifactId>
 	<version>1.0</version>
 	<packaging>jar</packaging>
 
-	<name>httpclient</name>
-	<description>Spring Boot Security Social Login</description>
+	<name>http-post-get</name>
+	<description>Spring Boot</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
