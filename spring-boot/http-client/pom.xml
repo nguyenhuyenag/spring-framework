@@ -5,11 +5,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com</groupId>
-	<artifactId>http-post-get</artifactId>
+	<artifactId>http-client</artifactId>
 	<version>1.0</version>
 	<packaging>jar</packaging>
 
-	<name>http-post-get</name>
+	<name>http-client</name>
 	<description>Spring Boot</description>
 
 	<parent>
