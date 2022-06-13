@@ -1,9 +1,16 @@
 package com.resttemplate;
 
+import java.io.IOException;
+import java.util.Set;
+
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -18,11 +25,11 @@ public class RestTest {
 
 	private static RestTemplate restTemplate = new RestTemplate();
 
-	private static String GET_ONE_URL = "http://localhost:8080/api/get-one";
-	private static String LOGIN_URL = "http://localhost:8080/api/get-one";
+	private static String GET_ONE = "http://localhost:8080/api/get-one";
+	private static String LOGIN = "http://localhost:8080/auth/login";
 
 	public static void getPlainJSON() throws JsonMappingException, JsonProcessingException {
-		ResponseEntity<String> response = restTemplate.getForEntity(GET_ONE_URL, String.class);
+		ResponseEntity<String> response = restTemplate.getForEntity(GET_ONE, String.class);
 		if (response != null) {
 			System.out.println("Status: " + response.getStatusCode().value());
 			System.out.println("Body: " + response.getBody());
@@ -34,7 +41,7 @@ public class RestTest {
 	}
 
 	public static void getPOJO() throws JsonMappingException, JsonProcessingException {
-		Jokes jokes = restTemplate.getForObject(GET_ONE_URL, Jokes.class);
+		Jokes jokes = restTemplate.getForObject(GET_ONE, Jokes.class);
 		if (jokes != null) {
 			System.out.println(jokes.toString());
 		}
@@ -42,39 +49,61 @@ public class RestTest {
 
 	public static void postForObject() throws JsonMappingException, JsonProcessingException {
 		HttpEntity<LoginRequest> request = new HttpEntity<>(new LoginRequest("huyennv", "123456"));
-		LoginResponse login = restTemplate.postForObject(LOGIN_URL, request, LoginResponse.class);
+		LoginResponse login = restTemplate.postForObject(LOGIN, request, LoginResponse.class);
 		if (login != null) {
 			System.out.println(login);
 		}
 	}
-	
+
 	public static void exchange() throws JsonMappingException, JsonProcessingException {
 		HttpEntity<LoginRequest> request = new HttpEntity<>(new LoginRequest("huyennv", "123456"));
-		ResponseEntity<LoginResponse> response = restTemplate.exchange(LOGIN_URL, HttpMethod.POST, request, LoginResponse.class);
+		ResponseEntity<LoginResponse> response = restTemplate.exchange(LOGIN, HttpMethod.POST, request,
+				LoginResponse.class);
 		if (response != null) {
 			System.out.println(response.getStatusCode());
 			LoginResponse login = response.getBody();
 			System.out.println(login);
 		}
 	}
-	
-	public static void submitFormData() throws JsonMappingException, JsonProcessingException {
-		String url = "http://localhost:8080/auth/login";
-		HttpEntity<LoginRequest> request = new HttpEntity<>(new LoginRequest("huyennv", "123456"));
-		// LoginResponse login = restTemplate.postForObject(url, request, LoginResponse.class);
-		ResponseEntity<LoginResponse> response = restTemplate.exchange(url, HttpMethod.POST, request, LoginResponse.class);
-		if (response != null) {
-			System.out.println(response.getStatusCode() + " : " +  HttpStatus.OK);
-			LoginResponse login = response.getBody();
-			System.out.println(login);
+
+	public static void optionsForAllow() throws JsonMappingException, JsonProcessingException {
+		Set<HttpMethod> optionsForAllow = restTemplate.optionsForAllow(LOGIN);
+		optionsForAllow.forEach(t -> System.out.println(t.name()));
+	}
+
+	public static void configureTimeout() {
+		restTemplate = new RestTemplate(getClientHttpRequestFactory());
+	}
+
+	private static ClientHttpRequestFactory getClientHttpRequestFactory() {
+		int timeout = 5000;
+		HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory();
+		clientHttpRequestFactory.setConnectTimeout(timeout);
+		return clientHttpRequestFactory;
+	}
+
+	ClientHttpRequestFactory getClientHttpRequestFactory2() {
+		int timeout = 5000;
+		RequestConfig config = RequestConfig.custom() //
+				.setConnectTimeout(timeout) //
+				.setConnectionRequestTimeout(timeout) //
+				.setSocketTimeout(timeout) //
+				.build();
+		try (CloseableHttpClient client = HttpClientBuilder.create().setDefaultRequestConfig(config).build();) {
+			return new HttpComponentsClientHttpRequestFactory(client);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+		return null;
 	}
 
 	public static void main(String[] args) throws JsonMappingException, JsonProcessingException {
 		// getPlainJSON();
 		// getPOJO();
 		// postForObject();
-		exchange();
+		// exchange();
+		optionsForAllow();
+		System.out.println();
 	}
 
 }
