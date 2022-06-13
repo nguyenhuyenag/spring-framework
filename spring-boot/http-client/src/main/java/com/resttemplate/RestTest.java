@@ -9,7 +9,6 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
@@ -99,8 +98,8 @@ public class RestTest {
 	
 	private static HttpHeaders getHeaders() {
 		HttpHeaders headers = new HttpHeaders();
-		headers.set("Content-Type", MediaType.APPLICATION_JSON_VALUE);
-		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+		// headers.set("Content-Type", MediaType.APPLICATION_JSON_VALUE);
+		// headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
 		return headers;
 	}
 	
