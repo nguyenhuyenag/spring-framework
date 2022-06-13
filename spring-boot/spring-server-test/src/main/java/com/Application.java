@@ -29,7 +29,7 @@ public class Application extends SpringBootServletInitializer implements Command
 	public void run(String... args) throws Exception {
 		// Assert.notNull(null, "password cannot be null");
 		// System.out.println("TIME: " + TimeUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
-		// System.out.println(encoder.encode("123456"));
+		System.out.println(encoder.encode("123456"));
 	}
 
 }

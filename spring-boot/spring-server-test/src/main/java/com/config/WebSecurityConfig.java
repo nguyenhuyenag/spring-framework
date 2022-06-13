@@ -34,12 +34,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.userDetailsService(userDetailsService) //
 			.passwordEncoder(passwordEncoder());
 	}
+	
+	private final String[] WHITE_LIST = { "/auth/**", "/api/**" }; 
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable() //
 			.authorizeRequests() // 
-			.antMatchers("/favicon.ico", "/auth/**").permitAll() //
+			.antMatchers(WHITE_LIST).permitAll() //
 			.anyRequest().authenticated() //
 			.and() //
 			.addFilterBefore(new JWTLoginFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class) //
