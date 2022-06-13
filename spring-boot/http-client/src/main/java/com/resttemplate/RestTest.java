@@ -7,7 +7,9 @@ import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
@@ -25,8 +27,9 @@ public class RestTest {
 
 	private static RestTemplate restTemplate = new RestTemplate();
 
-	private static String GET_ONE = "http://localhost:8080/api/get-one";
-	private static String LOGIN = "http://localhost:8080/auth/login";
+	private static String API_GET_ONE 	= "http://localhost:8080/api/get-one";
+	private static String GET_ONE 		= "http://localhost:8080/public/get-one";
+	private static String LOGIN 		= "http://localhost:8080/auth/login";
 
 	public static void getPlainJSON() throws JsonMappingException, JsonProcessingException {
 		ResponseEntity<String> response = restTemplate.getForEntity(GET_ONE, String.class);
@@ -47,18 +50,15 @@ public class RestTest {
 		}
 	}
 
-	public static void postForObject() throws JsonMappingException, JsonProcessingException {
+	public static LoginResponse postForObject() throws JsonMappingException, JsonProcessingException {
 		HttpEntity<LoginRequest> request = new HttpEntity<>(new LoginRequest("huyennv", "123456"));
 		LoginResponse login = restTemplate.postForObject(LOGIN, request, LoginResponse.class);
-		if (login != null) {
-			System.out.println(login);
-		}
+		return login != null ? login : null;
 	}
 
 	public static void exchange() throws JsonMappingException, JsonProcessingException {
 		HttpEntity<LoginRequest> request = new HttpEntity<>(new LoginRequest("huyennv", "123456"));
-		ResponseEntity<LoginResponse> response = restTemplate.exchange(LOGIN, HttpMethod.POST, request,
-				LoginResponse.class);
+		ResponseEntity<LoginResponse> response = restTemplate.exchange(LOGIN, HttpMethod.POST, request, LoginResponse.class);
 		if (response != null) {
 			System.out.println(response.getStatusCode());
 			LoginResponse login = response.getBody();
@@ -96,13 +96,36 @@ public class RestTest {
 		}
 		return null;
 	}
+	
+	private static HttpHeaders getHeaders() {
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Content-Type", MediaType.APPLICATION_JSON_VALUE);
+		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+		return headers;
+	}
+	
+	public static void postJWT() throws JsonMappingException, JsonProcessingException {
+		LoginResponse login = postForObject();
+		if (login != null) {
+			String token = "Bearer " + login.getToken();
+			HttpHeaders headers = getHeaders();
+			headers.set("Authorization", token);
+			HttpEntity<String> jwtEntity = new HttpEntity<String>(headers);
+			ResponseEntity<Jokes> jokes = restTemplate.exchange(API_GET_ONE, HttpMethod.GET, jwtEntity, Jokes.class);
+			if (jokes != null) {
+				System.out.println("Status: " + jokes.getStatusCodeValue());
+				System.out.println(jokes.getBody().toString());
+			}
+		}
+	}
 
 	public static void main(String[] args) throws JsonMappingException, JsonProcessingException {
 		// getPlainJSON();
 		// getPOJO();
 		// postForObject();
 		// exchange();
-		optionsForAllow();
+		// optionsForAllow();
+		postJWT();
 		System.out.println();
 	}
 
