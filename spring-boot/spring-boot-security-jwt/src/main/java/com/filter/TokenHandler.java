@@ -50,6 +50,7 @@ public class TokenHandler {
 		String authorities = authentication.getAuthorities().stream() //
 				.map(GrantedAuthority::getAuthority) //
 				.collect(Collectors.joining(","));
+		System.out.println(authorities);
 		return Jwts.builder() //
 				.setSubject(authentication.getName()) //
 				.claim(AUTHORITIES_KEY, authorities) //
