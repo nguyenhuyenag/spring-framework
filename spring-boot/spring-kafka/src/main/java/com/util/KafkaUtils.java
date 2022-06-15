@@ -15,9 +15,8 @@ import org.apache.kafka.common.PartitionInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
-import org.springframework.stereotype.Component;
 
-@Component
+// @Component
 public class KafkaUtils {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(KafkaUtils.class);
@@ -93,8 +92,7 @@ public class KafkaUtils {
 				return;
 			}
 			for (Map.Entry<String, List<PartitionInfo>> entry : topics.entrySet()) {
-				// "Key = " + entry.getKey() + ", Value = " + entry.getValue();
-				System.out.println("Topic name: " + entry.getKey() + ", Partions: "
+				System.out.println("Topic: " + entry.getKey() + ", Partions: "
 						+ Integer.toString(entry.getValue().size()) + "\n");
 			}
 		}
