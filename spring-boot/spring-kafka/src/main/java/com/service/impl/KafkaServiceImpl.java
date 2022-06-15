@@ -31,28 +31,46 @@ public class KafkaServiceImpl implements KafkaService {
 			MessageListenerContainer listener = registry.getListenerContainer(id);
 			if (Objects.isNull(listener)) {
 				LOG.info("Consumer with id {} is not found", id);
-			} else if (!listener.isRunning()) {
-				LOG.info("Consumer with id {} is already stop", id);
 			} else {
 				if (trigger) {
-					listener.start();
+					if (listener.isRunning()) {
+						LOG.info("Consumer with id {} is already start", id);
+					} else {
+						listener.start();
+						LOG.info("{} consumer with id={}", action, id);
+					}
 				} else {
-					listener.stop();
+					if (!listener.isRunning()) {
+						LOG.info("Consumer with id {} is already stop", id);
+					} else {
+						listener.stop();
+						LOG.info("{} consumer with id={}", action, id);
+					}
 				}
-				LOG.info("{} consumer with id={}", action, id);
 			}
+
+//			else if (!listener.isRunning()) {
+//				LOG.info("Consumer with id {} is already stop", id);
+//			} else {
+//				if (trigger) {
+//					listener.start();
+//				} else {
+//					listener.stop();
+//				}
+//				LOG.info("{} consumer with id={}", action, id);
+//			}
 		}
 	}
 
-	//	public void startListener(String groupId) {
-	//	System.out.println("Start " + groupId);
-	//	kafkaListenerEndpointRegistry.getListenerContainer(groupId).start();
-	//}
+	// public void startListener(String groupId) {
+	// System.out.println("Start " + groupId);
+	// kafkaListenerEndpointRegistry.getListenerContainer(groupId).start();
+	// }
 	//
-	//public void stopListener(String groupId) {
-	//	kafkaListenerEndpointRegistry.getListenerContainer(groupId).stop(() -> {
-	//		System.out.println("Listener Stopped.");
-	//	});
-	//}
+	// public void stopListener(String groupId) {
+	// kafkaListenerEndpointRegistry.getListenerContainer(groupId).stop(() -> {
+	// System.out.println("Listener Stopped.");
+	// });
+	// }
 
 }

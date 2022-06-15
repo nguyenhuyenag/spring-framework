@@ -17,35 +17,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.model.HoaDon;
+import com.model.Ipsum;
 import com.schedule.runnable.HoaDonRunable;
-import com.service.HoaDonService;
+import com.service.DataService;
 import com.util.PageUtils;
 
 @Component
-public class PutHoaDon implements Job {
+public class PutJobs implements Job {
 
-	private static final Logger LOG = LoggerFactory.getLogger(PutHoaDon.class);
+	private static final Logger LOG = LoggerFactory.getLogger(PutJobs.class);
 
 	@Autowired
-	private HoaDonService service;
+	private DataService service;
 
 	@Value("${NTHREAD}")
 	private int NTHREAD;
 
-	// @Value("${LIMIT_QUERY}")
-	// private int LIMIT_QUERY;
-
-	@Value("${IS_SEND}")
-	private boolean isSend;
+	@Value("${START_JOB:false}")
+	private boolean startJob;
 
 	public static int nJob = 0; // count job
 	private static boolean taskCompleted = true;
-	// private static int count = 0; // count thread completed
 
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
-		if (isSend) {
+		if (startJob) {
 			if (taskCompleted) {
 				nJob++;
 				LOG.info("Job {} start", nJob);
@@ -60,12 +56,12 @@ public class PutHoaDon implements Job {
 		List<Future<?>> taskList = new ArrayList<>();
 		ExecutorService executor = Executors.newFixedThreadPool(NTHREAD);
 
-		List<HoaDon> listHoaDon = service.findAllWithLimit(randomIntFrom(100, 200));
+		List<Ipsum> listHoaDon = null; // service.findAllWithLimit(randomIntFrom(100, 200));
 		if (listHoaDon.isEmpty()) {
-			service.reset();
-			System.exit(0);
+			// service.reset();
+			return;
 		}
-		List<List<HoaDon>> listToPage = PageUtils.toPages(listHoaDon, NTHREAD);
+		List<List<Ipsum>> listToPage = PageUtils.toPages(listHoaDon, NTHREAD);
 
 		taskCompleted = false;
 
@@ -74,7 +70,7 @@ public class PutHoaDon implements Job {
 			taskList.add(executor.submit(sm));
 		}
 
-		executor.shutdown();
+		// executor.shutdown();
 		while (!executor.isTerminated()) {
 			try {
 				LOG.info("Await termination");
@@ -83,7 +79,7 @@ public class PutHoaDon implements Job {
 				e.printStackTrace();
 			}
 		}
-		
+
 		// executor.shutdown();
 		LOG.info("Job {} end", nJob);
 		try {
@@ -92,15 +88,8 @@ public class PutHoaDon implements Job {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+
 		taskCompleted = true;
 	}
-	
-	public static int randomIntFrom(int min, int max) {
-	if (max <= min) {
-		throw new IllegalArgumentException("Max must be greater than min");
-	}
-	return ThreadLocalRandom.current().nextInt(min, max + 1);
-}
 
 }
