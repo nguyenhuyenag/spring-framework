@@ -47,15 +47,20 @@ public class DataServiceImpl implements DataService {
 	}
 
 	@Override
-	public void receiveMessage(String message) {
-		LIpsum ipsum = JsonUtils.toObject(Base64Utils.decodeToString(message), LIpsum.class);
-		if (ipsum != null) {
-			ReceiveMessage entity = new ReceiveMessage();
-			entity.setCode(ipsum.getCode());
-			entity.setContent(message);
-			if (receiveMessageRepository.save(entity) != null) {
-				LOG.info("Save {} to receive_message", entity.getCode());
+	public void receiveMessage(String listener, String message) {
+		try {
+			LIpsum ipsum = JsonUtils.toObject(Base64Utils.decodeToString(message), LIpsum.class);
+			if (ipsum != null) {
+				ReceiveMessage entity = new ReceiveMessage();
+				entity.setCode(ipsum.getCode());
+				entity.setContent(message);
+				entity.setListener(listener);
+				if (receiveMessageRepository.save(entity) != null) {
+					LOG.info("Save {} to receive_message", entity.getCode());
+				}
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

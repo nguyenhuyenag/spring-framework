@@ -42,10 +42,6 @@ public class KafkaUtils {
 		}
 	}
 	
-	public static void deleteTopicMessage() {
-		// ConfigReader.KAFKA_PRODUCER_TOPIC;
-	}
-
 	public static boolean isBrokerRunning() {
 		try (AdminClient client = AdminClient.create(config())) {
 			client.listTopics(new ListTopicsOptions().timeoutMs(ADMIN_CLIENT_TIMEOUT_MS)).listings().get();

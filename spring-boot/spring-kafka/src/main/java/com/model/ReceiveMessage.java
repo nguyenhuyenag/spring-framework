@@ -1,4 +1,5 @@
 package com.model;
+
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -28,13 +29,13 @@ public class ReceiveMessage {
 	private Long id;
 
 	private String code;
-
+	private String listener;
 	private String content;
 
 	@CreationTimestamp
 	@Column(name = "create_time")
 	private Date createTime;
-	
+
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);

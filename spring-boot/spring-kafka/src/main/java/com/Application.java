@@ -1,5 +1,7 @@
 package com;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -8,6 +10,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 import com.repository.LIpsumRepository;
+import com.util.KafkaUtils;
 
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer implements CommandLineRunner {
@@ -27,7 +30,8 @@ public class Application extends SpringBootServletInitializer implements Command
 
 	@Override
 	public void run(String... args) throws Exception {
-		// KafkaUtils.showTopicsInfor();
+		// KafkaUtils.deleteTopics(Arrays.asList(""));
+		KafkaUtils.showTopicsInfor();
 		// System.out.println(loremIpsum.getWords( 150, 2 ));
 		// repository.findAllByStatusLimit(20).forEach(t->System.out.println(t));
 	}

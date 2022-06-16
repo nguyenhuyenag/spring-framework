@@ -58,6 +58,7 @@ public class JobPut implements Job {
 		int n = RandomUtils.randomInteger(20, 30);
 		List<LIpsum> listHoaDon = repository.findAllLimit(n);
 		if (listHoaDon.isEmpty()) {
+			executor.shutdown();
 			return;
 		}
 		List<List<LIpsum>> listToPage = PageUtils.toPages(listHoaDon, NTHREAD);
@@ -74,7 +75,7 @@ public class JobPut implements Job {
 		while (!executor.isTerminated()) {
 			try {
 				LOG.info("Await termination");
-				TimeUnit.MILLISECONDS.sleep(400);
+				TimeUnit.SECONDS.sleep(1);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
