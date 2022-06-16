@@ -23,46 +23,51 @@ public class KafkaServiceImpl implements KafkaService {
 
 	@Override
 	public void triggerConsumer(boolean trigger) {
-		if (trigger) {
-			startAll();
-		} else {
-			stopAll();
-		}
+		trigger(trigger);
 	}
 
-	private void startAll() {
+	private void trigger(boolean trigger) {
 		for (int i = 0; i < PARTITIONS; i++) {
 			String id = "id" + i;
 			MessageListenerContainer listener = registry.getListenerContainer(id);
 			if (Objects.isNull(listener)) {
 				LOG.info("Consumer with id={} is not found", id);
 			} else {
-				if (listener.isRunning()) {
-					LOG.info("Consumer with id={} is already start", id);
+				if (trigger) {
+					if (listener.isRunning()) {
+						LOG.info("Consumer with id={} is already start", id);
+					} else {
+						listener.start();
+						LOG.info("Start consumer with id={}", id);
+					}
 				} else {
-					listener.start();
-					LOG.info("Start consumer with id={}", id);
+					if (!listener.isRunning()) {
+						LOG.info("Consumer with id={} is already stop", id);
+					} else {
+						listener.stop();
+						LOG.info("Stop consumer with id={}", id);
+					}
 				}
 			}
 		}
 	}
 
-	private void stopAll() {
-		for (int i = 0; i < PARTITIONS; i++) {
-			String id = "id" + i;
-			MessageListenerContainer listener = registry.getListenerContainer(id);
-			if (Objects.isNull(listener)) {
-				LOG.info("Consumer with id={} is not found", id);
-			} else {
-				if (!listener.isRunning()) {
-					LOG.info("Consumer with id={} is already stop", id);
-				} else {
-					listener.stop();
-					LOG.info("Stop consumer with id={}", id);
-				}
-			}
-		}
-	}
+//	private void stopAll() {
+//		for (int i = 0; i < PARTITIONS; i++) {
+//			String id = "id" + i;
+//			MessageListenerContainer listener = registry.getListenerContainer(id);
+//			if (Objects.isNull(listener)) {
+//				LOG.info("Consumer with id={} is not found", id);
+//			} else {
+//				if (!listener.isRunning()) {
+//					LOG.info("Consumer with id={} is already stop", id);
+//				} else {
+//					listener.stop();
+//					LOG.info("Stop consumer with id={}", id);
+//				}
+//			}
+//		}
+//	}
 
 //	private void trigger(boolean trigger) {
 //		String action = trigger ? "Start" : "Stop";
