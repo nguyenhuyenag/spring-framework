@@ -1,6 +1,5 @@
-package com;
 
-import java.util.Arrays;
+package com;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -30,6 +29,7 @@ public class Application extends SpringBootServletInitializer implements Command
 
 	@Override
 	public void run(String... args) throws Exception {
+		// KafkaUtils.createTopic("topicName2022");
 		// KafkaUtils.deleteTopics(Arrays.asList(""));
 		KafkaUtils.showTopicsInfor();
 		// System.out.println(loremIpsum.getWords( 150, 2 ));

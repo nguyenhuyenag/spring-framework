@@ -30,14 +30,15 @@ public class DataServiceImpl implements DataService {
 	@Override
 	public void autoInsert() {
 		Lorem lorem = LoremIpsum.getInstance();
-		int n = RandomUtils.randomInteger(299, 501);
+		int n = RandomUtils.randomInteger(100, 200);
 		for (int i = 0; i < n; i++) {
 			LIpsum entity = new LIpsum();
 			entity.setCode(RandomUtils.initCode());
 			entity.setContent(lorem.getParagraphs(50, 200));
-			if (lipsumRepository.save(entity) != null) {
-				LOG.info("Save {} to lorem_ipsum", entity.getCode());
-			}
+			lipsumRepository.save(entity);
+			// if (lipsumRepository.save(entity) != null) {
+				// LOG.info("Save {} to lorem_ipsum", entity.getCode());
+			// }
 		}
 	}
 
