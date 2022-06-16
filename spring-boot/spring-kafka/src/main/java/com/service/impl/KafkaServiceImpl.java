@@ -19,48 +19,77 @@ public class KafkaServiceImpl implements KafkaService {
 	@Autowired
 	private KafkaListenerEndpointRegistry registry;
 
+	private final int PARTITIONS = 12;
+
 	@Override
 	public void triggerConsumer(boolean trigger) {
-		trigger(trigger);
+		if (trigger) {
+			startAll();
+		} else {
+			stopAll();
+		}
 	}
 
-	private void trigger(boolean trigger) {
-		String action = trigger ? "Start" : "Stop";
-		for (int i = 0; i < 12; i++) {
+	private void startAll() {
+		for (int i = 0; i < PARTITIONS; i++) {
 			String id = "id" + i;
 			MessageListenerContainer listener = registry.getListenerContainer(id);
 			if (Objects.isNull(listener)) {
-				LOG.info("Consumer with id {} is not found", id);
+				LOG.info("Consumer with id={} is not found", id);
 			} else {
-				if (trigger) {
-					if (listener.isRunning()) {
-						LOG.info("Consumer with id {} is already start", id);
-					} else {
-						listener.start();
-						LOG.info("{} consumer with id={}", action, id);
-					}
+				if (listener.isRunning()) {
+					LOG.info("Consumer with id={} is already start", id);
 				} else {
-					if (!listener.isRunning()) {
-						LOG.info("Consumer with id {} is already stop", id);
-					} else {
-						listener.stop();
-						LOG.info("{} consumer with id={}", action, id);
-					}
+					listener.start();
+					LOG.info("Start consumer with id={}", id);
 				}
 			}
-
-//			else if (!listener.isRunning()) {
-//				LOG.info("Consumer with id {} is already stop", id);
-//			} else {
-//				if (trigger) {
-//					listener.start();
-//				} else {
-//					listener.stop();
-//				}
-//				LOG.info("{} consumer with id={}", action, id);
-//			}
 		}
 	}
+
+	private void stopAll() {
+		for (int i = 0; i < PARTITIONS; i++) {
+			String id = "id" + i;
+			MessageListenerContainer listener = registry.getListenerContainer(id);
+			if (Objects.isNull(listener)) {
+				LOG.info("Consumer with id={} is not found", id);
+			} else {
+				if (!listener.isRunning()) {
+					LOG.info("Consumer with id={} is already stop", id);
+				} else {
+					listener.stop();
+					LOG.info("Stop consumer with id={}", id);
+				}
+			}
+		}
+	}
+
+//	private void trigger(boolean trigger) {
+//		String action = trigger ? "Start" : "Stop";
+//		for (int i = 0; i < 12; i++) {
+//			String id = "id" + i;
+//			MessageListenerContainer listener = registry.getListenerContainer(id);
+//			if (Objects.isNull(listener)) {
+//				LOG.info("Consumer with id {} is not found", id);
+//			} else {
+//				if (trigger) {
+//					if (listener.isRunning()) {
+//						LOG.info("Consumer with id {} is already start", id);
+//					} else {
+//						listener.start();
+//						LOG.info("{} consumer with id={}", action, id);
+//					}
+//				} else {
+//					if (!listener.isRunning()) {
+//						LOG.info("Consumer with id {} is already stop", id);
+//					} else {
+//						listener.stop();
+//						LOG.info("{} consumer with id={}", action, id);
+//					}
+//				}
+//			}
+//		}
+//	}
 
 	// public void startListener(String groupId) {
 	// System.out.println("Start " + groupId);
