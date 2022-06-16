@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 import org.quartz.Job;
@@ -17,23 +16,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.model.Ipsum;
+import com.model.LIpsum;
+import com.repository.LIpsumRepository;
 import com.schedule.runnable.HoaDonRunable;
-import com.service.DataService;
 import com.util.PageUtils;
+import com.util.RandomUtils;
 
 @Component
-public class PutJobs implements Job {
+public class JobPut implements Job {
 
-	private static final Logger LOG = LoggerFactory.getLogger(PutJobs.class);
+	private static final Logger LOG = LoggerFactory.getLogger(JobPut.class);
 
 	@Autowired
-	private DataService service;
+	private LIpsumRepository repository;
 
 	@Value("${NTHREAD}")
 	private int NTHREAD;
 
-	@Value("${START_JOB:false}")
+	@Value("${JOB_PUT_START:false}")
 	private boolean startJob;
 
 	public static int nJob = 0; // count job
@@ -55,13 +55,12 @@ public class PutJobs implements Job {
 	private void send() {
 		List<Future<?>> taskList = new ArrayList<>();
 		ExecutorService executor = Executors.newFixedThreadPool(NTHREAD);
-
-		List<Ipsum> listHoaDon = null; // service.findAllWithLimit(randomIntFrom(100, 200));
+		int n = RandomUtils.randomInteger(50, 200);
+		List<LIpsum> listHoaDon = repository.findAllLimit(n);
 		if (listHoaDon.isEmpty()) {
-			// service.reset();
 			return;
 		}
-		List<List<Ipsum>> listToPage = PageUtils.toPages(listHoaDon, NTHREAD);
+		List<List<LIpsum>> listToPage = PageUtils.toPages(listHoaDon, NTHREAD);
 
 		taskCompleted = false;
 

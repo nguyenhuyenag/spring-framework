@@ -7,20 +7,31 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
 
-import com.schedule.jobs.PutJobs;
+import com.schedule.jobs.JobInsert;
+import com.schedule.jobs.JobPut;
 import com.util.ConfigReader;
 
 @Configuration
 public class QuartzRegisterJobs {
 
-	@Bean(name = "jobPutHoaDon")
-	public JobDetailFactoryBean jobPutHoaDon() {
-		return QuartzConfig.createJobDetail(PutJobs.class);
+	@Bean(name = "theJobPut")
+	public JobDetailFactoryBean theJobPut() {
+		return QuartzConfig.createJobDetail(JobPut.class);
 	}
 
-	@Bean(name = "triggerPutHoaDon")
-	public SimpleTriggerFactoryBean triggerPutHoaDon(@Qualifier("jobPutHoaDon") JobDetail job) {
+	@Bean(name = "triggerPut")
+	public SimpleTriggerFactoryBean triggerPut(@Qualifier("theJobPut") JobDetail job) {
 		return QuartzConfig.createTrigger(job, ConfigReader.JOB_TIME_RECALL);
+	}
+
+	@Bean(name = "theJobInsert")
+	public JobDetailFactoryBean theJobInsert() {
+		return QuartzConfig.createJobDetail(JobInsert.class);
+	}
+
+	@Bean(name = "triggerInsert")
+	public SimpleTriggerFactoryBean triggerInsert(@Qualifier("theJobInsert") JobDetail job) {
+		return QuartzConfig.createTrigger(job, 30);
 	}
 
 }

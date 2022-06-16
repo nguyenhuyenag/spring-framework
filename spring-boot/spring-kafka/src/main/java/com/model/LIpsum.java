@@ -13,7 +13,6 @@ import javax.persistence.Table;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -22,7 +21,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "lorem_ipsum")
-public class Ipsum implements Serializable {
+public class LIpsum implements Serializable {
 
 	private static final long serialVersionUID = 515027760598197195L;
 
@@ -38,14 +37,8 @@ public class Ipsum implements Serializable {
 	@Column(name = "create_time")
 	private Date createTime;
 
-	@UpdateTimestamp
 	@Column(name = "send_time")
 	private Date sendTime;
-
-//	@UpdateTimestamp
-//	@Temporal(TemporalType.TIMESTAMP)
-//	@Column(name = "ngaygui_hoadon")
-//	private Date ngayguiHoadon;
 
 	@Override
 	public String toString() {

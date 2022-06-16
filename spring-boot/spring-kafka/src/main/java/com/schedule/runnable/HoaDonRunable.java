@@ -15,8 +15,8 @@ import org.springframework.kafka.support.SendResult;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
-import com.model.Ipsum;
-import com.schedule.jobs.PutJobs;
+import com.model.LIpsum;
+import com.schedule.jobs.JobPut;
 import com.service.DataService;
 import com.util.ConfigReader;
 import com.util.SpringUtils;
@@ -36,7 +36,7 @@ public class HoaDonRunable implements Runnable {
 	private KafkaTemplate<String, Object> kafkaTemplate;
 
 	private int threadname;
-	private List<Ipsum> data;
+	private List<LIpsum> data;
 
 	private static final Set<String> poolIds = Collections.synchronizedSet(new HashSet<>());
 
@@ -46,7 +46,7 @@ public class HoaDonRunable implements Runnable {
 		this.hoadonService = SpringUtils.getBean(DataService.class);
 	}
 
-	public HoaDonRunable(int threadname, List<Ipsum> data) {
+	public HoaDonRunable(int threadname, List<LIpsum> data) {
 		this.threadname = threadname;
 		this.data = new ArrayList<>(data);
 	}
@@ -58,24 +58,24 @@ public class HoaDonRunable implements Runnable {
 
 	private void doSend() {
 		init();
-		LOG.info("Job {}, thread {} start, data  = {}", PutJobs.nJob, threadname, data.size());
-		for (Ipsum hoadon : data) {
+		LOG.info("Job {}, thread {} start, data  = {}", JobPut.nJob, threadname, data.size());
+		for (LIpsum hoadon : data) {
 			try {
 				String guid = "xxxxxxxxxxxxxxxx";
 				if (poolIds.add(guid)) {
 					// String message = hoadon.getNoidungGui();
 					ListenableFuture<SendResult<String, Object>> future = //
 							kafkaTemplate.send(ConfigReader.KAFKA_PRODUCER_TOPIC, "XXXXXXXX");
-					
+
 					while (!future.isDone()) {
 						// LOG.info("Wait future is done");
 					}
-					
+
 					future.addCallback(new ListenableFutureCallback<SendResult<String, Object>>() {
 						// String mtdiep = hoadon.getMatdiep();
 						@Override
 						public void onSuccess(SendResult<String, Object> result) {
-							//LOG.info("Job {}, thread {}, success: {}", PutJobs.nJob, threadname, mtdiep);
+							// LOG.info("Job {}, thread {}, success: {}", PutJobs.nJob, threadname, mtdiep);
 							// wait 1s update database
 							try {
 								TimeUnit.SECONDS.sleep(1);
@@ -87,7 +87,7 @@ public class HoaDonRunable implements Runnable {
 
 						@Override
 						public void onFailure(Throwable e) {
-							//LOG.info("Send fail: {}", mtdiep);
+							// LOG.info("Send fail: {}", mtdiep);
 							LOG.error(e.getMessage());
 						}
 					});

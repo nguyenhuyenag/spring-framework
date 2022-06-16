@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS `lorem_ipsum`;
 CREATE TABLE `lorem_ipsum` (
-  `id` bigint NOT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT,
   `code` varchar(45) DEFAULT NULL,
   `content` longtext DEFAULT NULL,
   `status` smallint DEFAULT '0',

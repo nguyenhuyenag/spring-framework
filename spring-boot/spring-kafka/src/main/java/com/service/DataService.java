@@ -1,7 +1,5 @@
 package com.service;
 
-import java.util.List;
-
 public interface DataService {
 
 	// void reset();
@@ -12,6 +10,6 @@ public interface DataService {
 
 	// List<HoaDon> findAllWithLimit(int limit);
 	
-	void init();
+	void autoInsert();
 
 }

@@ -5,8 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.model.Ipsum;
-import com.repository.LoremIpsumRepository;
+import com.model.LIpsum;
+import com.repository.LIpsumRepository;
 import com.service.DataService;
 import com.thedeanda.lorem.Lorem;
 import com.thedeanda.lorem.LoremIpsum;
@@ -18,13 +18,14 @@ public class DataServiceImpl implements DataService {
 	private static final Logger LOG = LoggerFactory.getLogger(DataServiceImpl.class);
 
 	@Autowired
-	private LoremIpsumRepository repository;
+	private LIpsumRepository repository;
 
 	@Override
-	public void init() {
+	public void autoInsert() {
 		Lorem lorem = LoremIpsum.getInstance();
-		for (int i = 0; i < 50; i++) {
-			Ipsum entity = new Ipsum();
+		int n = RandomUtils.randomInteger(10, 50);
+		for (int i = 0; i < n; i++) {
+			LIpsum entity = new LIpsum();
 			entity.setCode(RandomUtils.initCode());
 			entity.setContent(lorem.getParagraphs(50, 200));
 			if (repository.save(entity) != null) {
