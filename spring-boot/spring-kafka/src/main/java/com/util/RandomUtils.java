@@ -14,7 +14,7 @@ public class RandomUtils {
 	}
 	
 	public static String initCode() {
-		return "V" + RandomStringUtils.randomAlphanumeric(44).toUpperCase();
+		return "V" + 2022 + RandomStringUtils.randomAlphabetic(40).toUpperCase();
 	}
 	
 	public static void main(String[] args) {

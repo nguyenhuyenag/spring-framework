@@ -13,5 +13,7 @@ public interface DataService {
 	// List<HoaDon> findAllWithLimit(int limit);
 	
 	void autoInsert();
+	
+	void receiveMessage(String message);
 
 }

@@ -6,10 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.model.LIpsum;
+import com.model.ReceiveMessage;
 import com.repository.LIpsumRepository;
+import com.repository.ReceiveMessageRepository;
 import com.service.DataService;
 import com.thedeanda.lorem.Lorem;
 import com.thedeanda.lorem.LoremIpsum;
+import com.util.Base64Utils;
+import com.util.JsonUtils;
 import com.util.RandomUtils;
 
 @Service
@@ -18,17 +22,20 @@ public class DataServiceImpl implements DataService {
 	private static final Logger LOG = LoggerFactory.getLogger(DataServiceImpl.class);
 
 	@Autowired
-	private LIpsumRepository repository;
+	private LIpsumRepository lipsumRepository;
+
+	@Autowired
+	private ReceiveMessageRepository receiveMessageRepository;
 
 	@Override
 	public void autoInsert() {
 		Lorem lorem = LoremIpsum.getInstance();
-		int n = RandomUtils.randomInteger(10, 50);
+		int n = RandomUtils.randomInteger(299, 501);
 		for (int i = 0; i < n; i++) {
 			LIpsum entity = new LIpsum();
 			entity.setCode(RandomUtils.initCode());
 			entity.setContent(lorem.getParagraphs(50, 200));
-			if (repository.save(entity) != null) {
+			if (lipsumRepository.save(entity) != null) {
 				LOG.info("Save {} to lorem_ipsum", entity.getCode());
 			}
 		}
@@ -36,40 +43,20 @@ public class DataServiceImpl implements DataService {
 
 	@Override
 	public void onSuccess(LIpsum ipsum) {
-		repository.updateStatus(ipsum.getCode(), 1);
+		lipsumRepository.updateStatus(ipsum.getCode(), 1);
 	}
 
-//	@Autowired
-//	private HistoryRepository historyRepository;
-
-//	@Override
-//	public void reset() {
-//		LOG.info("Reset database ...");
-//		// historyRepository.deleteAll();
-//		repository.resetTinhTrangGui(); // set = 0
-//	}
-//
-//	@Override
-//	public void onSuccess(HoaDon hoadon) {
-//		String mtp = hoadon.getMatdiep();
-//		repository.updateTinhTrangGui(hoadon.getGuid());
-//		if (!historyRepository.existsByMaThongDiep(mtp)) {
-//			historyRepository.save(new History(mtp));
-//		} else {
-//			LOG.info("Duplicate");
-//			historyRepository.save(new History(mtp, "Duplicate"));
-//			System.exit(0);
-//		}
-//	}
-
-//	@Override
-//	public List<HoaDon> findAllWithLimit(int limit) {
-//		return repository.findAllWithLimit(limit);
-//	}
-
-//	@Override
-//	public void onSuccess(com.model.Lorem hoadon) {
-//		
-//	}
+	@Override
+	public void receiveMessage(String message) {
+		LIpsum ipsum = JsonUtils.toObject(Base64Utils.decodeToString(message), LIpsum.class);
+		if (ipsum != null) {
+			ReceiveMessage entity = new ReceiveMessage();
+			entity.setCode(ipsum.getCode());
+			entity.setContent(message);
+			if (receiveMessageRepository.save(entity) != null) {
+				LOG.info("Save {} to receive_message", entity.getCode());
+			}
+		}
+	}
 
 }
