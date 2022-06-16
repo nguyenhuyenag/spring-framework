@@ -20,7 +20,7 @@ public interface LIpsumRepository extends JpaRepository<LIpsum, Long> {
 
 	@Modifying
 	@Transactional
-	@Query(value = "UPDATE lorem_ipsum t SET t.status = :status WHERE t.code = :code", nativeQuery = true)
+	@Query(value = "UPDATE lorem_ipsum t SET t.status = :status, t.send_time = CURRENT_TIMESTAMP() WHERE t.code = :code", nativeQuery = true)
 	void updateStatus(String code, int status);
 
 	@Query(value = "SELECT t.* FROM lorem_ipsum t WHERE t.status = 0 ORDER BY t.create_time LIMIT :limit", nativeQuery = true)

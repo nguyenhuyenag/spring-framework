@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,7 +75,7 @@ public class LoremRunable implements Runnable {
 					future.addCallback(new ListenableFutureCallback<SendResult<String, Object>>() {
 						@Override
 						public void onSuccess(SendResult<String, Object> result) {
-							LOG.info("Job {}, thread {}, success: {}", JobPut.nJob, threadname, ipsum.getCode());
+							LOG.info("Job {}, thread {}, send success: {}", JobPut.nJob, threadname, ipsum.getCode());
 							dataService.onSuccess(ipsum);
 						}
 

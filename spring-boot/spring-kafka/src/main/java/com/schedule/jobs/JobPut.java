@@ -55,7 +55,7 @@ public class JobPut implements Job {
 	private void send() {
 		List<Future<?>> taskList = new ArrayList<>();
 		ExecutorService executor = Executors.newFixedThreadPool(NTHREAD);
-		int n = RandomUtils.randomInteger(50, 200);
+		int n = RandomUtils.randomInteger(20, 30);
 		List<LIpsum> listHoaDon = repository.findAllLimit(n);
 		if (listHoaDon.isEmpty()) {
 			return;
@@ -69,26 +69,19 @@ public class JobPut implements Job {
 			taskList.add(executor.submit(sm));
 		}
 
-		// executor.shutdown();
+		executor.shutdown(); // important
+		
 		while (!executor.isTerminated()) {
 			try {
 				LOG.info("Await termination");
-				TimeUnit.SECONDS.sleep(1);
+				TimeUnit.MILLISECONDS.sleep(400);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
-
-		// executor.shutdown();
-		LOG.info("Job {} end", nJob);
-		try {
-			LOG.info("Sleep 10 second...");
-			TimeUnit.SECONDS.sleep(10);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-
+		
 		taskCompleted = true;
+		LOG.info("Task completed, waiting job recall");
 	}
 
 }

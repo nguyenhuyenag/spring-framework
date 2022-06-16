@@ -36,7 +36,7 @@ public class DataServiceImpl implements DataService {
 
 	@Override
 	public void onSuccess(LIpsum ipsum) {
-		repository.updateStatus(ipsum.getCode(), 0);
+		repository.updateStatus(ipsum.getCode(), 1);
 	}
 
 //	@Autowired
