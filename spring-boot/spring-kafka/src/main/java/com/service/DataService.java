@@ -1,10 +1,12 @@
 package com.service;
 
+import com.model.LIpsum;
+
 public interface DataService {
 
 	// void reset();
 
-	// void onSuccess(Lorem hoadon);
+	void onSuccess(LIpsum ipsum);
 	
 	// void saveHistory(String mathongdiep);
 

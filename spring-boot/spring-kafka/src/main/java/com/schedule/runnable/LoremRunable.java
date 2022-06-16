@@ -18,19 +18,21 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 import com.model.LIpsum;
 import com.schedule.jobs.JobPut;
 import com.service.DataService;
+import com.util.Base64Utils;
 import com.util.ConfigReader;
+import com.util.JsonUtils;
 import com.util.SpringUtils;
 
 import lombok.NoArgsConstructor;
 
 // @Component
 @NoArgsConstructor
-public class HoaDonRunable implements Runnable {
+public class LoremRunable implements Runnable {
 
-	private static final Logger LOG = LoggerFactory.getLogger(HoaDonRunable.class);
+	private static final Logger LOG = LoggerFactory.getLogger(LoremRunable.class);
 
 	@Autowired
-	private DataService hoadonService;
+	private DataService dataService;
 
 	@Autowired
 	private KafkaTemplate<String, Object> kafkaTemplate;
@@ -43,10 +45,10 @@ public class HoaDonRunable implements Runnable {
 	@SuppressWarnings("unchecked")
 	public void init() {
 		this.kafkaTemplate = SpringUtils.getBean(KafkaTemplate.class);
-		this.hoadonService = SpringUtils.getBean(DataService.class);
+		this.dataService = SpringUtils.getBean(DataService.class);
 	}
 
-	public HoaDonRunable(int threadname, List<LIpsum> data) {
+	public LoremRunable(int threadname, List<LIpsum> data) {
 		this.threadname = threadname;
 		this.data = new ArrayList<>(data);
 	}
@@ -59,35 +61,28 @@ public class HoaDonRunable implements Runnable {
 	private void doSend() {
 		init();
 		LOG.info("Job {}, thread {} start, data  = {}", JobPut.nJob, threadname, data.size());
-		for (LIpsum hoadon : data) {
+		for (LIpsum ipsum : data) {
 			try {
-				String guid = "xxxxxxxxxxxxxxxx";
-				if (poolIds.add(guid)) {
-					// String message = hoadon.getNoidungGui();
+				String code = ipsum.getCode();
+				if (poolIds.add(code)) {
+					String message = Base64Utils.encodeToString(JsonUtils.toJSON(ipsum));
 					ListenableFuture<SendResult<String, Object>> future = //
-							kafkaTemplate.send(ConfigReader.KAFKA_PRODUCER_TOPIC, "XXXXXXXX");
+							kafkaTemplate.send(ConfigReader.KAFKA_PRODUCER_TOPIC, message);
 
 					while (!future.isDone()) {
 						// LOG.info("Wait future is done");
 					}
 
 					future.addCallback(new ListenableFutureCallback<SendResult<String, Object>>() {
-						// String mtdiep = hoadon.getMatdiep();
 						@Override
 						public void onSuccess(SendResult<String, Object> result) {
-							// LOG.info("Job {}, thread {}, success: {}", PutJobs.nJob, threadname, mtdiep);
-							// wait 1s update database
-							try {
-								TimeUnit.SECONDS.sleep(1);
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-							}
-							// hoadonService.onSuccess(hoadon);
+							LOG.info("Job {}, thread {}, success: {}", JobPut.nJob, threadname, ipsum.getCode());
+							dataService.onSuccess(ipsum);
 						}
 
 						@Override
 						public void onFailure(Throwable e) {
-							// LOG.info("Send fail: {}", mtdiep);
+							LOG.info("Send fail: {}", ipsum.getCode());
 							LOG.error(e.getMessage());
 						}
 					});

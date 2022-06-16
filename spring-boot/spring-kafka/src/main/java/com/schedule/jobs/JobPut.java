@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 
 import com.model.LIpsum;
 import com.repository.LIpsumRepository;
-import com.schedule.runnable.HoaDonRunable;
+import com.schedule.runnable.LoremRunable;
 import com.util.PageUtils;
 import com.util.RandomUtils;
 
@@ -65,7 +65,7 @@ public class JobPut implements Job {
 		taskCompleted = false;
 
 		for (int i = 0; i < NTHREAD; i++) {
-			HoaDonRunable sm = new HoaDonRunable(i + 1, listToPage.get(i));
+			LoremRunable sm = new LoremRunable(i + 1, listToPage.get(i));
 			taskList.add(executor.submit(sm));
 		}
 

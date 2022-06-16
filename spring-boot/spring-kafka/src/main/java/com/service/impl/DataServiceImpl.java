@@ -34,6 +34,11 @@ public class DataServiceImpl implements DataService {
 		}
 	}
 
+	@Override
+	public void onSuccess(LIpsum ipsum) {
+		repository.updateStatus(ipsum.getCode(), 0);
+	}
+
 //	@Autowired
 //	private HistoryRepository historyRepository;
 
