@@ -58,10 +58,12 @@ public class DataRunable implements Runnable {
 	private void doSend() {
 		init();
 		LOG.info("Job {}, thread {} start, data  = {}", JobPutData.nJob, threadname, listData.size());
+		Set<String> setIds = new HashSet<>();
 		for (Data data : listData) {
+			String code = data.getCode();
 			try {
-				String code = data.getCode();
 				if (poolIds.add(code)) {
+					setIds.add(code);
 					ListenableFuture<SendResult<String, Object>> future = //
 							kafkaTemplate.send(ConfigReader.KAFKA_PRODUCER_TOPIC, data.getContent());
 
@@ -72,8 +74,9 @@ public class DataRunable implements Runnable {
 					future.addCallback(new ListenableFutureCallback<SendResult<String, Object>>() {
 						@Override
 						public void onSuccess(SendResult<String, Object> result) {
-							LOG.info("Job {}, thread {}, send success: {}", JobPutData.nJob, threadname, data.getCode());
-							// dataService.onSuccess(data);
+							LOG.info("Job {}, thread {}, send success: {}", //
+									JobPutData.nJob, threadname, data.getCode());
+							dataService.onSuccess(data);
 						}
 
 						@Override
@@ -87,6 +90,7 @@ public class DataRunable implements Runnable {
 				e.printStackTrace();
 			}
 		}
+		poolIds.removeAll(setIds);
 	}
 
 //	@Async
