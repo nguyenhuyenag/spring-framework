@@ -20,7 +20,6 @@ import com.entity.Data;
 import com.repository.DataRepository;
 import com.schedule.runnable.DataRunable;
 import com.util.PageUtils;
-import com.util.RandomUtils;
 
 @Component
 public class JobPutData implements Job {
@@ -55,16 +54,18 @@ public class JobPutData implements Job {
 	private void send() {
 		List<Future<?>> taskList = new ArrayList<>();
 		ExecutorService executor = Executors.newFixedThreadPool(NTHREAD);
-		int n = RandomUtils.randomInteger(20, 30);
-		List<Data> listHoaDon = repository.findAllLimit(n);
+		
+		// int n = RandomUtils.randomInteger(20, 30);
+		List<Data> listHoaDon = repository.findAllLimit(500);
 		if (listHoaDon.isEmpty()) {
+			LOG.info("No record!");
 			executor.shutdown();
 			return;
 		}
-		List<List<Data>> listToPage = PageUtils.toPages(listHoaDon, NTHREAD);
 
 		taskCompleted = false;
 
+		List<List<Data>> listToPage = PageUtils.toPages(listHoaDon, NTHREAD);
 		for (int i = 0; i < NTHREAD; i++) {
 			DataRunable sm = new DataRunable(i + 1, listToPage.get(i));
 			taskList.add(executor.submit(sm));

@@ -1,20 +1,21 @@
-DROP TABLE IF EXISTS `lorem_ipsum`;
-CREATE TABLE `lorem_ipsum` (
+CREATE TABLE `data_received` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `code` varchar(45) DEFAULT NULL,
-  `content` longtext DEFAULT NULL,
-  `status` smallint DEFAULT '0',
+  `listener` varchar(5) DEFAULT NULL,
+  `data_code` varchar(45) DEFAULT NULL,
+  `content` longtext,
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
-  `send_time` datetime DEFAULT NULL,
+  `note` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 );
 
-DROP TABLE IF EXISTS `receive_message`;
-CREATE TABLE `receive_message` (
+CREATE TABLE `data` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `code` varchar(45) DEFAULT NULL,
-  `listener` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `content` longtext,
+  `code` varchar(45) NOT NULL,
+  `status` smallint DEFAULT '0',
+  `content` longtext DEFAULT NULL,
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+  `send_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`, `code`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  UNIQUE KEY `code_UNIQUE` (`code`)
 );

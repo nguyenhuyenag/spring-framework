@@ -62,7 +62,6 @@ public class DataRunable implements Runnable {
 			try {
 				String code = data.getCode();
 				if (poolIds.add(code)) {
-					// String message = Base64Utils.encodeToString(JsonUtils.toJSON(data));
 					ListenableFuture<SendResult<String, Object>> future = //
 							kafkaTemplate.send(ConfigReader.KAFKA_PRODUCER_TOPIC, data.getContent());
 
@@ -74,7 +73,7 @@ public class DataRunable implements Runnable {
 						@Override
 						public void onSuccess(SendResult<String, Object> result) {
 							LOG.info("Job {}, thread {}, send success: {}", JobPutData.nJob, threadname, data.getCode());
-							dataService.onSuccess(data);
+							// dataService.onSuccess(data);
 						}
 
 						@Override
