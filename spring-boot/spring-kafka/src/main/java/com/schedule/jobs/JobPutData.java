@@ -54,9 +54,8 @@ public class JobPutData implements Job {
 	private void send() {
 		List<Future<?>> taskList = new ArrayList<>();
 		ExecutorService executor = Executors.newFixedThreadPool(NTHREAD);
-		
-		// int n = RandomUtils.randomInteger(20, 30);
-		List<Data> listHoaDon = repository.findAllLimit(500);
+
+		List<Data> listHoaDon = repository.findAllLimit(200);
 		if (listHoaDon.isEmpty()) {
 			LOG.info("No record!");
 			executor.shutdown();
@@ -72,7 +71,7 @@ public class JobPutData implements Job {
 		}
 
 		executor.shutdown(); // important
-		
+
 		while (!executor.isTerminated()) {
 			try {
 				LOG.info("Await termination");
@@ -81,7 +80,7 @@ public class JobPutData implements Job {
 				e.printStackTrace();
 			}
 		}
-		
+
 		taskCompleted = true;
 		LOG.info("Task completed, waiting job recall");
 	}

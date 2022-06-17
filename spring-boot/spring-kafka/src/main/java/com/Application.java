@@ -1,14 +1,12 @@
 
 package com;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
-import com.repository.DataRepository;
 import com.util.KafkaUtils;
 
 @SpringBootApplication
@@ -24,16 +22,11 @@ public class Application extends SpringBootServletInitializer implements Command
 		SpringApplication.run(Application.class, args);
 	}
 	
-	@Autowired
-	DataRepository repository;
-
+	
 	@Override
 	public void run(String... args) throws Exception {
-		// KafkaUtils.createTopic("topicName2022");
-		// KafkaUtils.deleteTopics(Arrays.asList(""));
+		KafkaUtils.deleteTopics("so61616543");
 		KafkaUtils.showTopicsInfor();
-		// System.out.println(loremIpsum.getWords( 150, 2 ));
-		// repository.findAllByStatusLimit(20).forEach(t->System.out.println(t));
 	}
 
 }

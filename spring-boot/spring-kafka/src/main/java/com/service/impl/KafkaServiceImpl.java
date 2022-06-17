@@ -23,10 +23,10 @@ public class KafkaServiceImpl implements KafkaService {
 
 	@Override
 	public void triggerConsumer(boolean trigger) {
-		trigger(trigger);
+		handleTrigger(trigger);
 	}
 
-	private void trigger(boolean trigger) {
+	private void handleTrigger(boolean trigger) {
 		for (int i = 0; i < PARTITIONS; i++) {
 			String id = "id" + i;
 			MessageListenerContainer listener = registry.getListenerContainer(id);
