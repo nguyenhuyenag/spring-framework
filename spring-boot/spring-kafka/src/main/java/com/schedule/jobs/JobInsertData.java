@@ -12,9 +12,9 @@ import org.springframework.stereotype.Component;
 import com.service.DataService;
 
 @Component
-public class JobInsert implements Job {
+public class JobInsertData implements Job {
 
-	private static final Logger LOG = LoggerFactory.getLogger(JobInsert.class);
+	private static final Logger LOG = LoggerFactory.getLogger(JobInsertData.class);
 
 	@Autowired
 	private DataService service;

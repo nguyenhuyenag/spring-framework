@@ -1,4 +1,4 @@
-package com.model;
+package com.entity;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -20,8 +20,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "lorem_ipsum")
-public class LIpsum implements Serializable {
+@Table(name = "data")
+public class Data implements Serializable {
 
 	private static final long serialVersionUID = 515027760598197195L;
 

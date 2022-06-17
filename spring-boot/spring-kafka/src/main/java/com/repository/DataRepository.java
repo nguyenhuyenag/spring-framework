@@ -8,10 +8,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.model.LIpsum;
+import com.entity.Data;
 
 @Repository
-public interface LIpsumRepository extends JpaRepository<LIpsum, Long> {
+public interface DataRepository extends JpaRepository<Data, Long> {
 
 //	@Modifying
 //	@Transactional
@@ -20,10 +20,10 @@ public interface LIpsumRepository extends JpaRepository<LIpsum, Long> {
 
 	@Modifying
 	@Transactional
-	@Query(value = "UPDATE lorem_ipsum t SET t.status = :status, t.send_time = CURRENT_TIMESTAMP() WHERE t.code = :code", nativeQuery = true)
+	@Query(value = "UPDATE data t SET t.status = :status, t.send_time = CURRENT_TIMESTAMP() WHERE t.code = :code", nativeQuery = true)
 	void updateStatus(String code, int status);
 
-	@Query(value = "SELECT t.* FROM lorem_ipsum t WHERE t.status = 0 ORDER BY t.create_time LIMIT :limit", nativeQuery = true)
-	List<LIpsum> findAllLimit(int limit);
+	@Query(value = "SELECT t.* FROM data t WHERE t.status = 0 ORDER BY t.create_time LIMIT :limit", nativeQuery = true)
+	List<Data> findAllLimit(int limit);
 
 }

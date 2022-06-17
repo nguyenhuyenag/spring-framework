@@ -1,19 +1,20 @@
 package com.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.model.LIpsum;
-import com.model.ReceiveMessage;
-import com.repository.LIpsumRepository;
-import com.repository.ReceiveMessageRepository;
+import com.entity.Data;
+import com.entity.DataReceived;
+import com.repository.DataRepository;
+import com.repository.DataReceivedRepository;
 import com.service.DataService;
-import com.thedeanda.lorem.Lorem;
-import com.thedeanda.lorem.LoremIpsum;
 import com.util.Base64Utils;
-import com.util.JsonUtils;
 import com.util.RandomUtils;
 
 @Service
@@ -22,42 +23,47 @@ public class DataServiceImpl implements DataService {
 	private static final Logger LOG = LoggerFactory.getLogger(DataServiceImpl.class);
 
 	@Autowired
-	private LIpsumRepository lipsumRepository;
+	private DataRepository dataRepository;
 
 	@Autowired
-	private ReceiveMessageRepository receiveMessageRepository;
+	private DataReceivedRepository dataReceivedRepository;
 
 	@Override
 	public void autoInsert() {
-		Lorem lorem = LoremIpsum.getInstance();
+		List<Data> list = new ArrayList<>();
 		int n = RandomUtils.randomInteger(100, 200);
 		for (int i = 0; i < n; i++) {
-			LIpsum entity = new LIpsum();
-			entity.setCode(RandomUtils.initCode());
-			entity.setContent(lorem.getParagraphs(50, 200));
-			lipsumRepository.save(entity);
-			// if (lipsumRepository.save(entity) != null) {
-				// LOG.info("Save {} to lorem_ipsum", entity.getCode());
-			// }
+			String code = RandomUtils.initCode();
+			Data entity = new Data();
+			entity.setCode(code);
+			entity.setContent(Base64Utils.encodeToString(code));
+			list.add(entity);
+		}
+		if (dataRepository.saveAll(list) != null) {
+			LOG.info("Save {} record to lorem_ipsum", list.size());
 		}
 	}
 
 	@Override
-	public void onSuccess(LIpsum ipsum) {
-		lipsumRepository.updateStatus(ipsum.getCode(), 1);
+	public void onSuccess(Data ipsum) {
+		dataRepository.updateStatus(ipsum.getCode(), 1);
 	}
 
 	@Override
 	public void receiveMessage(String listener, String message) {
 		try {
-			LIpsum ipsum = JsonUtils.toObject(Base64Utils.decodeToString(message), LIpsum.class);
-			if (ipsum != null) {
-				ReceiveMessage entity = new ReceiveMessage();
-				entity.setCode(ipsum.getCode());
+			String code = Base64Utils.decodeToString(message);
+			if (StringUtils.isNotEmpty(code)) {
+				DataReceived entity = new DataReceived();
+				entity.setDataCode(code);
 				entity.setContent(message);
 				entity.setListener(listener);
-				if (receiveMessageRepository.save(entity) != null) {
-					LOG.info("Save {} to receive_message", entity.getCode());
+				if (dataReceivedRepository.existsByDataCode(code)) {
+					LOG.info("Duplicate save data code={} to data_received", code);
+					entity.setNote("Duplicate");
+				}
+				if (dataReceivedRepository.save(entity) != null) {
+					LOG.info("Save {} to data_received", code);
 				}
 			}
 		} catch (Exception e) {

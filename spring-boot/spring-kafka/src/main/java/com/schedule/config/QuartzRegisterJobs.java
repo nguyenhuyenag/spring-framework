@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
 
-import com.schedule.jobs.JobInsert;
-import com.schedule.jobs.JobPut;
+import com.schedule.jobs.JobInsertData;
+import com.schedule.jobs.JobPutData;
 import com.util.ConfigReader;
 
 @Configuration
@@ -16,7 +16,7 @@ public class QuartzRegisterJobs {
 
 	@Bean(name = "theJobPut")
 	public JobDetailFactoryBean theJobPut() {
-		return QuartzConfig.createJobDetail(JobPut.class);
+		return QuartzConfig.createJobDetail(JobPutData.class);
 	}
 
 	@Bean(name = "triggerPut")
@@ -26,7 +26,7 @@ public class QuartzRegisterJobs {
 
 	@Bean(name = "theJobInsert")
 	public JobDetailFactoryBean theJobInsert() {
-		return QuartzConfig.createJobDetail(JobInsert.class);
+		return QuartzConfig.createJobDetail(JobInsertData.class);
 	}
 
 	@Bean(name = "triggerInsert")

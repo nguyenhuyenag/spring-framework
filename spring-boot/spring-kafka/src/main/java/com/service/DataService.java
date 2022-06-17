@@ -1,10 +1,10 @@
 package com.service;
 
-import com.model.LIpsum;
+import com.entity.Data;
 
 public interface DataService {
 
-	void onSuccess(LIpsum ipsum);
+	void onSuccess(Data ipsum);
 
 	void autoInsert();
 

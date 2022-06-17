@@ -1,4 +1,4 @@
-package com.model;
+package com.entity;
 
 import java.util.Date;
 
@@ -21,16 +21,19 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "receive_message")
-public class ReceiveMessage {
+@Table(name = "data_received")
+public class DataReceived {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String code;
 	private String listener;
+	
+	@Column(name = "data_code")
+	private String dataCode;
 	private String content;
+	private String note;
 
 	@CreationTimestamp
 	@Column(name = "create_time")

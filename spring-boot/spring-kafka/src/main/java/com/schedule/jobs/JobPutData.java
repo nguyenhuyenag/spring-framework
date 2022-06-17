@@ -16,19 +16,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.model.LIpsum;
-import com.repository.LIpsumRepository;
-import com.schedule.runnable.LoremRunable;
+import com.entity.Data;
+import com.repository.DataRepository;
+import com.schedule.runnable.DataRunable;
 import com.util.PageUtils;
 import com.util.RandomUtils;
 
 @Component
-public class JobPut implements Job {
+public class JobPutData implements Job {
 
-	private static final Logger LOG = LoggerFactory.getLogger(JobPut.class);
+	private static final Logger LOG = LoggerFactory.getLogger(JobPutData.class);
 
 	@Autowired
-	private LIpsumRepository repository;
+	private DataRepository repository;
 
 	@Value("${NTHREAD}")
 	private int NTHREAD;
@@ -56,17 +56,17 @@ public class JobPut implements Job {
 		List<Future<?>> taskList = new ArrayList<>();
 		ExecutorService executor = Executors.newFixedThreadPool(NTHREAD);
 		int n = RandomUtils.randomInteger(20, 30);
-		List<LIpsum> listHoaDon = repository.findAllLimit(n);
+		List<Data> listHoaDon = repository.findAllLimit(n);
 		if (listHoaDon.isEmpty()) {
 			executor.shutdown();
 			return;
 		}
-		List<List<LIpsum>> listToPage = PageUtils.toPages(listHoaDon, NTHREAD);
+		List<List<Data>> listToPage = PageUtils.toPages(listHoaDon, NTHREAD);
 
 		taskCompleted = false;
 
 		for (int i = 0; i < NTHREAD; i++) {
-			LoremRunable sm = new LoremRunable(i + 1, listToPage.get(i));
+			DataRunable sm = new DataRunable(i + 1, listToPage.get(i));
 			taskList.add(executor.submit(sm));
 		}
 

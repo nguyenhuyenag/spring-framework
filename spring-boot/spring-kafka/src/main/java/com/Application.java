@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
-import com.repository.LIpsumRepository;
+import com.repository.DataRepository;
 import com.util.KafkaUtils;
 
 @SpringBootApplication
@@ -25,7 +25,7 @@ public class Application extends SpringBootServletInitializer implements Command
 	}
 	
 	@Autowired
-	LIpsumRepository repository;
+	DataRepository repository;
 
 	@Override
 	public void run(String... args) throws Exception {

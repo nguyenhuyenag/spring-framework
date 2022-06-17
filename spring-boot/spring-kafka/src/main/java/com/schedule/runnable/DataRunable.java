@@ -14,21 +14,19 @@ import org.springframework.kafka.support.SendResult;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
-import com.model.LIpsum;
-import com.schedule.jobs.JobPut;
+import com.entity.Data;
+import com.schedule.jobs.JobPutData;
 import com.service.DataService;
-import com.util.Base64Utils;
 import com.util.ConfigReader;
-import com.util.JsonUtils;
 import com.util.SpringUtils;
 
 import lombok.NoArgsConstructor;
 
 // @Component
 @NoArgsConstructor
-public class LoremRunable implements Runnable {
+public class DataRunable implements Runnable {
 
-	private static final Logger LOG = LoggerFactory.getLogger(LoremRunable.class);
+	private static final Logger LOG = LoggerFactory.getLogger(DataRunable.class);
 
 	@Autowired
 	private DataService dataService;
@@ -37,7 +35,7 @@ public class LoremRunable implements Runnable {
 	private KafkaTemplate<String, Object> kafkaTemplate;
 
 	private int threadname;
-	private List<LIpsum> data;
+	private List<Data> listData;
 
 	private static final Set<String> poolIds = Collections.synchronizedSet(new HashSet<>());
 
@@ -47,9 +45,9 @@ public class LoremRunable implements Runnable {
 		this.dataService = SpringUtils.getBean(DataService.class);
 	}
 
-	public LoremRunable(int threadname, List<LIpsum> data) {
+	public DataRunable(int threadname, List<Data> data) {
 		this.threadname = threadname;
-		this.data = new ArrayList<>(data);
+		this.listData = new ArrayList<>(data);
 	}
 
 	@Override
@@ -59,14 +57,14 @@ public class LoremRunable implements Runnable {
 
 	private void doSend() {
 		init();
-		LOG.info("Job {}, thread {} start, data  = {}", JobPut.nJob, threadname, data.size());
-		for (LIpsum ipsum : data) {
+		LOG.info("Job {}, thread {} start, data  = {}", JobPutData.nJob, threadname, listData.size());
+		for (Data data : listData) {
 			try {
-				String code = ipsum.getCode();
+				String code = data.getCode();
 				if (poolIds.add(code)) {
-					String message = Base64Utils.encodeToString(JsonUtils.toJSON(ipsum));
+					// String message = Base64Utils.encodeToString(JsonUtils.toJSON(data));
 					ListenableFuture<SendResult<String, Object>> future = //
-							kafkaTemplate.send(ConfigReader.KAFKA_PRODUCER_TOPIC, message);
+							kafkaTemplate.send(ConfigReader.KAFKA_PRODUCER_TOPIC, data.getContent());
 
 					while (!future.isDone()) {
 						// LOG.info("Wait future is done");
@@ -75,13 +73,13 @@ public class LoremRunable implements Runnable {
 					future.addCallback(new ListenableFutureCallback<SendResult<String, Object>>() {
 						@Override
 						public void onSuccess(SendResult<String, Object> result) {
-							LOG.info("Job {}, thread {}, send success: {}", JobPut.nJob, threadname, ipsum.getCode());
-							dataService.onSuccess(ipsum);
+							LOG.info("Job {}, thread {}, send success: {}", JobPutData.nJob, threadname, data.getCode());
+							dataService.onSuccess(data);
 						}
 
 						@Override
 						public void onFailure(Throwable e) {
-							LOG.info("Send fail: {}", ipsum.getCode());
+							LOG.info("Send fail: {}", data.getCode());
 							LOG.error(e.getMessage());
 						}
 					});
