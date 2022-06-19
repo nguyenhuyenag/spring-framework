@@ -35,7 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.passwordEncoder(passwordEncoder());
 	}
 	
-	private final String[] WHITE_LIST = { "/auth/**", "/public/**" }; 
+	private final String[] WHITE_LIST = { "/v1/**", "/auth/**", "/public/**" }; 
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {

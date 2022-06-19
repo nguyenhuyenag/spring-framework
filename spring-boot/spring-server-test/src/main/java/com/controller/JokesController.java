@@ -15,7 +15,7 @@ public class JokesController {
 	@Autowired
 	private JokesRepository repository;
 
-	@GetMapping("public/get-one")
+	@GetMapping("v1/get-one")
 	private ResponseEntity<?> getOne() {
 		Jokes joke = repository.getOne();
 		return ResponseEntity.ok(joke);
