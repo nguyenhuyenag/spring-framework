@@ -26,8 +26,8 @@ public class RestTest {
 
 	private static RestTemplate restTemplate = new RestTemplate();
 
-	private static String API_GET_ONE 	= "http://localhost:8080/api/get-one";
-	private static String GET_ONE 		= "http://localhost:8080/public/get-one";
+	private static String API_GET_ONE 	= "http://localhost:8080/v2/get-one";
+	private static String GET_ONE 		= "http://localhost:8080/v1/get-one"; // public
 	private static String LOGIN 		= "http://localhost:8080/auth/login";
 
 	public static void getPlainJSON() throws JsonMappingException, JsonProcessingException {
@@ -119,12 +119,12 @@ public class RestTest {
 	}
 
 	public static void main(String[] args) throws JsonMappingException, JsonProcessingException {
+		getPOJO();
 		// getPlainJSON();
-		// getPOJO();
 		// postForObject();
 		// exchange();
 		// optionsForAllow();
-		postJWT();
+		// postJWT();
 		System.out.println();
 	}
 

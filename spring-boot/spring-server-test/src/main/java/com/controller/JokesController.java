@@ -3,27 +3,27 @@ package com.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.entity.Jokes;
-import com.repository.JokesRepository;
+import com.service.JokesService;
 
 @RestController
-// @RequestMapping("public")
 public class JokesController {
 
 	@Autowired
-	private JokesRepository repository;
+	private JokesService jokesService;
 
 	@GetMapping("v1/get-one")
 	private ResponseEntity<?> getOne() {
-		Jokes joke = repository.getOne();
+		Jokes joke = jokesService.getOne(-1);
 		return ResponseEntity.ok(joke);
 	}
 	
-	@GetMapping("api/get-one")
-	private ResponseEntity<?> getJson() {
-		Jokes joke = repository.getOne();
+	@GetMapping("v2/get-one")
+	private ResponseEntity<?> getJson(@RequestParam(value = "id", defaultValue = "-1") int id) {
+		Jokes joke = jokesService.getOne(id);
 		return ResponseEntity.ok(joke);
 	}
 

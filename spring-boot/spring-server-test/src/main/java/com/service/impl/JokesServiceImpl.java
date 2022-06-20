@@ -1,6 +1,7 @@
 package com.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.tomcat.util.buf.StringUtils;
 import org.slf4j.Logger;
@@ -27,8 +28,13 @@ public class JokesServiceImpl implements JokesService {
 	private static final RestTemplate restTemplate = new RestTemplate();
 
 	@Override
-	public Jokes getOne() {
-		return repository.getOne();
+	public Jokes getOne(int id) {
+		if (id == -1) {
+			return repository.getOne();
+		}
+		Optional<Jokes> opt = repository.findById(id);
+		return opt.orElse(null);
+
 	}
 
 	@Override

@@ -4,7 +4,7 @@ import com.entity.Jokes;
 
 public interface JokesService {
 
-	Jokes getOne();
+	Jokes getOne(int id);
 
 	void autoInsert();
 

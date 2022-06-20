@@ -38,6 +38,10 @@ public class TimeUtils {
 		public Date day(int amount) {
 			return get(Calendar.DATE, amount);
 		}
+		
+		public Date hour(int amount) {
+			return get(Calendar.HOUR, amount);
+		}
 
 		public Date minute(int amount) {
 			return get(Calendar.MINUTE, amount);
