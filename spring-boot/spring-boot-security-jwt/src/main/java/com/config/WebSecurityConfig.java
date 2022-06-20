@@ -32,31 +32,32 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	// @Autowired
 	// private Http401 unauthorizedHandler;
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+		auth.userDetailsService(userDetailsService) //
+			.passwordEncoder(passwordEncoder());
 	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable()
+		http.csrf().disable() //
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // no session cookie for API endpoints
-			.and()
+			.and() //
 			.authorizeRequests() // no web forms for the REST API so no CSRF tokens will be created or checked
 			.antMatchers("/favicon.ico", "/auth/login-handle").permitAll() //
 			.anyRequest().authenticated() //
-			.and()
-				.addFilterBefore(new JWTLoginFilter(authenticationManager(), userService), UsernamePasswordAuthenticationFilter.class) //
-				.addFilterBefore(new JWTAuthenticationFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class) //
-				.exceptionHandling();
-				//.authenticationEntryPoint(unauthorizedHandler)
-				//.accessDeniedHandler(new Http403());
-				// .headers().cacheControl();
+			.and() //
+			.addFilterBefore(new JWTLoginFilter(authenticationManager(), userService), UsernamePasswordAuthenticationFilter.class) //
+			.addFilterBefore(new JWTAuthenticationFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class) //
+			.exceptionHandling();
+			// .authenticationEntryPoint(unauthorizedHandler)
+			// .accessDeniedHandler(new Http403());
+			// .headers().cacheControl();
+	}
+	
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
 	}
 
 }
