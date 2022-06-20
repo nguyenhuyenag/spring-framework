@@ -21,22 +21,18 @@ public class TokenHandler {
 	public static final String SIGNING_KEY = "JWT_TOKEN_SECRET";
 	private static final Date EXPIRATION_TIME = TimeUtils.after().minute(1);
 
-	private static <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
-		Claims claims = getAllClaimsFromToken(token);
-		return claimsResolver.apply(claims);
-	}
-
 	public static Claims getAllClaimsFromToken(String token) {
-		// try {
 		return Jwts.parser() //
 				.setSigningKey(SIGNING_KEY) //
 				.parseClaimsJws(token) //
 				.getBody();
-		// } catch (Exception e) {
-
-		// }
-		// return null;
 	}
+	
+	private static <T> T getClaimFromToken(String token, Function<Claims, T> fClaims) {
+		Claims claims = getAllClaimsFromToken(token);
+		return fClaims.apply(claims);
+	}
+
 
 	public static String getUsernameFromToken(String token) {
 		return getClaimFromToken(token, Claims::getSubject);
