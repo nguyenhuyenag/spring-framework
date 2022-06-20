@@ -16,10 +16,10 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 public class TokenHandler {
 
-	public static final String TOKEN_PREFIX 	= "Bearer ";
-	public static final String AUTHORITIES_KEY 	= "scopes";
-	public static final String SIGNING_KEY 		= "JWT_TOKEN_SECRET";
-	private static final Date EXPIRATION_TIME 	= TimeUtils.after().minute(1);
+	public static final String TOKEN_PREFIX = "Bearer ";
+	public static final String AUTHORITIES_KEY = "scopes";
+	public static final String SIGNING_KEY = "JWT_TOKEN_SECRET";
+	private static final Date EXPIRATION_TIME = TimeUtils.after().minute(1);
 
 	private static <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
 		Claims claims = getAllClaimsFromToken(token);
@@ -27,12 +27,17 @@ public class TokenHandler {
 	}
 
 	public static Claims getAllClaimsFromToken(String token) {
+		// try {
 		return Jwts.parser() //
 				.setSigningKey(SIGNING_KEY) //
 				.parseClaimsJws(token) //
 				.getBody();
+		// } catch (Exception e) {
+
+		// }
+		// return null;
 	}
-	
+
 	public static String getUsernameFromToken(String token) {
 		return getClaimFromToken(token, Claims::getSubject);
 	}
@@ -59,7 +64,7 @@ public class TokenHandler {
 				.compact();
 	}
 
-	public static Boolean validateToken(UserDetails userDetails, String token) {
+	public static boolean validateToken(UserDetails userDetails, String token) {
 		String username = getUsernameFromToken(token);
 		return (!isTokenExpired(token) && username.equals(userDetails.getUsername()));
 	}

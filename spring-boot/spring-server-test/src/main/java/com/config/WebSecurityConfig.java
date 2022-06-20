@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.exception.Http401;
 import com.filter.JWTAuthenticationFilter;
 import com.filter.JWTLoginFilter;
 
@@ -24,6 +25,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private UserDetailsService userDetailsService;
+	
+	@Autowired
+    private Http401 authenticationEntryPoint;
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -42,13 +46,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.sessionManagement() //
 			.sessionCreationPolicy(SessionCreationPolicy.STATELESS) // no session cookie for API endpoints
 			.and() //
-			.authorizeRequests() //
-			.antMatchers("/v1/**", "/auth/**").permitAll() //
-			.anyRequest().authenticated() //
+				.authorizeRequests() //
+				.antMatchers("/v1/**", "/auth/**").permitAll() //
+				.anyRequest().authenticated() //
 			.and() //
-			.addFilterBefore(new JWTLoginFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class) //
-			.addFilterBefore(new JWTAuthenticationFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class) //
-			.exceptionHandling();
+				.addFilterBefore(new JWTLoginFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class) //
+				.addFilterBefore(new JWTAuthenticationFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class) //
+				.exceptionHandling() //
+				.authenticationEntryPoint(authenticationEntryPoint);
 	}
 
 }
