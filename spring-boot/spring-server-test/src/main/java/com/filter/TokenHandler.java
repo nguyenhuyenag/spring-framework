@@ -19,7 +19,7 @@ public class TokenHandler {
 	public static final String TOKEN_PREFIX = "Bearer ";
 	public static final String AUTHORITIES_KEY = "scopes";
 	public static final String SIGNING_KEY = "JWT_TOKEN_SECRET";
-	private static final Date EXPIRATION_TIME = TimeUtils.after().minute(1);
+	private static final Date EXPIRATION_TIME = TimeUtils.after().minute(5);
 
 	public static Claims getAllClaimsFromToken(String token) {
 		return Jwts.parser() //

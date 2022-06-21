@@ -18,6 +18,7 @@ public class LoginResponse implements Serializable {
 
 	private static final long serialVersionUID = 3011737969328019263L;
 
+	private String tokenType;
 	private String token;
 	
 	@Override

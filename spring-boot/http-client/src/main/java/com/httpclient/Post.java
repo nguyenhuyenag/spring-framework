@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pojo.LoginResponse;
 import com.util.JsonUtils;
 
 public class Post {
@@ -50,7 +51,7 @@ public class Post {
 	public static void postJson() throws ClientProtocolException, IOException {
 		HttpPost httpPost = new HttpPost("http://localhost:8082/auth/login");
 		Map<String, String> map = new HashMap<>();
-		map.put("email", "lam.ln@ts24corp.com");
+		map.put("email", "huyennv@abc.com");
 		map.put("password", "123456");
 		ObjectMapper mapper = new ObjectMapper();
 		StringEntity entity = new StringEntity(mapper.writeValueAsString(map));
@@ -69,7 +70,7 @@ public class Post {
 		HttpClient httpClient = HttpClientBuilder.create().build();
 		HttpPost httpPost = new HttpPost("http://localhost:8082/auth/login");
 
-		String json = "{\"email\": \"lam.ln@ts24corp.com\", \"password\": \"123456\"}";
+		String json = "{\"email\": \"huyennv@huyennv.com\", \"password\": \"123456\"}";
 		StringEntity entity = new StringEntity(json, ContentType.APPLICATION_JSON);
 		httpPost.setEntity(entity);
 		httpPost.setHeader("Accept", "application/json");
@@ -111,40 +112,71 @@ public class Post {
 		return null;
 	}
 
-	public static String setTimeout(Object data, String url) {
-//			int timeout = 5000;
-//		    RequestConfig config = RequestConfig.custom()
-//		      .setConnectTimeout(timeout)
-//		      .setConnectionRequestTimeout(timeout)
-//		      .setSocketTimeout(timeout)
-//		      .build();
+	public static void setTimeout() {
+		// int timeout = 5000;
+		// RequestConfig config = RequestConfig.custom()
+		// .setConnectTimeout(timeout)
+		// .setConnectionRequestTimeout(timeout)
+		// .setSocketTimeout(timeout)
+		// .build();
+		String url = "http://localhost:8080/auth/login";
+		Map<String, String> login = new HashMap<>();
+		login.put("username", "huyennv");
+		login.put("password", "123456");
 		final  RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(30 * 1000).build();
 		// try (CloseableHttpClient httpClient = HttpClientBuilder.create().setDefaultRequestConfig(requestConfig).build();) {
 		try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
 			HttpPost httpPost = new HttpPost(url);
 			httpPost.setConfig(requestConfig);
-			StringEntity entity = new StringEntity(JsonUtils.toJSON(data));
+			StringEntity entity = new StringEntity(JsonUtils.toJSON(login));
 			httpPost.setEntity(entity);
 			final HttpResponse response = httpClient.execute(httpPost);
 			LOG.info("Status = {}", response.getStatusLine().getStatusCode());
-			return EntityUtils.toString(response.getEntity());
+			System.out.println(EntityUtils.toString(response.getEntity()));
 		} catch (UnsupportedOperationException | IOException e) {
-			// e.printStackTrace();
+			e.printStackTrace();
+		}
+	}
+	
+	public static LoginResponse loginPost() {
+		String url = "http://localhost:8080/auth/login";
+		Map<String, String> data = new HashMap<>();
+		data.put("username", "huyennv");
+		data.put("password", "123456");
+		try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
+			HttpPost httpPost = new HttpPost(url);
+			// StringEntity entity = new StringEntity(JsonUtils.toJSON(data));
+			httpPost.setEntity(new StringEntity(JsonUtils.toJSON(data)));
+			final HttpResponse response = httpClient.execute(httpPost);
+			LOG.info("Status = {}", response.getStatusLine().getStatusCode());
+			// System.out.println(EntityUtils.toString(response.getEntity()));
+			return JsonUtils.readValue(response.getEntity().getContent(), LoginResponse.class);
+		} catch (UnsupportedOperationException | IOException e) {
+			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public static void postJWT() {
+		try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
+			LoginResponse login = loginPost();
+			HttpPost httpPost = new HttpPost("http://localhost:8080/v2/get-one");
+			httpPost.setHeader("Authorization", "Bearer " + login.getToken());
+			final HttpResponse response = httpClient.execute(httpPost);
+			LOG.info("Status = {}", response.getStatusLine().getStatusCode());
+			System.out.println(EntityUtils.toString(response.getEntity()));
+		} catch (UnsupportedOperationException | IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void main(String[] args) throws ClientProtocolException, IOException {
 		// postParams();
 		// postJson();
 		// postJson2();
-		String URL = "http://localhost:8080/auth/login";
-		Map<String, String> login = new HashMap<>();
-		login.put("username", "huyennv");
-		login.put("password", "123456");
-		System.out.println(JsonUtils.toJSON(login));
-		String s = setTimeout(login, URL);
-		System.out.println(s);
+		// setTimeout();
+		postJWT();
+		System.out.println();
 	}
 
 }
