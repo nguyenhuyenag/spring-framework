@@ -7,7 +7,6 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -44,7 +43,7 @@ public class LoginController {
 
 	@PostMapping("login-handle")
 	private ResponseEntity<?> login(@RequestBody(required = false) LoginRequest login, HttpServletRequest req)
-			throws ClientProtocolException, IOException {
+			throws IOException {
 		ErrorResponse error = new ErrorResponse();
 		if (login == null) {
 			error.setError("Required request body is missing");
