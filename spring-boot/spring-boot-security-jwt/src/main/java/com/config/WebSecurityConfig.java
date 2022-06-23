@@ -44,11 +44,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // no session cookie for API endpoints
 			.and() //
 			.authorizeRequests() // no web forms for the REST API so no CSRF tokens will be created or checked
-			.antMatchers("/favicon.ico", "/auth/**").permitAll() //
+			.antMatchers("/auth/**").permitAll() //
 			.anyRequest().authenticated() //
 			.and() //
-			.addFilterBefore(new JWTLoginFilter(authenticationManager(), userService), UsernamePasswordAuthenticationFilter.class) //
 			.addFilterBefore(new JWTAuthenticationFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class) //
+			.addFilterBefore(new JWTLoginFilter(authenticationManager(), userService), UsernamePasswordAuthenticationFilter.class) //
 			.exceptionHandling();
 			// .authenticationEntryPoint(unauthorizedHandler)
 			// .accessDeniedHandler(new Http403());

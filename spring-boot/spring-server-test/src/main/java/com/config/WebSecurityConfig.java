@@ -39,6 +39,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.userDetailsService(userDetailsService) //
 				.passwordEncoder(passwordEncoder());
 	}
+	
+	public static final String[] WHITE_LIST = { "/v1/**", "/auth/**" };
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -47,7 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.sessionCreationPolicy(SessionCreationPolicy.STATELESS) // no session cookie for API endpoints
 			.and() //
 				.authorizeRequests() //
-				.antMatchers("/v1/**", "/auth/**").permitAll() //
+				.antMatchers(WHITE_LIST).permitAll() //
 				.anyRequest().authenticated() //
 			.and() //
 				.addFilterBefore(new JWTLoginFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class) //
