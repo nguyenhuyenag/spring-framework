@@ -1,4 +1,4 @@
-package com.filter;
+package com.util;
 
 import java.util.Date;
 import java.util.function.Function;
@@ -7,8 +7,6 @@ import java.util.stream.Collectors;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import com.util.TimeUtils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -21,36 +19,41 @@ public class TokenHandler {
 	public static final String SIGNING_KEY 		= "JWT_TOKEN_SECRET";
 	private static final Date EXPIRATION_TIME 	= TimeUtils.after().day(1);
 
-	private static <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
-		Claims claims = getAllClaimsFromToken(token);
-		return claimsResolver.apply(claims);
-	}
-
-	public static Claims getAllClaimsFromToken(String token) {
+	public static Claims getClaims(String token) {
 		return Jwts.parser() //
 				.setSigningKey(SIGNING_KEY) //
 				.parseClaimsJws(token) //
 				.getBody();
 	}
 	
-	public static String getUsernameFromToken(String token) {
-		return getClaimFromToken(token, Claims::getSubject);
+	private static <T> T getClaims(String token, Function<Claims, T> fClaims) {
+		Claims claims = getClaims(token);
+		return fClaims.apply(claims);
+	}
+	
+	public static String getUsername(String token) {
+		return getClaims(token, Claims::getSubject);
 	}
 
-	private static Date getExpirationDateFromToken(String token) {
-		return getClaimFromToken(token, t -> t.getExpiration());
+	private static Date getExpiration(String token) {
+		return getClaims(token, t -> t.getExpiration());
 	}
 
-	private static boolean isTokenExpired(String token) {
-		Date expiration = getExpirationDateFromToken(token);
-		return expiration.before(new Date());
+//	private static boolean isTokenExpired(String token) {
+//		Date expiration = getExpiration(token);
+//		return expiration.before(new Date());
+//	}
+	
+	public static boolean isAlive(String token) {
+		Date expiration = getExpiration(token);
+		return expiration.after(new Date());
 	}
 
 	public static String generateToken(Authentication authentication) {
 		String authorities = authentication.getAuthorities().stream() //
 				.map(GrantedAuthority::getAuthority) //
 				.collect(Collectors.joining(","));
-		System.out.println(authorities);
+		// System.out.println(authorities);
 		return Jwts.builder() //
 				.setSubject(authentication.getName()) //
 				.claim(AUTHORITIES_KEY, authorities) //
@@ -60,9 +63,9 @@ public class TokenHandler {
 				.compact();
 	}
 
-	public static Boolean validateToken(UserDetails userDetails, String token) {
-		String username = getUsernameFromToken(token);
-		return (!isTokenExpired(token) && username.equals(userDetails.getUsername()));
+	public static boolean validateToken(UserDetails userDetails, String token) {
+		String username = getUsername(token);
+		return (isAlive(token) && username.equals(userDetails.getUsername()));
 	}
 
 }

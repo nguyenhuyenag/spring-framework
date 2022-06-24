@@ -26,6 +26,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.util.TokenHandler;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
@@ -49,7 +51,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 		if (header != null && header.startsWith(TokenHandler.TOKEN_PREFIX)) {
 			token = header.replace(TokenHandler.TOKEN_PREFIX, "");
 			try {
-				username = TokenHandler.getUsernameFromToken(token);
+				username = TokenHandler.getUsername(token);
 			} catch (IllegalArgumentException e) {
 				LOG.error("An error occured during getting username from token", e);
 			} catch (ExpiredJwtException e) {
@@ -75,7 +77,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
 	private UsernamePasswordAuthenticationToken getAuthentication(final String token, final UserDetails userDetails) {
 		// {sub=huyennv, scopes=ROLE_USER,ROLE_ADMIN, iat=1640672980, exp=1640759380}
-		Claims claims = TokenHandler.getAllClaimsFromToken(token);
+		Claims claims = TokenHandler.getClaims(token);
 		Collection<GrantedAuthority> authorities = Collections.emptyList();
 		String scopes = claims.get(TokenHandler.AUTHORITIES_KEY).toString();
 		if (StringUtils.isNotEmpty(scopes)) {

@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,8 +30,8 @@ import com.util.JsonUtils;
 
 @Controller
 @RequestMapping("auth")
-public class LoginController {
-	
+public class AuthController {
+
 	@Autowired
 	private UserService userService;
 
@@ -42,8 +43,7 @@ public class LoginController {
 	}
 
 	@PostMapping("login-handle")
-	private ResponseEntity<?> login(@RequestBody(required = false) LoginRequest login, HttpServletRequest req)
-			throws IOException {
+	private ResponseEntity<?> login(@RequestBody(required = false) LoginRequest login) throws IOException {
 		ErrorResponse error = new ErrorResponse();
 		if (login == null) {
 			error.setError("Required request body is missing");
@@ -53,7 +53,7 @@ public class LoginController {
 		}
 		User user = userService.findByUsername(login.getUsername());
 		if (user != null) {
-			Date timeDisabled = user.getTimeLoginDisabled(); 
+			Date timeDisabled = user.getTimeLoginDisabled();
 			if (timeDisabled != null && timeDisabled.after(new Date())) {
 				// khoa tai khoan
 				// error.setStatus(401);
@@ -69,12 +69,8 @@ public class LoginController {
 		HttpPost httpPost = new HttpPost(url() + "/auth/login");
 		StringEntity entity = new StringEntity(JsonUtils.toJSON(login));
 		httpPost.setEntity(entity);
-		// httpPost.setHeader("Accept", "application/json");
-		// httpPost.setHeader("Content-type", "application/json");
 		try (CloseableHttpClient client = HttpClients.createDefault()) {
 			HttpResponse response = client.execute(httpPost);
-			// System.out.println("Status: " + response.getStatusLine());
-			// IOUtils.toString(response.getEntity().getContent());
 			String content = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
 			if (content.contains("token")) {
 				JsonNode jsonNode = JsonUtils.toJsonNode(content);
@@ -82,6 +78,11 @@ public class LoginController {
 			}
 			return new ResponseEntity<String>(content, HttpStatus.OK);
 		}
+	}
+
+	@GetMapping("check-token")
+	private ResponseEntity<?> checkToken(String token) {
+		return null;
 	}
 
 }
