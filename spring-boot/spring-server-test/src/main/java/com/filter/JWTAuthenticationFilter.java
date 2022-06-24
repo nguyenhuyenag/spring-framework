@@ -26,6 +26,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.config.WebSecurityConfig;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
@@ -36,6 +38,8 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
 	@Autowired
 	private UserDetailsService userDetailsService;
+	
+	public static final String[] WHITE_LIST = WebSecurityConfig.WHITE_LIST;
 
 	public JWTAuthenticationFilter(UserDetailsService service) {
 		this.userDetailsService = service;
@@ -58,7 +62,14 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 				LOG.error("Authentication Failed. Username or password not valid.");
 			}
 		} else {
-			LOG.warn("Path: {}, couldn't find bearer string, will ignore the header", req.getRequestURI());
+			String url = req.getRequestURI();
+			//			for (int i = 0; i < WHITE_LIST.length; i++) {
+			//				WHITE_LIST[i] = WHITE_LIST[i].replaceAll("\\*", "");
+			//				if (url.startsWith(WHITE_LIST[i])) {
+			//					System.out.println("In white list");
+			//				}
+			//			}
+			LOG.warn("Path: {}, couldn't find bearer string, will ignore the header", url);
 		}
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (username != null && auth == null) {
