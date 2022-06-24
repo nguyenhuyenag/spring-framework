@@ -25,12 +25,16 @@ import com.entity.User;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.reponse.ErrorResponse;
 import com.request.LoginRequest;
+import com.service.AuthService;
 import com.service.UserService;
 import com.util.JsonUtils;
 
 @Controller
 @RequestMapping("auth")
 public class AuthController {
+	
+	@Autowired
+	private AuthService authService;
 
 	@Autowired
 	private UserService userService;
@@ -82,7 +86,7 @@ public class AuthController {
 
 	@GetMapping("check-token")
 	private ResponseEntity<?> checkToken(String token) {
-		return null;
+		return ResponseEntity.ok(authService.checkToken(token));
 	}
 
 }

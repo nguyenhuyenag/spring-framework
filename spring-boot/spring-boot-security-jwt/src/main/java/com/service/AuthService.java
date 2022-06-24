@@ -2,6 +2,6 @@ package com.service;
 
 public interface AuthService {
 	
-	String checkToken(String token);
+	boolean checkToken(String token);
 	
 }
