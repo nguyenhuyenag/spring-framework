@@ -22,6 +22,7 @@ import com.request.LoginRequest;
 import com.response.ErrorResponse;
 import com.response.LoginResponse;
 import com.util.JsonUtils;
+import com.util.TokenHandler;
 
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	
