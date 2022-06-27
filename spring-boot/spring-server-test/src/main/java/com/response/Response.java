@@ -12,8 +12,8 @@ public class Response {
 	
 	private long timestamp;
 	private int code;
+	private String path;	
 	private String message;
-	
 	
 	public Response withTimestamp(final long timestamp) {
 		this.timestamp = timestamp;
@@ -27,6 +27,11 @@ public class Response {
 	
 	public Response withMessage(final String message) {
 		this.message = message;
+		return this;
+	}
+	
+	public Response withPath(final String path) {
+		this.path = path;
 		return this;
 	}
 	

@@ -64,13 +64,11 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 			}
 		} else {
 			String url = req.getRequestURI();
-			//			for (int i = 0; i < WHITE_LIST.length; i++) {
-			//				WHITE_LIST[i] = WHITE_LIST[i].replaceAll("\\*", "");
-			//				if (url.startsWith(WHITE_LIST[i])) {
-			//					System.out.println("In white list");
-			//				}
-			//			}
-			LOG.warn("Path: {}, couldn't find bearer string, will ignore the header", url);
+			if (checkWhiteList(url)) {
+				LOG.warn("Path `{}` is in white list", url);
+			} else {
+				LOG.warn("Path `{}` couldn't find bearer string, we will ignore the header", url);
+			}
 		}
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (username != null && auth == null) {
@@ -97,6 +95,16 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 								.collect(Collectors.toSet());
 		}
 		return new UsernamePasswordAuthenticationToken(userDetails, "", authorities);
+	}
+	
+	private boolean checkWhiteList(String url) {
+		for (int i = 0; i < WHITE_LIST.length; i++) {
+			WHITE_LIST[i] = WHITE_LIST[i].replaceAll("\\*", "");
+			if (url.startsWith(WHITE_LIST[i])) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

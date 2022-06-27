@@ -40,7 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.passwordEncoder(passwordEncoder());
 	}
 	
-	public static final String[] WHITE_LIST = { "/v1/**", "/auth/**" };
+	public static final String[] WHITE_LIST = { "/favicon.ico", "/v1/**", "/auth/**" };
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
