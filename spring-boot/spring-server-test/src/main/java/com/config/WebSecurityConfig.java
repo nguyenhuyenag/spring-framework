@@ -50,6 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.and() //
 				.authorizeRequests() //
 				.antMatchers(WHITE_LIST).permitAll() //
+				.antMatchers("/admin/**").hasRole("ADMIN")
 				.anyRequest().authenticated() //
 			.and() //
 				.addFilterBefore(new JWTLoginFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class) //

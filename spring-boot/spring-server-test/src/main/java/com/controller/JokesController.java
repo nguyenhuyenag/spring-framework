@@ -39,11 +39,17 @@ public class JokesController {
 //		user.setRoles(null);
 //		return new ResponseEntity<>(user, HttpStatus.OK);
 //	}
-//
+
 //	@GetMapping("get-all-user")
 //	@PreAuthorize("hasRole('ADMIN')")
 //	public List<User> listUser() {
 //		return repository.findAll();
 //	}
+	
+//	@RolesAllowed("ADMIN")
+//    @RequestMapping("/admin")
+//    public String adminHello() {
+//        return "Hello Admin";
+//    }
 
 }

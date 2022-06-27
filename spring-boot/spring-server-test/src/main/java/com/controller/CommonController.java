@@ -38,7 +38,7 @@ public class CommonController {
 				.withPath(request.getRequestURI()) //
 				.withTimestamp(System.currentTimeMillis()) //
 				.withCode(HttpStatus.CREATED.value()) //
-				.withMessage("User created successfully");
+				.withMessage("Do test api");
 		URI location = URI.create("/users/1111");
 		return ResponseEntity.created(location).body(response);
 	}
