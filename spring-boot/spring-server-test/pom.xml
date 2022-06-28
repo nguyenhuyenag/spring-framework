@@ -74,6 +74,11 @@
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>rest-assured</artifactId>
+			<version>4.1.1</version><!--$NO-MVN-MAN-VER$ -->
+		</dependency>
 	</dependencies>
 
 	<build>
