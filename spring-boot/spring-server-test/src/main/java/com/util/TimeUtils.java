@@ -27,7 +27,7 @@ public class TimeUtils {
 		return sdf.format(date);
 	}
 
-	static class Handle {
+	private static class Handle {
 
 		private Date get(int timeType, int amount) {
 			Calendar calendar = Calendar.getInstance();
@@ -38,7 +38,7 @@ public class TimeUtils {
 		public Date day(int amount) {
 			return get(Calendar.DATE, amount);
 		}
-		
+
 		public Date hour(int amount) {
 			return get(Calendar.HOUR, amount);
 		}
@@ -63,7 +63,7 @@ public class TimeUtils {
 			private static final AfterDateTime INSTANCE = new AfterDateTime();
 		}
 
-		static AfterDateTime getInstance() {
+		private static AfterDateTime getInstance() {
 			return SingletonHelper.INSTANCE;
 		}
 
@@ -79,7 +79,7 @@ public class TimeUtils {
 			private static final BeforeDateTime INSTANCE = new BeforeDateTime();
 		}
 
-		static BeforeDateTime getInstance() {
+		private static BeforeDateTime getInstance() {
 			return SingletonHelper.INSTANCE;
 		}
 	}
