@@ -9,22 +9,26 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pojo.LoginResponse;
@@ -169,13 +173,37 @@ public class Post {
 			e.printStackTrace();
 		}
 	}
+	
+	public static void postXWWWFormUrlencoded() throws ClientProtocolException, IOException {
+		HttpPost httpPost = new HttpPost("http://localhost:8080/bsmsws.asmx/SendBrandSms");
+		
+		List<NameValuePair> params = new ArrayList<>();
+		params.add(new BasicNameValuePair("username", "abc"));
+		params.add(new BasicNameValuePair("password", "xxxxx"));
+		params.add(new BasicNameValuePair("brandname", "TS24corp"));
+		params.add(new BasicNameValuePair("loaitin", "1"));
+		params.add(new BasicNameValuePair("phonenumber", "84960000000"));
+		params.add(new BasicNameValuePair("message", "sms_content" + System.currentTimeMillis()));
+		
+		httpPost.setEntity(new UrlEncodedFormEntity(params));
+		
+		// httpPost.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE);
+		
+		try (CloseableHttpClient client = HttpClients.createDefault();) {
+			HttpResponse response = client.execute(httpPost);
+			System.out.println("Status:" + response.getStatusLine().getStatusCode());
+			String content = IOUtils.toString(response.getEntity().getContent(), StandardCharsets.UTF_8);
+			System.out.println(content);
+		}
+	}
 
 	public static void main(String[] args) throws ClientProtocolException, IOException {
 		// postParams();
 		// postJson();
 		// postJson2();
 		// setTimeout();
-		postJWT();
+		// postJWT();
+		postXWWWFormUrlencoded();
 		System.out.println();
 	}
 
