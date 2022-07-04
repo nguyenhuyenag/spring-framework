@@ -1,17 +1,22 @@
 package com.util;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.DeleteTopicsResult;
 import org.apache.kafka.clients.admin.ListTopicsOptions;
 import org.apache.kafka.clients.admin.NewTopic;
+import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.clients.consumer.OffsetAndMetadata;
 import org.apache.kafka.common.PartitionInfo;
+import org.apache.kafka.common.TopicPartition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
@@ -21,7 +26,14 @@ public class KafkaUtils {
 
 	private static final Logger LOG = LoggerFactory.getLogger(KafkaUtils.class);
 
+	// @Autowired
+	// private ConsumerFactory<?, ?> consumerFactory;
+
 	private static final int ADMIN_CLIENT_TIMEOUT_MS = 5000;
+
+	private KafkaUtils() {
+
+	}
 
 	private static Map<String, Object> config() {
 		ConsumerFactory<?, ?> consumer = SpringUtils.getBean(ConsumerFactory.class);
@@ -71,6 +83,39 @@ public class KafkaUtils {
 				}
 			}
 		}
+	}
+
+	public static Set<TopicPartition> listTopicPartition() {
+		ConsumerFactory<?, ?> consumerFactory = SpringUtils.getBean(ConsumerFactory.class);
+		Consumer<?, ?> consumer = consumerFactory.createConsumer();
+		Set<TopicPartition> partitions = new HashSet<>();
+		for (PartitionInfo pif : consumer.partitionsFor(ConfigReader.KAFKA_CONSUMER_TOPIC)) {
+			partitions.add(new TopicPartition(pif.topic(), pif.partition()));
+		}
+		return partitions;
+	}
+
+	public static Consumer<?, ?> createConsumer() {
+		ConsumerFactory<?, ?> consumerFactory = SpringUtils.getBean(ConsumerFactory.class);
+		return consumerFactory.createConsumer();
+	}
+
+	/**
+	 * https://stackoverflow.com/a/58545511/10910098
+	 */
+	public static void countUnConsumer() {
+		long total = 0;
+		try (KafkaConsumer<String, String> consumer = new KafkaConsumer<>(config())) {
+			Set<TopicPartition> partitions = KafkaUtils.listTopicPartition();
+			Map<TopicPartition, Long> offsets = consumer.endOffsets(partitions);
+			Map<TopicPartition, OffsetAndMetadata> map = consumer.committed(partitions);
+			for (TopicPartition tp : partitions) {
+				OffsetAndMetadata commitOffset = map.get(tp);
+				long lag = commitOffset == null ? offsets.get(tp) : offsets.get(tp) - commitOffset.offset();
+				total += lag;
+			}
+		}
+		System.out.println("Lag: " + total);
 	}
 
 	// public static void showTopics() {

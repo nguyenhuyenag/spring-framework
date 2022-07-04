@@ -31,7 +31,7 @@ public class QuartzRegisterJobs {
 
 	@Bean(name = "triggerInsert")
 	public SimpleTriggerFactoryBean triggerInsert(@Qualifier("theJobInsert") JobDetail job) {
-		return QuartzConfig.createTrigger(job, 30);
+		return QuartzConfig.createTrigger(job, ConfigReader.JOB_TIME_RECALL);
 	}
 
 }

@@ -31,7 +31,7 @@ public class DataServiceImpl implements DataService {
 	@Override
 	public void autoInsert() {
 		List<Data> list = new ArrayList<>();
-		int n = RandomUtils.randomInteger(50, 100);
+		int n = 100; // RandomUtils.randomInteger(50, 100);
 		for (int i = 0; i < n; i++) {
 			String code = RandomUtils.initCode();
 			Data entity = new Data();

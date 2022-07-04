@@ -21,12 +21,12 @@ public class Application extends SpringBootServletInitializer implements Command
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}
-	
-	
+
 	@Override
 	public void run(String... args) throws Exception {
 		// KafkaUtils.deleteTopics("so61616543");
-		KafkaUtils.showTopicsInfor();
+		// KafkaUtils.showTopicsInfor();
+		KafkaUtils.countUnConsumer();
 	}
 
 }
