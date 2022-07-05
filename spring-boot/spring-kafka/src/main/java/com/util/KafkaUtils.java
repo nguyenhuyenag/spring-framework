@@ -36,8 +36,8 @@ public class KafkaUtils {
 	}
 
 	private static Map<String, Object> config() {
-		ConsumerFactory<?, ?> consumer = SpringUtils.getBean(ConsumerFactory.class);
-		return consumer.getConfigurationProperties();
+		ConsumerFactory<?, ?> consumerFactory = SpringUtils.getBean(ConsumerFactory.class);
+		return consumerFactory.getConfigurationProperties();
 	}
 
 	public static boolean isBrokerRunning() {
@@ -89,7 +89,8 @@ public class KafkaUtils {
 		ConsumerFactory<?, ?> consumerFactory = SpringUtils.getBean(ConsumerFactory.class);
 		Consumer<?, ?> consumer = consumerFactory.createConsumer();
 		Set<TopicPartition> partitions = new HashSet<>();
-		for (PartitionInfo pif : consumer.partitionsFor(ConfigReader.KAFKA_CONSUMER_TOPIC)) {
+		List<PartitionInfo> listPInfo = consumer.partitionsFor(ConfigReader.KAFKA_CONSUMER_TOPIC);
+		for (PartitionInfo pif : listPInfo) {
 			partitions.add(new TopicPartition(pif.topic(), pif.partition()));
 		}
 		return partitions;
@@ -103,7 +104,7 @@ public class KafkaUtils {
 	/**
 	 * https://stackoverflow.com/a/58545511/10910098
 	 */
-	public static void countUnConsumer() {
+	public static void countUnConsumerMessage() {
 		long total = 0;
 		try (KafkaConsumer<String, String> consumer = new KafkaConsumer<>(config())) {
 			Set<TopicPartition> partitions = KafkaUtils.listTopicPartition();
