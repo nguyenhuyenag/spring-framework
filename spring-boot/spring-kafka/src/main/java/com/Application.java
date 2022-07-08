@@ -24,9 +24,10 @@ public class Application extends SpringBootServletInitializer implements Command
 
 	@Override
 	public void run(String... args) throws Exception {
-		// KafkaUtils.deleteTopics("so61616543");
-		// KafkaUtils.showTopicsInfor();
-		KafkaUtils.countUnConsumerMessage();
+		KafkaUtils.deleteTopics("topicName2022");
+		// KafkaUtils.createTopic("topicName2023");
+		KafkaUtils.showTopicsInfor();
+		// KafkaUtils.countUnConsumerMessage();
 	}
 
 }

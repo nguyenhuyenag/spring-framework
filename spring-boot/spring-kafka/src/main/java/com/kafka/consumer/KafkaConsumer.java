@@ -1,5 +1,7 @@
 package com.kafka.consumer;
 
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.annotation.TopicPartition;
@@ -19,6 +21,11 @@ public class KafkaConsumer {
 
 	private void handleMessage(String listener, String message) {
 		dataService.receiveMessage(listener, message);
+		try {
+			TimeUnit.SECONDS.sleep(0);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@KafkaListener(autoStartup = "${kafka.consumer.startup}", id = "id0", topicPartitions = {

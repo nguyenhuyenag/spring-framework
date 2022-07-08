@@ -74,8 +74,12 @@ public class KafkaConfig {
 		config.put(ConsumerConfig.GROUP_ID_CONFIG, KafkaConstant.CONSUMER_GROUP_ID);
 		// config.put(JsonSerializer.ADD_TYPE_INFO_HEADERS, false);
 		// config.put(JsonDeserializer.TRUSTED_PACKAGES, "com.kafka");
+		/*-
+		 *  - earliest: Đọc cả các message có trên topic trước đó
+			- latest: Đọc các message mới nhất từ khi consumer subcriber
+		 */
 		// đọc các message của topic từ thời điểm hiển tại (default)
-		// config.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+		// config.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest"); // latest (), earliest
 		return new DefaultKafkaConsumerFactory<>(config);
 	}
 

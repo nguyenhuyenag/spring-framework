@@ -96,27 +96,35 @@ public class KafkaUtils {
 		return partitions;
 	}
 
-	public static Consumer<?, ?> createConsumer() {
-		ConsumerFactory<?, ?> consumerFactory = SpringUtils.getBean(ConsumerFactory.class);
-		return consumerFactory.createConsumer();
-	}
+	// private static Consumer<?, ?> createConsumer() {
+//		ConsumerFactory<?, ?> consumerFactory = SpringUtils.getBean(ConsumerFactory.class);
+//		return consumerFactory.createConsumer();
+//	}
+
+	static long total = 0;
 
 	/**
 	 * https://stackoverflow.com/a/58545511/10910098
 	 */
 	public static void countUnConsumerMessage() {
-		long total = 0;
+		// long total = 0;
 		try (KafkaConsumer<String, String> consumer = new KafkaConsumer<>(config())) {
 			Set<TopicPartition> partitions = KafkaUtils.listTopicPartition();
-			Map<TopicPartition, Long> offsets = consumer.endOffsets(partitions);
-			Map<TopicPartition, OffsetAndMetadata> map = consumer.committed(partitions);
-			for (TopicPartition tp : partitions) {
-				OffsetAndMetadata commitOffset = map.get(tp);
-				long lag = commitOffset == null ? offsets.get(tp) : offsets.get(tp) - commitOffset.offset();
-				total += lag;
-			}
+			Map<TopicPartition, Long> endOffsets = consumer.endOffsets(partitions);
+			Map<TopicPartition, OffsetAndMetadata> committed = consumer.committed(partitions);
+			endOffsets.forEach((k, v) -> {
+				if (v != null) {
+					long currentOffset = committed.get(k).offset();
+					long endoffset = v; // endoffset
+					System.out.println("currentOffset: " + currentOffset + ", endoffset: " + endoffset);
+					total += (endoffset - currentOffset);
+				} else {
+					System.out.println("Partition=" + k.partition() + ", OffsetAndMetadata is null");
+				}
+			});
 		}
-		System.out.println("Lag: " + total);
+		System.out.println("Total (lag): " + total);
+		total = 0;
 	}
 
 	// public static void showTopics() {

@@ -74,8 +74,7 @@ public class DataRunable implements Runnable {
 					future.addCallback(new ListenableFutureCallback<SendResult<String, Object>>() {
 						@Override
 						public void onSuccess(SendResult<String, Object> result) {
-							LOG.info("Job {}, thread {}, send success: {}", //
-									JobPutData.nJob, threadname, data.getCode());
+							// LOG.info("Job {}, thread {}, send success: {}", JobPutData.nJob, threadname, data.getCode());
 							dataService.onSuccess(data);
 						}
 
