@@ -41,8 +41,8 @@ public class DataRunable implements Runnable {
 
 	@SuppressWarnings("unchecked")
 	public void init() {
-		this.kafkaTemplate = SpringUtils.getBean(KafkaTemplate.class);
-		this.dataService = SpringUtils.getBean(DataService.class);
+		this.kafkaTemplate 	= SpringUtils.getBean(KafkaTemplate.class);
+		this.dataService 	= SpringUtils.getBean(DataService.class);
 	}
 
 	public DataRunable(int threadname, List<Data> data) {
@@ -70,7 +70,7 @@ public class DataRunable implements Runnable {
 					while (!future.isDone()) {
 						// LOG.info("Wait future is done");
 					}
-
+					// future.get(30, TimeUnit.SECONDS);
 					future.addCallback(new ListenableFutureCallback<SendResult<String, Object>>() {
 						@Override
 						public void onSuccess(SendResult<String, Object> result) {
