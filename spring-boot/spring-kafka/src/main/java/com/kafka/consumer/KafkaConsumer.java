@@ -22,7 +22,7 @@ public class KafkaConsumer {
 	private void handleMessage(String listener, String message) {
 		dataService.receiveMessage(listener, message);
 		try {
-			TimeUnit.SECONDS.sleep(0);
+			TimeUnit.SECONDS.sleep(1);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

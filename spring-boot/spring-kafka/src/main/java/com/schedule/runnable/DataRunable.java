@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +15,7 @@ import org.springframework.kafka.support.SendResult;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
+import com.ea.async.Async;
 import com.entity.Data;
 import com.schedule.jobs.JobPutData;
 import com.service.DataService;
@@ -65,44 +66,50 @@ public class DataRunable implements Runnable {
 			try {
 				if (poolIds.add(code)) {
 					setIds.add(code);
+//					CompletableFuture<ListenableFuture<SendResult<String, Object>>> f = CompletableFuture.supplyAsync(
+//							() -> kafkaTemplate.send(ConfigReader.KAFKA_PRODUCER_TOPIC, data.getContent()));
+//					f.thenAccept(t -> {
+//						t.addCallback(new ListenableFutureCallback<SendResult<String, Object>>() {
+//							@Override
+//							public void onSuccess(SendResult<String, Object> result) {
+//								LOG.info("Job {}, thread {}, send success: {}", JobPutData.nJob, threadname, data.getCode());
+//								dataService.onSuccess(data);
+//							}
+//
+//							@Override
+//							public void onFailure(Throwable e) {
+//								LOG.info("Send fail: {}", data.getCode());
+//								LOG.error(e.getMessage());
+//							}
+//						});
+//					});
 					
-//					ListenableFuture<SendResult<String, Object>> future = //
-//							kafkaTemplate.send(ConfigReader.KAFKA_PRODUCER_TOPIC, data.getContent());
+					ListenableFuture<SendResult<String, Object>> future = //
+							kafkaTemplate.send(ConfigReader.KAFKA_PRODUCER_TOPIC, data.getContent());
 
-					CompletableFuture<ListenableFuture<SendResult<String, Object>>> f = CompletableFuture.supplyAsync(
-							() -> kafkaTemplate.send(ConfigReader.KAFKA_PRODUCER_TOPIC, data.getContent()));
-					f.thenAccept(t -> {
-						t.addCallback(new ListenableFutureCallback<SendResult<String, Object>>() {
-							@Override
-							public void onSuccess(SendResult<String, Object> result) {
-								LOG.info("Job {}, thread {}, send success: {}", JobPutData.nJob, threadname, data.getCode());
-								dataService.onSuccess(data);
-							}
-
-							@Override
-							public void onFailure(Throwable e) {
-								LOG.info("Send fail: {}", data.getCode());
-								LOG.error(e.getMessage());
-							}
-						});
-					});
 //					while (!future.isDone()) {
 //						// LOG.info("Wait future is done");
 //					}
-					// future.get(30, TimeUnit.SECONDS);
-//					future.addCallback(new ListenableFutureCallback<SendResult<String, Object>>() {
-//						@Override
-//						public void onSuccess(SendResult<String, Object> result) {
-//							// LOG.info("Job {}, thread {}, send success: {}", JobPutData.nJob, threadname, data.getCode());
-//							dataService.onSuccess(data);
-//						}
-//
-//						@Override
-//						public void onFailure(Throwable e) {
-//							LOG.info("Send fail: {}", data.getCode());
-//							LOG.error(e.getMessage());
-//						}
-//					});
+					
+					// Async.await(future);
+					
+//					future.addCallback(success -> {
+//				    }, failure -> {
+//				    });
+					
+					future.get(30, TimeUnit.SECONDS);
+					future.addCallback(new ListenableFutureCallback<SendResult<String, Object>>() {
+						@Override
+						public void onSuccess(SendResult<String, Object> result) {
+							dataService.onSuccess(data);
+						}
+
+						@Override
+						public void onFailure(Throwable e) {
+							LOG.info("Send fail: {}", data.getCode());
+							LOG.error(e.getMessage());
+						}
+					});
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
