@@ -28,9 +28,13 @@ public class KafkaConsumer {
 		}
 	}
 
-	@KafkaListener(autoStartup = "${kafka.consumer.startup}", id = "id0", topicPartitions = {
-			@TopicPartition(topic = "${kafka.consumer.topic}", partitions = { "0" }) }, //
-			groupId = KafkaConstant.CONSUMER_GROUP_ID, containerFactory = KafkaConstant.KAFKA_LISTENER_CONTAINER_FACTORY)
+	@KafkaListener( // 
+		id = "id0", //
+		autoStartup = "${kafka.consumer.startup}", // 
+		topicPartitions = { @TopicPartition(topic = "${kafka.consumer.topic}", partitions = { "0" }) }, //
+		groupId = KafkaConstant.CONSUMER_GROUP_ID, //
+		containerFactory = KafkaConstant.KAFKA_LISTENER_CONTAINER_FACTORY //
+	)
 	public void listenPartition0(@Payload String message) {
 		// LOG.info("Listener Id0, Thread ID: {}", Thread.currentThread().getId());
 		handleMessage("id0", message);
