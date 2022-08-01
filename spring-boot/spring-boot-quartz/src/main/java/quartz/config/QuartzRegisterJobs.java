@@ -20,7 +20,7 @@ public class QuartzRegisterJobs {
 
 	@Bean(name = "triggerOfJobOne")
 	public SimpleTriggerFactoryBean triggerOfJobOne(@Qualifier("jobOne") JobDetail job) {
-		return QuartzConfig.createTrigger(job, 5);
+		return QuartzConfig.createTrigger(job, 2);
 	}
 
 	@Bean(name = "jobTwo")
@@ -30,7 +30,7 @@ public class QuartzRegisterJobs {
 
 	@Bean(name = "triggerOfJobTwo")
 	public SimpleTriggerFactoryBean triggerOfJobTwo(@Qualifier("jobTwo") JobDetail job) {
-		return QuartzConfig.createTrigger(job, 5);
+		return QuartzConfig.createTrigger(job, 4);
 	}
 
 }

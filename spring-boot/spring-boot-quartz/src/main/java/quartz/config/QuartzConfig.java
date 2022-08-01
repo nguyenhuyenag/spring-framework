@@ -22,53 +22,58 @@ public class QuartzConfig {
 
 	private static final Logger LOG = LoggerFactory.getLogger(QuartzConfig.class);
 
-	@Autowired
-	private ApplicationContext applicationContext;
+	// @Autowired
+	// private ApplicationContext applicationContext;
 
-//	public QuartzConfig(ApplicationContext applicationContext) {
-//		this.applicationContext = applicationContext;
-//	}
-	
+	//	public QuartzConfig(ApplicationContext applicationContext) {
+	//		this.applicationContext = applicationContext;
+	//	}
+
 	@Value("${spring.quartz.properties.org.quartz.scheduler.enabled:true}")
 	private boolean enabled;
 
 	@Bean
 	public SpringBeanJobFactory springBeanJobFactory() {
-		BeanJobFactory factory = new BeanJobFactory();
-		factory.setApplicationContext(applicationContext);
-		return factory;
+		// BeanJobFactory factory = new BeanJobFactory();
+		// factory.setApplicationContext(applicationContext);
+		// return factory;
+		return new SpringBeanJobFactory();
 	}
 
 	@Bean
 	public SchedulerFactoryBean scheduler(Trigger... triggers) {
 		SchedulerFactoryBean factory = new SchedulerFactoryBean();
 		// Properties properties = new Properties();
+		// schedulerFactory.setQuartzProperties(properties);
 		factory.setAutoStartup(enabled);
 		factory.setOverwriteExistingJobs(true);
-		// schedulerFactory.setQuartzProperties(properties);
 		factory.setJobFactory(springBeanJobFactory());
 		factory.setWaitForJobsToCompleteOnShutdown(true);
+		for (Trigger t : triggers) {
+			LOG.info("JobDetail={}, Trigger={}", t.getJobKey().getName(), t.getKey().getName());
+		}
 		if (ArrayUtils.isNotEmpty(triggers)) {
 			factory.setTriggers(triggers);
 		}
 		return factory;
 	}
 
-	public static JobDetailFactoryBean createJobDetail(Class<? extends Job> jobClass) {
-		LOG.debug("createJobDetail(jobClass={})", jobClass.getName());
-		JobDetailFactoryBean factoryBean = new JobDetailFactoryBean();
-		factoryBean.setJobClass(jobClass);
-		factoryBean.setDurability(true);
-		return factoryBean;
+	public static JobDetailFactoryBean createJobDetail(Class<? extends Job> classJob) {
+		LOG.info("createJobDetail(jobClass={})", classJob.getSimpleName());
+		JobDetailFactoryBean factory = new JobDetailFactoryBean();
+		factory.setJobClass(classJob);
+		// factory.setName(classJob.getSimpleName());
+		// factoryBean.setDurability(true);
+		return factory;
 	}
 
-	public static SimpleTriggerFactoryBean createTrigger(JobDetail jobDetail, long timeRepeat) {
+	public static SimpleTriggerFactoryBean createTrigger(JobDetail jobDetail, long repeat) {
 		SimpleTriggerFactoryBean factory = new SimpleTriggerFactoryBean();
 		factory.setStartDelay(0L);
 		factory.setJobDetail(jobDetail);
-		factory.setRepeatInterval(timeRepeat * 1000); // giay
+		factory.setRepeatInterval(repeat * 1000); // giay
+		// factory.setBeanName(jobDetail.getClass().getSimpleName());
 		factory.setRepeatCount(SimpleTrigger.REPEAT_INDEFINITELY);
-		// factory.setMisfireInstruction(SimpleTrigger.MISFIRE_INSTRUCTION_RESCHEDULE_NEXT_WITH_REMAINING_COUNT);
 		return factory;
 	}
 

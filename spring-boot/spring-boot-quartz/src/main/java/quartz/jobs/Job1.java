@@ -24,7 +24,7 @@ public class Job1 implements Job {
 		try {
 			Jokes json = restTemplate.getForObject(URL, Jokes.class);
 			String joke = json.getValue().getJoke();
-			System.out.println("Job 1: " + joke.replaceAll("&quot;", "\"") + "\n");
+			System.out.println("Job 1: " + joke.replaceAll("&quot;", "\""));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
