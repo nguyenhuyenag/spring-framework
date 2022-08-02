@@ -7,12 +7,12 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.quartz.CronScheduleBuilder;
 import org.quartz.Job;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
+import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
@@ -40,9 +40,6 @@ public class QuartzConfig {
 		Scheduler scheduler = factory.getScheduler();
 		scheduler.setJobFactory(springBeanJobFactory());
 		Map<JobDetail, Set<? extends Trigger>> triggersAndJobs = new HashMap<>();
-//		for (Trigger trigger : triggers) {
-//			System.out.println(trigger.getJobKey());
-//		}
 		for (JobDetail jobDetail : jobMap.values()) {
 			for (Trigger trigger : triggers) {
 				// System.out.println("trigger.getJobKey(): " + trigger.getJobKey());
@@ -54,7 +51,7 @@ public class QuartzConfig {
 				}
 			}
 		}
-		scheduler.scheduleJobs(triggersAndJobs, false);
+		scheduler.scheduleJobs(triggersAndJobs, true);
 		LOG.debug("Starting Scheduler threads");
 		scheduler.start();
 		// scheduler.scheduleJob(job, trigger);
@@ -64,16 +61,18 @@ public class QuartzConfig {
 	public static JobDetail createJobDetail(Class<? extends Job> classJob) {
 		LOG.info("createJobDetail(jobClass={})", classJob.getSimpleName());
 		return JobBuilder.newJob(classJob) //
-				// .withIdentity(classJob.getSimpleName(), "group1") //
+				// .withIdentity(classJob.getSimpleName(), "JobGroup") //
 				.storeDurably(true) // here!!!!!
 				.build();
 	}
 
-	public static Trigger createTrigger(JobDetail jobDetail, long repeat) {
+	public static Trigger createTrigger(JobDetail jobDetail, int repeat) {
+        SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder
+                .simpleSchedule().withIntervalInSeconds(repeat).repeatForever();
 		return TriggerBuilder.newTrigger() //
 				.forJob(jobDetail) //
-				// .withIdentity(jobDetail.getClass().getSimpleName(), "group2") //
-				.withSchedule(CronScheduleBuilder.cronSchedule("0/1 * * * * ?")).build();
+				// .withIdentity(jobDetail.getClass().getSimpleName(), "TriggerGroup") //
+				.withSchedule(scheduleBuilder).build();
 	}
 
 }

@@ -1,11 +1,10 @@
 package quartz.config;
 
 import org.quartz.JobDetail;
+import org.quartz.Trigger;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.quartz.JobDetailFactoryBean;
-import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
 
 import quartz.jobs.Job1;
 import quartz.jobs.Job2;
@@ -14,23 +13,23 @@ import quartz.jobs.Job2;
 public class QuartzRegisterJobs {
 
 	@Bean(name = "jobOne")
-	public JobDetailFactoryBean jobOne() {
+	public JobDetail jobOne() {
 		return QuartzConfig.createJobDetail(Job1.class);
 	}
 
 	@Bean(name = "triggerOfJobOne")
-	public SimpleTriggerFactoryBean triggerOfJobOne(@Qualifier("jobOne") JobDetail job) {
-		return QuartzConfig.createTrigger(job, 2);
+	public Trigger triggerOfJobOne(@Qualifier("jobOne") JobDetail job) {
+		return QuartzConfig.createTrigger(job, 1);
 	}
 
 	@Bean(name = "jobTwo")
-	public JobDetailFactoryBean jobTwo() {
+	public JobDetail jobTwo() {
 		return QuartzConfig.createJobDetail(Job2.class);
 	}
 
 	@Bean(name = "triggerOfJobTwo")
-	public SimpleTriggerFactoryBean triggerOfJobTwo(@Qualifier("jobTwo") JobDetail job) {
-		return QuartzConfig.createTrigger(job, 4);
+	public Trigger triggerOfJobTwo(@Qualifier("jobTwo") JobDetail job) {
+		return QuartzConfig.createTrigger(job, 3);
 	}
 
 }
