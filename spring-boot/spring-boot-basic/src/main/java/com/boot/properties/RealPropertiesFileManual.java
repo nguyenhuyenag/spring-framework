@@ -7,7 +7,7 @@ import java.util.Properties;
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.core.io.ClassPathResource;
 
-public class RealAllPropertiesFile {
+public class RealPropertiesFileManual {
 	
 	public static void main(String[] args) throws IOException {
 		PropertiesFactoryBean factory = new PropertiesFactoryBean();
@@ -19,7 +19,6 @@ public class RealAllPropertiesFile {
 		Properties pro =  new Properties();
 		pro.put("key", "value");
 		factory.setProperties(pro);
-		
 		factory.afterPropertiesSet();
 		
 		System.out.println(factory.getObject().toString());

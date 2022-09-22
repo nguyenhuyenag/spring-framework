@@ -7,15 +7,16 @@ import org.springframework.core.env.Environment;
 @Configuration
 public class EnvProperties implements EnvironmentAware {
 
-	private static Environment env;
-	
-	@Override
-    public void setEnvironment(final Environment environment) {
-		EnvProperties.env = environment;
-    }
+	private static Environment environment;
 
-	public String getValue() {
-		return env.getProperty("url");
+	@Override
+	public void setEnvironment(final Environment environment) {
+		EnvProperties.environment = environment;
+	}
+
+	// how to use? -> EnvProperties.getUrl()
+	public static String getUrl() {
+		return environment.getProperty("url");
 	}
 
 }
