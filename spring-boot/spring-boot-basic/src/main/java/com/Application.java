@@ -1,11 +1,12 @@
 package com;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import com.boot.properties.EnvProperties;
+import com.boot.properties.Configuration;
 
 @SpringBootApplication
 public class Application implements CommandLineRunner {
@@ -24,10 +25,13 @@ public class Application implements CommandLineRunner {
 		thread.setDaemon(false);
 		thread.start();
 	}
+	
+	@Autowired
+	Configuration configuration;
 
 	@Override
 	public void run(String... args) throws Exception {
-		System.out.println("URL: " + EnvProperties.getUrl());
+		System.out.println(configuration.getLanguage());
 	}
 
 }
