@@ -20,7 +20,7 @@ public class ClientController {
 	@Autowired
 	private RestTemplateBuilder builder;
 
-	@RequestMapping("")
+	@RequestMapping("/")
 	public String callService() {
 		InstanceInfo instance = eurekaClient.getNextServerFromEureka("service", false);
 		String homePageUrl = instance.getHomePageUrl();
