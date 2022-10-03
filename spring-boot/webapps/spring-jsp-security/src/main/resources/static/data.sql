@@ -1,4 +1,4 @@
-use spring_security;
+use spring_jsp_security;
 
 create table `user` (
 	`user_id` bigint not null auto_increment,
@@ -30,8 +30,8 @@ insert into `role` values
 (2,'ROLE_USER');
 
 insert into `user`(user_id, username, password) values 
-(1,'admin1','$2a$10$gT3kPX1zM27rnGdCTwwAJ.OaO0gdDg9eb3YCkr7fySFl2n3uB27yq'),
-(2,'user1','$2a$10$gT3kPX1zM27rnGdCTwwAJ.OaO0gdDg9eb3YCkr7fySFl2n3uB27yq');
+(1,'admin','$2a$10$gT3kPX1zM27rnGdCTwwAJ.OaO0gdDg9eb3YCkr7fySFl2n3uB27yq'),
+(2,'user','$2a$10$gT3kPX1zM27rnGdCTwwAJ.OaO0gdDg9eb3YCkr7fySFl2n3uB27yq');
 
 insert into `user_role` values 
 (1,1,1),
