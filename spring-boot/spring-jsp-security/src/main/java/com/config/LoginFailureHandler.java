@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -18,12 +20,19 @@ import org.springframework.stereotype.Component;
 
 import com.entity.User;
 import com.repository.UserRepository;
+import com.util.LoginAttemptService;
+import com.util.RequestUtils;
 
 @Component
 public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
+	private static final Logger LOG = LoggerFactory.getLogger(LoginFailureHandler.class);
+
 	@Autowired
 	private UserRepository repository;
+
+	@Autowired
+	private LoginAttemptService loginAttemptService;
 
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
@@ -34,6 +43,11 @@ public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 			if (opt.isPresent()) {
 				exception = handleError(opt.get());
 			}
+		}
+		// Login failed by BadCredentialsException (username or password incorrect)
+		if (exception.getClass().isAssignableFrom(BadCredentialsException.class)) {
+			LOG.info("IP: {}", RequestUtils.getClientIP(request));
+			loginAttemptService.loginFailed(RequestUtils.getClientIP(request));
 		}
 		super.setDefaultFailureUrl("/login?error=true");
 		super.onAuthenticationFailure(request, response, exception);
