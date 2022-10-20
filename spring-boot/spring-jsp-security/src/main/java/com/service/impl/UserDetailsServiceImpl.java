@@ -34,7 +34,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		String ip = RequestUtils.getClientIP(request);
+		String ip = RequestUtils.getClientIPAddress(request);
 		if (loginAttemptService.isBlocked(ip)) {
 			// throw new RuntimeException("block_ip");
 			throw new BadCredentialsException("block_ip");

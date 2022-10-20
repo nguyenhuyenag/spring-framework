@@ -46,8 +46,8 @@ public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 		}
 		// Login failed by BadCredentialsException (username or password incorrect)
 		if (exception.getClass().isAssignableFrom(BadCredentialsException.class)) {
-			LOG.info("IP: {}", RequestUtils.getClientIP(request));
-			loginAttemptService.loginFailed(RequestUtils.getClientIP(request));
+			LOG.info("IP: {}", RequestUtils.getClientIPAddress(request));
+			loginAttemptService.loginFailed(RequestUtils.getClientIPAddress(request));
 		}
 		super.setDefaultFailureUrl("/login?error=true");
 		super.onAuthenticationFailure(request, response, exception);
