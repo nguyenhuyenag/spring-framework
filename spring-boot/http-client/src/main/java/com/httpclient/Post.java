@@ -165,6 +165,7 @@ public class Post {
 			final HttpResponse response = httpClient.execute(httpPost);
 			LOG.info("Status = {}", response.getStatusLine().getStatusCode());
 			System.out.println(EntityUtils.toString(response.getEntity()));
+			// EntityUtils.consume(response.getEntity());
 		} catch (UnsupportedOperationException | IOException e) {
 			e.printStackTrace();
 		}

@@ -15,4 +15,5 @@ public class BootApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		
 	}
+	
 }
