@@ -1,11 +1,14 @@
 package com.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,21 +30,6 @@ public class FTPController {
 
 	@Autowired
 	FileStoreService fileStoreService;
-
-	@RequestMapping("download")
-	public ResponseEntity<?> download(@RequestParam(defaultValue = DEFAULT_ID) String fileid) {
-		FileStore file = fileStoreService.findByFileId(fileid);
-		MediaType mediaType = MediaTypeUtils.getMediaTypeForFileName(file.getFileName());
-		// System.out.println("mediaType: " + mediaType);
-		// System.out.println("fileName: " + file.getFileName());
-		String fileContent = file.getFileContent();
-		byte[] data = Base64Utils.decodeToByte(fileContent);
-		return ResponseEntity.ok() //
-				.contentType(mediaType) //
-				.contentLength(data.length) //
-				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + file.getFileName()) //
-				.body(new ByteArrayResource(data));
-	}
 
 	@GetMapping("upload")
 	public String upload() {
@@ -85,6 +73,28 @@ public class FTPController {
 			e.printStackTrace();
 		}
 		return "multi-upload";
+	}
+	
+	@GetMapping("download")
+	public String downloadView(Model model) {
+		List<FileStore> files = fileStoreService.findAll();
+		model.addAttribute("files", files);
+		return "download";
+	}
+	
+	@GetMapping("download-file")
+	public ResponseEntity<?> download(@RequestParam(defaultValue = DEFAULT_ID) String fileid) {
+		FileStore file = fileStoreService.findByFileId(fileid);
+		MediaType mediaType = MediaTypeUtils.getMediaTypeForFileName(file.getFileName());
+		// System.out.println("mediaType: " + mediaType);
+		// System.out.println("fileName: " + file.getFileName());
+		String fileContent = file.getFileContent();
+		byte[] data = Base64Utils.decodeToByte(fileContent);
+		return ResponseEntity.ok() //
+				.contentType(mediaType) //
+				.contentLength(data.length) //
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + file.getFileName()) //
+				.body(new ByteArrayResource(data));
 	}
 
 }

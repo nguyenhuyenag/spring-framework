@@ -63,8 +63,8 @@
         			// console.log(responseText);
                 },
                 // url:       url		// override for form's 'action' attribute 
-                // type:      'POST',      // 'get' or 'post', override for form's 'method' attribute 
-                // dataType:  null       // 'xml', 'script', or 'json' (expected server response type) 
+                // type:      'POST',   // 'get' or 'post', override for form's 'method' attribute 
+                // dataType:  null      // 'xml', 'script', or 'json' (expected server response type) 
                 clearForm: true,        // clear all form fields after successful submit 
                 resetForm: true        	// reset the form after successful submit 
             });
