@@ -16,7 +16,7 @@
 		<p><a href="/">Back</a></p>
 		<h2>Upload File</h2>
 		<form id="formUploadFile" method="POST" action="upload" enctype="multipart/form-data">
-			<input type="file" name="multipartFile" />
+			<input type="file" id="multipartFile" name="multipartFile" />
 			<br/> <br />
 			<input type="submit" value="Submit" />
 		</form>
@@ -32,7 +32,7 @@
 	function resetProgressBar() {
 	    $("#status").html(0 + '%');
 	    $("#progressbar").width(0 + '%');
-	    $("#progressbar").addClass('progress-bar-striped active')
+	    $("#progressbar").addClass('progress-bar-striped active');
 	}
 	
 	$(function() {
@@ -52,7 +52,7 @@
         	        	$("#status").html("Saving...");
         	        }
                 },
-                success:function (responseText, statusText, xhr) {
+                success: function (responseText, statusText, xhr) {
                 	$("#status").html("Completed!");
                     $("#progressbar").removeClass('progress-bar-striped active')
                 },
