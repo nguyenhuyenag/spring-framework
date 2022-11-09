@@ -1,5 +1,13 @@
 package com.controller;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLConnection;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,6 +103,40 @@ public class FTPController {
 				.contentLength(data.length) //
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + file.getFileName()) //
 				.body(new ByteArrayResource(data));
+	}
+	
+	@GetMapping("download-from-url")
+	public String downloadFromUrlView() {
+		return "download-from-url";
+	}
+	
+	@PostMapping("download-from-url")
+	public ResponseEntity<?> downloadFromUrl(String url) throws IOException {
+		// Path path = Paths.get("file/download-file");
+		download(url, "download-file");
+		FileStore file = fileStoreService.findByFileId("");
+		MediaType mediaType = MediaTypeUtils.getMediaTypeForFileName(file.getFileName());
+		// System.out.println("mediaType: " + mediaType);
+		// System.out.println("fileName: " + file.getFileName());
+		String fileContent = file.getFileContent();
+		byte[] data = Base64Utils.decodeToByte(fileContent);
+		return ResponseEntity.ok() //
+				.contentType(mediaType) //
+				.contentLength(data.length) //
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + file.getFileName()) //
+				.body(new ByteArrayResource(data));
+	}
+	
+	private static long download(String url, String fileName) throws IOException {
+		//URL url2 = URI.create(url).toURL();
+		//URLConnection conn = url2.openConnection();
+		//String type = conn.getContentType();
+		String guessContentTypeFromName = URLConnection.guessContentTypeFromName(url);
+		System.out.println("AAAAA: " + guessContentTypeFromName);
+		// System.out.println("AAA: "+uri.getScheme());
+	    try (InputStream in = URI.create(url).toURL().openStream()) {
+	        return Files.copy(in, Paths.get(fileName), StandardCopyOption.REPLACE_EXISTING);
+	    }
 	}
 
 }

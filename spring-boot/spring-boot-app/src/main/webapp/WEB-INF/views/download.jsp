@@ -15,7 +15,7 @@
 	</style>
 </head>
 <body>
-	<h1>File download ${fn:length(files)}</h1>
+	<h1>Total file: ${fn:length(files)}</h1>
 	<table style="width: 50%">
 		<tr>
 			<th>STT</th>
