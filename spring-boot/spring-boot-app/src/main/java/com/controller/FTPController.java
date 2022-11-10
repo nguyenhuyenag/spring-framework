@@ -157,7 +157,8 @@ public class FTPController {
 			System.out.println("Type: " + mediaType.getType());
 			System.out.println("Subtype: " + mediaType.getSubtype());
 			String fileName = getFileName(url);
-			Path path = Paths.get("/download", fileName);
+			Path path = Paths.get("download", fileName);
+			// Files.write(path, byteArray);
 			return Files.copy(input, path, StandardCopyOption.REPLACE_EXISTING);
 		}
 	}
