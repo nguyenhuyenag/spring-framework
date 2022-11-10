@@ -16,7 +16,7 @@ public class MediaTypeUtils {
 
 	// input: abc.zip, abc.pdf,..
 	// output: application/pdf, application/xml, image/gif, ...
-	public static MediaType getMediaTypeForFileName(String fileName) {
+	public static MediaType fromFileName(String fileName) {
 		try {
 			if (servletContext != null) {
 				String mineType = servletContext.getMimeType(fileName);
@@ -28,7 +28,7 @@ public class MediaTypeUtils {
 		return MediaType.APPLICATION_OCTET_STREAM;
 	}
 
-	public static MediaType getMediaTypeFromMineType(String mineType) {
+	public static MediaType fromMineType(String mineType) {
 		try {
 			return MediaType.parseMediaType(mineType);
 		} catch (InvalidMediaTypeException e) {

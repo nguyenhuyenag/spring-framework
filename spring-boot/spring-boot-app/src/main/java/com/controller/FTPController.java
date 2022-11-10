@@ -6,6 +6,10 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Map;
 
@@ -93,7 +97,7 @@ public class FTPController {
 	@GetMapping("download-file")
 	public ResponseEntity<?> download(@RequestParam(defaultValue = DEFAULT_ID) String fileid) {
 		FileStore file = fileStoreService.findByFileId(fileid);
-		MediaType mediaType = MediaTypeUtils.getMediaTypeForFileName(file.getFileName());
+		MediaType mediaType = MediaTypeUtils.fromFileName(file.getFileName());
 		// System.out.println("mediaType: " + mediaType);
 		// System.out.println("fileName: " + file.getFileName());
 		String fileContent = file.getFileContent();
@@ -111,8 +115,7 @@ public class FTPController {
 	}
 
 	private static void showAllHeaderFields(String downloadUrl) throws IOException {
-		URL url = URI.create(downloadUrl).toURL();
-		URLConnection conn = url.openConnection();
+		URLConnection conn = URI.create(downloadUrl).toURL().openConnection();
 		// get all headers
 		Map<String, List<String>> map = conn.getHeaderFields();
 		for (Map.Entry<String, List<String>> entry : map.entrySet()) {
@@ -125,43 +128,44 @@ public class FTPController {
 		}
 		// parse the file name from the header field
 		String filename = fieldValue.substring(fieldValue.indexOf("filename=") + 9, fieldValue.length());
-		System.out.println(filename);
+		System.out.println("FileName: " + filename);
 		// create file in systems temporary directory
 		// File download = new File(System.getProperty("java.io.tmpdir"), filename);
 	}
+	
+	private static String getFileName(URL url) throws IOException {
+		URLConnection conn = url.openConnection();
+		// get and verify the header field
+		String fieldValue = conn.getHeaderField("Content-Disposition");
+		if (fieldValue == null || !fieldValue.contains("filename=")) {
+			// no file name there -> throw exception ...
+			return "";
+		}
+		// parse the file name from the header field
+		return fieldValue.substring(fieldValue.indexOf("filename=") + 9, fieldValue.length());
+	}
 
-	private static byte[] getBytes(String downloadUrl) throws IOException {
+	private static long downloadFile(String downloadUrl) throws IOException {
 		showAllHeaderFields(downloadUrl);
 		URL url = URI.create(downloadUrl).toURL();
 		try (InputStream is = url.openStream()) {
-			return IOUtils.toByteArray(is);
-			// return Files.copy(is, path, StandardCopyOption.REPLACE_EXISTING);
+			byte[] byteArray = IOUtils.toByteArray(is);
+			InputStream input = new ByteArrayInputStream(byteArray);
+			String mimeType = URLConnection.guessContentTypeFromStream(input);
+			MediaType mediaType = MediaTypeUtils.fromMineType(mimeType);
+			System.out.println("MimeType: " + mimeType);
+			System.out.println("Type: " + mediaType.getType());
+			System.out.println("Subtype: " + mediaType.getSubtype());
+			String fileName = getFileName(url);
+			Path path = Paths.get("/download", fileName);
+			return Files.copy(input, path, StandardCopyOption.REPLACE_EXISTING);
 		}
 	}
 
 	@PostMapping("download-from-url")
 	public ResponseEntity<?> downloadFromUrl(String url) throws IOException {
-		// Path path = Paths.get("file/download-file");
-		byte[] data = getBytes(url);
-		InputStream is = new ByteArrayInputStream(data);
-		String mimeType = URLConnection.guessContentTypeFromStream(is);
-		System.out.println("MimeType: " + mimeType);
-		// System.out.println(URLConnection.getFileNameMap().getContentTypeFor(fileName));
-		MediaType mediaType = MediaTypeUtils.getMediaTypeFromMineType(mimeType);
-		// URL url2 = URI.create(url).toURL();
-		// URLConnection conn = url2.openConnection();
-		// System.out.println("ContentType: " + );
-		// FileStore file = fileStoreService.findByFileId("");
-		// MimeTypeMap.getSingleton().getExtensionFromMimeType(conn.getContentType());
-		// System.out.println("mediaType: " + mediaType);
-		// System.out.println("fileName: " + file.getFileName());
-		// String fileContent = file.getFileContent();
-		// byte[] data = Base64Utils.decodeToByte(null);
-		return ResponseEntity.ok() //
-				.contentType(mediaType) //
-				.contentLength(data.length) //
-				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=abc") //
-				.body(new ByteArrayResource(data));
+		downloadFile(url);
+		return null;
 	}
 
 }

@@ -39,7 +39,7 @@
 		<p><a href="/">Back</a></p>
 		<h2>Download from URL</h2>
 		<form>
-			<input type="text" id="url" style="width: 300px;" required value="http://localhost:8080/ftp/download-file?fileid=J9VWJBPIJKQCMFY4F8UM" />
+			<input type="text" id="url" style="width: 500px;" required value="http://localhost:8080/ftp/download-file?fileid=J9VWJBPIJKQCMFY4F8UM" />
 			<br /> <br />
 			<button type="submit" id="btn-download">Download</button>
 		</form>
