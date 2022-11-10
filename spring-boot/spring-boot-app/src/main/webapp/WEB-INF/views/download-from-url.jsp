@@ -12,6 +12,9 @@
 			border: 1px solid black;
 			border-collapse: collapse;
 		}
+		button {
+			cursor: pointer;
+		}
 	</style>
 	<script type="text/javascript">
 		$(function() {
@@ -32,11 +35,14 @@
 	</script>
 </head>
 <body>
-	<h1>Download from URL</h1>
-	<form>
-		<input type="text" id="url" style="width: 300px;" required value="http://localhost:8080/ftp/download-file?fileid=J9VWJBPIJKQCMFY4F8UM" />
-		<br /> <br />
-		<input type="submit" id="btn-download" value="Download" />
-	</form>
+	<div class="container">
+		<p><a href="/">Back</a></p>
+		<h2>Download from URL</h2>
+		<form>
+			<input type="text" id="url" style="width: 300px;" required value="http://localhost:8080/ftp/download-file?fileid=J9VWJBPIJKQCMFY4F8UM" />
+			<br /> <br />
+			<button type="submit" id="btn-download">Download</button>
+		</form>
+	</div>
 </body>
 </html>
