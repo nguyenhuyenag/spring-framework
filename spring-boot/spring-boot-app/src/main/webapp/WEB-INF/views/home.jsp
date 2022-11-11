@@ -10,7 +10,7 @@
 <body>
 	<h1>Spring Boot App</h1>
 	<ol>
-		<li>FileTransfer
+		<li>File Transfer
 			<ul>
 				<li><a target="_blank" href="./ftp/upload">Upload file</a></li>
 				<li><a target="_blank" href="${CONTEXT_PATH}/ftp/multi-upload">Upload multiple file</a></li>

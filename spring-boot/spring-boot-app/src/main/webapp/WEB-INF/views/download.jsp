@@ -15,6 +15,7 @@
 	</style>
 </head>
 <body>
+	<p><a href="/">Back</a></p>
 	<h1>Total file: ${fn:length(files)}</h1>
 	<table style="width: 50%">
 		<tr>
