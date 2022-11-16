@@ -96,11 +96,6 @@ public class SpringTransactionImpl implements SpringTransaction {
 		}
 	}
 
-	@Override
-	public void hibernateTransaction() {
-
-	}
-
 	/**
 	 * rollback transaction cho tất cả các sub-class của Exception ngoại trừ
 	 * EntityNotFoundException
