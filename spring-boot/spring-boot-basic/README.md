@@ -63,6 +63,16 @@
 	- Nếu method được đánh dấu bởi @Bean có tham số, thì Spring Boot sẽ tự inject các Bean đã có trong Context vào làm tham số.
 	
 	- Về bản chất, @Configuration cũng là @Component
+
+# @DependsOn
+
+	- Chúng ta có thể sử dụng annotation này trên một bean để thông báo với Spring rằng phải khởi tạo một bean khác trước khi khởi tạo nó với bean name được chỉ định trong @DependsOn.
+
+	@Bean
+	@DependsOn("fuel")
+	Engine engine() {
+	    return new Engine();
+	}
 	
 # Khi Spring Boot chạy
 		

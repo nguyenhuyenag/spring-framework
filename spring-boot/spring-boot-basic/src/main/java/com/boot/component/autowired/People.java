@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /*-
- * Ba cách sử dụng @Autowired
+ * Các cách sử dụng @Autowired
  * 
  * 		ApplicationContext ctx = SpringApplication.run(Application.class, args);
  *		People people = ctx.getBean(People.class);
@@ -20,6 +20,12 @@ public class People {
 	@Autowired
 	public Outfit outfit;
 
+	/**
+	 * Từ Spring phiên bản 4.3 chúng ta không cần chú thích @Autowired trên
+	 * constructor, Spring sẽ tự hiểu và tìm các dependency tương ứng để tiêm vào.
+	 * Tuy nhiên nếu có hơn 1 constructor thì chúng ta cần chỉ định @Autowired trên
+	 * constructor được dùng để khai báo các dependency cần sử dụng trong Class
+	 */
 	// (2)
 	// @Autowired
 	public People(Outfit outfit) {
