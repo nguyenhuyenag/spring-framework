@@ -6,8 +6,11 @@
     <definition name="base.definition" template="/WEB-INF/views/layout/layout.jsp">  
         <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />  
         <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />  
-    </definition>  
+    </definition>
     <definition name="invoice" extends="base.definition">  
 		<put-attribute name="body" value="/WEB-INF/views/invoice.jsp" />  
+    </definition>
+    <definition name="unread_message" extends="base.definition">  
+		<put-attribute name="body" value="/WEB-INF/views/unread_message.jsp" />  
     </definition>
 </tiles-definitions>

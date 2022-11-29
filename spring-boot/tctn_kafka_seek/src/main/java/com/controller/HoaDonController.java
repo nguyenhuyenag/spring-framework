@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.request.SeekRequest;
 import com.response.SeekResponse;
+import com.response.UnConsumer;
 import com.service.MessageService;
 
 @Controller
@@ -19,11 +20,6 @@ public class HoaDonController {
 
 	@Autowired
 	private MessageService messageService;
-
-	@GetMapping({ "/", "invoice" })
-	public String hoadon() {
-		return "invoice";
-	}
 
 	@GetMapping("search-invoice")
 	public ResponseEntity<Set<SeekRequest>> searchInvoice(String database, String matdiep, String fromdate,
@@ -40,17 +36,13 @@ public class HoaDonController {
 
 	@PostMapping("seek-multi-invoice")
 	public ResponseEntity<?> seekMultiInvoice(@RequestBody List<SeekRequest> seekList) {
-		// test
-//		List<SeekResponse> list = new ArrayList<>();
-//		for (SeekRequest seek : seekList) {
-//			list.add(new SeekResponse(seek.getMathongdiep(), System.currentTimeMillis() % 2 == 0));
-//			try {
-//				Thread.sleep(300);
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-//		}
 		List<SeekResponse> list = messageService.seekMultiple(seekList);
+		return ResponseEntity.ok(list);
+	}
+
+	@PostMapping("count-unread-message")
+	public ResponseEntity<?> countUnreadMessage() {
+		List<UnConsumer> list = messageService.countUnreadMessage();
 		return ResponseEntity.ok(list);
 	}
 

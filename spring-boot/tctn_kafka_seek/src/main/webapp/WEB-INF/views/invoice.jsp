@@ -25,17 +25,13 @@
 
 <script>
 	$(function() {
-		initTable();
+		initTable([]);
 		formatDate();
 	});
 
-	function initTable(url = 'search-invoice') {
+	function initTable(dataSet) {
 		let table = $('#uTable').DataTable({
-			ajax : {
-				"url" : url,
-				"type": 'GET',
-				"dataSrc" : ""
-			},
+			data: dataSet,
 			columns : [
 				{
 					"render" : function(data, type, row, meta) {
@@ -45,7 +41,6 @@
 				{ data : 'mathongdiep' },
 				{
 					"render" : function(data, type, row, meta) {
-						// return handleButton(row['longtime']);
 						return handleButton(row['mathongdiep']);
 					}
 				},
@@ -70,7 +65,6 @@
 		$('#uTable tbody').on('click', 'button', function (e) {
 			var data = table.row($(this).parents('tr')).data();
 			if (data != null) {
-				// console.log(data);
 				let _id = '#' + $(this).attr('id');
 				let _class = '.' + $(this).attr('id');
 				$(_id).prop('disabled', true);
@@ -89,7 +83,7 @@
 						}
 					},
 					error: function (e) {
-						// console.log("ERROR : ", e);
+						console.log("ERROR : ", e);
 					}
 				});
 			}
@@ -98,9 +92,17 @@
 		// form submit
 		$('form').submit(function (e) {
 		  	e.preventDefault();
-			// console.log(encodeURI($('#searchForm').serialize()));
-			let url = 'search-invoice?' + encodeURI($('#searchForm').serialize()); // encodeURIComponent
-			initTable(url);
+			let url = 'search-invoice?' + encodeURI($('#searchForm').serialize());
+			$.ajax({
+				url: url,
+				type: "GET",
+				success: function (data) {
+					initTable(data);
+				},
+				error: function (e) {
+					console.log("ERROR : ", e);
+				}
+			});
 		});
 		
 		// check all
@@ -120,7 +122,6 @@
 				$('#' + mtd).prop('disabled', true);
 				$('.' + mtd).attr("hidden", false);
 			});
-			// console.log(seekList);
 			$.ajax({
 				url: "seek-multi-invoice",
 				type: "POST",
@@ -129,7 +130,6 @@
 				success: function (s) {
 					resetSeekAllButton();
 					$.each(s, function(i, v) {
-						// console.log(v);
 						let mtd = v.mathongdiep;
 						$('#' + mtd).prop('disabled', false);
 						$('.' + mtd).attr("hidden", true);
@@ -160,16 +160,16 @@
 	function formatDate() {
 		let pattern = "YYYY-MM-DDTHH:mm";
 		let today = new Date(); // today
-		let to = moment(today).format(pattern);
-		today.setDate(today.getDate() - 1);
-		let from = moment(today).format(pattern);
-		$('#fromdate').val(from);
-		$('#todate').val(to);
+		let todayFormat = moment(today).format(pattern);
+		// today.setDate(today.getDate() - 1);
+		// let from = moment(today).format(pattern);
+		$('#fromdate').val(todayFormat);
+		$('#todate').val(todayFormat);
 	}
-	</script>
+</script>
 
 <div class="container mb-4">
-	<h1 class="text-center">Tìm kiếm hóa đơn chưa có kết quả</h1>
+	<h1 class="text-center">Tìm kiếm Hóa Đơn chưa có kết quả</h1>
 	<!-- search -->
 	<div class="form mt-4">
 		<form id="searchForm">
@@ -207,7 +207,9 @@
 					<th class="align-middle">Số thứ tự</th>
 					<th class="align-middle">Mã thông điệp</th>
 					<th class="align-middle">
-						<button id="search-all" class="btn btn-primary">Seek Checked <span hidden class='search-all spinner-border spinner-border-sm'></span></button>
+						<button id="search-all" class="btn btn-primary">
+							Seek Checked <span hidden class='search-all spinner-border spinner-border-sm'></span>
+						</button>
 					</th>
 					<th class="align-middle"><input id="flowcheckall" type="checkbox" /></th>
 				</tr>

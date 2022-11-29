@@ -6,6 +6,7 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -19,9 +20,12 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
+import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.clients.consumer.OffsetAndMetadata;
 import org.apache.kafka.clients.consumer.OffsetAndTimestamp;
 import org.apache.kafka.common.PartitionInfo;
 import org.apache.kafka.common.TopicPartition;
@@ -35,11 +39,13 @@ import org.springframework.stereotype.Service;
 import com.dto.SeekFilter;
 import com.request.SeekRequest;
 import com.response.SeekResponse;
+import com.response.UnConsumer;
 import com.service.MessageService;
 import com.tgdd.service.TGDDTVANGuiHoaDonService;
 import com.ts24.repository.TS24TVANTDiepMQRepository;
 import com.ts24.service.TS24TVANGuiHoaDonService;
 import com.util.Base64Utils;
+import com.util.ConfigReader;
 import com.util.DatetimeUtils;
 import com.util.JsonUtils;
 import com.util.XmlUtils;
@@ -51,15 +57,15 @@ public class MessageServiceImpl implements MessageService {
 
 	@Autowired
 	private ConsumerFactory<?, ?> consumerFactory;
-	
+
 	// TS24
 	@Autowired
 	private TS24TVANGuiHoaDonService ts24TVANGuiHoaDonService;
-	
+
 	// TGDD
 	@Autowired
 	private TGDDTVANGuiHoaDonService tgddTVANGuiHoaDonService;
-	
+
 	@Value("${OFFSET_TIME}")
 	private int OFFSET_TIME;
 
@@ -68,10 +74,12 @@ public class MessageServiceImpl implements MessageService {
 
 	@Value("${kafka.topic.consumer}")
 	private String topic;
-	
+
 	@Value("${DS_MA_LOAI}")
 	private List<String> DS_MA_LOAI;
-	
+
+	private static long total = 0;
+
 	@Autowired
 	private TS24TVANTDiepMQRepository ts24TVANTDiepMQRepository;
 
@@ -102,7 +110,7 @@ public class MessageServiceImpl implements MessageService {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public void send(String message) {
 		doPost(message);
@@ -142,14 +150,10 @@ public class MessageServiceImpl implements MessageService {
 					LOG.info("Seek mtdieptchieu: {}, time = {}", mtdieptchieu, record.timestamp());
 					if (hoadon.getMathongdiep().trim().equals(mtdieptchieu.trim())) {
 						LOG.info("Seek success: {}, mltdiep = {}", hoadon.getMathongdiep(), mltdiep);
-						String base64 = Base64Utils.encodeToString(xml);
-						send(base64);
-						if (!"999".equals(mltdiep)) {
+						if (!"999".equals(mltdiep) && !"-1".equals(mltdiep)) {
+							String base64 = Base64Utils.encodeToString(xml);
+							send(base64);
 							return true;
-						} else {
-							if (!"-1".equals(mltdiep)) {
-								return true;
-							}
 						}
 					}
 					if (record.timestamp() > endTimestamp) {
@@ -174,7 +178,7 @@ public class MessageServiceImpl implements MessageService {
 		}
 		return res;
 	}
-	
+
 	private Consumer<?, ?> setConsumer(long startTime) {
 		Consumer<?, ?> consumer = consumerFactory.createConsumer();
 		Set<TopicPartition> partitions = new HashSet<>();
@@ -207,14 +211,10 @@ public class MessageServiceImpl implements MessageService {
 					LOG.info("Seek mtdieptchieu: {}, time = {}", mtdieptchieu, record.timestamp());
 					if (mathongdiep.trim().equals(mtdieptchieu.trim())) {
 						LOG.info("Seek success: {}, mltdiep = {}", mathongdiep, mltdiep);
-						String base64 = Base64Utils.encodeToString(xml);
-						send(base64);
-						if (!"999".equals(mltdiep)) {
+						if (!"999".equals(mltdiep) && !"-1".equals(mltdiep)) {
+							String base64 = Base64Utils.encodeToString(xml);
+							send(base64);
 							return true;
-						} else {
-							if (!"-1".equals(mltdiep)) {
-								return true;
-							}
 						}
 					}
 					if (record.timestamp() > endTime) {
@@ -226,11 +226,10 @@ public class MessageServiceImpl implements MessageService {
 			}
 		}
 	}
-	
+
 	@Override
 	public Set<SeekRequest> findAllTuNgayDenNgay(String database, String matdiep, String fromdate, String todate) {
 		Set<SeekRequest> result = new HashSet<>();
-		
 		if (!StringUtils.isAllEmpty(fromdate, todate)) {
 			try {
 				fromdate = URLDecoder.decode(fromdate, StandardCharsets.UTF_8.name());
@@ -241,18 +240,14 @@ public class MessageServiceImpl implements MessageService {
 				e.printStackTrace();
 			}
 		}
-		
+
 		if (StringUtils.isAnyEmpty(fromdate, todate)) {
 			fromdate = DatetimeUtils.format(DatetimeUtils.yesterday());
 			todate = DatetimeUtils.format(new Date());
 		}
-//		else {
-//			fromdate = DatetimeUtils.formatJSDate(fromdate);
-//			todate = DatetimeUtils.formatJSDate(todate);
-//		}
-		
+
 		LOG.info("Search: database = {}, from: {}, to: {}", database, fromdate, todate);
-    
+
 		List<SeekFilter> seekList = new ArrayList<>();
 		if ("tgdd".equalsIgnoreCase(database)) {
 			if (StringUtils.isNotEmpty(matdiep)) {
@@ -267,19 +262,61 @@ public class MessageServiceImpl implements MessageService {
 				seekList = ts24TVANGuiHoaDonService.findByTuNgayDenNgay(fromdate, todate);
 			}
 		}
-		
+
 		for (SeekFilter hoadon : seekList) {
 			if (!hoadon.getMaloaitdiep().contains("999")) {
 				List<String> listMaLoai = ts24TVANTDiepMQRepository.findMaLoaiByMaTDiepTChieu(hoadon.getMatdiep());
 				if (!hasResult(listMaLoai)) {
 					String ngayguitct = DatetimeUtils.format(hoadon.getNgayGuiTct()); // yyyy-MM-dd HH:mm:ss
-					SeekRequest tracuu = new SeekRequest(hoadon.getMatdiep(), ngayguitct, hoadon.getNgayGuiTct().getTime());
+					SeekRequest tracuu = new SeekRequest(hoadon.getMatdiep(), ngayguitct,
+							hoadon.getNgayGuiTct().getTime());
 					result.add(tracuu);
 				}
 			}
 		}
-		
 		return result;
+	}
+
+	private Set<TopicPartition> listTopicPartition() {
+		Consumer<?, ?> consumer = consumerFactory.createConsumer();
+		Set<TopicPartition> partitions = new HashSet<>();
+		List<PartitionInfo> listPInfo = consumer.partitionsFor(ConfigReader.KAFKA_TOPIC_CONSUMER);
+		for (PartitionInfo pif : listPInfo) {
+			partitions.add(new TopicPartition(pif.topic(), pif.partition()));
+		}
+		return partitions;
+	}
+
+	@Override
+	public List<UnConsumer> countUnreadMessage() {
+		List<UnConsumer> list = new ArrayList<>();
+		Set<TopicPartition> partitions = listTopicPartition();
+		Map<String, Object> config = consumerFactory.getConfigurationProperties();
+		try (AdminClient adminClient = AdminClient.create(config);
+				KafkaConsumer<String, String> consumer = new KafkaConsumer<>(config);) {
+			Map<TopicPartition, Long> endOffsets = consumer.endOffsets(partitions);
+			Map<TopicPartition, OffsetAndMetadata> committed = consumer.committed(partitions);
+//			KafkaFuture<Map<TopicPartition, OffsetAndMetadata>> kafkaFuture = adminClient
+//					.listConsumerGroupOffsets(KafkaConstant.CONSUMER_GROUP_ID) //
+//					.partitionsToOffsetAndMetadata();
+//			Map<TopicPartition, OffsetAndMetadata> committed = kafkaFuture.get();
+			committed.forEach((k, v) -> {
+				if (v != null) {
+					long committedOffset = v.offset();
+					long endOffset = endOffsets.get(k);
+					long lag = endOffset - committedOffset;
+					LOG.info("Partition: {}, committedOffset={}, endOffset={}, lag={}", k.partition(), committedOffset, endOffset, lag);
+					total += lag;
+					list.add(new UnConsumer(k.partition(), lag));
+				} else {
+					LOG.info("Partition={}, offsetAndMetadata if null", k.partition());
+				}
+			});
+		}
+		LOG.info("Total lag: {}", total);
+		total = 0;
+		Collections.sort(list, (a, b) -> a.getPartition() - b.getPartition());
+		return list;
 	}
 
 }

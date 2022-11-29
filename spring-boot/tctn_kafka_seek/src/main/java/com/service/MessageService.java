@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.request.SeekRequest;
 import com.response.SeekResponse;
+import com.response.UnConsumer;
 
 public interface MessageService {
 
@@ -17,5 +18,7 @@ public interface MessageService {
 	List<SeekResponse> seekMultiple(List<SeekRequest> seekList);
 	
 	Set<SeekRequest> findAllTuNgayDenNgay(String database, String matdiep, String fromdate, String todate);
+	
+	List<UnConsumer> countUnreadMessage();
 
 }

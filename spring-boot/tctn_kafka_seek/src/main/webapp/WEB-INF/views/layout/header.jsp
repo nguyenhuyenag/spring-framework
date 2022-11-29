@@ -20,14 +20,15 @@
 	</button>
 	<div class="collapse navbar-collapse" id="navbarCollapse">
 		<ul class="navbar-nav mr-auto">
-			<li id="tracuu" class="nav-item"><a class="nav-link" href="./invoice">Hóa Đơn</a></li>
+			<li id="invoice" class="nav-item"><a class="nav-link" href="./invoice">Tìm kiếm Hóa Đơn</a></li>
+			<!-- <li id="count-unread-message" class="nav-item"><a class="nav-link" href="./count-unread-message">Đếm Hóa Đơn</a></li> -->
 		</ul>
 	</div>
 </nav>
 
 <script type="text/javascript">
 	$(function () {
-		let menu = ["invoice"];
+		let menu = ["invoice", "count-unread-message"];
 		let i, len = menu.length;
 		let path = window.location.pathname.replace("/", "");
 		for (i = 0; i < len; i++) {

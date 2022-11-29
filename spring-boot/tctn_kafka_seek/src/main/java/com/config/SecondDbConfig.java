@@ -46,7 +46,6 @@ public class SecondDbConfig {
 	private String dialect;
 
     public DataSource dataSource() {
-    	System.out.println(url +  username +  password);
         DriverManagerDataSource dataSource = new DriverManagerDataSource(url, username, password);
         dataSource.setDriverClassName(driverClassName);
         return dataSource;

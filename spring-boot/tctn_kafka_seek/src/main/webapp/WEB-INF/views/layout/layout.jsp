@@ -17,9 +17,6 @@
 	<!-- css -->
     <link rel="stylesheet" href="static/css/bootstrap.min.css">
     <link rel="stylesheet" href="static/css/jquery.datatables.min.css">
-    <!-- <link rel="stylesheet" href="static/css/select.datatables.min.css"> -->
-    <!-- <link rel="stylesheet" href="static/css/all.min.css"> -->
-    <!-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
     <!-- variable -->
     <c:set var="CONTEXT_PATH" value="${pageContext.request.contextPath}" scope="session"/>
 </head>
