@@ -1,9 +1,17 @@
-{
-	"properties": [
-		{
-			"name": "app.message",
-			"type": "java.lang.String",
-			"description": "A description for 'app.message'"
-		}
-	]
-}
+{"properties": [
+  {
+    "name": "app.message",
+    "type": "java.lang.String",
+    "description": "A description for 'app.message'"
+  },
+  {
+    "name": "org.springframework.cloud.bootstrap.BootstrapConfiguration",
+    "type": "java.lang.String",
+    "description": "A description for 'org.springframework.cloud.bootstrap.BootstrapConfiguration'"
+  },
+  {
+    "name": "org.springframework.cloud.bootstrap.BootstrapConfiguration",
+    "type": "java.lang.String",
+    "description": "A description for 'org.springframework.cloud.bootstrap.BootstrapConfiguration'"
+  }
+]}

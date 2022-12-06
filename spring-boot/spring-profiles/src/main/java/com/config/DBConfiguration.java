@@ -21,6 +21,7 @@ public class DBConfiguration {
 
 	@Bean
 	@Profile("dev")
+	// @Profile({ "dev", "default" })
 	public String devDatabaseConnection() {
 		System.out.println("DB connection for DEV - H2");
 		System.out.println(driverClassName);
@@ -36,5 +37,5 @@ public class DBConfiguration {
 		System.out.println(url);
 		return "DB Connection to RDS_PROD - High Performance Instance";
 	}
-	
+
 }
