@@ -20,9 +20,7 @@ public class BootApplication extends SpringBootServletInitializer implements Com
 
 	@Override
 	public void run(String... args) throws Exception {
-		// System.out.println(ConfigReader.SMS_USERNAME);
-		// System.out.println(ConfigReader.SMS_PASSWORD);
-		// System.out.println(ConfigReader.SMS_BRANDNAME);
+
 	}
-	
+
 }

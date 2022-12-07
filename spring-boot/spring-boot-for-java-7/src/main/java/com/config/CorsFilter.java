@@ -32,7 +32,6 @@ public class CorsFilter implements Filter {
 		response.setHeader("Access-Control-Max-Age", "3600");
 		response.setHeader("Content-Type", "application/json; charset=UTF-8");
 		response.setHeader("Access-Control-Expose-Headers", "Authorization");
-		
 		if ("OPTIONS".equalsIgnoreCase(((HttpServletRequest) req).getMethod())) {
 			response.setStatus(HttpServletResponse.SC_OK);
 		} else {
@@ -42,9 +41,11 @@ public class CorsFilter implements Filter {
 
 	@Override
 	public void destroy() {
+		
 	}
 
 	@Override
 	public void init(FilterConfig config) throws ServletException {
+		
 	}
 }
