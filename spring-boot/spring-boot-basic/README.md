@@ -93,3 +93,12 @@
 # @RestController & @Controller
 
 	@RestController = @Controller + @ResponseBody
+	
+# PUT & POST
+
+	- POST method được dùng để gửi các request kèm theo một entity đến server yêu cầu tạo một tài nguyên mới dựa trên entity được cung cấp.
+
+	- PUT method nên kèm theo một định danh (thường là ID) cùng với một entity. Nếu một tài nguyên được tìm thấy bởi mã định danh kèm theo thì tài nguyên này sẽ được thay thế bởi các giá trị trong entity kèm theo. Ngược lại, PUT method sẽ tạo một tài nguyên dựa trên entity đã cung cấp.
+
+	- Một điểm khác biệt quan trọng giữa POST và PUT đó là nếu chúng ta gọi PUT method nhiều lần thì sẽ nó tạo hoặc cập nhật cùng một tài nguyên (dựa vào mã định danh). Còn với POST thì việc chúng ta thực thi nhiều lần với cùng một enity thì nó sẽ tạo ra nhiều tài nguyên ở phía server có giá trị tương tự nhau.
+

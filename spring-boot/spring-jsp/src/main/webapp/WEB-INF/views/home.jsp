@@ -16,6 +16,16 @@
 			<c:set var="CONTEXT_FORMAT" value="${CONTEXT_PATH}/format" scope="session"/>
 			<c:set var="CONTEXT_IMPLICIT" value="${CONTEXT_PATH}/implicit" scope="session"/>
 		</script>
+		<style>
+			body {
+				counter-reset: section;
+			}
+
+			h3::before {
+				counter-increment: section;
+				content: counter(section) ") ";
+			}
+		</style>
 </head>
 <body>
 	<div class="navbar navbar-inverse">
@@ -37,7 +47,11 @@
 			<!-- <h3>5) Implicit Object</h3>
 			<ul>
 			</ul> -->
-			<h3>1) JSP</h3>
+			<h3>Header</h3>
+			<ul>
+				<li><a href="/listHeaders">listHeaders</a></li>
+			</ul>
+			<h3>JSP</h3>
 			<ul>
 				<li><a href="${CONTEXT_PATH}/test" class="red">Test</a></li>
 				<li><a href="${CONTEXT_PATH}/send-request?name=java&version=1.8">HttpServletRequest</a></li>
@@ -51,7 +65,7 @@
 				<li><a href="${CONTEXT_PATH}/pass-data/send-by-localstorage-1">Send data by localstorage</a></li>
 				<li><a href="${CONTEXT_PATH}/page1">RedirectAttributes</a></li>
 			</ul>
-			<h3>2) Core</h3>
+			<h3>Core</h3>
 			<ul>
 				<li><a href="${CONTEXT_CORE}/for-each">For Each</a></li>
 				<li><a href="${CONTEXT_CORE}/el">Expression Language</a></li>
@@ -68,14 +82,14 @@
 				<li><a href="${CONTEXT_CORE}/redirect">Redirect (Tự động chuyển hướng)</a></li>
 				<li><a href="${CONTEXT_CORE}/param">Param</a></li>
 			</ul>
-			<h3>3) Format</h3>
+			<h3>Format</h3>
 			<ul>
 				<li><a href="${CONTEXT_FORMAT}/bundle" class="red">Bundle</a></li>
 				<li><a href="${CONTEXT_FORMAT}/param">Param</a></li>
 				<li><a href="${CONTEXT_FORMAT}/format-number">Format Number</a></li>
 				<li><a href="${CONTEXT_FORMAT}/format-date">Format Date</a></li>
 			</ul>
-			<h3>4) Functions</h3>
+			<h3>Functions</h3>
 			<ul>
 				<li><a href="${CONTEXT_PATH}/functions">Functions</a></li>
 			</ul>
