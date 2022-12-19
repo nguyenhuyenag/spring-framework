@@ -11,6 +11,10 @@ import org.springframework.stereotype.Component;
  * 		UsePC pc = ctx.getBean(UsePC.class);
  * 		pc.use();
  * 
+ * - Nếu cả @Primary và @Qualifier được sử dụng thì @Qualifier sẽ được ưu tiên
+ * sử dụng. Về cơ bản, @Primary đơn giản chỉ là trường hợp mặc định, còn @Qualifier
+ * là chỉ định cụ thể
+ * 
  */
 @Component
 public class UsePC {
@@ -23,7 +27,7 @@ public class UsePC {
 	// (2)
 	// @Autowired
 	// public UsePC(@Qualifier("asus") PC pc) {
-	//		this.pc = pc;
+	// 		this.pc = pc;
 	// }
 
 	// (3)
