@@ -47,5 +47,10 @@ public class ResourceFile {
 			e.printStackTrace();
 		}
 	}
+	
+	void test() {
+		String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+		System.out.println(rootPath);
+	}
 
 }
