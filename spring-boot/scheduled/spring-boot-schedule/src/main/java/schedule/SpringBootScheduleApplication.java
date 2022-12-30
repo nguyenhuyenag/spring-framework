@@ -17,9 +17,9 @@ public class SpringBootScheduleApplication {
 
 	/**
 	 * Mặc định thread pool cho schedule task có giá trị là 1. Tức là hệ thống chỉ
-	 * tạo ra duy nhất 1 thread để chạy các schedule task. Do đó bạn sẽ gặp trường
-	 * hợp đến thời gian chỉ định mà task vẫn không được thực hiện vì có 1 task
-	 * trước đó chưa hoàn thành kể cả với fixedRate, fixedDelay hay cron.
+	 * tạo ra duy nhất 1 thread để chạy các schedule task. Do đó chúng ta sẽ gặp
+	 * trường hợp đến thời gian chỉ định mà task vẫn không được thực hiện vì có 1
+	 * task trước đó chưa hoàn thành kể cả với fixedRate, fixedDelay hay cron.
 	 */
 	@Bean
 	public TaskScheduler taskScheduler() {

@@ -5,16 +5,20 @@
 	- Là một annotation đánh dấu trên class để Spring biết nó là Bean (hoặc dependency) và được Spring IoC container quản lý.
 
 # @Scope
-  
-	- Các Bean trong Context đều là singleton. Nếu muốn mỗi lần sử dụng là một instance mới thì đánh dấu Bean đó bằng @Scope("prototype")
+
+	- Bean với SINGLETON scope sẽ được IoC container khởi tạo duy nhất một instance sử dụng trong tất cả các yêu cầu sau này
 	
-		@Component
-		@Scope("prototype")
-		public class User {
+	- Bean với PROTOTYPE scope sẽ trả về các instance khác nhau mỗi khi có một yêu mới sử dụng chúng đến IoC container.
+  
+	- Các Bean mặc định trong Context đều là singleton
+	
+			@Component
+			@Scope("prototype")
+			public class User {
+			
+			}
 		
-		}
-		
-	- Cacs Scope trong spring: Singleton, Prototype, Request, Session, Global-Session.
+	- Scope trong Web application
 
 # @Autowired
 
@@ -52,6 +56,10 @@
 	
 	- Bản chất cả 3 đều là @Component và có thể thay thế cho nhau.
 
+ @Component và @Bean
+ 
+ 	- Bean được đánh dấu trên phương thức, còn @Component được dánh dấu trên class
+ 	
 # @Configuration và @Bean
 
 	- @Bean đánh dấu trên method, hàm này trả về một object và được đăng ký, quản lý bởi Spring IoC container.
