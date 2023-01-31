@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -65,7 +66,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 		String json = JsonUtils.toJSON(new LoginResponse(token));
 		res.getWriter().write(json);
 		// res.addHeader(HttpHeaders.AUTHORIZATION, TokenHandler.PREFIX + token);
-		// res.addHeader(HttpHeaders.CONTENT_TYPE, "application/json;charset=UTF-8");
+		res.addHeader(HttpHeaders.CONTENT_TYPE, "application/json;charset=UTF-8");
 	}
 
 	// login fail
