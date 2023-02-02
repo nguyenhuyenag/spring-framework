@@ -13,7 +13,6 @@
 
 <script type="text/javascript">
 	initTable();
-	
 	$("#form-edit").submit(function (e) {
 		e.preventDefault();
 		let obj = {
