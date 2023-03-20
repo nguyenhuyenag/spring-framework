@@ -80,8 +80,8 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 		
 		ErrorResponse error = new ErrorResponse();
 		error.setStatus(401);
-		error.setError("Unsuccessful authentication");
-		error.setMessage("From JWTLoginFilter.unsuccessfulAuthentication()");
+		error.setError("Unsuccessful authenticationabababababaab");
+		error.setMessage("From JWTLoginFilter.unsuccessfulAuthentication(: Username or password is wrong!)");
 		error.setPath(req.getRequestURI());
 		
 		String json = JsonUtils.toJSON(error);

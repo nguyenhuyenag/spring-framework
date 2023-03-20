@@ -19,7 +19,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
 	@Query(value = "SELECT t1.role_name " //
 			+ "FROM role t1 " //
-			+ "JOIN user_role t2 ON t1.role_id = t2.role_id " //
+			+ "JOIN user_role t2 " //
+			+ "ON t1.role_id = t2.role_id " //
 			+ "WHERE t2.user_id = :userId", nativeQuery = true)
 	List<String> getListRolesByUserId(int userId);
 

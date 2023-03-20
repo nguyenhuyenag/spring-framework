@@ -1,6 +1,8 @@
 package com.util;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.StringJoiner;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -51,9 +53,9 @@ public class TokenHandler {
 
 	public static String generateToken(Authentication authentication) {
 		String authorities = authentication.getAuthorities().stream() //
-				.map(GrantedAuthority::getAuthority) //
+				.map(t -> t.getAuthority()) //
 				.collect(Collectors.joining(","));
-		// System.out.println(authorities);
+		System.out.println("authorities: " + authorities);
 		return Jwts.builder() //
 				.setSubject(authentication.getName()) //
 				.claim(AUTHORITIES_KEY, authorities) //
