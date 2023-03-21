@@ -20,7 +20,11 @@ import com.service.UserService;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(
+	prePostEnabled = false,
+	securedEnabled = false,		// for @RolesAllowed
+	jsr250Enabled = true		// for @RolesAllowed
+)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired

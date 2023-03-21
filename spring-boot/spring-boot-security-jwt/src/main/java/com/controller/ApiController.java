@@ -4,10 +4,11 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
+import javax.annotation.security.RolesAllowed;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,7 +39,8 @@ public class ApiController {
 	}
 
 	@GetMapping("user-info")
-	@PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+	// @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+	@RolesAllowed({ "ADMIN", "USER" })
 	// @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	public ResponseEntity<User> userInfo(Principal principal) {
 		String username = principal.getName();
@@ -50,7 +52,8 @@ public class ApiController {
 	}
 
 	@GetMapping("get-all-user")
-	@PreAuthorize("hasRole('ADMIN')")
+	// @PreAuthorize("hasRole('ADMIN')")
+	@RolesAllowed("ADMIN")
 	public List<User> listUser() {
 		return repository.findAll();
 	}
