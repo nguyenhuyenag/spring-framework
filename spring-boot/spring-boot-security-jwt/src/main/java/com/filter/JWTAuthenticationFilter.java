@@ -1,17 +1,15 @@
 package com.filter;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.stream.Collectors;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,15 +74,18 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 	}
 
 	private UsernamePasswordAuthenticationToken getAuthentication(final String token, final UserDetails userDetails) {
-		// {sub=huyennv, scopes=ROLE_USER,ROLE_ADMIN, iat=1640672980, exp=1640759380}
+		// claims = {sub=huyennv, scopes=ROLE_USER,ROLE_ADMIN, ...}
 		Claims claims = TokenHandler.getClaims(token);
-		Collection<GrantedAuthority> authorities = Collections.emptyList();
-		String scopes = claims.get(TokenHandler.AUTHORITIES_KEY).toString();
-		if (StringUtils.isNotEmpty(scopes)) {
-			// [ROLE_USER, ROLE_ADMIN]
-			authorities = Arrays.stream(scopes.split(",")) //
-								.map(SimpleGrantedAuthority::new) //
-								.collect(Collectors.toSet());
+		final Collection<GrantedAuthority> authorities = new ArrayList<>();
+		if (claims.containsKey(TokenHandler.AUTHORITIES_KEY)) {
+			String scopes = claims.get(TokenHandler.AUTHORITIES_KEY).toString();
+			// authorities = [ROLE_USER, ROLE_ADMIN]
+			Arrays.stream(scopes.split(",")).forEach(t -> {
+				authorities.add(new SimpleGrantedAuthority(t));
+			});
+			// authorities = Arrays.stream(scopes.split(",")) //
+			// .map(SimpleGrantedAuthority::new) //
+			// .collect(Collectors.toList());
 		}
 		return new UsernamePasswordAuthenticationToken(userDetails, "", authorities);
 	}
