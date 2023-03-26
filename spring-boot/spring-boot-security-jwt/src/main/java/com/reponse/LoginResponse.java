@@ -7,18 +7,19 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@JsonPropertyOrder({ "type", "token" }) // sort field
+@JsonPropertyOrder({ "type", "refresh_token", "access_token" }) // sort field
 public class LoginResponse {
 
-	private String token;
 	private String type = "Bearer";
+	private String access_token;
+	// private String refresh_token;
 
 	public LoginResponse() {
 
 	}
 
 	public LoginResponse(String token) {
-		this.token = token;
+		this.access_token = token;
 	}
 
 }
