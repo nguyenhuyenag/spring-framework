@@ -16,7 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.filter.JWTAuthenticationFilter;
 import com.filter.JWTLoginFilter;
-import com.service.UserService;
+import com.service.RefreshTokenService;
 
 @Configuration
 @EnableWebSecurity
@@ -27,11 +27,14 @@ import com.service.UserService;
 )
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
-	@Autowired
-	private UserService userService;
+	// @Autowired
+	// private UserService userService;
 
 	@Autowired
 	private UserDetailsService userDetailsService;
+	
+	@Autowired
+	private RefreshTokenService refreshTokenService;
 	
 	// @Autowired
 	// private Http401 unauthorizedHandler;
@@ -44,19 +47,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable() //
-			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // no session cookie for API endpoints
-			.and() //
+		http.csrf() //
+			.disable() //
+			.sessionManagement() //
+			.sessionCreationPolicy(SessionCreationPolicy.STATELESS) // no session cookie for API endpoints
+		.and() //
 			.authorizeRequests() // no web forms for the REST API so no CSRF tokens will be created or checked
 			.antMatchers("/auth/**").permitAll() //
 			.anyRequest().authenticated() //
-			.and() //
+		.and() //
 			.addFilterBefore(new JWTAuthenticationFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class) //
-			.addFilterBefore(new JWTLoginFilter(authenticationManager(), userService), UsernamePasswordAuthenticationFilter.class) //
-			.exceptionHandling();
-			// .authenticationEntryPoint(unauthorizedHandler)
-			// .accessDeniedHandler(new Http403());
-			// .headers().cacheControl();
+			.addFilterBefore(new JWTLoginFilter(authenticationManager(), refreshTokenService), UsernamePasswordAuthenticationFilter.class) //
+		.exceptionHandling();
 	}
 	
 	@Bean

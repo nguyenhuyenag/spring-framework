@@ -1,4 +1,4 @@
-package com.request;
+package com.payload.request;
 
 public class RegisterRequest {
 

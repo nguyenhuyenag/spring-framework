@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
-import com.reponse.ErrorResponse;
+import com.payload.reponse.ErrorResponse;
 import com.util.JsonUtils;
 
 public class Http403 implements AccessDeniedHandler {

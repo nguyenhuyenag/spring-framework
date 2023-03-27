@@ -1,6 +1,5 @@
 package com.entity;
 
-import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -31,9 +30,9 @@ public class User {
 	private Long id;
 	private String username;
 	private String password;
-	private int failedCounter = 0;
-	private int loginDisabled = 0;
-	private Date timeLoginDisabled;
+	// private int failedCounter = 0;
+	// private int loginDisabled = 0;
+	// private Date timeLoginDisabled;
 	
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "user_roles", //
@@ -42,9 +41,9 @@ public class User {
 	)
 	private Set<Role> roles;
 	
-	public boolean isLoginDisabled() {
-		return loginDisabled != 0;
-	}
+//	public boolean isLoginDisabled() {
+//		return loginDisabled != 0;
+//	}
 	
 	@Override
 	public String toString() {

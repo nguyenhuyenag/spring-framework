@@ -9,7 +9,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
-import com.reponse.ErrorResponse;
+import com.payload.reponse.ErrorResponse;
 import com.util.JsonUtils;
 
 @Component
