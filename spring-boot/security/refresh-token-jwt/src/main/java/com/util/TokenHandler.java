@@ -2,6 +2,7 @@ package com.util;
 
 import java.util.Date;
 import java.util.StringJoiner;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 import org.springframework.security.core.Authentication;
@@ -16,7 +17,7 @@ public class TokenHandler {
 	public static final String TOKEN_PREFIX = "Bearer ";
 	public static final String AUTHORITIES_KEY = "scopes";
 	public static final String SIGNING_KEY = "JWT_TOKEN_SECRET";
-	private static final Date EXPIRATION_TIME = TimeUtils.after().day(1);
+	private static final long EXPIRATION_TIME = TimeUnit.MINUTES.toMillis(1);
 
 	public static Claims getClaims(String token) {
 		return Jwts.parser() //
@@ -61,23 +62,24 @@ public class TokenHandler {
 		authentication.getAuthorities().stream().forEach(t -> {
 			authorities.add(t.getAuthority());
 		});
-		System.out.println("authentication.getName()::::: " + authentication.getName());
+		System.out.println("generateToken: " + authorities);
 		return Jwts.builder() //
 				.setSubject(authentication.getName()) 			  // username
-				.claim(AUTHORITIES_KEY, authorities.toString())   // authorities =  "ROLE_USER,ROLE_ADMIN"
+				.claim(AUTHORITIES_KEY, authorities.toString())   // authorities = "ROLE_USER,ROLE_ADMIN"
 				.signWith(SignatureAlgorithm.HS512, SIGNING_KEY)  //
 				.setIssuedAt(new Date()) //
-				.setExpiration(EXPIRATION_TIME) //
+				.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME)) //
 				.compact();
 	}
 	
 	public static String generateTokenByUsernameAndAuthorities(String username, String authorities) {
+		System.out.println("generateTokenByUsernameAndAuthorities: " + authorities);
 		return Jwts.builder() //
 				.setSubject(username) //
 				.claim(AUTHORITIES_KEY, authorities.toString()) //
 				.signWith(SignatureAlgorithm.HS512, SIGNING_KEY) //
-				.setIssuedAt(TimeUtils.now()) //
-				.setExpiration(EXPIRATION_TIME) //
+				.setIssuedAt(new Date()) //
+				.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME)) //
 				.compact();
 	}
 
