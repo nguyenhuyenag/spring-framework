@@ -12,11 +12,15 @@ import com.entity.RefreshToken;
 import com.payload.reponse.TokenRefreshResponse;
 import com.payload.request.TokenRefreshRequest;
 import com.repository.RefreshTokenRepository;
+import com.util.TokenHandler;
 
 @Service
 public class RefreshTokenService {
 
 	private Long refreshTokenDurationMs = TimeUnit.DAYS.toMillis(1);
+
+	@Autowired
+	private UserService userService;
 
 	@Autowired
 	private RefreshTokenRepository refreshTokenRepository;
@@ -60,8 +64,12 @@ public class RefreshTokenService {
 		// validate token
 		boolean verify = verifyExpiration(refreshToken);
 		if (verify) {
-			response.setRefreshToken(refreshToken);
-			response.setAccessToken("AAAAAAAAA");
+			RefreshToken findByToken = refreshTokenRepository.findByToken(refreshToken);
+			String username = findByToken.getUsername();
+			String authorities = userService.findAuthoritiesByUsername(username);
+			String jwtToken = TokenHandler.generateTokenByUsernameAndAuthorities(username, authorities);
+			// response.setRefreshToken(refreshToken);
+			response.setAccessToken(jwtToken);
 		} else {
 			response.setMessage("Refresh token is not in database or expiration!");
 		}

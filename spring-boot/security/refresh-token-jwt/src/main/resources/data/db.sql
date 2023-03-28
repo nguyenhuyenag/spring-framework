@@ -27,8 +27,14 @@ CREATE TABLE `user` (
   PRIMARY KEY (`id`)
 );
 
-INSERT INTO `user` VALUES (1,'huyennv','$2a$10$13HWiq1Z0S3vRSd836s3H.0GmceNFjo8HpIOTbZDD4/8KhYAU.yAq'),(2,'dev1','$2a$10$13HWiq1Z0S3vRSd836s3H.0GmceNFjo8HpIOTbZDD4/8KhYAU.yAq'),(3,'user','$2a$10$13HWiq1Z0S3vRSd836s3H.0GmceNFjo8HpIOTbZDD4/8KhYAU.yAq');
+INSERT INTO `user` VALUES 
+	(1,'huyennv','$2a$10$13HWiq1Z0S3vRSd836s3H.0GmceNFjo8HpIOTbZDD4/8KhYAU.yAq'),
+	(2,'dev1','$2a$10$13HWiq1Z0S3vRSd836s3H.0GmceNFjo8HpIOTbZDD4/8KhYAU.yAq'),
+	(3,'user','$2a$10$13HWiq1Z0S3vRSd836s3H.0GmceNFjo8HpIOTbZDD4/8KhYAU.yAq');
 
-INSERT INTO `role` VALUES (1,'ADMIN','Admin role'),(2,'USER','User role');
+INSERT INTO `role` VALUES 
+	(1,'ADMIN','Admin role'),
+	(2,'USER','User role'),
+	(3, 'USER', 'User role');
 
-INSERT INTO `user_roles` VALUES (1,1),(1,2),(2,2);
+INSERT INTO `user_roles` VALUES (1, 1), (1, 2), (1, 3), (2, 2), (2, 3), (3, 3);

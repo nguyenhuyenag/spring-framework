@@ -47,6 +47,11 @@ public class TokenHandler {
 		Date expiration = getExpiration(token);
 		return expiration.after(new Date());
 	}
+	
+	public static boolean validateToken(UserDetails userDetails, String token) {
+		String username = getUsername(token);
+		return (isAlive(token) && username.equals(userDetails.getUsername()));
+	}
 
 	public static String generateToken(Authentication authentication) {
 		// String authorities = authentication.getAuthorities().stream() //
@@ -56,19 +61,24 @@ public class TokenHandler {
 		authentication.getAuthorities().stream().forEach(t -> {
 			authorities.add(t.getAuthority());
 		});
-		// System.out.println("authorities: " + authorities);
+		System.out.println("authentication.getName()::::: " + authentication.getName());
 		return Jwts.builder() //
-				.setSubject(authentication.getName()) //
+				.setSubject(authentication.getName()) 			  // username
+				.claim(AUTHORITIES_KEY, authorities.toString())   // authorities =  "ROLE_USER,ROLE_ADMIN"
+				.signWith(SignatureAlgorithm.HS512, SIGNING_KEY)  //
+				.setIssuedAt(new Date()) //
+				.setExpiration(EXPIRATION_TIME) //
+				.compact();
+	}
+	
+	public static String generateTokenByUsernameAndAuthorities(String username, String authorities) {
+		return Jwts.builder() //
+				.setSubject(username) //
 				.claim(AUTHORITIES_KEY, authorities.toString()) //
 				.signWith(SignatureAlgorithm.HS512, SIGNING_KEY) //
 				.setIssuedAt(TimeUtils.now()) //
 				.setExpiration(EXPIRATION_TIME) //
 				.compact();
-	}
-
-	public static boolean validateToken(UserDetails userDetails, String token) {
-		String username = getUsername(token);
-		return (isAlive(token) && username.equals(userDetails.getUsername()));
 	}
 
 }
