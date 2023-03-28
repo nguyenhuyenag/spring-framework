@@ -5,11 +5,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>stackjava.com</groupId>
-	<artifactId>SpringBootSchedule</artifactId>
+	<artifactId>spring-boot-schedule</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
-	<name>SpringBootSchedule</name>
+	<name>spring-boot-schedule</name>
 	<description>Demo Spring Boot Schedule</description>
 
 	<parent>
