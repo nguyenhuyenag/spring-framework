@@ -28,7 +28,7 @@ public class RefreshToken {
 	// private User user;
 	private String username;
 
-	@Column(nullable = false, unique = true)
+	@Column(name = "token", nullable = false, unique = true)
 	private String token;
 
 	@Column(nullable = false)

@@ -1,24 +1,30 @@
 package com.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.payload.reponse.TokenRefreshResponse;
+import com.payload.request.TokenRefreshRequest;
 import com.service.AuthService;
+import com.service.RefreshTokenService;
 
 @Controller
 @RequestMapping("auth")
 public class AuthController {
-	
+
 	@Autowired
 	private AuthService authService;
 
-	// @Autowired
-	// private UserService userService;
+	 @Autowired
+	 private RefreshTokenService refreshTokenService;
 
 	@Autowired
 	HttpServletRequest req;
@@ -68,6 +74,19 @@ public class AuthController {
 	@GetMapping("check-token")
 	private ResponseEntity<?> checkToken(String token) {
 		return ResponseEntity.ok(authService.checkToken(token));
+	}
+
+	@PostMapping("refresh-token")
+	public ResponseEntity<?> refreshtoken(@Valid @RequestBody TokenRefreshRequest request) {
+		// String requestRefreshToken = request.getRefreshToken();
+		TokenRefreshResponse refreshToken = refreshTokenService.refreshToken(request);
+		return ResponseEntity.ok(refreshToken);
+//		return refreshTokenService.findByToken(requestRefreshToken).map(refreshTokenService::verifyExpiration)
+//				.map(RefreshToken::getUser).map(user -> {
+//					String token = jwtUtils.generateTokenFromUsername(user.getUsername());
+//					return ResponseEntity.ok(new TokenRefreshResponse(token, requestRefreshToken));
+//				})
+//				.orElseThrow(() -> new TokenRefreshException(requestRefreshToken, "Refresh token is not in database!"));
 	}
 
 }

@@ -9,14 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.entity.RefreshToken;
-import com.exception.TokenRefreshException;
+import com.payload.reponse.TokenRefreshResponse;
+import com.payload.request.TokenRefreshRequest;
 import com.repository.RefreshTokenRepository;
 
 @Service
 public class RefreshTokenService {
 
-	// @Value("${bezkoder.app.jwtRefreshExpirationMs}")
-	private Long refreshTokenDurationMs = TimeUnit.HOURS.toMillis(1);
+	private Long refreshTokenDurationMs = TimeUnit.DAYS.toMillis(1);
 
 	@Autowired
 	private RefreshTokenRepository refreshTokenRepository;
@@ -24,9 +24,9 @@ public class RefreshTokenService {
 	// @Autowired
 	// private UserRepository userRepository;
 
-	public Optional<RefreshToken> findByToken(String token) {
-		return refreshTokenRepository.findByToken(token);
-	}
+//	public Optional<RefreshToken> findByToken(String token) {
+//		return refreshTokenRepository.findByToken(token);
+//	}
 
 	public RefreshToken createRefreshToken(String username) {
 		RefreshToken refreshToken = new RefreshToken();
@@ -37,14 +37,36 @@ public class RefreshTokenService {
 		return refreshToken;
 	}
 
-	public RefreshToken verifyExpiration(RefreshToken token) {
-		if (token.getExpiryDate().compareTo(Instant.now()) < 0) {
-			refreshTokenRepository.delete(token);
-			throw new TokenRefreshException(token.getToken(),
-					"Refresh token was expired. Please make a new signin request");
-		}
+//	public RefreshToken verifyExpiration(RefreshToken token) {
+//		if (token.getExpiryDate().compareTo(Instant.now()) < 0) {
+//			refreshTokenRepository.delete(token);
+//			throw new TokenRefreshException(token.getToken(),
+//					"Refresh token was expired. Please make a new signin request");
+//		}
+//		return token;
+//	}
 
-		return token;
+	private boolean verifyExpiration(String token) {
+		Optional<Integer> verify = refreshTokenRepository.verifyExpiration(token);
+		if (verify.isPresent()) {
+			return verify.get() == 1;
+		}
+		return false;
+	}
+
+	public TokenRefreshResponse refreshToken(TokenRefreshRequest request) {
+		TokenRefreshResponse response = new TokenRefreshResponse();
+		String refreshToken = request.getRefreshToken();
+		// validate token
+		boolean verify = verifyExpiration(refreshToken);
+		if (verify) {
+			response.setRefreshToken(refreshToken);
+			response.setAccessToken("AAAAAAAAA");
+		} else {
+			response.setMessage("Refresh token is not in database or expiration!");
+		}
+		response.setRefreshToken(refreshToken);
+		return response;
 	}
 
 //	@Transactional
