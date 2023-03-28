@@ -19,13 +19,11 @@ public class Http403 implements AccessDeniedHandler {
 			throws IOException, ServletException {
 		res.setStatus(403);
 		res.setContentType("application/json;charset=UTF-8");
-		
 		ErrorResponse error = new ErrorResponse();
 		error.setStatus(403);
 		error.setError("Access denied");
 		error.setMessage("From Http403");
 		error.setPath(req.getRequestURI());
-		
 		res.getWriter().write(JsonUtils.toJSON(error));
 	}
 

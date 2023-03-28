@@ -14,6 +14,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.exception.Http401;
+import com.exception.Http403;
 import com.filter.JWTAuthenticationFilter;
 import com.filter.JWTLoginFilter;
 import com.service.RefreshTokenService;
@@ -58,7 +60,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.and() //
 			.addFilterBefore(new JWTAuthenticationFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class) //
 			.addFilterBefore(new JWTLoginFilter(authenticationManager(), refreshTokenService), UsernamePasswordAuthenticationFilter.class) //
-		.exceptionHandling();
+		.exceptionHandling()
+		.authenticationEntryPoint(new Http401())
+		.accessDeniedHandler(new Http403());
 	}
 	
 	@Bean

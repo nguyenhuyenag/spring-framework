@@ -20,13 +20,11 @@ public class Http401 implements AuthenticationEntryPoint {
 			throws IOException {
 		res.setStatus(401);
 		res.setContentType("application/json;charset=UTF-8");
-		
 		ErrorResponse error = new ErrorResponse();
 		error.setStatus(401);
 		error.setError("Unauthorized");
 		error.setMessage("From Http401");
 		error.setPath(req.getRequestURI());
-		
 		res.getWriter().write(JsonUtils.toJSON(error));
 	}
 
