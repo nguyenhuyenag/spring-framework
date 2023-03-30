@@ -29,18 +29,12 @@ import com.service.RefreshTokenService;
 )
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
-	// @Autowired
-	// private UserService userService;
-
 	@Autowired
 	private UserDetailsService userDetailsService;
 	
 	@Autowired
 	private RefreshTokenService refreshTokenService;
 	
-	// @Autowired
-	// private Http401 unauthorizedHandler;
-
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService) //
@@ -49,20 +43,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf() //
-			.disable() //
-			.sessionManagement() //
+		http.csrf().disable()
+			.sessionManagement()
 			.sessionCreationPolicy(SessionCreationPolicy.STATELESS) // no session cookie for API endpoints
-		.and() //
-			.authorizeRequests() // no web forms for the REST API so no CSRF tokens will be created or checked
-			.antMatchers("/auth/**").permitAll() //
-			.anyRequest().authenticated() //
-		.and() //
-			.addFilterBefore(new AuthenticationRequestFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class) //
-			.addFilterBefore(new JWTLoginFilter(authenticationManager(), refreshTokenService), UsernamePasswordAuthenticationFilter.class) //
+		.and()
+		.authorizeRequests() // no web forms for the REST API so no CSRF tokens will be created or checked
+			.antMatchers("/auth/**")
+			.permitAll()
+		.anyRequest()
+			.authenticated()
+		.and()
+			.addFilterBefore(new AuthenticationRequestFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class)
+			.addFilterBefore(new JWTLoginFilter(authenticationManager(), refreshTokenService), UsernamePasswordAuthenticationFilter.class)
 		.exceptionHandling()
-		.authenticationEntryPoint(new Http401())
-		.accessDeniedHandler(new Http403());
+			.authenticationEntryPoint(new Http401())
+			.accessDeniedHandler(new Http403());
 	}
 	
 	@Bean

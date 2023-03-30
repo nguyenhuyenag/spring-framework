@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -30,20 +29,13 @@ import com.util.TokenHandler;
 
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
-	// @Autowired
-	// private UserService userService;
-
 	@Autowired
 	private RefreshTokenService refreshTokenService;
 
-	// private final int MAX_ATTEMPT = 5;
-	private LoginRequest login = new LoginRequest();
-
 	public JWTLoginFilter(AuthenticationManager am, RefreshTokenService refreshTokenService) {
 		super(new AntPathRequestMatcher("/auth/login"));
-		// this.userService = service;
-		this.refreshTokenService = refreshTokenService;
 		this.setAuthenticationManager(am);
+		this.refreshTokenService = refreshTokenService;
 	}
 
 	@Override
@@ -51,7 +43,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 			throws JsonParseException, JsonMappingException, IOException {
 		UsernamePasswordAuthenticationToken auth = null;
 		try {
-			this.login = JsonUtils.readValue(req.getInputStream(), LoginRequest.class);
+			LoginRequest login = JsonUtils.readValue(req.getInputStream(), LoginRequest.class);
 			if (login != null) {
 				auth = new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword());
 			}
@@ -66,6 +58,9 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	@Override
 	protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain,
 			Authentication auth) throws IOException, ServletException {
+		
+		// res.addHeader(HttpHeaders.CONTENT_TYPE, "application/json;charset=UTF-8");
+		
 		String username = auth.getName();
 		String authorities = getAuthorities(auth);
 		String jwt = TokenHandler.createJWT(username, authorities);
@@ -73,7 +68,6 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 		String refreshToken = createRefreshToken.getToken();
 		String json = JsonUtils.toJSON(new JwtResponse(jwt, refreshToken));
 		res.getWriter().write(json);
-		res.addHeader(HttpHeaders.CONTENT_TYPE, "application/json;charset=UTF-8");
 		// res.addHeader(HttpHeaders.AUTHORIZATION, TokenHandler.PREFIX + token);
 	}
 
@@ -81,8 +75,10 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	@Override
 	protected void unsuccessfulAuthentication(HttpServletRequest req, HttpServletResponse res,
 			AuthenticationException failed) throws IOException, ServletException {
-		// whenLoginFailure();
+		
+		// res.addHeader(HttpHeaders.CONTENT_TYPE, "application/json;charset=UTF-8");
 		res.setStatus(401);
+		
 		ErrorResponse error = new ErrorResponse();
 		error.setStatus(401);
 		error.setError("Unsuccessful authenticationabababababaab");
@@ -91,7 +87,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 		String json = JsonUtils.toJSON(error);
 		res.getWriter().write(json);
 	}
-
+	
 	private String getAuthorities(Authentication auth) {
 		StringJoiner authorities = new StringJoiner(",");
 		auth.getAuthorities().stream().forEach(t -> {
@@ -99,22 +95,5 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 		});
 		return authorities.toString();
 	}
-
-//	public void whenLoginFailure() {
-//		if (this.login != null) {
-//			User user = userService.findByUsername(this.login.getUsername());
-//			if (user != null && !user.isLoginDisabled()) {
-//				int failedCounter = user.getFailedCounter();
-//				if (MAX_ATTEMPT < failedCounter + 1) {
-//					user.setFailedCounter(0); // reset counter
-//					user.setLoginDisabled(1); // disabling the account
-//					user.setTimeLoginDisabled(TimeUtils.after().minute(5));
-//				} else {
-//					user.setFailedCounter(failedCounter + 1); // update the counter
-//				}
-//				userService.save(user);
-//			}
-//		}
-//	}
 
 }

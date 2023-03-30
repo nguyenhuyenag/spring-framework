@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -37,41 +38,42 @@ public class AuthenticationRequestFilter extends OncePerRequestFilter {
 	@Autowired
 	private UserDetailsService userDetailsService;
 
-	public AuthenticationRequestFilter(UserDetailsService service) {
-		this.userDetailsService = service;
+	public AuthenticationRequestFilter(UserDetailsService userDetailsService) {
+		this.userDetailsService = userDetailsService;
 	}
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
 			throws IOException, ServletException {
-		String header = req.getHeader(HttpHeaders.AUTHORIZATION);
-		if (header != null && header.startsWith(TokenHandler.TOKEN_PREFIX)) {
-			String jwt = header.replace(TokenHandler.TOKEN_PREFIX, "");
+		// System.out.println("URL: " + req.getRequestURI());
+		String jwt = TokenHandler.extractJWT(req);
+		if (StringUtils.isNotEmpty(jwt)) {
 			DecodedJWT verify = TokenHandler.verifyJWT(jwt);
 			if (verify == null) {
 				throw new JWTDecodeException("Invalid JWT token");
 			}
-			DecodedJWT decodedJWT = TokenHandler.decodedJWT(jwt);
-			String username = TokenHandler.getSubject(decodedJWT);
+			DecodedJWT decoded = TokenHandler.decodedJWT(jwt);
+			String username = TokenHandler.getSubject(decoded);
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			if (StringUtils.isNotEmpty(username) && auth == null) {
+			if (auth == null && StringUtils.isNotEmpty(username)) {
 				UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-				if (TokenHandler.validateToken(userDetails, username, decodedJWT)) {
-					UsernamePasswordAuthenticationToken authToken = getAuthentication(userDetails, decodedJWT);
-					authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
-					LOG.info("Authenticated user " + username + ", setting security context");
-					SecurityContextHolder.getContext().setAuthentication(authToken);
-				}
+				UsernamePasswordAuthenticationToken authToken = getAuthentication(userDetails, decoded);
+				authToken.setDetails(new WebAuthenticationDetailsSource() //
+						 .buildDetails(req));
+				LOG.info("Authenticated user " + username + ", setting security context");
+				SecurityContextHolder.getContext().setAuthentication(authToken);
 			}
 		} else {
 			LOG.warn("Couldn't find bearer string, will ignore the header");
 		}
+		res.setCharacterEncoding("UTF-8");
+		res.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 		chain.doFilter(req, res);
 	}
 
-	private UsernamePasswordAuthenticationToken getAuthentication(UserDetails userDetails, DecodedJWT decodedJWT) {
+	private UsernamePasswordAuthenticationToken getAuthentication(UserDetails userDetails, DecodedJWT decoded) {
 		final Collection<GrantedAuthority> authorities = new ArrayList<>();
-		Claim claims = TokenHandler.getClaim(decodedJWT);
+		Claim claims = TokenHandler.getClaim(decoded);
 		if (claims != null) {
 			Arrays.stream(claims.asString().split(",")).forEach(t -> {
 				authorities.add(new SimpleGrantedAuthority(t));
