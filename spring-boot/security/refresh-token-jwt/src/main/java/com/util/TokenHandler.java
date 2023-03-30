@@ -13,9 +13,6 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-
 /*-
  	iss (issuer) 			Tổ chức phát hành của Token
 	sub (subject) 			Chủ đề Token
@@ -31,7 +28,10 @@ public class TokenHandler {
 	public static final String AUTHORITIES_KEY 	= "roles";
 	private static final String ISSUER 			= "JWT_ISSUER";
 	private static final String SECRET_KEY 		= "JWT_SECRET_KEY";
-	private static final long EXPIRATION_TIME 	= TimeUnit.DAYS.toMillis(1);
+	private static final long EXPIRATION_TIME 	= TimeUnit.SECONDS.toMillis(1);
+	
+	private static Algorithm algorithm = Algorithm.HMAC512(SECRET_KEY);;
+	private static JWTVerifier verifier = JWT.require(algorithm).withIssuer(ISSUER).build();
 
 //	public static Claims getClaims(String token) {
 //		Claims claims = null;
@@ -51,32 +51,38 @@ public class TokenHandler {
 //		Claims claims = getClaims(token);
 //		return func.apply(claims); // call claims.func()
 //	}
-	
 //	public static boolean isAlive(String token) {
 //		Date expiration = extractData(token, Claims::getExpiration);
 //		return expiration.after(new Date());
 //	}
-	
+//
 //	public static String getUsername(String token) {
 //		return extractData(token, Claims::getSubject);
 //	}
-	
-	public static String getSubject(DecodedJWT decodedJWT) {
-		// DecodedJWT decodedJWT = decodedJWT(token);
-		return decodedJWT.getSubject();
-	}
-
 //	private static Date getExpiration(String token) {
 //		return getClaims(token, t -> t.getExpiration());
 //	}
-	
+//
+//	public static String createJWT(String username, String authorities) {
+//	// authorities = "ROLE_USER,ROLE_ADMIN"
+//	return Jwts.builder() //
+//			.setSubject(username) //
+//			.claim(AUTHORITIES_KEY, authorities) //
+//			.signWith(SignatureAlgorithm.HS512, SECRET_KEY) //
+//			.setIssuedAt(new Date()) //
+//			.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME)) //
+//			.compact();
+//}
+
+	public static String getSubject(DecodedJWT decodedJWT) {
+		return decodedJWT.getSubject();
+	}
+
 	public static boolean validateToken(UserDetails userDetails, String username, DecodedJWT decodedJWT) {
-		// String username = getUsername(decodedJWT);
 		return (isJWTAlive(decodedJWT) && userDetails.getUsername().equals(username));
 	}
 
-//	public static String createJWT(String username, String authorities) {
-//		// authorities = "ROLE_USER,ROLE_ADMIN"
+//	public static String generateTokenByUsernameAndAuthorities(String username, String authorities) {
 //		return Jwts.builder() //
 //				.setSubject(username) //
 //				.claim(AUTHORITIES_KEY, authorities) //
@@ -85,31 +91,11 @@ public class TokenHandler {
 //				.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME)) //
 //				.compact();
 //	}
-	
-	public static String generateTokenByUsernameAndAuthorities(String username, String authorities) {
-		return Jwts.builder() //
-				.setSubject(username) //
-				.claim(AUTHORITIES_KEY, authorities) //
-				.signWith(SignatureAlgorithm.HS512, SECRET_KEY) //
-				.setIssuedAt(new Date()) //
-				.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME)) //
-				.compact();
-	}
-	
-	// -------------------- For new libary -------------------- 
-	private static Algorithm algorithm = Algorithm.HMAC512(SECRET_KEY);;
-	private static JWTVerifier verifier = JWT.require(algorithm).withIssuer(ISSUER).build();
-
-	//	public static void initialize() {
-	//		// algorithm = Algorithm.HMAC256(SECRET);
-	//		// verifier = JWT.require(algorithm).withIssuer(ISSUER).build();
-	//	}
 
 	public static String createJWT(String username, String authorities) {
 		return JWT.create() //
 				.withSubject(username) //
-				.withClaim(AUTHORITIES_KEY, authorities)
-				.withIssuer(ISSUER) //
+				.withClaim(AUTHORITIES_KEY, authorities).withIssuer(ISSUER) //
 				.withIssuedAt(new Date()) //
 				.withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME)) //
 				.sign(algorithm);
@@ -117,9 +103,10 @@ public class TokenHandler {
 
 	public static DecodedJWT verifyJWT(String jwt) {
 		try {
-			return verifier.verify(jwt);
+			DecodedJWT verify = verifier.verify(jwt);
+			return verify;
 		} catch (JWTVerificationException e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 		return null;
 	}
@@ -134,17 +121,15 @@ public class TokenHandler {
 	}
 
 	private static boolean isJWTAlive(DecodedJWT decodedJWT) {
-		// DecodedJWT decodedJWT = decodedJWT(token);
 		Date expiresAt = decodedJWT.getExpiresAt();
 		return expiresAt.after(new Date());
 	}
-	
+
 	public static Claim getClaim(DecodedJWT decodedJWT) {
 		return decodedJWT.getClaim(AUTHORITIES_KEY);
 	}
 
 	public static void main(String args[]) throws InterruptedException {
-		// initialize();
 		String jwtToken = createJWT("huyennv", "ROLE_USER,ROLE_ADMIN");
 		System.out.println("Created JWT : " + jwtToken);
 		// Thread.sleep(1000L);
@@ -158,8 +143,8 @@ public class TokenHandler {
 			System.out.println("Token Expires At : " + decodedJWT.getExpiresAt());
 			System.out.println("Token Subject : " + decodedJWT.getSubject());
 			System.out.println("Token Subject : " + decodedJWT.getClaim(AUTHORITIES_KEY));
-			//Boolean isExpired = isJWTAlive(decodedJWT);
-			//System.out.println("Is Alive : " + isExpired);
+			// Boolean isExpired = isJWTAlive(decodedJWT);
+			// System.out.println("Is Alive : " + isExpired);
 		}
 	}
 

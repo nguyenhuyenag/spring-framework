@@ -11,20 +11,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.payload.reponse.TokenRefreshResponse;
 import com.payload.request.TokenRefreshRequest;
-import com.service.AuthService;
 import com.service.RefreshTokenService;
+import com.util.TokenHandler;
 
 @Controller
 @RequestMapping("auth")
 public class AuthController {
 
-	@Autowired
-	private AuthService authService;
+	// @Autowired
+	// private AuthService authService;
 
-	 @Autowired
-	 private RefreshTokenService refreshTokenService;
+	@Autowired
+	private RefreshTokenService refreshTokenService;
 
 	@Autowired
 	HttpServletRequest req;
@@ -32,7 +33,7 @@ public class AuthController {
 	public String url() {
 		return req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort();
 	}
-	
+
 //	@PostMapping("/signin")
 //	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 //
@@ -92,9 +93,9 @@ public class AuthController {
 //		}
 //	}
 
-	@GetMapping("validate-jwt-token")
+	@GetMapping("validate-token")
 	private ResponseEntity<?> checkToken(String token) {
-		boolean validate = authService.checkToken(token);
+		DecodedJWT validate = TokenHandler.verifyJWT(token);
 		return ResponseEntity.ok(validate);
 	}
 

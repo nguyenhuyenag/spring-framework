@@ -60,7 +60,7 @@ public class RefreshTokenService {
 			RefreshToken findByToken = refreshTokenRepository.findByToken(refreshToken);
 			String username = findByToken.getUsername();
 			String authorities = userService.findAuthoritiesByUsername(username);
-			String jwtToken = TokenHandler.generateTokenByUsernameAndAuthorities(username, authorities);
+			String jwtToken = TokenHandler.createJWT(username, authorities);
 			response.setAccessToken(jwtToken);
 		}
 		response.setRefreshToken(refreshToken);
