@@ -114,7 +114,10 @@ public class TokenHandler {
 
 	private static boolean isJWTAlive(DecodedJWT decodedJWT) {
 		Date expiresAt = decodedJWT.getExpiresAt();
-		return expiresAt.after(new Date());
+		if (expiresAt != null) {
+			return expiresAt.after(new Date());
+		}
+		return false;
 	}
 
 	public static Claim getClaim(DecodedJWT decodedJWT) {
