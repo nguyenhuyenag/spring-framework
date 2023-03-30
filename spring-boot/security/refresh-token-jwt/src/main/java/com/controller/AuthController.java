@@ -71,9 +71,10 @@ public class AuthController {
 //		}
 //	}
 
-	@GetMapping("check-token")
+	@GetMapping("validate-jwt-token")
 	private ResponseEntity<?> checkToken(String token) {
-		return ResponseEntity.ok(authService.checkToken(token));
+		boolean validate = authService.checkToken(token);
+		return ResponseEntity.ok(validate);
 	}
 
 	@PostMapping("refresh-token")
