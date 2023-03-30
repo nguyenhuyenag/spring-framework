@@ -1,6 +1,7 @@
 package com.filter;
 
 import java.io.IOException;
+import java.util.StringJoiner;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -21,7 +22,7 @@ import com.entity.RefreshToken;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.payload.reponse.ErrorResponse;
-import com.payload.reponse.LoginResponse;
+import com.payload.reponse.JwtResponse;
 import com.payload.request.LoginRequest;
 import com.service.RefreshTokenService;
 import com.util.JsonUtils;
@@ -65,10 +66,12 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	@Override
 	protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain,
 			Authentication auth) throws IOException, ServletException {
-		String jwtToken = TokenHandler.generateToken(auth);
-		RefreshToken createRefreshToken = refreshTokenService.createRefreshToken(auth.getName());
+		String username = auth.getName();
+		String authorities = getAuthorities(auth);
+		String jwt = TokenHandler.createJWT(username, authorities);
+		RefreshToken createRefreshToken = refreshTokenService.createRefreshToken(username);
 		String refreshToken = createRefreshToken.getToken();
-		String json = JsonUtils.toJSON(new LoginResponse(jwtToken, refreshToken));
+		String json = JsonUtils.toJSON(new JwtResponse(jwt, refreshToken));
 		res.getWriter().write(json);
 		res.addHeader(HttpHeaders.CONTENT_TYPE, "application/json;charset=UTF-8");
 		// res.addHeader(HttpHeaders.AUTHORIZATION, TokenHandler.PREFIX + token);
@@ -87,6 +90,14 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 		error.setPath(req.getRequestURI());
 		String json = JsonUtils.toJSON(error);
 		res.getWriter().write(json);
+	}
+
+	private String getAuthorities(Authentication auth) {
+		StringJoiner authorities = new StringJoiner(",");
+		auth.getAuthorities().stream().forEach(t -> {
+			authorities.add(t.getAuthority());
+		});
+		return authorities.toString();
 	}
 
 //	public void whenLoginFailure() {

@@ -10,13 +10,13 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @JsonPropertyOrder({ "type", "refresh_token", "access_token" }) // sort field
-public class LoginResponse {
+public class JwtResponse {
 
 	private String type = "Bearer";
 	private String access_token;
 	private String refresh_token;
 
-	public LoginResponse(String token, String refreshToken) {
+	public JwtResponse(String token, String refreshToken) {
 		this.access_token = token;
 		this.refresh_token = refreshToken;
 	}

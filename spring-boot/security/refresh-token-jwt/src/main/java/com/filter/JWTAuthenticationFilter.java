@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +25,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.interfaces.Claim;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.util.TokenHandler;
-
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.SignatureException;
 
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
@@ -44,48 +44,38 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
 			throws IOException, ServletException {
-		String token = null, username = null;
 		String header = req.getHeader(HttpHeaders.AUTHORIZATION);
 		if (header != null && header.startsWith(TokenHandler.TOKEN_PREFIX)) {
-			token = header.replace(TokenHandler.TOKEN_PREFIX, "");
-			try {
-				username = TokenHandler.getUsername(token);
-			} catch (IllegalArgumentException e) {
-				LOG.error("An error occured during getting username from token", e);
-			} catch (ExpiredJwtException e) {
-				LOG.warn("The token is expired and not valid anymore", e);
-			} catch (SignatureException e) {
-				LOG.error("Authentication Failed. Username or password not valid.");
+			String jwt = header.replace(TokenHandler.TOKEN_PREFIX, "");
+			DecodedJWT verify = TokenHandler.verifyJWT(jwt);
+			if (verify == null) {
+				throw new JWTDecodeException("Invalid JWT token");
+			}
+			DecodedJWT decodedJWT = TokenHandler.decodedJWT(jwt);
+			String username = TokenHandler.getSubject(decodedJWT);
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			if (StringUtils.isNotEmpty(username) && auth == null) {
+				UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+				if (TokenHandler.validateToken(userDetails, username, decodedJWT)) {
+					UsernamePasswordAuthenticationToken authToken = getAuthentication(userDetails, decodedJWT);
+					authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
+					LOG.info("Authenticated user " + username + ", setting security context");
+					SecurityContextHolder.getContext().setAuthentication(authToken);
+				}
 			}
 		} else {
 			LOG.warn("Couldn't find bearer string, will ignore the header");
 		}
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (username != null && auth == null) {
-			UserDetails user = userDetailsService.loadUserByUsername(username);
-			if (TokenHandler.validateToken(user, token)) {
-				UsernamePasswordAuthenticationToken authToken = getAuthentication(token, user);
-				authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
-				LOG.info("Authenticated user " + username + ", setting security context");
-				SecurityContextHolder.getContext().setAuthentication(authToken);
-			}
-		}
 		chain.doFilter(req, res);
 	}
 
-	private UsernamePasswordAuthenticationToken getAuthentication(final String token, final UserDetails userDetails) {
-		// claims = {sub=huyennv, scopes=ROLE_USER,ROLE_ADMIN, ...}
-		Claims claims = TokenHandler.getClaims(token);
+	private UsernamePasswordAuthenticationToken getAuthentication(UserDetails userDetails, DecodedJWT decodedJWT) {
 		final Collection<GrantedAuthority> authorities = new ArrayList<>();
-		if (claims.containsKey(TokenHandler.AUTHORITIES_KEY)) {
-			String scopes = claims.get(TokenHandler.AUTHORITIES_KEY).toString();
-			// authorities = [ROLE_USER, ROLE_ADMIN]
-			Arrays.stream(scopes.split(",")).forEach(t -> {
+		Claim claims = TokenHandler.getClaim(decodedJWT);
+		if (claims != null) {
+			Arrays.stream(claims.asString().split(",")).forEach(t -> {
 				authorities.add(new SimpleGrantedAuthority(t));
 			});
-			// authorities = Arrays.stream(scopes.split(",")) //
-			// .map(SimpleGrantedAuthority::new) //
-			// .collect(Collectors.toList());
 		}
 		return new UsernamePasswordAuthenticationToken(userDetails, "", authorities);
 	}
