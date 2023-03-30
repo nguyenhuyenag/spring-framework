@@ -30,14 +30,14 @@ import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.util.TokenHandler;
 
-public class JWTAuthenticationFilter extends OncePerRequestFilter {
+public class AuthenticationRequestFilter extends OncePerRequestFilter {
 
-	private static final Logger LOG = LoggerFactory.getLogger(JWTAuthenticationFilter.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AuthenticationRequestFilter.class);
 
 	@Autowired
 	private UserDetailsService userDetailsService;
 
-	public JWTAuthenticationFilter(UserDetailsService service) {
+	public AuthenticationRequestFilter(UserDetailsService service) {
 		this.userDetailsService = service;
 	}
 

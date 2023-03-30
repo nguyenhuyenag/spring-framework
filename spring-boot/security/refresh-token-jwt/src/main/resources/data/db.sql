@@ -34,7 +34,7 @@ INSERT INTO `user` VALUES
 
 INSERT INTO `role` VALUES 
 	(1,'ADMIN','Admin role'),
-	(2,'USER','User role'),
-	(3, 'USER', 'User role');
+	(2,'MOD','Mod role'),
+	(3,'USER', 'User role');
 
 INSERT INTO `user_roles` VALUES (1, 1), (1, 2), (1, 3), (2, 2), (2, 3), (3, 3);

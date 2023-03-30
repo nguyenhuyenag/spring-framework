@@ -16,7 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.exception.Http401;
 import com.exception.Http403;
-import com.filter.JWTAuthenticationFilter;
+import com.filter.AuthenticationRequestFilter;
 import com.filter.JWTLoginFilter;
 import com.service.RefreshTokenService;
 
@@ -58,7 +58,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/auth/**").permitAll() //
 			.anyRequest().authenticated() //
 		.and() //
-			.addFilterBefore(new JWTAuthenticationFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class) //
+			.addFilterBefore(new AuthenticationRequestFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class) //
 			.addFilterBefore(new JWTLoginFilter(authenticationManager(), refreshTokenService), UsernamePasswordAuthenticationFilter.class) //
 		.exceptionHandling()
 		.authenticationEntryPoint(new Http401())
