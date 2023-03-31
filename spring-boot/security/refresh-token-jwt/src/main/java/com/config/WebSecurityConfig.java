@@ -40,6 +40,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.userDetailsService(userDetailsService) //
 			.passwordEncoder(passwordEncoder());
 	}
+	
+	public static final String[] WHITELIST = {"/auth/**", "/public/**"};
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -48,7 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.sessionCreationPolicy(SessionCreationPolicy.STATELESS) // no session cookie for API endpoints
 		.and()
 		.authorizeRequests() // no web forms for the REST API so no CSRF tokens will be created or checked
-			.antMatchers("/auth/**", "/public/**")
+			.antMatchers(WHITELIST)
 			.permitAll()
 		.anyRequest()
 			.authenticated()

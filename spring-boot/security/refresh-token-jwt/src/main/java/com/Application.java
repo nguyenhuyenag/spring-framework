@@ -31,9 +31,22 @@ public class Application extends SpringBootServletInitializer implements Command
 //		}
 //	}
 
+//	public void testMatch() {
+//		AntPathMatcher antPathMatcher = new AntPathMatcher();
+//		String[] patterns = { "/auth/**" };
+//		String path = "/auth/login";
+//		for (String pattern : patterns) {
+//			if (antPathMatcher.match(pattern, path)) {
+//				System.out.println("Matched!");
+//			} else {
+//				System.out.println("Not Matched!");
+//			}
+//		}
+//	}
+
 	@Override
 	public void run(String... args) throws Exception {
-		// getPermittedUrls();
+		// testMatch();
 	}
 
 }

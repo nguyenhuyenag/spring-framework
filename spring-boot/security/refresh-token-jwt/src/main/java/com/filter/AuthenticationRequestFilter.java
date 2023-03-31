@@ -24,11 +24,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.config.WebSecurityConfig;
 import com.util.TokenHandler;
 
 // @Component
@@ -39,6 +41,8 @@ public class AuthenticationRequestFilter extends OncePerRequestFilter {
 	@Autowired
 	private UserDetailsService userDetailsService;
 
+	private static final AntPathMatcher antPathMatcher = new AntPathMatcher();
+
 	public AuthenticationRequestFilter(UserDetailsService userDetailsService) {
 		this.userDetailsService = userDetailsService;
 	}
@@ -46,7 +50,17 @@ public class AuthenticationRequestFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
 			throws IOException, ServletException {
-		// System.out.println("URL: " + req.getRequestURI());
+		
+		res.setCharacterEncoding("UTF-8");
+		res.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+		
+		if (inAntMatcher(req.getRequestURI())) {
+			LOG.info("Request '{}' is in white list", req.getRequestURI());
+			chain.doFilter(req, res);
+			return;
+		}
+		
+		LOG.info("Filter request '{}'", req.getRequestURI());
 		String jwt = TokenHandler.extractJWT(req);
 		if (StringUtils.isNotEmpty(jwt)) {
 			DecodedJWT verify = TokenHandler.verifyJWT(jwt);
@@ -60,15 +74,13 @@ public class AuthenticationRequestFilter extends OncePerRequestFilter {
 				UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 				UsernamePasswordAuthenticationToken authToken = getAuthentication(userDetails, decoded);
 				authToken.setDetails(new WebAuthenticationDetailsSource() //
-						 .buildDetails(req));
-				LOG.info("Authenticated user " + username + ", setting security context");
+						.buildDetails(req));
+				LOG.info("Authenticated '" + username + "', setting security context");
 				SecurityContextHolder.getContext().setAuthentication(authToken);
 			}
 		} else {
-			LOG.warn("Couldn't find bearer string, will ignore the header");
+			LOG.info("Couldn't find bearer string, will ignore the header");
 		}
-		res.setCharacterEncoding("UTF-8");
-		res.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 		chain.doFilter(req, res);
 	}
 
@@ -81,6 +93,15 @@ public class AuthenticationRequestFilter extends OncePerRequestFilter {
 			});
 		}
 		return new UsernamePasswordAuthenticationToken(userDetails, "", authorities);
+	}
+
+	private boolean inAntMatcher(String path) {
+		for (String pattern : WebSecurityConfig.WHITELIST) {
+			if (antPathMatcher.match(pattern, path)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }
