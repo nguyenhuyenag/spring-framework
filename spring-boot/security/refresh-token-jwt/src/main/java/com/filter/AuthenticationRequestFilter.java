@@ -24,7 +24,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.auth0.jwt.exceptions.JWTDecodeException;
@@ -32,7 +31,7 @@ import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.util.TokenHandler;
 
-@Component
+// @Component
 public class AuthenticationRequestFilter extends OncePerRequestFilter {
 
 	private static final Logger LOG = LoggerFactory.getLogger(AuthenticationRequestFilter.class);

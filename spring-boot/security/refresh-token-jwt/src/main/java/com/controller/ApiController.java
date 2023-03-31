@@ -10,50 +10,52 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.entity.User;
 import com.repository.UserRepository;
+import com.util.JsonUtils;
 
+/*-
+ * 		@PreAuthorize("hasRole('ADMIN')")
+ * 		@PreAuthorize("hasAnyRole('USER', 'ADMIN')") 
+ * 		@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+ */
 @RestController
-@RequestMapping("api")
 public class ApiController {
 
 	@Autowired
 	private UserRepository repository;
 
-	private static final String URL = "https://jsonplaceholder.typicode.com/todos";
+	private static final String URL = "https://random-data-api.com/api/v2/credit_cards";
 
-	@GetMapping("get-json")
-	private ResponseEntity<String> getJson() {
+	@GetMapping("/public/get-json")
+	private ResponseEntity<?> getJson() {
 		RestTemplate restTemplate = new RestTemplate();
 		String json = "";
 		try {
 			json = restTemplate.getForObject(URL, String.class);
-		} catch (Exception e) {
+		} catch (RestClientException e) {
 			e.printStackTrace();
 		}
-		return new ResponseEntity<>(json, HttpStatus.OK);
-	}
-	
-	@GetMapping("get-all-user")
-	// @PreAuthorize("hasRole('ADMIN')")
-	@RolesAllowed("ADMIN")
-	public List<User> listUser() {
-		return repository.findAll();
+		return ResponseEntity.ok(JsonUtils.toJsonNode(json));
 	}
 
-	@GetMapping("user-info")
-	// @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-	// @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@GetMapping("/api/who-am-i")
 	@RolesAllowed({ "ADMIN", "USER" })
 	public ResponseEntity<User> userInfo(Principal principal) {
 		String username = principal.getName();
 		Optional<User> opt = repository.findByUsername(username);
 		User user = opt.get();
 		return new ResponseEntity<>(user, HttpStatus.OK);
+	}
+
+	@GetMapping("/api/list-user")
+	@RolesAllowed("ADMIN")
+	public List<User> listUser() {
+		return repository.findAll();
 	}
 
 }

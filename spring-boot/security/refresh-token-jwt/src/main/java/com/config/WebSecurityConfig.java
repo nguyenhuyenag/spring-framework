@@ -48,7 +48,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.sessionCreationPolicy(SessionCreationPolicy.STATELESS) // no session cookie for API endpoints
 		.and()
 		.authorizeRequests() // no web forms for the REST API so no CSRF tokens will be created or checked
-			.antMatchers("/auth/**")
+			.antMatchers("/auth/**", "/public/**")
 			.permitAll()
 		.anyRequest()
 			.authenticated()
