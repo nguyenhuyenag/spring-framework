@@ -96,7 +96,7 @@ public class AuthenticationRequestFilter extends OncePerRequestFilter {
 	}
 
 	private boolean inAntMatcher(String path) {
-		for (String pattern : WebSecurityConfig.WHITELIST) {
+		for (String pattern : WebSecurityConfig.WHITE_LIST) {
 			if (antPathMatcher.match(pattern, path)) {
 				return true;
 			}

@@ -7,7 +7,6 @@ import java.util.Optional;
 import javax.annotation.security.RolesAllowed;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,9 +18,9 @@ import com.repository.UserRepository;
 import com.util.JsonUtils;
 
 /*-
- * 		@PreAuthorize("hasRole('ADMIN')")
- * 		@PreAuthorize("hasAnyRole('USER', 'ADMIN')") 
- * 		@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+ *	@PreAuthorize("hasRole('ADMIN')")
+ * 	@PreAuthorize("hasAnyRole('USER', 'ADMIN')") 
+ * 	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
  */
 @RestController
 public class ApiController {
@@ -44,12 +43,12 @@ public class ApiController {
 	}
 
 	@GetMapping("/api/who-am-i")
-	@RolesAllowed({ "ADMIN", "USER" })
+	@RolesAllowed({ "USER", "ADMIN" })
 	public ResponseEntity<User> userInfo(Principal principal) {
 		String username = principal.getName();
 		Optional<User> opt = repository.findByUsername(username);
 		User user = opt.get();
-		return new ResponseEntity<>(user, HttpStatus.OK);
+		return ResponseEntity.ok(user);
 	}
 
 	@GetMapping("/api/list-user")
