@@ -134,22 +134,23 @@ public class TokenHandler {
 		}
 		return "";
 	}
-
+	
 	public static void main(String args[]) throws InterruptedException {
-		String jwtToken = createJWT("dev1", "ROLE_USER,ROLE_ADMIN");
-		System.out.println("JWT: " + jwtToken);
-		DecodedJWT decodedJWT = verifyJWT(jwtToken);
+		String jwt = createJWT("dev1", null);
+		System.out.println("JWT: " + jwt);
+		DecodedJWT decodedJWT = verifyJWT(jwt);
 		if (decodedJWT == null) {
 			System.out.println("JWT Verification Failed");
 		}
-		decodedJWT = decodedJWT(jwtToken);
+		decodedJWT = decodedJWT(jwt);
 		if (decodedJWT != null) {
-			System.out.println("Token Issued At : " + decodedJWT.getIssuedAt());
-			System.out.println("Token Expires At : " + decodedJWT.getExpiresAt());
-			System.out.println("Token Subject : " + decodedJWT.getSubject());
-			System.out.println("Token Claim : " + decodedJWT.getClaim(AUTHORITIES_KEY));
-			// Boolean isExpired = isJWTAlive(decodedJWT);
-			// System.out.println("Is Alive : " + isExpired);
+			System.out.println("Subject : " + decodedJWT.getSubject());
+			System.out.println("Issued At : " + decodedJWT.getIssuedAt());
+			System.out.println("Expires At : " + decodedJWT.getExpiresAt());
+			System.out.println("Is Alive : " + isJWTAlive(decodedJWT));
+			// Claim claim = getClaim(decodedJWT);
+			System.out.println("Claim : " + getClaim(decodedJWT));
+			// createAuthorities(claim);
 		}
 	}
 

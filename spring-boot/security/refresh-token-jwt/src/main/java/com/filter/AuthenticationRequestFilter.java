@@ -1,9 +1,9 @@
 package com.filter;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -24,6 +24,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.auth0.jwt.exceptions.JWTDecodeException;
@@ -31,6 +32,7 @@ import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.util.TokenHandler;
 
+@Component
 public class AuthenticationRequestFilter extends OncePerRequestFilter {
 
 	private static final Logger LOG = LoggerFactory.getLogger(AuthenticationRequestFilter.class);
@@ -72,9 +74,9 @@ public class AuthenticationRequestFilter extends OncePerRequestFilter {
 	}
 
 	private UsernamePasswordAuthenticationToken getAuthentication(UserDetails userDetails, DecodedJWT decoded) {
-		final Collection<GrantedAuthority> authorities = new ArrayList<>();
+		Set<GrantedAuthority> authorities = new HashSet<>();
 		Claim claims = TokenHandler.getClaim(decoded);
-		if (claims != null) {
+		if (StringUtils.isNotEmpty(claims.asString())) {
 			Arrays.stream(claims.asString().split(",")).forEach(t -> {
 				authorities.add(new SimpleGrantedAuthority(t));
 			});
