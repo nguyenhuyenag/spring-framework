@@ -9,9 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.entity.RefreshToken;
+import com.entity.User;
 import com.payload.reponse.TokenRefreshResponse;
-import com.payload.request.TokenRefreshRequest;
 import com.repository.RefreshTokenRepository;
+import com.repository.UserRepository;
 import com.util.TokenHandler;
 
 @Service
@@ -20,17 +21,10 @@ public class RefreshTokenService {
 	private Long refreshTokenDurationMs = TimeUnit.DAYS.toMillis(1);
 
 	@Autowired
-	private UserService userService;
+	private UserRepository userRepository;
 
 	@Autowired
 	private RefreshTokenRepository refreshTokenRepository;
-
-	// @Autowired
-	// private UserRepository userRepository;
-
-	// public Optional<RefreshToken> findByToken(String token) {
-	// return refreshTokenRepository.findByToken(token);
-	// }
 
 	private boolean verifyExpiration(String token) {
 		Optional<Integer> verify = refreshTokenRepository.verifyExpiration(token);
@@ -49,21 +43,25 @@ public class RefreshTokenService {
 		return refreshToken;
 	}
 
-	public TokenRefreshResponse refreshToken(TokenRefreshRequest request) {
+	public TokenRefreshResponse refreshToken(String refresh_token) {
 		TokenRefreshResponse response = new TokenRefreshResponse();
-		String refreshToken = request.getRefreshToken();
 		// validate token
-		boolean verify = verifyExpiration(refreshToken);
+		boolean verify = verifyExpiration(refresh_token);
 		if (!verify) {
-			response.setMessage("Refresh token is not in database or expiration!");
+			response.setMessage("Token is expiration or not in database!");
 		} else {
-			RefreshToken findByToken = refreshTokenRepository.findByToken(refreshToken);
-			String username = findByToken.getUsername();
-			String authorities = userService.findAuthoritiesByUsername(username);
-			String jwtToken = TokenHandler.createJWT(username, authorities);
-			response.setAccessToken(jwtToken);
+			RefreshToken refreshToken = refreshTokenRepository.findByToken(refresh_token);
+			String username = refreshToken.getUsername();
+			Optional<User> opt = userRepository.findByUsername(username);
+			if (!opt.isPresent()) {
+				response.setMessage("Token information is incorrect!");
+			} else {
+				String jwt = TokenHandler.createJWT(username, opt.get().getStringAuthorities());
+				response.setType("Bearer");
+				response.setAccessToken(jwt);
+			}
 		}
-		response.setRefreshToken(refreshToken);
+		response.setRefreshToken(refresh_token);
 		return response;
 	}
 

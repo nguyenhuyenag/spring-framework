@@ -16,7 +16,7 @@ import lombok.Setter;
 @JsonPropertyOrder({ "type", "refresh_token", "access_token" }) // sort field
 public class TokenRefreshResponse {
 
-	private String type = "Bearer";
+	private String type; // = "Bearer";
 
 	@JsonProperty("access_token")
 	private String accessToken;

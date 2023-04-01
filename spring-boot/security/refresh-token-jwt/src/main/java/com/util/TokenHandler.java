@@ -87,7 +87,7 @@ public class TokenHandler {
 				// .withJWTId(UUID.randomUUID().toString())
 				.sign(algorithm);
 	}
-
+	
 	public static DecodedJWT verifyJWT(String jwt) {
 		try {
 			DecodedJWT verify = verifier.verify(jwt);

@@ -1,19 +1,14 @@
 package com.service.impl;
 
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.entity.Role;
 import com.entity.User;
 import com.repository.UserRepository;
 
@@ -23,16 +18,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Autowired
 	private UserRepository repository;
-
-	private Set<GrantedAuthority> createAuthorities(Set<Role> roles) {
-		Set<GrantedAuthority> authorities = new HashSet<>();
-		if (roles != null) {
-			roles.forEach(role -> {
-				authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
-			});
-		}
-		return authorities;
-	}
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -44,8 +29,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		return org.springframework.security.core.userdetails.User //
 				.withUsername(user.getUsername()) //
 				.password(user.getPassword()) //
-				.disabled(false) //
-				.authorities(createAuthorities(user.getRoles())) //
+				.disabled(user.isEnabled()) //
+				.authorities(user.getAuthorities()) //
 				.build();
 	}
 }
