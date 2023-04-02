@@ -27,12 +27,12 @@ import com.service.RefreshTokenService;
 import com.util.JsonUtils;
 import com.util.TokenHandler;
 
-public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
+public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
 	@Autowired
 	private RefreshTokenService refreshTokenService;
 
-	public JWTLoginFilter(AuthenticationManager am, RefreshTokenService refreshTokenService) {
+	public JWTAuthenticationFilter(AuthenticationManager am, RefreshTokenService refreshTokenService) {
 		super(new AntPathRequestMatcher("/auth/login"));
 		this.setAuthenticationManager(am);
 		this.refreshTokenService = refreshTokenService;
@@ -58,9 +58,6 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	@Override
 	protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain,
 			Authentication auth) throws IOException, ServletException {
-		
-		// res.addHeader(HttpHeaders.CONTENT_TYPE, "application/json;charset=UTF-8");
-		
 		String username = auth.getName();
 		String authorities = getAuthorities(auth);
 		String jwt = TokenHandler.createJWT(username, authorities);
@@ -75,14 +72,15 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	@Override
 	protected void unsuccessfulAuthentication(HttpServletRequest req, HttpServletResponse res,
 			AuthenticationException failed) throws IOException, ServletException {
-		
-		// res.addHeader(HttpHeaders.CONTENT_TYPE, "application/json;charset=UTF-8");
-		res.setStatus(401);
-		
+		// if user is disable status = 403
+		// int status = 401;
+		String message  = failed.getMessage();
+		// String message  = failed.getLocalizedMessage();
+		// res.setStatus(status);
 		ErrorResponse error = new ErrorResponse();
-		error.setStatus(401);
+		// error.setStatus(status);
 		error.setError("Unsuccessful authenticationabababababaab");
-		error.setMessage("From JWTLoginFilter.unsuccessfulAuthentication()");
+		error.setMessage("From JWTLoginFilter: " + message);
 		error.setPath(req.getRequestURI());
 		String json = JsonUtils.toJSON(error);
 		res.getWriter().write(json);
