@@ -58,7 +58,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.passwordParameter("password")
 				.defaultSuccessUrl("/") // the landing page after an unsuccessful login
 				.failureUrl("/login?error=true")
-				.failureHandler(loginFailureHandler).and()
+				.failureHandler(loginFailureHandler)
+				.and()
 			.logout()
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout")) // csrf logout
 				// .logoutSuccessHandler(logoutSuccessHandler());

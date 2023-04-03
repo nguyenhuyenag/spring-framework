@@ -4,7 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.repository.UserRepository;
 
 @SpringBootApplication
 public class BootApplication implements CommandLineRunner {
@@ -14,11 +15,14 @@ public class BootApplication implements CommandLineRunner {
 	}
 	
 	@Autowired
-	PasswordEncoder encoder;
+	private UserRepository repository;
 
+	// @Transactional
 	@Override
 	public void run(String... args) throws Exception {
-		// System.out.println(encoder.encode("123456"));
+		repository.findById(1).get().getUserRoles().forEach(
+			t -> System.out.println(t.getRole())
+		);
 	}
 
 }
