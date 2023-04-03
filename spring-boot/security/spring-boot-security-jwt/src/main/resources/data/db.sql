@@ -1,6 +1,6 @@
- CREATE DATABASE spring_security_jwt;
+CREATE DATABASE spring_security_jwt;
  
- USE spring_security_jwt;
+USE spring_security_jwt;
  
 CREATE TABLE `user` (
   `id` int NOT NULL AUTO_INCREMENT,
