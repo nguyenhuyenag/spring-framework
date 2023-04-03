@@ -18,9 +18,6 @@ import com.util.TokenHandler;
 @RequestMapping("auth")
 public class AuthController {
 
-	// @Autowired
-	// private AuthService authService;
-
 	@Autowired
 	private RefreshTokenService refreshTokenService;
 

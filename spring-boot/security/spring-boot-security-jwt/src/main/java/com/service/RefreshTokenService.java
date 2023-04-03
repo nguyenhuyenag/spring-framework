@@ -52,11 +52,11 @@ public class RefreshTokenService {
 		} else {
 			RefreshToken refreshToken = refreshTokenRepository.findByToken(refresh_token);
 			String username = refreshToken.getUsername();
-			Optional<User> opt = userRepository.findByUsername(username);
-			if (!opt.isPresent()) {
+			User user = userRepository.findByUsername(username);
+			if (user == null) {
 				response.setMessage("Token information is incorrect!");
 			} else {
-				String jwt = TokenHandler.createJWT(username, opt.get().getStringAuthorities());
+				String jwt = TokenHandler.createJWT(username, user.getStringAuthorities());
 				response.setType("Bearer");
 				response.setAccessToken(jwt);
 			}

@@ -1,8 +1,7 @@
 package com.service.impl;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,16 +20,20 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Optional<User> opt = repository.findByUsername(username);
-		if (!opt.isPresent()) {
-			throw new UsernameNotFoundException("User '" + username + "' was not found!");
+		User user = repository.findByUsername(username);
+		if (user == null) {
+			// See: https://stackoverflow.com/a/62279149
+			throw new UsernameNotFoundException("Dead message");
 		}
-		User user = opt.get();
+		if (!user.isEnabled()) {
+			throw new AccessDeniedException("User '" + username + "' is disabled");
+		}
 		return org.springframework.security.core.userdetails.User //
 				.withUsername(user.getUsername()) //
 				.password(user.getPassword()) //
-				.disabled(user.isEnabled()) //
+				.disabled(!user.isEnabled()) //
 				.authorities(user.getAuthorities()) //
 				.build();
 	}
+	
 }

@@ -51,44 +51,45 @@ public class AuthenticationRequestFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
 			throws IOException, ServletException {
-		
+
 		res.setCharacterEncoding("UTF-8");
 		res.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-		
+
 //	    final String param = Optional.ofNullable(req.getHeader(HttpHeaders.AUTHORIZATION))
 //	            .orElse(req.getParameter("t"));
 //		final String token = Optional.ofNullable(param)
 //	            .map(value -> StringUtils.removeStart(value, TokenHandler.BEARER))
 //	            .map(String::trim)
 //	            .orElseThrow(() -> new BadCredentialsException("Missing Authentication Token"));
-		
+
 		if (inAntMatcher(req.getRequestURI())) {
 			LOG.info("Request '{}' is in white list", req.getRequestURI());
 			chain.doFilter(req, res);
 			return;
 		}
-		
+
 		LOG.info("Filter request '{}'", req.getRequestURI());
 		String jwt = extractJWT(req);
-		if (StringUtils.isNotEmpty(jwt)) {
-			DecodedJWT verify = TokenHandler.verifyJWT(jwt);
-			if (verify == null) {
-				throw new JWTDecodeException("Invalid JWT token");
-			}
-			DecodedJWT decoded = TokenHandler.decodedJWT(jwt);
-			String username = TokenHandler.getSubject(decoded);
-			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			if (auth == null && StringUtils.isNotEmpty(username)) {
-				UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-				UsernamePasswordAuthenticationToken authToken = getAuthentication(userDetails, decoded);
-				authToken.setDetails(new WebAuthenticationDetailsSource() //
-						.buildDetails(req));
-				LOG.info("Authenticated '" + username + "', setting security context");
-				SecurityContextHolder.getContext().setAuthentication(authToken);
-			}
-		} else {
-			// LOG.info("Couldn't find bearer string, will ignore the header");
-			throw new BadCredentialsException("Missing Authentication Token");
+		if (StringUtils.isEmpty(jwt)) {
+			LOG.info("Couldn't find bearer string");
+			throw new BadCredentialsException("Missing authentication token");
+		}
+		
+		DecodedJWT verify = TokenHandler.verifyJWT(jwt);
+		if (verify == null) {
+			throw new JWTDecodeException("Invalid JWT token");
+		}
+		
+		DecodedJWT decoded = TokenHandler.decodedJWT(jwt);
+		String username = TokenHandler.getSubject(decoded);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth == null && StringUtils.isNotEmpty(username)) {
+			UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+			UsernamePasswordAuthenticationToken authToken = getAuthentication(userDetails, decoded);
+			authToken.setDetails(new WebAuthenticationDetailsSource() //
+					 .buildDetails(req));
+			LOG.info("Authenticated '" + username + "', setting security context");
+			SecurityContextHolder.getContext().setAuthentication(authToken);
 		}
 		chain.doFilter(req, res);
 	}
@@ -112,7 +113,7 @@ public class AuthenticationRequestFilter extends OncePerRequestFilter {
 		}
 		return false;
 	}
-	
+
 	private String extractJWT(HttpServletRequest req) {
 		String header = req.getHeader(HttpHeaders.AUTHORIZATION);
 		if (header != null && header.startsWith(TokenHandler.BEARER)) {

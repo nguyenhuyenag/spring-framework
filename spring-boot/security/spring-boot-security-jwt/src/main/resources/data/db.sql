@@ -2,7 +2,7 @@ CREATE TABLE `user` (
   `id` int NOT NULL AUTO_INCREMENT,
   `username` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
-  `disable` TINYINT(1) DEFAULT '0',
+  `enabled` TINYINT(1) DEFAULT '0',
   PRIMARY KEY (`id`)
 );
 

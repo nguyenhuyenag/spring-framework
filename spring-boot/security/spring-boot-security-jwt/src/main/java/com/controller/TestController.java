@@ -1,7 +1,7 @@
-package com.controller;
-
-public class TestController {
-	
+//package com.controller;
+//
+//public class TestController {
+//	
 //	@GetMapping("/authorities")
 //    public Map<String,Object> getPrincipalInfo(JwtAuthenticationToken principal) {
 //        
@@ -17,5 +17,5 @@ public class TestController {
 //        
 //        return info;
 //    }
-	
-}
+//	
+//}

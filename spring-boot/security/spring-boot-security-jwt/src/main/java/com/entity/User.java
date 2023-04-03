@@ -34,7 +34,7 @@ public class User { // implements UserDetails
 	private Long id;
 	private String username;
 	private String password;
-	private int disable = 0;
+	private int enabled = 0;
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "user_roles", //
@@ -44,7 +44,7 @@ public class User { // implements UserDetails
 	private Set<Role> roles;
 
 	public boolean isEnabled() {
-		return this.disable == 0;
+		return this.enabled != 0;
 	}
 
 	public Set<GrantedAuthority> getAuthorities() {
@@ -58,13 +58,13 @@ public class User { // implements UserDetails
 	}
 
 	public String getStringAuthorities() {
-		StringJoiner sj = new StringJoiner(",");
+		StringJoiner authorities = new StringJoiner(",");
 		if (this.roles != null) {
 			this.roles.forEach(role -> {
-				sj.add("ROLE_" + role.getName());
+				authorities.add("ROLE_" + role.getName());
 			});
 		}
-		return sj.toString();
+		return authorities.toString();
 	}
 
 	@Override

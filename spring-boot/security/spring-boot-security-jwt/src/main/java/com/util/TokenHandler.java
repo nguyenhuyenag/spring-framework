@@ -24,11 +24,11 @@ import com.auth0.jwt.interfaces.DecodedJWT;
  */
 public class TokenHandler {
 
-	public static final String BEARER 			= "Bearer ";
-	public static final String AUTHORITIES_KEY 	= "scopes";
-	private static final String ISSUER 			= "JWT_ISSUER";
-	private static final String SECRET_KEY 		= "JWT_SECRET_KEY";
-	private static final long EXPIRATION_TIME 	= TimeUnit.HOURS.toMillis(1);
+	public static final String BEARER 				= "Bearer ";
+	public static final String AUTHORITIES_KEY 		= "scopes";
+	private static final String ISSUER 				= "JWT_ISSUER";
+	private static final String SECRET_KEY 			= "JWT_26A879D65E22";
+	private static final long EXPIRATION_TIME 		= TimeUnit.DAYS.toMillis(1);
 	
 	private static Algorithm algorithm 	= Algorithm.HMAC512(SECRET_KEY);;
 	private static JWTVerifier verifier = JWT.require(algorithm).withIssuer(ISSUER).build();
@@ -81,7 +81,6 @@ public class TokenHandler {
 				.withIssuer(ISSUER) //
 				.withIssuedAt(new Date()) //
 				.withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME)) //
-				// .withJWTId(UUID.randomUUID().toString())
 				.sign(algorithm);
 	}
 	
