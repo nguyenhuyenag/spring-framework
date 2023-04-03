@@ -18,8 +18,6 @@ import org.springframework.security.web.authentication.AbstractAuthenticationPro
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.entity.RefreshToken;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.payload.reponse.ErrorResponse;
 import com.payload.reponse.JwtResponse;
 import com.payload.request.LoginRequest;
@@ -40,7 +38,7 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
 
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res)
-			throws JsonParseException, JsonMappingException, IOException {
+			throws AuthenticationException, IOException, ServletException {
 		UsernamePasswordAuthenticationToken authRequest = getAuthRequest(req);
 		SecurityContextHolder.getContext().setAuthentication(authRequest);
 		return getAuthenticationManager().authenticate(authRequest);
@@ -70,6 +68,9 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
 
 	private UsernamePasswordAuthenticationToken getAuthRequest(HttpServletRequest req) throws IOException {
 		LoginRequest login = JsonUtils.readValue(req.getInputStream(), LoginRequest.class);
+		if (login == null) {
+			return null;
+		}
 		return new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword());
 	}
 
