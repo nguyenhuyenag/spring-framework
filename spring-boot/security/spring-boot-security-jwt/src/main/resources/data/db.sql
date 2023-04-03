@@ -2,9 +2,7 @@ CREATE TABLE `user` (
   `id` int NOT NULL AUTO_INCREMENT,
   `username` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
-  `failed_counter` int DEFAULT '0',
-  `login_disabled` tinyint(1) DEFAULT '0',
-  `time_login_disabled` datetime DEFAULT NULL,
+  `disable` TINYINT(1) DEFAULT '0',
   PRIMARY KEY (`id`)
 );
 
@@ -21,8 +19,23 @@ CREATE TABLE `user_roles` (
   PRIMARY KEY (`user_id`,`role_id`)
 );
 
-INSERT INTO `user` VALUES (1,'huyennv','$2a$10$13HWiq1Z0S3vRSd836s3H.0GmceNFjo8HpIOTbZDD4/8KhYAU.yAq',4,0,'2022-01-06 11:44:26'),(2,'dev1','$2a$10$13HWiq1Z0S3vRSd836s3H.0GmceNFjo8HpIOTbZDD4/8KhYAU.yAq',0,0,NULL),(3,'user','$2a$10$13HWiq1Z0S3vRSd836s3H.0GmceNFjo8HpIOTbZDD4/8KhYAU.yAq',0,0,NULL);
+CREATE TABLE `refresh_token` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) DEFAULT NULL,
+  `token` varchar(255) DEFAULT NULL,
+  `expiry_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `token_UNIQUE` (`token`)
+);
 
-INSERT INTO `role` VALUES (1,'ADMIN','Admin role'),(2,'USER','User role');
+INSERT INTO `user` (`username`, `password`) VALUES 
+	('huyennv','$2a$10$13HWiq1Z0S3vRSd836s3H.0GmceNFjo8HpIOTbZDD4/8KhYAU.yAq'),
+	('dev1','$2a$10$13HWiq1Z0S3vRSd836s3H.0GmceNFjo8HpIOTbZDD4/8KhYAU.yAq'),
+	('user','$2a$10$13HWiq1Z0S3vRSd836s3H.0GmceNFjo8HpIOTbZDD4/8KhYAU.yAq');
 
-INSERT INTO `user_roles` VALUES (1,1),(1,2),(2,2);
+INSERT INTO `role` VALUES 
+	(1,'ADMIN','Admin role'),
+	(2,'MOD','Mod role'),
+	(3,'USER', 'User role');
+
+INSERT INTO `user_roles` VALUES (1, 1), (1, 2), (1, 3), (2, 2), (2, 3), (3, 3);

@@ -19,10 +19,11 @@ public class Application extends SpringBootServletInitializer implements Command
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}
-
+	
 	@Override
 	public void run(String... args) throws Exception {
-
+		// Assert.notNull(null, "password cannot be null");
+		// System.out.println("TIME: " + TimeUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
 	}
 
 }

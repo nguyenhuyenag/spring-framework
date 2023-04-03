@@ -1,5 +1,6 @@
 package com.util;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
@@ -20,8 +21,7 @@ public class JsonUtils {
 
 	/**
 	 * Object to JSON
-	 * 
-	 * @param <T>    generic type
+	 * @param <T> generic type
 	 * @param object Java object
 	 * @return JSON
 	 */
@@ -36,21 +36,29 @@ public class JsonUtils {
 		return "";
 	}
 
-	public static JsonNode toJsonNode(String jsonString) {
-		try {
-			return MAPPER.readTree(jsonString);
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
+	/**
+	 * JSON to List Object
+	 * @param <T>
+	 * @param json
+	 * @param array
+	 * @return List<T>
+	 */
+//	public static <T> List<T> toList(String json) {
+//		try {
+//			return MAPPER.readValue(json, new TypeReference<List<T>>() {});
+//		} catch (JsonParseException e) {
+//			e.printStackTrace();
+//		} catch (JsonMappingException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		return null;
+//	}
+	
 	/**
 	 * InputStream to Object
-	 * 
-	 * @param is   InputStream
+	 * @param is InputStream
 	 * @param type class type
 	 * @return Object
 	 */
@@ -64,37 +72,27 @@ public class JsonUtils {
 		}
 		return null;
 	}
-
-//	/**
-//	 * JSON to List Object
-//	 * 
-//	 * @param <T>
-//	 * @param json
-//	 * @param array
-//	 * @return List<T>
-//	 */
-//	public static <T> List<T> toList(String json) {
-//		try {
-//			return MAPPER.readValue(json, new TypeReference<List<T>>() {});
-//		} catch (JsonParseException e) {
-//			e.printStackTrace();
-//		} catch (JsonMappingException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		return null;
-//	}
-
-//	public static <T> T readValue(BufferedReader br, Class<T> type) {
-//		try {
-//			if (br != null) {
-//				return MAPPER.readValue(br, type);
-//			}
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		return null;
-//	}
+	
+	public static <T> T readValue(BufferedReader br, Class<T> type) {
+		try {
+			if (br != null) {
+				return MAPPER.readValue(br, type);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static JsonNode toJsonNode(String jsonString) {
+		try {
+			return MAPPER.readTree(jsonString);
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 }
