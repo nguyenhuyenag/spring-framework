@@ -7,11 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.model.Product;
 import com.service.ProductService;
@@ -57,23 +54,23 @@ public class ProductController {
 		return "new_product";
 	}
 	
-	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String saveProduct(@ModelAttribute("product") Product tProduct) {
-		service.save(tProduct);
-		return "redirect:/";
-	}
-	
-	@RequestMapping("/edit/{id}")
-	public ModelAndView showEditProductForm(@PathVariable(name = "id") Long id) {
-		ModelAndView mav = new ModelAndView("edit_product");
-		Product tProduct = service.get(id);
-		mav.addObject("product", tProduct);
-		return mav;
-	}	
-	
-	@RequestMapping("/delete/{id}")
-	public String deleteProduct(@PathVariable(name = "id") Long id) {
-		service.delete(id);
-		return "redirect:/";
-	}
+//	@RequestMapping(value = "/save", method = RequestMethod.POST)
+//	public String saveProduct(@ModelAttribute("product") Product tProduct) {
+//		service.save(tProduct);
+//		return "redirect:/";
+//	}
+//	
+//	@RequestMapping("/edit/{id}")
+//	public ModelAndView showEditProductForm(@PathVariable(name = "id") Long id) {
+//		ModelAndView mav = new ModelAndView("edit_product");
+//		Product tProduct = service.get(id);
+//		mav.addObject("product", tProduct);
+//		return mav;
+//	}	
+//	
+//	@RequestMapping("/delete/{id}")
+//	public String deleteProduct(@PathVariable(name = "id") Long id) {
+//		service.delete(id);
+//		return "redirect:/";
+//	}
 }

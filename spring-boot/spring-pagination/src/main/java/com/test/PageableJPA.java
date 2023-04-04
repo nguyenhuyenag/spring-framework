@@ -23,17 +23,15 @@ public class PageableJPA {
 	}
 
 	public static void init() {
-		// Lấy ra 5 user đầu tiên: PageRequest.of(0, 5) tương đương với lấy ra page đầu
-		// tiên (page 0), mỗi page 5 phần tử
-		// Page đầu tiên
+		// Page 0
+		// PageRequest.of(0, 5) -> Lấy ra page đầu tiên (page thứ 0), mỗi page 5 phần tử.
 		Page<Product> page = repository.findAll(PageRequest.of(0, 5));
 		System.out.println("In ra 5 user đầu tiên: ");
 		page.forEach(System.out::println);
 
-		// Page tiếp theo
+		// Page 1
 		System.out.println("In ra 5 user tiếp theo: ");
-		// page = userRepository.findAll(PageRequest.of(1, 5)); // Sử dụng PageRequest
-		// mới
+		// page = userRepository.findAll(PageRequest.of(1, 5)); // Sử dụng PageRequest mới
 		page = repository.findAll(page.nextPageable()); // Tận dụng đối tượng Page trước đó
 		page.forEach(System.out::println);
 	}
@@ -48,8 +46,7 @@ public class PageableJPA {
 	// Sort theo tên, lấy ra 5 user ở page 1. Lưu ý, phương thức này sắp xếp trước
 	// rồi mới chia page
 	public static void sortPage() {
-		// Page<Product> page = repository.findAll(PageRequest.of(1, 5,
-		// Sort.by("email")));
+		// Page<Product> page = repository.findAll(PageRequest.of(1, 5, Sort.by("email")));
 		Page<Product> page = repository.findAll(PageRequest.of(1, 5, Sort.Direction.ASC, "email"));
 		page.forEach(System.out::println);
 	}
