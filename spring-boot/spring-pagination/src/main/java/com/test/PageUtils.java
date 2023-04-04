@@ -47,27 +47,27 @@ public class PageUtils {
 //	}
 
 	// Không có danh sách rỗng
-	public static List<List<Integer>> splitList2(List<Integer> originalList, int n) {
-		int size = originalList.size(); // Kích thước của danh sách ban đầu
-		int blockSize = size / n; // Kích thước của từng danh sách con
-		int remainder = size % n; // Số lượng phần tử thừa, nếu có
-		List<List<Integer>> subLists = new ArrayList<List<Integer>>();
-		int start = 0;
-		int end = blockSize;
-		for (int i = 0; i < n; i++) {
-			if (remainder > 0) {
-				end++;
-				remainder--;
-			}
-			List<Integer> subList = originalList.subList(start, end);
-			subLists.add(subList);
-			start = end;
-			end += blockSize;
-		}
-		return subLists;
-	}
+//	public static List<List<Integer>> splitList2(List<Integer> originalList, int n) {
+//		List<List<Integer>> subLists = new ArrayList<List<Integer>>();
+//		int size = originalList.size(); // Kích thước của danh sách ban đầu
+//		int blockSize = size / n; // Kích thước của từng danh sách con
+//		int remainder = size % n; // Số lượng phần tử thừa, nếu có
+//		int start = 0;
+//		int end = blockSize;
+//		for (int i = 0; i < n; i++) {
+//			if (remainder > 0) {
+//				end++;
+//				remainder--;
+//			}
+//			// List<Integer> subList = originalList.subList(start, end);
+//			subLists.add(originalList.subList(start, end));
+//			start = end;
+//			end += blockSize;
+//		}
+//		return subLists;
+//	}
 
-	public static <T> List<List<T>> splitList3(List<T> list, int n) {
+	public static <T> List<List<T>> splitList1(List<T> list, int n) {
 		List<List<T>> result = new ArrayList<>();
 		int partitionSize = list.size() / n; 	// Dự đoán kích thước 1 list con
 		int remaining = list.size() % n; 		// Phần dư
@@ -107,7 +107,7 @@ public class PageUtils {
 			int page = ThreadLocalRandom.current().nextInt(3, 10);
 			if (total > page) {
 				List<Integer> originalList = IntStream.rangeClosed(1, total).boxed().collect(Collectors.toList());
-				List<List<Integer>> subsList = splitList3(originalList, page);
+				List<List<Integer>> subsList = splitList1(originalList, page);
 				System.out.println("Total: " + total + ", page: " + page + ", subList: " + subsList.size());
 				if (subsList.size() != page) {
 					System.err.println("The number of pages is wrong!");
