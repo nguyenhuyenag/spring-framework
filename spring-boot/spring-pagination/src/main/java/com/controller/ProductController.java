@@ -2,15 +2,22 @@ package com.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.ServletRequestUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.model.Product;
+import com.repository.ProductRepository;
 import com.service.ProductService;
 
 @Controller
@@ -18,6 +25,9 @@ public class ProductController {
 	
 	@Autowired
 	private ProductService service;
+	
+	@Autowired
+	private ProductRepository repository;
 	
 	@RequestMapping({"/", "product"})
 	public String viewHomePage(Model model) {
@@ -44,15 +54,27 @@ public class ProductController {
 		
 		model.addAttribute("listProducts", listProducts);
 		
-		return "index";
-	}	
-	
-	@RequestMapping("/new")
-	public String showNewProductForm(Model model) {
-		Product tProduct = new Product();
-		model.addAttribute("product", tProduct);
-		return "new_product";
+		return "product";
 	}
+	
+	@GetMapping("paging-tag")
+	public String index(HttpServletRequest request, ModelMap model) {
+		int page = ServletRequestUtils.getIntParameter(request, "p", 0);
+		List<Product> findAll = repository.findAll();
+		PagedListHolder<Product> pagedList = new PagedListHolder<>(findAll);
+		pagedList.setPage(page); // trang hiện tại
+		pagedList.setPageSize(7); // số dòng mỗi trang
+		// System.out.println("getPageCount(): " + pagedListHolder.getPageCount());
+		model.put("pagedListHolder", pagedList);
+		return "paging-tag";
+	}
+	
+//	@RequestMapping("/new")
+//	public String showNewProductForm(Model model) {
+//		Product tProduct = new Product();
+//		model.addAttribute("product", tProduct);
+//		return "new_product";
+//	}
 	
 //	@RequestMapping(value = "/save", method = RequestMethod.POST)
 //	public String saveProduct(@ModelAttribute("product") Product tProduct) {

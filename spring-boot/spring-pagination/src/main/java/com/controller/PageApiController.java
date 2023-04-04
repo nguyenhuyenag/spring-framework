@@ -28,25 +28,5 @@ public class PageApiController {
 		}
 		return ResponseEntity.ok(productService.info(request, page, size));
 	}
-	
-//	@GetMapping("test")
-//	public String index(HttpServletRequest request, ModelMap model) {
-//		int page = ServletRequestUtils.getIntParameter(request, "p", 0);
-//		List<Product> findAll = null;
-//		PagedListHolder<Product> pagedList = new PagedListHolder<>(findAll);
-//		pagedList.setPage(page); // trang hiện tại
-//		pagedList.setPageSize(7); // số dòng mỗi trang
-//		// System.out.println("getPageCount(): " + pagedListHolder.getPageCount());
-//		model.put("pagedListHolder", pagedList);
-//		return "product/product";
-//	}
-
-//	@GetMapping("/user")
-//	public ResponseEntity<?> get(@RequestParam(defaultValue = "1") int page, //
-//			@RequestParam(defaultValue = "10") int size, //
-//			@RequestParam(defaultValue = "id") String sortby) {
-//		List<Product> pages = productService.get(page, size, sortby);
-//		return ResponseEntity.ok(pages);
-//	}
 
 }

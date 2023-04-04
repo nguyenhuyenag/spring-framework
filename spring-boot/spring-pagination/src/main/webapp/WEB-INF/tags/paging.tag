@@ -1,6 +1,7 @@
 <%@ tag language="java" pageEncoding="ISO-8859-1" %>
 <%@ tag import="org.springframework.util.StringUtils" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <%@ attribute name="pageUrl" required="true" type="java.lang.String"%>
 <%@ attribute name="pagedListHolder" required="true" type="org.springframework.beans.support.PagedListHolder" %>
 
@@ -19,8 +20,7 @@
 			<li><a href="<%=StringUtils.replace(pageUrl, "~", "0")%>">1</a></li>
 		</c:if>
 		<c:if test="${pagedListHolder.firstLinkedPage > 1}">
-			<li><span class="pagingDots">...</span>
-			<li>
+			<li><span class="pagingDots">...</span><li>
 		</c:if>
 		<c:forEach begin="${pagedListHolder.firstLinkedPage}" end="${pagedListHolder.lastLinkedPage}" var="i">
 			<c:choose>
