@@ -2,7 +2,6 @@ package com.model;
 
 import java.math.BigDecimal;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,31 +15,20 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Entity
-@Table(name = "product")
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name = "product")
 public class Product {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Column
 	private String name;
-
-	@Column
 	private BigDecimal price;
-
-	@Column
 	private int quantity;
-
-	@Column
 	private String description;
-
-	@Column
 	private boolean status;
-
-	
 
 }
