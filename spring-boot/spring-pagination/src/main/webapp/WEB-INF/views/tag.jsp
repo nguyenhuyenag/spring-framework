@@ -9,15 +9,9 @@
 </head>
 
 <body>
-	<c:url value="/product" var="pageUrl">
-		<c:param name="p" value="~" />
-	</c:url>
-	
 	<!-- Include menu.html -->
 	<%@ include file="menu.jsp" %>
-	
 	<div class="container" style="margin-top: 20px;">
-		<%-- <tg:paging pagedListHolder="${pagedListHolder}" pageUrl="${pageUrl}" /> --%>
 		<table class="table table-bordered">
 			<tr>
 				<th width="20px">Id</th>
@@ -26,7 +20,7 @@
 				<th>Quantity</th>
 				<th>Status</th>
 			</tr>
-			<c:forEach items="${pagedListHolder.pageList}" var="item">
+			<c:forEach items='${pagedListHolder.pageList}' var="item">
 				<tr>
 					<td>${item.id}</td>
 					<td>${item.name}</td>
@@ -36,7 +30,12 @@
 				</tr>
 			</c:forEach>
 		</table>
-		<tg:paging pagedListHolder="${pagedListHolder}" pageUrl="${pageUrl}" />
+		<!-- Create url with name is pageUrl -->
+		<c:url value="/tag" var="pageUrl">
+			<c:param name="page" value="page_number" />
+			<%-- <c:param name="size" value="~" /> --%>
+		</c:url>
+		<tg:paging pageList="${pagedListHolder}" pageUrl="${pageUrl}" />
 	</div>
 </body>
 </html>

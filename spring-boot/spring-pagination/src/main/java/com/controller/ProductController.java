@@ -57,42 +57,14 @@ public class ProductController {
 		return "product";
 	}
 	
-	@GetMapping("paging-tag")
+	@GetMapping("tag")
 	public String index(HttpServletRequest request, ModelMap model) {
-		int page = ServletRequestUtils.getIntParameter(request, "p", 0);
-		List<Product> findAll = repository.findAll();
-		PagedListHolder<Product> pagedList = new PagedListHolder<>(findAll);
-		pagedList.setPage(page); // trang hiện tại
-		pagedList.setPageSize(7); // số dòng mỗi trang
-		// System.out.println("getPageCount(): " + pagedListHolder.getPageCount());
+		int page = ServletRequestUtils.getIntParameter(request, "page", 0);
+		PagedListHolder<Product> pagedList = new PagedListHolder<>(repository.findAll());
+		pagedList.setPage(page); 	// trang hiện tại
+		pagedList.setPageSize(7); 	// số dòng mỗi trang
 		model.put("pagedListHolder", pagedList);
-		return "paging-tag";
+		return "tag";
 	}
 	
-//	@RequestMapping("/new")
-//	public String showNewProductForm(Model model) {
-//		Product tProduct = new Product();
-//		model.addAttribute("product", tProduct);
-//		return "new_product";
-//	}
-	
-//	@RequestMapping(value = "/save", method = RequestMethod.POST)
-//	public String saveProduct(@ModelAttribute("product") Product tProduct) {
-//		service.save(tProduct);
-//		return "redirect:/";
-//	}
-//	
-//	@RequestMapping("/edit/{id}")
-//	public ModelAndView showEditProductForm(@PathVariable(name = "id") Long id) {
-//		ModelAndView mav = new ModelAndView("edit_product");
-//		Product tProduct = service.get(id);
-//		mav.addObject("product", tProduct);
-//		return mav;
-//	}	
-//	
-//	@RequestMapping("/delete/{id}")
-//	public String deleteProduct(@PathVariable(name = "id") Long id) {
-//		service.delete(id);
-//		return "redirect:/";
-//	}
 }
