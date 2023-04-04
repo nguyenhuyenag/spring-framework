@@ -9,7 +9,7 @@
 </head>
 <body>
 	<!-- Include _menu.html -->
-	<%@ include file="../menu.jsp" %>
+	<%@ include file="menu.jsp" %>
 	<div class="container" style="margin-top: 20px;" align="center">
 		<a href="${CONTEXT_PATH}/new">Create New Product</a>
 		<br/><br/>

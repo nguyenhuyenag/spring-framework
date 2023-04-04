@@ -9,7 +9,6 @@
 </head>
 
 <body>
-	
 	<c:url value="/product" var="pageUrl">
 		<c:param name="p" value="~" />
 	</c:url>

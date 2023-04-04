@@ -9,36 +9,37 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
-import com.model.User;
-import com.repository.UserRepository;
+import com.model.Product;
+import com.repository.ProductRepository;
 
 @Component
 public class PageableJPA {
 
-	private static UserRepository repository;
+	private static ProductRepository repository;
 
 	@Autowired // Constructor @Autowired
-	public PageableJPA(UserRepository repo) {
-		PageableJPA.repository = repo;
+	public PageableJPA(ProductRepository repository) {
+		PageableJPA.repository = repository;
 	}
 
 	public static void init() {
 		// Lấy ra 5 user đầu tiên: PageRequest.of(0, 5) tương đương với lấy ra page đầu
 		// tiên (page 0), mỗi page 5 phần tử
 		// Page đầu tiên
-		Page<User> page = repository.findAll(PageRequest.of(0, 5));
+		Page<Product> page = repository.findAll(PageRequest.of(0, 5));
 		System.out.println("In ra 5 user đầu tiên: ");
 		page.forEach(System.out::println);
 
 		// Page tiếp theo
 		System.out.println("In ra 5 user tiếp theo: ");
-		// page = userRepository.findAll(PageRequest.of(1, 5)); // Sử dụng PageRequest mới
+		// page = userRepository.findAll(PageRequest.of(1, 5)); // Sử dụng PageRequest
+		// mới
 		page = repository.findAll(page.nextPageable()); // Tận dụng đối tượng Page trước đó
 		page.forEach(System.out::println);
 	}
 
 	public static void info() {
-		Page<User> page = repository.findAll(PageRequest.of(0, 5));
+		Page<Product> page = repository.findAll(PageRequest.of(0, 5));
 		System.out.println("Số lượng user ở page hiện tại: " + page.getSize());
 		System.out.println("Tổng số lượng user: " + page.getTotalElements());
 		System.out.println("Tổng số page: " + page.getTotalPages());
@@ -47,20 +48,21 @@ public class PageableJPA {
 	// Sort theo tên, lấy ra 5 user ở page 1. Lưu ý, phương thức này sắp xếp trước
 	// rồi mới chia page
 	public static void sortPage() {
-		// Page<User> page = repository.findAll(PageRequest.of(1, 5, Sort.by("email")));
-		Page<User> page = repository.findAll(PageRequest.of(1, 5, Sort.Direction.ASC, "email"));
+		// Page<Product> page = repository.findAll(PageRequest.of(1, 5,
+		// Sort.by("email")));
+		Page<Product> page = repository.findAll(PageRequest.of(1, 5, Sort.Direction.ASC, "email"));
 		page.forEach(System.out::println);
 	}
 
-	public static List<User> PageToList() {
-		Page<User> page = repository.findAll(Pageable.unpaged()); // get all
+	public static List<Product> PageToList() {
+		Page<Product> page = repository.findAll(Pageable.unpaged()); // get all
 		return page.getContent();
 	}
 
 	public static void showAllPage(int elementPerPage) {
 		int i = 0;
-		Page<User> page = repository.findAll(PageRequest.of(0, elementPerPage));
-		// Page<User> page = repository.findAllWithTypeId(PageRequest.of(0, elementPerPage));
+		Page<Product> page = repository.findAll(PageRequest.of(0, elementPerPage));
+		// Page<Product> page = repository.findAllWithTypeId(PageRequest.of(0, elementPerPage));
 		System.out.println("Tổng số lượng user: " + page.getTotalElements());
 		while (i < page.getTotalPages()) {
 			System.out.println("Current page: " + (page.getNumber() + 1));
@@ -71,38 +73,5 @@ public class PageableJPA {
 			System.out.println();
 		}
 	}
-
-	// pageable = PageRequest.of(i, sizeOfPage)
-//	public static <T> Page<T> createPageFromList(List<T> list, Pageable pageable) {
-//		if (list == null) {
-//			throw new IllegalArgumentException("To create a Page, the list mustn't be null!");
-//		}
-//		int total = list.size();
-//		int start = pageable.getPageNumber() * pageable.getPageSize();
-//		if (start > total) {
-//			return new PageImpl<>(new ArrayList<>(), pageable, 0);
-//		}
-//		int end = Math.min(start + pageable.getPageSize(), total);
-//		return new PageImpl<>(list.subList(start, end), pageable, total);
-//	}
-
-//	public static <T> List<List<T>> createPageFromList(List<T> list, int nPage) {
-//		List<List<T>> result = new ArrayList<>();
-//		if (list == null || list.size() == 0) {
-//			return result;
-//		}
-//		int sizeOfPage = 0;
-//		int total = list.size();
-//		if (total % nPage == 0) {
-//			sizeOfPage = total / nPage;
-//		} else {
-//			sizeOfPage = total / nPage + 1;
-//		}
-//		for (int i = 0; i < nPage; i++) {
-//			Page<T> page = createPageFromList(list, PageRequest.of(i, sizeOfPage));
-//			result.add(page.getContent());
-//		}
-//		return result;
-//	}
 
 }
