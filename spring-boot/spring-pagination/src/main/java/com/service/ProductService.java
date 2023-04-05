@@ -6,12 +6,15 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.ServletRequestBindingException;
+import org.springframework.web.bind.ServletRequestUtils;
 
 import com.model.Product;
 import com.repository.ProductRepository;
@@ -37,9 +40,18 @@ public class ProductService {
 	 * Example: The number of elements can be 10 or less than 10 based on the actual
 	 * data. The last page would return 5 items
 	 */
-	public Map<String, Object> info(HttpServletRequest request, int page, int size) {
+	public Map<String, Object> info(HttpServletRequest request) {
+		Page<Product> pagedResult;
 		Map<String, Object> map = new LinkedHashMap<>();
-		Page<Product> pagedResult = repository.findAll(PageRequest.of(page, size));
+		String url = request.getRequestURL() + "?showContent=true";
+		if (request.getQueryString() == null) {
+			pagedResult = repository.findAll(Pageable.unpaged());
+		} else {
+			url += "&" + request.getQueryString();
+			int page = ServletRequestUtils.getIntParameter(request, "page", 1);
+			int size = ServletRequestUtils.getIntParameter(request, "size", 1);
+			pagedResult = repository.findAll(PageRequest.of(page, size));
+		}
 		if (pagedResult.hasContent()) {
 			map.put("Total items", pagedResult.getTotalElements());
 			int totalPages = pagedResult.getTotalPages();
@@ -49,14 +61,20 @@ public class ProductService {
 			map.put("Current page size (<= capacity)", pagedResult.getNumberOfElements());
 			// map.put("isFirst", pagedResult.isFirst());
 			// map.put("isLast", pagedResult.isLast());
-			String url = request.getRequestURL() + "?" + request.getQueryString() + "&showContent=true";
 			map.put("Contents", url);
 		}
 		return map;
 	}
 
-	public List<Product> getContent(int page, int size) {
-		Page<Product> pagedResult = repository.findAll(PageRequest.of(page, size));
+	public List<Product> getContent(HttpServletRequest request) throws ServletRequestBindingException {
+		Page<Product> pagedResult;
+		if (request.getParameter("page") == null || request.getParameter("size") == null) {
+			pagedResult = repository.findAll(Pageable.unpaged());
+		} else {
+			int page = ServletRequestUtils.getIntParameter(request, "page");
+			int size = ServletRequestUtils.getIntParameter(request, "size");
+			pagedResult = repository.findAll(PageRequest.of(page, size));
+		}
 		return pagedResult.getContent();
 	}
 
