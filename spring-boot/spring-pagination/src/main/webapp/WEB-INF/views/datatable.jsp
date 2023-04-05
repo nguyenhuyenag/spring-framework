@@ -28,9 +28,9 @@
 		          	// cache: false,
 	                // height: 400,
 	                // striped: true,
-	                pagination: true,
-    				paginationPages: 3,
-    				pageList: [10, 25, 50, 100],
+	                // pagination: true,
+    				// paginationPages: 3,
+    				// pageList: [10, 25, 50, 100],
 	                // pageSize: 5, //specify 5 here
 	                // pageList: [5, 10, 25, 50, 100, 200]
 		        });
