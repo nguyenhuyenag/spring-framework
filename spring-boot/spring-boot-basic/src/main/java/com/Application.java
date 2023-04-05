@@ -1,12 +1,12 @@
 package com;
 
-import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.beans.BeanUtils;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import com.boot.properties.Configuration;
+import com.entity.User;
 
 @SpringBootApplication
 public class Application implements CommandLineRunner {
@@ -25,13 +25,18 @@ public class Application implements CommandLineRunner {
 		thread.setDaemon(false);
 		thread.start();
 	}
-	
-	@Autowired
-	Configuration configuration;
 
 	@Override
 	public void run(String... args) throws Exception {
-		System.out.println(configuration.getLanguage());
+		User source = new User();
+		source.setId(1);
+		source.setName("HuyenNV");
+		source.setEmail("huyennv@gmail.com");
+		User target = new User();
+		org.springframework.beans.BeanUtils.copyProperties(source, target);
+		// org.apache.commons.beanutils.BeanUtils.copyProperties(target, source);
+		System.out.println("u1: " + source);
+		System.out.println("u2: " + target);
 	}
 
 }

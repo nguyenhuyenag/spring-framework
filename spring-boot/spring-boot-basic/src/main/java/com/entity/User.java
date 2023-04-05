@@ -35,10 +35,7 @@ public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-
 	private String name;
-
-	@Column(name = "e_mail")
 	private String email;
 
 	@UpdateTimestamp // hibernate

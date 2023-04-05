@@ -6,7 +6,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 
 @Service
-public class BeanUtils implements ApplicationContextAware {
+public class ContextUtils implements ApplicationContextAware {
 
 	private static ApplicationContext context;
 
