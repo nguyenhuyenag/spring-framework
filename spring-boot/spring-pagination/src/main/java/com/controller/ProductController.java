@@ -5,8 +5,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -57,14 +57,17 @@ public class ProductController {
 		return "product";
 	}
 	
-	@GetMapping("tag")
+	@GetMapping("simple-pagination")
 	public String index(HttpServletRequest request, ModelMap model) {
-		int page = ServletRequestUtils.getIntParameter(request, "page", 0);
-		PagedListHolder<Product> pagedList = new PagedListHolder<>(repository.findAll());
-		pagedList.setPage(page); 	// trang hiện tại
-		pagedList.setPageSize(7); 	// số dòng mỗi trang
-		model.put("pagedListHolder", pagedList);
-		return "tag";
+		// int page = ServletRequestUtils.getIntParameter(request, "page", 0);
+		// PagedListHolder<Product> pagedList = new PagedListHolder<>(repository.findAll());
+		// pagedList.setPage(page); 	// trang hiện tại
+		// pagedList.setPageSize(7); 	// số dòng mỗi trang
+		int page = ServletRequestUtils.getIntParameter(request, "page", 1);
+		int size = ServletRequestUtils.getIntParameter(request, "size", 10);
+		Page<Product> pagedResult = repository.findAll(PageRequest.of(page, size));
+		model.put("pageList", pagedResult.getContent());
+		return "simple-pagination";
 	}
 	
 }

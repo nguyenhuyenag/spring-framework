@@ -7,7 +7,9 @@
 	<title>Spring Data Pagination</title>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-	<!-- SimplePagination: https://flaviusmatis.github.io/simplePagination.js/ -->
+	<!-- 
+		SimplePagination: https://flaviusmatis.github.io/simplePagination.js/ 
+	-->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.4/simplePagination.min.css"/>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.6/jquery.simplePagination.js"></script>
 	<style>
@@ -25,6 +27,20 @@
 		      // cssStyle: "compact-theme",
 		      onPageClick: function(pageNumber, event) {
 		        console.log('Page clicked: ' + pageNumber);
+		        // window.location.href = `?page=${currentPage + 1}`;
+		        const currentUrl = window.location;
+		        console.log(currentUrl.href);
+				const urlWithoutParams = currentUrl.origin + currentUrl.pathname;
+				console.log(urlWithoutParams); // retrieves the current URL without query parameters
+				
+				// const paramValue = $.url().param('paramName');
+				// console.log(paramValue);
+				
+				// show all params
+				const params = new URLSearchParams(window.location.search);
+				params.forEach(function(value, name) {
+				  console.log(name + ': ' + value); // retrieves both name and value of each parameter
+				});
 		      }
 		    });
 		});
@@ -43,7 +59,7 @@
 				<th>Quantity</th>
 				<th>Status</th>
 			</tr>
-			<c:forEach items='${pagedListHolder.pageList}' var="item">
+			<c:forEach items='${pageList}' var="item">
 				<tr>
 					<td>${item.id}</td>
 					<td>${item.name}</td>
@@ -53,13 +69,6 @@
 				</tr>
 			</c:forEach>
 		</table>
-		<%-- 
-			<!-- Create url with name is pageUrl -->
-			<c:url value="/tag" var="pageUrl">
-				<c:param name="page" value="page_number" />
-			</c:url>
-			<tg:paging pageList="${pagedListHolder}" pageUrl="${pageUrl}" />
-		--%>
 		<div class="pagination-container">
 		  <ul class="pagination">
 		    <!-- List of items will be populated dynamically -->
