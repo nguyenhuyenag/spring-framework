@@ -6,7 +6,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -40,16 +39,16 @@ public class ProductService {
 	 * Example: The number of elements can be 10 or less than 10 based on the actual
 	 * data. The last page would return 5 items
 	 */
-	public Map<String, Object> info(HttpServletRequest request) {
+	public Map<String, Object> info(HttpServletRequest request) throws ServletRequestBindingException {
 		Page<Product> pagedResult;
 		Map<String, Object> map = new LinkedHashMap<>();
 		String url = request.getRequestURL() + "?showContent=true";
-		if (request.getQueryString() == null) {
+		if (request.getParameter("page") == null || request.getParameter("size") == null) {
 			pagedResult = repository.findAll(Pageable.unpaged());
 		} else {
 			url += "&" + request.getQueryString();
-			int page = ServletRequestUtils.getIntParameter(request, "page", 1);
-			int size = ServletRequestUtils.getIntParameter(request, "size", 1);
+			int page = ServletRequestUtils.getIntParameter(request, "page");
+			int size = ServletRequestUtils.getIntParameter(request, "size");
 			pagedResult = repository.findAll(PageRequest.of(page, size));
 		}
 		if (pagedResult.hasContent()) {

@@ -19,12 +19,20 @@
 		<script>
 		  $(function() {
 		    $.ajax({
-		      url: '/api/page-info?page=9&size=7&showContent=true', // Replace with the URL to your JSON data
+		      url: '/api/page-info?showContent=true', // Replace with the URL to your JSON data
 		      dataType: 'json',
 		      success: function(data) {
-		    	  console.log(data);
+		    	console.log(data);
 		        $('#myTable').bootstrapTable({
-		          data: data // Pass the JSON data to the Bootstrap Table plugin
+		          	data: data, // Pass the JSON data to the Bootstrap Table plugin
+		          	// cache: false,
+	                // height: 400,
+	                // striped: true,
+	                pagination: true,
+    				paginationPages: 3,
+    				pageList: [10, 25, 50, 100],
+	                // pageSize: 5, //specify 5 here
+	                // pageList: [5, 10, 25, 50, 100, 200]
 		        });
 		      },
 		      error: function(xhr, textStatus, errorThrown) {
@@ -39,7 +47,7 @@
 	<!-- Include menu.html -->
 	<%@ include file="menu.jsp"%>
 	<div class="container" style="margin-top: 20px;">
-		<table id="myTable" data-pagination="true">
+		<table id="myTable">
 		  <thead>
 		    <tr>
 		      <th data-field="id">ID</th>
