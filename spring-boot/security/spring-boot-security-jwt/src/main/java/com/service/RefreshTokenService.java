@@ -26,8 +26,8 @@ public class RefreshTokenService {
 	@Autowired
 	private RefreshTokenRepository refreshTokenRepository;
 
-	private boolean verifyExpiration(String token) {
-		Optional<Integer> verify = refreshTokenRepository.verifyExpiration(token);
+	private boolean verifyJwtExpiration(String token) {
+		Optional<Integer> verify = refreshTokenRepository.verifyJwtExpiration(token);
 		if (verify.isPresent()) {
 			return verify.get() == 1;
 		}
@@ -46,7 +46,7 @@ public class RefreshTokenService {
 	public TokenRefreshResponse refreshToken(String refresh_token) {
 		TokenRefreshResponse response = new TokenRefreshResponse();
 		// validate token
-		boolean verify = verifyExpiration(refresh_token);
+		boolean verify = verifyJwtExpiration(refresh_token);
 		if (!verify) {
 			response.setMessage("Token is expiration or not in database!");
 		} else {

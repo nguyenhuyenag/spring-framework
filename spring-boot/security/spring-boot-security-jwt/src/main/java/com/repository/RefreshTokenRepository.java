@@ -13,8 +13,12 @@ public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long
 
 	RefreshToken findByToken(String token);
 	
-	@Query(value = "SELECT NOW() <= t.expiry_date "
-			+ "FROM refresh_token t WHERE t.token = :token", nativeQuery = true)
-	Optional<Integer> verifyExpiration(String token);
+	@Query(value = 
+		"SELECT EXISTS (" + 
+			"SELECT t.token FROM refresh_token t " + 
+			"WHERE t.token = :token " + 
+			"AND (t.expiry_date >= NOW() OR t.expiry_date IS NULL)" + 
+		")", nativeQuery = true)
+	Optional<Integer> verifyJwtExpiration(String token);
 
 }
