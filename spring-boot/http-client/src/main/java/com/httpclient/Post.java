@@ -11,6 +11,7 @@ import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.auth.AuthScope;
@@ -231,7 +232,7 @@ public class Post {
 	
 	public static void basicAuthenticationUsingHTTPHeaders() throws IOException {
 		HttpGet request = new HttpGet("http://localhost:8080/employees");
-		request.setHeader("Authorization", getBasicAuthenticationHeader("user1", "password"));
+		request.setHeader(HttpHeaders.AUTHORIZATION, getBasicAuthenticationHeader("user1", "password"));
 		// CredentialsProvider provider = new BasicCredentialsProvider();
 		// provider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials("user", "password"));
 		try (CloseableHttpClient httpClient = HttpClientBuilder.create().build(); //
