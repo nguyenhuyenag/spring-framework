@@ -29,7 +29,6 @@ public class ConnectionPool {
                         CloseableHttpResponse response = httpclient.execute(httpGet);
                         HttpEntity entity = response.getEntity();
                         EntityUtils.consume(entity);
- 
                         response.close();
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -37,7 +36,6 @@ public class ConnectionPool {
                 }
             }).start();
         }
-        
         Thread.sleep(100000);
     }
 	

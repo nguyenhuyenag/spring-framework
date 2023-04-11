@@ -4,20 +4,28 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
@@ -123,8 +131,9 @@ public class Post {
 		Map<String, String> login = new HashMap<>();
 		login.put("username", "huyennv");
 		login.put("password", "123456");
-		final  RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(30 * 1000).build();
-		// try (CloseableHttpClient httpClient = HttpClientBuilder.create().setDefaultRequestConfig(requestConfig).build();) {
+		final RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(30 * 1000).build();
+		// try (CloseableHttpClient httpClient =
+		// HttpClientBuilder.create().setDefaultRequestConfig(requestConfig).build();) {
 		try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
 			HttpPost httpPost = new HttpPost(url);
 			httpPost.setConfig(requestConfig);
@@ -137,7 +146,7 @@ public class Post {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static LoginResponse loginPost() {
 		String url = "http://localhost:8080/auth/login";
 		Map<String, String> data = new HashMap<>();
@@ -156,7 +165,7 @@ public class Post {
 		}
 		return null;
 	}
-	
+
 	public static void postJWT() {
 		try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
 			LoginResponse login = loginPost();
@@ -170,10 +179,10 @@ public class Post {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void postXWWWFormUrlencoded() throws ClientProtocolException, IOException {
 		HttpPost httpPost = new HttpPost("http://localhost:8080/bsmsws.asmx/SendBrandSms");
-		
+
 		List<NameValuePair> params = new ArrayList<>();
 		params.add(new BasicNameValuePair("username", "abc"));
 		params.add(new BasicNameValuePair("password", "xxxxx"));
@@ -181,11 +190,12 @@ public class Post {
 		params.add(new BasicNameValuePair("loaitin", "1"));
 		params.add(new BasicNameValuePair("phonenumber", "84960000000"));
 		params.add(new BasicNameValuePair("message", "sms_content" + System.currentTimeMillis()));
-		
+
 		httpPost.setEntity(new UrlEncodedFormEntity(params));
-		
-		// httpPost.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE);
-		
+
+		// httpPost.setHeader(HttpHeaders.CONTENT_TYPE,
+		// MediaType.APPLICATION_FORM_URLENCODED_VALUE);
+
 		try (CloseableHttpClient client = HttpClients.createDefault();) {
 			HttpResponse response = client.execute(httpPost);
 			System.out.println("Status:" + response.getStatusLine().getStatusCode());
@@ -194,13 +204,59 @@ public class Post {
 		}
 	}
 
+	public static void basicAuthentication() throws IOException {
+		HttpGet request = new HttpGet("http://localhost:8080/employees");
+		CredentialsProvider provider = new BasicCredentialsProvider();
+		provider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials("user", "password"));
+		try (CloseableHttpClient httpClient = HttpClientBuilder.create()
+				.setDefaultCredentialsProvider(provider) //
+				.build(); //
+				CloseableHttpResponse response = httpClient.execute(request)) {
+			// 401 if wrong user/password
+			System.out.println(response.getStatusLine().getStatusCode());
+			HttpEntity entity = response.getEntity();
+			if (entity != null) {
+				// return it as a String
+				String result = EntityUtils.toString(entity);
+				System.out.println(result);
+			}
+		}
+
+	}
+	
+	private static final String getBasicAuthenticationHeader(String username, String password) {
+	    String valueToEncode = username + ":" + password;
+	    return "Basic " + Base64.getEncoder().encodeToString(valueToEncode.getBytes());
+	}
+	
+	public static void basicAuthenticationUsingHTTPHeaders() throws IOException {
+		HttpGet request = new HttpGet("http://localhost:8080/employees");
+		request.setHeader("Authorization", getBasicAuthenticationHeader("user1", "password"));
+		// CredentialsProvider provider = new BasicCredentialsProvider();
+		// provider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials("user", "password"));
+		try (CloseableHttpClient httpClient = HttpClientBuilder.create().build(); //
+				CloseableHttpResponse response = httpClient.execute(request)) {
+			// 401 if wrong user/password
+			System.out.println(response.getStatusLine().getStatusCode());
+			HttpEntity entity = response.getEntity();
+			if (entity != null) {
+				// return it as a String
+				String result = EntityUtils.toString(entity);
+				System.out.println(result);
+			}
+		}
+		
+	}
+
 	public static void main(String[] args) throws ClientProtocolException, IOException {
 		// postParams();
 		// postJson();
 		// postJson2();
 		// setTimeout();
 		// postJWT();
-		postXWWWFormUrlencoded();
+		// postXWWWFormUrlencoded();
+		// basicAuthentication();
+		basicAuthenticationUsingHTTPHeaders();
 		System.out.println();
 	}
 
