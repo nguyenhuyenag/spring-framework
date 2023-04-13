@@ -13,7 +13,7 @@ public class AppController {
 		return "Allowed to all";
 	}
 
-	// Method to serve the guest page!
+	// Method to serve the user page
     @GetMapping(value= "/user")
     public ResponseEntity<String> guest() {
         System.out.println("Showing guest page.");
