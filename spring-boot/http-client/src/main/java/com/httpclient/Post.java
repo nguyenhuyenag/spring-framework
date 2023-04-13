@@ -90,37 +90,6 @@ public class Post {
 		System.out.println(content);
 	}
 
-	public static <T> T doPost(Object data, String url, Class<T> type) {
-		try (CloseableHttpClient client = HttpClients.createDefault()) {
-			HttpPost httpPost = new HttpPost(url);
-			StringEntity entity = new StringEntity(JsonUtils.toJSON(data));
-			httpPost.setEntity(entity);
-			httpPost.setHeader("Accept", "application/json");
-			httpPost.setHeader("Content-type", "application/json");
-			HttpResponse response = client.execute(httpPost);
-			LOG.info("Status: {}", response.getStatusLine().toString());
-			InputStream is = response.getEntity().getContent();
-			return JsonUtils.readValue(is, type);
-		} catch (UnsupportedOperationException | IOException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	public static String doPost(Object data, String url) {
-		try (CloseableHttpClient client = HttpClients.createDefault()) {
-			HttpPost httpPost = new HttpPost(url);
-			StringEntity entity = new StringEntity(JsonUtils.toJSON(data));
-			httpPost.setEntity(entity);
-			HttpResponse response = client.execute(httpPost);
-			LOG.info("Status = {}", response.getStatusLine().getStatusCode());
-			return EntityUtils.toString(response.getEntity());
-		} catch (UnsupportedOperationException | IOException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
 	public static void setTimeout() {
 		// int timeout = 5000;
 		// RequestConfig config = RequestConfig.custom()
@@ -248,6 +217,38 @@ public class Post {
 		}
 		
 	}
+	
+	// completed method
+	public static <T> T doPost(Object data, String url, Class<T> type) {
+		try (CloseableHttpClient client = HttpClients.createDefault()) {
+			HttpPost httpPost = new HttpPost(url);
+			StringEntity entity = new StringEntity(JsonUtils.toJSON(data));
+			httpPost.setEntity(entity);
+			httpPost.setHeader("Accept", "application/json");
+			httpPost.setHeader("Content-type", "application/json");
+			HttpResponse response = client.execute(httpPost);
+			LOG.info("Status: {}", response.getStatusLine().toString());
+			InputStream is = response.getEntity().getContent();
+			return JsonUtils.readValue(is, type);
+		} catch (UnsupportedOperationException | IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public static String doPost(Object data, String url) {
+		try (CloseableHttpClient client = HttpClients.createDefault()) {
+			HttpPost httpPost = new HttpPost(url);
+			StringEntity entity = new StringEntity(JsonUtils.toJSON(data));
+			httpPost.setEntity(entity);
+			HttpResponse response = client.execute(httpPost);
+			LOG.info("Status = {}", response.getStatusLine().getStatusCode());
+			return EntityUtils.toString(response.getEntity());
+		} catch (UnsupportedOperationException | IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	public static void main(String[] args) throws ClientProtocolException, IOException {
 		// postParams();
@@ -257,7 +258,7 @@ public class Post {
 		// postJWT();
 		// postXWWWFormUrlencoded();
 		// basicAuthentication();
-		basicAuthenticationUsingHTTPHeaders();
+		// basicAuthenticationUsingHTTPHeaders();
 		System.out.println();
 	}
 
