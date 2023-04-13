@@ -1,4 +1,4 @@
-package com.model;
+package com.pojo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

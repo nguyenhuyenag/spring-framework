@@ -7,7 +7,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 
 public class JsonUtils {
 
@@ -37,8 +36,7 @@ public class JsonUtils {
 	public static <T> T readValue(InputStream is, Class<T> type) {
 		if (Objects.nonNull(is)) {
 			try {
-				return MAPPER.enable(SerializationFeature.WRAP_ROOT_VALUE) // wrapping is enabled
-						.readValue(is, type);
+				return MAPPER.readValue(is, type);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
