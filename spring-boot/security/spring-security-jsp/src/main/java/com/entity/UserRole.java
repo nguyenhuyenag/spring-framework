@@ -26,11 +26,11 @@ public class UserRole implements Serializable {
 	private Integer id;
 
 	@ManyToOne
-	@JoinColumn(name = "user_id") // thông qua khóa ngoại user_id
+	@JoinColumn(name = "user_id") // map với User thông qua khóa ngoại user_id
 	private User user;
 
 	@ManyToOne
-	@JoinColumn(name = "role_id") // thông qua khóa ngoại role_id
+	@JoinColumn(name = "role_id") // map với Role thông qua khóa ngoại role_id
 	private Role role;
 
 }

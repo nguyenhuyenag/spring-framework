@@ -1,10 +1,16 @@
 package com;
 
+import java.util.Set;
+
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.entity.User;
+import com.entity.UserRole;
 import com.repository.UserRepository;
 
 @SpringBootApplication
@@ -15,14 +21,19 @@ public class BootApplication implements CommandLineRunner {
 	}
 	
 	@Autowired
-	private UserRepository repository;
+	private UserRepository userRepository;
+	
+	@Transactional
+	public void test() {
+		User user = userRepository.findById(1).get();
+		// Hibernate.initialize(user.getUserRoles());
+		Set<UserRole> userRoles = user.getUserRoles();
+		System.out.println(userRoles.toString());
+	}
 
-	// @Transactional
 	@Override
 	public void run(String... args) throws Exception {
-		repository.findById(1).get().getUserRoles().forEach(
-			t -> System.out.println(t.getRole())
-		);
+		test();
 	}
 
 }

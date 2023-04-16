@@ -1,8 +1,8 @@
 package com.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,11 +32,11 @@ public class User implements Serializable {
 
 	private String password;
 	private String username;
-	private byte enabled;
+	private int enabled;
 
-	// need `fetch = FetchType.EAGER`
-	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER) // trỏ tới tên biến user ở trong UserRole
-	private List<UserRole> userRoles = new ArrayList<>();
+	// important `fetch = FetchType.EAGER`
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY) // trỏ tới tên biến user ở trong UserRole
+	private Set<UserRole> userRoles = new HashSet<>();
 
 	@Override
 	public String toString() {
