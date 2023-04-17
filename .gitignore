@@ -3,6 +3,7 @@
 **/target/
 **/.settings/
 **/.sts4-cache/
+**/.idea/
 
 # Package
 *.jar

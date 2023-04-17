@@ -11,7 +11,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import com.entity.User;
 import com.repository.UserRepository;
 
-/**
+/*-
  * > Propagation
  * 
  * - REQUIRED: Nếu có một transaction đang hoạt động thì nó sẽ sử dụng chung,
@@ -46,10 +46,8 @@ import com.repository.UserRepository;
  * > Handling Exceptions
  * 
  * - Spring proxy sẽ tự động rollback transaction nếu có một RuntimeException
- * xảy ra. Bạn có thể tùy biến bằng cách sử dụng thuộc tính rollbackFor và
+ * xảy ra. Ta có thể tùy biến bằng cách sử dụng thuộc tính rollbackFor và
  * noRollbackFor của @Transactional annotation
- * 
- *
  */
 @Service
 public class SpringTransaction {

@@ -2,7 +2,6 @@ package com;
 
 import java.util.Set;
 
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -19,10 +18,10 @@ public class BootApplication implements CommandLineRunner {
 	public static void main(String[] args) {
 		SpringApplication.run(BootApplication.class, args);
 	}
-	
+
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Transactional
 	public void test() {
 		User user = userRepository.findById(1).get();
