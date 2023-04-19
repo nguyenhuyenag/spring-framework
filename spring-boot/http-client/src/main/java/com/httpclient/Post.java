@@ -52,7 +52,9 @@ public class Post {
 		try (CloseableHttpClient client = HttpClients.createDefault();) {
 			HttpResponse response = client.execute(httpPost);
 			System.out.println("Status:" + response.getStatusLine().toString());
-			String content = IOUtils.toString(response.getEntity().getContent(), StandardCharsets.UTF_8);
+			String content = EntityUtils.toString(response.getEntity());
+			// InputStream is = response.getEntity().getContent(); // implements Closeable
+			// String content = IOUtils.toString(is, StandardCharsets.UTF_8);
 			System.out.println(content);
 		}
 	}
@@ -178,8 +180,7 @@ public class Post {
 		HttpGet request = new HttpGet("http://localhost:8080/employees");
 		CredentialsProvider provider = new BasicCredentialsProvider();
 		provider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials("user", "password"));
-		try (CloseableHttpClient httpClient = HttpClientBuilder.create()
-				.setDefaultCredentialsProvider(provider) //
+		try (CloseableHttpClient httpClient = HttpClientBuilder.create().setDefaultCredentialsProvider(provider) //
 				.build(); //
 				CloseableHttpResponse response = httpClient.execute(request)) {
 			// 401 if wrong user/password
@@ -193,17 +194,18 @@ public class Post {
 		}
 
 	}
-	
+
 	private static final String getBasicAuthenticationHeader(String username, String password) {
-	    String valueToEncode = username + ":" + password;
-	    return "Basic " + Base64.getEncoder().encodeToString(valueToEncode.getBytes());
+		String valueToEncode = username + ":" + password;
+		return "Basic " + Base64.getEncoder().encodeToString(valueToEncode.getBytes());
 	}
-	
+
 	public static void basicAuthenticationUsingHTTPHeaders() throws IOException {
 		HttpGet request = new HttpGet("http://localhost:8080/employees");
 		request.setHeader(HttpHeaders.AUTHORIZATION, getBasicAuthenticationHeader("user1", "password"));
 		// CredentialsProvider provider = new BasicCredentialsProvider();
-		// provider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials("user", "password"));
+		// provider.setCredentials(AuthScope.ANY, new
+		// UsernamePasswordCredentials("user", "password"));
 		try (CloseableHttpClient httpClient = HttpClientBuilder.create().build(); //
 				CloseableHttpResponse response = httpClient.execute(request)) {
 			// 401 if wrong user/password
@@ -215,9 +217,9 @@ public class Post {
 				System.out.println(result);
 			}
 		}
-		
+
 	}
-	
+
 	// completed method
 	public static <T> T doPost(Object data, String url, Class<T> type) {
 		try (CloseableHttpClient client = HttpClients.createDefault()) {

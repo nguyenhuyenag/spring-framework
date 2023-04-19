@@ -3,15 +3,14 @@ package com.httpclient;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
-import java.nio.charset.StandardCharsets;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,8 +28,8 @@ public class Get {
 		HttpClient client = HttpClients.createDefault();
 		HttpResponse response = client.execute(httpGet);
 		System.out.println("Status:" + response.getStatusLine().getStatusCode());
-		String result = IOUtils.toString(response.getEntity().getContent(), StandardCharsets.UTF_8);
-		System.out.println(result);
+		String content = EntityUtils.toString(response.getEntity());
+		System.out.println(content);
 	}
 
 	public static void callSlowService() {
@@ -42,8 +41,8 @@ public class Get {
 			HttpClient httpClient = HttpClients.createDefault();
 			HttpResponse response = httpClient.execute(httpGet);
 			System.out.println("Status: " + response.getStatusLine().getStatusCode());
-			String result = IOUtils.toString(response.getEntity().getContent(), StandardCharsets.UTF_8);
-			System.out.println(result);
+			String content = EntityUtils.toString(response.getEntity());
+			System.out.println(content);
 		} catch (URISyntaxException | IOException e) {
 			e.printStackTrace();
 		}
@@ -57,7 +56,7 @@ public class Get {
 			HttpClient client = HttpClients.createDefault();
 			HttpResponse response = client.execute(httpGet);
 			LOG.info("Status: {}", response.getStatusLine().toString());
-			InputStream is = response.getEntity().getContent();
+			InputStream is = response.getEntity().getContent(); // Need close
 			return JsonUtils.readValue(is, type);
 		} catch (URISyntaxException | IOException e) {
 			e.printStackTrace();
