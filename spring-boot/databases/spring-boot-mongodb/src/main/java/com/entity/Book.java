@@ -7,6 +7,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -21,7 +22,7 @@ import lombok.Setter;
 public class Book {
 
 	@Id
-	// @Field("_id")
+	@Field("_id")
     private Integer id;
 
 	private String title;

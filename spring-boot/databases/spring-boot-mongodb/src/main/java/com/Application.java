@@ -25,8 +25,7 @@ public class Application implements CommandLineRunner {
 	public void find() {
 		List<Book> findAll = repository.findAll();
 		if (!findAll.isEmpty()) {
-			Book book = findAll.get(0);
-			System.out.println(book.toString());
+			findAll.forEach(t -> System.out.println(t.toString()));
 		}
 	}
 
