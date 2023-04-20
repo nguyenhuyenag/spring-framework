@@ -19,6 +19,7 @@ import org.apache.hc.core5.http.HttpResponse;
 import org.apache.hc.core5.http.nio.AsyncRequestProducer;
 import org.apache.hc.core5.http.nio.support.AsyncRequestBuilder;
 
+@SuppressWarnings("deprecation")
 public class HttpClient5Async {
 
 	public static void main(String[] args) {

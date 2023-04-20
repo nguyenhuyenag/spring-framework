@@ -38,7 +38,6 @@ public class HttpClient5FormLogin {
 
 				System.out.println("Login form get: " + response2.getCode() + " " + response2.getReasonPhrase());
 				System.out.println("Current response information " + EntityUtils.toString(entity));
-				;
 
 				System.out.println("Post Login Cookie:");
 				final List<Cookie> cookies = cookieStore.getCookies();
