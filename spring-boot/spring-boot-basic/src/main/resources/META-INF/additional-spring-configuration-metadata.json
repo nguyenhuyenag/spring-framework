@@ -1,0 +1,12 @@
+{"properties": [
+  {
+    "name": "bean2.enabled",
+    "type": "java.lang.String",
+    "description": "A description for 'bean2.enabled'"
+  },
+  {
+    "name": "conditional.on.property.enabled",
+    "type": "java.lang.String",
+    "description": "A description for 'conditional.on.property.enabled'"
+  }
+]}

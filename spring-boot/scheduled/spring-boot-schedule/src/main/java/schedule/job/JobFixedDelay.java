@@ -25,7 +25,8 @@ public class JobFixedDelay {
 	 * fixedDelay = 5000 						Thời gian task sẽ chạy lại 
 	 * fixedDelayString = "${time.repeate}"		Thời gian task sẽ chạy lại kiểu string
 	 */
-	@Scheduled(cron = "10 * * * * ?")
+	// @Scheduled(cron = "10 * * * * ?") // chạy vào giây thứ 10 của mỗi phút
+	@Scheduled(cron = "10 * * ? * *") // chạy vào giây thứ 10 của mỗi phút
 	public void scheduleFixedDelayTask() throws InterruptedException {
 		System.out.println("Fixed delay task - " + TimeUtils.format(new Date()));
 	}

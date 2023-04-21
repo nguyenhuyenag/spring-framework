@@ -6,7 +6,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import com.entity.User;
+import com.boot.conditional.ConditionalOnBeanExample.ABeanWithCondition;
+import com.util.ContextUtils;
 
 @SpringBootApplication
 public class Application implements CommandLineRunner {
@@ -28,15 +29,17 @@ public class Application implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		User source = new User();
-		source.setId(1);
-		source.setName("HuyenNV");
-		source.setEmail("huyennv@gmail.com");
-		User target = new User();
-		org.springframework.beans.BeanUtils.copyProperties(source, target);
-		// org.apache.commons.beanutils.BeanUtils.copyProperties(target, source);
-		System.out.println("u1: " + source);
-		System.out.println("u2: " + target);
+//		User source = new User();
+//		source.setId(1);
+//		source.setName("HuyenNV");
+//		source.setEmail("huyennv@gmail.com");
+//		User target = new User();
+//		org.springframework.beans.BeanUtils.copyProperties(source, target);
+//		// org.apache.commons.beanutils.BeanUtils.copyProperties(target, source);
+//		System.out.println("u1: " + source);
+//		System.out.println("u2: " + target);
+		ABeanWithCondition bean = ContextUtils.getBean(ABeanWithCondition.class);
+		System.out.println(bean);
 	}
 
 }
