@@ -5,26 +5,24 @@ import org.quartz.JobExecutionContext;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import quartz.dao.Jokes;
-
 @Component
 // @DisallowConcurrentExecution
 public class Job1 implements Job {
 
-	private final static String URL = "http://api.icndb.com/jokes/random";
-
 	private static final RestTemplate restTemplate = new RestTemplate();
+	
+	private final static String URL = "https://random-data-api.com/api/users/random_user";
 
 	@Override
 	public void execute(JobExecutionContext context) {
 		getJson();
 	}
 
-	public static void getJson() {
+	public void getJson() {
 		try {
-			Jokes json = restTemplate.getForObject(URL, Jokes.class);
-			String joke = json.getValue().getJoke();
-			System.out.println("Job 1: " + joke.replaceAll("&quot;", "\""));
+			String json = restTemplate.getForObject(URL, String.class);
+			// String joke = json.getValue().getJoke();
+			System.out.println("Job 1: " + json);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

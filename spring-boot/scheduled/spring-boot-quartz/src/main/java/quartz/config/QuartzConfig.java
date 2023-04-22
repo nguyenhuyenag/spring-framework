@@ -15,17 +15,11 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
 import org.springframework.scheduling.quartz.SpringBeanJobFactory;
 
+// -> Cách cấu hình 1
 @Configuration
 public class QuartzConfig {
 
 	private static final Logger LOG = LoggerFactory.getLogger(QuartzConfig.class);
-
-	// @Autowired
-	// private ApplicationContext applicationContext;
-
-	//	public QuartzConfig(ApplicationContext applicationContext) {
-	//		this.applicationContext = applicationContext;
-	//	}
 
 	@Value("${spring.quartz.properties.org.quartz.scheduler.enabled:true}")
 	private boolean enabled;
@@ -41,8 +35,6 @@ public class QuartzConfig {
 	@Bean
 	public SchedulerFactoryBean scheduler(Trigger... triggers) {
 		SchedulerFactoryBean factory = new SchedulerFactoryBean();
-		// Properties properties = new Properties();
-		// schedulerFactory.setQuartzProperties(properties);
 		factory.setAutoStartup(enabled);
 		factory.setOverwriteExistingJobs(true);
 		factory.setJobFactory(springBeanJobFactory());
@@ -60,17 +52,14 @@ public class QuartzConfig {
 		LOG.info("createJobDetail(jobClass={})", classJob.getSimpleName());
 		JobDetailFactoryBean factory = new JobDetailFactoryBean();
 		factory.setJobClass(classJob);
-		// factory.setName(classJob.getSimpleName());
-		// factoryBean.setDurability(true);
 		return factory;
 	}
 
-	public static SimpleTriggerFactoryBean createTrigger(JobDetail jobDetail, long repeat) {
+	public static SimpleTriggerFactoryBean createTrigger(JobDetail jobDetail, long repeatTime) {
 		SimpleTriggerFactoryBean factory = new SimpleTriggerFactoryBean();
 		factory.setStartDelay(0L);
 		factory.setJobDetail(jobDetail);
-		factory.setRepeatInterval(repeat * 1000); // giay
-		// factory.setBeanName(jobDetail.getClass().getSimpleName());
+		factory.setRepeatInterval(1000 * repeatTime); // giay
 		factory.setRepeatCount(SimpleTrigger.REPEAT_INDEFINITELY);
 		return factory;
 	}

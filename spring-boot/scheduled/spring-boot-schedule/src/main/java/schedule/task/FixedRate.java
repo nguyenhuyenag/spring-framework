@@ -1,9 +1,9 @@
-package schedule.job;
+package schedule.task;
 
 import org.springframework.stereotype.Component;
 
 @Component
-public class JobFixedRate {
+public class FixedRate {
 
 	/**
 	 * - fixedRate thì giống với fixedDelay, tuy nhiên cứ sau khoảng thời gian
