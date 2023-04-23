@@ -5,25 +5,25 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MyTask extends TimerTask {
+public class MyTimerTask extends TimerTask {
 
 	@Override
 	public void run() {
-		System.out.println("TaskRunOnce: " + TimeUtils.now());
+		System.out.println("MyTimerTask: " + TimeUtils.now());
 	}
 
-	public static void runOnce() {
-		MyTask myTask = new MyTask();
+	public static void taskRunOnce() {
+		MyTimerTask myTimerTask = new MyTimerTask();
 		Timer timer = new Timer();
 		long delay = 0L;
-		timer.schedule(myTask, delay);
+		timer.schedule(myTimerTask, delay);
 	}
 
-	public static void repeate() {
-		MyTask myTask = new MyTask();
+	public static void taskRepeate() {
+		MyTimerTask myTimerTask = new MyTimerTask();
 		Timer timer = new Timer();
 		long delay = 2000L;
-		timer.schedule(myTask, 0, delay);
+		timer.schedule(myTimerTask, 0, delay);
 	}
 
 	/*-
@@ -31,22 +31,22 @@ public class MyTask extends TimerTask {
 	 * 	+ Tạo period với giá trị là số miliseconds trong 24h.
 	 */
 	public static void repeateConfig() {
-		MyTask myTask = new MyTask();
+		MyTimerTask myTimerTask = new MyTimerTask();
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(Calendar.HOUR_OF_DAY, 5);
 		calendar.set(Calendar.MINUTE, 30);
 		calendar.set(Calendar.SECOND, 0);
 		calendar.set(Calendar.MILLISECOND, 0);
-		Date firstTime = calendar.getTime();
-		long period = 24 * 60 * 60 * 1000;
+		Date firstTime = calendar.getTime(); 	// 5:30
+		long period = 24 * 60 * 60 * 1000;		// Cách nhau 24h 
 		Timer timer = new Timer();
-		timer.schedule(myTask, firstTime, period);
+		timer.schedule(myTimerTask, firstTime, period);
 	}
 
 	public static void main(String[] args) {
-		// runOnce();
-		// repeate();
-		repeateConfig();
+		// taskRunOnce();
+		taskRepeate();
+		// repeateConfig();
 	}
 
 }
