@@ -21,7 +21,7 @@
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.context.annotation.Configuration;
 //import org.springframework.scheduling.quartz.SpringBeanJobFactory;
-// // -> Cách cấu hình 2
+// // -> Cách 2
 //@Configuration
 //public class QuartzConfig2 {
 //

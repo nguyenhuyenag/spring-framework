@@ -15,7 +15,7 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
 import org.springframework.scheduling.quartz.SpringBeanJobFactory;
 
-// -> Cách cấu hình 1
+// -> Cách 1
 @Configuration
 public class QuartzConfig {
 
@@ -26,9 +26,6 @@ public class QuartzConfig {
 
 	@Bean
 	public SpringBeanJobFactory springBeanJobFactory() {
-		// BeanJobFactory factory = new BeanJobFactory();
-		// factory.setApplicationContext(applicationContext);
-		// return factory;
 		return new SpringBeanJobFactory();
 	}
 
@@ -57,7 +54,7 @@ public class QuartzConfig {
 
 	public static SimpleTriggerFactoryBean createTrigger(JobDetail jobDetail, long repeatTime) {
 		SimpleTriggerFactoryBean factory = new SimpleTriggerFactoryBean();
-		factory.setStartDelay(0L);
+		// factory.setStartDelay(0L);
 		factory.setJobDetail(jobDetail);
 		factory.setRepeatInterval(1000 * repeatTime); // giay
 		factory.setRepeatCount(SimpleTrigger.REPEAT_INDEFINITELY);

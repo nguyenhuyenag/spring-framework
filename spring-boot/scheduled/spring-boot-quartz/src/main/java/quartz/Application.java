@@ -13,8 +13,7 @@ public class Application implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		// Scheduler scheduler = new StdSchedulerFactory().getScheduler();
-		// System.out.println(scheduler.getSchedulerName());
+		
 	}
 
 }

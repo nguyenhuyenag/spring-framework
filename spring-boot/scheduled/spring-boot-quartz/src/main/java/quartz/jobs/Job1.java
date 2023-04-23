@@ -9,23 +9,18 @@ import org.springframework.web.client.RestTemplate;
 // @DisallowConcurrentExecution
 public class Job1 implements Job {
 
-	private static final RestTemplate restTemplate = new RestTemplate();
-	
-	private final static String URL = "https://random-data-api.com/api/users/random_user";
+	public RestTemplate restTemplate = new RestTemplate();
+
+	public String URL = "https://random-data-api.com/api/users/random_user";
 
 	@Override
 	public void execute(JobExecutionContext context) {
-		getJson();
-	}
-
-	public void getJson() {
 		try {
-			String json = restTemplate.getForObject(URL, String.class);
-			// String joke = json.getValue().getJoke();
-			System.out.println("Job 1: " + json);
+			// String json = restTemplate.getForObject(URL, String.class);
+			System.out.println(this.getClass().getSimpleName() + ": " + TimeUtils.now());
+			// System.out.println(json);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
 }
