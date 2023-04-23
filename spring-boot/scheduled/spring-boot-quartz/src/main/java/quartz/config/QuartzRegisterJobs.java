@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.quartz.Job;
 import org.quartz.JobBuilder;
@@ -34,30 +35,27 @@ public class QuartzRegisterJobs {
 //		return QuartzConfig.createTrigger(job, 5);
 //	}
 
-	private int count = 1;
-
 	@Bean
 	public void createJob() throws SchedulerException {
 		Map<Class<? extends Job>, Integer> map = new HashMap<>();
 		map.put(Job1.class, 3);
 		map.put(Job2.class, 7);
-
 		Map<JobDetail, Set<? extends Trigger>> triggersAndJobs = new HashMap<>();
+		AtomicInteger index = new AtomicInteger();
 		map.forEach((k, v) -> {
-			String group = "group" + count;
-			// create a job
+			String group = "group" + index.incrementAndGet();
+			// Create a job
 			JobDetail job = JobBuilder.newJob(k) // Set Job
 					.withIdentity(k.getName(), group) //
 					.build();
-			// create a trigger
+			// Create a trigger
 			Trigger trigger = TriggerBuilder.newTrigger() //
-					.withIdentity("Trigger" + count, group) //
+					.withIdentity("Trigger" + index.get(), group) //
 					.withSchedule(SimpleScheduleBuilder.simpleSchedule() //
 							.withIntervalInSeconds(v) // Set interval
 							.repeatForever()) //
 					.build();
 			triggersAndJobs.put(job, new HashSet<>(Arrays.asList(trigger)));
-			count++;
 		});
 
 		// schedule the job with the trigger

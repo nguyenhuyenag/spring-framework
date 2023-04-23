@@ -1,12 +1,10 @@
 //package quartz.config;
-//
 //import java.io.IOException;
 //import java.util.Arrays;
 //import java.util.HashMap;
 //import java.util.HashSet;
 //import java.util.Map;
 //import java.util.Set;
-//
 //import org.quartz.Job;
 //import org.quartz.JobBuilder;
 //import org.quartz.JobDetail;
@@ -21,9 +19,8 @@
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.context.annotation.Configuration;
 //import org.springframework.scheduling.quartz.SpringBeanJobFactory;
-// // -> Cách 2
 //@Configuration
-//public class QuartzConfig2 {
+//public class QuartzConfig2 { // -> Cách 2
 //
 //	private static final Logger LOG = LoggerFactory.getLogger(QuartzConfig2.class);
 //
