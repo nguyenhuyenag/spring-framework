@@ -6,11 +6,10 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 
 import com.entity.User;
 
-@Repository
+// @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 
 	// Query creation from method names
@@ -27,8 +26,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
 	// List<User> findAllByLastname(String lastname);
 
-	// List<User> findDistinctUserByFirstnameOrLastname(String firstname, String
-	// lastname);
+	// List<User> findDistinctUserByFirstnameOrLastname(String firstname, String lastname);
 
 	// List<User> findByFirstnameIgnoreCase(String firstname);
 
@@ -37,10 +35,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	// List<User> findAllByOrderByFirstnameAsc(); // don't miss "by"
 
 	// List<User> findAllByOrderByEmailAddressDesc();
-	
+
 	@Query("SELECT DISTINCT u.name FROM User u")
 	List<String> findDistinctUserByName();
-	
+
 	@Query("select u.email from User u")
 	List<String> getAllEmails();
 

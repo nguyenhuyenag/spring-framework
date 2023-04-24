@@ -2,7 +2,6 @@ package com.test;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +16,7 @@ public class PageableJPA {
 
 	private static ProductRepository repository;
 
-	@Autowired // Constructor @Autowired
+	// @Autowired // Constructor @Autowired
 	public PageableJPA(ProductRepository repository) {
 		PageableJPA.repository = repository;
 	}
@@ -59,7 +58,8 @@ public class PageableJPA {
 	public static void showAllPage(int elementPerPage) {
 		int i = 0;
 		Page<Product> page = repository.findAll(PageRequest.of(0, elementPerPage));
-		// Page<Product> page = repository.findAllWithTypeId(PageRequest.of(0, elementPerPage));
+		// Page<Product> page = repository.findAllWithTypeId(PageRequest.of(0,
+		// elementPerPage));
 		System.out.println("Tổng số lượng user: " + page.getTotalElements());
 		while (i < page.getTotalPages()) {
 			System.out.println("Current page: " + (page.getNumber() + 1));
