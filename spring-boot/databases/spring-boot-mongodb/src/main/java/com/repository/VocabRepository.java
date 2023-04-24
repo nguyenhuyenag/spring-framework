@@ -5,11 +5,10 @@ import java.util.Optional;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
-import org.springframework.stereotype.Repository;
 
 import com.entity.Vocabulary;
 
-@Repository
+// @Repository
 //@Transactional
 public interface VocabRepository extends MongoRepository<Vocabulary, String> {
 
@@ -23,7 +22,7 @@ public interface VocabRepository extends MongoRepository<Vocabulary, String> {
 
 	@Query("{ 'count' : { $gte: ?0, $lte: ?1 } }")
 	List<Vocabulary> findBetweenByJSON(int from, int to);
-	
+
 	// 1: asc, -1: desc
 	@Query(value = "{count : 97}", sort = "{word : -1}")
 	List<Vocabulary> findAndSortByJSON();

@@ -7,8 +7,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.entity.Book;
-import com.repository.BookRepository;
+import com.repository.RestaurantRepository;
+import com.service.MongodbTransaction;
 
 @SpringBootApplication
 // @EnableMongoAuditing
@@ -20,28 +20,23 @@ public class Application implements CommandLineRunner {
 	}
 
 	@Autowired
-	BookRepository repository;
+	RestaurantRepository repository;
+
+	@Autowired
+	MongodbTransaction mongodbTransaction;
 
 	public void find() {
-		List<Book> findAll = repository.findAll();
+		List<?> findAll = repository.findAll();
 		if (!findAll.isEmpty()) {
 			findAll.forEach(t -> System.out.println(t.toString()));
 		}
 	}
 
-	public void insert() {
-		Book book = new Book();
-		book.setTitle("Android in Action, Second Edition");
-		book.setIsbn("1935182722");
-		book.setPageCount(592);
-		repository.save(book);
-		System.out.println("OK");
-	}
-
 	@Override
 	public void run(String... args) throws Exception {
-		find();
+		// find();
 		// insert();
+		mongodbTransaction.testTransaction();
 	}
 
 }
