@@ -26,7 +26,6 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
 
 	@Override
 	public MongoClient mongoClient() {
-		// return MongoClients.create(mongoProperties.getUri());
 		MongoClientSettings settings = MongoClientSettings.builder() //
 				.applyConnectionString(new ConnectionString(mongoProperties.getUri())) //
 				// .retryReads(false) //

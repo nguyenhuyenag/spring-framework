@@ -38,7 +38,7 @@ public class MongodbTransactionImpl implements MongodbTransaction {
 			// r2.setRating(Integer.parseInt("1A"));
 			r2.setTypeOfFood("African");
 			r2.setUrl("http://www.just-eat.co.uk/restaurants-042-restaurant-e11/menu");
-			// repository.save(r2);
+			repository.save(r2);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

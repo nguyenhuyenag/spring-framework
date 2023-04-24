@@ -8,7 +8,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.repository.RestaurantRepository;
-import com.service.MongodbTransaction;
 
 // @EnableMongoAuditing
 // @EnableMongoRepositories
@@ -22,8 +21,8 @@ public class Application implements CommandLineRunner {
 	@Autowired
 	RestaurantRepository repository;
 
-	@Autowired
-	MongodbTransaction mongodbTransaction;
+//	@Autowired
+//	MongodbTransaction mongodbTransaction;
 
 	public void find() {
 		List<?> findAll = repository.findAll();
@@ -36,9 +35,9 @@ public class Application implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		// find();
 		// insert();
-		mongodbTransaction.testTransaction();
+		// mongodbTransaction.testTransaction();
 		// testTransaction();
-		System.out.println("OK");
+		// System.out.println("OK");
 	}
 
 }
