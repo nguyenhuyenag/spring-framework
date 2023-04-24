@@ -10,9 +10,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.repository.RestaurantRepository;
 import com.service.MongodbTransaction;
 
-@SpringBootApplication
 // @EnableMongoAuditing
 // @EnableMongoRepositories
+@SpringBootApplication
 public class Application implements CommandLineRunner {
 
 	public static void main(String[] args) {
@@ -37,6 +37,8 @@ public class Application implements CommandLineRunner {
 		// find();
 		// insert();
 		mongodbTransaction.testTransaction();
+		// testTransaction();
+		System.out.println("OK");
 	}
 
 }
