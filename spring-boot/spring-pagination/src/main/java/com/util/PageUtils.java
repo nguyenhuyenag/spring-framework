@@ -76,8 +76,8 @@ public class PageUtils {
 		for (int i = 0; i < n; i++) {
 			int subListSize = partitionSize;	// Kích thước 1 list con thực tế
 			if (remaining > 0) {
-				subListSize++;
 				remaining--;
+				subListSize++;
 			}
 			// int subListSize = partitionSize + (remaining-- > 0 ? 1 : 0);
 			result.add(list.subList(currentIndex, currentIndex + subListSize));
