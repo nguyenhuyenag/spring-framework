@@ -2,9 +2,9 @@ package com.spring;
 
 import java.util.concurrent.CompletableFuture;
 
+import org.apache.tomcat.jni.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -31,21 +31,29 @@ public class AsyncMethod {
 	}
 
 	@Async
-	public CompletableFuture<User> findUser(String user) throws InterruptedException {
+	public CompletableFuture<User> findUser(String user) {
 		logger.info("findUser -> " + Thread.currentThread().getName());
 		String url = String.format("https://api.github.com/users/%s", user);
 		User results = restTemplate.getForObject(url, User.class);
 		// Artificial delay of 1s for demonstration purposes
-		Thread.sleep(1000L);
+		try {
+			Thread.sleep(1000L);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		return CompletableFuture.completedFuture(results);
 	}
 
-	public User findUserWithoutAsync(String user) throws InterruptedException {
+	public User findUserWithoutAsync(String user) {
 		logger.info("findUserWithoutAsync -> " + Thread.currentThread().getName());
 		String url = String.format("https://api.github.com/users/%s", user);
 		User results = restTemplate.getForObject(url, User.class);
 		// Artificial delay of 1s for demonstration purposes
-		Thread.sleep(1000L);
+		try {
+			Thread.sleep(1000L);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		return results;
 	}
 
