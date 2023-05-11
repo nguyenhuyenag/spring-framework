@@ -2,9 +2,14 @@ package com.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collections;
+import java.util.Map;
 import java.util.Objects;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -42,6 +47,17 @@ public class JsonUtils {
 			}
 		}
 		return null;
+	}
+	
+	public static Map<String, String> asMap(String json) {
+		if (StringUtils.isNotEmpty(json)) {
+			try {
+				return MAPPER.readValue(json, new TypeReference<Map<String, String>>() {});
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return Collections.emptyMap();
 	}
 
 }

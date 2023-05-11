@@ -37,6 +37,6 @@ public class AppRunner implements CommandLineRunner {
 		logger.info("--> " + page1.get());
 		logger.info("--> " + page2.get());
 		logger.info("--> " + page3.get());
-
+		// AtomicInteger counter = new AtomicInteger(0);
 	}
 }
