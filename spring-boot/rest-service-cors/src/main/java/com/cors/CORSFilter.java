@@ -12,7 +12,7 @@ import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletResponse;
 
 public class CORSFilter extends GenericFilterBean implements Filter {
-	
+
 	@Override
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
 			throws IOException, ServletException {
@@ -24,4 +24,5 @@ public class CORSFilter extends GenericFilterBean implements Filter {
 		httpServletResponse.setHeader("Access-Control-Max-Age", "3600");
 		filterChain.doFilter(servletRequest, servletResponse);
 	}
+
 }

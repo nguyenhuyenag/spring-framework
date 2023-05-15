@@ -12,12 +12,12 @@ public class RestServiceCorsApplication {
 		SpringApplication.run(RestServiceCorsApplication.class, args);
 	}
 
-    @Bean
-    FilterRegistrationBean<CORSFilter> filterRegistrationBean() {
+	@Bean
+	FilterRegistrationBean<CORSFilter> filterRegistrationBean() {
 		FilterRegistrationBean<CORSFilter> filter = new FilterRegistrationBean<>();
 		filter.setFilter(new CORSFilter());
 		filter.setName("CORS Filter");
-		filter.addUrlPatterns("/*");
+		// filter.addUrlPatterns("/*");
 		filter.setOrder(1);
 		return filter;
 	}
