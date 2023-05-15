@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Hello CORS</title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script>
+        $(function() {
+            $.ajax({
+                url: "http://localhost:8080/greeting"
+            }).then(function(data, status, jqxhr) {
+               $('.greeting-id').append("<b>" + data.id + "</b>");
+               $('.greeting-content').append("<b>" + data.content + "</b>");
+               console.log(jqxhr);
+            });
+        });
+        </script>
+</head>
+
+<body>
+	<div>
+		<p class="greeting-id">The ID is: </p>
+		<p class="greeting-content">The content is: </p>
+	</div>
+</body>
+</html>
