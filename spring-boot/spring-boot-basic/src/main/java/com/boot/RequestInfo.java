@@ -17,21 +17,29 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @RestController
 // @RequestMapping("api")
 public class RequestInfo {
+	
+	@Autowired
+	HttpServletRequest request;
 
 	@Autowired
 	private RequestMappingHandlerMapping requestMappingHandlerMapping;
 
 	@GetMapping("request")
 	public Map<String, String> req(HttpServletRequest req) {
-		Map<String, String> map = new LinkedHashMap<>();
+		LinkedHashMap<String, String> map = new LinkedHashMap<>();
 		map.put("Method", req.getMethod());
 		map.put("Protocol", req.getScheme());
+		map.put("Context Path", req.getContextPath());
 		map.put("Server Name", req.getServerName());
 		map.put("Server Port", String.valueOf(req.getServerPort()));
-		map.put("Context Path", req.getContextPath());
 		map.put("Servlet Path", req.getServletPath());
 		map.put("Base URL", get1BaseUrl());
 		map.put("Request URL", req.getRequestURL().toString());
+		String clientIp = request.getHeader("X-Real-IP");
+        if (clientIp == null || clientIp.isEmpty()) {
+            clientIp = request.getRemoteAddr();
+        }
+		map.put("Request IP", clientIp);
 		// map.put("Local Port", String.valueOf(req.getLocalPort()));
 		// map.put("Request URI", req.getRequestURI());
 		// map.put("URL 2", get2BaseUrl(req));

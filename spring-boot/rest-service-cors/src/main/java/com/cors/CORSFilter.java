@@ -4,14 +4,13 @@ import java.io.IOException;
 
 import org.springframework.web.filter.GenericFilterBean;
 
-import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletResponse;
 
-public class CORSFilter extends GenericFilterBean implements Filter {
+public class CORSFilter extends GenericFilterBean { // implements Filter {
 
 	@Override
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
