@@ -1,7 +1,5 @@
-package io.reflectoring.springwebflux.service;
+package io.webflux.service;
 
-import io.reflectoring.springwebflux.model.User;
-import io.reflectoring.springwebflux.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
@@ -10,6 +8,9 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import io.webflux.model.User;
+import io.webflux.repository.UserRepository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;

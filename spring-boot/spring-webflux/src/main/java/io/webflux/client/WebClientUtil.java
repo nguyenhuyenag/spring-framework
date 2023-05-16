@@ -1,4 +1,4 @@
-package io.reflectoring.springwebflux.client;
+package io.webflux.client;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -8,7 +8,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+// @Slf4j
 @Component
 @RequiredArgsConstructor
 public class WebClientUtil {
@@ -35,7 +35,7 @@ public class WebClientUtil {
 //				.doOnError(throwable -> log.error("Result error out for POST user", throwable))
 //				.doFinally(signalType -> log.info("Result Completed for POST User: {}", signalType));
 //	}
-	
+
 	public static void main(String[] args) {
 		fakeUser();
 	}

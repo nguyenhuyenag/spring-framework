@@ -1,4 +1,4 @@
-package io.reflectoring.springwebflux.config;
+package io.webflux.config;
 
 import java.util.concurrent.TimeUnit;
 

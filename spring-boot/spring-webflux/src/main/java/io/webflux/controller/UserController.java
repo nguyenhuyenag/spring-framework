@@ -1,4 +1,4 @@
-package io.reflectoring.springwebflux.controller;
+package io.webflux.controller;
 
 import java.time.Duration;
 import java.util.stream.Stream;
@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.reflectoring.springwebflux.model.User;
-import io.reflectoring.springwebflux.service.UserService;
+import io.webflux.model.User;
+import io.webflux.service.UserService;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;

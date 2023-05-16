@@ -1,8 +1,8 @@
-package io.reflectoring.springwebflux.repository;
+package io.webflux.repository;
 
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 
-import io.reflectoring.springwebflux.model.User;
+import io.webflux.model.User;
 
 public interface UserRepository extends ReactiveMongoRepository<User, String> {
 }

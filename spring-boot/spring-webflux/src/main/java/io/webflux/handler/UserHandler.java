@@ -1,13 +1,14 @@
-package io.reflectoring.springwebflux.handler;
+package io.webflux.handler;
 
-import io.reflectoring.springwebflux.model.User;
-import io.reflectoring.springwebflux.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
+
+import io.webflux.model.User;
+import io.webflux.service.UserService;
 import reactor.core.publisher.Mono;
 
 @Component
