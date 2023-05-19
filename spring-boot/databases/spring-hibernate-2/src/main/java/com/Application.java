@@ -12,9 +12,7 @@ import com.service.EntityManagerService;
 import com.service.JDBCTemplateService;
 import com.service.ProcedureService;
 import com.service.QueryDSLService;
-import com.service.TransactionSevice;
 import com.service.VocabService;
-import com.util.RestUtils;
 
 @SpringBootApplication
 public class Application implements CommandLineRunner {
@@ -38,8 +36,8 @@ public class Application implements CommandLineRunner {
 	@Autowired
 	QueryDSLService queryDSLService;
 
-	@Autowired
-	TransactionSevice transactionSevice;
+	// @Autowired
+	// TransactionSevice transactionSevice;
 
 	@Autowired
 	JDBCTemplateService jdbcTemplateService;
@@ -73,7 +71,7 @@ public class Application implements CommandLineRunner {
 		// System.out.println(jdbcTemplateService.findMaxAge());
 		// System.out.println(jdbcTemplateService.findByName("XUMYP").toString());
 		// jdbcTemplateService.batchUpdate();
-		RestUtils.getJson();
+		// RestUtils.getJson();
 	}
 
 }

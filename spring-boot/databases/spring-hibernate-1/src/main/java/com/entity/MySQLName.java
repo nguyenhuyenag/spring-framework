@@ -19,19 +19,19 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /*-
- *	MySQL				JPA
+ *		MySQL				JPA
  *
- *	name				name
- *	Name				name
- *	NAME				name
+ *		name				name
+ *		Name				name
+ *		NAME				name
  *
- *	my_name				myName
+ *		my_name				myName
  *
- *	MyName				@Column(name = "camelcase")
- *						String myName;
+ *		MyName				@Column(name = "camelcase")
+ *							String myName;
  *
- *	camelCase			@Column(name = "camelcase")
- *						String camelCase;
+ *		camelCase			@Column(name = "camelcase")
+ *							String camelCase;
  */
 @Entity
 @Table(name = "mysql_name")

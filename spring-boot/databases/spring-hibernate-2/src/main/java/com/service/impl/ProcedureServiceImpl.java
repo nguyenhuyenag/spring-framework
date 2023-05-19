@@ -14,12 +14,12 @@ public class ProcedureServiceImpl implements ProcedureService {
 
 	@Override
 	public void callProcedure() {
-		pepository.callProcedure().forEach(t->System.out.println());
+		pepository.callProcedure().forEach(t -> System.out.println());
 	}
 
 	@Override
 	public void callProcedureWithParam() {
-		pepository.callProcedureWithParam("th").forEach(t->System.out.println());
+		pepository.callProcedureWithParam("th").forEach(t -> System.out.println());
 	}
 
 }
