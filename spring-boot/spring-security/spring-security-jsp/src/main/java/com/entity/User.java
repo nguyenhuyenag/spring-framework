@@ -35,7 +35,7 @@ public class User implements Serializable {
 	private int enabled;
 
 	// important `fetch = FetchType.EAGER`
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY) // trỏ tới tên biến user ở trong UserRole
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER) // trỏ tới tên biến user ở trong UserRole
 	private Set<UserRole> userRoles = new HashSet<>();
 
 	@Override
