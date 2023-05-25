@@ -21,14 +21,13 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories( //
-	transactionManagerRef = "secondTransactionManager", //
-	entityManagerFactoryRef = "secondEntityManagerFactory" //
-	// basePackages = { "com.repository.second" }
-)
+		transactionManagerRef = "secondTransactionManager", //
+		entityManagerFactoryRef = "secondEntityManagerFactory", //
+		basePackages = { "com.second.repository" })
 public class SecondDbConfig {
-	
+
 	@Autowired
-    JpaVendorAdapter jpaVendorAdapter;
+	JpaVendorAdapter jpaVendorAdapter;
 
 	@Value("${spring.second-datasource.url}")
 	private String url;
@@ -45,34 +44,34 @@ public class SecondDbConfig {
 	@Value("${spring.jpa.properties.hibernate.dialect}")
 	private String dialect;
 
-    public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource(url, username, password);
-        dataSource.setDriverClassName(driverClassName);
-        return dataSource;
-    }
+	public DataSource dataSource() {
+		DriverManagerDataSource dataSource = new DriverManagerDataSource(url, username, password);
+		dataSource.setDriverClassName(driverClassName);
+		return dataSource;
+	}
 
-    @Bean(name = "secondEntityManager")
-    public EntityManager entityManager() {
-        return entityManagerFactory().createEntityManager();
-    }
+	@Bean(name = "secondEntityManager")
+	public EntityManager entityManager() {
+		return entityManagerFactory().createEntityManager();
+	}
 
-    @Bean(name = "secondEntityManagerFactory")
-    public EntityManagerFactory entityManagerFactory() {
-        Properties properties = new Properties();
-        properties.setProperty("hibernate.dialect", dialect);
-        LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
-        emf.setDataSource(dataSource());
-        emf.setJpaVendorAdapter(jpaVendorAdapter);
-        emf.setPackagesToScan("com.entity.second");   // <- package for entities
-        emf.setPersistenceUnitName("secondPersistenceUnit");
-        emf.setJpaProperties(properties);
-        emf.afterPropertiesSet();
-        return emf.getObject();
-    }
+	@Bean(name = "secondEntityManagerFactory")
+	public EntityManagerFactory entityManagerFactory() {
+		Properties properties = new Properties();
+		properties.setProperty("hibernate.dialect", dialect);
+		LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
+		emf.setDataSource(dataSource());
+		emf.setJpaVendorAdapter(jpaVendorAdapter);
+		emf.setPackagesToScan("com.second.entity"); // <- package for entities
+		emf.setPersistenceUnitName("secondPersistenceUnit");
+		emf.setJpaProperties(properties);
+		emf.afterPropertiesSet();
+		return emf.getObject();
+	}
 
-    @Bean(name = "secondTransactionManager")
-    public PlatformTransactionManager transactionManager() {
-        return new JpaTransactionManager(entityManagerFactory());
-    }
-	
+	@Bean(name = "secondTransactionManager")
+	public PlatformTransactionManager transactionManager() {
+		return new JpaTransactionManager(entityManagerFactory());
+	}
+
 }

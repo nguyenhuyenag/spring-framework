@@ -20,40 +20,43 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableAutoConfiguration
 @EnableTransactionManagement
 @EnableJpaRepositories( //
-	transactionManagerRef = "transactionManager", //
-	entityManagerFactoryRef = "entityManagerFactory", //
-	basePackages = { "com.repository.primary" } //
+		transactionManagerRef = "transactionManager", //
+		entityManagerFactoryRef = "entityManagerFactory", //
+		basePackages = { "com.primary.repository" } //
 )
 public class PrimaryDbConfig {
-	
+
 	@Autowired
-    JpaVendorAdapter jpaVendorAdapter;
+	JpaVendorAdapter jpaVendorAdapter;
 
-    @Autowired
-    DataSource dataSource;
+	@Autowired
+	DataSource dataSource;
 
-    @Bean(name = "entityManager")
-    public EntityManager entityManager() {
-        return entityManagerFactory().createEntityManager();
-    }
+	@Primary
+	@Bean(name = "entityManager")
+	public EntityManager entityManager() {
+		return entityManagerFactory().createEntityManager();
+	}
 
-    @Primary
-    @Bean(name = "entityManagerFactory")
-    public EntityManagerFactory entityManagerFactory() {
-        LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
-        emf.setDataSource(dataSource);
-        emf.setJpaVendorAdapter(jpaVendorAdapter);
-        emf.setPackagesToScan("com.entity.primary"); // <- package for entities
-        // emf.setPersistenceUnitName("default");   		// <- giving 'default' as name
-        emf.setPersistenceUnitName("primaryPersistenceUnit");
-        emf.afterPropertiesSet();
-        return emf.getObject();
-    }
+	@Primary
+	@Bean(name = "entityManagerFactory")
+	public EntityManagerFactory entityManagerFactory() {
+		LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
+		emf.setDataSource(dataSource);
+		emf.setJpaVendorAdapter(jpaVendorAdapter);
+		emf.setPackagesToScan("com.primary.entity"); 	// <- package for entities
+		// emf.setPersistenceUnitName("default"); 		// <- giving 'default' as name
+		emf.setPersistenceUnitName("primaryPersistenceUnit");
+		emf.afterPropertiesSet();
+		return emf.getObject();
+	}
 
-    @Bean(name = "transactionManager")
-    public PlatformTransactionManager transactionManager() {
-        JpaTransactionManager tm = new JpaTransactionManager();
-        tm.setEntityManagerFactory(entityManagerFactory());
-        return tm;
-    }
+	@Primary
+	@Bean(name = "transactionManager")
+	public PlatformTransactionManager transactionManager() {
+		JpaTransactionManager tm = new JpaTransactionManager();
+		tm.setEntityManagerFactory(entityManagerFactory());
+		return tm;
+	}
+
 }
