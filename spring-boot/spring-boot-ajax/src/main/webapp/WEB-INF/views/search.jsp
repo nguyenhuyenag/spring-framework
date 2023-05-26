@@ -13,7 +13,6 @@
 	<div class="container" style="min-height: 500px">
 		<div class="starter-template">
 			<h1>Spring Boot AJAX</h1>
-			<div id="feedback"></div>
 			<form class="form-horizontal" id="search-form">
 				<div class="form-group form-group-lg">
 					<label class="col-sm-2 control-label">Username</label>
@@ -27,10 +26,11 @@
 					</div>
 				</div>
 			</form>
+			<div id="feedback"></div>
 		</div>
 	</div>
 	<script type="text/javascript">
-		$(document).ready(function() {
+		$(function() {
 			$("#search-form").submit(function(event) {
 				// stop submit the form, we will post it manually
 				event.preventDefault();
