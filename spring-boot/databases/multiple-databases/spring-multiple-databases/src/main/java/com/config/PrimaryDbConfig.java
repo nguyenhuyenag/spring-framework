@@ -20,9 +20,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableAutoConfiguration
 @EnableTransactionManagement
 @EnableJpaRepositories( //
-		transactionManagerRef = "transactionManager", //
-		entityManagerFactoryRef = "entityManagerFactory", //
-		basePackages = { "com.primary.repository" } //
+	transactionManagerRef = "transactionManager", //
+	entityManagerFactoryRef = "entityManagerFactory", //
+	basePackages = { "com.primary.repository" } //
 )
 public class PrimaryDbConfig {
 
@@ -44,9 +44,8 @@ public class PrimaryDbConfig {
 		LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
 		emf.setDataSource(dataSource);
 		emf.setJpaVendorAdapter(jpaVendorAdapter);
-		emf.setPackagesToScan("com.primary.entity"); 	// <- package for entities
-		// emf.setPersistenceUnitName("default"); 		// <- giving 'default' as name
-		emf.setPersistenceUnitName("primaryPersistenceUnit");
+		emf.setPackagesToScan("com.primary.entity"); 			// package for entities
+		emf.setPersistenceUnitName("primaryPersistenceUnit"); 	// for EntityManager
 		emf.afterPropertiesSet();
 		return emf.getObject();
 	}

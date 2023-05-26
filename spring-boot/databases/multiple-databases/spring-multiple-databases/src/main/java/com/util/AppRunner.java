@@ -14,11 +14,8 @@ public class AppRunner implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-//		List<Office> findAll = service.findAll();
-//		if (!findAll.isEmpty()) {
-//			findAll.forEach(t -> System.out.println(t.toString()));
-//		}
-		service.showDataSourceURL();
+		// service.showDataSourceURL();
+		service.findAll();
 	}
 
 }

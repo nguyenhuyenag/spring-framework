@@ -21,9 +21,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories( //
-		transactionManagerRef = "secondTransactionManager", //
-		entityManagerFactoryRef = "secondEntityManagerFactory", //
-		basePackages = { "com.second.repository" })
+	transactionManagerRef = "secondTransactionManager", //
+	entityManagerFactoryRef = "secondEntityManagerFactory", //
+	basePackages = { "com.second.repository" } //
+)
 public class SecondDbConfig {
 
 	@Autowired
@@ -62,7 +63,7 @@ public class SecondDbConfig {
 		LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
 		emf.setDataSource(dataSource());
 		emf.setJpaVendorAdapter(jpaVendorAdapter);
-		emf.setPackagesToScan("com.second.entity"); // <- package for entities
+		emf.setPackagesToScan("com.second.entity");
 		emf.setPersistenceUnitName("secondPersistenceUnit");
 		emf.setJpaProperties(properties);
 		emf.afterPropertiesSet();

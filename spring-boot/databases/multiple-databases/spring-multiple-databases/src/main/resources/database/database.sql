@@ -1,6 +1,6 @@
-CREATE DATABASE db1;
+CREATE DATABASE database_1;
 
-USE db1;
+USE database_1;
 
 DROP TABLE IF EXISTS customer;
 
@@ -125,9 +125,9 @@ insert  into `customer`(`customerNumber`,`customerName`,`contactLastName`,`conta
 
 (250,'Lyon Souveniers','Da Silva','Daniel','+33 1 46 62 7555','27 rue du Colonel Pierre Avia',NULL,'Paris',NULL,'75508','France',1337,'68100.00');
 
-CREATE DATABASE db2;
+CREATE DATABASE database_2;
 
-USE db2;
+USE database_2;
 
 DROP TABLE IF EXISTS `office`;
 
