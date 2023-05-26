@@ -7,7 +7,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.EntityManagerFactoryInfo;
 import org.springframework.stereotype.Service;
 
@@ -18,19 +17,20 @@ import com.second.entity.Office;
 @SuppressWarnings("unchecked")
 public class EntityManagerService {
 
-	@Autowired
 	@PersistenceContext(unitName = "primaryPersistenceUnit")
 	private EntityManager entityManager;
 
-	@Autowired
 	@PersistenceContext(unitName = "secondPersistenceUnit")
 	private EntityManager entity2Manager;
 
 	public void showDataSourceURL() {
-		EntityManagerFactoryInfo info = (EntityManagerFactoryInfo) entityManager.getEntityManagerFactory();
+		EntityManagerFactoryInfo info1 = (EntityManagerFactoryInfo) entityManager.getEntityManagerFactory();
+		EntityManagerFactoryInfo info2 = (EntityManagerFactoryInfo) entity2Manager.getEntityManagerFactory();
 		try {
-			String url = info.getDataSource().getConnection().getMetaData().getURL();
-			System.out.println("URL: " + url);
+			String url1 = info1.getDataSource().getConnection().getMetaData().getURL();
+			String url2 = info2.getDataSource().getConnection().getMetaData().getURL();
+			System.out.println(url1);
+			System.out.println(url2);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

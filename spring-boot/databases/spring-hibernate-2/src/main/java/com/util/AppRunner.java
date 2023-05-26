@@ -12,7 +12,7 @@ import com.service.JDBCTemplateService;
 import com.service.ProcedureService;
 import com.service.QueryDSLService;
 import com.service.VocabService;
-import com.service.impl.SelectSomeFieldService;
+import com.service.impl.MappingQueryToPOJOService;
 
 @Component
 public class AppRunner implements CommandLineRunner {
@@ -48,11 +48,14 @@ public class AppRunner implements CommandLineRunner {
 	OrderDetailRepository orderDetailRepository;
 
 	@Autowired
-	SelectSomeFieldService selectSomeFieldService;
+	MappingQueryToPOJOService selectSomeFieldService;
 
 	public void selectSomeField() {
-		selectSomeFieldService.for2Session();
+		// selectSomeFieldService.forTuple();
+		// selectSomeFieldService.forSession();
+		selectSomeFieldService.forJdbcTemplate();
 		// selectSomeFieldService.forEntityManager();
+		// selectSomeFieldService.forSqlResultSetMapping();
 	}
 
 	@Override

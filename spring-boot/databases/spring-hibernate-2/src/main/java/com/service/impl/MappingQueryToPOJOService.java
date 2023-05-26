@@ -17,17 +17,21 @@ import org.hibernate.Session;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.dto.SomeField;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
-public class SelectSomeFieldService {
+public class MappingQueryToPOJOService {
 
-	private ObjectMapper objectMapper = new ObjectMapper();
-
+	private static ObjectMapper objectMapper = new ObjectMapper();
+	
 	@Autowired
+	private JdbcTemplate jdbcTemplate;
+
 	@PersistenceContext
 	private EntityManager entityManager;
 
@@ -72,7 +76,7 @@ public class SelectSomeFieldService {
 		}
 	}
 
-	@SuppressWarnings({ "deprecation", "rawtypes" })
+	@SuppressWarnings({ "deprecation", "rawtypes", "unchecked" })
 	public void forSession() {
 		Session session = entityManager.unwrap(Session.class);
 		NativeQuery query = session.createSQLQuery(SQL);
@@ -85,33 +89,42 @@ public class SelectSomeFieldService {
 
 	public static List<Map<String, Object>> convertTuplesToMap(List<?> tuples) {
 		List<Map<String, Object>> result = new ArrayList<>();
-		for (Object object : tuples) {
-			if (object instanceof Tuple) {
-				Tuple single = (Tuple) object;
-				Map<String, Object> tempMap = new HashMap<>();
-				for (TupleElement<?> key : single.getElements()) {
-					tempMap.put(key.getAlias(), single.get(key));
-				}
-				result.add(tempMap);
-			} else {
-				throw new RuntimeException("Query should return instance of Tuple");
-			}
-		}
-		return result;
+	    for (Object object : tuples) {
+	        if (!(object instanceof Tuple)) {
+	            throw new RuntimeException("Query should return instance of Tuple");
+	        }
+	        Tuple tuple = (Tuple) object;
+	        Map<String, Object> tempMap = new HashMap<>();
+	        for (TupleElement<?> key : tuple.getElements()) {
+	            tempMap.put(key.getAlias(), tuple.get(key));
+	        }
+	        result.add(tempMap);
+	    }
+	    return result;
 	}
 
 	public <T> List<T> parseResult(List<?> list, Class<T> clz) {
 		List<T> result = new ArrayList<>();
-		List<Map<String, Object>> maps = convertTuplesToMap(list);
-		for (Map<String, Object> map : maps) {
-			result.add(objectMapper.convertValue(map, clz));
+		for (Map<String, Object> v : convertTuplesToMap(list)) {
+			result.add(objectMapper.convertValue(v, clz));
 		}
 		return result;
 	}
 
-	public void for2Session() {
+	public void forTuple() {
 		Query query = entityManager.createNativeQuery(SQL, Tuple.class);
 		List<SomeField> results = parseResult(query.getResultList(), SomeField.class);
+		if (results != null) {
+			results.forEach(t -> System.out.println(t));
+		}
+	}
+	
+	private BeanPropertyRowMapper<SomeField> rowMapper() {
+		return BeanPropertyRowMapper.newInstance(SomeField.class);
+	}
+	
+	public void forJdbcTemplate() {
+		List<SomeField> results = jdbcTemplate.query(SQL, rowMapper());
 		if (results != null) {
 			results.forEach(t -> System.out.println(t));
 		}
