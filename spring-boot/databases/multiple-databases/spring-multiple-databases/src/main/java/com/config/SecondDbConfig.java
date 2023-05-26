@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -49,6 +50,11 @@ public class SecondDbConfig {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource(url, username, password);
 		dataSource.setDriverClassName(driverClassName);
 		return dataSource;
+	}
+	
+	@Bean(name = "jdbc2Template")
+	public JdbcTemplate jdbcTemplate() {
+		return new JdbcTemplate(dataSource());
 	}
 
 	@Bean(name = "secondEntityManager")

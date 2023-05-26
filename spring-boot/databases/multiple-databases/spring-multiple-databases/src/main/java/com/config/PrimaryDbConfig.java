@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -31,6 +32,12 @@ public class PrimaryDbConfig {
 
 	@Autowired
 	DataSource dataSource;
+	
+	@Primary
+	@Bean(name = "Jdbc1Template")
+	public JdbcTemplate jdbcTemplate() {
+		return new JdbcTemplate(dataSource);
+	}
 
 	@Primary
 	@Bean(name = "entityManager")
