@@ -79,6 +79,11 @@
 			<artifactId>querydsl-jpa</artifactId>
 			<version>${querydsl.version}</version><!--$NO-MVN-MAN-VER$-->
 		</dependency>
+		<!--<dependency>
+			<groupId>com.github.v-ladynev</groupId>
+			<artifactId>fluent-hibernate-core</artifactId>
+			<version>0.3.1</version>
+		</dependency>-->
 	</dependencies>
 
 	<build>
@@ -99,7 +104,8 @@
 						</goals>
 						<configuration>
 							<outputDirectory>target/generated-sources/java</outputDirectory>
-							<processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>
+							<processor>
+								com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>
 						</configuration>
 					</execution>
 				</executions>

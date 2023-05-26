@@ -46,13 +46,18 @@ public class AppRunner implements CommandLineRunner {
 
 	@Autowired
 	OrderDetailRepository orderDetailRepository;
-	
+
 	@Autowired
 	SelectSomeFieldService selectSomeFieldService;
 
+	public void selectSomeField() {
+		selectSomeFieldService.for2Session();
+		// selectSomeFieldService.forEntityManager();
+	}
+
 	@Override
 	public void run(String... args) throws Exception {
-		selectSomeFieldService.forEntityManager();
+		selectSomeField();
 		// service();
 		// vbService();
 		// repository();
