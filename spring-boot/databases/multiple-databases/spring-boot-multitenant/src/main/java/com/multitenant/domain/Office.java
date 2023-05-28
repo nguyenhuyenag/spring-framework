@@ -22,7 +22,7 @@ public class Office implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "officeCode", length = 10)
+	@Column(name = "officecode", length = 10)
 	private String officeCode;
 
 	@Column(name = "city", nullable = false)
@@ -31,10 +31,10 @@ public class Office implements Serializable {
 	@Column(name = "phone", nullable = false)
 	private String phone;
 
-	@Column(name = "addressLine1", nullable = false)
+	@Column(name = "addressline1", nullable = false)
 	private String addressLine1;
 
-	@Column(name = "addressLine2")
+	@Column(name = "addressline2")
 	private String addressLine2;
 
 	@Column(name = "state")
@@ -43,7 +43,7 @@ public class Office implements Serializable {
 	@Column(name = "country", nullable = false)
 	private String country;
 
-	@Column(name = "postalCode", nullable = false)
+	@Column(name = "postalcode", nullable = false)
 	private String postalCode;
 
 	@Column(name = "territory", nullable = false)
