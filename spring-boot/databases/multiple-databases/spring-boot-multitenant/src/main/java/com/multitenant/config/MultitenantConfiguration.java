@@ -37,8 +37,8 @@ public class MultitenantConfiguration {
 				dataSourceBuilder.password(tenantProperties.getProperty("datasource.password"));
 				dataSourceBuilder.driverClassName(tenantProperties.getProperty("datasource.driver-class-name"));
 				dataSources.put(tenantId, dataSourceBuilder.build());
-			} catch (IOException exp) {
-				throw new RuntimeException("Problem in tenant datasource:" + exp);
+			} catch (IOException e) {
+				throw new RuntimeException("Problem in tenant datasource:" + e);
 			}
 		}
 		AbstractRoutingDataSource dataSource = new MultitenantDataSource();
