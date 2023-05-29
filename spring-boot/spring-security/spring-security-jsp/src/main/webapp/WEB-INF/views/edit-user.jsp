@@ -6,7 +6,7 @@
 </head>
 
 <div>
-	<h1>Edit User</h1>
+	<h2>Test Edit Username</h2>
 	<c:if test="${not empty param.error && not empty SPRING_SECURITY_LAST_EXCEPTION}">
 		<div class="alert alert-danger text-center">
     	<p>Reason: <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/></p>

@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,14 +42,18 @@ public class ErrorsController implements ErrorController {
 	}
 
 	@GetMapping("403")
-	public String accessDenied(Model model, Principal principal) {
-		if (principal != null) {
-			User loginedUser = (User) ((Authentication) principal).getPrincipal();
-			String userInfo = WebUtils.toString(loginedUser);
+	public String accessDenied(Model model, Principal principal2) {
+		// String username;
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (principal instanceof UserDetails) {
+			UserDetails userDetails = (UserDetails) principal;
+			// User loginedUser = (User) ((Authentication) principal).getPrincipal();
+			String userInfo = WebUtils.toString(userDetails);
 			model.addAttribute("userInfo", userInfo);
-			// String message = "Hi " + principal.getName() + "<br/> You don't have permission to access this page!";
-			// model.addAttribute("message", message);
+		} else {
+			// username = principal.toString();
 		}
+		// System.out.println("username" + username);
 		return "403";
 	}
 

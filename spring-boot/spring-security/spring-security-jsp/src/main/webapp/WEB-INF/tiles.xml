@@ -35,4 +35,7 @@
 	<definition extends="base.definition" name="admin">
 		<put-attribute name="body" value="/WEB-INF/views/admin.jsp" />
 	</definition>
+	<definition extends="base.definition" name="ajax">
+		<put-attribute name="body" value="/WEB-INF/views/ajax.jsp" />
+	</definition>
 </tiles-definitions>

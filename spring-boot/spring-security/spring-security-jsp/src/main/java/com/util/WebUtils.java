@@ -3,14 +3,14 @@ package com.util;
 import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 
 public class WebUtils {
 
-	public static String toString(User user) {
+	public static String toString(UserDetails user) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Username: ").append(user.getUsername());
-		Collection<GrantedAuthority> authorities = user.getAuthorities();
+		Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
 		if (authorities != null && !authorities.isEmpty()) {
 			builder.append(" [");
 			boolean first = true;

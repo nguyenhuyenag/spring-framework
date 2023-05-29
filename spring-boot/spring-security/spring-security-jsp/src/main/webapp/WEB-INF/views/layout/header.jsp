@@ -27,10 +27,11 @@
 				<li id="page-abcdf" class="nav-item"><a class="nav-link" href="/page-abcdf">Page 404</a></li>
 				<li id="edit-user" class="nav-item"><a class="nav-link" href="/edit-user">Edit User</a></li>
 				<li id="admin" class="nav-item"><a class="nav-link" href="/admin">Admin</a></li>
+				<li id="ajax" class="nav-item"><a class="nav-link" href="/ajax">Ajax</a></li>
 			</ul>
 			<ul class="navbar-nav" style="font-weight: bold; text-align: right;">
-				<li class="nav-item"><a class="nav-link" href="./">Hello <c:out value="${pageContext.request.remoteUser}"/></a></li>
-				<li class="nav-item"><a class="nav-link" href="./logout">Logout</a></li>
+				<li class="nav-item"><a class="nav-link" href="#">Hello <c:out value="${pageContext.request.remoteUser}"/></a></li>
+				<li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
 			</ul>			
 		</div>
 	</nav>
