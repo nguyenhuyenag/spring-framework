@@ -12,6 +12,9 @@
 		.nav-link, .navbar-brand {
 			color: white;
 		}
+		.pointer {
+			cursor: pointer;
+		}
 </style>
 
 <sec:authorize access="isAuthenticated()">
