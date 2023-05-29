@@ -32,7 +32,7 @@ public class BootApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		test();
+		// test();
 	}
 
 }

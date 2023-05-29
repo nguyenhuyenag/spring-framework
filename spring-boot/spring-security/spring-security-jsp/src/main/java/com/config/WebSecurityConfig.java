@@ -37,12 +37,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	// public LogoutSuccessHandler logoutSuccessHandler() {
 	// return new CustomLogoutSuccessHandler();
 	// }
+	
+	private static final String[] WHITE_LIST = {
+		"/static/**",
+		"/login", "/logout"
+	};
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests(request -> {
 			// các trang không yêu cầu login
-			request.antMatchers("/login", "/logout").permitAll()
+			request.antMatchers(WHITE_LIST).permitAll()
 					// trang chỉ dành cho ADMIN
 					.antMatchers("/admin").access("hasRole('ROLE_ADMIN')")
 					// yêu cầu phải login với vai trò ROLE_USER hoặc ROLE_ADMIN

@@ -6,12 +6,17 @@
 
 <head>
     <meta charset="utf-8">
+    <base href="/">
 	<link rel="shortcut icon" href="#">
-	<!-- css -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+    <title>HDDT</title>
     <!-- script -->
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <c:set var="CONTEXT_PATH" value="${pageContext.request.contextPath}" scope="session"/>
+    <script src="/static/script/jquery.min.js"></script>
+    <script src="/static/script/bootstrap.min.js"></script>
+    <script src="https://momentjs.com/downloads/moment.js"></script>
+	<!-- css -->
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <!-- variable -->
+    <c:set var="CONTEXT_PATH" value="${pageContext.request.contextPath}" scope="session"/>    
     <style type="text/css">
     	button, input[type=submit] {
 			cursor: pointer !important;
