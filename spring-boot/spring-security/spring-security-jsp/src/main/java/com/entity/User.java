@@ -1,6 +1,5 @@
 package com.entity;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,9 +20,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class User implements Serializable {
-
-	private static final long serialVersionUID = 2557799464431032459L;
+public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

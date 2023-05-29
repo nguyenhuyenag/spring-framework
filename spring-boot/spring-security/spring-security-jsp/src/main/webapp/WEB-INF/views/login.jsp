@@ -8,9 +8,11 @@
 		$(function () {
 			$( "li" ).click(function() {
 				const data = $(this).text().split('/');
-				console.log(data);
-				$('#inputUsername').val(data[0]);
-				$('#inputPassword').val(data[1]);
+				if (data !== null) {
+					console.log(data);
+					$('#inputUsername').val(data[0]);
+					$('#inputPassword').val(data[1]);
+				}
 			});
 		});
 	</script>

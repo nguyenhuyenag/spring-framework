@@ -7,7 +7,6 @@
 	    <meta charset="utf-8">
 	    <base href="/">
 		<link rel="shortcut icon" href="#">
-	    <title>HDDT</title>
 	    <!-- script -->
 	    <script src="/static/script/jquery.min.js"></script>
 	    <script src="/static/script/bootstrap.min.js"></script>

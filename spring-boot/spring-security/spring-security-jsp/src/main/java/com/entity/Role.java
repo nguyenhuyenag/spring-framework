@@ -1,6 +1,5 @@
 package com.entity;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,9 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Role implements Serializable {
-
-	private static final long serialVersionUID = -5653427440193976467L;
+public class Role {
 
 	@Id
 	@Column(name = "role_id")
@@ -28,5 +25,5 @@ public class Role implements Serializable {
 
 	@OneToMany(mappedBy = "role") // trỏ tới tên biến role ở trong UserRole
 	private Set<UserRole> userRoles = new HashSet<>();
-	
+
 }

@@ -29,7 +29,7 @@ public class ErrorsController implements ErrorController {
 	public String handleError(HttpServletRequest request, HttpServletResponse response) {
 		Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
 		if (status != null) {
-			System.out.println("_____Status: " + response.getStatus());
+			System.out.println("ErrorsController -> Status: " + response.getStatus());
 			Integer statusCode = Integer.valueOf(status.toString());
 			if (statusCode == HttpStatus.NOT_FOUND.value()) {
 				return "404";
