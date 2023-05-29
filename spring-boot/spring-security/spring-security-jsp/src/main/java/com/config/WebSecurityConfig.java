@@ -60,15 +60,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.failureUrl("/login?error=true").failureHandler(loginFailureHandler).and().logout()
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout")) // csrf logout
 				// .logoutSuccessHandler(logoutSuccessHandler());
-				.logoutSuccessUrl("/login?logout").invalidateHttpSession(true).deleteCookies("JSESSIONID");
+				.logoutSuccessUrl("/login?logout") //
+				.invalidateHttpSession(true) //
+				.deleteCookies("JSESSIONID");
 
 		// AccessDeniedException
-		http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
+		http.authorizeRequests() //
+			.and() //
+			.exceptionHandling() //
+			.accessDeniedPage("/403");
 
 		// Remember me
-		http.rememberMe().key("mySecretKey").rememberMeParameter("remember") // name of checkbox at login page
-				.rememberMeCookieName("remember-me-name").tokenValiditySeconds(1 * 24 * 60 * 60); // 1 days (default is
-																									// 14 days)
+		http.rememberMe() //
+			.key("mySecretKey") //
+			.rememberMeParameter("rememberMe") // name of checkbox at login page
+			.rememberMeCookieName("remember-me-name") //
+			.tokenValiditySeconds(1 * 24 * 60 * 60); // 1 days (default is 14 days)
 
 		// http.sessionManagement().maximumSessions(1); // limit login
 	}
