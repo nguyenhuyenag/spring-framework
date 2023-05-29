@@ -9,6 +9,7 @@ import com.repository.OrderRepository;
 import com.repository.PersonRepository;
 import com.service.EntityManagerService;
 import com.service.JDBCTemplateService;
+import com.service.MySQLToolService;
 import com.service.ProcedureService;
 import com.service.QueryDSLService;
 import com.service.VocabService;
@@ -49,24 +50,28 @@ public class AppRunner implements CommandLineRunner {
 
 	@Autowired
 	MappingQueryToPOJOService selectSomeFieldService;
-
-	public void selectSomeField() {
-		// selectSomeFieldService.forTuple();
-		// selectSomeFieldService.forSession();
-		selectSomeFieldService.forJdbcTemplate();
-		// selectSomeFieldService.forEntityManager();
-		// selectSomeFieldService.forSqlResultSetMapping();
-	}
+	
+	@Autowired
+	MySQLToolService mysqlToolService;
 
 	@Override
 	public void run(String... args) throws Exception {
-		selectSomeField();
+		// selectSomeField();
 		// service();
 		// vbService();
 		// repository();
 		// proceduce();
 		// queryDSLService();
 		// jdbcTemplateService();
+		System.out.println(mysqlToolService.checkTableExits("categories"));
+	}
+	
+	public void selectSomeField() {
+		// selectSomeFieldService.forTuple();
+		// selectSomeFieldService.forSession();
+		selectSomeFieldService.forJdbcTemplate();
+		// selectSomeFieldService.forEntityManager();
+		// selectSomeFieldService.forSqlResultSetMapping();
 	}
 
 	public void service() {
