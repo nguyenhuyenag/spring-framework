@@ -24,7 +24,7 @@ public class AjaxController {
 	}
 
 	/**
-	 * GET -> OK
+	 * GET 	-> OK
 	 * POST -> Need config ajaxSetup.beforeSend in $.ajax
 	 */
 	@ResponseBody

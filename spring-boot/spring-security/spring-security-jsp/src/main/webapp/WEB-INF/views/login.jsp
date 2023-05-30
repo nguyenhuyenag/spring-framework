@@ -6,12 +6,12 @@
 	<link rel="shortcut icon" href="#">
 	<script>
 		$(function () {
-			$( "li" ).click(function() {
-				const data = $(this).text().split('/');
-				if (data !== null) {
-					console.log(data);
-					$('#inputUsername').val(data[0]);
-					$('#inputPassword').val(data[1]);
+			$("li").click(function () {
+				const [username, password] = $(this).text().split("/");
+				if (username && password) {
+					console.log([username, password]);
+					$('#inputUsername').val(username);
+					$('#inputPassword').val(password);
 				}
 			});
 		});
@@ -33,14 +33,14 @@
 					<label for="inputUsername" class="col-3 col-form-label">Tài Khoản:</label>
 					<div class="col-9">
 						<input type="text" name="username" class="form-control" id="inputUsername"
-							placeholder="Tài Khoản"/>
+							placeholder="Tài Khoản" />
 					</div>
 				</div>
 				<div class="form-group row">
 					<label for="inputPassword" class="col-sm-3 col-form-label">Mật khẩu:</label>
 					<div class="col-sm-9">
 						<input type="password" name="password" class="form-control" id="inputPassword"
-							placeholder="Mật khẩu"/>
+							placeholder="Mật khẩu" />
 					</div>
 				</div>
 				<div class="form-group row">
@@ -62,5 +62,4 @@
 			</form>
 		</div>
 	</div>
-
 </body>
