@@ -7,16 +7,16 @@
 	    <meta charset="utf-8">
 	    <base href="/">
 		<link rel="shortcut icon" href="#">
-		<!---->
+		<!-- CSRF -->
 		<meta name="_csrf" content="${_csrf.token}"/>
 		<meta name="_csrf_header" content="${_csrf.headerName}"/>
-	    <!-- script -->
+	    <!-- Script -->
 	    <script src="/static/script/jquery.min.js"></script>
 	    <script src="/static/script/bootstrap.min.js"></script>
 	    <script src="https://momentjs.com/downloads/moment.js"></script>
-		<!-- css -->
+		<!-- CSS -->
 	    <link rel="stylesheet" href="static/css/bootstrap.min.css">
-	    <!-- variable -->
+	    <!-- Variable -->
 	    <c:set var="CONTEXT_PATH" value="${pageContext.request.contextPath}" scope="session"/>    
 	    <style type="text/css">
 	    	button, input[type=submit] {

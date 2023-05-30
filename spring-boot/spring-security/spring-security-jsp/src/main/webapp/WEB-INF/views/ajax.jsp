@@ -1,22 +1,25 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <head>
 	<title>Ajax</title>
 	<link rel="shortcut icon" href="#">
 	<script type="text/javascript">
-		$(function() {
-			$('button').click(function(e) {
-    			e.preventDefault();
-				const token = $("meta[name='_csrf']").attr("content");
-				const header = $("meta[name='_csrf_header']").attr("content");
-				// console.log(token, header);
+		$(function () {
+			$('button').click(function (e) {
+				e.preventDefault();
 				$.ajax({
 					type: 'POST',
-					beforeSend: function(xhr) {
-                    	xhr.setRequestHeader(header, token);
-                    },
-					url: '/api/my-ajax?name=testxxxxxxxxxxxxxxxxx',
+					beforeSend: function (xhr) {
+						const token = $("meta[name='_csrf']").attr("content");
+						const header = $("meta[name='_csrf_header']").attr("content");
+						console.log(header, token);
+						xhr.setRequestHeader(header, token);
+					},
+					dataType: 'json',
+					data: JSON.stringify({ 'data': '123456', 'input': $('#comment').val() }),
+					contentType: "application/json; charset=utf-8",
+					url: '/api/my-ajax?name=test2023',
 					success: function (data, status, xhr) {
 						console.log(data);
 					},
@@ -38,7 +41,7 @@
 				<input class="form-control" rows="5" id="comment" value="abcdrf">
 			</div>
 			<button class="btn btn-primary" type="submit">Submit</button>
-			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+			<!-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> -->
 		</form>
 	</div>
 </div>

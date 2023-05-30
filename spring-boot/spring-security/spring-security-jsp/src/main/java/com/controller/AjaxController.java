@@ -1,10 +1,13 @@
 package com.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.repository.UserRepository;
@@ -20,11 +23,15 @@ public class AjaxController {
 		return "ajax";
 	}
 
+	/**
+	 * GET -> OK
+	 * POST -> Need config beforeSend in $.ajax
+	 */
 	@ResponseBody
 	@PostMapping("/api/my-ajax")
-	public ResponseEntity<?> ajaxPost(String name) {
-		System.out.println("name: " + name);
-		return ResponseEntity.ok(name);
+	public ResponseEntity<?> ajaxPost(@RequestBody Map<String, String> map, String name) {
+		map.put("name", name);
+		return ResponseEntity.ok(map);
 	}
 
 }
