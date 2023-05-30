@@ -1,6 +1,7 @@
 package com.boot.bean;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -14,9 +15,8 @@ public class BeanUtilsOfApache {
 		Person shallow = person; // . (Person) BeanUtils.cloneBean(person);
 		// Deep clone
 		Person deep = SerializationUtils.clone(person);
-
+		// change orignal value
 		person.setAge(100);
-
 		System.out.println("Shallow: " + shallow.getAge());
 		System.out.println("Deep: " + deep.getAge());
 	}
@@ -32,9 +32,24 @@ public class BeanUtilsOfApache {
 		}
 	}
 
+	// Copy Map<> value to Java Object
+	public static void mapToObject() {
+		Map<String, String> map = new HashMap<>();
+		map.put("name", "secret");
+		map.put("age", "52");
+		Person bean = new Person();
+		try {
+			BeanUtils.populate(bean, map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println(bean.toString());
+	}
+
 	public static void main(String[] args) {
 		// cloneBean();
-		objectToMap();
+		// objectToMap();
+		mapToObject();
 	}
 
 }
