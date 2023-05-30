@@ -24,6 +24,9 @@ import com.util.RequestUtils;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Autowired
+	private UserService userService;
+
+	@Autowired
 	private UserRepository repository;
 
 	@Autowired
@@ -46,10 +49,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		User user = opt.get();
 		System.out.println("Found User: " + user);
 		List<GrantedAuthority> listGrants = new ArrayList<>();
-		List<String> listRoles = repository.getListRolesByUserId(user.getUserId());
-		if (listRoles != null) {
-			for (String role : listRoles) {
-				// ROLE_USER, ROLE_ADMIN, ...
+		// [ROLE_USER, ROLE_ADMIN, ...]
+		List<String> roles = userService.getRolesByUserId(user.getUserId());
+		if (roles != null) {
+			for (String role : roles) {
 				listGrants.add(new SimpleGrantedAuthority(role));
 			}
 		}
