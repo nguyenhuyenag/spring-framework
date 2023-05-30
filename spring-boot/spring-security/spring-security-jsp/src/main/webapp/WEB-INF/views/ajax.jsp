@@ -8,16 +8,20 @@
 		$(function() {
 			$('button').click(function(e) {
     			e.preventDefault();
-				console.log("xxxxxxxxxxxxxxxx");
+				const token = $("meta[name='_csrf']").attr("content");
+				const header = $("meta[name='_csrf_header']").attr("content");
+				// console.log(token, header);
 				$.ajax({
 					type: 'POST',
-					// data: { myData: 'This is my data' },
-					url: '/api/ajax',
+					beforeSend: function(xhr) {
+                    	xhr.setRequestHeader(header, token);
+                    },
+					url: '/api/my-ajax?name=testxxxxxxxxxxxxxxxxx',
 					success: function (data, status, xhr) {
-						
+						console.log(data);
 					},
 					error: function (jqXhr, textStatus, errorMessage) {
-						
+						console.log(errorMessage);
 					}
 				});
 			});
@@ -31,9 +35,10 @@
 		<form id=''>
 			<div class="form-group">
 				<label for="comment">Body:</label>
-				<textarea class="form-control" rows="5" id="comment"></textarea>
+				<input class="form-control" rows="5" id="comment" value="abcdrf">
 			</div>
-			<button class="btn btn-primary" type="submit">Submit form</button>
+			<button class="btn btn-primary" type="submit">Submit</button>
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		</form>
 	</div>
 </div>

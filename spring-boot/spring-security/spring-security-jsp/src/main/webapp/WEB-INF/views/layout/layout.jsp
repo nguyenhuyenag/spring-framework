@@ -7,6 +7,9 @@
 	    <meta charset="utf-8">
 	    <base href="/">
 		<link rel="shortcut icon" href="#">
+		<!---->
+		<meta name="_csrf" content="${_csrf.token}"/>
+		<meta name="_csrf_header" content="${_csrf.headerName}"/>
 	    <!-- script -->
 	    <script src="/static/script/jquery.min.js"></script>
 	    <script src="/static/script/bootstrap.min.js"></script>
