@@ -16,7 +16,7 @@ public class UserService {
 	public List<String> getRolesByUserId(int userId) {
 		String sql = "SELECT t1.role_name" //
 				+ " FROM role t1" //
-				+ " JOIN user_role t2" //
+				+ " JOIN user_roles t2" //
 				+ " ON t1.role_id = t2.role_id" //
 				+ " WHERE t2.user_id = :userId";
 		MapSqlParameterSource params = new MapSqlParameterSource();

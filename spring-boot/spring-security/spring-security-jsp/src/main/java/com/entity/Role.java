@@ -1,12 +1,9 @@
 package com.entity;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -14,6 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
+@Table(name = "role")
 public class Role {
 
 	@Id
@@ -23,7 +21,7 @@ public class Role {
 	@Column(name = "role_name")
 	private String roleName;
 
-	@OneToMany(mappedBy = "role") // trỏ tới tên biến role ở trong UserRole
-	private Set<UserRole> userRoles = new HashSet<>();
+//	@OneToMany(mappedBy = "role") // trỏ tới tên biến role ở trong UserRole
+//	private Set<UserRole> userRoles = new HashSet<>();
 
 }

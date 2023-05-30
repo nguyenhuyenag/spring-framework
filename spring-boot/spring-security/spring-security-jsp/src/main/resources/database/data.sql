@@ -20,7 +20,7 @@ create table `role` (
   unique (`role_name`)
 );
 
-create table `user_role` (
+create table `user_roles` (
   `id` bigint not null auto_increment,
   `user_id` bigint not null,
   `role_id` bigint not null,

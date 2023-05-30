@@ -56,13 +56,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		});
 
 		// Cấu hình cho Login Form
-		http.authorizeRequests().and().formLogin() //
+		http.authorizeRequests().and() //
+			.formLogin() //
 				.loginPage("/login") //
-				.loginProcessingUrl("/j_spring_security_check") // the URL to submit the username and password to
 				.usernameParameter("username") //
 				.passwordParameter("password") //
-				.defaultSuccessUrl("/") // the landing page after an unsuccessful login
-				.failureUrl("/login?error=true").failureHandler(loginFailureHandler).and().logout()
+				.loginProcessingUrl("/j_spring_security_check") // the URL to submit the username and password to
+				// .successHandler(successHandler())
+				// .defaultSuccessUrl("/") // the landing page after an unsuccessful login
+				.failureUrl("/login?error=true") //
+				.failureHandler(loginFailureHandler) //
+			.and() //
+			.logout() //
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout")) // csrf logout
 				// .logoutSuccessHandler(logoutSuccessHandler());
 				.logoutSuccessUrl("/login?logout") //
@@ -70,8 +75,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.deleteCookies("JSESSIONID");
 
 		// AccessDeniedException
-		http.authorizeRequests() //
-			.and() //
+		http.authorizeRequests().and() //
 			.exceptionHandling() //
 			.accessDeniedPage("/403");
 
@@ -84,5 +88,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		// http.sessionManagement().maximumSessions(1); // limit login
 	}
+	
+//	@Bean
+//	public AuthenticationSuccessHandler successHandler() {
+//	    return new CustomAuthenticationSuccessHandler();
+//	}
 
 }
