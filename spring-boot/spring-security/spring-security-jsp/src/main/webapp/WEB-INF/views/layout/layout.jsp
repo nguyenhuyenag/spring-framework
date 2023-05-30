@@ -4,8 +4,8 @@
 <!DOCTYPE html>
 <html lang="vi">
 	<head>
-	    <meta charset="utf-8">
 	    <base href="/">
+	    <meta charset="utf-8">
 		<link rel="shortcut icon" href="#">
 		<!-- CSRF -->
 		<meta name="_csrf" content="${_csrf.token}"/>
@@ -18,11 +18,21 @@
 	    <link rel="stylesheet" href="static/css/bootstrap.min.css">
 	    <!-- Variable -->
 	    <c:set var="CONTEXT_PATH" value="${pageContext.request.contextPath}" scope="session"/>    
-	    <style type="text/css">
+	    <style>
 	    	button, input[type=submit] {
 				cursor: pointer !important;
 			}
 	    </style>
+		<script>
+			$.ajaxSetup({
+				beforeSend: function (xhr) {
+					const token = $("meta[name='_csrf']").attr("content");
+					const header = $("meta[name='_csrf_header']").attr("content");
+					console.log(header, token);
+					xhr.setRequestHeader(header, token);
+				}
+			});
+		</script>
 	</head>
 	<body>
 	    <div class="container">

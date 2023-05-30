@@ -25,7 +25,7 @@ public class AjaxController {
 
 	/**
 	 * GET -> OK
-	 * POST -> Need config beforeSend in $.ajax
+	 * POST -> Need config ajaxSetup.beforeSend in $.ajax
 	 */
 	@ResponseBody
 	@PostMapping("/api/my-ajax")

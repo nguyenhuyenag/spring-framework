@@ -10,16 +10,9 @@
 				e.preventDefault();
 				$.ajax({
 					type: 'POST',
-					beforeSend: function (xhr) {
-						const token = $("meta[name='_csrf']").attr("content");
-						const header = $("meta[name='_csrf_header']").attr("content");
-						console.log(header, token);
-						xhr.setRequestHeader(header, token);
-					},
-					dataType: 'json',
-					data: JSON.stringify({ 'data': '123456', 'input': $('#comment').val() }),
-					contentType: "application/json; charset=utf-8",
 					url: '/api/my-ajax?name=test2023',
+					contentType: "application/json;charset=utf-8",
+					data: JSON.stringify({ 'data': '123456', 'input': $('#comment').val() }),
 					success: function (data, status, xhr) {
 						console.log(data);
 					},
@@ -41,7 +34,6 @@
 				<input class="form-control" rows="5" id="comment" value="abcdrf">
 			</div>
 			<button class="btn btn-primary" type="submit">Submit</button>
-			<!-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> -->
 		</form>
 	</div>
 </div>
