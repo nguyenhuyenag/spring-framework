@@ -32,7 +32,7 @@
 				<li id="admin" class="nav-item"><a class="nav-link" href="/admin">Admin</a></li>
 				<li id="ajax" class="nav-item"><a class="nav-link" href="/ajax">Ajax</a></li>
 			</ul>
-			<ul class="navbar-nav" style="font-weight: bold; text-align: right;">
+			<ul class="navbar-nav" style="text-align: right;">
 				<li class="nav-item"><a class="nav-link" href="#">Hello <c:out value="${pageContext.request.remoteUser}"/></a></li>
 				<li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
 			</ul>			
@@ -41,12 +41,26 @@
 	
 	<script type="text/javascript">
 		$(function () {
-			const menu = $('#menu-items').find('li').map(function() {
-				    						return this.id;
-										}).get();
-			const path = window.location.pathname.replace("/", "");
-			const i = menu.findIndex(item => path.startsWith(item));
-			$('#' + (i >= 0 ? menu[i] : menu[0])).addClass('active');
+			active2Menu();
+			// active2Menu();
 		});
+		// function active1Menu() {
+		// 	$('#menu-items li').click(function() {
+		// 		// Remove "active" class from all other <li> elements
+		// 		$('#menu-items li').removeClass('active');
+		// 		// Add "active" class to the clicked <li> element
+		// 		$(this).addClass('active');
+		// 	});
+		// }
+		function active2Menu() {
+			// get all id of li tag
+			const menu = $('#menu-items li').map((index, element) => element.id).get();
+			const path = window.location.pathname.replace('/', '');
+			const i = menu.findIndex(item => path.startsWith(item));
+			if (i >= 0) {
+				$('#' + menu[i]).addClass('active');
+				// $('#' + (i >= 0 ? menu[i] : menu[-1])).addClass('active');
+			}
+		}
 	</script>
 </sec:authorize>
