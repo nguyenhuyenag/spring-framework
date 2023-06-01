@@ -34,7 +34,11 @@ public class User {
 
 	private String password;
 	private String username;
-	private int enabled;
+	private int enabled; // 0 or 1
+	
+	public boolean isDisabled() {
+		return this.enabled == 0;
+	}
 
 	// important `fetch = FetchType.EAGER`
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

@@ -4,8 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import com.service.impl.UserService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
 public class BootApplication implements CommandLineRunner {
@@ -15,16 +14,11 @@ public class BootApplication implements CommandLineRunner {
 	}
 
 	@Autowired
-	UserService userService;
+	PasswordEncoder passwordEncoder;
 
 	@Override
 	public void run(String... args) throws Exception {
-//		List<String> rolesByUserId = userService.getRolesByUserId(1);
-//		if (rolesByUserId != null) {
-//			for (String role : rolesByUserId) {
-//				System.out.println(role);
-//			}
-//		}
+		System.out.println(passwordEncoder.encode("123"));
 	}
 
 }

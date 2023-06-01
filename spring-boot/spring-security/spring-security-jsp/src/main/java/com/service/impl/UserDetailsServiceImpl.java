@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,6 +24,8 @@ import com.util.RequestUtils;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
 
 	@Autowired
 	private UserService userService;
@@ -39,15 +43,18 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		String ip = RequestUtils.getClientIPAddress(request);
 		if (loginAttemptService.isBlocked(ip)) {
-			// throw new RuntimeException("block_ip");
-			throw new BadCredentialsException("block_ip");
+			throw new BadCredentialsException("BLOCK_IP");
 		}
 		Optional<User> opt = repository.findByUsername(username);
 		if (!opt.isPresent()) {
 			throw new UsernameNotFoundException("User `" + username + "` was not found!");
 		}
 		User user = opt.get();
-		System.out.println("Found User: " + user);
+		LOG.info("Found User: {}", user);
+//		if (user.isDisabled()) {
+//			LOG.info("User `{}` is disabled", user.getUsername());
+//			throw new BadCredentialsException("USER_DISABLED");
+//		}
 		List<GrantedAuthority> listGrants = new ArrayList<>();
 		// [ROLE_USER, ROLE_ADMIN, ...]
 		List<String> roles = userService.getRolesByUserId(user.getUserId());
@@ -59,7 +66,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		return org.springframework.security.core.userdetails.User //
 				.withUsername(user.getUsername()) //
 				.password(user.getPassword()) ///
-				.disabled(user.getEnabled() == 0) //
+				.disabled(user.isDisabled()) //
 				.authorities(listGrants) //
 				.build();
 	}
