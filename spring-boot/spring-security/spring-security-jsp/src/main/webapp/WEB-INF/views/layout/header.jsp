@@ -17,50 +17,37 @@
 		}
 </style>
 
+<script type="text/javascript">
+	$(function () {
+		const menu = $('#menu-items li').map((index, element) => element.id).get();
+		// need remove contextpath
+		const path = window.location.pathname.replace('/', '');
+		const i = menu.findIndex(item => path.startsWith(item));
+		if (i >= 0) {
+			$('#' + menu[i]).addClass('active');
+			// $('#' + (i >= 0 ? menu[i] : menu[-1])).addClass('active');
+		}
+	});
+</script>
+
 <sec:authorize access="isAuthenticated()">
 	<nav id="topheader" class="navbar navbar-expand-md mb-1 bg-color">
 		<a class="navbar-brand text-uppercase" href="#" >Spring</a>
-		<!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse">
-			<span class="navbar-toggler-icon"></span>
-		</button> -->
 		<div class="collapse navbar-collapse" id="navbarCollapse">
 			<ul class="navbar-nav mr-auto" id='menu-items'>
-				<li id="user-info" class="nav-item"><a class="nav-link" href="/user-info">UserInfo</a></li>
-				<li id="security-taglib" class="nav-item"><a class="nav-link" href="/security-taglib">Taglib</a></li>
-				<li id="page-abcdf" class="nav-item"><a class="nav-link" href="/page-abcdf">Page 404</a></li>
-				<li id="edit-user" class="nav-item"><a class="nav-link" href="/edit-user">Edit User</a></li>
-				<li id="admin" class="nav-item"><a class="nav-link" href="/admin">Admin</a></li>
-				<li id="ajax" class="nav-item"><a class="nav-link" href="/ajax">Ajax</a></li>
+				<li id="user-info" class="nav-item"><a class="nav-link" href="./user-info">UserInfo</a></li>
+				<li id="security-taglib" class="nav-item"><a class="nav-link" href="./security-taglib">Taglib</a></li>
+				<li id="page-abcdf" class="nav-item"><a class="nav-link" href="./page-abcdf">Page 404</a></li>
+				<li id="edit-user" class="nav-item"><a class="nav-link" href="./edit-user">Edit User</a></li>
+				<li id="admin" class="nav-item"><a class="nav-link" href="./admin">Admin</a></li>
+				<li id="ajax" class="nav-item"><a class="nav-link" href="./ajax">Ajax</a></li>
 			</ul>
 			<ul class="navbar-nav" style="text-align: right;">
-				<li class="nav-item"><a class="nav-link" href="#">Hello <c:out value="${pageContext.request.remoteUser}"/></a></li>
-				<li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
-			</ul>			
+				<li class="nav-item"><a class="nav-link" href="#">
+					Hello <c:out value="${pageContext.request.remoteUser}"/></a>
+				</li>
+				<li class="nav-item"><a class="nav-link" href="./logout">Logout</a></li>
+			</ul>
 		</div>
 	</nav>
-	
-	<script type="text/javascript">
-		$(function () {
-			active2Menu();
-			// active2Menu();
-		});
-		// function active1Menu() {
-		// 	$('#menu-items li').click(function() {
-		// 		// Remove "active" class from all other <li> elements
-		// 		$('#menu-items li').removeClass('active');
-		// 		// Add "active" class to the clicked <li> element
-		// 		$(this).addClass('active');
-		// 	});
-		// }
-		function active2Menu() {
-			// get all id of li tag
-			const menu = $('#menu-items li').map((index, element) => element.id).get();
-			const path = window.location.pathname.replace('/', '');
-			const i = menu.findIndex(item => path.startsWith(item));
-			if (i >= 0) {
-				$('#' + menu[i]).addClass('active');
-				// $('#' + (i >= 0 ? menu[i] : menu[-1])).addClass('active');
-			}
-		}
-	</script>
 </sec:authorize>

@@ -10,11 +10,12 @@
 				e.preventDefault();
 				$.ajax({
 					type: 'POST',
-					url: '/api/my-ajax?name=test2023',
+					url: './api/my-ajax?name=test2023',
 					contentType: "application/json;charset=utf-8",
 					data: JSON.stringify({ 'data': '123456', 'input': $('#comment').val() }),
 					success: function (data, status, xhr) {
 						console.log(data);
+						// console.log(window.location.href);
 					},
 					error: function (jqXhr, textStatus, errorMessage) {
 						console.log(errorMessage);

@@ -4,33 +4,34 @@
 <!DOCTYPE html>
 <html lang="vi">
 	<head>
-	    <base href="/">
-	    <meta charset="utf-8">
-		<link rel="shortcut icon" href="#">
-		<!-- CSRF -->
 		<meta name="_csrf" content="${_csrf.token}"/>
 		<meta name="_csrf_header" content="${_csrf.headerName}"/>
-	    <!-- Script -->
-	    <script src="/static/script/jquery.min.js"></script>
-	    <script src="/static/script/bootstrap.min.js"></script>
+	    <!-- <meta charset="utf-8"> -->
+		<link rel="shortcut icon" href="#">
+	    <base href='${pageContext.request.contextPath}/'/>
+	    <script src="<c:url value='/static/script/jquery.min.js'/>"></script>
+		<script src="<c:url value='/static/script/bootstrap.min.js'/>"></script>
 	    <script src="https://momentjs.com/downloads/moment.js"></script>
-		<!-- CSS -->
-	    <link rel="stylesheet" href="static/css/bootstrap.min.css">
-	    <!-- Variable -->
-	    <c:set var="CONTEXT_PATH" value="${pageContext.request.contextPath}" scope="session"/>    
+	    <link rel="stylesheet" href="<c:url value='static/css/bootstrap.min.css'/>">
+	    <c:set var="CONTEXT_PATH" value="${pageContext.request.contextPath}" scope="session"/>
 	    <style>
 	    	button, input[type=submit] {
 				cursor: pointer !important;
 			}
 	    </style>
 		<script>
-			$.ajaxSetup({
-				beforeSend: function (xhr) {
+			$(function (){
+				$.ajaxSetup({
+				beforeSend: function (xhr, settings) {
 					const token = $("meta[name='_csrf']").attr("content");
 					const header = $("meta[name='_csrf_header']").attr("content");
-					console.log(header, token);
+					// console.log(header, token);
 					xhr.setRequestHeader(header, token);
+					// console.log(this.url);
+					// console.log(settings.origUrl);
+					console.log($('head base').attr('href'));
 				}
+			});
 			});
 		</script>
 	</head>

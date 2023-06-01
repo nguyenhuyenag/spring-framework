@@ -10,6 +10,10 @@
 
 <div>
 	<h2>Spring Security - Taglib</h2>
+	Thêm thẻ
+	<pre>
+		&lt;%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%&gt;
+	</pre>
 	<h3>1) The authorize Tag</h3>
 	<%--
 		<sec:authorize access="hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')" var="isAuthenticated"></sec:authorize>
