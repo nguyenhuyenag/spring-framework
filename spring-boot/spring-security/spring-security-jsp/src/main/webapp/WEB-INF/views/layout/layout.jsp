@@ -22,15 +22,14 @@
 			}
 	    </style>
 		<script>
-			$(function () {
+			$(function() {
 				$.ajaxSetup({
-				beforeSend: function (xhr, settings) {
-					const token = $("meta[name='_csrf']").attr("content");
-					const header = $("meta[name='_csrf_header']").attr("content");
-					xhr.setRequestHeader(header, token);
-					// console.log("contextPath: ", $('head base').attr('href'));
-				}
-			});
+					beforeSend: function (xhr, settings) {
+						const token = $("meta[name='_csrf']").attr("content");
+						const header = $("meta[name='_csrf_header']").attr("content");
+						xhr.setRequestHeader(header, token);
+					}
+				});
 			});
 		</script>
 	</head>

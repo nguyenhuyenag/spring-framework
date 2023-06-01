@@ -19,23 +19,18 @@
 
 <script type="text/javascript">
 	$(function () {
-		const contextPath = '${CONTEXT_PATH}';
-		const menu = $('#menu-items li').map((index, element) =>  element.id).get();
-		// console.log(menu);
-		// need remove contextpath
-		const path = window.location.pathname;
-		// console.log("Current path: " + path);
-		// console.log("ContextPath: " + contextPath);
-		// console.log("Modify: " + contextPath + '/' + menu[0]);
-		// const i = menu.findIndex(item => path.startsWith(item));
-		const i = menu.findIndex(item => path.startsWith(contextPath + '/' + item));
-		if (i != -1) {
-			// console.log("OK");
-			// console.log(menu[i]);
-			$('#' + menu[i]).addClass('active');
-			// $('#' + (i >= 0 ? menu[i] : menu[-1])).addClass('active');
-		}
+		activeMenu();
 	});
+
+	function activeMenu() {
+		const menu = $('#menu-items li').map((index, element) =>  element.id).get();
+		const path = window.location.pathname;
+		// If not found i = -1
+		const i = menu.findIndex(item => path.startsWith('${CONTEXT_PATH}' + '/' + item));
+		if (i != -1) {
+			$('#' + menu[i]).addClass('active');
+		}
+	}
 </script>
 
 <sec:authorize access="isAuthenticated()">

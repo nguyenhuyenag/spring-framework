@@ -4,6 +4,8 @@ import java.security.Principal;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.web.savedrequest.DefaultSavedRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,8 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class AuthController {
 
-	// private static final Logger LOG =
-	// LoggerFactory.getLogger(AuthController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AuthController.class);
 
 	@GetMapping("login")
 	public String loginPage(Principal principal, HttpServletRequest request) {
@@ -21,10 +22,9 @@ public class AuthController {
 		if (savedRequest instanceof DefaultSavedRequest) {
 			DefaultSavedRequest defaultSavedRequest = (DefaultSavedRequest) savedRequest;
 			if (!"/".equals(defaultSavedRequest.getRequestURI())) {
-				System.out.println("Url: " + defaultSavedRequest.getRedirectUrl());
+				LOG.info("Url: {}", defaultSavedRequest.getRedirectUrl());
 			}
 		}
-		// request.getSession().setAttribute(CustomAuthenticationSuccessHandler.REDIRECT_URL_SESSION_ATTRIBUTE_NAME, referer);
 		return principal == null ? "login" : "redirect:/";
 	}
 
