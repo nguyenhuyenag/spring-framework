@@ -19,11 +19,19 @@
 
 <script type="text/javascript">
 	$(function () {
-		const menu = $('#menu-items li').map((index, element) => element.id).get();
+		const contextPath = '${CONTEXT_PATH}';
+		const menu = $('#menu-items li').map((index, element) =>  element.id).get();
+		// console.log(menu);
 		// need remove contextpath
-		const path = window.location.pathname.replace('/', '');
-		const i = menu.findIndex(item => path.startsWith(item));
-		if (i >= 0) {
+		const path = window.location.pathname;
+		// console.log("Current path: " + path);
+		// console.log("ContextPath: " + contextPath);
+		// console.log("Modify: " + contextPath + '/' + menu[0]);
+		// const i = menu.findIndex(item => path.startsWith(item));
+		const i = menu.findIndex(item => path.startsWith(contextPath + '/' + item));
+		if (i != -1) {
+			// console.log("OK");
+			// console.log(menu[i]);
 			$('#' + menu[i]).addClass('active');
 			// $('#' + (i >= 0 ? menu[i] : menu[-1])).addClass('active');
 		}
@@ -32,7 +40,7 @@
 
 <sec:authorize access="isAuthenticated()">
 	<nav id="topheader" class="navbar navbar-expand-md mb-1 bg-color">
-		<a class="navbar-brand text-uppercase" href="#" >Spring</a>
+		<a class="navbar-brand text-uppercase" href="./" >Spring</a>
 		<div class="collapse navbar-collapse" id="navbarCollapse">
 			<ul class="navbar-nav mr-auto" id='menu-items'>
 				<li id="user-info" class="nav-item"><a class="nav-link" href="./user-info">UserInfo</a></li>

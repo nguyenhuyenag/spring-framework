@@ -1,11 +1,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <!DOCTYPE html>
 <html lang="vi">
 	<head>
-		<meta name="_csrf" content="${_csrf.token}"/>
-		<meta name="_csrf_header" content="${_csrf.headerName}"/>
+		<!-- <meta name="_csrf" content="${_csrf.token}"/>
+		<meta name="_csrf_header" content="${_csrf.headerName}"/> -->
+		<sec:csrfMetaTags />
 	    <!-- <meta charset="utf-8"> -->
 		<link rel="shortcut icon" href="#">
 	    <base href='${pageContext.request.contextPath}/'/>
@@ -20,16 +22,13 @@
 			}
 	    </style>
 		<script>
-			$(function (){
+			$(function () {
 				$.ajaxSetup({
 				beforeSend: function (xhr, settings) {
 					const token = $("meta[name='_csrf']").attr("content");
 					const header = $("meta[name='_csrf_header']").attr("content");
-					// console.log(header, token);
 					xhr.setRequestHeader(header, token);
-					// console.log(this.url);
-					// console.log(settings.origUrl);
-					console.log($('head base').attr('href'));
+					// console.log("contextPath: ", $('head base').attr('href'));
 				}
 			});
 			});
