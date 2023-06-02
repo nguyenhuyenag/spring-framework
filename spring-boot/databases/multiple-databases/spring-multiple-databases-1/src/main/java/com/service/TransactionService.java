@@ -2,7 +2,9 @@ package com.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import com.primary.entity.Customer;
 import com.primary.repository.CustomerRepository;
@@ -23,7 +25,7 @@ public class TransactionService {
 		// test2Repository();
 	}
 
-	@Transactional("transaction1Manager")
+	@Transactional(value = "transaction1Manager", rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
 	public void test1Repository() {
 		try {
 			repository1.delete();
@@ -31,6 +33,7 @@ public class TransactionService {
 			repository1.save(getC2());
 		} catch (Exception e) {
 			e.printStackTrace();
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 		}
 	}
 
