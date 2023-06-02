@@ -1,11 +1,14 @@
-CREATE DATABASE database_1;
+--USE database_1;
+--DELETE FROM customer WHERE id > 114;
+--USE database_2;
+--DELETE FROM office WHERE officeCode > 3;
 
+CREATE DATABASE IF NOT EXISTS database_1;
 USE database_1;
-
 DROP TABLE IF EXISTS customer;
 
 CREATE TABLE `customer` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL UNIQUE AUTO_INCREMENT,
   `customerName` varchar(50) NOT NULL,
   `contactLastName` varchar(50) NOT NULL,
   `contactFirstName` varchar(50) NOT NULL,
@@ -125,14 +128,12 @@ insert  into `customer`(`id`,`customerName`,`contactLastName`,`contactFirstName`
 
 (250,'Lyon Souveniers','Da Silva','Daniel','+33 1 46 62 7555','27 rue du Colonel Pierre Avia',NULL,'Paris',NULL,'75508','France',1337,'68100.00');
 
-CREATE DATABASE database_2;
-
+CREATE DATABASE IF NOT EXISTS database_2;
 USE database_2;
-
 DROP TABLE IF EXISTS `office`;
 
 CREATE TABLE `office` (
-  `officeCode` int NOT NULL UNIQUE,
+  `officeCode` int NOT NULL UNIQUE AUTO_INCREMENT ,
   `city` varchar(50) NOT NULL,
   `phone` varchar(50) NOT NULL,
   `addressLine1` varchar(50) NOT NULL,
@@ -144,11 +145,18 @@ CREATE TABLE `office` (
   PRIMARY KEY (`officeCode`)
 );
 
-insert  into `office`(`officeCode`,`city`,`phone`,`addressLine1`,`addressLine2`,`state`,`country`,`postalCode`,`territory`) values 
-(1,'San Francisco','+1 650 219 4782','100 Market Street','Suite 300','CA','USA','94080','NA'),
-(2,'Boston','+1 215 837 0825','1550 Court Place','Suite 102','MA','USA','02107','NA'),
-(3,'NYC','+1 212 555 3000','523 East 53rd Street','apt. 5A','NY','USA','10022','NA'),
-(4,'Paris','+33 14 723 4404','43 Rue Jouffroy D\'abbans',NULL,NULL,'France','75017','EMEA'),
-(5,'Tokyo','+81 33 224 5000','4-1 Kioicho',NULL,'Chiyoda-Ku','Japan','102-8578','Japan'),
-(6,'Sydney','+61 2 9264 2451','5-11 Wentworth Avenue','Floor #2',NULL,'Australia','NSW 2010','APAC'),
+insert  into `office`(`officeCode`,`city`,`phone`,`addressLine1`,`addressLine2`,`state`,`country`,`postalCode`,`territory`) values 
+
+(1,'San Francisco','+1 650 219 4782','100 Market Street','Suite 300','CA','USA','94080','NA'),
+
+(2,'Boston','+1 215 837 0825','1550 Court Place','Suite 102','MA','USA','02107','NA'),
+
+(3,'NYC','+1 212 555 3000','523 East 53rd Street','apt. 5A','NY','USA','10022','NA'),
+
+(4,'Paris','+33 14 723 4404','43 Rue Jouffroy D\'abbans',NULL,NULL,'France','75017','EMEA'),
+
+(5,'Tokyo','+81 33 224 5000','4-1 Kioicho',NULL,'Chiyoda-Ku','Japan','102-8578','Japan'),
+
+(6,'Sydney','+61 2 9264 2451','5-11 Wentworth Avenue','Floor #2',NULL,'Australia','NSW 2010','APAC'),
+
 (7,'London','+44 20 7877 2041','25 Old Broad Street','Level 7',NULL,'UK','EC2N 1HN','EMEA');

@@ -20,7 +20,8 @@ public class AppRunner implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		// service.save();
-		service.findAll();
+		// service.findAll();
+		service.saveAll();
 		// service.showDataSourceURL();
 		// transactionService.testTransaction();
 	}

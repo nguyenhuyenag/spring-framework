@@ -1,15 +1,16 @@
 package com.service;
 
-import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.transaction.Transactional;
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.EntityManagerFactoryInfo;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,9 @@ public class EntityManagerService {
 
 	@PersistenceContext(unitName = SecondDbConfig.PERSISTENCE_UNIT_NAME)
 	private EntityManager entity2Manager;
+
+	@Autowired
+	private SessionFactory sessionFactory;
 
 	public void showDataSourceURL() {
 		EntityManagerFactoryInfo info1 = (EntityManagerFactoryInfo) entity1Manager.getEntityManagerFactory();
@@ -44,7 +48,6 @@ public class EntityManagerService {
 		find1All();
 		find2All();
 	}
-	
 
 	public void find1All() {
 		String sql = "SELECT t.* FROM customer t;";
@@ -68,19 +71,29 @@ public class EntityManagerService {
 		save1();
 		save2();
 	}
-	
-	@Transactional
+
 	public void save1() {
 		Session session = entity1Manager.unwrap(Session.class);
 		session.save(getC1());
 	}
-	
+
 	public void save2() {
 		Session session = entity2Manager.unwrap(Session.class);
-		Serializable save = session.save(getOff1());
-		System.out.println(save);
+		session.save(getOff1());
 	}
-	
+
+	public void saveAll() {
+		// SessionFactory sessionFactory = config.buildSessionFactory();
+		Session session = sessionFactory.openSession();
+
+		Transaction transaction = session.beginTransaction();
+		System.out.println(transaction);
+//	     
+//	    transaction.commit();
+//	    session.close();
+//	    sessionFactory.close();
+	}
+
 	public Customer getC1() {
 		Customer c1 = new Customer();
 		c1.setCustomerName("Euro+ Shopping Channel");
@@ -97,10 +110,10 @@ public class EntityManagerService {
 		c1.setCreditLimit(227600.00);
 		return c1;
 	}
-	
+
 	public Office getOff1() {
 		Office office1 = new Office();
-		office1.setOfficeCode(8);
+		// office1.setOfficeCode(8);
 		office1.setCity("Tokyo");
 		office1.setPhone("+27 10 5887 1952");
 		office1.setAddressLine1("89 New Lat Street");
@@ -110,5 +123,5 @@ public class EntityManagerService {
 		office1.setTerritory("QMEA");
 		return office1;
 	}
-	
+
 }
