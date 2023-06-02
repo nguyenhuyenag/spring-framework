@@ -22,8 +22,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories( //
-	transactionManagerRef = "secondTransactionManager", //
-	entityManagerFactoryRef = "secondEntityManagerFactory", //
+	transactionManagerRef = "transaction2Manager", //
+	entityManagerFactoryRef = "entity2ManagerFactory", //
 	basePackages = { "com.second.repository" } //
 )
 public class SecondDbConfig {
@@ -46,37 +46,38 @@ public class SecondDbConfig {
 	@Value("${spring.jpa.properties.hibernate.dialect}")
 	private String dialect;
 
-	public DataSource dataSource() {
+	public DataSource data2Source() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource(url, username, password);
 		dataSource.setDriverClassName(driverClassName);
 		return dataSource;
 	}
-	
+
 	@Bean(name = "jdbc2Template")
 	public JdbcTemplate jdbcTemplate() {
-		return new JdbcTemplate(dataSource());
+		return new JdbcTemplate(data2Source());
 	}
 
-	@Bean(name = "secondEntityManager")
+	@Bean(name = "entity2Manager")
 	public EntityManager entityManager() {
 		return entityManagerFactory().createEntityManager();
 	}
 
-	@Bean(name = "secondEntityManagerFactory")
+	@Bean(name = "entity2ManagerFactory")
 	public EntityManagerFactory entityManagerFactory() {
 		Properties properties = new Properties();
 		properties.setProperty("hibernate.dialect", dialect);
+		
 		LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
-		emf.setDataSource(dataSource());
+		emf.setDataSource(data2Source());
 		emf.setJpaVendorAdapter(jpaVendorAdapter);
 		emf.setPackagesToScan("com.second.entity");
-		emf.setPersistenceUnitName("secondPersistenceUnit");
+		emf.setPersistenceUnitName("persistence2Unit");
 		emf.setJpaProperties(properties);
 		emf.afterPropertiesSet();
 		return emf.getObject();
 	}
 
-	@Bean(name = "secondTransactionManager")
+	@Bean(name = "transaction2Manager")
 	public PlatformTransactionManager transactionManager() {
 		return new JpaTransactionManager(entityManagerFactory());
 	}

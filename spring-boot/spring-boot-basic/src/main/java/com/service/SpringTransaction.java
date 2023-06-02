@@ -48,6 +48,7 @@ import com.repository.UserRepository;
  * - Spring proxy sẽ tự động rollback transaction nếu có một RuntimeException
  * xảy ra. Ta có thể tùy biến bằng cách sử dụng thuộc tính rollbackFor và
  * noRollbackFor của @Transactional annotation
+ * 
  */
 @Service
 public class SpringTransaction {

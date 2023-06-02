@@ -22,8 +22,8 @@ public class Office implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "officeCode", length = 10)
-	private String officeCode;
+	@Column(name = "officeCode", length = 10, unique = true)
+	private Integer officeCode;
 
 	@Column(name = "city", nullable = false)
 	private String city;

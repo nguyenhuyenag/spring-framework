@@ -21,8 +21,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableAutoConfiguration
 @EnableTransactionManagement
 @EnableJpaRepositories( //
-	transactionManagerRef = "transactionManager", //
-	entityManagerFactoryRef = "entityManagerFactory", //
+	transactionManagerRef = "transaction1Manager", //
+	entityManagerFactoryRef = "entity1ManagerFactory", //
 	basePackages = { "com.primary.repository" } //
 )
 public class PrimaryDbConfig {
@@ -31,38 +31,42 @@ public class PrimaryDbConfig {
 	JpaVendorAdapter jpaVendorAdapter;
 
 	@Autowired
-	DataSource dataSource;
+	DataSource data1Source;
 	
 	@Primary
 	@Bean(name = "Jdbc1Template")
 	public JdbcTemplate jdbcTemplate() {
-		return new JdbcTemplate(dataSource);
+		return new JdbcTemplate(data1Source);
 	}
 
 	@Primary
-	@Bean(name = "entityManager")
+	@Bean(name = "entity1Manager")
 	public EntityManager entityManager() {
 		return entityManagerFactory().createEntityManager();
 	}
 
 	@Primary
-	@Bean(name = "entityManagerFactory")
+	@Bean(name = "entity1ManagerFactory")
 	public EntityManagerFactory entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
-		emf.setDataSource(dataSource);
+		emf.setDataSource(data1Source);
 		emf.setJpaVendorAdapter(jpaVendorAdapter);
 		emf.setPackagesToScan("com.primary.entity"); 			// package for entities
-		emf.setPersistenceUnitName("primaryPersistenceUnit"); 	// for EntityManager
+		emf.setPersistenceUnitName("persistence1Unit"); 	// for EntityManager
 		emf.afterPropertiesSet();
 		return emf.getObject();
 	}
 
 	@Primary
-	@Bean(name = "transactionManager")
+	@Bean(name = "transaction1Manager")
 	public PlatformTransactionManager transactionManager() {
-		JpaTransactionManager tm = new JpaTransactionManager();
-		tm.setEntityManagerFactory(entityManagerFactory());
-		return tm;
+		return new JpaTransactionManager(entityManagerFactory());
 	}
+	
+//	@Bean(name = "transaction1Manager")
+//	public DataSourceTransactionManager tm1() {
+//		DataSourceTransactionManager txm = new DataSourceTransactionManager(data1Source);
+//		return txm;
+//	}
 
 }

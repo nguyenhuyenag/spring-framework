@@ -17,14 +17,14 @@ import com.second.entity.Office;
 @SuppressWarnings("unchecked")
 public class EntityManagerService {
 
-	@PersistenceContext(unitName = "primaryPersistenceUnit")
-	private EntityManager entityManager;
+	@PersistenceContext(unitName = "persistence1Unit")
+	private EntityManager entity1Manager;
 
-	@PersistenceContext(unitName = "secondPersistenceUnit")
+	@PersistenceContext(unitName = "persistence2Unit")
 	private EntityManager entity2Manager;
 
 	public void showDataSourceURL() {
-		EntityManagerFactoryInfo info1 = (EntityManagerFactoryInfo) entityManager.getEntityManagerFactory();
+		EntityManagerFactoryInfo info1 = (EntityManagerFactoryInfo) entity1Manager.getEntityManagerFactory();
 		EntityManagerFactoryInfo info2 = (EntityManagerFactoryInfo) entity2Manager.getEntityManagerFactory();
 		try {
 			String url1 = info1.getDataSource().getConnection().getMetaData().getURL();
@@ -43,7 +43,7 @@ public class EntityManagerService {
 
 	public void find1All() {
 		String sql = "SELECT t.* FROM customer t;";
-		Query query = entityManager.createNativeQuery(sql, Customer.class);
+		Query query = entity1Manager.createNativeQuery(sql, Customer.class);
 		List<Customer> result = query.getResultList();
 		if (!result.isEmpty()) {
 			result.forEach(t -> System.out.println(t));
