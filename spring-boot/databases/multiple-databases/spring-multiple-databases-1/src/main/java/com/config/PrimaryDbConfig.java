@@ -34,7 +34,7 @@ public class PrimaryDbConfig {
 	DataSource data1Source;
 	
 	@Primary
-	@Bean(name = "Jdbc1Template")
+	@Bean(name = "jdbc1Template")
 	public JdbcTemplate jdbcTemplate() {
 		return new JdbcTemplate(data1Source);
 	}
@@ -63,10 +63,4 @@ public class PrimaryDbConfig {
 		return new JpaTransactionManager(entityManagerFactory());
 	}
 	
-//	@Bean(name = "transaction1Manager")
-//	public DataSourceTransactionManager tm1() {
-//		DataSourceTransactionManager txm = new DataSourceTransactionManager(data1Source);
-//		return txm;
-//	}
-
 }

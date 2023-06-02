@@ -16,7 +16,7 @@ import com.second.entity.Office;
 public class JdbcTemplateService {
 
 	@Autowired
-	@Qualifier("Jdbc1Template") // no need
+	@Qualifier("jdbc1Template") // no need
 	private JdbcTemplate jdbc1Template;
 
 	@Autowired

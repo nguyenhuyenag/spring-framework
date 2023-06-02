@@ -45,6 +45,8 @@ public class SecondDbConfig {
 
 	@Value("${spring.jpa.properties.hibernate.dialect}")
 	private String dialect;
+	
+	public static final String PERSISTENCE_UNIT_NAME = "persistence2Unit";
 
 	public DataSource data2Source() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource(url, username, password);
@@ -71,7 +73,7 @@ public class SecondDbConfig {
 		emf.setDataSource(data2Source());
 		emf.setJpaVendorAdapter(jpaVendorAdapter);
 		emf.setPackagesToScan("com.second.entity");
-		emf.setPersistenceUnitName("persistence2Unit");
+		emf.setPersistenceUnitName(PERSISTENCE_UNIT_NAME);
 		emf.setJpaProperties(properties);
 		emf.afterPropertiesSet();
 		return emf.getObject();
