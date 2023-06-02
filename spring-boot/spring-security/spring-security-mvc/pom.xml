@@ -10,9 +10,9 @@
 	</parent>
 
 	<groupId>com</groupId>
-	<artifactId>spring-security-jsp</artifactId>
+	<artifactId>spring-security-mvc</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>spring-security-jsp</name>
+	<name>spring-security-mvc</name>
 	<description>Project for Spring Boot</description>
 
 	<properties>
