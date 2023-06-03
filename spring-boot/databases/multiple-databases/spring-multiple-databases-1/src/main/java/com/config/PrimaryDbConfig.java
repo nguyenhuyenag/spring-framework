@@ -40,12 +40,6 @@ public class PrimaryDbConfig {
 	}
 
 	@Primary
-	@Bean(name = "entity1Manager")
-	public EntityManager entityManager() {
-		return entityManagerFactory().createEntityManager();
-	}
-
-	@Primary
 	@Bean(name = "entity1ManagerFactory")
 	public EntityManagerFactory entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
@@ -55,6 +49,12 @@ public class PrimaryDbConfig {
 		emf.setPersistenceUnitName("persistence1Unit"); 	// for EntityManager
 		emf.afterPropertiesSet();
 		return emf.getObject();
+	}
+	
+	@Primary
+	@Bean(name = "entity1Manager")
+	public EntityManager entityManager() {
+		return entityManagerFactory().createEntityManager();
 	}
 
 	@Primary

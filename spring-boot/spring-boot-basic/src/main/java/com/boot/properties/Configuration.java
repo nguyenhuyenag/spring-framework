@@ -14,8 +14,9 @@ import lombok.Setter;
 @PropertySource("classpath:basic.properties")
 public class Configuration {
 
-	/**
-	 * How to use? -> @Autowired Configuration configuration;
+	/*-
+	 * How to use? -> 	@Autowired 
+	 * 					Configuration configuration;
 	 */
 	private String version;
 	private String url;

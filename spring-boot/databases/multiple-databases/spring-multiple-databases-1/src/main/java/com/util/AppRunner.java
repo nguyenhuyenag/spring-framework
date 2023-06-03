@@ -21,8 +21,8 @@ public class AppRunner implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		// service.save();
 		// service.findAll();
-		service.saveAll();
-		// service.showDataSourceURL();
+		// service.saveAll();
+		service.showDataSourceURL();
 		// transactionService.testTransaction();
 	}
 
