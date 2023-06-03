@@ -19,17 +19,17 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 //@EnableAutoConfiguration
 @EnableTransactionManagement
 @EnableJpaRepositories( //
-	transactionManagerRef = "tx2", 				// (2)
-	entityManagerFactoryRef = "emf2", 			// (1)
-	basePackages = { "com.second.repository" } 	// (3)
+	transactionManagerRef = "tx2", 				// (3)
+	entityManagerFactoryRef = "emf2", 			// (2)
+	basePackages = { "com.second.repository" } 	// (1)
 )
 public class SecondDbConfig {
 
 //	@Value("${spring.jpa.properties.hibernate.dialect}")
 //	private String dialect;
 	
-	public static final String PACKAGES_TO_SCAN 		= "com.second.entity"; // (4)
-	public static final String PERSISTENCE_UNIT_NAME 	= "persistence2Unit";
+	private static final String PACKAGES_TO_SCAN 		= "com.second.entity"; // (4)
+	public static final String PERSISTENCE_UNIT_NAME	= "persistence2Unit";
 	
 	@Autowired
 	private JpaVendorAdapter jpaVendorAdapter;
@@ -43,7 +43,7 @@ public class SecondDbConfig {
 		return new JdbcTemplate(dataSource);
 	}
 	
-	@Bean(name = "emf2") // (1)
+	@Bean(name = "emf2") // (2)
 	public EntityManagerFactory entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
 		emf.setDataSource(dataSource);
@@ -54,7 +54,7 @@ public class SecondDbConfig {
 		return emf.getObject();
 	}
 
-	@Bean(name = "tx2") // (2)
+	@Bean(name = "tx2") // (3)
 	public PlatformTransactionManager transactionManager(@Qualifier("emf2") EntityManagerFactory emf) {
 		return new JpaTransactionManager(emf);
 	}

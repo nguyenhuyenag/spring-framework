@@ -19,9 +19,9 @@ public class AppRunner implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		service.save();
+		// service.save();
 		// service.saveAll();
-		// service.findAll();
+		service.findAll();
 		// service.showDataSourceURL();
 		// transactionService.testTransaction();
 	}

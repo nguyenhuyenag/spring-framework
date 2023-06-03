@@ -19,17 +19,19 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 // @EnableAutoConfiguration
 @EnableTransactionManagement
 @EnableJpaRepositories( //
-	transactionManagerRef = "transactionManager", //
-	entityManagerFactoryRef = "entityManagerFactory", //
-	basePackages = { "com.primary.repository" } //
+	transactionManagerRef = "tx", // (3)
+	entityManagerFactoryRef = "emf", // (2)
+	basePackages = { "com.primary.repository" } // (1)
 )
 public class PrimaryDbConfig {
 
 	@Autowired
-	private JpaVendorAdapter jpaVendorAdapter;
+	private DataSource dataSource;
 
 	@Autowired
-	private DataSource dataSource;
+	private JpaVendorAdapter jpaVendorAdapter;
+	
+	private static final String PACKAGES_TO_SCAN 	=	"com.primary.entity"; // (4)
 	
 	@Primary
 	@Bean(name = "jdbcTemplate")
@@ -38,19 +40,18 @@ public class PrimaryDbConfig {
 	}
 	
 	@Primary
-	@Bean(name = "entityManagerFactory")
+	@Bean(name = "emf") // (2)
 	public EntityManagerFactory entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
 		emf.setDataSource(dataSource);
 		emf.setJpaVendorAdapter(jpaVendorAdapter);
-		emf.setPackagesToScan("com.primary.entity");	// package for entities
-		// emf.setPersistenceUnitName("persistenceUnit"); 	// for EntityManager
+		emf.setPackagesToScan(PACKAGES_TO_SCAN);
 		emf.afterPropertiesSet();
 		return emf.getObject();
 	}
 
 	@Primary
-	@Bean(name = "transactionManager")
+	@Bean(name = "tx") // (3)
 	public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
 		return new JpaTransactionManager(emf);
 	}

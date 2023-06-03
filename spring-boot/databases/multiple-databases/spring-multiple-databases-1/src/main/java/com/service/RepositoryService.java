@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.primary.repository.CustomerRepository;
-import com.second.entity.Office;
 import com.second.repository.OfficeRepository;
 import com.util.DataUtils;
 
@@ -39,7 +38,7 @@ public class RepositoryService {
 	}
 
 	public void save() {
-		// save1();
+		save1();
 		save2();
 	}
 	
