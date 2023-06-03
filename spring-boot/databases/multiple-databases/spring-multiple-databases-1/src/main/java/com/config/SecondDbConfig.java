@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 //@EnableAutoConfiguration
 @EnableTransactionManagement
 @EnableJpaRepositories( //
-	transactionManagerRef = "tx2", 				// (3)
+	transactionManagerRef = "tm2", 				// (3)
 	entityManagerFactoryRef = "emf2", 			// (2)
 	basePackages = { "com.second.repository" } 	// (1)
 )
@@ -54,7 +54,7 @@ public class SecondDbConfig {
 		return emf.getObject();
 	}
 
-	@Bean(name = "tx2") // (3)
+	@Bean(name = "tm2") // (3)
 	public PlatformTransactionManager transactionManager(@Qualifier("emf2") EntityManagerFactory emf) {
 		return new JpaTransactionManager(emf);
 	}
