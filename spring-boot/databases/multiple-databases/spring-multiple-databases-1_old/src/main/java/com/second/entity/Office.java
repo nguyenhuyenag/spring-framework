@@ -1,4 +1,6 @@
-package com.primary.entity;
+package com.second.entity;
+
+import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,48 +18,39 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "customer")
-public class Customer {
+@Table(name = "office")
+public class Office implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
-
-	@Column(name = "customername", nullable = false)
-	private String customerName;
-
-	@Column(name = "contactlastname", nullable = false)
-	private String contactLastName;
-
-	@Column(name = "contactfirstname", nullable = false)
-	private String contactFirstName;
-
-	@Column(name = "phone", nullable = false)
-	private String phone;
-
-	@Column(name = "addressline1", nullable = false)
-	private String addressLine1;
-
-	@Column(name = "addressline2")
-	private String addressLine2;
+	@Column(name = "officeCode", length = 10, unique = true)
+	private Integer officeCode;
 
 	@Column(name = "city", nullable = false)
 	private String city;
 
+	@Column(name = "phone", nullable = false)
+	private String phone;
+
+	@Column(name = "addressLine1", nullable = false)
+	private String addressLine1;
+
+	@Column(name = "addressLine2")
+	private String addressLine2;
+
 	@Column(name = "state")
 	private String state;
-
-	@Column(name = "postalcode")
-	private String postalCode;
 
 	@Column(name = "country", nullable = false)
 	private String country;
 
-	@Column(name = "salesrepemployeenumber")
-	private Integer salesRepEmployeeNumber;
+	@Column(name = "postalCode", nullable = false)
+	private String postalCode;
 
-	@Column(name = "creditlimit")
-	private Double creditLimit;
+	@Column(name = "territory", nullable = false)
+	private String territory;
 
 	@Override
 	public String toString() {

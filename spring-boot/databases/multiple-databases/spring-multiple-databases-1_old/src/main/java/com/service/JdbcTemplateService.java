@@ -16,11 +16,11 @@ import com.second.entity.Office;
 public class JdbcTemplateService {
 
 	@Autowired
-	// @Qualifier("jdbcTemplate") // Unnecessery
+	@Qualifier("jdbc1Template") // no need
 	private JdbcTemplate jdbc1Template;
 
 	@Autowired
-	@Qualifier("jdbcTemplate2")
+	@Qualifier("jdbc2Template")
 	private JdbcTemplate jdbc2Template;
 
 	public void showDataSourceURL() {
@@ -39,6 +39,14 @@ public class JdbcTemplateService {
 		find2All();
 	}
 
+	private BeanPropertyRowMapper<Customer> customerRowMapper() {
+		return BeanPropertyRowMapper.newInstance(Customer.class);
+	}
+
+	private BeanPropertyRowMapper<Office> officeRowMapper() {
+		return BeanPropertyRowMapper.newInstance(Office.class);
+	}
+
 	public void find1All() {
 		String sql = "SELECT t.* FROM customer t;";
 		List<Customer> result = jdbc1Template.query(sql, customerRowMapper());
@@ -53,14 +61,6 @@ public class JdbcTemplateService {
 		if (!result.isEmpty()) {
 			result.forEach(t -> System.out.println(t));
 		}
-	}
-
-	private BeanPropertyRowMapper<Customer> customerRowMapper() {
-		return BeanPropertyRowMapper.newInstance(Customer.class);
-	}
-
-	private BeanPropertyRowMapper<Office> officeRowMapper() {
-		return BeanPropertyRowMapper.newInstance(Office.class);
 	}
 
 }

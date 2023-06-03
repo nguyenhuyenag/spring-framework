@@ -1,20 +1,16 @@
 package com.config;
 
-import java.util.Properties;
-
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -22,72 +18,49 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
+//@EnableAutoConfiguration
 @EnableTransactionManagement
 @EnableJpaRepositories( //
-	transactionManagerRef = "transaction2Manager", //
-	entityManagerFactoryRef = "entity2ManagerFactory", //
-	basePackages = { "com.second.repository" } //
+	transactionManagerRef = "tx2", 				// (1)
+	entityManagerFactoryRef = "emf2", 			// (2)
+	basePackages = { "com.second.repository" } 	// (3)
 )
 public class SecondDbConfig {
 
-	@Autowired
-	JpaVendorAdapter jpaVendorAdapter;
-
-	@Value("${spring.second-datasource.url}")
-	private String url;
-
-	@Value("${spring.second-datasource.username}")
-	private String username;
-
-	@Value("${spring.second-datasource.password}")
-	private String password;
-
-	@Value("${spring.second-datasource.driver-class-name}")
-	private String driverClassName;
-
-	@Value("${spring.jpa.properties.hibernate.dialect}")
-	private String dialect;
+//	@Value("${spring.jpa.show-sql:true}")
+//	private boolean showSql;
+//	
+//	@Value("${spring.jpa.properties.hibernate.dialect}")
+//	private String dialect;
 	
-	public static final String PERSISTENCE_UNIT_NAME = "persistence2Unit";
+	public static final String PACKAGES_TO_SCAN 		= "com.second.entity"; // (4)
+	public static final String PERSISTENCE_UNIT_NAME 	= "persistence2Unit";
+	
+	@Autowired
+	private JpaVendorAdapter jpaVendorAdapter;
 
-	// @Bean(name = "data2Source")
-	public DataSource dataSource() {
-		return DataSourceBuilder.create() //
-				.url(url) //
-				.username(username) //
-				.password(password) //
-				.driverClassName(driverClassName) //
-				.build();
-	}
-
-	@Bean(name = "jdbc2Template")
+	@Autowired
+	@Qualifier("dataSource2")
+	private DataSource dataSource;
+	
+	@Bean(name = "jdbcTemplate2")
 	public JdbcTemplate jdbcTemplate() {
-		return new JdbcTemplate(dataSource());
+		return new JdbcTemplate(dataSource);
 	}
-
-	@Bean(name = "entity2ManagerFactory")
+	
+	@Bean(name = "emf2") // (2)
 	public EntityManagerFactory entityManagerFactory() {
-		Properties properties = new Properties();
-		properties.setProperty("hibernate.dialect", dialect);
-		
 		LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
+		emf.setDataSource(dataSource);
 		emf.setJpaVendorAdapter(jpaVendorAdapter);
-		emf.setDataSource(dataSource());
-		emf.setPackagesToScan("com.second.entity");
-		emf.setPersistenceUnitName(PERSISTENCE_UNIT_NAME);
-		emf.setJpaProperties(properties);
+		emf.setPackagesToScan(PACKAGES_TO_SCAN);			// package for entities
+		emf.setPersistenceUnitName(PERSISTENCE_UNIT_NAME);	// for EntityManager
 		emf.afterPropertiesSet();
 		return emf.getObject();
 	}
-	
-	@Bean(name = "entity2Manager")
-	public EntityManager entityManager(@Qualifier("entity2ManagerFactory") EntityManagerFactory emf) {
-		return emf.createEntityManager();
-	}
 
-	@Bean(name = "transaction2Manager")
-	public PlatformTransactionManager transactionManager( //
-			@Qualifier("entity2ManagerFactory") EntityManagerFactory emf) {
+	@Bean(name = "tx2") // (1)
+	public PlatformTransactionManager transactionManager(@Qualifier("emf2") EntityManagerFactory emf) {
 		return new JpaTransactionManager(emf);
 	}
 

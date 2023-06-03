@@ -1,9 +1,11 @@
 package com.config;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -16,49 +18,49 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-// @EnableAutoConfiguration
+@EnableAutoConfiguration
 @EnableTransactionManagement
 @EnableJpaRepositories( //
-	transactionManagerRef = "transactionManager", //
-	entityManagerFactoryRef = "entityManagerFactory", //
+	transactionManagerRef = "transaction1Manager", //
+	entityManagerFactoryRef = "entity1ManagerFactory", //
 	basePackages = { "com.primary.repository" } //
 )
 public class PrimaryDbConfig {
 
 	@Autowired
-	private JpaVendorAdapter jpaVendorAdapter;
+	JpaVendorAdapter jpaVendorAdapter;
 
 	@Autowired
-	private DataSource dataSource;
+	DataSource data1Source;
 	
 	@Primary
-	@Bean(name = "jdbcTemplate")
+	@Bean(name = "jdbc1Template")
 	public JdbcTemplate jdbcTemplate() {
-		return new JdbcTemplate(dataSource);
+		return new JdbcTemplate(data1Source);
 	}
-	
+
 	@Primary
-	@Bean(name = "entityManagerFactory")
+	@Bean(name = "entity1ManagerFactory")
 	public EntityManagerFactory entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
-		emf.setDataSource(dataSource);
+		emf.setDataSource(data1Source);
 		emf.setJpaVendorAdapter(jpaVendorAdapter);
-		emf.setPackagesToScan("com.primary.entity");	// package for entities
-		// emf.setPersistenceUnitName("persistenceUnit"); 	// for EntityManager
+		emf.setPackagesToScan("com.primary.entity"); 			// package for entities
+		emf.setPersistenceUnitName("persistence1Unit"); 	// for EntityManager
 		emf.afterPropertiesSet();
 		return emf.getObject();
 	}
+	
+	@Primary
+	@Bean(name = "entity1Manager")
+	public EntityManager entityManager() {
+		return entityManagerFactory().createEntityManager();
+	}
 
 	@Primary
-	@Bean(name = "transactionManager")
-	public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
-		return new JpaTransactionManager(emf);
+	@Bean(name = "transaction1Manager")
+	public PlatformTransactionManager transactionManager() {
+		return new JpaTransactionManager(entityManagerFactory());
 	}
-	
-//	@Primary
-//	@Bean(name = "entity1Manager")
-//	public EntityManager entityManager() {
-//		return entityManagerFactory().createEntityManager();
-//	}
 	
 }

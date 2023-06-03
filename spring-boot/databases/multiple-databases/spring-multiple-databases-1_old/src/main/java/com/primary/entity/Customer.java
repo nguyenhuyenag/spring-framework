@@ -23,22 +23,22 @@ public class Customer {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(name = "customername", nullable = false)
+	@Column(name = "customerName", nullable = false)
 	private String customerName;
 
-	@Column(name = "contactlastname", nullable = false)
+	@Column(name = "contactLastName", nullable = false)
 	private String contactLastName;
 
-	@Column(name = "contactfirstname", nullable = false)
+	@Column(name = "contactFirstName", nullable = false)
 	private String contactFirstName;
 
 	@Column(name = "phone", nullable = false)
 	private String phone;
 
-	@Column(name = "addressline1", nullable = false)
+	@Column(name = "addressLine1", nullable = false)
 	private String addressLine1;
 
-	@Column(name = "addressline2")
+	@Column(name = "addressLine2")
 	private String addressLine2;
 
 	@Column(name = "city", nullable = false)
@@ -47,16 +47,16 @@ public class Customer {
 	@Column(name = "state")
 	private String state;
 
-	@Column(name = "postalcode")
+	@Column(name = "postalCode")
 	private String postalCode;
 
 	@Column(name = "country", nullable = false)
 	private String country;
 
-	@Column(name = "salesrepemployeenumber")
+	@Column(name = "salesRepEmployeeNumber")
 	private Integer salesRepEmployeeNumber;
 
-	@Column(name = "creditlimit")
+	@Column(name = "creditLimit")
 	private Double creditLimit;
 
 	@Override
