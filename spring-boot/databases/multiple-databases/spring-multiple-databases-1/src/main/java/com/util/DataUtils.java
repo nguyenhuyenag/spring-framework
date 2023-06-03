@@ -24,7 +24,6 @@ public class DataUtils {
 
 	public static Office getOff1() {
 		Office office1 = new Office();
-		office1.setOfficeCode(8);
 		office1.setCity("Tokyo");
 		office1.setPhone("+27 10 5887 1952");
 		office1.setAddressLine1("89 New Lat Street");

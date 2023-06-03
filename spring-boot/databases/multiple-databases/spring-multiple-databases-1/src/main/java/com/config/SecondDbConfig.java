@@ -5,10 +5,8 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -21,15 +19,12 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 //@EnableAutoConfiguration
 @EnableTransactionManagement
 @EnableJpaRepositories( //
-	transactionManagerRef = "tx2", 				// (1)
-	entityManagerFactoryRef = "emf2", 			// (2)
+	transactionManagerRef = "tx2", 				// (2)
+	entityManagerFactoryRef = "emf2", 			// (1)
 	basePackages = { "com.second.repository" } 	// (3)
 )
 public class SecondDbConfig {
 
-//	@Value("${spring.jpa.show-sql:true}")
-//	private boolean showSql;
-//	
 //	@Value("${spring.jpa.properties.hibernate.dialect}")
 //	private String dialect;
 	
@@ -48,7 +43,7 @@ public class SecondDbConfig {
 		return new JdbcTemplate(dataSource);
 	}
 	
-	@Bean(name = "emf2") // (2)
+	@Bean(name = "emf2") // (1)
 	public EntityManagerFactory entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
 		emf.setDataSource(dataSource);
@@ -59,7 +54,7 @@ public class SecondDbConfig {
 		return emf.getObject();
 	}
 
-	@Bean(name = "tx2") // (1)
+	@Bean(name = "tx2") // (2)
 	public PlatformTransactionManager transactionManager(@Qualifier("emf2") EntityManagerFactory emf) {
 		return new JpaTransactionManager(emf);
 	}

@@ -55,10 +55,4 @@ public class PrimaryDbConfig {
 		return new JpaTransactionManager(emf);
 	}
 	
-//	@Primary
-//	@Bean(name = "entity1Manager")
-//	public EntityManager entityManager() {
-//		return entityManagerFactory().createEntityManager();
-//	}
-	
 }
