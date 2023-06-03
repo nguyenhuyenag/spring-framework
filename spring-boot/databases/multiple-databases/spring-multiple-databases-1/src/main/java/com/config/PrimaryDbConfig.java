@@ -19,8 +19,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 // @EnableAutoConfiguration
 @EnableTransactionManagement
 @EnableJpaRepositories( //
-	transactionManagerRef = "tm", // (3)
-	entityManagerFactoryRef = "emf", // (2)
+	transactionManagerRef = "tm", 				// (3)
+	entityManagerFactoryRef = "emf", 			// (2)
 	basePackages = { "com.primary.repository" } // (1)
 )
 public class PrimaryDbConfig {
@@ -31,7 +31,7 @@ public class PrimaryDbConfig {
 	@Autowired
 	private JpaVendorAdapter jpaVendorAdapter;
 	
-	private static final String PACKAGES_TO_SCAN 	=	"com.primary"; // (4)
+	private static final String ENTITY_PACKAGE		=	"com.primary.entity"; // (4)
 	
 	@Primary
 	@Bean(name = "jdbcTemplate")
@@ -45,7 +45,7 @@ public class PrimaryDbConfig {
 		LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
 		emf.setDataSource(dataSource);
 		emf.setJpaVendorAdapter(jpaVendorAdapter);
-		emf.setPackagesToScan(PACKAGES_TO_SCAN);
+		emf.setPackagesToScan(ENTITY_PACKAGE);
 		emf.afterPropertiesSet();
 		return emf.getObject();
 	}

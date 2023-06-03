@@ -1,10 +1,10 @@
-package com.primary.repository;
+package com.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import com.primary.repository.CustomerRepository;
 import com.util.DataUtils;
 
 @Service
@@ -25,14 +25,14 @@ public class MyTransactionService {
 		// test2Repository();
 	}
 
-	@Transactional // (value = "tm")
+	// @Transactional
 	public void test1Repository() {
 		try {
 			customerRepository.save(DataUtils.getC1());
 			customerRepository.save(DataUtils.getC2());
 		} catch (Exception e) {
 			e.printStackTrace();
-			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			// TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 		}
 	}
 

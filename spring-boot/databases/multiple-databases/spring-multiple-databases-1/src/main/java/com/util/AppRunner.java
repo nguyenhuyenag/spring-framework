@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import com.primary.repository.MyTransactionService;
+import com.service.MyTransactionService;
 
 @Component
 public class AppRunner implements CommandLineRunner {

@@ -28,7 +28,7 @@ public class SecondDbConfig {
 //	@Value("${spring.jpa.properties.hibernate.dialect}")
 //	private String dialect;
 	
-	private static final String PACKAGES_TO_SCAN 		= "com.second.entity"; // (4)
+	private static final String ENTITY_PACKAGE 			= "com.second.entity"; // (4)
 	public static final String PERSISTENCE_UNIT_NAME	= "persistence2Unit";
 	
 	@Autowired
@@ -48,7 +48,7 @@ public class SecondDbConfig {
 		LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
 		emf.setDataSource(dataSource);
 		emf.setJpaVendorAdapter(jpaVendorAdapter);
-		emf.setPackagesToScan(PACKAGES_TO_SCAN);			// package for entities
+		emf.setPackagesToScan(ENTITY_PACKAGE);			// package for entities
 		emf.setPersistenceUnitName(PERSISTENCE_UNIT_NAME);	// for EntityManager
 		emf.afterPropertiesSet();
 		return emf.getObject();
