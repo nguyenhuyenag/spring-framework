@@ -3,6 +3,8 @@ DELETE FROM customer WHERE id > 114;
 USE database_2;
 DELETE FROM office WHERE officeCode > 3;
 
+-----------------------------------------
+
 CREATE DATABASE IF NOT EXISTS database_1;
 USE database_1;
 DROP TABLE IF EXISTS customer;
