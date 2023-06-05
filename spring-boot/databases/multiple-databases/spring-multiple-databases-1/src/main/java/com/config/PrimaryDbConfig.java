@@ -56,7 +56,7 @@ public class PrimaryDbConfig {
 	public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
 		return new JpaTransactionManager(emf);
 	}
-//	
+
 //	@Autowired
 //	@Primary
 //	@Bean(name = "tm")

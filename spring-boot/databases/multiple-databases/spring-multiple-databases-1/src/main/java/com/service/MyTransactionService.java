@@ -2,7 +2,6 @@ package com.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
@@ -14,12 +13,6 @@ import com.util.DataUtils;
 @Transactional
 public class MyTransactionService {
 
-	// @PersistenceContext
-	// EntityManager entity1Manager;
-
-	// @Autowired
-	// OfficeRepository repository2;
-
 	@Autowired
 	CustomerRepository customerRepository;
 	
@@ -27,8 +20,8 @@ public class MyTransactionService {
 	OfficeRepository officeRepository;
 
 	public void testTransaction() {
-		// test1Repository();
-		test2Repository();
+		test1Repository();
+		// test2Repository();
 	}
 
 	public void test1Repository() {
