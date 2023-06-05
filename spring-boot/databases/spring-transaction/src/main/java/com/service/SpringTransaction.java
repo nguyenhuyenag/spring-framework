@@ -28,7 +28,7 @@ public class SpringTransaction {
 	UserRepository userRepository;
 
 	@Autowired
-	private TransactionTemplate template;
+	private TransactionTemplate transactionTemplate;
 
 	@Transactional
 	public void withStatus() {
@@ -42,15 +42,11 @@ public class SpringTransaction {
 		}
 	}
 
-	public void withRollbackFor() {
-		try {
-			template.executeWithoutResult(t -> {
-				userRepository.save(DataUtils.passUser());
-				userRepository.save(DataUtils.passUser());
-			});
-		} catch (Exception e) {
-			// e.printStackTrace();
-		}
+	public void withTransactionTemplate() {
+		transactionTemplate.executeWithoutResult(t -> {
+			userRepository.save(DataUtils.passUser());
+			userRepository.save(DataUtils.passUser());
+		});
 	}
 
 //	@Transactional(readOnly = false)

@@ -15,7 +15,7 @@ public class AppRunner implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		// springTransaction.withStatus();
-		springTransaction.withRollbackFor();
+		springTransaction.withTransactionTemplate();
 	}
 
 }
