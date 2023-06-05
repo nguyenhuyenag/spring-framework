@@ -1,7 +1,10 @@
 package com.service;
 
+import javax.persistence.EntityManager;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionException;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -24,11 +27,22 @@ import com.util.DataUtils;
 @Service
 public class SpringTransaction {
 
-	@Autowired
-	UserRepository userRepository;
+//	@Autowired
+//	private PlatformTransactionManager transactionManager;
+	
+	@Autowired 
+    private EntityManager entityManager;
 
 	@Autowired
 	private TransactionTemplate transactionTemplate;
+
+//	@PostConstruct
+//	public void setUp() {
+//		transactionTemplate = new TransactionTemplate(transactionManager);
+//	}
+
+	@Autowired
+	UserRepository userRepository;
 
 	@Transactional
 	public void withStatus() {
@@ -43,10 +57,15 @@ public class SpringTransaction {
 	}
 
 	public void withTransactionTemplate() {
-		transactionTemplate.executeWithoutResult(t -> {
-			userRepository.save(DataUtils.passUser());
-			userRepository.save(DataUtils.passUser());
-		});
+		try {
+			transactionTemplate.executeWithoutResult(status -> {
+				entityManager.persist(DataUtils.passUser());
+				entityManager.persist(DataUtils.passUser());
+		        status.setRollbackOnly();
+			});
+		} catch (TransactionException e) {
+			e.printStackTrace();
+		}
 	}
 
 //	@Transactional(readOnly = false)
