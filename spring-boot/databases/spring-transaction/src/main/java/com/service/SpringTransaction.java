@@ -1,10 +1,8 @@
 package com.service;
 
-import javax.persistence.EntityManager;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.TransactionException;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -27,19 +25,14 @@ import com.util.DataUtils;
 @Service
 public class SpringTransaction {
 
-//	@Autowired
-//	private PlatformTransactionManager transactionManager;
-	
-	@Autowired 
-    private EntityManager entityManager;
+	// @Autowired
+	// private EntityManager entityManager;
+
+	@Autowired
+	PlatformTransactionManager transactionManager;
 
 	@Autowired
 	private TransactionTemplate transactionTemplate;
-
-//	@PostConstruct
-//	public void setUp() {
-//		transactionTemplate = new TransactionTemplate(transactionManager);
-//	}
 
 	@Autowired
 	UserRepository userRepository;
@@ -56,35 +49,29 @@ public class SpringTransaction {
 		}
 	}
 
-	public void withTransactionTemplate() {
+	public void withTransactionTemplate_1() {
 		try {
 			transactionTemplate.executeWithoutResult(status -> {
-				entityManager.persist(DataUtils.passUser());
-				entityManager.persist(DataUtils.passUser());
-		        status.setRollbackOnly();
+				userRepository.save(DataUtils.passUser());
+				userRepository.save(DataUtils.passUser());
 			});
-		} catch (TransactionException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-//	@Transactional(readOnly = false)
-//	public void testRollBack() {
-//		try {
-//			for (int i = 1; i <= 3; i++) {
-//				User entity = new User();
-//				String name = RandomStringUtils.randomAlphabetic(5).toLowerCase();
-//				entity.setName(name);
-//				entity.setEmail(name + "@mail.com");
-//				repository.save(entity);
-//				System.out.println("OK! ...............");
-//			}
-//		} catch (Exception e) {
-//			System.out.println("Exception ....................");
-//			e.printStackTrace();
-//		}
-//	}
-//
+	public void withTransactionTemplate_2() {
+		transactionTemplate.executeWithoutResult(status -> {
+			try {
+				userRepository.save(DataUtils.passUser());
+				userRepository.save(DataUtils.passUser());
+			} catch (Exception e) {
+				e.printStackTrace();
+				status.setRollbackOnly();
+			}
+		});
+	}
+
 //	/**
 //	 * rollback transaction cho tất cả các sub-class của Exception ngoại trừ
 //	 * EntityNotFoundException
