@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import com.repository.UserRepository;
 import com.util.DataUtils;
@@ -26,8 +27,11 @@ public class SpringTransaction {
 	@Autowired
 	UserRepository userRepository;
 
+	@Autowired
+	private TransactionTemplate template;
+
 	@Transactional
-	public void rollBackWithStatus() {
+	public void withStatus() {
 		try {
 			userRepository.save(DataUtils.passUser()); // Save OK
 			userRepository.save(DataUtils.passUser()); // Duplicate entry for key 'email'
@@ -35,6 +39,17 @@ public class SpringTransaction {
 			e.printStackTrace();
 			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 			System.out.println("Rollback! .............");
+		}
+	}
+
+	public void withRollbackFor() {
+		try {
+			template.executeWithoutResult(t -> {
+				userRepository.save(DataUtils.passUser());
+				userRepository.save(DataUtils.passUser());
+			});
+		} catch (Exception e) {
+			// e.printStackTrace();
 		}
 	}
 
