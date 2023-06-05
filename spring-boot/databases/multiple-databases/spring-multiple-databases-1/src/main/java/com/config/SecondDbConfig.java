@@ -14,6 +14,7 @@ import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.support.TransactionTemplate;
 
 @Configuration
 //@EnableAutoConfiguration
@@ -25,11 +26,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 )
 public class SecondDbConfig {
 
-//	@Value("${spring.jpa.properties.hibernate.dialect}")
-//	private String dialect;
-	
-	private static final String ENTITY_PACKAGE 			= "com.second.entity"; // (4)
-	public static final String PERSISTENCE_UNIT_NAME	= "persistence2Unit";
+	private static final String ENTITY_PACKAGE 			=	"com.second.entity"; // (4)
+	public static final String PERSISTENCE_UNIT_NAME	= 	"persistence2Unit";
 	
 	@Autowired
 	private JpaVendorAdapter jpaVendorAdapter;
@@ -57,6 +55,11 @@ public class SecondDbConfig {
 	@Bean(name = "tm2") // (3)
 	public PlatformTransactionManager transactionManager(@Qualifier("emf2") EntityManagerFactory emf) {
 		return new JpaTransactionManager(emf);
+	}
+	
+	@Bean(name = "tt2")
+	public TransactionTemplate transactionTemplate(@Qualifier("tm2") PlatformTransactionManager ptm) {
+		return new TransactionTemplate(ptm);
 	}
 
 }

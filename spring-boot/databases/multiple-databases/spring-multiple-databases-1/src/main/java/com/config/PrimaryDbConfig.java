@@ -32,7 +32,8 @@ public class PrimaryDbConfig {
 	@Autowired
 	private JpaVendorAdapter jpaVendorAdapter;
 	
-	private static final String ENTITY_PACKAGE		=	"com.primary.entity"; // (4)
+	private static final String ENTITY_PACKAGE			=	"com.primary.entity"; // (4)
+	public static final String PERSISTENCE_UNIT_NAME	= 	"persistence1Unit";
 	
 	@Primary
 	@Bean(name = "jdbcTemplate")
@@ -47,6 +48,7 @@ public class PrimaryDbConfig {
 		emf.setDataSource(dataSource);
 		emf.setJpaVendorAdapter(jpaVendorAdapter);
 		emf.setPackagesToScan(ENTITY_PACKAGE);
+		emf.setPersistenceUnitName(PERSISTENCE_UNIT_NAME);
 		emf.afterPropertiesSet();
 		return emf.getObject();
 	}
