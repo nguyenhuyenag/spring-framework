@@ -1,11 +1,12 @@
 package com.config;
 
 import javax.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -16,40 +17,43 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import com.util.BeanName;
 
+// @EnableAspectJAutoProxy
 @Configuration
+// @EnableAutoConfiguration
 @EnableTransactionManagement
 @EnableJpaRepositories( //
-	transactionManagerRef = BeanName.DB2_TRANSACTION_MANAGER,
-	entityManagerFactoryRef = BeanName.DB2_ENTITYMANAGER_FACTORY,
-	basePackages = { BeanName.DB2_PACKAGE_REPOSITORY }
+	transactionManagerRef = BeanName.DB1_TRANSACTION_MANAGER,	  	// (1)
+	entityManagerFactoryRef = BeanName.DB1_ENTITYMANAGER_FACTORY,	// (2)
+	basePackages = { BeanName.DB1_PACKAGE_REPOSITORY }
 )
-public class SecondDbConfig {
+public class Db1Config {
+
+	@Autowired
+	private DataSource dataSource;
 
 	@Autowired
 	private JpaVendorAdapter jpaVendorAdapter;
-
-	@Autowired
-	@Qualifier(BeanName.DB2_DATASOURCE)
-	private javax.sql.DataSource dataSource;
 	
-	@Bean(name = BeanName.DB2_ENTITYMANAGER_FACTORY)
+	@Primary
+	@Bean(name = BeanName.DB1_ENTITYMANAGER_FACTORY) // (2)
 	public EntityManagerFactory entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
 		emf.setDataSource(dataSource);
 		emf.setJpaVendorAdapter(jpaVendorAdapter);
-		emf.setPackagesToScan(BeanName.DB2_ENTITY_PACKAGE);
-		emf.setPersistenceUnitName(BeanName.DB2_PERSISTENCE_UNIT_NAME);
+		emf.setPackagesToScan(BeanName.DB1_ENTITY_PACKAGE);	// package for entities
+		emf.setPersistenceUnitName(BeanName.DB1_PERSISTENCE_UNIT_NAME); // for EntityManager
 		emf.afterPropertiesSet();
 		return emf.getObject();
 	}
 
-	@Bean(name = BeanName.DB2_TRANSACTION_MANAGER)
-	public PlatformTransactionManager transactionManager(@Qualifier(BeanName.DB2_ENTITYMANAGER_FACTORY) EntityManagerFactory emf) {
+	@Primary
+	@Bean(name = BeanName.DB1_TRANSACTION_MANAGER) // (1)
+	public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
 		return new JpaTransactionManager(emf);
 	}
 	
-	@Bean(name = BeanName.DB2_TRANSACTION_TEMPLATE)
-	public TransactionTemplate transactionTemplate(@Qualifier(BeanName.DB2_TRANSACTION_MANAGER) PlatformTransactionManager ptm) {
+	@Bean
+	public TransactionTemplate transactionTemplate(PlatformTransactionManager ptm) {
 		return new TransactionTemplate(ptm);
 	}
 
