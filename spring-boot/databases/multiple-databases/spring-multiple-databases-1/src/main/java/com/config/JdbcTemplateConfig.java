@@ -6,17 +6,19 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import com.util.BeanName;
+
 @Configuration
 public class JdbcTemplateConfig {
 	
 	@Primary
-	@Bean(name = "jdbcTemplate")
+	@Bean(name = BeanName.DB1_JDBCTEMPLATE)
 	public JdbcTemplate jdbcTemplate(javax.sql.DataSource dataSource) {
 		return new JdbcTemplate(dataSource);
 	}
 	
-	@Bean(name = "jdbcTemplate2")
-	public JdbcTemplate jdbcTemplate2(@Qualifier("dataSource2") javax.sql.DataSource dataSource) {
+	@Bean(name = BeanName.DB2_JDBCTEMPLATE)
+	public JdbcTemplate jdbcTemplate2(@Qualifier(BeanName.DB2_DATASOURCE) javax.sql.DataSource dataSource) {
 		return new JdbcTemplate(dataSource);
 	}
 	

@@ -15,13 +15,15 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.util.BeanName;
+
 @Configuration
 @EnableAutoConfiguration
 @EnableTransactionManagement
 @EnableJpaRepositories( //
-	transactionManagerRef = "tm", 				// (3)
-	entityManagerFactoryRef = "emf", 			// (2)
-	basePackages = { "com.primary.repository" } // (1)
+	transactionManagerRef = BeanName.DB1_TRANSACTION_MANAGER,	  	// (3)
+	entityManagerFactoryRef = BeanName.DB1_ENTITYMANAGER_FACTORY,	// (2)
+	basePackages = { BeanName.DB1_PACKAGE_REPOSITORY } 			  	// (1)
 )
 public class PrimaryDbConfig {
 
@@ -31,38 +33,22 @@ public class PrimaryDbConfig {
 	@Autowired
 	private JpaVendorAdapter jpaVendorAdapter;
 	
-	private static final String ENTITY_PACKAGE			=	"com.primary.entity"; // (4)
-	public static final String PERSISTENCE_UNIT_NAME	= 	"persistence1Unit";
-	
-//	@Primary
-//	@Bean(name = "jdbcTemplate")
-//	public JdbcTemplate jdbcTemplate() {
-//		return new JdbcTemplate(dataSource);
-//	}
-	
 	@Primary
-	@Bean(name = "emf") // (2)
+	@Bean(name = BeanName.DB1_ENTITYMANAGER_FACTORY) // (2)
 	public EntityManagerFactory entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
 		emf.setDataSource(dataSource);
 		emf.setJpaVendorAdapter(jpaVendorAdapter);
-		emf.setPackagesToScan(ENTITY_PACKAGE);
-		emf.setPersistenceUnitName(PERSISTENCE_UNIT_NAME);
+		emf.setPackagesToScan(BeanName.DB1_ENTITY_PACKAGE);	// package for entities
+		emf.setPersistenceUnitName(BeanName.DB1_PERSISTENCE_UNIT_NAME); // for EntityManager
 		emf.afterPropertiesSet();
 		return emf.getObject();
 	}
 
 	@Primary
-	@Bean(name = "tm") // (3)
+	@Bean(name = BeanName.DB1_TRANSACTION_MANAGER) // (3)
 	public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
 		return new JpaTransactionManager(emf);
 	}
 
-//	@Autowired
-//	@Primary
-//	@Bean(name = "tm")
-//	public DataSourceTransactionManager tm1() {
-//		return new DataSourceTransactionManager(dataSource);
-//	}
-	
 }

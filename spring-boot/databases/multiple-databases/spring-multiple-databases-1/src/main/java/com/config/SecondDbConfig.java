@@ -14,49 +14,42 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.support.TransactionTemplate;
 
+import com.util.BeanName;
+
 @Configuration
-//@EnableAutoConfiguration
 @EnableTransactionManagement
 @EnableJpaRepositories( //
-	transactionManagerRef = "tm2", 				// (3)
-	entityManagerFactoryRef = "emf2", 			// (2)
-	basePackages = { "com.second.repository" } 	// (1)
+	transactionManagerRef = BeanName.DB2_TRANSACTION_MANAGER,
+	entityManagerFactoryRef = BeanName.DB2_ENTITYMANAGER_FACTORY,
+	basePackages = { BeanName.DB2_PACKAGE_REPOSITORY }
 )
 public class SecondDbConfig {
 
-	private static final String ENTITY_PACKAGE 			=	"com.second.entity"; // (4)
-	public static final String PERSISTENCE_UNIT_NAME	= 	"persistence2Unit";
-	
 	@Autowired
 	private JpaVendorAdapter jpaVendorAdapter;
 
 	@Autowired
-	@Qualifier("dataSource2")
+	@Qualifier(BeanName.DB2_DATASOURCE)
 	private javax.sql.DataSource dataSource;
 	
-//	@Bean(name = "jdbcTemplate2")
-//	public JdbcTemplate jdbcTemplate() {
-//		return new JdbcTemplate(dataSource);
-//	}
-	
-	@Bean(name = "emf2") // (2)
+	@Bean(name = BeanName.DB2_ENTITYMANAGER_FACTORY)
 	public EntityManagerFactory entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
 		emf.setDataSource(dataSource);
 		emf.setJpaVendorAdapter(jpaVendorAdapter);
-		emf.setPackagesToScan(ENTITY_PACKAGE);			// package for entities
-		emf.setPersistenceUnitName(PERSISTENCE_UNIT_NAME);	// for EntityManager
+		emf.setPackagesToScan(BeanName.DB2_ENTITY_PACKAGE);
+		emf.setPersistenceUnitName(BeanName.DB2_PERSISTENCE_UNIT_NAME);
 		emf.afterPropertiesSet();
 		return emf.getObject();
 	}
 
-	@Bean(name = "tm2") // (3)
-	public PlatformTransactionManager transactionManager(@Qualifier("emf2") EntityManagerFactory emf) {
+	@Bean(name = BeanName.DB2_TRANSACTION_MANAGER)
+	public PlatformTransactionManager transactionManager(@Qualifier(BeanName.DB2_ENTITYMANAGER_FACTORY) EntityManagerFactory emf) {
 		return new JpaTransactionManager(emf);
 	}
 	
-	@Bean(name = "tt2")
-	public TransactionTemplate transactionTemplate(@Qualifier("tm2") PlatformTransactionManager ptm) {
+	@Bean(name = BeanName.DB2_TRANSACTION_TEMPLATE)
+	public TransactionTemplate transactionTemplate(@Qualifier(BeanName.DB2_TRANSACTION_MANAGER) PlatformTransactionManager ptm) {
 		return new TransactionTemplate(ptm);
 	}
 

@@ -8,6 +8,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import com.second.repository.OfficeRepository;
+import com.util.BeanName;
 import com.util.DataUtils;
 
 @Service
@@ -17,7 +18,7 @@ public class MyTransactionService2 {
 	OfficeRepository officeRepository;
 
 	@Autowired
-	@Qualifier("tt2")
+	@Qualifier(BeanName.DB2_TRANSACTION_TEMPLATE)
 	TransactionTemplate transactionTemplate;
 
 	public void testTransaction() {
@@ -25,7 +26,8 @@ public class MyTransactionService2 {
 		// withTemplate();
 	}
 
-	@Transactional("tm2")
+	// Not working
+	@Transactional(BeanName.DB2_TRANSACTION_MANAGER)
 	public void withAspect() {
 		try {
 			officeRepository.save(DataUtils.getOff1());
@@ -36,6 +38,7 @@ public class MyTransactionService2 {
 		}
 	}
 
+	// OK
 	public void withTemplate() {
 		transactionTemplate.executeWithoutResult(status -> {
 			try {

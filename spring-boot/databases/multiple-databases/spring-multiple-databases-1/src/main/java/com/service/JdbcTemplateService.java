@@ -11,16 +11,17 @@ import org.springframework.stereotype.Service;
 
 import com.primary.entity.Customer;
 import com.second.entity.Office;
+import com.util.BeanName;
 
 @Service
 public class JdbcTemplateService {
 
 	@Autowired
-	// @Qualifier("jdbcTemplate") // Unnecessery
+	// @Qualifier("jdbcTemplate") // <- Unnecessery
 	private JdbcTemplate jdbc1Template;
 
 	@Autowired
-	@Qualifier("jdbcTemplate2")
+	@Qualifier(BeanName.DB2_JDBCTEMPLATE)
 	private JdbcTemplate jdbc2Template;
 
 	public void showDataSourceURL() {
