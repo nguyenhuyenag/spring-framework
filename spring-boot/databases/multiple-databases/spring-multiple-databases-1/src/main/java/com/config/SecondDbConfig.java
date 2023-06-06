@@ -1,14 +1,12 @@
 package com.config;
 
 import javax.persistence.EntityManagerFactory;
-import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -34,12 +32,12 @@ public class SecondDbConfig {
 
 	@Autowired
 	@Qualifier("dataSource2")
-	private DataSource dataSource;
+	private javax.sql.DataSource dataSource;
 	
-	@Bean(name = "jdbcTemplate2")
-	public JdbcTemplate jdbcTemplate() {
-		return new JdbcTemplate(dataSource);
-	}
+//	@Bean(name = "jdbcTemplate2")
+//	public JdbcTemplate jdbcTemplate() {
+//		return new JdbcTemplate(dataSource);
+//	}
 	
 	@Bean(name = "emf2") // (2)
 	public EntityManagerFactory entityManagerFactory() {

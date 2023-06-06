@@ -11,7 +11,6 @@ import com.second.repository.OfficeRepository;
 import com.util.DataUtils;
 
 @Service
-// @Transactional
 public class MyTransactionService2 {
 
 	@Autowired
@@ -33,7 +32,7 @@ public class MyTransactionService2 {
 			officeRepository.save(DataUtils.getOff2());
 		} catch (Exception e) {
 			e.printStackTrace();
-			TransactionAspectSupport.currentTransactionStatus();
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 		}
 	}
 
