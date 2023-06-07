@@ -1,5 +1,6 @@
 package com.util;
 
+import com.entity.Address;
 import com.entity.User;
 
 public class DataUtils {
@@ -16,6 +17,20 @@ public class DataUtils {
 		u2.setName("transaction@test.com");
 		u2.setName("Test");
 		return u2;
+	}
+
+	public static Address passAddress() {
+		Address a1 = new Address();
+		a1.setAddress("Ho Chi Minh");
+		a1.setCountry("Viet Nam");
+		return a1;
+	}
+
+	public static Address failAddress() {
+		Address a2 = new Address();
+		a2.setAddress("London");
+		a2.setCountry("United Kingdom");
+		return a2;
 	}
 
 }

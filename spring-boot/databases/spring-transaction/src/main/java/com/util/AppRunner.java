@@ -14,9 +14,10 @@ public class AppRunner implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		// springTransaction.withStatus();
+		// springTransaction.withAspect();
 		// springTransaction.withTransactionTemplate_1();
-		springTransaction.withTransactionTemplate_2();
+		// springTransaction.withTransactionTemplate_2();
+		springTransaction.save2Table();
 	}
 
 }
