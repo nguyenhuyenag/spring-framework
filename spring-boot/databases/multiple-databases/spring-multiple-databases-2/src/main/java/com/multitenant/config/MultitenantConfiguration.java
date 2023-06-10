@@ -27,16 +27,16 @@ public class MultitenantConfiguration {
 		File[] files = Paths.get("allTenants").toFile().listFiles();
 		Map<Object, Object> dataSources = new HashMap<>();
 		for (File propertyFile : files) {
-			DataSourceBuilder<?> dataSourceBuilder = DataSourceBuilder.create();
+			DataSourceBuilder<?> dataSource = DataSourceBuilder.create();
 			try {
 				Properties tenantProperties = new Properties();
 				tenantProperties.load(new FileInputStream(propertyFile));
 				String tenantId = tenantProperties.getProperty("name");
-				dataSourceBuilder.url(tenantProperties.getProperty("datasource.url"));
-				dataSourceBuilder.username(tenantProperties.getProperty("datasource.username"));
-				dataSourceBuilder.password(tenantProperties.getProperty("datasource.password"));
-				dataSourceBuilder.driverClassName(tenantProperties.getProperty("datasource.driver-class-name"));
-				dataSources.put(tenantId, dataSourceBuilder.build());
+				dataSource.url(tenantProperties.getProperty("datasource.url"));
+				dataSource.username(tenantProperties.getProperty("datasource.username"));
+				dataSource.password(tenantProperties.getProperty("datasource.password"));
+				dataSource.driverClassName(tenantProperties.getProperty("datasource.driver-class-name"));
+				dataSources.put(tenantId, dataSource.build());
 			} catch (IOException e) {
 				throw new RuntimeException("Problem in tenant datasource:" + e);
 			}

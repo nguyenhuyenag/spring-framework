@@ -7,21 +7,21 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import com.primary.repository.CustomerRepository;
+import com.primary.repository.AddressRepository;
 import com.util.DataUtils;
 
 @Service
 public class MyTransactionService1 {
 
 	@Autowired
-	CustomerRepository customerRepository;
+	AddressRepository addressRepository;
 	
 	@Autowired
 	TransactionTemplate transactionTemplate;
 
 	public void testTransaction() {
-		withTemplate();
-		// withAspectSupport();
+		// withTemplate();
+		withAspectSupport();
 	}
 
 	// Not working
@@ -32,8 +32,8 @@ public class MyTransactionService1 {
 			System.out.println("No TransactionStatus");
 		}
 		try {
-			customerRepository.save(DataUtils.getC1());
-			customerRepository.save(DataUtils.getC2());
+			addressRepository.save(DataUtils.passAddress());
+			addressRepository.save(DataUtils.failAddress());
 		} catch (Exception e) {
 			e.printStackTrace();
 			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -44,8 +44,8 @@ public class MyTransactionService1 {
 	public void withTemplate() {
 		transactionTemplate.executeWithoutResult(status -> {
 			try {
-				customerRepository.save(DataUtils.getC1());
-				customerRepository.save(DataUtils.getC2());
+				addressRepository.save(DataUtils.passAddress());
+				addressRepository.save(DataUtils.failAddress());
 			} catch (Exception e) {
 				e.printStackTrace();
 				status.setRollbackOnly();

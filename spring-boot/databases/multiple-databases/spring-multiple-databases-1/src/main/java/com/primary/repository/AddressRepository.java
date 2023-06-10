@@ -2,9 +2,9 @@ package com.primary.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.primary.entity.Customer;
+import com.primary.entity.Address;
 
-public interface CustomerRepository extends JpaRepository<Customer, Integer> {
+public interface AddressRepository extends JpaRepository<Address, Integer> {
 
 //	@Transactional //("transaction1Manager")
 //	@Modifying

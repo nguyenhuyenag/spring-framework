@@ -5,18 +5,18 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.primary.repository.CustomerRepository;
-import com.second.repository.OfficeRepository;
+import com.primary.repository.AddressRepository;
+import com.second.repository.UserRepository;
 import com.util.DataUtils;
 
 @Service
 public class RepositoryService {
 
 	@Autowired
-	CustomerRepository customerRepository;
+	AddressRepository addressRepository;
 
 	@Autowired
-	OfficeRepository officeRepository;
+	UserRepository userRepository;
 
 	public void findAll() {
 		find1All();
@@ -24,14 +24,14 @@ public class RepositoryService {
 	}
 
 	private void find1All() {
-		List<?> result = customerRepository.findAll();
+		List<?> result = addressRepository.findAll();
 		if (!result.isEmpty()) {
 			result.forEach(t -> System.out.println(t));
 		}
 	}
 
 	private void find2All() {
-		List<?> result = officeRepository.findAll();
+		List<?> result = userRepository.findAll();
 		if (!result.isEmpty()) {
 			result.forEach(t -> System.out.println(t));
 		}
@@ -43,11 +43,11 @@ public class RepositoryService {
 	}
 	
 	public void save1() {
-		customerRepository.save(DataUtils.getC1());
+		addressRepository.save(DataUtils.passAddress());
 	}
 
 	public void save2() {
-		officeRepository.save(DataUtils.getOff1());
+		userRepository.save(DataUtils.passUser());
 	}
 
 }

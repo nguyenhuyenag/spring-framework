@@ -9,15 +9,14 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import com.primary.entity.Customer;
-import com.second.entity.Office;
+import com.primary.entity.Address;
+import com.second.entity.User;
 import com.util.BeanName;
 
 @Service
 public class JdbcTemplateService {
 
 	@Autowired
-	// @Qualifier("jdbcTemplate") // <- Unnecessery
 	private JdbcTemplate jdbc1Template;
 
 	@Autowired
@@ -41,27 +40,27 @@ public class JdbcTemplateService {
 	}
 
 	public void find1All() {
-		String sql = "SELECT t.* FROM customer t;";
-		List<Customer> result = jdbc1Template.query(sql, customerRowMapper());
+		String sql = "SELECT t.* FROM address t;";
+		List<Address> result = jdbc1Template.query(sql, addressRowMapper());
 		if (!result.isEmpty()) {
 			result.forEach(t -> System.out.println(t));
 		}
 	}
 
 	public void find2All() {
-		String sql = "SELECT t.* FROM office t;";
-		List<Office> result = jdbc2Template.query(sql, officeRowMapper());
+		String sql = "SELECT t.* FROM user t;";
+		List<User> result = jdbc2Template.query(sql, userRowMapper());
 		if (!result.isEmpty()) {
 			result.forEach(t -> System.out.println(t));
 		}
 	}
 
-	private BeanPropertyRowMapper<Customer> customerRowMapper() {
-		return BeanPropertyRowMapper.newInstance(Customer.class);
+	private BeanPropertyRowMapper<Address> addressRowMapper() {
+		return BeanPropertyRowMapper.newInstance(Address.class);
 	}
 
-	private BeanPropertyRowMapper<Office> officeRowMapper() {
-		return BeanPropertyRowMapper.newInstance(Office.class);
+	private BeanPropertyRowMapper<User> userRowMapper() {
+		return BeanPropertyRowMapper.newInstance(User.class);
 	}
 
 }

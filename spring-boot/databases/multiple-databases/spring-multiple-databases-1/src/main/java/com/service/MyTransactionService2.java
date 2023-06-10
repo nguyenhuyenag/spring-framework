@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import com.second.repository.OfficeRepository;
+import com.second.repository.UserRepository;
 import com.util.BeanName;
 import com.util.DataUtils;
 
@@ -16,7 +16,7 @@ import com.util.DataUtils;
 public class MyTransactionService2 {
 
 	@Autowired
-	OfficeRepository officeRepository;
+	UserRepository userRepository;
 
 	@Autowired
 	@Qualifier(BeanName.DB2_TRANSACTION_TEMPLATE)
@@ -35,8 +35,8 @@ public class MyTransactionService2 {
 			System.out.println("No TransactionStatus");
 		}
 		try {
-			officeRepository.save(DataUtils.getOff1());
-			officeRepository.save(DataUtils.getOff2());
+			userRepository.save(DataUtils.passUser());
+			userRepository.save(DataUtils.failUser());
 		} catch (Exception e) {
 			e.printStackTrace();
 			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -47,8 +47,8 @@ public class MyTransactionService2 {
 	public void withTemplate() {
 		transactionTemplate.executeWithoutResult(status -> {
 			try {
-				officeRepository.save(DataUtils.getOff1());
-				officeRepository.save(DataUtils.getOff2());
+				userRepository.save(DataUtils.passUser());
+				userRepository.save(DataUtils.failUser());
 			} catch (Exception e) {
 				e.printStackTrace();
 				status.setRollbackOnly();
