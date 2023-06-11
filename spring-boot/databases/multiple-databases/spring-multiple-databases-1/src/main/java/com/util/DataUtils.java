@@ -7,7 +7,7 @@ public class DataUtils {
 
 	public static User passUser() {
 		User u1 = new User();
-		u1.setEmail("abc@abc.com");
+		u1.setEmail("james@abc.com");
 		u1.setName("James");
 		return u1;
 	}

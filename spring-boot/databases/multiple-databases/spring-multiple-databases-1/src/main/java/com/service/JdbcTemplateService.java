@@ -36,7 +36,7 @@ public class JdbcTemplateService {
 
 	public void findAll() {
 		find1All();
-		find2All();
+		// find2All();
 	}
 
 	public void find1All() {
