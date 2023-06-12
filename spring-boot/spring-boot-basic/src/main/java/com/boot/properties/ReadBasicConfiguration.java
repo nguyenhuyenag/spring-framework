@@ -1,5 +1,7 @@
 package com.boot.properties;
 
+import java.util.List;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
@@ -10,15 +12,15 @@ import lombok.Setter;
 @Service
 @Getter
 @Setter
-@ConfigurationProperties()
+@ConfigurationProperties
 @PropertySource("classpath:basic.properties")
-public class Configuration {
+public class ReadBasicConfiguration {
 
 	/*-
 	 * How to use? -> 	@Autowired 
-	 * 					Configuration configuration;
+	 * 					ReadBasicConfiguration configuration;
 	 */
-	private String version;
+	private List<String> version;
 	private String url;
 	private String language;
 

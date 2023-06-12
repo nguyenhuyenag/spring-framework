@@ -14,7 +14,7 @@ public class EnvProperties implements EnvironmentAware {
 		EnvProperties.environment = environment;
 	}
 
-	// how to use? -> EnvProperties.getUrl()
+	// How to use? -> EnvProperties.getUrl()
 	public static String getUrl() {
 		return environment.getProperty("url");
 	}

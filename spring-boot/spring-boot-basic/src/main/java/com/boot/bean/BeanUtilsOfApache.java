@@ -12,7 +12,7 @@ public class BeanUtilsOfApache {
 	public static void cloneBean() {
 		Person person = new Person(25, "John");
 		// Shallow clone
-		Person shallow = person; // . (Person) BeanUtils.cloneBean(person);
+		Person shallow = person; // (Person) BeanUtils.cloneBean(person);
 		// Deep clone
 		Person deep = SerializationUtils.clone(person);
 		// change orignal value

@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
-@RestControllerAdvice
 // (3)
+@RestControllerAdvice
 public class CustomExceptionHandler {
 
 	@ExceptionHandler(NotFoundException.class)

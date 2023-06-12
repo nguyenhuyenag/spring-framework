@@ -7,11 +7,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+// (1)
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-// (1)
 public class ErrorResponse {
 
 	private HttpStatus status;

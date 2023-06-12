@@ -1,4 +1,4 @@
-package com.boot;
+package com.boot.properties;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,9 +48,14 @@ public class ResourceFile {
 		}
 	}
 	
-	void test() {
+	public static void test() {
 		String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
 		System.out.println(rootPath);
+	}
+	
+	public static void main(String[] args) {
+		// test();
+		readPropertiesToMap();
 	}
 
 }
