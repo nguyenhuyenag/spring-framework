@@ -3,6 +3,7 @@ package com.boot.properties;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,12 +38,13 @@ public class ResourceFile {
 		return null;
 	}
 
-	public static void readPropertiesToMap() {
+	public static void readProperties() {
 		try {
 			PropertiesFactoryBean factory = new PropertiesFactoryBean();
 			factory.setLocation(new ClassPathResource("basic.properties"));
 			factory.afterPropertiesSet();
-			factory.getObject().forEach((k, v) -> System.out.println(k + ", " + v));
+			Properties properties = factory.getObject();
+			properties.forEach((k, v) -> System.out.println(k + " -> " + v));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -51,11 +53,6 @@ public class ResourceFile {
 	public static void test() {
 		String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
 		System.out.println(rootPath);
-	}
-	
-	public static void main(String[] args) {
-		// test();
-		readPropertiesToMap();
 	}
 
 }
