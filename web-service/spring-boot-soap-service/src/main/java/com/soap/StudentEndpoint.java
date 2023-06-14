@@ -24,5 +24,13 @@ public class StudentEndpoint {
 		response.setStudent(studentRepository.findStudent(request.getName()));
 		return response;
 	}
+	
+	@ResponsePayload
+	@PayloadRoot(namespace = WsConfig.NAMESPACE_URI, localPart = "StudentRequest1412")
+	public StudentResponse test(@RequestPayload StudentRequest request) {
+		StudentResponse response = new StudentResponse();
+		response.setStudent(studentRepository.findStudent(request.getName()));
+		return response;
+	}
 
 }

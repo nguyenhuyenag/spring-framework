@@ -36,7 +36,7 @@ public class WsConfig extends WsConfigurerAdapter {
 	@Bean(name = "student-details") // -> http://localhost:8080/student-details.wsdl
 	public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema schema) {
 		DefaultWsdl11Definition wsdl = new DefaultWsdl11Definition();
-		wsdl.setPortTypeName("StudentDetailsPort");
+		wsdl.setPortTypeName("StudentDetailsPortttttttt");
 		wsdl.setTargetNamespace(NAMESPACE_URI);
 		wsdl.setSchema(schema);
 		return wsdl;
