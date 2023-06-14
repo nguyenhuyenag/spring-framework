@@ -1,4 +1,4 @@
-package soap;
+package com.soap;
 
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
@@ -28,11 +28,11 @@ public class WsConfig extends WsConfigurerAdapter {
 		return new ServletRegistrationBean<>(servlet, "/ws/*"); // -> http://localhost:8080/ws
 	}
 
-	@Bean(name = "student-details-wsdl") // -> http://localhost:8080/ws/student-details-wsdl.wsdl
+	@Bean(name = "student-details") // -> http://localhost:8080/ws/student-details.wsdl
 	public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema schema) {
 		DefaultWsdl11Definition wsdl = new DefaultWsdl11Definition();
 		wsdl.setPortTypeName("StudentDetailsPort");
-		wsdl.setLocationUri("/service/student-details");
+		// wsdl.setLocationUri("/service/student-details");
 		wsdl.setTargetNamespace(NAMESPACE_URI);
 		wsdl.setSchema(schema);
 		return wsdl;
