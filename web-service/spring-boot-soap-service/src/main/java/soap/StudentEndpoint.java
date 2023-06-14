@@ -11,21 +11,17 @@ import com.howtodoinjava.xml.school.StudentDetailsResponse;
 @Endpoint
 public class StudentEndpoint {
 
-	// private static final String NAMESPACE_URI = "http://www.howtodoinjava.com/xml/school";
-
 	private StudentRepository StudentRepository;
 
-	// @Autowired
 	public StudentEndpoint(StudentRepository StudentRepository) {
 		this.StudentRepository = StudentRepository;
 	}
 
-	@PayloadRoot(namespace = WsConfig.NAMESPACE_URI, localPart = "StudentDetailsRequest")
 	@ResponsePayload
+	@PayloadRoot(namespace = WsConfig.NAMESPACE_URI, localPart = "StudentDetailsRequest")
 	public StudentDetailsResponse getStudent(@RequestPayload StudentDetailsRequest request) {
 		StudentDetailsResponse response = new StudentDetailsResponse();
 		response.setStudent(StudentRepository.findStudent(request.getName()));
-
 		return response;
 	}
 }

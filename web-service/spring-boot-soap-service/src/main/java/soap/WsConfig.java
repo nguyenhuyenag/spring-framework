@@ -16,6 +16,7 @@ import org.springframework.xml.xsd.XsdSchema;
 @Configuration
 public class WsConfig extends WsConfigurerAdapter {
 	
+	// targetNamespace="http://www.howtodoinjava.com/xml/school" 
 	public static final String NAMESPACE_URI = "http://www.howtodoinjava.com/xml/school";
 
 	@Bean
@@ -27,7 +28,7 @@ public class WsConfig extends WsConfigurerAdapter {
 		return new ServletRegistrationBean<>(servlet, "/ws/*"); // -> http://localhost:8080/ws
 	}
 
-	@Bean(name = "studentDetailsWsdl")
+	@Bean(name = "student-details-wsdl") // -> http://localhost:8080/ws/student-details-wsdl.wsdl
 	public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema schema) {
 		DefaultWsdl11Definition wsdl = new DefaultWsdl11Definition();
 		wsdl.setPortTypeName("StudentDetailsPort");
