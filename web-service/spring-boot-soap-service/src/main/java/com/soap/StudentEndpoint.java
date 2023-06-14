@@ -11,17 +11,18 @@ import com.howtodoinjava.xml.school.StudentDetailsResponse;
 @Endpoint
 public class StudentEndpoint {
 
-	private StudentRepository StudentRepository;
+	private StudentRepository studentRepository;
 
 	public StudentEndpoint(StudentRepository StudentRepository) {
-		this.StudentRepository = StudentRepository;
+		this.studentRepository = StudentRepository;
 	}
 
 	@ResponsePayload
 	@PayloadRoot(namespace = WsConfig.NAMESPACE_URI, localPart = "StudentDetailsRequest")
 	public StudentDetailsResponse getStudent(@RequestPayload StudentDetailsRequest request) {
 		StudentDetailsResponse response = new StudentDetailsResponse();
-		response.setStudent(StudentRepository.findStudent(request.getName()));
+		response.setStudent(studentRepository.findStudent(request.getName()));
 		return response;
 	}
+	
 }

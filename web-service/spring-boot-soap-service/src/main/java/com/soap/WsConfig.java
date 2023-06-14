@@ -16,7 +16,7 @@ import org.springframework.xml.xsd.XsdSchema;
 @Configuration
 public class WsConfig extends WsConfigurerAdapter {
 	
-	// targetNamespace="http://www.howtodoinjava.com/xml/school" 
+	// targetNamespace="http://www.howtodoinjava.com/xml/school" in .xsd
 	public static final String NAMESPACE_URI = "http://www.howtodoinjava.com/xml/school";
 
 	@Bean
@@ -25,21 +25,21 @@ public class WsConfig extends WsConfigurerAdapter {
 		MessageDispatcherServlet servlet = new MessageDispatcherServlet();
 		servlet.setTransformWsdlLocations(true);
 		servlet.setApplicationContext(applicationContext);
-		return new ServletRegistrationBean<>(servlet, "/ws/*"); // -> http://localhost:8080/ws
+		return new ServletRegistrationBean<>(servlet);
+	}
+	
+	@Bean
+	public XsdSchema studentSchema() {
+		return new SimpleXsdSchema(new ClassPathResource("/wsdl/school.xsd"));
 	}
 
-	@Bean(name = "student-details") // -> http://localhost:8080/ws/student-details.wsdl
+	@Bean(name = "student-details") // -> http://localhost:8080/student-details.wsdl
 	public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema schema) {
 		DefaultWsdl11Definition wsdl = new DefaultWsdl11Definition();
 		wsdl.setPortTypeName("StudentDetailsPort");
-		// wsdl.setLocationUri("/service/student-details");
 		wsdl.setTargetNamespace(NAMESPACE_URI);
 		wsdl.setSchema(schema);
 		return wsdl;
 	}
-
-	@Bean
-	public XsdSchema studentSchema() {
-		return new SimpleXsdSchema(new ClassPathResource("school.xsd"));
-	}
+	
 }
