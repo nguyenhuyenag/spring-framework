@@ -18,7 +18,7 @@ public class StudentEndpoint {
 	}
 
 	@ResponsePayload
-	@PayloadRoot(namespace = WsConfig.NAMESPACE_URI, localPart = "StudentDetailsRequest")
+	@PayloadRoot(namespace = WsConfig.NAMESPACE_URI, localPart = "StudentRequest")
 	public StudentResponse getStudent(@RequestPayload StudentRequest request) {
 		StudentResponse response = new StudentResponse();
 		response.setStudent(studentRepository.findStudent(request.getName()));
