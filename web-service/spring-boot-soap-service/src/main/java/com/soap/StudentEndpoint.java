@@ -5,8 +5,8 @@ import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
-import com.howtodoinjava.xml.school.StudentDetailsRequest;
-import com.howtodoinjava.xml.school.StudentDetailsResponse;
+import com.jaxb2.generate.StudentRequest;
+import com.jaxb2.generate.StudentResponse;
 
 @Endpoint
 public class StudentEndpoint {
@@ -19,10 +19,10 @@ public class StudentEndpoint {
 
 	@ResponsePayload
 	@PayloadRoot(namespace = WsConfig.NAMESPACE_URI, localPart = "StudentDetailsRequest")
-	public StudentDetailsResponse getStudent(@RequestPayload StudentDetailsRequest request) {
-		StudentDetailsResponse response = new StudentDetailsResponse();
+	public StudentResponse getStudent(@RequestPayload StudentRequest request) {
+		StudentResponse response = new StudentResponse();
 		response.setStudent(studentRepository.findStudent(request.getName()));
 		return response;
 	}
-	
+
 }

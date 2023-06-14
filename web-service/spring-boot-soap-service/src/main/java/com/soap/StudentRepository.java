@@ -8,7 +8,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-import com.howtodoinjava.xml.school.Student;
+import com.jaxb2.generate.Student;
 
 @Component
 public class StudentRepository {

@@ -3,7 +3,7 @@
 	xmlns:tns="http://www.howtodoinjava.com/xml/school" 
 	elementFormDefault="qualified">
 
-    <xs:element name="StudentDetailsRequest">
+    <xs:element name="StudentRequest">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="name" type="xs:string"/>
@@ -11,7 +11,7 @@
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="StudentDetailsResponse">
+    <xs:element name="StudentResponse">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="Student" type="tns:Student"/>

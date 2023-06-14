@@ -15,7 +15,7 @@ import org.springframework.xml.xsd.XsdSchema;
 @EnableWs
 @Configuration
 public class WsConfig extends WsConfigurerAdapter {
-	
+
 	// targetNamespace="http://www.howtodoinjava.com/xml/school" in .xsd
 	public static final String NAMESPACE_URI = "http://www.howtodoinjava.com/xml/school";
 
@@ -27,10 +27,10 @@ public class WsConfig extends WsConfigurerAdapter {
 		servlet.setApplicationContext(applicationContext);
 		return new ServletRegistrationBean<>(servlet);
 	}
-	
+
 	@Bean
 	public XsdSchema studentSchema() {
-		return new SimpleXsdSchema(new ClassPathResource("/wsdl/school.xsd"));
+		return new SimpleXsdSchema(new ClassPathResource("/xsd/school.xsd"));
 	}
 
 	@Bean(name = "student-details") // -> http://localhost:8080/student-details.wsdl
@@ -41,5 +41,5 @@ public class WsConfig extends WsConfigurerAdapter {
 		wsdl.setSchema(schema);
 		return wsdl;
 	}
-	
+
 }

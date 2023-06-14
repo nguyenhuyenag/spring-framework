@@ -64,9 +64,14 @@
 					</execution>
 				</executions>
 				<configuration>
+					<packageName>com.jaxb2.generate</packageName>
 					<clearOutputDir>false</clearOutputDir>
+					<!--<packageName>com.your.package.jaxb</packageName>-->
 					<outputDirectory>${project.basedir}/src/main/java</outputDirectory>
-					<schemaDirectory>${project.basedir}/src/main/resources/</schemaDirectory>
+					<schemaDirectory>${project.basedir}/src/main/resources/xsd/</schemaDirectory>
+					<!--<outputDirectory>target/generated-sources/jaxb</outputDirectory>-->
+					<!--<schemaDirectory>src/main/resources/xsd</schemaDirectory>-->
+					<!--<schemaFiles>school.xsd</schemaFiles>-->
 				</configuration>
 			</plugin>
 		</plugins>
