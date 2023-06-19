@@ -13,6 +13,7 @@ import com.service.MySQLToolService;
 import com.service.ProcedureService;
 import com.service.QueryDSLService;
 import com.service.VocabService;
+import com.service.impl.MapStructServiceTest;
 import com.service.impl.MappingQueryToPOJOService;
 
 @Component
@@ -53,6 +54,9 @@ public class AppRunner implements CommandLineRunner {
 	
 	@Autowired
 	MySQLToolService mysqlToolService;
+	
+	@Autowired
+	MapStructServiceTest mapStructServiceTest;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -63,7 +67,8 @@ public class AppRunner implements CommandLineRunner {
 		// proceduce();
 		// queryDSLService();
 		// jdbcTemplateService();
-		System.out.println(mysqlToolService.checkTableExits("categories"));
+		// System.out.println(mysqlToolService.checkTableExits("categories"));
+		mapStructServiceTest.convert();
 	}
 	
 	public void selectSomeField() {
