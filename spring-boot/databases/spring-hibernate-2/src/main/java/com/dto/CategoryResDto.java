@@ -12,9 +12,9 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @Data
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@RequiredArgsConstructor
 @AllArgsConstructor
+@RequiredArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CategoryResDto {
 
 	private Long id;
@@ -22,7 +22,6 @@ public class CategoryResDto {
 	private boolean status;
 	private LocalDate createDate;
 	private String updateTime;
-	private double price;
 
 	@Override
 	public String toString() {
