@@ -1,8 +1,8 @@
-DROP DATABASE IF EXISTS spring_security_jsp;
+DROP DATABASE IF EXISTS spring_security_mvc;
 
-CREATE DATABASE spring_security_jsp;
+CREATE DATABASE spring_security_mvc;
 
-USE spring_security_jsp;
+USE spring_security_mvc;
 
 create table `user` (
 	`user_id` bigint not null auto_increment,

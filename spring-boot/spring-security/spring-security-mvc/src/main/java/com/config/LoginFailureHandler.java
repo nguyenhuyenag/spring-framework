@@ -54,7 +54,6 @@ public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 	}
 
 	private AuthenticationException handleError(User user) {
-		// ???
 		if (user == null) {
 			return new UsernameNotFoundException("Username_Not_Found_Exception");
 		}

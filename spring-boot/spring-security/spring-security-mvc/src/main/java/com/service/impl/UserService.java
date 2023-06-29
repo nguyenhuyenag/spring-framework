@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
 
+	// private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
+
 	@Autowired
 	NamedParameterJdbcTemplate namedJdbcTemplate;
 
@@ -21,6 +23,7 @@ public class UserService {
 				+ " WHERE t2.user_id = :userId";
 		MapSqlParameterSource params = new MapSqlParameterSource();
 		params.addValue("userId", userId);
+		// LOG.info(sql);
 		List<String> roles = namedJdbcTemplate.queryForList(sql, params, String.class);
 		return roles;
 	}

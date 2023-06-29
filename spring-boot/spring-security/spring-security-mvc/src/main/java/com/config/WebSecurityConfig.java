@@ -29,15 +29,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService) // cài đặt dịch vụ để tìm kiếm User trong Database
-				.passwordEncoder(passwordEncoder()); // cài đặt PasswordEncoder
+		auth.userDetailsService(userDetailsService)  // Cài đặt dịch vụ để tìm kiếm User trong Database
+				.passwordEncoder(passwordEncoder()); // Cài đặt PasswordEncoder
 	}
 
-	// @Bean
-	// public LogoutSuccessHandler logoutSuccessHandler() {
-	// return new CustomLogoutSuccessHandler();
-	// }
-	
 	private static final String[] WHITE_LIST = {
 		"/static/**",
 		"/login", "/logout"
@@ -89,9 +84,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// http.sessionManagement().maximumSessions(1); // limit login
 	}
 	
-//	@Bean
-//	public AuthenticationSuccessHandler successHandler() {
-//	    return new CustomAuthenticationSuccessHandler();
-//	}
-
 }

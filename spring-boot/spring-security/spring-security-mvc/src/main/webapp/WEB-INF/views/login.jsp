@@ -25,9 +25,12 @@
 			class="d-flex flex-column justify-content-center align-items-center border w-50 py-5 shadow-lg rounded">
 			<h1 class="mb-4">Đăng Nhập</h1>
 			<c:if test="${not empty param.error && not empty SPRING_SECURITY_LAST_EXCEPTION}">
-				<div class="alert alert-danger w-75 text-center">
-					<!-- Tài khoản hoặc mật khẩu không đúng -->
-					<c:out value='${SPRING_SECURITY_LAST_EXCEPTION}'></c:out>
+				<div class="alert alert-danger alert-dismissible fade show" style="width: 85%;">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					<p class="text-center">
+                		Your login attempt was not successful, try again.<br /> 
+						Reason: <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}" />
+            		</p>
 				</div>
 			</c:if>
 			<form class="w-75" action="${CONTEXT_PATH}/j_spring_security_check" method="POST">

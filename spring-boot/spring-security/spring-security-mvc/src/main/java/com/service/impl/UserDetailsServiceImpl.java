@@ -47,17 +47,19 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		}
 		Optional<User> opt = repository.findByUsername(username);
 		if (!opt.isPresent()) {
+			LOG.info("User `{}` was not found!", username);
 			throw new UsernameNotFoundException("User `" + username + "` was not found!");
 		}
 		User user = opt.get();
-		LOG.info("Found User: {}", user);
-//		if (user.isDisabled()) {
-//			LOG.info("User `{}` is disabled", user.getUsername());
-//			throw new BadCredentialsException("USER_DISABLED");
-//		}
+		LOG.info("Found user {}", user);
+		if (user.isDisabled()) {
+			LOG.info("User `{}` is disabled", username);
+			// throw new BadCredentialsException("USER_DISABLED");
+		}
 		List<GrantedAuthority> listGrants = new ArrayList<>();
 		// [ROLE_USER, ROLE_ADMIN, ...]
 		List<String> roles = userService.getRolesByUserId(user.getUserId());
+		LOG.info("Roles of `{}` is {}", user.getUsername(), roles);
 		if (roles != null) {
 			for (String role : roles) {
 				listGrants.add(new SimpleGrantedAuthority(role));
