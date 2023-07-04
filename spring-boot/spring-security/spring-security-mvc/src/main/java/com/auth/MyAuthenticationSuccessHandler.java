@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -13,7 +14,8 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.savedrequest.DefaultSavedRequest;
+
+import com.util.WebUtils;
 
 public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
@@ -45,29 +47,28 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
 //			return;
 //		}
 //		redirectStrategy.sendRedirect(request, response, targetUrl);
-		String targetUrl = "";
-		Object savedRequest = request.getSession().getAttribute("SPRING_SECURITY_SAVED_REQUEST");
-		if (savedRequest instanceof DefaultSavedRequest) {
-			DefaultSavedRequest defaultSavedRequest = (DefaultSavedRequest) savedRequest;
-			// String fullContextPath2 = request.getRequestURL().toString();
-			// System.out.println("[AuthController] fullContextPath: " + fullContextPath2);
-			if (!"/".equals(defaultSavedRequest.getRequestURI())) {
-				LOG.info("Redirect from: {}", defaultSavedRequest.getRedirectUrl());
-				// String nextId = WebUtils.setNextPage(defaultSavedRequest.getRedirectUrl());
-				targetUrl = defaultSavedRequest.getRedirectUrl();
-			}
-		}
+//		String targetUrl = "";
+//		Object savedRequest = request.getSession().getAttribute("SPRING_SECURITY_SAVED_REQUEST");
+//		if (savedRequest instanceof DefaultSavedRequest) {
+//			DefaultSavedRequest defaultSavedRequest = (DefaultSavedRequest) savedRequest;
+//			// String fullContextPath2 = request.getRequestURL().toString();
+//			// System.out.println("[AuthController] fullContextPath: " + fullContextPath2);
+//			if (!"/".equals(defaultSavedRequest.getRequestURI())) {
+//				LOG.info("Redirect from: {}", defaultSavedRequest.getRedirectUrl());
+//				// String nextId = WebUtils.setNextPage(defaultSavedRequest.getRedirectUrl());
+//				targetUrl = defaultSavedRequest.getRedirectUrl();
+//			}
+//		}
 		
 		// This will provide you last URL
 		// String targetUrl = request.getHeader("referer");
+		String targetUrl = StringUtils.defaultIfEmpty(WebUtils.getRedirectUrl(), "home");
 
-		if (response.isCommitted()) {
-			LOG.debug("Response has already been committed. Unable to redirect to " + targetUrl);
-			return;
+		if (!response.isCommitted()) {
+		    redirectStrategy.sendRedirect(request, response, targetUrl);
+		} else {
+		    LOG.debug("Response has already been committed. Unable to redirect to " + targetUrl);
 		}
-		
-		// If targetUrl = null ?
-		redirectStrategy.sendRedirect(request, response, targetUrl);
 	}
 
 //	protected String determineTargetUrl(final Authentication authentication) {
