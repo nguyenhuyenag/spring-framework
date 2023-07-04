@@ -1,4 +1,4 @@
-package com.config;
+package com.auth;
 
 import java.io.IOException;
 import java.util.Optional;

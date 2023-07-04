@@ -10,7 +10,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import com.auth.LoginFailureHandler;
+import com.auth.MyAuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -51,14 +55,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		});
 
 		// Cấu hình cho Login Form
-		http.authorizeRequests().and() //
+		http.authorizeRequests() //
+			.and() //
 			.formLogin() //
 				.loginPage("/login") //
 				.usernameParameter("username") //
 				.passwordParameter("password") //
 				.loginProcessingUrl("/j_spring_security_check") // the URL to submit the username and password to
-				// .successHandler(successHandler())
 				// .defaultSuccessUrl("/") // the landing page after an unsuccessful login
+				.successHandler(myAuthenticationSuccessHandler())
 				.failureUrl("/login?error=true") //
 				.failureHandler(loginFailureHandler) //
 			.and() //
@@ -81,7 +86,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.rememberMeCookieName("remember-me-name") //
 			.tokenValiditySeconds(1 * 24 * 60 * 60); // 1 days (default is 14 days)
 
-		// http.sessionManagement().maximumSessions(1); // limit login
+		// http.sessionManagement().maximumSessions(1); // Limit login
+	}
+	
+	@Bean
+	public AuthenticationSuccessHandler myAuthenticationSuccessHandler(){
+	    return new MyAuthenticationSuccessHandler();
 	}
 	
 }

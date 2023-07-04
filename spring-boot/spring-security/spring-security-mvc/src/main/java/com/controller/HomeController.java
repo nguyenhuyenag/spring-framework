@@ -6,14 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HomeController {
 
-	@GetMapping({ "/", "home" })
-	public String login() {
+	@GetMapping("home")
+	public String home() {
 		return "home";
-	}
-
-	@GetMapping("security-taglib") // Spring Security - Taglib
-	public String securityTaglib() {
-		return "security-taglib";
 	}
 
 }

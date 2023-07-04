@@ -77,6 +77,11 @@ public class UserController {
 		}
 		return "edit-user";
 	}
+	
+	@GetMapping("security-taglib") // Spring Security - Taglib
+	public String securityTaglib() {
+		return "security-taglib";
+	}
 
 	private Authentication auth(EditUser editUser) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();

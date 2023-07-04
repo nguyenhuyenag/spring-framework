@@ -35,7 +35,7 @@
 
 <sec:authorize access="isAuthenticated()">
 	<nav id="topheader" class="navbar navbar-expand-md mb-1 bg-color">
-		<a class="navbar-brand text-uppercase" href="./" >Spring</a>
+		<a class="navbar-brand text-uppercase" href="./home">Spring</a>
 		<div class="collapse navbar-collapse" id="navbarCollapse">
 			<ul class="navbar-nav mr-auto" id='menu-items'>
 				<li id="user-info" class="nav-item"><a class="nav-link" href="./user-info">UserInfo</a></li>
