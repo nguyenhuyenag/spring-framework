@@ -51,7 +51,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			throw new UsernameNotFoundException("User `" + username + "` was not found!");
 		}
 		User user = opt.get();
-		LOG.info("Found user {}", user);
+		// LOG.info("Found user {}", user);
 		if (user.isDisabled()) {
 			LOG.info("User `{}` is disabled", username);
 			// throw new BadCredentialsException("USER_DISABLED");
