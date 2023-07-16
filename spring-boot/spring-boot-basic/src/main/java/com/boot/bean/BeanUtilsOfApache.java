@@ -1,10 +1,12 @@
 package com.boot.bean;
 
+import static org.apache.commons.beanutils.BeanUtils.describe;
+import static org.apache.commons.beanutils.BeanUtils.populate;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.SerializationUtils;
 
 public class BeanUtilsOfApache {
@@ -21,12 +23,13 @@ public class BeanUtilsOfApache {
 		System.out.println("Deep: " + deep.getAge());
 	}
 
-	// Tạo một Map chứa các thuộc tính và giá trị tương ứng của một đối tượng
+	// Tạo Map chứa thuộc tính và giá trị tương ứng của đối tượng
 	public static void objectToMap() {
 		Person person = new Person(25, "John");
+		Map<String, String> describe;
 		try {
-			Map<String, String> describe = BeanUtils.describe(person);
-			describe.forEach((k, v) -> System.out.println(k + ": " + v));
+			describe = describe(person);
+			System.out.println(describe);
 		} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
 			e.printStackTrace();
 		}
@@ -39,7 +42,7 @@ public class BeanUtilsOfApache {
 		map.put("age", "52");
 		Person bean = new Person();
 		try {
-			BeanUtils.populate(bean, map);
+			populate(bean, map);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -48,8 +51,8 @@ public class BeanUtilsOfApache {
 
 	public static void main(String[] args) {
 		// cloneBean();
-		// objectToMap();
-		mapToObject();
+		objectToMap();
+		// mapToObject();
 	}
 
 }

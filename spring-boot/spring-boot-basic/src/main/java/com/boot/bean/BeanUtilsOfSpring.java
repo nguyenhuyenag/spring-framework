@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 public class BeanUtilsOfSpring {
 	
 	/*-
-	 * + BeanUtils.copyProperties(source, target, TargetObject.class); 
-	 * 	 -> Chỉ sao chép thuộc tính của lớp TargetObject
+	 * - copyProperties(source, target, TargetObject.class); 
+	 * 	 	-> Chỉ sao chép thuộc tính của lớp TargetObject
 	 * 
-	 * + BeanUtils.copyProperties(source, target, ignoreProperties[]);
-	 * 	 -> 
+	 * - copyProperties(source, target, ignoreProperties[]);
+	 * 	 	-> 
 	 */
 	public void copyProperties() {
 
