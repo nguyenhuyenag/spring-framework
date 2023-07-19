@@ -8,8 +8,8 @@ public class TenantContext {
 		return CURRENT_TENANT.get();
 	}
 
-	public static void setCurrentTenant(String tenant) {
-		CURRENT_TENANT.set(tenant);
+	public static void setCurrentTenant(String tenantName) {
+		CURRENT_TENANT.set(tenantName);
 	}
 	
 }

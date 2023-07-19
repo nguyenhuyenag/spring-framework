@@ -18,7 +18,6 @@ import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 @Configuration
 public class MultiTenantConfiguration {
 
-	// @Value("")
 	private String defaultTenant = "tenant_1";
 
 	@Bean
@@ -30,13 +29,13 @@ public class MultiTenantConfiguration {
 			try (FileInputStream fis = new FileInputStream(propertyFile)) {
 				Properties tenantProperties = new Properties();
 				tenantProperties.load(fis);
-				String tenantId = tenantProperties.getProperty("name");
+				String tenantName = tenantProperties.getProperty("name");
 				DataSourceBuilder<?> builder = DataSourceBuilder.create()
 						.url(tenantProperties.getProperty("datasource.url"))
 						.username(tenantProperties.getProperty("datasource.username"))
 						.password(tenantProperties.getProperty("datasource.password"))
 						.driverClassName(tenantProperties.getProperty("datasource.driver-class-name"));
-				targetDataSources.put(tenantId, builder.build());
+				targetDataSources.put(tenantName, builder.build());
 			} catch (IOException e) {
 				throw new RuntimeException("Problem in tenant datasource:" + e);
 			}
