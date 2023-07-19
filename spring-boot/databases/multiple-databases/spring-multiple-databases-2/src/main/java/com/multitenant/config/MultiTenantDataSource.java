@@ -4,9 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
-public class MultitenantDataSource extends AbstractRoutingDataSource {
+public class MultiTenantDataSource extends AbstractRoutingDataSource {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(MultitenantDataSource.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(MultiTenantDataSource.class);
 
 	@Override
 	protected String determineCurrentLookupKey() {

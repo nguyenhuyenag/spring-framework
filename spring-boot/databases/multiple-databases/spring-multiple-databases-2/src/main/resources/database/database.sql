@@ -1,11 +1,9 @@
 -- Show status where variable_name = 'threads_connected';
 
 CREATE DATABASE multitenant_1;
-
 USE multitenant_1;
 
 CREATE DATABASE multitenant_2;
-
 USE multitenant_2;
 
 DROP TABLE IF EXISTS `office`;

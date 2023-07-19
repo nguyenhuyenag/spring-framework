@@ -22,30 +22,56 @@ public class MultitenantConfiguration {
 	private String defaultTenant = "tenant_1";
 
 	@Bean
-	// @ConfigurationProperties(prefix = "tenants")
 	public DataSource dataSource() {
 		File[] files = Paths.get("allTenants").toFile().listFiles();
-		Map<Object, Object> dataSources = new HashMap<>();
+		Map<Object, Object> targetDataSources = new HashMap<>();
 		for (File propertyFile : files) {
-			DataSourceBuilder<?> dataSource = DataSourceBuilder.create();
-			try {
+			DataSourceBuilder<?> builder = DataSourceBuilder.create();
+			try (FileInputStream fis = new FileInputStream(propertyFile)) {
 				Properties tenantProperties = new Properties();
-				tenantProperties.load(new FileInputStream(propertyFile));
+				tenantProperties.load(fis);
 				String tenantId = tenantProperties.getProperty("name");
-				dataSource.url(tenantProperties.getProperty("datasource.url"));
-				dataSource.username(tenantProperties.getProperty("datasource.username"));
-				dataSource.password(tenantProperties.getProperty("datasource.password"));
-				dataSource.driverClassName(tenantProperties.getProperty("datasource.driver-class-name"));
-				dataSources.put(tenantId, dataSource.build());
+				builder.url(tenantProperties.getProperty("datasource.url"))
+						.username(tenantProperties.getProperty("datasource.username"))
+						.password(tenantProperties.getProperty("datasource.password"))
+						.driverClassName(tenantProperties.getProperty("datasource.driver-class-name"));
+				targetDataSources.put(tenantId, builder.build());
 			} catch (IOException e) {
 				throw new RuntimeException("Problem in tenant datasource:" + e);
 			}
 		}
-		AbstractRoutingDataSource dataSource = new MultitenantDataSource();
-		dataSource.setDefaultTargetDataSource(dataSources.get(defaultTenant));
-		dataSource.setTargetDataSources(dataSources);
-		dataSource.afterPropertiesSet();
-		return dataSource;
+		AbstractRoutingDataSource multitenantDataSource = new MultiTenantDataSource();
+		multitenantDataSource.setDefaultTargetDataSource(targetDataSources.get(defaultTenant));
+		multitenantDataSource.setTargetDataSources(targetDataSources);
+		multitenantDataSource.afterPropertiesSet();
+		return multitenantDataSource;
 	}
+
+//	@Bean
+//	// @ConfigurationProperties(prefix = "tenants")
+//	public DataSource dataSource() {
+//		File[] files = Paths.get("allTenants").toFile().listFiles();
+//		Map<Object, Object> targetDataSources = new HashMap<>();
+//		for (File propertyFile : files) {
+//			DataSourceBuilder<?> builder = DataSourceBuilder.create();
+//			try {
+//				Properties tenantProperties = new Properties();
+//				tenantProperties.load(new FileInputStream(propertyFile));
+//				String tenantId = tenantProperties.getProperty("name");
+//				builder.url(tenantProperties.getProperty("datasource.url"));
+//				builder.username(tenantProperties.getProperty("datasource.username"));
+//				builder.password(tenantProperties.getProperty("datasource.password"));
+//				builder.driverClassName(tenantProperties.getProperty("datasource.driver-class-name"));
+//				targetDataSources.put(tenantId, builder.build());
+//			} catch (IOException e) {
+//				throw new RuntimeException("Problem in tenant datasource:" + e);
+//			}
+//		}
+//		AbstractRoutingDataSource multitenantDataSource = new MultiTenantDataSource();
+//		multitenantDataSource.setDefaultTargetDataSource(targetDataSources.get(defaultTenant));
+//		multitenantDataSource.setTargetDataSources(targetDataSources);
+//		multitenantDataSource.afterPropertiesSet();
+//		return multitenantDataSource;
+//	}
 
 }
