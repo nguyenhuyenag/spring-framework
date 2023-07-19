@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
 @Configuration
-public class MultitenantConfiguration {
+public class MultiTenantConfiguration {
 
 	// @Value("")
 	private String defaultTenant = "tenant_1";
@@ -26,12 +26,13 @@ public class MultitenantConfiguration {
 		File[] files = Paths.get("allTenants").toFile().listFiles();
 		Map<Object, Object> targetDataSources = new HashMap<>();
 		for (File propertyFile : files) {
-			DataSourceBuilder<?> builder = DataSourceBuilder.create();
+			// DataSourceBuilder<?> builder = DataSourceBuilder.create();
 			try (FileInputStream fis = new FileInputStream(propertyFile)) {
 				Properties tenantProperties = new Properties();
 				tenantProperties.load(fis);
 				String tenantId = tenantProperties.getProperty("name");
-				builder.url(tenantProperties.getProperty("datasource.url"))
+				DataSourceBuilder<?> builder = DataSourceBuilder.create()
+						.url(tenantProperties.getProperty("datasource.url"))
 						.username(tenantProperties.getProperty("datasource.username"))
 						.password(tenantProperties.getProperty("datasource.password"))
 						.driverClassName(tenantProperties.getProperty("datasource.driver-class-name"));
