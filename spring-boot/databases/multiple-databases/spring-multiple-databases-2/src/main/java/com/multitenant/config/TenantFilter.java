@@ -29,7 +29,7 @@ public class TenantFilter implements Filter {
 			chain.doFilter(request, response);
 		} finally {
 			// Resetting the current tenant after processing the request
-			TenantContext.setCurrentTenant("");
+			TenantContext.clearTenant();
 		}
 	}
 
