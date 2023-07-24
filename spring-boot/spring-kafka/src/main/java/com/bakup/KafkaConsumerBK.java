@@ -1,4 +1,4 @@
-package com.kafka.consumer;
+package com.bakup;
 
 import org.springframework.stereotype.Component;
 

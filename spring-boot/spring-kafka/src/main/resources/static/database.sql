@@ -1,3 +1,7 @@
+CREATE DATABASE spring_kafka;
+
+USE spring_kafka;
+
 CREATE TABLE `data` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `code` varchar(45) NOT NULL,

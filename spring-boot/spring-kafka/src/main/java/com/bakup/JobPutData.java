@@ -1,4 +1,4 @@
-package com.schedule.jobs;
+package com.bakup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,6 @@ import org.springframework.stereotype.Component;
 import com.entity.Data;
 import com.repository.DataRepository;
 import com.schedule.runnable.DataRunable;
-import com.util.PageUtils;
 
 @Component
 public class JobPutData implements Job {
@@ -64,8 +63,9 @@ public class JobPutData implements Job {
 
 		taskCompleted = false;
 
-		List<List<Data>> listToPage = PageUtils.toPages(listHoaDon, NTHREAD);
+		List<List<Data>> listToPage = null; // PageUtils.toPages(listHoaDon, NTHREAD);
 		for (int i = 0; i < NTHREAD; i++) {
+			@SuppressWarnings("null")
 			DataRunable sm = new DataRunable(i + 1, listToPage.get(i));
 			taskList.add(executor.submit(sm));
 		}

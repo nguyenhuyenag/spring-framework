@@ -1,8 +1,5 @@
 package com.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,11 +8,10 @@ import org.springframework.stereotype.Service;
 
 import com.entity.Data;
 import com.entity.DataReceived;
-import com.repository.DataRepository;
 import com.repository.DataReceivedRepository;
+import com.repository.DataRepository;
 import com.service.DataService;
 import com.util.Base64Utils;
-import com.util.RandomUtils;
 
 @Service
 public class DataServiceImpl implements DataService {
@@ -30,18 +26,7 @@ public class DataServiceImpl implements DataService {
 
 	@Override
 	public void autoInsert() {
-		List<Data> list = new ArrayList<>();
-		int n = RandomUtils.randomInteger(1, 10);
-		for (int i = 0; i < n; i++) {
-			String code = RandomUtils.initCode();
-			Data entity = new Data();
-			entity.setCode(code);
-			entity.setContent(Base64Utils.encodeToString(code));
-			list.add(entity);
-		}
-		if (dataRepository.saveAll(list) != null) {
-			LOG.info("Save {} record to lorem_ipsum", list.size());
-		}
+		
 	}
 
 	@Override

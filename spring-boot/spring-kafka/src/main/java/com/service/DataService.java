@@ -4,9 +4,9 @@ import com.entity.Data;
 
 public interface DataService {
 
-	void onSuccess(Data ipsum);
-
 	void autoInsert();
+
+	void onSuccess(Data ipsum);
 
 	void receiveMessage(String listener, String message);
 

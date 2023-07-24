@@ -1,4 +1,4 @@
-package com.util;
+package com.bakup;
 
 import java.time.Duration;
 import java.util.HashMap;
@@ -13,6 +13,8 @@ import org.apache.kafka.common.TopicPartition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.ConsumerFactory;
+
+import com.util.KafkaUtils;
 
 public class SeekUtils {
 
