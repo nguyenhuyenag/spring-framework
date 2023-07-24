@@ -11,7 +11,7 @@ import org.springframework.context.annotation.PropertySource;
 })
 public class ConfigReader {
 
-	public static long JOB_TIME_RECALL;
+	// public static long JOB_TIME_RECALL;
 	public static String KAFKA_PRODUCER_TOPIC;
 	public static String KAFKA_CONSUMER_TOPIC;
 
@@ -25,9 +25,9 @@ public class ConfigReader {
 		ConfigReader.KAFKA_CONSUMER_TOPIC = topic;
 	}
 
-	@Value("${JOB_TIME_RECALL}")
-	private void setJOB_TIME_RECALL(long time) {
-		ConfigReader.JOB_TIME_RECALL = time;
-	}
+//	@Value("${JOB_TIME_RECALL}")
+//	private void setJOB_TIME_RECALL(long time) {
+//		ConfigReader.JOB_TIME_RECALL = time;
+//	}
 
 }

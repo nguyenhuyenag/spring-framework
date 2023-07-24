@@ -1,4 +1,4 @@
-package com.schedule.runnable;
+package com.bakup;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,7 +15,6 @@ import org.springframework.kafka.support.SendResult;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
-import com.bakup.JobPutData;
 import com.entity.Data;
 import com.service.DataService;
 import com.util.ConfigReader;

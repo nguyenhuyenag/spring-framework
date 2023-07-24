@@ -18,7 +18,6 @@ import org.springframework.stereotype.Component;
 
 import com.entity.Data;
 import com.repository.DataRepository;
-import com.schedule.runnable.DataRunable;
 
 @Component
 public class JobPutData implements Job {

@@ -1,4 +1,4 @@
-package com.schedule.jobs;
+package com.schedule;
 
 import java.util.Date;
 
@@ -7,10 +7,10 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConditionalOnProperty(value = "scheduling.enabled", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(value = "scheduled.enabled", havingValue = "true", matchIfMissing = true)
 public class FixedDelay {
 
-	@Scheduled(fixedDelayString = "${time.repeate}")
+	@Scheduled(fixedDelayString = "${scheduled.repeate}")
 	public void scheduleFixedDelayTask() throws InterruptedException {
 		System.out.println("Fixed delay task - " + new Date());
 	}
