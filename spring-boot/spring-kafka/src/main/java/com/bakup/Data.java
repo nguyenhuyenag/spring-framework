@@ -1,4 +1,4 @@
-package com.entity;
+package com.bakup;
 
 import java.io.Serializable;
 import java.util.Date;

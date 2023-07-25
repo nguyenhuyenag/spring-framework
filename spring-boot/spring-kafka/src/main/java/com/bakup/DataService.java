@@ -1,6 +1,4 @@
-package com.service;
-
-import com.entity.Data;
+package com.bakup;
 
 public interface DataService {
 

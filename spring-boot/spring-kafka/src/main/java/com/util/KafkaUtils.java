@@ -21,6 +21,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 
+import com.bakup.SpringUtils;
+
 // @Component
 public class KafkaUtils {
 

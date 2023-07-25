@@ -11,23 +11,17 @@ import org.springframework.context.annotation.PropertySource;
 })
 public class ConfigReader {
 
-	// public static long JOB_TIME_RECALL;
 	public static String KAFKA_PRODUCER_TOPIC;
 	public static String KAFKA_CONSUMER_TOPIC;
 
-	@Value("${kafka.producer.topic}")
+	@Value("${kafka.producer.topicName}")
 	private void setKAFKA_PRODUCER_TOPIC(String topic) {
 		ConfigReader.KAFKA_PRODUCER_TOPIC = topic;
 	}
 
-	@Value("${kafka.consumer.topic}")
+	@Value("${kafka.consumer.topicName}")
 	private void setKAFKA_CONSUMER_TOPIC(String topic) {
 		ConfigReader.KAFKA_CONSUMER_TOPIC = topic;
 	}
-
-//	@Value("${JOB_TIME_RECALL}")
-//	private void setJOB_TIME_RECALL(long time) {
-//		ConfigReader.JOB_TIME_RECALL = time;
-//	}
 
 }

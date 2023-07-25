@@ -13,11 +13,7 @@ import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
-import com.entity.Data;
-import com.repository.DataRepository;
 
 @Component
 public class JobPutData implements Job {
@@ -27,10 +23,10 @@ public class JobPutData implements Job {
 	@Autowired
 	private DataRepository repository;
 
-	@Value("${NTHREAD}")
-	private int NTHREAD;
+	// @Value("${NTHREAD}")
+	private int NTHREAD = 2;
 
-	@Value("${JOB_PUT_START:false}")
+	// @Value("${JOB_PUT_START:false}")
 	private boolean startJob;
 
 	public static int nJob = 0; // count job

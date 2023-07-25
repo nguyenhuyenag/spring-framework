@@ -1,4 +1,4 @@
-package com.entity;
+package com.bakup;
 
 import java.util.Date;
 

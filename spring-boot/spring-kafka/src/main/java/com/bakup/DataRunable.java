@@ -15,10 +15,7 @@ import org.springframework.kafka.support.SendResult;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
-import com.entity.Data;
-import com.service.DataService;
 import com.util.ConfigReader;
-import com.util.SpringUtils;
 
 import lombok.NoArgsConstructor;
 
