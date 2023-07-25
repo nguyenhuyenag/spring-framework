@@ -53,8 +53,8 @@ public class KafkaConfig {
 	}
 
 	@Bean
-	public KafkaTemplate<String, Object> kafkaTemplate() {
-		return new KafkaTemplate<>(producerFactory());
+	public KafkaTemplate<String, Object> kafkaTemplate(ProducerFactory<String, Object> factory) {
+		return new KafkaTemplate<>(factory);
 	}
 
 	@Bean
@@ -77,10 +77,10 @@ public class KafkaConfig {
 
 	@Bean
 	public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory(
-			ConsumerFactory<String, Object> consumerFactory) {
-		ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
-		factory.setConsumerFactory(consumerFactory);
-		return factory;
+			ConsumerFactory<String, Object> factory) {
+		ConcurrentKafkaListenerContainerFactory<String, String> listener = new ConcurrentKafkaListenerContainerFactory<>();
+		listener.setConsumerFactory(factory);
+		return listener;
 	}
 
 }
