@@ -30,28 +30,28 @@ public class KafkaConfig {
 
 	private static final Logger LOG = LoggerFactory.getLogger(KafkaConfig.class);
 
-	private Map<String, Object> config = new HashMap<>();
+	private final Map<String, Object> CONFIG = new HashMap<>();
 
 	private Map<String, Object> kafkaConfig() {
-		if (!config.isEmpty()) {
-			return config;
+		if (!CONFIG.isEmpty()) {
+			return CONFIG;
 		}
 		String fileConfig = "kafka-config.properties";
 		Resource resource = new ClassPathResource(fileConfig);
 		if (!resource.exists()) {
 			LOG.info("File '{}' not found!", fileConfig);
-			return config;
+			return CONFIG;
 		}
 		try (InputStream inputStream = resource.getInputStream()) {
 			Properties properties = new Properties();
 			properties.load(inputStream);
-			properties.forEach((key, value) -> config.put((String) key, value));
+			properties.forEach((key, value) -> CONFIG.put((String) key, value));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return config;
+		return CONFIG;
 	}
-	
+
 	@Bean
 	public KafkaTemplate<String, Object> kafkaTemplate() {
 		return new KafkaTemplate<>(producerFactory());
@@ -70,14 +70,16 @@ public class KafkaConfig {
 		Map<String, Object> consumerConfig = new HashMap<>(kafkaConfig());
 		consumerConfig.put(ConsumerConfig.GROUP_ID_CONFIG, KafkaConstant.CONSUMER_GROUP_ID);
 		consumerConfig.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-		consumerConfig.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class); // or JsonDeserializer
+		// or JsonDeserializer
+		consumerConfig.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
 		return new DefaultKafkaConsumerFactory<>(consumerConfig);
 	}
 
 	@Bean
-	public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory() {
+	public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory(
+			ConsumerFactory<String, Object> consumerFactory) {
 		ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
-		factory.setConsumerFactory(consumerFactory());
+		factory.setConsumerFactory(consumerFactory);
 		return factory;
 	}
 

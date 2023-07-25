@@ -39,8 +39,8 @@ public class FixedDelay {
 			@Override
 			public void onSuccess(SendResult<String, Object> result) {
 				RecordMetadata record = result.getRecordMetadata();
-				LOG.info("onSuccess: topic={}, offset={}, partition={}", record.topic(), record.offset(),
-						record.partition());
+				LOG.info("onSuccess: topic={}, offset={}, partition={}, message=[{}]", //
+						record.topic(), record.offset(), record.partition(), message);
 			}
 
 			@Override
