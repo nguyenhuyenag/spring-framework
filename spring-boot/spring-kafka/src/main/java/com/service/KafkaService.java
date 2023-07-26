@@ -30,24 +30,47 @@ public class KafkaService {
 			if (Objects.isNull(listener)) {
 				LOG.info("Consumer with id={} is not found", id);
 			} else {
-				if (trigger) {
-					if (listener.isRunning()) {
-						LOG.info("Consumer with id={} is already start", id);
-					} else {
-						listener.start();
-						LOG.info("Start consumer with id={}", id);
-					}
+				boolean isRunning = listener.isRunning();
+				if (trigger && isRunning) {
+					LOG.info("Consumer with id={} is already start", id);
+				} else if (trigger) {
+					listener.start();
+					LOG.info("Start consumer with id={}", id);
+				} else if (!isRunning) {
+					LOG.info("Consumer with id={} is already stop", id);
 				} else {
-					if (!listener.isRunning()) {
-						LOG.info("Consumer with id={} is already stop", id);
-					} else {
-						listener.stop();
-						LOG.info("Stop consumer with id={}", id);
-					}
+					listener.stop();
+					LOG.info("Stop consumer with id={}", id);
 				}
 			}
 		}
 	}
+
+//	private void handleTrigger(boolean trigger) {
+//		for (int i = 0; i < PARTITIONS; i++) {
+//			String id = "id" + i;
+//			MessageListenerContainer listener = registry.getListenerContainer(id);
+//			if (Objects.isNull(listener)) {
+//				LOG.info("Consumer with id={} is not found", id);
+//			} else {
+//				if (trigger) {
+//					if (listener.isRunning()) {
+//						LOG.info("Consumer with id={} is already start", id);
+//					} else {
+//						listener.start();
+//						LOG.info("Start consumer with id={}", id);
+//					}
+//				} else {
+//					if (!listener.isRunning()) {
+//						LOG.info("Consumer with id={} is already stop", id);
+//					} else {
+//						listener.stop();
+//						LOG.info("Stop consumer with id={}", id);
+//					}
+//				}
+//			}
+//		}
+//	}
 
 //	private void stopAll() {
 //		for (int i = 0; i < PARTITIONS; i++) {
