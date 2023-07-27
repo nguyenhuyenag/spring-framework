@@ -1,17 +1,15 @@
 package com.util;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 import org.apache.kafka.clients.admin.AdminClient;
-import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.CreateTopicsResult;
 import org.apache.kafka.clients.admin.DeleteTopicsResult;
 import org.apache.kafka.clients.admin.DescribeTopicsResult;
@@ -29,7 +27,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.kafka.core.ConsumerFactory;
+import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
@@ -48,20 +49,40 @@ public class KafkaUtils {
 
 	@Autowired
 	private KafkaTemplate<String, Object> kafkaTemplate;
+	
+	@Autowired
+	private KafkaAdmin kafkaAdmin;
 
 	private static final int ADMIN_CLIENT_TIMEOUT_MS = 5 * 1000;
 
 	private KafkaUtils() {
 
 	}
+	
+	@Autowired
+	private KafkaProperties kafkaProperties;
 
-	private static Map<String, Object> config() {
-		ConsumerFactory<?, ?> consumerFactory = SpringUtils.getBean(ConsumerFactory.class);
-		return consumerFactory.getConfigurationProperties();
-	}
+    public void showKafkaConfig() {
+    	System.out.println(kafkaProperties.buildAdminProperties());
+        System.out.println("Bootstrap servers: " + kafkaProperties.getBootstrapServers());
+        System.out.println("Default topic: " + kafkaProperties.getTemplate().getDefaultTopic());
+    }
+	
+	@Bean
+    public KafkaAdmin kafkaAdmin(KafkaProperties properties) {
+        // Map<String, Object> configs = new HashMap<>();
+        // configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        return new KafkaAdmin(properties.buildAdminProperties());
+    }
 
-	public static boolean isBrokerRunning() {
-		try (AdminClient client = AdminClient.create(config())) {
+//	private Map<String, Object> config() {
+//		// ConsumerFactory<?, ?> consumerFactory = SpringUtils.getBean(ConsumerFactory.class);
+//		// kafkaAdmin.getConfigurationProperties()
+//		return consumerFactory.getConfigurationProperties();
+//	}
+
+	public boolean isBrokerRunning() {
+		try (AdminClient client = AdminClient.create(kafkaAdmin.getConfigurationProperties())) {
 			client.listTopics(new ListTopicsOptions().timeoutMs(ADMIN_CLIENT_TIMEOUT_MS)) //
 					.listings().get();
 			return true;
@@ -71,8 +92,8 @@ public class KafkaUtils {
 		return false;
 	}
 
-	public static void deleteTopics(String... kafkaTopics) {
-		try (AdminClient adminClient = AdminClient.create(config())) {
+	public void deleteTopics(String... kafkaTopics) {
+		try (AdminClient adminClient = AdminClient.create(kafkaAdmin.getConfigurationProperties())) {
 			DeleteTopicsResult delete = adminClient.deleteTopics(Arrays.asList(kafkaTopics));
 			while (!delete.all().isDone()) {
 				// Wait for future task to complete
@@ -86,57 +107,70 @@ public class KafkaUtils {
 			System.out.println("Topic '" + topicName + "' already exist!");
 			return;
 		}
-		Properties props = new Properties();
-		props.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-		try (AdminClient adminClient = AdminClient.create(props)) {
+		// Properties props = new Properties();
+		// props.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+		try (AdminClient adminClient = AdminClient.create(kafkaAdmin.getConfigurationProperties())) {
 			NewTopic newTopic = new NewTopic(topicName, numPartitions, (short) 1);
 			List<NewTopic> newTopics = Arrays.asList(newTopic);
 			CreateTopicsResult createTopics = adminClient.createTopics(newTopics);
 			// Wait for the creation to complete
 			KafkaFuture<Void> allCreationFutures = createTopics.all();
 			allCreationFutures.get(); // This will block until the creation is complete
-			List<PartitionInfo> partitionsFor = kafkaTemplate.partitionsFor(topicName);
-			for (PartitionInfo p : partitionsFor) {
-				System.out.println("TopicName: " + p.topic());
-				System.out.println("Partition: " + p.partition());
-			}
+//			List<PartitionInfo> partitionsFor = kafkaTemplate.partitionsFor(topicName);
+//			for (PartitionInfo p : partitionsFor) {
+//				System.out.println("TopicName: " + p.topic());
+//				System.out.println("Partition: " + p.partition());
+//			}
 		}
 	}
 
 	public void showTopicsInfor() {
-		try (KafkaConsumer<String, String> consumer = new KafkaConsumer<>(config())) {
+		try (KafkaConsumer<String, String> consumer = new KafkaConsumer<>(kafkaProperties.buildConsumerProperties())) {
 			Map<String, List<PartitionInfo>> topics = consumer.listTopics();
 			if (topics.isEmpty()) {
 				System.out.println("No topics!");
 				return;
 			}
 			for (Entry<String, List<PartitionInfo>> entry : topics.entrySet()) {
-				if (!"__consumer_offsets".equalsIgnoreCase(entry.getKey())) {
-					System.out.println("Topic: " + entry.getKey() + ", partions: " + entry.getValue().size());
-				}
+				// if (!"__consumer_offsets".equalsIgnoreCase(entry.getKey())) {
+				System.out.println("Topic=" + entry.getKey() + ", Number of partions=" + entry.getValue().size());
+				// }
 			}
+		}
+	}
+	
+	public void showTopicsInfor2() throws InterruptedException, ExecutionException {
+		try (AdminClient adminClient = AdminClient.create(kafkaAdmin.getConfigurationProperties())) {
+			DescribeTopicsResult describeTopicsResult = adminClient.describeTopics(adminClient.listTopics().names().get());
+            Map<String, TopicDescription> topicDescriptionMap = describeTopicsResult.all().get();
+
+            topicDescriptionMap.entrySet().stream()
+                    .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().partitions()));
 		}
 	}
 
 	public boolean isTopicExist(String topicName) throws InterruptedException, ExecutionException {
-		try (AdminClient adminClient = AdminClient.create(config())) {
+		try (AdminClient adminClient = AdminClient.create(kafkaAdmin.getConfigurationProperties())) {
+			// (1)
 			// Prepare the list of topics to describe
-			DescribeTopicsResult describeTopicsResult = adminClient.describeTopics(Collections.singleton(topicName));
+			// DescribeTopicsResult describeTopicsResult =
+			// adminClient.describeTopics(Collections.singleton(topicName));
 			// Check if the topic exists
-			TopicDescription topicDescription = describeTopicsResult.all().get().get(topicName);
-			
+			// TopicDescription topicDescription =
+			// describeTopicsResult.all().get().get(topicName);
 			// Map<String, TopicDescription> map = describeTopicsResult.all().get();
-			
+			// return topicDescription != null;
+
+			// (2)
 			ListTopicsOptions options = new ListTopicsOptions();
-		    options.listInternal(true); // includes internal topics such as __consumer_offsets
-		    ListTopicsResult topics = adminClient.listTopics(options);
-		    Set<String> currentTopicList = topics.names().get();
-		    System.out.println("isTopicExist: " + currentTopicList);
-		    
-			return topicDescription != null;
+			options.listInternal(true); // includes internal topics such as __consumer_offsets
+			ListTopicsResult topics = adminClient.listTopics(options);
+			Set<String> currentTopicList = topics.names().get();
+			System.out.println("AllTopics: " + currentTopicList);
+			return currentTopicList.contains(topicName);
 		}
 	}
-	
+
 	// List<PartitionInfo> partitionsFor = kafkaTemplate.partitionsFor(topicName);
 	public static Set<TopicPartition> listTopicPartition() {
 		ConsumerFactory<?, ?> consumerFactory = SpringUtils.getBean(ConsumerFactory.class);
@@ -161,7 +195,7 @@ public class KafkaUtils {
 	 */
 	public void countUnConsumerMessage() {
 		// long total = 0;
-		try (KafkaConsumer<String, String> consumer = new KafkaConsumer<>(config())) {
+		try (KafkaConsumer<String, String> consumer = new KafkaConsumer<>(kafkaAdmin.getConfigurationProperties())) {
 			Set<TopicPartition> partitions = listTopicPartition();
 			Map<TopicPartition, Long> endOffsets = consumer.endOffsets(partitions);
 			Map<TopicPartition, OffsetAndMetadata> committed = consumer.committed(partitions);

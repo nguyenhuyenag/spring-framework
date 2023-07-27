@@ -5,6 +5,9 @@
 :: Delete all log
 :: rmdir /s/q "%KAFKA_HOME%\logs\"
 :: mkdir "%KAFKA_HOME%\logs\"
+:: rmdir /s/q "%KAFKA_HOME%\kafka-logs\"
+:: mkdir "%KAFKA_HOME%\kafka-logs\"
+
 :: del /S /Q "%KAFKA_HOME%\logs\*"
 :: del /S /Q "%KAFKA_HOME%\kafka-logs\*"
 :: del /S /Q "%ZOOKEEPER_HOME%\data\*"
