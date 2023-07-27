@@ -30,26 +30,25 @@ public class KafkaConfig {
 
 	private static final Logger LOG = LoggerFactory.getLogger(KafkaConfig.class);
 
-	private final Map<String, Object> CONFIG = new HashMap<>();
+	private final Map<String, Object> KAFKA_CONFIG = new HashMap<>();
 
 	private Map<String, Object> kafkaConfig() {
-		if (!CONFIG.isEmpty()) {
-			return CONFIG;
+		if (KAFKA_CONFIG.isEmpty()) {
+			String fileConfig = "kafka-config.properties";
+			Resource resource = new ClassPathResource(fileConfig);
+			if (!resource.exists()) {
+				LOG.info("File '{}' not found!", fileConfig);
+				return KAFKA_CONFIG;
+			}
+			try (InputStream inputStream = resource.getInputStream()) {
+				Properties properties = new Properties();
+				properties.load(inputStream);
+				properties.forEach((key, value) -> KAFKA_CONFIG.put((String) key, value));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
-		String fileConfig = "kafka-config.properties";
-		Resource resource = new ClassPathResource(fileConfig);
-		if (!resource.exists()) {
-			LOG.info("File '{}' not found!", fileConfig);
-			return CONFIG;
-		}
-		try (InputStream inputStream = resource.getInputStream()) {
-			Properties properties = new Properties();
-			properties.load(inputStream);
-			properties.forEach((key, value) -> CONFIG.put((String) key, value));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return CONFIG;
+		return KAFKA_CONFIG;
 	}
 
 	@Bean
