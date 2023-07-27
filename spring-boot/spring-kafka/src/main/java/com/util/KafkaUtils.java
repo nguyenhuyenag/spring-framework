@@ -137,6 +137,7 @@ public class KafkaUtils {
 		}
 	}
 	
+	// List<PartitionInfo> partitionsFor = kafkaTemplate.partitionsFor(topicName);
 	public static Set<TopicPartition> listTopicPartition() {
 		ConsumerFactory<?, ?> consumerFactory = SpringUtils.getBean(ConsumerFactory.class);
 		Consumer<?, ?> consumer = consumerFactory.createConsumer();
@@ -161,7 +162,7 @@ public class KafkaUtils {
 	public void countUnConsumerMessage() {
 		// long total = 0;
 		try (KafkaConsumer<String, String> consumer = new KafkaConsumer<>(config())) {
-			Set<TopicPartition> partitions = KafkaUtils.listTopicPartition();
+			Set<TopicPartition> partitions = listTopicPartition();
 			Map<TopicPartition, Long> endOffsets = consumer.endOffsets(partitions);
 			Map<TopicPartition, OffsetAndMetadata> committed = consumer.committed(partitions);
 			endOffsets.forEach((k, v) -> {
