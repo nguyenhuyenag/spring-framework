@@ -49,10 +49,10 @@ public class Application extends SpringBootServletInitializer implements Command
 		// KafkaUtils.deleteTopics("topic1021", "topic2023", "topic2021", "topic2022");
 		// kafkaUtils.createTopic("topic2021", 3);
 		// kafkaUtils.createTopic("topic2022", 2);
-		kafkaUtils.createTopic("topic2023", 5);
+		// kafkaUtils.createTopic("topic2023", 5);
 		// kafkaUtils.countUnConsumerMessage();
 		// kafkaUtils.showTopicsInfor();
-		// kafkaUtils.isTopicExist("topic2023");
+		kafkaUtils.isTopicExist("topic2023");
 		// test();
 	}
 

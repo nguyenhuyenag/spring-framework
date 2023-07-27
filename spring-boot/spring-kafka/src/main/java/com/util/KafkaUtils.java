@@ -16,6 +16,7 @@ import org.apache.kafka.clients.admin.CreateTopicsResult;
 import org.apache.kafka.clients.admin.DeleteTopicsResult;
 import org.apache.kafka.clients.admin.DescribeTopicsResult;
 import org.apache.kafka.clients.admin.ListTopicsOptions;
+import org.apache.kafka.clients.admin.ListTopicsResult;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.admin.TopicDescription;
 import org.apache.kafka.clients.consumer.Consumer;
@@ -123,11 +124,19 @@ public class KafkaUtils {
 			DescribeTopicsResult describeTopicsResult = adminClient.describeTopics(Collections.singleton(topicName));
 			// Check if the topic exists
 			TopicDescription topicDescription = describeTopicsResult.all().get().get(topicName);
-			// System.out.println("Check exists topic=" + topicName + ": " + topicDescription != null);
+			
+			// Map<String, TopicDescription> map = describeTopicsResult.all().get();
+			
+			ListTopicsOptions options = new ListTopicsOptions();
+		    options.listInternal(true); // includes internal topics such as __consumer_offsets
+		    ListTopicsResult topics = adminClient.listTopics(options);
+		    Set<String> currentTopicList = topics.names().get();
+		    System.out.println("isTopicExist: " + currentTopicList);
+		    
 			return topicDescription != null;
 		}
 	}
-
+	
 	public static Set<TopicPartition> listTopicPartition() {
 		ConsumerFactory<?, ?> consumerFactory = SpringUtils.getBean(ConsumerFactory.class);
 		Consumer<?, ?> consumer = consumerFactory.createConsumer();
