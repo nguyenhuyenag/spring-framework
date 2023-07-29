@@ -29,24 +29,27 @@ public class AppRunner implements ApplicationRunner {
 		}
 	}
 
-	public void create() throws InterruptedException, ExecutionException {
-		kafkaUtils.createTopic("topic2021", 3);
+	public void createTopics() throws InterruptedException, ExecutionException {
+		kafkaUtils.createTopic("topic2021", 1);
 		kafkaUtils.createTopic("topic2022", 2);
-		kafkaUtils.createTopic("topic2023", 5);
+		kafkaUtils.createTopic("topic2023", 3);
+		kafkaUtils.createTopic("topic2024", 4);
 	}
 
+	// TODO: Lỗi khi xóa topic
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-		// kafkaUtils.showTopicsInfor();
-		// kafkaUtils.partitionsFor("topic2023");
-		// System.out.println("Check running: " + kafkaUtils.isBrokerRunning());
+		// kafkaUtils.partitionsForTopic("topic2023");
+		createTopics();
+		kafkaUtils.deleteTopics("topic2021");
+		kafkaUtils.showTopicsInfor();
+
 		// TODO
-		// create();
-		// kafkaUtils.deleteTopics("topic2021");
 		// kafkaUtils.isTopicExist("topic2023");
 		// kafkaUtils.showKafkaConfig();
 		// test();
 		// kafkaUtils.countUnConsumerMessage(); // Error
+		// System.out.println("Check running: " + kafkaUtils.isKafkaRunning());
 	}
 
 }

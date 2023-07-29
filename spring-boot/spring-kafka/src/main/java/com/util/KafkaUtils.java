@@ -2,12 +2,14 @@ package com.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.CreateTopicsResult;
@@ -16,6 +18,7 @@ import org.apache.kafka.clients.admin.KafkaAdminClient;
 import org.apache.kafka.clients.admin.ListTopicsOptions;
 import org.apache.kafka.clients.admin.ListTopicsResult;
 import org.apache.kafka.clients.admin.NewTopic;
+import org.apache.kafka.clients.admin.TopicListing;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.consumer.OffsetAndMetadata;
@@ -38,9 +41,6 @@ public class KafkaUtils {
 
 	private static final Logger LOG = LoggerFactory.getLogger(KafkaUtils.class);
 
-	@Autowired
-	private ConsumerFactory<String, Object> consumerFactory;
-
 //	@Value("${bootstrap.servers}")
 //	private String bootstrapServers;
 
@@ -53,22 +53,25 @@ public class KafkaUtils {
 	@Autowired
 	private KafkaTemplate<String, Object> kafkaTemplate;
 
+	@Autowired
+	private ConsumerFactory<String, Object> consumerFactory;
+
 	public void showTopicsInfor() {
 		// Or 'new KafkaConsumer<>(kafkaProperties.buildConsumerProperties())'
 		try (Consumer<String, Object> consumer = consumerFactory.createConsumer()) {
-			// Sort by topicname
+			// Sort by topic name
 			Map<String, List<PartitionInfo>> topics = new TreeMap<>(consumer.listTopics());
-			if (topics.isEmpty()) {
-				System.out.println("No topics!");
-			} else {
+			if (!topics.isEmpty()) {
 				topics.forEach((key, value) -> {
 					System.out.println("Topic=" + key + ", number of partions=" + value.size());
 				});
+			} else {
+				System.out.println("No topics!");
 			}
 		}
 	}
 
-	public void partitionsFor(String topicName) {
+	public void partitionsForTopic(String topicName) {
 		List<Integer> partitions = new ArrayList<>();
 		List<PartitionInfo> topicInfo = kafkaTemplate.partitionsFor(topicName);
 		for (PartitionInfo p : topicInfo) {
@@ -77,34 +80,21 @@ public class KafkaUtils {
 		System.out.printf("Topic=%s, partitions=%s\n", topicName, partitions);
 	}
 
-	public boolean isBrokerRunning() {
-		final int ADMIN_CLIENT_TIMEOUT_MS = 5 * 1000;
-		try (AdminClient adminClient = AdminClient.create(kafkaAdmin.getConfigurationProperties())) {
-			ListTopicsOptions options = new ListTopicsOptions();
-			options.timeoutMs(ADMIN_CLIENT_TIMEOUT_MS);
-			// adminClient.listTopics().listings().get();
-			adminClient.listTopics(options).names().get();
-			return true;
-		} catch (InterruptedException | ExecutionException ex) {
-			LOG.error("Kafka is not available, timed out after {} ms", ADMIN_CLIENT_TIMEOUT_MS);
-		}
-		return false;
-	}
-	
-	public void deleteTopics(String... kafkaTopics) {
-		try (AdminClient adminClient = AdminClient.create(kafkaAdmin.getConfigurationProperties())) {
+	public void deleteTopics(String... kafkaTopics) throws InterruptedException {
+		try (AdminClient adminClient = KafkaAdminClient.create(kafkaAdmin.getConfigurationProperties())) {
 			DeleteTopicsResult delete = adminClient.deleteTopics(Arrays.asList(kafkaTopics));
 			while (!delete.all().isDone()) {
-				// Wait for future task to complete
+				System.out.println("Wait for future task to complete!");
+				TimeUnit.SECONDS.sleep(1);
 			}
 			LOG.info("Delete topics completed");
 		}
 	}
 
 	// TODO: In process
-	
+
 	public void test() {
-		try(AdminClient adminClient2 = KafkaAdminClient.create(kafkaAdmin.getConfigurationProperties())){
+		try (AdminClient adminClient2 = KafkaAdminClient.create(kafkaAdmin.getConfigurationProperties())) {
 			ListTopicsResult listTopics = adminClient2.listTopics();
 		}
 	}
@@ -120,19 +110,6 @@ public class KafkaUtils {
 //		// kafkaAdmin.getConfigurationProperties()
 //		return consumerFactory.getConfigurationProperties();
 //	}
-
-//	public static boolean isKafkaRunning(String bootstrapServers) {
-//        try {
-//            Properties props = new Properties();
-//            props.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-//            AdminClient adminClient = KafkaAdminClient.create(props);
-//            adminClient.listTopics().names().get(); // This will try to list Kafka topics
-//            adminClient.close();
-//            return true;
-//        } catch (Exception e) {
-//            return false;
-//        }
-//    }
 
 	public void createTopic(String topicName, int numPartitions) throws InterruptedException, ExecutionException {
 		if (isTopicExist(topicName)) {
@@ -213,6 +190,23 @@ public class KafkaUtils {
 		}
 		System.out.println("Total (lag): " + total);
 		total = 0;
+	}
+
+	public boolean isKafkaRunning() {
+		final int ADMIN_CLIENT_TIMEOUT_MS = 5 * 1000;
+		// AdminClient adminClient = KafkaAdminClient.create(props);
+		try (AdminClient adminClient = AdminClient.create(kafkaAdmin.getConfigurationProperties())) {
+			ListTopicsOptions options = new ListTopicsOptions();
+			options.timeoutMs(ADMIN_CLIENT_TIMEOUT_MS);
+			KafkaFuture<Collection<TopicListing>> listings = adminClient.listTopics(options).listings();
+			listings.isDone();
+			Collection<TopicListing> collection = adminClient.listTopics(options).listings().get();
+			// adminClient.listTopics(options).names().get();
+			return true;
+		} catch (InterruptedException | ExecutionException ex) {
+			LOG.error("Kafka is not available, timed out after {} ms", ADMIN_CLIENT_TIMEOUT_MS);
+		}
+		return false;
 	}
 
 	// public static void showTopics() {
