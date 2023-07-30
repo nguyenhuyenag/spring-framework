@@ -36,10 +36,9 @@ public class DataRunable implements Runnable {
 
 	private static final Set<String> poolIds = Collections.synchronizedSet(new HashSet<>());
 
-	@SuppressWarnings("unchecked")
 	public void init() {
-		this.kafkaTemplate = SpringUtils.getBean(KafkaTemplate.class);
-		this.dataService = SpringUtils.getBean(DataService.class);
+		this.kafkaTemplate = null; // SpringUtils.getBean(KafkaTemplate.class);
+		this.dataService = null; // SpringUtils.getBean(DataService.class);
 	}
 
 	public DataRunable(int threadname, List<Data> data) {

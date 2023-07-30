@@ -2,6 +2,7 @@ package com.bakup;
 
 import org.springframework.stereotype.Component;
 
+// topicPartitions  = @TopicPartition(topic = "topicName", partitions = { "0", "1" },
 @Component
 public class KafkaConsumerBK2 {
 
