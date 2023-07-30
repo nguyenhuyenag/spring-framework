@@ -3,7 +3,6 @@ package com.util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -25,7 +24,6 @@ import org.apache.kafka.common.TopicPartition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -42,8 +40,8 @@ public class KafkaUtils {
 	@Autowired
 	private KafkaAdmin kafkaAdmin;
 
-	@Autowired
-	private KafkaProperties kafkaProperties;
+	// @Autowired
+	// private KafkaProperties kafkaProperties;
 
 	@Autowired
 	private KafkaTemplate<String, Object> kafkaTemplate;
