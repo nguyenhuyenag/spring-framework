@@ -1,7 +1,8 @@
 # Kafka
 
-- https://kafka.apache.org/downloads.html (download the binary file)
+- https://www.baeldung.com/spring-kafka
 
+- https://kafka.apache.org/downloads.html (download the binary file)
 
 	zookeeper port: 2181, kafka port: 9092
 	
