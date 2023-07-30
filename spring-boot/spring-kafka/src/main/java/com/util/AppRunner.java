@@ -40,8 +40,8 @@ public class AppRunner implements ApplicationRunner {
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		// kafkaUtils.partitionsForTopic("topic2023");
-		createTopics();
-		kafkaUtils.deleteTopics("topic2021");
+		// createTopics();
+		// kafkaUtils.deleteTopics("topic2021");
 		kafkaUtils.showTopicsInfor();
 
 		// TODO
