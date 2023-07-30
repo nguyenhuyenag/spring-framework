@@ -88,7 +88,6 @@ public class KafkaConfig {
 	public KafkaAdmin kafkaAdmin(KafkaProperties properties) {
 		// Map<String, Object> configs = new HashMap<>();
 		// configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
-		// System.out.println(properties.buildAdminProperties());
 		return new KafkaAdmin(properties.buildAdminProperties());
 	}
 

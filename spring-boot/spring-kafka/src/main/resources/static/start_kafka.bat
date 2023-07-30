@@ -4,13 +4,14 @@ setlocal enabledelayedexpansion
 :menu
 cls
 echo.
-echo    [1] Start
-echo    [2] Clear data and start
-echo    [0] Exit
+echo    ===============================
+echo    [ 1 ] Start
+echo    [ 2 ] Clear data and start
+echo    [ 0 ] Exit
 echo    ===============================
 echo.
 
-set /p "choice=Enter your choice (1, 2, or 0): " 
+set /p "choice=Enter your choice: "
 
 if "%choice%"=="1" (
     call :startZooKeeperAndKafka
@@ -25,7 +26,7 @@ if "%choice%"=="1" (
 )
 
 ::timeout /t 1 /nobreak
-::exit
+exit
 
 :startZooKeeperAndKafka
 start cmd /k "%ZOOKEEPER_HOME%\bin\zkserver.cmd"

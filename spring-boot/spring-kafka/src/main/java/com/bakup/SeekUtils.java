@@ -2,8 +2,8 @@ package com.bakup;
 
 import java.time.Duration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -22,6 +22,9 @@ public class SeekUtils {
 
 	@Autowired
 	private ConsumerFactory<?, ?> consumerFactory;
+	
+	@Autowired
+	KafkaUtils kafkaUtils;
 
 	@Value("${kafka.consumer.topic}")
 	private String topicName;
@@ -43,7 +46,7 @@ public class SeekUtils {
 	
 	private Consumer<?, ?> setConsumer(long startTime) {
 		Consumer<?, ?> consumer = consumerFactory.createConsumer();
-		Set<TopicPartition> partitions = KafkaUtils.listTopicPartition();
+		List<TopicPartition> partitions = kafkaUtils.topicPartition("abc");
 		consumer.assign(partitions);
 		Map<TopicPartition, Long> timestamps = new HashMap<>();
 		for (TopicPartition tp : partitions) {

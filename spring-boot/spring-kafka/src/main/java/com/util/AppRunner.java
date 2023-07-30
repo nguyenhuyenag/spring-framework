@@ -36,20 +36,19 @@ public class AppRunner implements ApplicationRunner {
 		kafkaUtils.createTopic("topic2024", 4);
 	}
 
-	// TODO: Lỗi khi xóa topic
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-		// kafkaUtils.partitionsForTopic("topic2023");
 		// createTopics();
-		// kafkaUtils.deleteTopics("topic2021");
-		kafkaUtils.showTopicsInfor();
+		// System.out.println("Check exist: " + kafkaUtils.isTopicExist("topic202"));
+		// kafkaUtils.topicInfo("topic2023");
+		kafkaUtils.showAllTopicsInfor();
 
 		// TODO
-		// kafkaUtils.isTopicExist("topic2023");
 		// kafkaUtils.showKafkaConfig();
 		// test();
 		// kafkaUtils.countUnConsumerMessage(); // Error
 		// System.out.println("Check running: " + kafkaUtils.isKafkaRunning());
+		// kafkaUtils.deleteTopics("topic2021");
 	}
 
 }
