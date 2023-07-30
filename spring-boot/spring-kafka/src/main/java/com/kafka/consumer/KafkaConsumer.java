@@ -13,10 +13,9 @@ import com.kafka.config.KafkaConstant;
 /*-
  * - Mỗi phương thức được đánh dấu @KafkaListener sẽ chạy trên 1 thread riêng biệt
  * 
- * 		+ concurrency = "3": Spring Kafka sẽ tạo ra 3 luồng riêng biệt để chạy phương thức
+ * 		+ concurrency = "3"		Spring sẽ tạo ra 3 luồng riêng biệt để chạy phương thức
  * 
- * 		+ containerFactory: The bean name of the KafkaListenerContainerFactory to use to create
- * 							the message listener container responsible to serve this endpoint
+ * 		+ containerFactory		The bean name of the KafkaListenerContainerFactory
  * 
  * 
  */
@@ -34,11 +33,13 @@ public class KafkaConsumer {
 		containerFactory = KafkaConstant.KAFKA_LISTENER_CONTAINER_FACTORY //
 	)
 	public void consumer( //
-			@Payload(required = false) String message, @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
-			@Header(required = false, name = KafkaHeaders.OFFSET) String offset,
-			@Header(required = false, name = KafkaHeaders.RECEIVED_PARTITION_ID) String partition) {
+		@Payload String message, //
+		@Header(KafkaHeaders.RECEIVED_TOPIC) String topicName,
+		@Header(name = KafkaHeaders.RECEIVED_PARTITION_ID) String partition, //
+		@Header(required = false, name = KafkaHeaders.OFFSET) String offset //
+	) {
 		LOG.info("Consumer 1: ThreadID={}", Thread.currentThread().getId());
-		LOG.info("Consumer 1: topic={}, offset={}, partition={}, message=[{}]", topic, offset, partition, message);
+		LOG.info("Consumer 1: topic={}, offset={}, partition={}, message=[{}]", topicName, offset, partition, message);
 	}
 
 }

@@ -96,8 +96,9 @@ public class KafkaUtils {
 			options.listInternal(true); // Includes internal topics such as __consumer_offsets
 			ListTopicsResult topics = adminClient.listTopics(options);
 			Set<String> currentTopicList = topics.names().get();
-			// System.out.println("AllTopics: " + currentTopicList);
-			return currentTopicList.contains(topicName);
+			boolean contains = currentTopicList.contains(topicName);
+			System.out.println("Check exist: " + contains);
+			return contains;
 		}
 	}
 
