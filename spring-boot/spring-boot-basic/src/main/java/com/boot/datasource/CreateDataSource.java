@@ -4,11 +4,13 @@ import javax.sql.DataSource;
 
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
+@Configuration
 public class CreateDataSource {
 
-	String url, username, password, driverClassName;
+	private String url, username, password, driverClassName;
 
 	@Bean
 	public DataSource data1Source() {
