@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.CreateTopicsResult;
@@ -27,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -48,6 +50,9 @@ public class KafkaUtils {
 
 	@Autowired
 	private ConsumerFactory<String, Object> consumerFactory;
+	
+	@Autowired
+	private ProducerFactory<String, Object> producerFactory;
 
 	public void showAllTopicsInfor() {
 		// Or 'new KafkaConsumer<>(kafkaProperties.buildConsumerProperties())'
@@ -200,9 +205,9 @@ public class KafkaUtils {
 		}
 	}
 
-	public void test() {
+	public void test() throws InterruptedException, ExecutionException, TimeoutException {
 		try (AdminClient adminClient2 = KafkaAdminClient.create(kafkaAdmin.getConfigurationProperties())) {
-			// ListTopicsResult listTopics = adminClient2.listTopics();
+			
 		}
 	}
 

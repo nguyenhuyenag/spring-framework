@@ -15,19 +15,25 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.kafka.core.ConsumerFactory;
+import org.springframework.kafka.core.ProducerFactory;
 
 @Configuration
-@ConditionalOnProperty(value = "spring.kafka.use-ssl", //
-		havingValue = "true", //
-		matchIfMissing = false //
+@ConditionalOnProperty( //
+	value = "spring.kafka.use-ssl", //
+	havingValue = "true", //
+	matchIfMissing = false //
 )
 public class KafkaSSLConfig {
 
 	private static final Logger LOG = LoggerFactory.getLogger(KafkaSSLConfig.class);
 
 	@Autowired
+	private ProducerFactory<String, Object> producerFactory;
+
+	@Autowired
 	private ConsumerFactory<String, Object> consumerFactory;
 
+	// Make method execute only once
 	public static Map<String, Object> loadSSLConfig() throws IOException {
 		Map<String, Object> fileContent = new HashMap<>();
 		Resource resource = new ClassPathResource("client-ssl.properties");
@@ -55,11 +61,13 @@ public class KafkaSSLConfig {
 	}
 
 	@Bean
-	public void addSSLConsumer() throws IOException {
-		// System.out.println("Testttttttttttttttttttttttttt: Add SSL Config");
-		Map<String, Object> sslConfig = loadSSLConfig();
-		// System.out.println(sslConfig);
-		consumerFactory.updateConfigs(sslConfig);
+	public void consumerSSL() throws IOException {
+		consumerFactory.updateConfigs(loadSSLConfig());
+	}
+
+	@Bean
+	public void producerSSL() throws IOException {
+		producerFactory.updateConfigs(loadSSLConfig());
 	}
 
 }
