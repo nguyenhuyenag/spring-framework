@@ -3,11 +3,15 @@ package com.util;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 
 @Configuration
-@PropertySource({ //
-	"classpath:config.properties", //
-	"classpath:kafka-config.properties" //
+//@PropertySource({ //
+//	"classpath:kafka-config.properties" //
+//})
+@PropertySources({
+	@PropertySource("classpath:config.properties"),
+	@PropertySource("classpath:kafka-config.properties")
 })
 public class ConfigReader {
 

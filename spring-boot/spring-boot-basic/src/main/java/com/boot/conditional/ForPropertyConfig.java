@@ -17,9 +17,9 @@ public class ForPropertyConfig {
 	 */
 	@Bean
 	@ConditionalOnProperty( //
-			value = "conditional.on.property.enabled", //
-			havingValue = "true", // Nếu giá trị conditional.on.property.enabled = true thì Bean mới được khởi tạo
-			matchIfMissing = false // giá trị mặc định nếu không tìm thấy property conditional.on.property.enabled
+		value = "conditional.on.property.enabled", //
+		havingValue = "true",	// Nếu giá trị conditional.on.property.enabled = true thì Bean mới được khởi tạo
+		matchIfMissing = false 	// giá trị mặc định nếu không tìm thấy property conditional.on.property.enabled
 	)
 	public ABeanWithCondition2 aBeanWithCondition2() {
 		return new ABeanWithCondition2();

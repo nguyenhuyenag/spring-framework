@@ -7,7 +7,6 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-// @EnableKafka
 @EnableScheduling
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer {
