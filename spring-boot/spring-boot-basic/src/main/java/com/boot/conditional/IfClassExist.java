@@ -4,11 +4,10 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @ConditionalOnClass -> thỏa mãn nếu trong classpath có tồn tại class mà bạn
- *                     yêu cầu
+ * @ConditionalOnClass -> Thỏa mãn nếu trong classpath tồn tại CLASS yêu cầu
  */
 @Configuration
 @ConditionalOnClass(name = "com.me.spring.LodaHandsome")
-public class ForClassExist {
+public class IfClassExist {
 
 }

@@ -5,19 +5,19 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * - Bean được đánh dấu @ConditionalOnBean(RandomBean.class) chỉ được tạo khi
- * RandomBean tồn tại trong Context.
+ * - Bean được đánh dấu @ConditionalOnBean(MyBean.class) chỉ được tạo khi MyBean
+ * tồn tại trong Context.
  * 
  * - Khi get bean ContextUtils.getBean(ABeanWithCondition.class); -> A component
  * required a bean of type '...ABeanWithCondition' that could not be found.
  * 
- * - Nếu bạn gắn nó trên một @Configuration thì toàn bộ các @Bean bên trong sẽ
- * bị chịu tác động
+ * - Nếu gắn nó trên một @Configuration thì toàn bộ các @Bean bên trong class sẽ
+ * chịu tác động
  */
 @Configuration
 public class ConditionalOnBeanExample {
 
-	public static class RandomBean {
+	public static class MyBean {
 
 	}
 
@@ -26,12 +26,12 @@ public class ConditionalOnBeanExample {
 	}
 
 	@Bean // <- Đóng/mở để thấy sự khác biệt
-	public RandomBean randomBean() {
-		return new RandomBean();
+	public MyBean MyBean() {
+		return new MyBean();
 	}
 
 	@Bean
-	@ConditionalOnBean(RandomBean.class)
+	@ConditionalOnBean(MyBean.class)
 	public ABeanWithCondition beanWithCondition() {
 		return new ABeanWithCondition();
 	}

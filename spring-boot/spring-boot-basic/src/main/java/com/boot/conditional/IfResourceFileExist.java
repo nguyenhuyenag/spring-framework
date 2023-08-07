@@ -8,6 +8,6 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ConditionalOnResource(resources = "/application.properties")
-public class ForResourceFile {
+public class IfResourceFileExist {
 
 }

@@ -8,7 +8,7 @@ class SomeMissingBean {
 }
 
 @Configuration
-public class ForMissingBean {
+public class IfBeanMissing {
 
 	/**
 	 * Nếu trong Context chưa tồn tại một SomeMissingBean (hoặc cùng loại) nào thì

@@ -8,6 +8,6 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ConditionalOnExpression("${loda.expression1.enabled:true} and ${loda.expression2.enabled:true}")
-public class ForMultipleExpression {
+public class MultipleExpression {
 
 }

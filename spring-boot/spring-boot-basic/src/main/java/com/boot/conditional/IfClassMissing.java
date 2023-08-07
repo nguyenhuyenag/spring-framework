@@ -4,10 +4,10 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClas
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @ConditionalOnMissingClass -> ngược lại với @ConditionalOnClass
+ * @ConditionalOnMissingClass -> Ngược lại với @ConditionalOnClass
  */
 @Configuration
 @ConditionalOnMissingClass(value = "com.me.spring.LodaHandsome")
-class ForClassMissing {
+class IfClassMissing {
 
 }

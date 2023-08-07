@@ -8,7 +8,12 @@ import java.util.Properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,17 +21,18 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.ProducerFactory;
+import org.springframework.stereotype.Component;
 
 @Configuration
 @ConditionalOnProperty( //
-	value = "spring.kafka.use-ssl", //
-	havingValue = "true", //
-	matchIfMissing = false //
+		value = "spring.kafka.use-ssl", //
+		havingValue = "true", //
+		matchIfMissing = false //
 )
 public class KafkaSSLConfig {
 
 	private static final Logger LOG = LoggerFactory.getLogger(KafkaSSLConfig.class);
-	
+
 	// @Autowired
 	// private BeanFactory beanFactory;
 
@@ -35,7 +41,7 @@ public class KafkaSSLConfig {
 
 	@Autowired
 	private ConsumerFactory<String, Object> consumerFactory;
-	
+
 	// private ApplicationContext applicationContext;
 
 	public static Map<String, Object> SSL_CONFIG = new HashMap<>();
@@ -76,7 +82,7 @@ public class KafkaSSLConfig {
 	public void producerSSL() throws IOException {
 		producerFactory.updateConfigs(loadSSLConfig());
 	}
-	
+
 //	@Bean
 //	public KafkaAdmin kafkaAdminWithSSL() {
 //////		DefaultSingletonBeanRegistry registry = (DefaultSingletonBeanRegistry) applicationContext.get
@@ -91,5 +97,32 @@ public class KafkaSSLConfig {
 ////        }
 //		return null;
 //	}
+
+//	@Bean
+//	public MyBean myBean() {
+//		return new MyBean();
+//	}
+
+	@Bean
+	public MyBeanDefinitionRegistryPostProcessor myBeanDefinitionRegistryPostProcessor() {
+		return new MyBeanDefinitionRegistryPostProcessor();
+	}
+
+	@Component
+	private class MyBeanDefinitionRegistryPostProcessor implements BeanDefinitionRegistryPostProcessor {
+
+		@Override
+		public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
+			BeanDefinition beanDefinition = registry.getBeanDefinition("myBean");
+			// Update the bean instance
+			beanDefinition.setScope("singleton");
+		}
+
+		@Override
+		public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+
+		}
+
+	}
 
 }
