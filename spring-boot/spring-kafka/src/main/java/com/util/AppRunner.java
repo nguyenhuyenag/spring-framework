@@ -25,8 +25,8 @@ public class AppRunner implements ApplicationRunner {
 		// createTopics();
 		// kafkaUtils.isTopicExist("topic202");
 		// kafkaUtils.topicInfo("topic2023");
-		// kafkaUtils.showAllTopicsInfor();
-		kafkaUtils.test();
+		kafkaUtils.showAllTopicsInfor();
+		// kafkaUtils.test();
 		
 		// TODO
 		// kafkaUtils.showKafkaConfig();
