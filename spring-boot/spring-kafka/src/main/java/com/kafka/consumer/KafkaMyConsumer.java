@@ -20,9 +20,9 @@ import com.kafka.config.KafkaConstant;
  * 
  */
 @Component
-public class KafkaConsumer {
+public class KafkaMyConsumer {
 
-	private static final Logger LOG = LoggerFactory.getLogger(KafkaConsumer.class);
+	private static final Logger LOG = LoggerFactory.getLogger(KafkaMyConsumer.class);
 
 	@KafkaListener( //
 		// id = "id0", //

@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -15,8 +14,6 @@ import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.CreateTopicsResult;
 import org.apache.kafka.clients.admin.DeleteTopicsResult;
 import org.apache.kafka.clients.admin.KafkaAdminClient;
-import org.apache.kafka.clients.admin.ListTopicsOptions;
-import org.apache.kafka.clients.admin.ListTopicsResult;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.common.KafkaFuture;
@@ -49,25 +46,25 @@ public class KafkaUtils {
 
 	@Autowired
 	private ConsumerFactory<String, Object> consumerFactory;
-	
-	// @Autowired
-	// private ProducerFactory<String, Object> producerFactory;
 
-	public void showAllTopicsInfor() {
-		// Or 'new KafkaConsumer<>(kafkaProperties.buildConsumerProperties())'
+	private Map<String, List<PartitionInfo>> listTopics() {
 		try (Consumer<String, Object> consumer = consumerFactory.createConsumer()) {
-			// Sort by topic name
-			Map<String, List<PartitionInfo>> topics = new TreeMap<>(consumer.listTopics());
-			if (!topics.isEmpty()) {
-				topics.forEach((key, value) -> {
-					System.out.println("Topic=" + key + ", number of partions=" + value.size());
-				});
-			} else {
-				System.out.println("No topics!");
-			}
+			return consumer.listTopics();
 		}
 	}
-	
+
+	public void showAllTopicsInfor() {
+		// Sort by topic name
+		Map<String, List<PartitionInfo>> topics = new TreeMap<>(listTopics());
+		if (topics.isEmpty()) {
+			System.out.println("No topics!");
+		} else {
+			topics.forEach((key, value) -> {
+				System.out.println("Topic=" + key + ", number of partions=" + value.size());
+			});
+		}
+	}
+
 	public void topicInfo(String topicName) {
 		partitionsForTopic(topicName);
 		topicPartition(topicName);
@@ -94,20 +91,16 @@ public class KafkaUtils {
 		}
 	}
 
-	public boolean isTopicExist(String topicName) throws InterruptedException, ExecutionException {
-		try (AdminClient adminClient = AdminClient.create(kafkaAdmin.getConfigurationProperties())) {
-			ListTopicsOptions options = new ListTopicsOptions();
-			options.listInternal(true); // Includes internal topics such as __consumer_offsets
-			ListTopicsResult topics = adminClient.listTopics(options);
-			Set<String> currentTopicList = topics.names().get();
-			boolean contains = currentTopicList.contains(topicName);
-			System.out.println("Check exist: " + contains);
-			return contains;
-		}
+	public boolean isTopicExist(String topicName) {
+		Map<String, List<PartitionInfo>> listTopics = listTopics();
+		System.out.println("Check exitssssssss: " + listTopics.containsKey(topicName));
+		// Check listTopics != null ?
+		return listTopics.containsKey(topicName);
 	}
 
 	public void createTopic(String topicName, int numPartitions) throws InterruptedException, ExecutionException {
 		if (!isTopicExist(topicName)) {
+			// KafkaAdminClient
 			try (AdminClient adminClient = AdminClient.create(kafkaAdmin.getConfigurationProperties())) {
 				NewTopic newTopic = new NewTopic(topicName, numPartitions, (short) 1);
 				List<NewTopic> newTopics = Arrays.asList(newTopic);
@@ -122,6 +115,23 @@ public class KafkaUtils {
 	}
 
 	// TODO: In process
+
+//	public boolean isTopicExist(String topicName) {
+//	System.out.println(kafkaAdmin.getConfigurationProperties());
+//	try (AdminClient adminClient = AdminClient.create(kafkaAdmin.getConfigurationProperties())) {
+//		ListTopicsOptions options = new ListTopicsOptions();
+//		options.listInternal(true); // Includes internal topics such as __consumer_offsets
+//		ListTopicsResult topics = adminClient.listTopics(options);
+//		// org.apache.kafka.common.errors.TimeoutException
+//		Set<String> currentTopicList = topics.names().get();
+//		boolean contains = currentTopicList.contains(topicName);
+//		System.out.println("Check exist: " + contains);
+//		return contains;
+//	} catch (InterruptedException | ExecutionException e) {
+//		e.printStackTrace();
+//	}
+//	return false;
+//}
 
 //	public void showKafkaConfig() {
 //	System.out.println("Testttt: " + kafkaProperties.getTemplate());
@@ -206,7 +216,7 @@ public class KafkaUtils {
 
 	public void test() throws InterruptedException, ExecutionException, TimeoutException {
 		try (AdminClient adminClient2 = KafkaAdminClient.create(kafkaAdmin.getConfigurationProperties())) {
-			
+
 		}
 	}
 

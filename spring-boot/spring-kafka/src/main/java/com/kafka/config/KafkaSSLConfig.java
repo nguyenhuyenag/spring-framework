@@ -21,9 +21,9 @@ import org.springframework.kafka.core.ProducerFactory;
 
 @Configuration
 @ConditionalOnProperty( //
-		value = "spring.kafka.use-ssl", //
-		havingValue = "true", //
-		matchIfMissing = false //
+	value = "spring.kafka.use-ssl", //
+	havingValue = "true", //
+	matchIfMissing = false //
 )
 public class KafkaSSLConfig {
 
@@ -57,7 +57,7 @@ public class KafkaSSLConfig {
 						SSL_CONFIG.put("ssl.keystore.location", keystore.getFile().toString());
 						SSL_CONFIG.put("ssl.truststore.location", truststore.getFile().toString());
 					} else {
-						LOG.error("File keystore or truststore not found!");
+						LOG.error("SSL resource not found");
 					}
 				} catch (IOException e) {
 					e.printStackTrace();

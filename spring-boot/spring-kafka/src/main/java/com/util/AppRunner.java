@@ -14,9 +14,9 @@ public class AppRunner implements ApplicationRunner {
 	KafkaUtils kafkaUtils;
 
 	public void createTopics() throws InterruptedException, ExecutionException {
-		kafkaUtils.createTopic("topic2021", 1);
-		kafkaUtils.createTopic("topic2022", 2);
-		kafkaUtils.createTopic("topic2023", 3);
+		// kafkaUtils.createTopic("topic2021", 1);
+		// kafkaUtils.createTopic("topic2022", 2);
+		// kafkaUtils.createTopic("topic2023", 3);
 		kafkaUtils.createTopic("topic2024", 4);
 	}
 
@@ -24,8 +24,8 @@ public class AppRunner implements ApplicationRunner {
 	public void run(ApplicationArguments args) throws Exception {
 		// createTopics();
 		// kafkaUtils.isTopicExist("topic202");
-		// kafkaUtils.topicInfo("topic2023");
-		// kafkaUtils.showAllTopicsInfor();
+		// kafkaUtils.topicInfo("test");
+		kafkaUtils.showAllTopicsInfor();
 		// kafkaUtils.test();
 		
 		// TODO
