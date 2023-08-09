@@ -24,3 +24,5 @@
 *.project
 *.classpath
 *.factorypath
+spring-boot/spring-kafka/src/main/resources/static/ssl/client.keystore.jks
+spring-boot/spring-kafka/src/main/resources/static/ssl/client.truststore.jks
