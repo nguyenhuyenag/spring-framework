@@ -8,20 +8,16 @@ import java.util.Properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-import org.springframework.beans.factory.support.BeanDefinitionRegistry;
-import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.kafka.core.ConsumerFactory;
+import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.kafka.core.ProducerFactory;
-import org.springframework.stereotype.Component;
 
 @Configuration
 @ConditionalOnProperty( //
@@ -33,16 +29,14 @@ public class KafkaSSLConfig {
 
 	private static final Logger LOG = LoggerFactory.getLogger(KafkaSSLConfig.class);
 
-	// @Autowired
-	// private BeanFactory beanFactory;
+	@Autowired
+	private KafkaProperties kafkaProperties;
 
 	@Autowired
 	private ProducerFactory<String, Object> producerFactory;
 
 	@Autowired
 	private ConsumerFactory<String, Object> consumerFactory;
-
-	// private ApplicationContext applicationContext;
 
 	public static Map<String, Object> SSL_CONFIG = new HashMap<>();
 
@@ -83,46 +77,12 @@ public class KafkaSSLConfig {
 		producerFactory.updateConfigs(loadSSLConfig());
 	}
 
-//	@Bean
-//	public KafkaAdmin kafkaAdminWithSSL() {
-//////		DefaultSingletonBeanRegistry registry = (DefaultSingletonBeanRegistry) applicationContext.get
-//////		registry.destroySingleton({yourbean}) //destroys the bean object
-//////		registry.registerSingleton({yourbeanname}, {newbeanobject}) //add to singleton beans cache
-////		if (applicationContext instanceof DefaultSingletonBeanRegistry) {
-////            DefaultSingletonBeanRegistry singletonBeanRegistry = (DefaultSingletonBeanRegistry) applicationContext;
-////         // Get a bean by its class.
-////            KafkaAdmin myBean = applicationContext.getBean(KafkaAdmin.class);
-////            String beanName = BeanFactoryUtils.beanNameForTypeIncludingAncestors(KafkaAdmin.class);
-////            singletonBeanRegistry.destroySingleton(null);
-////        }
-//		return null;
-//	}
-
-//	@Bean
-//	public MyBean myBean() {
-//		return new MyBean();
-//	}
-
 	@Bean
-	public MyBeanDefinitionRegistryPostProcessor myBeanDefinitionRegistryPostProcessor() {
-		return new MyBeanDefinitionRegistryPostProcessor();
-	}
-
-	@Component
-	private class MyBeanDefinitionRegistryPostProcessor implements BeanDefinitionRegistryPostProcessor {
-
-		@Override
-		public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
-			BeanDefinition beanDefinition = registry.getBeanDefinition("myBean");
-			// Update the bean instance
-			beanDefinition.setScope("singleton");
-		}
-
-		@Override
-		public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-
-		}
-
+	public KafkaAdmin kafkaAdmin() throws IOException {
+		Map<String, Object> buildAdminProperties = kafkaProperties.buildAdminProperties();
+		buildAdminProperties.putAll(loadSSLConfig());
+		LOG.info("KafkaAdmin with SSL");
+		return new KafkaAdmin(buildAdminProperties);
 	}
 
 }
