@@ -19,12 +19,12 @@ public class ConfigReader {
 	public static String KAFKA_CONSUMER_TOPIC;
 
 	@Value("${kafka.producer.topicName}")
-	private void setKAFKA_PRODUCER_TOPIC(String topic) {
+	private void setKafkaProducerTopic(String topic) {
 		ConfigReader.KAFKA_PRODUCER_TOPIC = topic;
 	}
 
 	@Value("${kafka.consumer.topicName}")
-	private void setKAFKA_CONSUMER_TOPIC(String topic) {
+	private void setKafkaConsumerTopic(String topic) {
 		ConfigReader.KAFKA_CONSUMER_TOPIC = topic;
 	}
 

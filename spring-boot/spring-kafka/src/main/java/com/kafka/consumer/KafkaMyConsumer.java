@@ -16,8 +16,6 @@ import com.kafka.config.KafkaConstant;
  * 		+ concurrency = "3"		Spring sẽ tạo ra 3 luồng riêng biệt để chạy phương thức
  * 
  * 		+ containerFactory		The bean name of the KafkaListenerContainerFactory
- * 
- * 
  */
 @Component
 public class KafkaMyConsumer {
