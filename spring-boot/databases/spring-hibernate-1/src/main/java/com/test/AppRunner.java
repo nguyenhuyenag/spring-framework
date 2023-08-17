@@ -1,5 +1,7 @@
 package com.test;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -18,16 +20,30 @@ public class AppRunner implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		testHibernateTimestamp();
+		// testCreationTimestamp();
+		// testUpdateTimestamp();
 	}
 
-	public void testHibernateTimestamp() throws InterruptedException {
+	public void testCreationTimestamp() throws InterruptedException {
 		while (true) {
 			String name = RandomStringUtils.randomAlphabetic(4).toLowerCase();
 			String email = name + "@" + name + ".com";
 			Customer entity = new Customer(name, email);
 			customerRepository.save(entity);
-			TimeUnit.SECONDS.sleep(10);
+			TimeUnit.SECONDS.sleep(1);
+		}
+	}
+
+	public void testUpdateTimestamp() throws InterruptedException {
+		while (true) {
+			List<Customer> listCustomers = customerRepository.findAll();
+			listCustomers.forEach(c -> {
+				String newName = RandomStringUtils.randomAlphabetic(4).toLowerCase();
+				c.setName(newName);
+				c.setCreatedAt(LocalDateTime.now()); // Test update
+				customerRepository.save(c);
+			});
+			TimeUnit.SECONDS.sleep(5);
 		}
 	}
 

@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /*-
  * Spring @CreatedDate và LastModifiedDate cần thêm cấu hình:
@@ -23,6 +24,7 @@ import lombok.Data;
  * 		Add '@EntityListeners(AuditingEntityListener.class)'
  */
 @Data
+@NoArgsConstructor
 @Entity
 @Table(name = "customer")
 @EntityListeners(AuditingEntityListener.class)
@@ -41,10 +43,10 @@ public class Customer {
 
 	@org.hibernate.annotations.CreationTimestamp
 	@Column(updatable = false)
-	private Date createdAt;
+	private LocalDateTime createdAt;
 
 	@org.hibernate.annotations.UpdateTimestamp
-	private LocalDateTime updatedAt;
+	private Date updatedAt;
 
 	// @org.springframework.data.annotation.CreatedDate
 	// @Temporal(TemporalType.TIMESTAMP) // Unnecessary ?
