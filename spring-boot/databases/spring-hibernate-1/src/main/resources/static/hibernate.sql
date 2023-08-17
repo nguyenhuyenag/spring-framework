@@ -102,10 +102,10 @@ CREATE TABLE `programing` (
 );
 
 CREATE TABLE `hibernate`.`customer` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `id` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `name` VARCHAR(45) NULL,
-  `address` VARCHAR(45) NULL,
-  `created_datetime` DATETIME NULL,
-  `updated_datetime` DATETIME NULL,
-  PRIMARY KEY (`id`)
+  `email` VARCHAR(45) NULL,
+  `created_at` DATETIME NULL,
+  `updated_at` DATETIME NULL,
+  UNIQUE (id, email)
 );
