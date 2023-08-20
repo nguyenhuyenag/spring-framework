@@ -56,9 +56,4 @@ public class EntityManagerServiceImpl implements EntityManagerService {
 		list.forEach(t -> System.out.println(t));
 	}
 
-//	@Override
-//	public void sortByCriteriaQuery() {
-//		
-//	}
-
 }

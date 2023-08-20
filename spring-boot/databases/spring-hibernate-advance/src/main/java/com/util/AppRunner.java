@@ -60,7 +60,7 @@ public class AppRunner implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		// selectSomeField();
+		selectSomeField();
 		// service();
 		// vbService();
 		// repository();
@@ -68,14 +68,14 @@ public class AppRunner implements CommandLineRunner {
 		// queryDSLService();
 		// jdbcTemplateService();
 		// System.out.println(mysqlToolService.checkTableExits("categories"));
-		mapStructServiceTest.convert();
+		// mapStructServiceTest.convert();
 	}
 	
 	public void selectSomeField() {
 		// selectSomeFieldService.forTuple();
 		// selectSomeFieldService.forSession();
-		selectSomeFieldService.forJdbcTemplate();
-		// selectSomeFieldService.forEntityManager();
+		// selectSomeFieldService.forJdbcTemplate();
+		selectSomeFieldService.forEntityManager();
 		// selectSomeFieldService.forSqlResultSetMapping();
 	}
 

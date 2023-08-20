@@ -22,7 +22,7 @@ public class SomeField implements Serializable {
 	private Integer orderNumber;
 	private String status;
 	private BigDecimal total;
-	
+
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);

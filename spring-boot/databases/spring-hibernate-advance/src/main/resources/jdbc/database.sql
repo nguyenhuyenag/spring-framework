@@ -1,7 +1,7 @@
 USE spring_boot_mysql;
 
-DROP TABLE IF EXISTS `orderdetails`;
 DROP TABLE IF EXISTS `orders`;
+DROP TABLE IF EXISTS `orderdetails`;
 
 CREATE TABLE `orders` (
   `orderNumber` int(11) NOT NULL,
