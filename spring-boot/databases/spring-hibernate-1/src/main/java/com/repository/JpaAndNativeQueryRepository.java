@@ -9,7 +9,7 @@ import com.entity.idclass.User;
 import com.entity.idclass.UserId;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, UserId> {
+public interface JpaAndNativeQueryRepository extends JpaRepository<User, UserId> {
 
 	@Query(value = "SELECT u FROM User u WHERE u.id = :id AND u.code = :code")
 	User getByJpaQuery(@Param("id") int id, @Param("code") int code);

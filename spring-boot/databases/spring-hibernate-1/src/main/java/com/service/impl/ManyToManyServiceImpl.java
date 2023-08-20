@@ -32,9 +32,7 @@ public class ManyToManyServiceImpl implements ManyToManyService {
 		category.setProducts(products);
 
 		repository.save(category);
-		
 		repository.deleteById(2);
-
 	}
 
 }

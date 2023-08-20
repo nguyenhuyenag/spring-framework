@@ -10,13 +10,13 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import com.entity.createupdatetime.Customer;
-import com.repository.CustomerRepository;
+import com.repository.FindFirstOrTopRepository;
 
 @Component
 public class AppRunner implements CommandLineRunner {
 
 	@Autowired
-	CustomerRepository customerRepository;
+	FindFirstOrTopRepository findFirstOrTopRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -24,7 +24,7 @@ public class AppRunner implements CommandLineRunner {
 		// testUpdateTimestamp();
 		String name = "zsid";
 		// Customer customer = customerRepository.findFirstByNameLike(name);
-		List<Customer> customer = customerRepository.findTop2ByNameOrderByIdDesc(name);
+		List<Customer> customer = findFirstOrTopRepository.findTop2ByNameOrderByIdDesc(name);
 		if (customer != null) {
 			System.out.println(customer);
 		} else {
@@ -37,19 +37,19 @@ public class AppRunner implements CommandLineRunner {
 			String name = RandomStringUtils.randomAlphabetic(4).toLowerCase();
 			String email = name + "@" + name + ".com";
 			Customer entity = new Customer(name, email);
-			customerRepository.save(entity);
+			findFirstOrTopRepository.save(entity);
 			TimeUnit.SECONDS.sleep(1);
 		}
 	}
 
 	public void testUpdateTimestamp() throws InterruptedException {
 		while (true) {
-			List<Customer> listCustomers = customerRepository.findAll();
+			List<Customer> listCustomers = findFirstOrTopRepository.findAll();
 			listCustomers.forEach(c -> {
 				String newName = RandomStringUtils.randomAlphabetic(4).toLowerCase();
 				c.setName(newName);
 				c.setCreatedAt(LocalDateTime.now()); // Test update
-				customerRepository.save(c);
+				findFirstOrTopRepository.save(c);
 			});
 			TimeUnit.SECONDS.sleep(5);
 		}
