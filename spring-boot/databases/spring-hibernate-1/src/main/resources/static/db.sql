@@ -1,6 +1,6 @@
-CREATE SCHEMA IF NOT EXISTS `hibernate`;
+CREATE SCHEMA IF NOT EXISTS `spring_hibernate`;
 
-USE `hibernate`;
+USE `spring_hibernate`;
 
 CREATE TABLE `clazz` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -101,7 +101,7 @@ CREATE TABLE `programing` (
   PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `hibernate`.`customer` (
+CREATE TABLE `customer` (
   `id` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `name` VARCHAR(45) NULL,
   `email` VARCHAR(45) NULL,

@@ -31,14 +31,11 @@ import lombok.NoArgsConstructor;
 public class Customer {
 
 	@Id
-	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(name = "name")
 	private String name;
 
-	@Column(name = "email")
 	private String email;
 
 	@org.hibernate.annotations.CreationTimestamp

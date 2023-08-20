@@ -26,7 +26,7 @@ import lombok.Setter;
 @Table(name = "student")
 public class Student {
 
-	// Phải implement Serializable
+	// Importtant: Phải implement Serializable
 	@Embeddable
 	@AllArgsConstructor
 	@RequiredArgsConstructor

@@ -22,6 +22,14 @@ public class AppRunner implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		// testCreationTimestamp();
 		// testUpdateTimestamp();
+		String name = "zsid";
+		// Customer customer = customerRepository.findFirstByNameLike(name);
+		List<Customer> customer = customerRepository.findTop2ByNameOrderByIdDesc(name);
+		if (customer != null) {
+			System.out.println(customer);
+		} else {
+			System.out.println("Not found");
+		}
 	}
 
 	public void testCreationTimestamp() throws InterruptedException {
