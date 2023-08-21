@@ -1,5 +1,7 @@
 package com.util;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -9,12 +11,13 @@ import com.repository.OrderRepository;
 import com.repository.PersonRepository;
 import com.service.EntityManagerService;
 import com.service.JDBCTemplateService;
+import com.service.MappingQueryToPOJOService;
 import com.service.MySQLToolService;
 import com.service.ProcedureService;
 import com.service.QueryDSLService;
+import com.service.SpringDataSelectSpecificColumns;
 import com.service.VocabService;
 import com.service.impl.MapStructServiceTest;
-import com.service.impl.MappingQueryToPOJOService;
 
 @Component
 public class AppRunner implements CommandLineRunner {
@@ -51,10 +54,13 @@ public class AppRunner implements CommandLineRunner {
 
 	@Autowired
 	MappingQueryToPOJOService selectSomeFieldService;
-	
+
+	@Autowired
+	SpringDataSelectSpecificColumns springDataSelectSpecificColumns;
+
 	@Autowired
 	MySQLToolService mysqlToolService;
-	
+
 	@Autowired
 	MapStructServiceTest mapStructServiceTest;
 
@@ -70,13 +76,15 @@ public class AppRunner implements CommandLineRunner {
 		// System.out.println(mysqlToolService.checkTableExits("categories"));
 		// mapStructServiceTest.convert();
 	}
-	
+
 	public void selectSomeField() {
 		// selectSomeFieldService.forTuple();
 		// selectSomeFieldService.forSession();
 		// selectSomeFieldService.forJdbcTemplate();
-		selectSomeFieldService.forEntityManager();
+		// selectSomeFieldService.forEntityManager();
 		// selectSomeFieldService.forSqlResultSetMapping();
+		List<com.service.SpringDataSelectSpecificColumns.SubOrder> findAllSubOrder = springDataSelectSpecificColumns.findAllSubOrder();
+		findAllSubOrder.forEach(t -> System.out.println(t.getOrderDate()));
 	}
 
 	public void service() {
