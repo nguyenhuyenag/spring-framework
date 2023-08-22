@@ -10,11 +10,11 @@ import org.springframework.stereotype.Repository;
 import com.entity.Clazz;
 
 @Repository
-public interface ClazzRepository extends JpaRepository<Clazz, Integer> {
+public interface JpaSelectDateTimeRepository extends JpaRepository<Clazz, Integer> {
 
 	@Modifying
 	@Transactional
-	@Query(value = "alter table Clazz auto_increment = 1", nativeQuery = true)
+	@Query(value = "Alter table Clazz auto_increment = 1", nativeQuery = true)
 	void resetAutoIncrement();
 
 	@Modifying

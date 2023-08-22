@@ -10,26 +10,26 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import com.entity.createupdatetime.Customer;
-import com.repository.FindFirstOrTopRepository;
+import com.repository.JpaFindFirstOrTopRepository;
 
 @Component
 public class AppRunner implements CommandLineRunner {
 
 	@Autowired
-	FindFirstOrTopRepository findFirstOrTopRepository;
+	JpaFindFirstOrTopRepository findFirstOrTopRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
 		// testCreationTimestamp();
 		// testUpdateTimestamp();
-		String name = "zsid";
-		// Customer customer = customerRepository.findFirstByNameLike(name);
-		List<Customer> customer = findFirstOrTopRepository.findTop2ByNameOrderByIdDesc(name);
-		if (customer != null) {
-			System.out.println(customer);
-		} else {
-			System.out.println("Not found");
-		}
+//		String name = "zsid";
+//		// Customer customer = customerRepository.findFirstByNameLike(name);
+//		List<Customer> customer = findFirstOrTopRepository.findTop2ByNameOrderByIdDesc(name);
+//		if (customer != null) {
+//			System.out.println(customer);
+//		} else {
+//			System.out.println("Not found");
+//		}
 	}
 
 	public void testCreationTimestamp() throws InterruptedException {
