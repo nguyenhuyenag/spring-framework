@@ -1,11 +1,9 @@
 package com.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-import com.entity.createupdatetime.Customer;
+import com.entity.TransientEntity;
 
-@Repository
-public interface TransientRepository extends JpaRepository<Customer, Integer> {
+public interface TransientRepository extends JpaRepository<TransientEntity, Integer> {
 
 }

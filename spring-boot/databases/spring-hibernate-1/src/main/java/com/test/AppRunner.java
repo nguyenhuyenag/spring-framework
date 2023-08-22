@@ -10,6 +10,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import com.entity.createupdatetime.Customer;
+import com.repository.JpaDateTimeRepository;
 import com.repository.JpaFindFirstOrTopRepository;
 
 @Component
@@ -17,19 +18,16 @@ public class AppRunner implements CommandLineRunner {
 
 	@Autowired
 	JpaFindFirstOrTopRepository findFirstOrTopRepository;
+	
+	@Autowired
+	JpaDateTimeRepository jpaDateTimeRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
-		// testCreationTimestamp();
 		// testUpdateTimestamp();
-//		String name = "zsid";
-//		// Customer customer = customerRepository.findFirstByNameLike(name);
-//		List<Customer> customer = findFirstOrTopRepository.findTop2ByNameOrderByIdDesc(name);
-//		if (customer != null) {
-//			System.out.println(customer);
-//		} else {
-//			System.out.println("Not found");
-//		}
+		// testCreationTimestamp();
+		Object date = jpaDateTimeRepository.getAsDateSql();
+		System.out.println(date);
 	}
 
 	public void testCreationTimestamp() throws InterruptedException {
