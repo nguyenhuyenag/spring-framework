@@ -101,6 +101,8 @@ CREATE TABLE `programing` (
   PRIMARY KEY (`id`)
 );
 
+DROP TABLE IF EXISTS `customer`;
+
 CREATE TABLE `customer` (
   `id` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `name` VARCHAR(45) NULL,

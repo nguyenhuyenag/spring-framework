@@ -25,9 +25,7 @@ public class AppRunner implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		// testUpdateTimestamp();
-		// testCreationTimestamp();
-		Object date = jpaDateTimeRepository.getAsDateSQL();
-		System.out.println(date);
+		testCreationTimestamp();
 	}
 
 	public void testCreationTimestamp() throws InterruptedException {
@@ -36,7 +34,7 @@ public class AppRunner implements CommandLineRunner {
 			String email = name + "@" + name + ".com";
 			Customer entity = new Customer(name, email);
 			findFirstOrTopRepository.save(entity);
-			TimeUnit.SECONDS.sleep(1);
+			TimeUnit.SECONDS.sleep(10);
 		}
 	}
 
