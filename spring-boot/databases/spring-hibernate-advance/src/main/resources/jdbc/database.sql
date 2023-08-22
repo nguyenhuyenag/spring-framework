@@ -1,4 +1,4 @@
-USE spring_boot_mysql;
+USE spring_hibernate;
 
 DROP TABLE IF EXISTS `orders`;
 DROP TABLE IF EXISTS `orderdetails`;

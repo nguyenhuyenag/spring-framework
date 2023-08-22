@@ -26,7 +26,7 @@ public class AppRunner implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		// testUpdateTimestamp();
 		// testCreationTimestamp();
-		Object date = jpaDateTimeRepository.getAsDateSql();
+		Object date = jpaDateTimeRepository.getAsDateSQL();
 		System.out.println(date);
 	}
 

@@ -11,11 +11,11 @@ import com.repository.OrderRepository;
 import com.repository.PersonRepository;
 import com.service.EntityManagerService;
 import com.service.JDBCTemplateService;
+import com.service.JpaSelectSpecificColumns;
 import com.service.MappingQueryToPOJOService;
 import com.service.MySQLToolService;
 import com.service.ProcedureService;
 import com.service.QueryDSLService;
-import com.service.SpringDataSelectSpecificColumns;
 import com.service.VocabService;
 import com.service.impl.MapStructServiceTest;
 
@@ -56,7 +56,7 @@ public class AppRunner implements CommandLineRunner {
 	MappingQueryToPOJOService selectSomeFieldService;
 
 	@Autowired
-	SpringDataSelectSpecificColumns springDataSelectSpecificColumns;
+	JpaSelectSpecificColumns springDataSelectSpecificColumns;
 
 	@Autowired
 	MySQLToolService mysqlToolService;
@@ -83,8 +83,8 @@ public class AppRunner implements CommandLineRunner {
 		// selectSomeFieldService.forJdbcTemplate();
 		// selectSomeFieldService.forEntityManager();
 		// selectSomeFieldService.forSqlResultSetMapping();
-		List<com.service.SpringDataSelectSpecificColumns.SubOrder> findAllSubOrder = springDataSelectSpecificColumns.findAllSubOrder();
-		findAllSubOrder.forEach(t -> System.out.println(t.getOrderDate()));
+		List<com.service.JpaSelectSpecificColumns.SubOrder> findAllSubOrder = springDataSelectSpecificColumns.findAllSubOrder();
+		findAllSubOrder.forEach(t -> System.out.println(t));
 	}
 
 	public void service() {

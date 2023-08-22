@@ -8,7 +8,10 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.entity.Order;
 
-public interface SpringDataSelectSpecificColumns extends JpaRepository<Order, Integer> {
+public interface JpaSelectSpecificColumns extends JpaRepository<Order, Integer> {
+
+	final String SQL_QUERY = "SELECT t.orderNumber, t.orderDate, t.status, t.comments "
+			+ "FROM orders t WHERE t.comments is not null";
 
 	public static interface SubOrder {
 
@@ -22,7 +25,7 @@ public interface SpringDataSelectSpecificColumns extends JpaRepository<Order, In
 
 	}
 
-	@Query(value = "SELECT t.orderNumber, t.orderDate, t.status, t.comments FROM orders t WHERE t.comments is not null;", nativeQuery = true)
+	@Query(value = SQL_QUERY, nativeQuery = true)
 	List<SubOrder> findAllSubOrder();
 
 }

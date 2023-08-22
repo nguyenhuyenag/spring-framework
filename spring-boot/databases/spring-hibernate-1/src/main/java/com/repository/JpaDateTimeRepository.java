@@ -28,7 +28,7 @@ public interface JpaDateTimeRepository extends JpaRepository<Clazz, Integer> {
 
 	// 2023-08-22
 	@Query(value = "SELECT CURDATE()", nativeQuery = true)
-	java.sql.Date getAsDateSql();
+	java.sql.Date getAsDateSQL();
 
 	// 08:45:56
 	@Query(value = "SELECT CURTIME()", nativeQuery = true)
