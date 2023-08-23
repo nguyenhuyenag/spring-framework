@@ -13,13 +13,6 @@ public class AppRunner implements ApplicationRunner {
 	@Autowired
 	KafkaUtils kafkaUtils;
 
-	public void createTopics() throws InterruptedException, ExecutionException {
-		// kafkaUtils.createTopic("topic2021", 1);
-		// kafkaUtils.createTopic("topic2022", 2);
-		// kafkaUtils.createTopic("topic2023", 3);
-		kafkaUtils.createTopic("topic2024", 4);
-	}
-
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		// createTopics();
@@ -34,6 +27,13 @@ public class AppRunner implements ApplicationRunner {
 		// kafkaUtils.countUnConsumerMessage(); // Error
 		// System.out.println("Check running: " + kafkaUtils.isKafkaRunning());
 		// kafkaUtils.deleteTopics("topic2021");
+	}
+	
+	public void createTopics() throws InterruptedException, ExecutionException {
+		// kafkaUtils.createTopic("topic2021", 1);
+		// kafkaUtils.createTopic("topic2022", 2);
+		// kafkaUtils.createTopic("topic2023", 3);
+		// kafkaUtils.createTopic("topic2024", 4);
 	}
 
 }

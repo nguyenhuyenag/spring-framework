@@ -27,6 +27,9 @@ public class TransientEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	/**
+	 * Không tương ứng với bất kỳ cột nào trong bảng cơ sở dữ liệu
+	 */
 	@javax.persistence.Transient
 	private String no; // Field này không được serialized
 
