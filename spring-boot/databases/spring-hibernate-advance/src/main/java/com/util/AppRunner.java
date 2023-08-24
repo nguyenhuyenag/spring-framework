@@ -66,7 +66,7 @@ public class AppRunner implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		selectSomeField();
+		// selectSomeField();
 		// service();
 		// vbService();
 		// repository();

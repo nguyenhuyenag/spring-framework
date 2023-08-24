@@ -20,8 +20,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "trans")
+@Table(name = TransientEntity.TABLE_NAME)
 public class TransientEntity {
+
+	public static final String TABLE_NAME = "trans";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +33,7 @@ public class TransientEntity {
 	 * Không tương ứng với bất kỳ cột nào trong bảng cơ sở dữ liệu
 	 */
 	@javax.persistence.Transient
-	private String no; // Field này không được serialized
+	private String no; // Field này sẽ không được serialized
 
 	@Column(length = 15)
 	private String name;

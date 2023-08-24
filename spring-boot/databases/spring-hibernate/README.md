@@ -1,5 +1,3 @@
-# Spring Hibernate 1
-
 # POJO (Plain Old Java Object)
 
 	- POJO là những class thuần túy, không triển khai bất kì framework hay technology nào
@@ -28,7 +26,7 @@
 
 # @Transient
 
-	- Sử dụng khi Entity chứa 1 field mà bảng không có, xem trường `company` trong `User.java`
+	- Sử dụng khi Entity chứa 1 field mà bảng không có
 	
 	- Field được đánh dấu @Transient sẽ được JPA bỏ qua, dữ liệu load lên từ bảng sẽ là null và không save dữ liệu xuống bảng
 
@@ -36,7 +34,9 @@
 
 	- Xem thêm tại: https://stackoverflow.com/q/1281952/7068014
 
-# @GeneratedValue (fix): https://gpcoder.com/6338-cac-annotation-cua-hibernate/#GeneratedValue
+# @GeneratedValue (fix): 
+
+	https://gpcoder.com/6338-cac-annotation-cua-hibernate/#GeneratedValue
 
 	- Dùng để Hibernate tự động tạo ra giá trị và gán vào một cột khi insert mới một Entity
 

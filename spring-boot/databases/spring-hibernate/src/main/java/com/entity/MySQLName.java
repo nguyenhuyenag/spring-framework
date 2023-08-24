@@ -8,15 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.PostPersist;
-import javax.persistence.PostRemove;
-import javax.persistence.PostUpdate;
-import javax.persistence.PrePersist;
-import javax.persistence.PreRemove;
-import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import lombok.Getter;
 
 /*-
  *		MySQL				JPA
@@ -33,9 +29,9 @@ import javax.persistence.TemporalType;
  *		camelCase			@Column(name = "camelcase")
  *							String camelCase;
  */
+@Getter
 @Entity
 @Table(name = "mysql_name")
-@SuppressWarnings("unused")
 public class MySQLName implements Serializable {
 
 	private static final long serialVersionUID = 1L;

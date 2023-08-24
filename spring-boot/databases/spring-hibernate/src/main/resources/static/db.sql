@@ -66,11 +66,13 @@ CREATE TABLE `category` (
   `name` VARCHAR(45) NULL,
   PRIMARY KEY (`id`)
 );
+
 CREATE TABLE `product` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NULL,
   PRIMARY KEY (`id`)
 );
+
 CREATE TABLE `product_category` (
   `product_id` INT NOT NULL,
   `category_id` INT NOT NULL,

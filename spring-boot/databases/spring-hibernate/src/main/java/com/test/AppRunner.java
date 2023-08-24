@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import com.entity.BankAccount;
 import com.entity.createupdatetime.Customer;
 import com.repository.JpaDateTimeRepository;
 import com.repository.JpaFindFirstOrTopRepository;
+import com.repository.TestRepository;
 
 @Component
 public class AppRunner implements CommandLineRunner {
@@ -21,15 +23,15 @@ public class AppRunner implements CommandLineRunner {
 
 	@Autowired
 	JpaDateTimeRepository jpaDateTimeRepository;
+	
+	@Autowired
+	TestRepository testRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
 		// testUpdateTimestamp();
 		// testCreationTimestamp();
-		List<Customer> findAll = findFirstOrTopRepository.findAll();
-		findAll.forEach(t -> { //
-			System.out.println(t.getUpdatedAt());
-		});
+		List<BankAccount> findAll = testRepository.findAll();
 	}
 
 	public void testCreationTimestamp() throws InterruptedException {
