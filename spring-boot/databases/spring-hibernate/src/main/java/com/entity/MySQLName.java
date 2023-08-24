@@ -60,34 +60,4 @@ public class MySQLName implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
 
-	@PrePersist
-	public void prePersist() {
-		System.out.println("pre persist!");
-	}
-
-	@PostPersist
-	public void postPersist() {
-		System.out.println("post persist!");
-	}
-
-	@PreUpdate
-	public void preUpdate() {
-		System.out.println("pre update!");
-	}
-
-	@PostUpdate
-	public void postUpdate() {
-		System.out.println("post update!");
-	}
-
-	@PreRemove
-	public void preRemove() {
-		System.out.println("pre remove!");
-	}
-
-	@PostRemove
-	public void postRemove() {
-		System.out.println("post remove!");
-	}
-
 }
