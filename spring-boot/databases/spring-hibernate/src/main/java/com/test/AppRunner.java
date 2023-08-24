@@ -1,6 +1,5 @@
 package com.test;
 
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -19,7 +18,7 @@ public class AppRunner implements CommandLineRunner {
 
 	@Autowired
 	JpaFindFirstOrTopRepository findFirstOrTopRepository;
-	
+
 	@Autowired
 	JpaDateTimeRepository jpaDateTimeRepository;
 
@@ -27,6 +26,10 @@ public class AppRunner implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		// testUpdateTimestamp();
 		// testCreationTimestamp();
+		List<Customer> findAll = findFirstOrTopRepository.findAll();
+		findAll.forEach(t -> { //
+			System.out.println(t.getUpdatedAt());
+		});
 	}
 
 	public void testCreationTimestamp() throws InterruptedException {
@@ -35,7 +38,7 @@ public class AppRunner implements CommandLineRunner {
 			String email = name + "@" + name + ".com";
 			Customer entity = new Customer(name, email);
 			findFirstOrTopRepository.save(entity);
-			TimeUnit.SECONDS.sleep(10);
+			TimeUnit.SECONDS.sleep(2);
 		}
 	}
 

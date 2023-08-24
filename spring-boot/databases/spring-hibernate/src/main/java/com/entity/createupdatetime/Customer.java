@@ -5,29 +5,31 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /*-
- * Spring @CreatedDate và LastModifiedDate cần thêm cấu hình:
+ * - Spring @CreatedDate và @LastModifiedDate cần thêm cấu hình:
  * 
  * 		Add '@EnableJpaAuditing' -> Application.class
- * 
  * 		Add '@EntityListeners(AuditingEntityListener.class)'
+ * 
+ * - Định dạng thời gian cho field
+ * 
+ * 			@Temporal(TemporalType.TIME)			// 10:03:33
+			@Temporal(TemporalType.DATE) 			// 2023-08-24
+			@Temporal(TemporalType.TIMESTAMP)		// 2023-08-24 10:03:33.0
  */
 @Data
 @NoArgsConstructor
 @Entity
 @Table(name = "customer")
-@EntityListeners(AuditingEntityListener.class)
+// @EntityListeners(AuditingEntityListener.class)
 public class Customer {
 
 	@Id
