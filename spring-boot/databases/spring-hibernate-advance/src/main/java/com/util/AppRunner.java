@@ -1,5 +1,6 @@
 package com.util;
 
+import java.sql.Connection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,8 +74,11 @@ public class AppRunner implements CommandLineRunner {
 		// proceduce();
 		// queryDSLService();
 		// jdbcTemplateService();
-		// System.out.println(mysqlToolService.checkTableExits("categories"));
 		// mapStructServiceTest.convert();
+		// System.out.println(mysqlToolService.checkTableExist("categories"));
+		try (Connection connection = mysqlToolService.getConnection()) {
+			System.out.println(connection.getMetaData().getURL().toString());
+		};
 	}
 
 	public void selectSomeField() {
