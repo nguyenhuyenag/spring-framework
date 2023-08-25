@@ -17,7 +17,7 @@ import com.service.MappingQueryToPOJOService;
 import com.service.MySQLToolService;
 import com.service.ProcedureService;
 import com.service.QueryDSLService;
-import com.service.VocabService;
+import com.service.CriteriaService;
 import com.service.impl.MapStructServiceTest;
 
 @Component
@@ -27,7 +27,7 @@ public class AppRunner implements CommandLineRunner {
 	EntityManagerService emService;
 
 	@Autowired
-	VocabService vbService;
+	CriteriaService vbService;
 
 	@Autowired
 	PersonRepository repository;

@@ -1,4 +1,4 @@
-package com.entity;
+package com.entity.lifecycle;
 
 import javax.persistence.Column;
 import javax.persistence.PostLoad;

@@ -1,6 +1,6 @@
 package com.service;
 
-public interface VocabService {
+public interface CriteriaService {
 	
 	void CollectionParam();
 	

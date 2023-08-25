@@ -11,7 +11,7 @@ import org.springframework.jdbc.datasource.init.DataSourceInitializer;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 
 /*-
- * - Sử dụng `application.properties`
+ * - Hoặc sử dụng `application.properties`
  * 
  * 		spring.datasource.initialization-mode=always
  * 		# Tạo bảng

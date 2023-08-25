@@ -18,10 +18,10 @@ import org.springframework.stereotype.Service;
 
 import com.entity.Vocabulary;
 import com.repository.VocabRepository;
-import com.service.VocabService;
+import com.service.CriteriaService;
 
 @Service
-public class VocabServiceImpl implements VocabService {
+public class VocabServiceImpl implements CriteriaService {
 
 	@Autowired
 	private VocabRepository repository;

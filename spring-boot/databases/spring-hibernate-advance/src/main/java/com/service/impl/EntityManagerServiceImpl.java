@@ -16,7 +16,7 @@ import com.service.EntityManagerService;
 @Service
 public class EntityManagerServiceImpl implements EntityManagerService {
 
-	@PersistenceContext // or even @Autowired
+	@PersistenceContext // or @Autowired
 	private EntityManager entityManager;
 
 	@Override
