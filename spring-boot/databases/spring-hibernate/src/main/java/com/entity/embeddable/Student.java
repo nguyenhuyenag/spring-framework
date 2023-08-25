@@ -18,6 +18,12 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+/**
+ * @Embedded Xác định một thuộc tính của một thực thể (entity) chứa một đối
+ *           tượng nhúng (embedded object). Điều này cho phép ta nhúng một đối
+ *           tượng vào một thực thể để lưu trữ các trường của đối tượng nhúng
+ *           trong cùng bảng cơ sở dữ liệu với thực thể chính.
+ */
 @Getter
 @Setter
 @AllArgsConstructor
