@@ -6,6 +6,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.util.Base64Utils;
+
 @SpringBootApplication
 public class Application implements CommandLineRunner {
 
@@ -18,7 +20,7 @@ public class Application implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		System.out.println(encoder.encode("password"));
+		Base64Utils.base64Authen("user", "123456");
 	}
 
 }
