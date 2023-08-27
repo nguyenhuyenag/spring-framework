@@ -33,8 +33,8 @@ public class AuthController {
 //	}
 
 	@GetMapping("login")
-	public String loginPage(Model model, Principal principal, HttpServletRequest request, HttpServletResponse response)
-			throws IOException {
+	public String loginPage(Model model, Principal principal, //
+			HttpServletRequest request, HttpServletResponse response) throws IOException {
 		if (principal != null) {
 			System.out.println("[AuthController] Already Login");
 			return "redirect:/home";
