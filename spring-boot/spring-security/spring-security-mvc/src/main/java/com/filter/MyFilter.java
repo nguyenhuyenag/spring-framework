@@ -21,9 +21,16 @@ public class MyFilter extends OncePerRequestFilter {
 			FilterChain filterChain) throws ServletException, IOException {
 		String uri = request.getRequestURI();
 		StringBuffer url = request.getRequestURL();
-		System.out.println("[" + this.getClass().getSimpleName() + "] RequestURL: " + url);
-		System.out.println("[" + this.getClass().getSimpleName() + "] RequestURI: " + uri);
+		System.out.println("[" + this.getClass().getSimpleName() + "] URL: " + url);
+		System.out.println("[" + this.getClass().getSimpleName() + "] URI: " + uri);
 		filterChain.doFilter(request, response);
+	}
+
+	@Override
+	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+		String uri = request.getRequestURI();
+		// Bỏ qua những request dạng: /static/...
+		return uri != null && uri.startsWith("/static/");
 	}
 
 }
