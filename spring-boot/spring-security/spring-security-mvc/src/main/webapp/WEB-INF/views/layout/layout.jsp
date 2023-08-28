@@ -5,11 +5,8 @@
 <!DOCTYPE html>
 <html lang="vi">
 	<head>
-		<!-- <meta name="_csrf" content="${_csrf.token}"/>
-		<meta name="_csrf_header" content="${_csrf.headerName}"/> -->
 		<sec:csrfMetaTags />
-	    <!-- <meta charset="utf-8"> -->
-		<link rel="shortcut icon" href="#">
+		<link href="#" rel="shortcut icon">
 	    <base href='${pageContext.request.contextPath}/'/>
 	    <script src="<c:url value='/static/script/jquery.min.js'/>"></script>
 		<script src="<c:url value='/static/script/bootstrap.min.js'/>"></script>

@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import com.entity.BankAccount;
 import com.entity.createupdatetime.Customer;
 import com.repository.JpaDateTimeRepository;
 import com.repository.JpaFindFirstOrTopRepository;
@@ -31,7 +30,7 @@ public class AppRunner implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		// testUpdateTimestamp();
 		// testCreationTimestamp();
-		List<BankAccount> findAll = testRepository.findAll();
+		// List<BankAccount> findAll = testRepository.findAll();
 	}
 
 	public void testCreationTimestamp() throws InterruptedException {

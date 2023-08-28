@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.auth.LoginFailureHandler;
@@ -44,6 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+        http.csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()));
 		http.authorizeRequests(request -> {
 			// các trang không yêu cầu login
 			request.antMatchers(WHITE_LIST).permitAll()
@@ -51,7 +53,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 					.antMatchers("/admin").access("hasRole('ROLE_ADMIN')")
 					// yêu cầu phải login với vai trò ROLE_USER hoặc ROLE_ADMIN
 					// .access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
-					.antMatchers("/**").authenticated();
+					// .antMatchers("/**")
+					.anyRequest()
+					.authenticated();
 		});
 
 		// Cấu hình cho Login Form
