@@ -1,13 +1,8 @@
 package com.controller;
 
-import java.io.IOException;
 import java.security.Principal;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
@@ -32,26 +27,26 @@ public class AuthController {
 //	    return "loginUser";
 //	}
 
+//	Object savedRequest = request.getSession().getAttribute("SPRING_SECURITY_SAVED_REQUEST");
+//	if (savedRequest instanceof DefaultSavedRequest) {
+//		DefaultSavedRequest defaultSavedRequest = (DefaultSavedRequest) savedRequest;
+//		// String fullContextPath2 = request.getRequestURL().toString();
+//		// System.out.println("[AuthController] fullContextPath: " + fullContextPath2);
+//		if (!"/".equals(defaultSavedRequest.getRequestURI())) {
+//			LOG.info("Redirect from: {}", defaultSavedRequest.getRedirectUrl());
+//			// String nextId = WebUtils.setNextPage(defaultSavedRequest.getRedirectUrl());
+//			// return "redirect:/login?next=" + nextId; // Corrected line
+//			// response.sendRedirect("./login?next=" + nextId);
+//		}
+//	}
+
 	@GetMapping("login")
-	public String loginPage(Model model, Principal principal, //
-			HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public String login(Principal principal) {
 		if (principal != null) {
 			System.out.println("[AuthController] Already Login");
 			return "redirect:/home";
 		}
-		System.out.println("[AuthController] No Login");
-//		Object savedRequest = request.getSession().getAttribute("SPRING_SECURITY_SAVED_REQUEST");
-//		if (savedRequest instanceof DefaultSavedRequest) {
-//			DefaultSavedRequest defaultSavedRequest = (DefaultSavedRequest) savedRequest;
-//			// String fullContextPath2 = request.getRequestURL().toString();
-//			// System.out.println("[AuthController] fullContextPath: " + fullContextPath2);
-//			if (!"/".equals(defaultSavedRequest.getRequestURI())) {
-//				LOG.info("Redirect from: {}", defaultSavedRequest.getRedirectUrl());
-//				// String nextId = WebUtils.setNextPage(defaultSavedRequest.getRedirectUrl());
-//				// return "redirect:/login?next=" + nextId; // Corrected line
-//				// response.sendRedirect("./login?next=" + nextId);
-//			}
-//		}
+		System.out.println("[" + this.getClass().getSimpleName() + "] No Login");
 		return "login";
 	}
 

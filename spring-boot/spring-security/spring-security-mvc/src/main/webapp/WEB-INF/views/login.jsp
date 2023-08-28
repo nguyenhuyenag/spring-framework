@@ -58,8 +58,8 @@
 				</div>
 				<div class="row">
 					<ul>
-						<li class='pointer'>user/123</li>
-						<li class='pointer'>admin/123</li>
+						<li class='pointer'>user/123456</li>
+						<li class='pointer'>admin/123456</li>
 					</ul>
 				</div>
 				<button class="btn btn-primary w-100 mt-3" type="submit" value="submit">Đăng Nhập</button>

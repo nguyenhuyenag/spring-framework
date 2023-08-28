@@ -9,10 +9,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.util.Base64Utils;
 
 @SpringBootApplication
-public class Application implements CommandLineRunner {
+public class BasicAuthApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
+		SpringApplication.run(BasicAuthApplication.class, args);
 	}
 
 	@Autowired
@@ -21,6 +21,8 @@ public class Application implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		Base64Utils.base64Authen("user", "123456");
+		String encodeToString = encoder.encode("123456");
+		System.out.println(encodeToString);
 	}
 
 }
