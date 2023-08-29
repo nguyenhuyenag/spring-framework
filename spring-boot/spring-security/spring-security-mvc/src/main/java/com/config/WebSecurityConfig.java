@@ -11,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.auth.LoginFailureHandler;
@@ -38,24 +37,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.passwordEncoder(passwordEncoder()); // Cài đặt PasswordEncoder
 	}
 
-	private static final String[] WHITE_LIST = {
-		"/static/**",
-		"/login", "/logout"
-	};
+	private static final String[] WHITE_LIST = { "/static/**", "/login", "/logout" };
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()));
 		http.authorizeRequests(request -> {
-			// các trang không yêu cầu login
-			request.antMatchers(WHITE_LIST).permitAll()
-					// trang chỉ dành cho ADMIN
-					.antMatchers("/admin").access("hasRole('ROLE_ADMIN')")
-					// yêu cầu phải login với vai trò ROLE_USER hoặc ROLE_ADMIN
-					// .access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
-					// .antMatchers("/**")
-					.anyRequest()
-					.authenticated();
+			request.antMatchers(WHITE_LIST).permitAll() // Public URL
+				   // Trang chỉ dành cho ADMIN
+				   .antMatchers("/admin").access("hasRole('ROLE_ADMIN')")
+				   // .access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
+				   .anyRequest().authenticated();
 		});
 
 		// Cấu hình cho Login Form
@@ -66,11 +57,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.usernameParameter("username") //
 				.passwordParameter("password") //
 				.loginProcessingUrl("/j_spring_security_check") // the URL to submit the username and password to
-				// .defaultSuccessUrl("/") // the landing page after an unsuccessful login
-				.successHandler(myAuthenticationSuccessHandler())
+				.successHandler(successHandler())
 				.failureUrl("/login?error=true") //
 				.failureHandler(loginFailureHandler) //
-			.and() //
+				.and() //
 			.logout() //
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout")) // csrf logout
 				// .logoutSuccessHandler(logoutSuccessHandler());
@@ -81,21 +71,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// AccessDeniedException
 		http.authorizeRequests().and() //
 			.exceptionHandling() //
-			.accessDeniedPage("/403");
+				.accessDeniedPage("/403");
 
 		// Remember me
 		http.rememberMe() //
-			.key("mySecretKey") //
-			.rememberMeParameter("rememberMe") // name of checkbox at login page
-			.rememberMeCookieName("remember-me-name") //
-			.tokenValiditySeconds(1 * 24 * 60 * 60); // 1 days (default is 14 days)
+				.key("mySecretKey") //
+				.rememberMeParameter("rememberMe") // name of checkbox at login page
+				.rememberMeCookieName("remember-me-name") //
+				.tokenValiditySeconds(1 * 24 * 60 * 60); // 1 days (default is 14 days)
 
 		// http.sessionManagement().maximumSessions(1); // Limit login
 	}
-	
+
 	@Bean
-	public AuthenticationSuccessHandler myAuthenticationSuccessHandler(){
-	    return new MyAuthenticationSuccessHandler();
+	public AuthenticationSuccessHandler successHandler() {
+//		SimpleUrlAuthenticationSuccessHandler handler = new SimpleUrlAuthenticationSuccessHandler();
+//		handler.setUseReferer(true);
+//		handler.setDefaultTargetUrl("/");
+//		handler.setAlwaysUseDefaultTargetUrl(true);
+//		return handler;
+		return new MyAuthenticationSuccessHandler();
 	}
-	
+
 }

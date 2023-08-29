@@ -21,8 +21,7 @@
 
 <body>
 	<div class="container mt-5 d-flex justify-content-center align-items-center">
-		<div
-			class="d-flex flex-column justify-content-center align-items-center border w-50 py-5 shadow-lg rounded">
+		<div class="d-flex flex-column justify-content-center align-items-center border w-50 py-5 shadow-lg rounded">
 			<h1 class="mb-4">Đăng Nhập</h1>
 			<c:if test="${not empty param.error && not empty SPRING_SECURITY_LAST_EXCEPTION}">
 				<div class="alert alert-danger alert-dismissible fade show" style="width: 85%;">

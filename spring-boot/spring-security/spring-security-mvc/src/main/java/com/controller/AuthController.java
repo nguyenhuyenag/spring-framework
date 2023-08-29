@@ -42,11 +42,12 @@ public class AuthController {
 
 	@GetMapping("login")
 	public String login(Principal principal) {
-		if (principal != null) {
-			System.out.println("[AuthController] Already Login");
-			return "redirect:/home";
+		if (principal == null) {
+			System.out.println("[" + this.getClass().getSimpleName() + "] No Login");
+		} else {
+			System.out.println("[" + this.getClass().getSimpleName() + "] Already Login");
+			// return "redirect:/home";
 		}
-		System.out.println("[" + this.getClass().getSimpleName() + "] No Login");
 		return "login";
 	}
 

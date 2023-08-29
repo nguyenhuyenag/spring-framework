@@ -19,9 +19,9 @@ public class MyFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, //
 			FilterChain filterChain) throws ServletException, IOException {
+		// StringBuffer url = request.getRequestURL();
+		// System.out.println("[" + this.getClass().getSimpleName() + "] URL: " + url);
 		String uri = request.getRequestURI();
-		StringBuffer url = request.getRequestURL();
-		System.out.println("[" + this.getClass().getSimpleName() + "] URL: " + url);
 		System.out.println("[" + this.getClass().getSimpleName() + "] URI: " + uri);
 		filterChain.doFilter(request, response);
 	}
