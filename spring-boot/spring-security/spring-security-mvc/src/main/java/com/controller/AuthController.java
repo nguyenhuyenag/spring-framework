@@ -46,7 +46,7 @@ public class AuthController {
 			// System.out.println("[" + this.getClass().getSimpleName() + "] No Login");
 		} else {
 			// System.out.println("[" + this.getClass().getSimpleName() + "] Already Login");
-			return "redirect:/";
+			// return "redirect:/";
 		}
 		return "login";
 	}

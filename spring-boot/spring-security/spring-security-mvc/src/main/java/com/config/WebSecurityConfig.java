@@ -51,6 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.passwordParameter("password")
 				.loginProcessingUrl("/j_spring_security_check") //The URL to submit the username and password to
 				.successHandler(successHandler())
+				.defaultSuccessUrl("/")
 				.failureUrl("/login?error=true")
 				.failureHandler(failureHandler()))
 			.logout(logout -> logout
@@ -64,7 +65,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.exceptionHandling(handling -> handling.accessDeniedPage("/403"));
 				
 		http.rememberMe(remember -> {
-			int millis = (int) TimeUnit.MINUTES.toSeconds(1);
+			int millis = (int) TimeUnit.DAYS.toSeconds(1);
 			// System.out.println("rememberMe: " + millis + "s");
 			remember.key("secretAndUnique")
 					.rememberMeParameter("rememberMe") // Name of checkbox at login page
@@ -75,14 +76,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// http.sessionManagement().maximumSessions(1); // Limit login (thiết bị đăng nhập)
 	}
 	
-	@Bean
-	public AuthenticationFailureHandler failureHandler() {
-		return new LoginFailureHandler();
-	}
 
 	@Bean
 	public AuthenticationSuccessHandler successHandler() {
 		return new MyAuthenticationSuccessHandler();
+	}
+	
+	@Bean
+	public AuthenticationFailureHandler failureHandler() {
+		return new LoginFailureHandler();
 	}
 	
 	@Bean
