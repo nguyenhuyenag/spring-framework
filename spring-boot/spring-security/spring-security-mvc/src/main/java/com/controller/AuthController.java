@@ -43,10 +43,10 @@ public class AuthController {
 	@GetMapping("login")
 	public String login(Principal principal) {
 		if (principal == null) {
-			System.out.println("[" + this.getClass().getSimpleName() + "] No Login");
+			// System.out.println("[" + this.getClass().getSimpleName() + "] No Login");
 		} else {
-			System.out.println("[" + this.getClass().getSimpleName() + "] Already Login");
-			// return "redirect:/home";
+			// System.out.println("[" + this.getClass().getSimpleName() + "] Already Login");
+			return "redirect:/";
 		}
 		return "login";
 	}

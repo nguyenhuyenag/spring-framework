@@ -1,12 +1,14 @@
 package com.filter;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -28,9 +30,10 @@ public class MyFilter extends OncePerRequestFilter {
 
 	@Override
 	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-		String uri = request.getRequestURI();
-		// Bỏ qua những request dạng: /static/...
-		return uri != null && uri.startsWith("/static/");
+		String uri = StringUtils.defaultString(request.getRequestURI());
+		// Bỏ qua những request này
+		String[] excludedPrefixes = { "/static/", "/j_spring_security_check" };
+		return Arrays.stream(excludedPrefixes).anyMatch(prefix -> uri.startsWith(prefix));
 	}
 
 }
