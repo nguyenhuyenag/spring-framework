@@ -13,7 +13,7 @@ public class UserService {
 	// private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
 
 	@Autowired
-	NamedParameterJdbcTemplate namedJdbcTemplate;
+	private NamedParameterJdbcTemplate namedJdbcTemplate;
 
 	public List<String> getRolesByUserId(int userId) {
 		String sql = "SELECT t1.role_name" //

@@ -6,8 +6,8 @@
 	<link rel="shortcut icon" href="#">
 </head>
 
+<!-- Nếu role != ADMIN sẽ hiển thị trang 403.jsp -->
 <body>
-
 	<h2>Admin Page</h2>
 	<h3>
 		Welcome: <span>${pageContext.request.userPrincipal.name}</span>
@@ -21,4 +21,3 @@
 		<div>${userInfo}</div>
 	</c:if>
 </body>
-

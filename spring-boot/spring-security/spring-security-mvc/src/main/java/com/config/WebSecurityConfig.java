@@ -20,6 +20,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.auth.LoginFailureHandler;
 import com.auth.MyAuthenticationSuccessHandler;
+import com.util.Roles;
 
 @Configuration
 @EnableWebSecurity
@@ -34,14 +35,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.passwordEncoder(passwordEncoder());	// Cài đặt PasswordEncoder
 	}
 
-	private static final String[] AUTH_WHITELIST = { "/static/**", "/login", "/logout", "/favicon.ico" };
+	private final String[] AUTH_WHITELIST = { "/static/**", "/login", "/logout", "/favicon.ico" };
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests(request -> request
 				.antMatchers(AUTH_WHITELIST).permitAll() // Public URL
-				// .access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
-				.antMatchers("/admin").access("hasRole('ROLE_ADMIN')")
+				.antMatchers("/admin").hasAuthority(Roles.ROLE_ADMIN.name())
 				.anyRequest().authenticated());
 			
 		http.authorizeRequests(withDefaults())

@@ -20,7 +20,9 @@
 </style>
 
 <div class="container">
-	<h2 class="text-center"><a href="https://docs.spring.io/spring-security/site/docs/4.2.x/reference/html/taglibs.html">Spring Security - Taglib</a></h2>
+	<h2 class="text-center">
+		<a target="_blank" href="https://docs.spring.io/spring-security/site/docs/4.2.x/reference/html/taglibs.html">Spring Security - Taglib</a>
+	</h2>
 	Thêm thẻ
 	<pre>
 		&lt;%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%&gt;

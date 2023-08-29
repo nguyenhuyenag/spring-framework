@@ -42,6 +42,6 @@ insert into `role` values
 	(3,'ROLE_USER');
 
 insert into `user`(username, password) values 
-	('admin','$2a$10$FmFXnXCQcqZyzMQ0JNtXN.Btw3/ItGPZkptxx6yurfiAPMZ2z98WO'),
-	('user','$2a$10$FmFXnXCQcqZyzMQ0JNtXN.Btw3/ItGPZkptxx6yurfiAPMZ2z98WO');
+	('admin','$2a$10$9iZ5IH756P2K7GvRJvZv8.WrPQ65qeOh.u.Ps.o06IQsbR9lyFCeW'),
+	('user','$2a$10$9iZ5IH756P2K7GvRJvZv8.WrPQ65qeOh.u.Ps.o06IQsbR9lyFCeW');
 

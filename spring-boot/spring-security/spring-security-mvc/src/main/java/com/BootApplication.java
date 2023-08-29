@@ -10,10 +10,12 @@ public class BootApplication implements CommandLineRunner {
 	public static void main(String[] args) {
 		SpringApplication.run(BootApplication.class, args);
 	}
+	
 
 	@Override
 	public void run(String... args) throws Exception {
-
+		// PasswordEncoder p = new BCryptPasswordEncoder();
+		// System.out.println(p.encode("123456"));
 	}
 
 }
