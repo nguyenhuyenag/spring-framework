@@ -16,14 +16,13 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
-import org.springframework.stereotype.Component;
 
 import com.entity.User;
 import com.repository.UserRepository;
 import com.util.LoginAttemptService;
 import com.util.RequestUtils;
 
-@Component
+// @Component
 public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
 	private static final Logger LOG = LoggerFactory.getLogger(LoginFailureHandler.class);

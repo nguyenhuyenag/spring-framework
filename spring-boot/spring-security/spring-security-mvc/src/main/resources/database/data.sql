@@ -4,6 +4,13 @@ CREATE DATABASE spring_security_mvc;
 
 USE spring_security_mvc;
 
+create table persistent_logins (
+    username varchar(64) not null,
+    series varchar(64) primary key,
+    token varchar(64) not null,
+    last_used timestamp not null
+);
+
 create table `user` (
 	`user_id` bigint not null auto_increment,
 	`username` varchar(36) not null,
