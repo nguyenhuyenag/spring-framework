@@ -2,6 +2,7 @@ package com.controller;
 
 import java.security.Principal;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,17 @@ public class UserController {
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	// JDK 17
+	private Optional<User> castUser(Principal principal) {
+		if (principal instanceof Authentication auth) {
+			if (auth.getPrincipal() instanceof User user) {
+				return Optional.of(user);
+			}
+		}
+		// (User) ((Authentication) principal).getPrincipal();
+		return Optional.empty();
+	}
 
 	@GetMapping("user-info")
 	public String userInfo(Model model, Principal principal) {
@@ -37,9 +49,11 @@ public class UserController {
 		if (principal != null) {
 			System.out.println("From Principal");
 			System.out.println("Username: " + principal.getName());
-			User loginedUser = (User) ((Authentication) principal).getPrincipal();
-			String userInfo = WebUtils.toString(loginedUser);
-			model.addAttribute("userInfo", userInfo);
+			Optional<User> optUser = castUser(principal);
+			optUser.ifPresent(u -> {
+				String userInfo = WebUtils.toString(u);
+				model.addAttribute("userInfo", userInfo);
+			});
 		}
 		// Cach 2
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();

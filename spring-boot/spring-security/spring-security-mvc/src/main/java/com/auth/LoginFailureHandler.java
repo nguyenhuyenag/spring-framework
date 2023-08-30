@@ -25,7 +25,7 @@ import com.util.RequestUtils;
 // @Component
 public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
-	private static final Logger LOG = LoggerFactory.getLogger(LoginFailureHandler.class);
+	private final Logger LOG = LoggerFactory.getLogger(LoginFailureHandler.class);
 
 	@Autowired
 	private UserRepository repository;

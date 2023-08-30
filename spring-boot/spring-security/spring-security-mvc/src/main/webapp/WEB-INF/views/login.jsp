@@ -21,8 +21,8 @@
 
 <body>
 	<sec:authorize access="isAuthenticated()">
-		<div class="alert alert-success alert-dismissible fade show text-center mt-3">
-			<p>You are already logged in. Please click here to return to the forum list.</p>
+		<div class="alert alert-secondary text-center mt-3">
+			<p>You are already logged in. Please click <a href="/">here</a> to return to the forum list.</p>
 		</div>
 	</sec:authorize>
 	<sec:authorize access="!isAuthenticated()">

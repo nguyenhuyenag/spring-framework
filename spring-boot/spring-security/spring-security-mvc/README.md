@@ -11,3 +11,7 @@
 						.access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
 						
 	- Ta có: hasRole() = hasAuthority('ROLE_' + role)
+
+# Khác
+
+	server.servlet.session.timeout=30s
