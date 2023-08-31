@@ -119,8 +119,6 @@ public class FTPController {
 	public ResponseEntity<Resource> downloadFromUrl(String fileId) throws IOException {
 		FileStore file = fileStoreService.findByFileId(fileId);
 		MediaType mediaType = MediaTypeUtils.fromFileName(file.getFileName());
-		// System.out.println("mediaType: " + mediaType);
-		// System.out.println("fileName: " + file.getFileName());
 		String fileContent = file.getFileContent();
 		byte[] data = Base64Utils.decodeToByte(fileContent);
 		return ResponseEntity.ok() //
@@ -129,15 +127,6 @@ public class FTPController {
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + file.getFileName()) //
 				.body(new ByteArrayResource(data));
 	}
-
-//	public Resource loadFile(String base64String) {
-//		byte[] decodedBytes = Base64Utils.decodeToByte(base64String);
-//		Resource resource = new ByteArrayResource(decodedBytes);
-//		if (resource.exists() || resource.isReadable()) {
-//			return resource;
-//		}
-//		return null;
-//	}
 
 	private static void showAllHeaderFields(String downloadUrl) throws IOException {
 		URLConnection conn = URI.create(downloadUrl).toURL().openConnection();
@@ -160,13 +149,10 @@ public class FTPController {
 
 	private static String getFileName(URL url) throws IOException {
 		URLConnection conn = url.openConnection();
-		// get and verify the header field
 		String fieldValue = conn.getHeaderField("Content-Disposition");
 		if (fieldValue == null || !fieldValue.contains("filename=")) {
-			// no file name there -> throw exception ...
 			return "";
 		}
-		// parse the file name from the header field
 		return fieldValue.substring(fieldValue.indexOf("filename=") + 9, fieldValue.length());
 	}
 
