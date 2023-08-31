@@ -143,8 +143,6 @@ public class FTPController {
 		// parse the file name from the header field
 		String filename = fieldValue.substring(fieldValue.indexOf("filename=") + 9, fieldValue.length());
 		System.out.println("FileName: " + filename);
-		// create file in systems temporary directory
-		// File download = new File(System.getProperty("java.io.tmpdir"), filename);
 	}
 
 	private static String getFileName(URL url) throws IOException {

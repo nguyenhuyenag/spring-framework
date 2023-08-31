@@ -18,14 +18,12 @@
 		<p><a href="/">Back</a></p>
 		<h2>Download file using Ajax</h2>
 		<form>
-			<!-- <input type="text" id="url" style="width: 500px;" required value="http://localhost:8080/ftp/download-file?fileid=J9VWJBPIJKQCMFY4F8UM" /> -->
 			<div class="input-group mb-3">
 				<div class="input-group-prepend">
 					<span class="input-group-text" id="basic-addon1">http://localhost:8080/ftp/download-from-url?fileId=</span>
 				</div>
 				<input type="text" id="fileId" class="form-control" value="b24569b7-9e34-4c88-88fd-8a8c694517dc">
 			</div>
-			<br /> <br />
 		</form>
 		<button id="btn-download">Download</button>
 	</div>
@@ -36,6 +34,7 @@
 					type : "POST",
 					url : "download-from-url?fileId=" + encodeURIComponent($("#fileId").val()),
 					success: function (data, textStatus, request) {
+						// console.log(request.getResponseHeader('Content-Disposition'));
 						var filename = request.getResponseHeader('Content-Disposition')
 											.split(';')[1]
 											.trim()
@@ -45,8 +44,8 @@
 						var blob = new Blob([data], { type: "application/octet-stream" });
 						var url = window.URL.createObjectURL(blob);
 						var a = document.createElement("a");
-						a.style.display = "none";
 						a.href = url;
+						a.style.display = "none";
 						a.download = filename || "file.ext";
 						document.body.appendChild(a);
 						a.click();
