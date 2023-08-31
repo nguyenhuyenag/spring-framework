@@ -16,6 +16,7 @@ import java.util.Map;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +42,7 @@ public class FTPController {
 	private static final String DEFAULT_ID = "J9VWJBPIJKQCMFY4F8UM";
 
 	@Autowired
-	FileStoreService fileStoreService;
+	private FileStoreService fileStoreService;
 
 	@GetMapping("upload")
 	public String upload() {
@@ -95,7 +96,7 @@ public class FTPController {
 	}
 
 	@GetMapping("download-file")
-	public ResponseEntity<?> download(@RequestParam(defaultValue = DEFAULT_ID) String fileid) {
+	public ResponseEntity<ByteArrayResource> download(@RequestParam(defaultValue = DEFAULT_ID) String fileid) {
 		FileStore file = fileStoreService.findByFileId(fileid);
 		MediaType mediaType = MediaTypeUtils.fromFileName(file.getFileName());
 		// System.out.println("mediaType: " + mediaType);
@@ -113,6 +114,30 @@ public class FTPController {
 	public String downloadFromUrlView() {
 		return "download-from-url";
 	}
+
+	@PostMapping("download-from-url")
+	public ResponseEntity<Resource> downloadFromUrl(String fileId) throws IOException {
+		FileStore file = fileStoreService.findByFileId(fileId);
+		MediaType mediaType = MediaTypeUtils.fromFileName(file.getFileName());
+		// System.out.println("mediaType: " + mediaType);
+		// System.out.println("fileName: " + file.getFileName());
+		String fileContent = file.getFileContent();
+		byte[] data = Base64Utils.decodeToByte(fileContent);
+		return ResponseEntity.ok() //
+				.contentType(mediaType) //
+				.contentLength(data.length) //
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + file.getFileName()) //
+				.body(new ByteArrayResource(data));
+	}
+
+//	public Resource loadFile(String base64String) {
+//		byte[] decodedBytes = Base64Utils.decodeToByte(base64String);
+//		Resource resource = new ByteArrayResource(decodedBytes);
+//		if (resource.exists() || resource.isReadable()) {
+//			return resource;
+//		}
+//		return null;
+//	}
 
 	private static void showAllHeaderFields(String downloadUrl) throws IOException {
 		URLConnection conn = URI.create(downloadUrl).toURL().openConnection();
@@ -132,7 +157,7 @@ public class FTPController {
 		// create file in systems temporary directory
 		// File download = new File(System.getProperty("java.io.tmpdir"), filename);
 	}
-	
+
 	private static String getFileName(URL url) throws IOException {
 		URLConnection conn = url.openConnection();
 		// get and verify the header field
@@ -146,7 +171,7 @@ public class FTPController {
 	}
 
 	private static long downloadFile(String downloadUrl) throws IOException {
-		showAllHeaderFields(downloadUrl);
+		// showAllHeaderFields(downloadUrl);
 		URL url = URI.create(downloadUrl).toURL();
 		try (InputStream is = url.openStream()) {
 			byte[] byteArray = IOUtils.toByteArray(is);
@@ -161,12 +186,6 @@ public class FTPController {
 			// Files.write(path, byteArray);
 			return Files.copy(input, path, StandardCopyOption.REPLACE_EXISTING);
 		}
-	}
-
-	@PostMapping("download-from-url")
-	public ResponseEntity<?> downloadFromUrl(String url) throws IOException {
-		downloadFile(url);
-		return null;
 	}
 
 }

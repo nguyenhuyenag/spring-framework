@@ -1,48 +1,63 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
-<%-- <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> --%>
-<%-- <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> --%>
 
 <!DOCTYPE html>
 <html>
 <head>
 	<title>Download from URL</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<style>
-		table, th, td {
-			border: 1px solid black;
-			border-collapse: collapse;
-		}
 		button {
-			cursor: pointer;
+			cursor: pointer !important;
 		}
 	</style>
+</head>
+<body>
+	<div class="container">
+		<p><a href="/">Back</a></p>
+		<h2>Download file using Ajax</h2>
+		<form>
+			<!-- <input type="text" id="url" style="width: 500px;" required value="http://localhost:8080/ftp/download-file?fileid=J9VWJBPIJKQCMFY4F8UM" /> -->
+			<div class="input-group mb-3">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="basic-addon1">http://localhost:8080/ftp/download-from-url?fileId=</span>
+				</div>
+				<input type="text" id="fileId" class="form-control" value="b24569b7-9e34-4c88-88fd-8a8c694517dc">
+			</div>
+			<br /> <br />
+		</form>
+		<button id="btn-download">Download</button>
+	</div>
 	<script type="text/javascript">
 		$(function() {
-			$('#btn-download').on('click', function(){
+			$('#btn-download').on('click', function() {
 				$.ajax({
 					type : "POST",
-					contentType : "application/json",
-					url : "download-from-url?url=" + encodeURIComponent($("#url").val()),
-					success : function(data) {
-						
+					url : "download-from-url?fileId=" + encodeURIComponent($("#fileId").val()),
+					success: function (data, textStatus, request) {
+						var filename = request.getResponseHeader('Content-Disposition')
+											.split(';')[1]
+											.trim()
+											.split('=')[1]
+											.replace(/["']/g, '');
+
+						var blob = new Blob([data], { type: "application/octet-stream" });
+						var url = window.URL.createObjectURL(blob);
+						var a = document.createElement("a");
+						a.style.display = "none";
+						a.href = url;
+						a.download = filename || "file.ext";
+						document.body.appendChild(a);
+						a.click();
+						window.URL.revokeObjectURL(url);
 					},
-					error : function(e) {
-						console.log("ERROR: ", e);
+					error: function (error) {
+						console.error("Error:", error);
 					}
 				});
 			});
 		});
 	</script>
-</head>
-<body>
-	<div class="container">
-		<p><a href="/">Back</a></p>
-		<h2>Download from URL</h2>
-		<form>
-			<input type="text" id="url" style="width: 500px;" required value="http://localhost:8080/ftp/download-file?fileid=J9VWJBPIJKQCMFY4F8UM" />
-			<br /> <br />
-			<button type="submit" id="btn-download">Download</button>
-		</form>
-	</div>
 </body>
 </html>
