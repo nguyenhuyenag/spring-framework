@@ -38,7 +38,7 @@
 	</script>
 </head>
 <body>
-	<h2>HttpServletRequest</h2>
+	<h2>1) HttpServletRequest from 'pageContext'</h2>
 	<div id="dynamicUL"></div>
 	<%
 		// Map<String, String[]> map = request.getParameterMap();
