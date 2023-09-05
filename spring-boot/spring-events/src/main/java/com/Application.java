@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
-import com.event.CustomSpringEventPublisher;
+import com.publisher.PublisherEvent;
 
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer implements CommandLineRunner {
@@ -30,7 +30,7 @@ public class Application extends SpringBootServletInitializer implements Command
 	}
 
 	@Autowired
-	CustomSpringEventPublisher customSpringEventPublisher;
+	PublisherEvent customSpringEventPublisher;
 
 	public void doSend() throws InterruptedException {
 		int i = 0;
