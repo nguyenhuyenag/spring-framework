@@ -15,8 +15,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.auth.CustomLogoutHandler;
 import com.auth.LoginFailureHandler;
 import com.util.Roles;
 
@@ -55,6 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.failureUrl("/login?error=true")
 				.failureHandler(failureHandler()))
 			.logout(logout -> logout
+				.logoutSuccessHandler(logoutSuccessHandler())
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout")) // Csrf logout
 				.logoutSuccessUrl("/login?logout")
 				.invalidateHttpSession(true)
@@ -83,6 +86,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public AuthenticationFailureHandler failureHandler() {
 		return new LoginFailureHandler();
+	}
+	
+	@Bean
+	public LogoutSuccessHandler logoutSuccessHandler() {
+		return new CustomLogoutHandler();
 	}
 	
 	@Bean
