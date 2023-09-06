@@ -18,6 +18,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Order(Ordered.HIGHEST_PRECEDENCE) // important
 public class MyFilter extends OncePerRequestFilter {
 
+	String[] excludedPrefixes = { "/static", "/j_spring_security_check" };
+
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, //
 			FilterChain filterChain) throws ServletException, IOException {
@@ -31,9 +33,11 @@ public class MyFilter extends OncePerRequestFilter {
 	@Override
 	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
 		String uri = StringUtils.defaultString(request.getRequestURI());
+		String contextPath = request.getContextPath();
 		// Bỏ qua những request này
-		String[] excludedPrefixes = { "/static/", "/j_spring_security_check" };
-		return Arrays.stream(excludedPrefixes).anyMatch(prefix -> uri.startsWith(prefix));
+		return Arrays.stream(excludedPrefixes) //
+				.map(s -> contextPath + s) //
+				.anyMatch(item -> uri.startsWith(item));
 	}
 
 }
