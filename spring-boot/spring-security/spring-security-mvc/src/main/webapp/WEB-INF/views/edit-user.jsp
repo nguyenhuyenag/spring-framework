@@ -11,7 +11,7 @@
 		<div class="alert alert-danger text-center">
     	<p>Reason: <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/></p>
     	</div>
-	</c:if>
+	</c:if>	
 	<form action="${CONTEXT_PATH}/edit-user" method='POST'>
 		<table>
 			<tr>

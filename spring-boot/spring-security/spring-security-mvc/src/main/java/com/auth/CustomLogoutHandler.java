@@ -10,14 +10,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
 
-// @Service
 public class CustomLogoutHandler extends SimpleUrlLogoutSuccessHandler implements LogoutSuccessHandler {
 
 	@Override
-	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
-			throws IOException, ServletException {
+	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, //
+			Authentication authentication) throws IOException, ServletException {
 		String username = getAuthenticatedUserName(authentication);
-		System.out.println("[" + this.getClass().getSimpleName() + "] " + "The user `" + username + "` has logged out.");
+		System.out.println("[" + this.getClass().getSimpleName() + "] " //
+				+ "The user `" + username + "` has logged out.");
 		super.onLogoutSuccess(request, response, authentication);
 	}
 

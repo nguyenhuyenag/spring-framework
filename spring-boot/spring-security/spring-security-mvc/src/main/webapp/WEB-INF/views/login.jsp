@@ -42,15 +42,13 @@
 					<div class="form-group row">
 						<label for="inputUsername" class="col-3 col-form-label">Tài Khoản:</label>
 						<div class="col-9">
-							<input type="text" name="username" class="form-control" id="inputUsername"
-								placeholder="Tài Khoản" />
+							<input class="form-control" name="username" id="inputUsername" placeholder="Tài Khoản" value="user" />
 						</div>
 					</div>
 					<div class="form-group row">
 						<label for="inputPassword" class="col-sm-3 col-form-label">Mật khẩu:</label>
 						<div class="col-sm-9">
-							<input type="password" name="password" class="form-control" id="inputPassword"
-								placeholder="Mật khẩu" />
+							<input type="password" class="form-control" name="password" id="inputPassword" placeholder="Mật khẩu" value="123456" />
 						</div>
 					</div>
 					<div class="form-group row">
