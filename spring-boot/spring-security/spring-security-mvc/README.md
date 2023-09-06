@@ -12,6 +12,8 @@
 						
 	- Ta có: hasRole() = hasAuthority('ROLE_' + role)
 
-# Khác
+# Session timeout
 
 	server.servlet.session.timeout=30s
+	
+	- Session timeout > Remember me

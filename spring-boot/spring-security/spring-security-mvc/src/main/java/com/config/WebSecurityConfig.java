@@ -57,8 +57,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.failureUrl("/login?error=true")
 				.failureHandler(failureHandler()))
 			.logout(logout -> logout
-				.logoutSuccessHandler(logoutSuccessHandler())
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout")) // Csrf logout
+				.logoutSuccessHandler(logoutSuccessHandler())
 				.logoutSuccessUrl("/login?logout")
 				.invalidateHttpSession(true)
 				.deleteCookies("JSESSIONID"));

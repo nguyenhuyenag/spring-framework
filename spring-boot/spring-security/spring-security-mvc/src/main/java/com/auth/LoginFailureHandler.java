@@ -1,6 +1,9 @@
 package com.auth;
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.ServletException;
@@ -11,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.AuthenticationException;
@@ -18,14 +22,16 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
 import com.entity.User;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.repository.UserRepository;
 import com.util.LoginAttemptService;
 import com.util.RequestUtils;
 
-// @Component
 public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
 	private final Logger LOG = LoggerFactory.getLogger(LoginFailureHandler.class);
+	
+	private ObjectMapper objectMapper = new ObjectMapper();
 
 	@Autowired
 	private UserRepository repository;
@@ -43,11 +49,20 @@ public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 				exception = handleError(opt.get());
 			}
 		}
+		
 		// Login failed by BadCredentialsException (username or password incorrect)
 		if (exception.getClass().isAssignableFrom(BadCredentialsException.class)) {
 			LOG.info("IP: {}", RequestUtils.getClientIPAddress(request));
 			loginAttemptService.loginFailed(RequestUtils.getClientIPAddress(request));
 		}
+		
+		// 
+		response.setStatus(HttpStatus.UNAUTHORIZED.value());
+		Map<String, Object> data = new HashMap<>();
+		data.put("timestamp", Calendar.getInstance().getTime());
+		data.put("exception", exception.getMessage());
+		response.getOutputStream().println(objectMapper.writeValueAsString(data));
+
 		super.setDefaultFailureUrl("/login?error=true");
 		super.onAuthenticationFailure(request, response, exception);
 	}

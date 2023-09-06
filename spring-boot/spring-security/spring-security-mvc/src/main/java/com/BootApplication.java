@@ -15,6 +15,7 @@ public class BootApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		// PasswordEncoder p = new BCryptPasswordEncoder();
 		// System.out.println(p.encode("123456"));
+		// System.out.println(TimeUnit.HOURS.toMillis(1));
 	}
 
 }
