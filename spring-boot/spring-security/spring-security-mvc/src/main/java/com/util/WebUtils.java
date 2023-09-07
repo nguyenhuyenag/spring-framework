@@ -26,10 +26,10 @@ public class WebUtils {
 	public static String toString(UserDetails user) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Username: ") //
-				.append(user.getUsername()) //
-				.append(", Role: ");
-		StringJoiner sj = new StringJoiner(", ", "[", "]");
+			   .append(user.getUsername()) //
+			   .append(", Role: ");
 		Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
+		StringJoiner sj = new StringJoiner(", ", "[", "]");
 		for (GrantedAuthority grant : authorities) {
 			sj.add(grant.toString());
 		}
@@ -37,19 +37,5 @@ public class WebUtils {
 		// Or using: StringUtils.join(authorities, ",");
 		return builder.toString();
 	}
-
-//	public static String getRedirectUrl() {
-//		Object savedRequest = dependency.getSession().getAttribute("SPRING_SECURITY_SAVED_REQUEST");
-//		if (savedRequest instanceof DefaultSavedRequest) {
-//			DefaultSavedRequest defaultSavedRequest = (DefaultSavedRequest) savedRequest;
-//			// String fullContextPath2 = request.getRequestURL().toString();
-//			// System.out.println("[AuthController] fullContextPath: " + fullContextPath2);
-//			if (!"/".equals(defaultSavedRequest.getRequestURI())) {
-//				LOG.info("Redirect from: {}", defaultSavedRequest.getRedirectUrl());
-//				return defaultSavedRequest.getRedirectUrl();
-//			}
-//		}
-//		return "";
-//	}
 
 }
