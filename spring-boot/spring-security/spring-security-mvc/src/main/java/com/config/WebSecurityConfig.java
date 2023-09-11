@@ -16,6 +16,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter;
+import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter.Directive;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.auth.CustomLogoutHandler;
@@ -73,6 +75,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 					.rememberMeCookieName("remember-me-name")
 					.tokenValiditySeconds(millis);
 		});
+		
+		// Cấu hình các quy tắc bảo mật khác ở đây
+		http.headers()
+			.addHeaderWriter(new ClearSiteDataHeaderWriter( // 
+					Directive.CACHE, Directive.COOKIES, Directive.STORAGE));
 
 		// http.sessionManagement().maximumSessions(1); // Limit login (thiết bị đăng nhập)
 	}
