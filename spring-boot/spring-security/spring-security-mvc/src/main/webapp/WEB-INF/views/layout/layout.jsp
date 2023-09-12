@@ -12,6 +12,7 @@
 		<script src="<c:url value='/static/script/bootstrap.min.js'/>"></script>
 	    <script src="https://momentjs.com/downloads/moment.js"></script>
 	    <link rel="stylesheet" href="<c:url value='static/css/bootstrap.min.css'/>">
+	    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
 	    <c:set var="CONTEXT_PATH" value="${pageContext.request.contextPath}" scope="session"/>
 	    <style>
 	    	button, input[type=submit] {

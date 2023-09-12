@@ -40,13 +40,13 @@
 				</c:if>
 				<form class="w-75" action="${CONTEXT_PATH}/j_spring_security_check" method="POST">
 					<div class="form-group row">
-						<label for="inputUsername" class="col-3 col-form-label">Tài Khoản:</label>
+						<label class="col-3 col-form-label" for="username">Username:</label>
 						<div class="col-9">
 							<input class="form-control" name="username" id="inputUsername" placeholder="Tài Khoản" value="user" />
 						</div>
 					</div>
 					<div class="form-group row">
-						<label for="inputPassword" class="col-sm-3 col-form-label">Mật khẩu:</label>
+						<label class="col-3 col-form-label" for="password" >Password:</label>
 						<div class="col-sm-9">
 							<input type="password" class="form-control" name="password" id="inputPassword" placeholder="Mật khẩu" value="1234560" />
 						</div>

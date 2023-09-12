@@ -35,13 +35,15 @@ public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) throws IOException, ServletException {
 
+		System.out.println("[" + this.getClass().getSimpleName() + "] Exception: " + exception.getMessage());
+		
 		String email = request.getParameter("username");
-
+		
 		Optional<User> opt = repository.findByUsername(email);
 		if (opt.isPresent()) {
-			exception = handleError(opt.get());
+			// exception = handleError(opt.get());
 		}
-
+		
 		// Login failed by BadCredentialsException (username or password incorrect)
 		if (exception.getClass().isAssignableFrom(BadCredentialsException.class)) {
 			LOG.info("IP: {}", RequestUtils.getClientIPAddress(request));
