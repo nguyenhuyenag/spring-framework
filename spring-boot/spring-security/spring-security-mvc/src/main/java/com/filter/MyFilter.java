@@ -27,6 +27,7 @@ public class MyFilter extends OncePerRequestFilter {
 		// System.out.println("[" + this.getClass().getSimpleName() + "] URL: " + url);
 		String uri = request.getRequestURI();
 		System.out.println("[" + this.getClass().getSimpleName() + "] URI: " + uri);
+		// System.out.println("ClientIP: " + getClientIP(request));
 		filterChain.doFilter(request, response);
 	}
 
@@ -38,6 +39,14 @@ public class MyFilter extends OncePerRequestFilter {
 		return Arrays.stream(excludedPrefixes) //
 				.map(s -> contextPath + s) //
 				.anyMatch(item -> uri.startsWith(item));
+	}
+
+	protected String getClientIP(HttpServletRequest request) {
+		String xfHeader = request.getHeader("X-Forwarded-For");
+		if (xfHeader == null || xfHeader.isEmpty() || !xfHeader.contains(request.getRemoteAddr())) {
+			return request.getRemoteAddr();
+		}
+		return xfHeader.split(",")[0];
 	}
 
 }

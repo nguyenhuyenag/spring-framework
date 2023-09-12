@@ -43,16 +43,19 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		if (loginAttemptService.isBlocked(ip)) {
 			throw new BadCredentialsException("BLOCK_IP");
 		}
+		
 		Optional<User> opt = repository.findByUsername(username);
 		if (opt.isEmpty()) {
 			LOG.info("User `{}` was not found!", username);
 			throw new UsernameNotFoundException("User `" + username + "` was not found!");
 		}
+		
 		User user = opt.get();
 		if (user.isDisabled()) {
 			LOG.info("User `{}` is disabled", username);
 			// throw new BadCredentialsException("USER_DISABLED");
 		}
+		
 		// [ROLE_USER, ROLE_ADMIN, ...]
 		List<GrantedAuthority> roles = userService.getGrantedAuthorityByUserId(user.getUserId());
 		LOG.info("Roles of `{}`: {}", user.getUsername(), roles);
@@ -60,6 +63,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 				.withUsername(user.getUsername()) //
 				.password(user.getPassword()) ///
 				.disabled(user.isDisabled()) //
+				// .accountLocked(false)
 				.authorities(roles) //
 				.build();
 	}

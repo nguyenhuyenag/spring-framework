@@ -48,7 +48,7 @@
 					<div class="form-group row">
 						<label for="inputPassword" class="col-sm-3 col-form-label">Mật khẩu:</label>
 						<div class="col-sm-9">
-							<input type="password" class="form-control" name="password" id="inputPassword" placeholder="Mật khẩu" value="123456" />
+							<input type="password" class="form-control" name="password" id="inputPassword" placeholder="Mật khẩu" value="1234560" />
 						</div>
 					</div>
 					<div class="form-group row">
