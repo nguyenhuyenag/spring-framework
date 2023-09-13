@@ -19,16 +19,18 @@
 			let showPassword = false;
 			$('#toggle-eye').click(function() {
 				showPassword = !showPassword;
-				// console.log(showPassword);
-				if (showPassword) {
-					$('#hide_eye').addClass('d-none');
-					$('#show_eye').removeClass('d-none');
-				} else {
-					$('#show_eye').addClass('d-none');
-					$('#hide_eye').removeClass('d-none');
-				}
-				const currentType = $('#inputPassword').attr("type");
-    			$('#inputPassword').attr("type", (currentType === "text") ? "password" : "text");
+				
+				const hideEye = $('#hide_eye');
+  				const showEye = $('#show_eye');
+				
+				  // condition ? exprIfTrue : exprIfFalse
+			  	showPassword
+					? (hideEye.addClass('d-none'), showEye.removeClass('d-none'))
+					: (showEye.addClass('d-none'), hideEye.removeClass('d-none'));
+				
+				const inputPassword = $('#inputPassword');
+				const currentType = inputPassword.attr("type");
+    			inputPassword.attr("type", currentType === "text" ? "password" : "text");
 			});
 		});
 	</script>
