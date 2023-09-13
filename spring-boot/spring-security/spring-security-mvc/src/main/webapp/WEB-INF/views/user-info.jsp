@@ -18,8 +18,11 @@
 
 	<p>
 		Hello: <b><c:out value="${pageContext.request.remoteUser}"/></b><br>
-		Roles: <b><sec:authentication property="principal.authorities" /></b>
-	  </p>
+		Roles: <b><sec:authentication property="principal.authorities" /></b> <br>
+		<sec:authorize access="isAuthenticated()">
+    		Authenticated as: <strong><sec:authentication property="principal.username" /></strong> 
+		</sec:authorize>
+	</p>
 
 	<c:if test="${userInfo != null}">
 		<div>${userInfo}</div>

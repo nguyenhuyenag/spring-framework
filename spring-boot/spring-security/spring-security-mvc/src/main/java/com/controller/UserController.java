@@ -5,13 +5,17 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,7 +35,7 @@ public class UserController {
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	// JDK 17
 	private Optional<User> castUser(Principal principal) {
 		if (principal instanceof Authentication auth) {
@@ -44,11 +48,21 @@ public class UserController {
 	}
 
 	@GetMapping("user-info")
-	public String userInfo(Model model, Principal principal) {
+	public String userInfo(Model model, Principal principal, Authentication authentication, HttpServletRequest request,
+			@AuthenticationPrincipal UserDetails userDetails) {
 		// Cach 1: Sau khi user login thanh cong se co principal
 		if (principal != null) {
-			System.out.println("From Principal");
-			System.out.println("Username: " + principal.getName());
+			System.out.println("Get username: ");
+
+			System.out.println("Username 1: " + principal.getName());
+
+			System.out.println("Username 2: " + authentication.getName());
+
+			Principal principal2 = request.getUserPrincipal();
+			System.out.println("Username 3: " + principal2.getName());
+			
+			System.out.println("Username 4: " + userDetails.getUsername());
+
 			Optional<User> optUser = castUser(principal);
 			optUser.ifPresent(u -> {
 				String userInfo = WebUtils.toString(u);
@@ -64,6 +78,8 @@ public class UserController {
 			System.out.println("Username: " + user.getUsername());
 			System.out.println("Role: " + auth.getAuthorities());
 		}
+		geUsernameInBean();
+		getUserDetails(authentication);
 		return "user-info";
 	}
 
@@ -91,7 +107,7 @@ public class UserController {
 		}
 		return "edit-user";
 	}
-	
+
 	@GetMapping("security-taglib") // Spring Security - Taglib
 	public String securityTaglib() {
 		return "security-taglib";
@@ -100,17 +116,32 @@ public class UserController {
 	private Authentication auth(EditUser editUser) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Set<GrantedAuthority> updatedAuths = new HashSet<>(auth.getAuthorities());
-		// updatedAuthorities.add(...); // add your role here [e.g., new SimpleGrantedAuthority("ROLE_NEW")]
-		// new UsernamePasswordAuthenticationToken(auth.getPrincipal(), auth.getCredentials(), updatedAuths);
+		// updatedAuthorities.add(...); // add your role here [e.g., new
+		// SimpleGrantedAuthority("ROLE_NEW")]
+		// new UsernamePasswordAuthenticationToken(auth.getPrincipal(),
+		// auth.getCredentials(), updatedAuths);
 		return new UsernamePasswordAuthenticationToken(editUser.getUsername(), "?????", updatedAuths);
 	}
-	
+
 	boolean isAuthenticated() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication == null || AnonymousAuthenticationToken.class.isAssignableFrom(authentication.getClass())) {
 			return false;
 		}
 		return authentication.isAuthenticated();
+	}
+
+	public void geUsernameInBean() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+			String currentUserName = authentication.getName();
+			System.out.println("currentUserName: " + currentUserName);
+		}
+	}
+
+	public void getUserDetails(Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		System.out.println("User has authorities: " + userDetails.getAuthorities());
 	}
 
 }
