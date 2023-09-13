@@ -64,8 +64,12 @@
 							<input type="password" class="form-control" name="password" id="inputPassword" placeholder="Mật khẩu" value="1234560" />
 							<div class="input-group-append">
 								<span id="toggle-eye" class="input-group-text make-pointer">
+									<!--Font awesome icon-->
 									<i class="fa fa-eye d-none" id="show_eye"></i>
                   					<i class="fa fa-eye-slash" id="hide_eye"></i>
+									<!--Bootstrap icon-->
+									<!-- <i class="bi bi-eye-fill d-none" id="show_eye"></i>
+									<i class="bi bi-eye-slash-fill" id="hide_eye"></i> -->
 								</span>
 							</div>
 						</div>
