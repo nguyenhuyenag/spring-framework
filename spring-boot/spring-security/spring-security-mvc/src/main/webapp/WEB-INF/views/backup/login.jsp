@@ -15,21 +15,6 @@
 					$('#inputPassword').val(password);
 				}
 			});
-
-			let showPassword = false;
-			$('#toggle-eye').click(function() {
-				showPassword = !showPassword;
-				// console.log(showPassword);
-				if (showPassword) {
-					$('#hide_eye').addClass('d-none');
-					$('#show_eye').removeClass('d-none');
-				} else {
-					$('#show_eye').addClass('d-none');
-					$('#hide_eye').removeClass('d-none');
-				}
-				const currentType = $('#inputPassword').attr("type");
-    			$('#inputPassword').attr("type", (currentType === "text") ? "password" : "text");
-			});
 		});
 	</script>
 </head>
@@ -43,7 +28,7 @@
 	<sec:authorize access="!isAuthenticated()">
 		<div class="container mt-5 d-flex justify-content-center align-items-center">
 			<div class="d-flex flex-column justify-content-center align-items-center border w-50 py-5 shadow-lg rounded">
-				<h1 class="mb-4">Login</h1>
+				<h1 class="mb-4">Đăng Nhập</h1>
 				<c:if test="${not empty param.error && not empty SPRING_SECURITY_LAST_EXCEPTION}">
 					<div class="alert alert-danger alert-dismissible fade show" style="width: 85%;">
 						<button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -53,36 +38,36 @@
 						</p>
 					</div>
 				</c:if>
-				<form class="w-75" method="POST" action="${CONTEXT_PATH}/j_spring_security_check">
-					<div class="form-group">
-						<input class="form-control" name="username" id="inputUsername" placeholder="Tài Khoản" value="user" />
+				<form class="w-75" action="${CONTEXT_PATH}/j_spring_security_check" method="POST">
+					<div class="form-group row">
+						<label class="col-3 col-form-label" for="username">Username:</label>
+						<div class="col-9">
+							<input class="form-control" name="username" id="inputUsername" placeholder="Tài Khoản" value="user" />
+						</div>
 					</div>
-					<div class="form-group">
-						<div class="input-group">
+					<div class="form-group row">
+						<label class="col-3 col-form-label" for="password" >Password:</label>
+						<div class="col-sm-9">
 							<input type="password" class="form-control" name="password" id="inputPassword" placeholder="Mật khẩu" value="1234560" />
-							<div class="input-group-append">
-								<span id="toggle-eye" class="input-group-text make-pointer">
-									<i class="fa fa-eye d-none" id="show_eye"></i>
-                  					<i class="fa fa-eye-slash" id="hide_eye"></i>
-								</span>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-9 offset-sm-3">
+							<div class="form-check">
+								<input type="checkbox" class="form-check-input" name="rememberMe" id="rememberMe" />
+								<label class="form-check-label" for="rememberMe">Remember Me</label>
 							</div>
 						</div>
 					</div>
-					<div class="form-group">
-						<div class="form-check">
-							<input type="checkbox" class="form-check-input" name="rememberMe" id="rememberMe" />
-							<label class="form-check-label" for="rememberMe">Remember Me</label>
-						</div>
-					</div>
-					<div class="form-group">
+					<div class="row">
 						<ul>
 							<li class='pointer'>user/123456</li>
 							<li class='pointer'>admin/123456</li>
 						</ul>
 					</div>
+					<button class="btn btn-primary w-100 mt-3" type="submit" value="submit">Đăng Nhập</button>
 					<sec:csrfInput />
 					<!-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> -->
-					<button class="btn btn-primary w-100 mt-3" type="submit" value="submit">Đăng Nhập</button>
 				</form>
 			</div>
 		</div>

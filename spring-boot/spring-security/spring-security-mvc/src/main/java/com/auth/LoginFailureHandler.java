@@ -54,6 +54,7 @@ public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 		super.onAuthenticationFailure(request, response, exception);
 	}
 
+	// Set exception
 	private AuthenticationException handleError(User user) {
 		if (user == null) {
 			return new UsernameNotFoundException("Username_Not_Found_Exception");
