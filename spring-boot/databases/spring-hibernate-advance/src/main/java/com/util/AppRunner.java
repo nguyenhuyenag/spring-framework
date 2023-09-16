@@ -1,6 +1,5 @@
 package com.util;
 
-import java.sql.Connection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,14 +9,15 @@ import org.springframework.stereotype.Component;
 import com.repository.OrderDetailRepository;
 import com.repository.OrderRepository;
 import com.repository.PersonRepository;
+import com.service.CriteriaService;
 import com.service.EntityManagerService;
+import com.service.FindByExample;
 import com.service.JDBCTemplateService;
 import com.service.JpaSelectSpecificColumns;
 import com.service.MappingQueryToPOJOService;
 import com.service.MySQLToolService;
 import com.service.ProcedureService;
 import com.service.QueryDSLService;
-import com.service.CriteriaService;
 import com.service.impl.MapStructServiceTest;
 
 @Component
@@ -64,6 +64,9 @@ public class AppRunner implements CommandLineRunner {
 
 	@Autowired
 	MapStructServiceTest mapStructServiceTest;
+	
+	@Autowired
+	FindByExample findByExample;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -76,9 +79,11 @@ public class AppRunner implements CommandLineRunner {
 		// jdbcTemplateService();
 		// mapStructServiceTest.convert();
 		// System.out.println(mysqlToolService.checkTableExist("categories"));
-		try (Connection connection = mysqlToolService.getConnection()) {
-			System.out.println(connection.getMetaData().getURL().toString());
-		};
+		
+		// try (Connection connection = mysqlToolService.getConnection()) {
+		//	System.out.println(connection.getMetaData().getURL().toString());
+		// };
+		findByExample.test();
 	}
 
 	public void selectSomeField() {

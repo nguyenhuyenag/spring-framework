@@ -1,5 +1,6 @@
 package com.entity;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -34,10 +35,23 @@ public class User {
 
 	private String password;
 	private String username;
-	private int enabled; // 0 or 1
+	private boolean enabled;
+	
+	@Column(name = "account_non_locked")
+    private boolean accountNonLocked;
+     
+    @Column(name = "failed_attempt")
+    private int failedAttempt;
+     
+    @Column(name = "lock_time")
+    private Date lockTime;
 	
 	public boolean isDisabled() {
-		return this.enabled == 0;
+		return !this.enabled;
+	}
+	
+	public boolean isLocked() {
+		return !this.accountNonLocked;
 	}
 
 	// Important `fetch = FetchType.EAGER`

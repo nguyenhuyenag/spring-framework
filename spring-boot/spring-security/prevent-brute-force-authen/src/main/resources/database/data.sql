@@ -1,21 +1,16 @@
-DROP DATABASE IF EXISTS brute_force_authen;
-
-CREATE DATABASE brute_force_authen;
+-- DROP DATABASE IF EXISTS brute_force_authen;
+-- CREATE DATABASE brute_force_authen;
 
 USE brute_force_authen;
-
-create table persistent_logins (
-    username varchar(64) not null,
-    series varchar(64) primary key,
-    token varchar(64) not null,
-    last_used timestamp not null
-);
 
 create table `user` (
 	`user_id` bigint not null auto_increment,
 	`username` varchar(36) not null,
 	`password` varchar(128) not null,
-	`enabled` int(1) not null default 0,
+	`enabled` tinyint(1) not null default 0,
+	`account_non_locked` tinyint(1) not null default 0,
+	`failed_attempt` int(4) not null default 0,
+	`lock_time` datetime,
 	primary key (`user_id`),
 	unique (`user_id`, `username`)
 );
