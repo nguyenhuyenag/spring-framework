@@ -61,7 +61,7 @@
 					</div>
 					<div class="form-group">
 						<div class="input-group">
-							<input type="password" class="form-control" name="password" id="inputPassword" placeholder="Mật khẩu" value="1234560" />
+							<input type="password" class="form-control" name="password" id="inputPassword" placeholder="Mật khẩu" value="1234567" />
 							<div class="input-group-append">
 								<span id="toggle-eye" class="input-group-text make-pointer">
 									<!--Font awesome icon-->

@@ -11,15 +11,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
 import com.entity.User;
 import com.repository.UserRepository;
-import com.util.LoginAttemptService;
-import com.util.RequestUtils;
+import com.service.LoginAttemptService;
 
 public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
@@ -38,11 +37,31 @@ public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 		System.out.println("[" + this.getClass().getSimpleName() + "] Exception: " + exception.getMessage());
 		
 		String email = request.getParameter("username");
-		
 		Optional<User> opt = repository.findByUsername(email);
+		
 		if (opt.isPresent()) {
 			// exception = handleError(opt.get());
 		}
+		
+		// String email = request.getParameter("email");
+        User user = opt.get(); //  loginAttemptService.getByEmail(email);
+         
+        if (user != null) {
+            if (user.isEnabled() && user.isAccountNonLocked()) {
+                if (user.getFailedAttempt() < LoginAttemptService.MAX_FAILED_ATTEMPTS - 1) {
+                	loginAttemptService.increaseFailedAttempts(user);
+                } else {
+                	loginAttemptService.lock(user);
+                    exception = new LockedException("Your account has been locked due to 3 failed attempts."
+                            + " It will be unlocked after 24 hours.");
+                }
+            } else if (!user.isAccountNonLocked()) {
+                if (loginAttemptService.unlockWhenTimeExpired(user)) {
+                    exception = new LockedException("Your account has been unlocked. Please try to login again.");
+                }
+            }
+             
+        }
 		
 		// Login failed by BadCredentialsException (username or password incorrect)
 //		if (exception.getClass().isAssignableFrom(BadCredentialsException.class)) {

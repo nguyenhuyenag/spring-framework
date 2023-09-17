@@ -14,6 +14,13 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
 	Optional<User> findByUsername(String username);
 
+	/**
+	 * Hàm gọi phương thức này cần được đánh dấu @Transactional
+	 */
+	@Modifying
+	@Query("UPDATE User t SET t.failedAttempt = :failedAttempt WHERE t.username = :username")
+	public void updateFailedAttempt(String username, int failedAttempt);
+
 //	@Query(value = "SELECT t1.role_name " //
 //			+ "FROM role t1 " //
 //			+ "JOIN user_role t2 " //
@@ -21,11 +28,11 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 //			+ "WHERE t2.user_id = :userId", nativeQuery = true)
 //	List<String> getListRolesByUserId(int userId);
 
-	@Modifying
-	@Transactional
-	@Query(value = "UPDATE user t SET " //
-			+ "t.username = :newUsername, t.password = :password " //
-			+ "WHERE t.username = :oldUsername", nativeQuery = true)
-	void updateUsernameAndPassword(String oldUsername, String newUsername, String password);
+//	@Modifying
+//	@Transactional
+//	@Query(value = "UPDATE user t SET " //
+//			+ "t.username = :newUsername, t.password = :password " //
+//			+ "WHERE t.username = :oldUsername", nativeQuery = true)
+//	void updateUsernameAndPassword(String oldUsername, String newUsername, String password);
 
 }

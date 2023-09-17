@@ -96,17 +96,17 @@ public class UserController {
 		return "edit-user";
 	}
 
-	@PostMapping("edit-user")
-	private String _____editUser(@ModelAttribute EditUser editUser, Principal principal) {
-		System.out.println(editUser.toString());
-		if (principal != null) {
-			String password = encoder.encode(editUser.getPassword());
-			userRepository.updateUsernameAndPassword(principal.getName(), editUser.getUsername(), password);
-			Authentication newAuth = auth(editUser);
-			SecurityContextHolder.getContext().setAuthentication(newAuth);
-		}
-		return "edit-user";
-	}
+//	@PostMapping("edit-user")
+//	private String _____editUser(@ModelAttribute EditUser editUser, Principal principal) {
+//		System.out.println(editUser.toString());
+//		if (principal != null) {
+//			String password = encoder.encode(editUser.getPassword());
+//			userRepository.updateUsernameAndPassword(principal.getName(), editUser.getUsername(), password);
+//			Authentication newAuth = auth(editUser);
+//			SecurityContextHolder.getContext().setAuthentication(newAuth);
+//		}
+//		return "edit-user";
+//	}
 
 	@GetMapping("security-taglib") // Spring Security - Taglib
 	public String securityTaglib() {
