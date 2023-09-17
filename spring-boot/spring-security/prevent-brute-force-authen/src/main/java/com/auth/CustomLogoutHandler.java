@@ -15,15 +15,10 @@ public class CustomLogoutHandler extends SimpleUrlLogoutSuccessHandler implement
 	@Override
 	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, //
 			Authentication authentication) throws IOException, ServletException {
-		String username = getAuthenticatedUserName(authentication);
+		String username = authentication.getName();
 		System.out.println("[" + this.getClass().getSimpleName() + "] " //
 				+ "The user `" + username + "` has logged out.");
 		super.onLogoutSuccess(request, response, authentication);
-	}
-
-	public static String getAuthenticatedUserName(Authentication auth) {
-		return auth != null ? ((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername()
-				: null;
 	}
 
 }

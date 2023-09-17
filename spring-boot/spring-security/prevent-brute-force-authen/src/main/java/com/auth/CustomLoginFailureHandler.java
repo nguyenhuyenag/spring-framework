@@ -20,9 +20,9 @@ import com.entity.User;
 import com.repository.UserRepository;
 import com.service.LoginAttemptService;
 
-public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
+public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
-	private final Logger LOG = LoggerFactory.getLogger(LoginFailureHandler.class);
+	private final Logger LOG = LoggerFactory.getLogger(CustomLoginFailureHandler.class);
 
 	@Autowired
 	private UserRepository repository;

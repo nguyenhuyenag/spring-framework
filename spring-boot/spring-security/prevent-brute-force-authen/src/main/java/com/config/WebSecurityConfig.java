@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
 
 import com.auth.CustomLoginSuccessHandler;
 import com.auth.CustomLogoutHandler;
-import com.auth.LoginFailureHandler;
+import com.auth.CustomLoginFailureHandler;
 import com.util.Roles;
 
 @Configuration
@@ -99,7 +99,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Bean
 	public AuthenticationFailureHandler failureHandler() {
-		return new LoginFailureHandler();
+		return new CustomLoginFailureHandler();
 	}
 	
 //	@Bean
