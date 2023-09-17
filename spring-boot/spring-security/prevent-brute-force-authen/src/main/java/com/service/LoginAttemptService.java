@@ -5,12 +5,14 @@ import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.entity.User;
 import com.repository.UserRepository;
 
+// @Component
 @Service
-//@Component
+@Transactional
 public class LoginAttemptService {
 
 	public static final int MAX_FAILED_ATTEMPTS = 3;

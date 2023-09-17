@@ -33,6 +33,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserDetailsService userDetailsService;
 	
+	@Autowired
+	private CustomLoginSuccessHandler customLoginSuccessHandler;
+	
 	private final String[] AUTH_WHITELIST = { "/static/**", "/login", "/logout", "/favicon.ico" };
 	
 //	@Autowired
@@ -56,7 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.usernameParameter("username")
 				.passwordParameter("password")
 				.loginProcessingUrl("/j_spring_security_check") // The URL to submit the username and password to
-				// .successHandler(successHandler())
+				.successHandler(customLoginSuccessHandler)
 				.defaultSuccessUrl("/")
 				.failureUrl("/login?error=true")
 				.failureHandler(failureHandler()))
@@ -95,10 +98,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		return new LoginFailureHandler();
 	}
 	
-	@Bean
-	public AuthenticationSuccessHandler successHandler() {
-		return new CustomLoginSuccessHandler();
-	}
+//	@Bean
+//	public AuthenticationSuccessHandler successHandler() {
+//		return new CustomLoginSuccessHandler();
+//	}
 	
 	@Bean
 	public LogoutSuccessHandler logoutSuccessHandler() {
