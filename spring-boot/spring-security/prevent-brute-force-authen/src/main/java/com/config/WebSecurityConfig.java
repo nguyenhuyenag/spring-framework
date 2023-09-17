@@ -20,6 +20,7 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter;
 import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter.Directive;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.stereotype.Component;
 
 import com.auth.CustomLoginSuccessHandler;
 import com.auth.CustomLogoutHandler;
@@ -33,6 +34,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserDetailsService userDetailsService;
 	
+	/**
+	 * Class được đánh dấu @Component nên chỉ cần @Autowired, không cần khai báo @Bean 
+	 */
 	@Autowired
 	private CustomLoginSuccessHandler customLoginSuccessHandler;
 	
