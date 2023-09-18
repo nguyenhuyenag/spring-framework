@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.entity.User;
 import com.repository.UserRepository;
 
-// @Component
 @Service
 @Transactional
 public class LoginAttemptService {
@@ -38,15 +37,17 @@ public class LoginAttemptService {
 	}
 
 	public boolean unlockWhenTimeExpired(User user) {
-		long lockTimeInMillis = user.getLockTime().getTime();
-		long currentTimeInMillis = System.currentTimeMillis();
-
-		if (lockTimeInMillis + LOCK_TIME_DURATION < currentTimeInMillis) {
-			user.setAccountNonLocked(true);
-			user.setLockTime(null);
-			user.setFailedAttempt(0);
-			userRepository.save(user);
-			return true;
+		Date lockTime = user.getLockTime();
+		if (lockTime != null) {
+			long lockTimeInMillis = lockTime.getTime();
+			long currentTimeInMillis = System.currentTimeMillis();
+			if (lockTimeInMillis + LOCK_TIME_DURATION < currentTimeInMillis) {
+				user.setAccountNonLocked(true);
+				user.setLockTime(null);
+				user.setFailedAttempt(0);
+				userRepository.save(user);
+				return true;
+			}
 		}
 		return false;
 	}

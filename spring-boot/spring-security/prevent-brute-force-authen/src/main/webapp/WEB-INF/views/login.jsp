@@ -82,7 +82,8 @@
 					</div>
 					<div class="form-group">
 						<ul>
-							<li class='pointer'>user/123456</li>
+							<li class='pointer'>test/123456</li>
+							<li class='pointer'>user1/123456</li>
 							<li class='pointer'>admin/123456</li>
 						</ul>
 					</div>
