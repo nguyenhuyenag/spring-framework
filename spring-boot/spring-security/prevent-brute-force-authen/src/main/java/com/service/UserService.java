@@ -31,6 +31,7 @@ public class UserService {
 		return namedJdbcTemplate.queryForList(sql, params, String.class);
 	}
 
+	// [ROLE_USER, ROLE_ADMIN, ...]
 	public List<GrantedAuthority> getGrantedAuthorityByUserId(int userId) {
 		List<String> roles = getRolesByUserId(userId);
 		return roles == null ? Collections.emptyList()

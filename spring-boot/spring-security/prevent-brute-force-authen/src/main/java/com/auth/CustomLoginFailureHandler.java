@@ -35,40 +35,35 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
 			AuthenticationException exception) throws IOException, ServletException {
 
 		System.out.println("[" + this.getClass().getSimpleName() + "] Exception: " + exception.getMessage());
-		
-		String email = request.getParameter("username");
-		Optional<User> opt = repository.findByUsername(email);
-		
-		if (opt.isPresent()) {
-			// exception = handleError(opt.get());
-		}
-		
-		// String email = request.getParameter("email");
-        User user = opt.get(); //  loginAttemptService.getByEmail(email);
-         
-        if (user != null) {
-            if (user.isEnabled() && user.isAccountNonLocked()) {
-                if (user.getFailedAttempt() < LoginAttemptService.MAX_FAILED_ATTEMPTS - 1) {
-                	loginAttemptService.increaseFailedAttempts(user);
-                } else {
-                	loginAttemptService.lock(user);
-                    exception = new LockedException("Your account has been locked due to 3 failed attempts."
-                            + " It will be unlocked after 24 hours.");
-                }
-            } else if (!user.isAccountNonLocked()) {
-                if (loginAttemptService.unlockWhenTimeExpired(user)) {
-                    exception = new LockedException("Your account has been unlocked. Please try to login again.");
-                }
-            }
-             
-        }
-		
-		// Login failed by BadCredentialsException (username or password incorrect)
+
+		String username = request.getParameter("username");
+		Optional<User> opt = repository.findByUsername(username);
+
+		if (opt.isEmpty()) {
+			exception = new UsernameNotFoundException("User `" + username + "` was not found!");
+		} else {
+			User user = opt.get();
+			if (user.isEnabled() && user.isAccountNonLocked()) {
+				if (user.getFailedAttempt() < LoginAttemptService.MAX_FAILED_ATTEMPTS - 1) {
+					loginAttemptService.increaseFailedAttempts(user);
+				} else {
+					loginAttemptService.lock(user);
+					exception = new LockedException("Your account has been locked due to " //
+							+ LoginAttemptService.MAX_FAILED_ATTEMPTS + " failed attempts."
+							+ " It will be unlocked after 24 hours.");
+				}
+			} else if (!user.isAccountNonLocked()) {
+				if (loginAttemptService.unlockWhenTimeExpired(user)) {
+					exception = new LockedException("Your account has been unlocked. Please try to login again.");
+				}
+			}
+
+			// Login failed by BadCredentialsException (username or password incorrect)
 //		if (exception.getClass().isAssignableFrom(BadCredentialsException.class)) {
 //			LOG.info("IP: {}", RequestUtils.getClientIPAddress(request));
 //			loginAttemptService.loginFailed(RequestUtils.getClientIPAddress(request));
 //		}
-
+		}
 		super.setDefaultFailureUrl("/login?error=true");
 		super.onAuthenticationFailure(request, response, exception);
 	}
