@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,32 +38,29 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
 		System.out.println("[" + this.getClass().getSimpleName() + "] Exception: " + exception.getMessage());
 
 		String username = request.getParameter("username");
-		Optional<User> opt = repository.findByUsername(username);
-
-		if (opt.isEmpty()) {
-			exception = new UsernameNotFoundException("User `" + username + "` was not found!");
+		if (StringUtils.isEmpty(username)) {
+			exception = new UsernameNotFoundException("Username must be provided");
 		} else {
-			User user = opt.get();
-			if (user.isEnabled() && user.isAccountNonLocked()) {
-				if (user.getFailedAttempt() < LoginAttemptService.MAX_FAILED_ATTEMPTS - 1) {
-					loginAttemptService.increaseFailedAttempts(user);
-				} else {
-					loginAttemptService.lock(user);
-					exception = new LockedException("Your account has been locked due to " //
-							+ LoginAttemptService.MAX_FAILED_ATTEMPTS + " failed attempts."
-							+ " It will be unlocked after 24 hours.");
-				}
-			} else if (!user.isAccountNonLocked()) {
-				if (loginAttemptService.unlockWhenTimeExpired(user)) {
-					exception = new LockedException("Your account has been unlocked. Please try to login again.");
+			Optional<User> opt = repository.findByUsername(username);
+			if (opt.isEmpty()) {
+				exception = new UsernameNotFoundException("User `" + username + "` was not found!");
+			} else {
+				User user = opt.get();
+				if (user.isEnabled() && user.isAccountNonLocked()) {
+					if (user.getFailedAttempt() < LoginAttemptService.MAX_FAILED_ATTEMPTS - 1) {
+						loginAttemptService.increaseFailedAttempts(user);
+					} else {
+						loginAttemptService.lock(user);
+						exception = new LockedException("Your account has been locked due to " //
+								+ LoginAttemptService.MAX_FAILED_ATTEMPTS + " failed attempts."
+								+ " It will be unlocked after 24 hours.");
+					}
+				} else if (!user.isAccountNonLocked()) {
+					if (loginAttemptService.unlockWhenTimeExpired(user)) {
+						exception = new LockedException("Your account has been unlocked. Please try to login again.");
+					}
 				}
 			}
-
-			// Login failed by BadCredentialsException (username or password incorrect)
-//		if (exception.getClass().isAssignableFrom(BadCredentialsException.class)) {
-//			LOG.info("IP: {}", RequestUtils.getClientIPAddress(request));
-//			loginAttemptService.loginFailed(RequestUtils.getClientIPAddress(request));
-//		}
 		}
 		super.setDefaultFailureUrl("/login?error=true");
 		super.onAuthenticationFailure(request, response, exception);

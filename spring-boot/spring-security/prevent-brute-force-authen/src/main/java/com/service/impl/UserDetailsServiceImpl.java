@@ -34,13 +34,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		if (StringUtils.isEmpty(username)) {
-			throw new UsernameNotFoundException("Username must be provided");
+			throw new UsernameNotFoundException("[UserDetailsService] Username must be provided");
 		}
 		
 		Optional<User> userOpt = repository.findByUsername(username);
 		User user = userOpt.orElseThrow(() -> {
 			LOG.info("User `{}` was not found!", username);
-			throw new UsernameNotFoundException("User `" + username + "` was not found!");
+			throw new UsernameNotFoundException("[UserDetailsService] User `" + username + "` was not found!");
 		});
 		
 		List<GrantedAuthority> roles = userService.getGrantedAuthorityByUserId(user.getUserId());
