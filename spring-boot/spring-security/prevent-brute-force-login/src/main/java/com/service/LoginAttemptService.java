@@ -16,7 +16,7 @@ public class LoginAttemptService {
 
 	public static final int MAX_FAILED_ATTEMPTS = 5;
 
-	private static final long LOCK_TIME_DURATION = TimeUnit.DAYS.toMillis(1); // 24 hours
+	private static final long LOCK_TIME_DURATION = TimeUnit.MINUTES.toMillis(1);
 
 	@Autowired
 	private UserRepository userRepository;

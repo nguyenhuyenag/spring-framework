@@ -1,17 +1,13 @@
 package com.controller;
 
 import java.security.Principal;
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -20,11 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 
-import com.repository.UserRepository;
-import com.request.EditUser;
 import com.util.WebUtils;
 
 @Controller
@@ -33,8 +25,8 @@ public class UserController {
 	@Autowired
 	PasswordEncoder encoder;
 
-	@Autowired
-	private UserRepository userRepository;
+	// @Autowired
+	// private UserRepository userRepository;
 
 	// JDK 17
 	private Optional<User> castUser(Principal principal) {
@@ -113,15 +105,15 @@ public class UserController {
 		return "security-taglib";
 	}
 
-	private Authentication auth(EditUser editUser) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		Set<GrantedAuthority> updatedAuths = new HashSet<>(auth.getAuthorities());
-		// updatedAuthorities.add(...); // add your role here [e.g., new
-		// SimpleGrantedAuthority("ROLE_NEW")]
-		// new UsernamePasswordAuthenticationToken(auth.getPrincipal(),
-		// auth.getCredentials(), updatedAuths);
-		return new UsernamePasswordAuthenticationToken(editUser.getUsername(), "?????", updatedAuths);
-	}
+//	private Authentication auth(EditUser editUser) {
+//		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//		Set<GrantedAuthority> updatedAuths = new HashSet<>(auth.getAuthorities());
+//		// updatedAuthorities.add(...); // add your role here [e.g., new
+//		// SimpleGrantedAuthority("ROLE_NEW")]
+//		// new UsernamePasswordAuthenticationToken(auth.getPrincipal(),
+//		// auth.getCredentials(), updatedAuths);
+//		return new UsernamePasswordAuthenticationToken(editUser.getUsername(), "?????", updatedAuths);
+//	}
 
 	boolean isAuthenticated() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
