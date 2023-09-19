@@ -10,9 +10,9 @@
 	</parent>
 
 	<groupId>com</groupId>
-	<artifactId>prevent-brute-force-authen</artifactId>
+	<artifactId>prevent-brute-force-login</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>prevent-brute-force-authen</name>
+	<name>prevent-brute-force-login</name>
 	<description>Project for Spring Boot</description>
 
 	<properties>

@@ -42,9 +42,9 @@ public class LoginAttemptService {
 			long lockTimeInMillis = lockTime.getTime();
 			long currentTimeInMillis = System.currentTimeMillis();
 			if (lockTimeInMillis + LOCK_TIME_DURATION < currentTimeInMillis) {
-				user.setAccountNonLocked(true);
 				user.setLockTime(null);
 				user.setFailedAttempt(0);
+				user.setAccountNonLocked(true);
 				userRepository.save(user);
 				return true;
 			}

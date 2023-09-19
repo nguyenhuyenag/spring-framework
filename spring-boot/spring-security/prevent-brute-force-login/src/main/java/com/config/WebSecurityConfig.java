@@ -15,16 +15,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter;
 import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter.Directive;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.stereotype.Component;
 
+import com.auth.CustomLoginFailureHandler;
 import com.auth.CustomLoginSuccessHandler;
 import com.auth.CustomLogoutHandler;
-import com.auth.CustomLoginFailureHandler;
 import com.util.Roles;
 
 @Configuration
@@ -42,14 +40,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	private final String[] AUTH_WHITELIST = { "/static/**", "/login", "/logout", "/favicon.ico" };
 	
-//	@Autowired
-//    private CustomAuthenticationProvider authProvider;
-//	
-//	@Override
-//	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//		auth.authenticationProvider(authProvider);
-//	}
-
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests(request -> request
@@ -87,8 +77,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers(headers -> headers
                 .addHeaderWriter(new ClearSiteDataHeaderWriter( // 
                         Directive.CACHE, Directive.COOKIES, Directive.STORAGE)));
-
-		// http.sessionManagement().maximumSessions(1); // Limit login (thiết bị đăng nhập)
 	}
 	
 	@Autowired
@@ -101,11 +89,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public AuthenticationFailureHandler failureHandler() {
 		return new CustomLoginFailureHandler();
 	}
-	
-//	@Bean
-//	public AuthenticationSuccessHandler successHandler() {
-//		return new CustomLoginSuccessHandler();
-//	}
 	
 	@Bean
 	public LogoutSuccessHandler logoutSuccessHandler() {
