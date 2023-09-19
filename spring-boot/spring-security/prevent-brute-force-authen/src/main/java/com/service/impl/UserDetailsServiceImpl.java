@@ -28,9 +28,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Autowired
 	private UserRepository repository;
 
-	// @Autowired
-	// private LoginAttemptService loginAttemptService;
-
+	/**
+	 * UsernameNotFoundException ở đây sẽ không thể hiển thị trên jsp
+	 */
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		if (StringUtils.isEmpty(username)) {

@@ -23,7 +23,7 @@
 				const hideEye = $('#hide_eye');
   				const showEye = $('#show_eye');
 				
-				  // condition ? exprIfTrue : exprIfFalse
+				  // Cú pháp: condition ? exprIfTrue : exprIfFalse
 			  	showPassword
 					? (hideEye.addClass('d-none'), showEye.removeClass('d-none'))
 					: (showEye.addClass('d-none'), hideEye.removeClass('d-none'));
@@ -82,8 +82,8 @@
 					</div>
 					<div class="form-group">
 						<ul>
-							<li class='pointer'>test/123456</li>
-							<li class='pointer'>user1/1234567</li>
+							<li class='pointer'>not_found/123456</li>
+							<li class='pointer'>user2/123456</li>
 							<li class='pointer'>admin/123456</li>
 						</ul>
 					</div>
