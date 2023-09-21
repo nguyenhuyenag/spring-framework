@@ -17,17 +17,17 @@ public class WebUtils {
 	// @Autowired
 	// private HttpServletRequest request;
 
-//	private static HttpServletRequest dependency;
-//
-//	public WebUtils(HttpServletRequest dependency) {
-//		WebUtils.dependency = dependency;
-//	}
+	// private static HttpServletRequest dependency;
+	//
+	// public WebUtils(HttpServletRequest dependency) {
+	// WebUtils.dependency = dependency;
+	// }
 
 	public static String toString(UserDetails user) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Username: ") //
-			   .append(user.getUsername()) //
-			   .append(", Role: ");
+				.append(user.getUsername()) //
+				.append(", Role: ");
 		Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
 		StringJoiner sj = new StringJoiner(", ", "[", "]");
 		for (GrantedAuthority grant : authorities) {

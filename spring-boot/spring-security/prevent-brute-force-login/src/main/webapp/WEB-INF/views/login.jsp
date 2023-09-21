@@ -92,33 +92,32 @@
 				</form>
 			</div>
 		</div>
+		
 		<script>
 			$(document).ready(function() {
 			    // Khi form được submit
 			    $("#loginForm").submit(function(e) {
 			        e.preventDefault(); // Ngăn chặn sự kiện mặc định của form
 			
-			        // Lấy giá trị của username và password từ form
-			        var username = $("#inputUsername").val();
-			        var password = $("#inputPassword").val();
+			        const username = $("#inputUsername").val();
+			        const password = $("#inputPassword").val();
 			
-			        // Gửi AJAX request đến URL `${CONTEXT_PATH}/j_spring_security_check`
 			        $.ajax({
 			            url: "${CONTEXT_PATH}/j_spring_security_check",
 			            method: "POST",
 			            data: { username: username, password: password },
 			            success: function(data) {
-			            	// Xử lý kết quả ở đây
-			            	// console.log(data);
 			            	window.location.assign("./");
 			            },
-			            error: function() {
+			            error: function(error) {
 			            	// Write JSON vào HttpServletResponse và hiển thị lên view
 			                $("#response").html("Có lỗi xảy ra khi thực hiện đăng nhập");
+			                console.log("XXXXXXXXXXXXX");
+			            	console.log(error);
 			            }
 			        });
 			    });
 			});
-			</script>
+		</script>
 	</sec:authorize>
 </body>

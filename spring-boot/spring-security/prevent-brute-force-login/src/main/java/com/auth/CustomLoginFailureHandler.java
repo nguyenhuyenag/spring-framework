@@ -1,6 +1,9 @@
 package com.auth;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.ServletException;
@@ -33,6 +36,8 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) throws IOException, ServletException {
 
+		String message = "";
+
 		System.out.println("[" + this.getClass().getSimpleName() + "] Exception: " + exception.getMessage());
 
 		String username = request.getParameter("username");
@@ -41,7 +46,8 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
 		} else {
 			Optional<User> userOpt = repository.findByUsername(username);
 			if (userOpt.isEmpty()) {
-				exception = new UsernameNotFoundException("User `" + username + "` was not found!");
+				message = "User `" + username + "` was not found!";
+				exception = new UsernameNotFoundException(message);
 			} else {
 				User user = userOpt.get();
 				if (user.isEnabled() && user.isAccountNonLocked()) {
@@ -49,16 +55,21 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
 						loginAttemptService.increaseFailedAttempts(user);
 					} else {
 						loginAttemptService.lock(user);
-						exception = new LockedException("Your account has been locked due to " //
-								+ LoginAttemptService.MAX_FAILED_ATTEMPTS + " failed attempts.");
-								// + " It will be unlocked after 24 hours.");
+						message = "Your account has been locked due to " //
+								+ LoginAttemptService.MAX_FAILED_ATTEMPTS + " failed attempts.";
+						exception = new LockedException(message);
 					}
 				} else if (!user.isAccountNonLocked()) {
 					if (loginAttemptService.unlockWhenTimeExpired(user)) {
-						exception = new LockedException("Your account has been unlocked. Please try to login again.");
+						message = "Your account has been unlocked. Please try to login again.";
+						exception = new LockedException(message);
 					}
 				}
 			}
+		}
+
+		if (StringUtils.isNotEmpty(message)) {
+			writeResponce(response, message);
 		}
 
 		/**
@@ -66,6 +77,18 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
 		 */
 		super.setDefaultFailureUrl("/login?error=true");
 		super.onAuthenticationFailure(request, response, exception);
+	}
+
+	private void writeResponce(HttpServletResponse response, String message) throws IOException {
+		PrintWriter out = response.getWriter();
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		
+		Map<String, String> errors = new HashMap<>();
+		errors.put("error", message);
+		
+		out.write(errors.toString());
+		// out.flush();
 	}
 
 }
