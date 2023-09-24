@@ -2,8 +2,6 @@ package com.config;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
-import java.util.concurrent.TimeUnit;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,11 +40,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests(request -> request
+		http // .addFilterBefore(authenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+			.authorizeRequests(request -> request
 				.antMatchers(AUTH_WHITELIST).permitAll() // Public URL
 				.antMatchers("/admin").hasAuthority(Roles.ROLE_ADMIN.name())
-				.anyRequest().authenticated());
-
+				.anyRequest() //
+				.authenticated());
+		
 		http.authorizeRequests(withDefaults())
 			.formLogin(form -> form
 				.loginPage("/login")
@@ -67,14 +67,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests(withDefaults())
 			.exceptionHandling(handling -> handling.accessDeniedPage("/403"));
 
-//		http.rememberMe(remember -> {
-//			int millis = (int) TimeUnit.DAYS.toSeconds(1);
-//			remember.key("secretAndUnique")
-//					.rememberMeParameter("rememberMe") // Name of checkbox at login page
-//					.rememberMeCookieName("remember-me-name")
-//					.tokenValiditySeconds(millis);
-//		});
-		
         http.headers(headers -> headers
                 .addHeaderWriter(new ClearSiteDataHeaderWriter( // 
                         Directive.CACHE, Directive.COOKIES, Directive.STORAGE)));
@@ -100,5 +92,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+	
+//	public SimpleAuthenticationFilter authenticationFilter() throws Exception {
+//	    SimpleAuthenticationFilter filter = new SimpleAuthenticationFilter();
+//	    filter.setAuthenticationManager(authenticationManagerBean());
+//	    filter.setAuthenticationFailureHandler(failureHandler());
+//	    return filter;
+//	}
 
 }
