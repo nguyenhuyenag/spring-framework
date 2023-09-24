@@ -55,7 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.loginProcessingUrl("/j_spring_security_check") // The URL to submit the username and password to
 				.successHandler(customLoginSuccessHandler)
 				.defaultSuccessUrl("/")
-				.failureUrl("/login?error=true")
+				// .failureUrl("/login?error=true")
 				.failureHandler(failureHandler()))
 			.logout(logout -> logout
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout")) // Csrf logout
@@ -67,13 +67,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests(withDefaults())
 			.exceptionHandling(handling -> handling.accessDeniedPage("/403"));
 
-		http.rememberMe(remember -> {
-			int millis = (int) TimeUnit.DAYS.toSeconds(1);
-			remember.key("secretAndUnique")
-					.rememberMeParameter("rememberMe") // Name of checkbox at login page
-					.rememberMeCookieName("remember-me-name")
-					.tokenValiditySeconds(millis);
-		});
+//		http.rememberMe(remember -> {
+//			int millis = (int) TimeUnit.DAYS.toSeconds(1);
+//			remember.key("secretAndUnique")
+//					.rememberMeParameter("rememberMe") // Name of checkbox at login page
+//					.rememberMeCookieName("remember-me-name")
+//					.tokenValiditySeconds(millis);
+//		});
+		
         http.headers(headers -> headers
                 .addHeaderWriter(new ClearSiteDataHeaderWriter( // 
                         Directive.CACHE, Directive.COOKIES, Directive.STORAGE)));

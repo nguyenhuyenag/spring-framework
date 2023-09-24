@@ -11,7 +11,6 @@
 		<!-- JS -->
 	    <script src="<c:url value='/static/script/jquery.min.js'/>"></script>
 		<script src="<c:url value='/static/script/bootstrap.min.js'/>"></script>
-	    <script src="https://momentjs.com/downloads/moment.js"></script>
 		<!-- CSS -->
 	    <link rel="stylesheet" href="<c:url value='static/css/bootstrap.min.css'/>">
 	    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
