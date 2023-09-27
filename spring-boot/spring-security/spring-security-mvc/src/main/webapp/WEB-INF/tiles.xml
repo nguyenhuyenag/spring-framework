@@ -38,4 +38,7 @@
 	<definition extends="base.definition" name="ajax">
 		<put-attribute name="body" value="/WEB-INF/views/ajax.jsp" />
 	</definition>
+	<definition extends="base.definition" name="test">
+		<put-attribute name="body" value="/WEB-INF/views/test.jsp" />
+	</definition>
 </tiles-definitions>

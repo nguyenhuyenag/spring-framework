@@ -75,11 +75,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 					.rememberMeCookieName("remember-me-name")
 					.tokenValiditySeconds(millis);
 		});
-        http.headers(headers -> headers
-                .addHeaderWriter(new ClearSiteDataHeaderWriter( // 
-                        Directive.CACHE, Directive.COOKIES, Directive.STORAGE)));
+		
+        http.headers(header -> header.addHeaderWriter( //
+        		new ClearSiteDataHeaderWriter(Directive.CACHE, Directive.COOKIES, Directive.STORAGE)));
+        
+        // http.sessionManagement(management -> management
+        //        .sessionCreationPolicy(SessionCreationPolicy.ALWAYS));
 
-		// http.sessionManagement().maximumSessions(1); // Limit login (thiết bị đăng nhập)
+        // http.sessionManagement().maximumSessions(1); // Limit login (thiết bị đăng nhập)
+        
 	}
 	
 	@Autowired

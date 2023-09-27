@@ -1,12 +1,18 @@
 # Session Manager
 
-	- ALWAYS (LUÔN LUÔN): Một phiên làm việc mới sẽ luôn luôn được tạo cho mỗi yêu cầu, bất kể người dùng đã được xác thực hay chưa.
+	- ALWAYS: A session will always be created if one doesn’t already exist
 
-	- NEVER (KHÔNG BAO GIỜ): Spring Security sẽ không bao giờ tạo một phiên làm việc mới. Nó sẽ dựa vào phiên làm việc hiện tại, và nếu không có phiên nào tồn tại, yêu cầu sẽ bị từ chối.
+	- IF_REQUIRED: A session will be created only if required (default).
 
-	- IF_REQUIRED (NẾU CẦN): Một phiên làm việc mới sẽ được tạo chỉ khi yêu cầu đòi hỏi điều đó, ví dụ khi người dùng chưa được xác thực.
+	- NEVER: The framework will never create a session itself, but it will use one if it already exists (nếu không có phiên nào tồn tại, yêu cầu sẽ bị từ chối).
 
-	- STATELESS (KHÔNG LƯU TRẠNG THÁI): Không có phiên làm việc nào được tạo hoặc sử dụng. Chính sách này thích hợp cho các ứng dụng RESTful không lưu trạng thái, trong đó mỗi yêu cầu độc lập và không cần phiên làm việc
+	- STATELESS: Không có phiên làm việc nào được tạo hoặc sử dụng. Thường dùng cho các ứng dụng RESTful (không lưu trạng thái), trong đó mỗi yêu cầu độc lập và không cần phiên làm việc
+	
+# Session timeout
+
+	server.servlet.session.timeout=30s
+	
+	- Session timeout > Remember me
 
 # Thêm CSRF vào JSP
 
@@ -22,8 +28,3 @@
 						
 	- Ta có: hasRole() = hasAuthority('ROLE_' + role)
 
-# Session timeout
-
-	server.servlet.session.timeout=30s
-	
-	- Session timeout > Remember me

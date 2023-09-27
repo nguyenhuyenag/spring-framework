@@ -44,6 +44,7 @@
 				<li id="edit-user" class="nav-item"><a class="nav-link" href="./edit-user">Edit User</a></li>
 				<li id="admin" class="nav-item"><a class="nav-link" href="./admin">Admin</a></li>
 				<li id="ajax" class="nav-item"><a class="nav-link" href="./ajax">Ajax</a></li>
+				<li id="ajax" class="nav-item"><a class="nav-link" href="./test">Test</a></li>
 			</ul>
 			<ul class="navbar-nav" style="text-align: right;">
 				<li class="nav-item"><a class="nav-link" href="./user-info">
