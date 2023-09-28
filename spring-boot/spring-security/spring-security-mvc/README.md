@@ -1,11 +1,8 @@
 # Session Manager
 
+	- IF_REQUIRED: A session will be created only if required (default)
 	- ALWAYS: A session will always be created if one doesn’t already exist
-
-	- IF_REQUIRED: A session will be created only if required (default).
-
 	- NEVER: The framework will never create a session itself, but it will use one if it already exists (nếu không có phiên nào tồn tại, yêu cầu sẽ bị từ chối).
-
 	- STATELESS: Không có phiên làm việc nào được tạo hoặc sử dụng. Thường dùng cho các ứng dụng RESTful (không lưu trạng thái), trong đó mỗi yêu cầu độc lập và không cần phiên làm việc
 	
 # Session timeout
