@@ -3,12 +3,22 @@ package com;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @SpringBootApplication
 public class BootApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BootApplication.class, args);
+	}
+	
+	@Secured("ROLE_ADMIN")
+	public void getUsername() {
+	    SecurityContext securityContext = SecurityContextHolder.getContext();
+	    String name = securityContext.getAuthentication().getName();
+	    System.out.println(name);
 	}
 
 	@Override

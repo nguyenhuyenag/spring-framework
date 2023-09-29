@@ -10,5 +10,6 @@
 	<h2>Test Page</h2>
 	<ul>
 		<li>@CreatedBy</li>
+		<li><a href='./test/method-security'>Method security</a></li>
 	</ul>
 </div>
