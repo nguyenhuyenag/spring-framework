@@ -46,9 +46,9 @@
 				<li id="ajax" class="nav-item"><a class="nav-link" href="./ajax">Ajax</a></li>
 				<li id="ajax" class="nav-item"><a class="nav-link" href="./test">Test</a></li>
 			</ul>
-			<ul class="navbar-nav" style="text-align: right;">
-				<li class="nav-item"><a class="nav-link" href="./user-info">
-					Hello <c:out value="${pageContext.request.remoteUser}"/></a>
+			<ul class="navbar-nav pull-right">
+				<li class="nav-item">
+					<a class="nav-link" href="./user-info">Hello <c:out value="${pageContext.request.remoteUser}"/></a>
 				</li>
 				<li class="nav-item"><a class="nav-link" href="./logout">Logout</a></li>
 			</ul>
