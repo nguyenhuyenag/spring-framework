@@ -11,9 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
 import com.entity.User;
@@ -55,14 +53,14 @@ public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 	}
 
 	// Set exception
-	private AuthenticationException handleError(User user) {
-		if (user == null) {
-			return new UsernameNotFoundException("Username_Not_Found_Exception");
-		}
-		if (user.getEnabled() == 0) {
-			return new DisabledException("Disabled_Exception");
-		}
-		return new BadCredentialsException("Bad_Credentials_Exception");
-	}
+//	private AuthenticationException handleError(User user) {
+//		if (user == null) {
+//			return new UsernameNotFoundException("Username_Not_Found_Exception");
+//		}
+//		if (user.getEnabled() == 0) {
+//			return new DisabledException("Disabled_Exception");
+//		}
+//		return new BadCredentialsException("Bad_Credentials_Exception");
+//	}
 
 }

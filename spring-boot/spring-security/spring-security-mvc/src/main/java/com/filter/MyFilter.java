@@ -25,8 +25,8 @@ public class MyFilter extends OncePerRequestFilter {
 			FilterChain filterChain) throws ServletException, IOException {
 		// StringBuffer url = request.getRequestURL();
 		// System.out.println("[" + this.getClass().getSimpleName() + "] URL: " + url);
-		String uri = request.getRequestURI();
-		System.out.println("[" + this.getClass().getSimpleName() + "] URI: " + uri);
+		// String uri = request.getRequestURI();
+		// System.out.println("[" + this.getClass().getSimpleName() + "] URI: " + uri);
 		// System.out.println("ClientIP: " + getClientIP(request));
 		filterChain.doFilter(request, response);
 	}
