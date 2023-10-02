@@ -2,20 +2,19 @@ package com.config;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
-import java.util.concurrent.TimeUnit;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
-import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter;
-import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter.Directive;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.auth.CustomLogoutHandler;
@@ -59,23 +58,6 @@ public class InMemoryAuthWebSecurityConfig extends WebSecurityConfigurerAdapter 
 
 		http.authorizeRequests(withDefaults())
 			.exceptionHandling(handling -> handling.accessDeniedPage("/403"));
-
-		http.rememberMe(remember -> {
-			int millis = (int) TimeUnit.DAYS.toSeconds(1);
-			remember.key("secretAndUnique")
-					.rememberMeParameter("rememberMe") // Name of checkbox at login page
-					.rememberMeCookieName("remember-me-name")
-					.tokenValiditySeconds(millis);
-		});
-		
-        http.headers(header -> header.addHeaderWriter( //
-        		new ClearSiteDataHeaderWriter(Directive.CACHE, Directive.COOKIES, Directive.STORAGE)));
-        
-        // http.sessionManagement(management -> management
-        //        .sessionCreationPolicy(SessionCreationPolicy.ALWAYS));
-
-        // http.sessionManagement().maximumSessions(1); // Limit login (thiết bị đăng nhập)
-        
 	}
 	
 //	@Autowired
@@ -84,17 +66,37 @@ public class InMemoryAuthWebSecurityConfig extends WebSecurityConfigurerAdapter 
 //			.passwordEncoder(passwordEncoder());	// Cài đặt PasswordEncoder
 //	}
 	
+	@Bean
+    public InMemoryUserDetailsManager userDetailsService() {
+		UserDetails admin = User.withUsername("admin")
+			     .password(passwordEncoder().encode("123456"))
+			     .roles("ADMIN")
+			     .build();
+		
+		UserDetails user = User.withUsername("user1")
+			     .password(passwordEncoder().encode("123456"))
+			     .roles("USER")
+			     .build();
+
+        return new InMemoryUserDetailsManager(user, admin);
+    }
+	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication()
+		auth .userDetailsService(userDetailsService())
+			// .inMemoryAuthentication()
 			.passwordEncoder(passwordEncoder())
-			.withUser("admin")
-				.password(passwordEncoder().encode("123456"))
-				.roles("ADMIN")
-				.and()
-			.withUser("user1")
-				.password(passwordEncoder().encode("123456"))
-				.roles("USER")
+//			.withUser("admin")
+//				.password(passwordEncoder().encode("123456"))
+//				.roles("ADMIN")
+//				.and()
+//			.withUser("user1")
+//				.password(passwordEncoder().encode("123456"))
+//				.roles("USER")
+//				.and()
+			// .withUser("no_password_encode")
+			//	.password("{noop}1234567")
+			//	.roles("USER")
 			;
 	}
 	

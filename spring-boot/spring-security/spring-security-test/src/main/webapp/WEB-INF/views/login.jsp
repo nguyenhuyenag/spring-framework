@@ -57,11 +57,11 @@
 				</c:if>
 				<form class="w-75" method="POST" action="${CONTEXT_PATH}/j_spring_security_check">
 					<div class="form-group">
-						<input class="form-control" name="username" id="inputUsername" placeholder="Tài Khoản" value="user1" />
+						<input class="form-control" name="username" id="inputUsername" placeholder="Tài Khoản" value="" />
 					</div>
 					<div class="form-group">
 						<div class="input-group">
-							<input type="password" class="form-control" name="password" id="inputPassword" placeholder="Mật khẩu" value="123456" />
+							<input type="password" class="form-control" name="password" id="inputPassword" placeholder="Mật khẩu" value="" />
 							<div class="input-group-append">
 								<span id="toggle-eye" class="input-group-text make-pointer">
 									<!--Font awesome icon-->
@@ -74,15 +74,16 @@
 							</div>
 						</div>
 					</div>
-					<div class="form-group">
+					<!-- <div class="form-group">
 						<div class="form-check">
 							<input type="checkbox" class="form-check-input" name="rememberMe" id="rememberMe" />
 							<label class="form-check-label" for="rememberMe">Remember Me</label>
 						</div>
-					</div>
+					</div> -->
 					<div class="form-group">
 						<ul>
-							<li class='pointer'>none_role/123456</li>
+							<li class='pointer'>no_role/123456</li>
+							<!-- <li class='pointer'>no_password_encode/1234567</li> -->
 							<li class='pointer'>user1/123456</li>
 							<li class='pointer'>admin/123456</li>
 						</ul>
