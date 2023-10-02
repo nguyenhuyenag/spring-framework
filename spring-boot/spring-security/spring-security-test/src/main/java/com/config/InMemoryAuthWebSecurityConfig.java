@@ -15,6 +15,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.csrf.CsrfToken;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.auth.CustomLogoutHandler;
@@ -27,6 +30,9 @@ public class InMemoryAuthWebSecurityConfig extends WebSecurityConfigurerAdapter 
 
 	// @Autowired
 	// private UserDetailsService userDetailsService;
+	
+	// @Autowired
+    // private AccessDeniedHandler customAccessDeniedHandler;
 	
 	private final String[] AUTH_WHITELIST = { "/static/**", "/login", "/logout", "/favicon.ico" };
 	
@@ -59,6 +65,15 @@ public class InMemoryAuthWebSecurityConfig extends WebSecurityConfigurerAdapter 
 
 		http.authorizeRequests(withDefaults())
 			.exceptionHandling(handling -> handling.accessDeniedPage("/403"));
+		
+		/**
+		 * Token CSRF sẽ được lưu trữ trong một cookie có thể truy cập bằng JavaScript,
+		 * và được sử dụng để kiểm tra tính bảo mật của các yêu cầu từ phía máy khách
+		 * 
+		 * - https://www.baeldung.com/spring-security-csrf
+		 */
+		http.csrf() //
+            .csrfTokenRepository(csrfTokenRepository());
 	}
 	
 //	@Autowired
@@ -105,15 +120,25 @@ public class InMemoryAuthWebSecurityConfig extends WebSecurityConfigurerAdapter 
 	public AuthenticationFailureHandler failureHandler() {
 		return new LoginFailureHandler();
 	}
-	
+
 	@Bean
 	public LogoutSuccessHandler logoutSuccessHandler() {
 		return new CustomLogoutHandler();
 	}
-	
+
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
+	}
+
+	@Bean
+	public CsrfTokenRepository csrfTokenRepository() {
+		return new HttpSessionCsrfTokenRepository(); // Sử dụng HttpSessionCsrfTokenRepository
+	}
+
+	@Bean
+	public CsrfToken csrfToken() {
+		return new HttpSessionCsrfTokenRepository().generateToken(null);
 	}
 
 }

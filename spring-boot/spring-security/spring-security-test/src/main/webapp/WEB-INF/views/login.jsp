@@ -19,15 +19,12 @@
 			let showPassword = false;
 			$('#toggle-eye').click(function() {
 				showPassword = !showPassword;
-				
 				const hideEye = $('#hide_eye');
   				const showEye = $('#show_eye');
-				
-				  // condition ? exprIfTrue : exprIfFalse
+				// condition ? exprIfTrue : exprIfFalse
 			  	showPassword
 					? (hideEye.addClass('d-none'), showEye.removeClass('d-none'))
 					: (showEye.addClass('d-none'), hideEye.removeClass('d-none'));
-				
 				const inputPassword = $('#inputPassword');
 				const currentType = inputPassword.attr("type");
     			inputPassword.attr("type", currentType === "text" ? "password" : "text");
@@ -55,7 +52,7 @@
 						</p>
 					</div>
 				</c:if>
-				<form class="w-75" method="POST" action="${CONTEXT_PATH}/j_spring_security_check">
+				<form class="w-75" method="POST" action='${CONTEXT_PATH}/j_spring_security_check'>
 					<div class="form-group">
 						<input class="form-control" name="username" id="inputUsername" placeholder="Tài Khoản" value="" />
 					</div>
@@ -67,29 +64,18 @@
 									<!--Font awesome icon-->
 									<i class="fa fa-eye d-none" id="show_eye"></i>
                   					<i class="fa fa-eye-slash" id="hide_eye"></i>
-									<!--Bootstrap icon-->
-									<!-- <i class="bi bi-eye-fill d-none" id="show_eye"></i>
-									<i class="bi bi-eye-slash-fill" id="hide_eye"></i> -->
 								</span>
 							</div>
 						</div>
 					</div>
-					<!-- <div class="form-group">
-						<div class="form-check">
-							<input type="checkbox" class="form-check-input" name="rememberMe" id="rememberMe" />
-							<label class="form-check-label" for="rememberMe">Remember Me</label>
-						</div>
-					</div> -->
 					<div class="form-group">
 						<ul>
 							<li class='pointer'>no_role/123456</li>
-							<!-- <li class='pointer'>no_password_encode/1234567</li> -->
 							<li class='pointer'>user1/123456</li>
 							<li class='pointer'>admin/123456</li>
 						</ul>
 					</div>
 					<sec:csrfInput />
-					<!-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> -->
 					<button class="btn btn-primary w-100 mt-3" type="submit" value="submit">Đăng Nhập</button>
 				</form>
 			</div>
