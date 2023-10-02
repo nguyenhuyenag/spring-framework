@@ -4,14 +4,12 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 import java.util.concurrent.TimeUnit;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -26,26 +24,13 @@ import com.util.Roles;
 
 @Configuration
 @EnableWebSecurity
-//@EnableGlobalMethodSecurity ( //
-//	prePostEnabled = true, 	 // @PreAuthorize, @PostAuthorize
-//	securedEnabled = true, 	 // @Secured
-//	jsr250Enabled = true	 // @RolesAllowed
-//)
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class InMemoryAuthWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Autowired
-	private UserDetailsService userDetailsService;
+	// @Autowired
+	// private UserDetailsService userDetailsService;
 	
 	private final String[] AUTH_WHITELIST = { "/static/**", "/login", "/logout", "/favicon.ico" };
 	
-//	@Autowired
-//    private CustomAuthenticationProvider authProvider;
-//	
-//	@Override
-//	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//		auth.authenticationProvider(authProvider);
-//	}
-
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests(request -> request
@@ -93,10 +78,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         
 	}
 	
-	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService)	// Cài đặt dịch vụ để tìm kiếm User trong Database
-			.passwordEncoder(passwordEncoder());	// Cài đặt PasswordEncoder
+//	@Autowired
+//	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+//		auth.userDetailsService(userDetailsService)	// Cài đặt dịch vụ để tìm kiếm User trong Database
+//			.passwordEncoder(passwordEncoder());	// Cài đặt PasswordEncoder
+//	}
+	
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.inMemoryAuthentication()
+			.passwordEncoder(passwordEncoder())
+			.withUser("admin")
+				.password(passwordEncoder().encode("123456"))
+				.roles("ADMIN")
+				.and()
+			.withUser("user1")
+				.password(passwordEncoder().encode("123456"))
+				.roles("USER")
+			;
 	}
 	
 	@Bean
