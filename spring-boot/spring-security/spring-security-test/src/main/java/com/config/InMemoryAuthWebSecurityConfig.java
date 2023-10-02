@@ -22,7 +22,7 @@ import com.auth.LoginFailureHandler;
 import com.util.Roles;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity // (debug = true)
 public class InMemoryAuthWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	// @Autowired
