@@ -37,7 +37,8 @@ public class InMemoryAuthWebSecurityConfig extends WebSecurityConfigurerAdapter 
 				.antMatchers("/admin").hasAuthority(Roles.ROLE_ADMIN.name())
 				// .antMatchers("/auth/admin/*").hasAuthority("ADMIN")
 			    // .antMatchers("/auth/*").hasAnyAuthority("ADMIN", "USER")
-				.anyRequest().authenticated());
+				.anyRequest()
+				.authenticated());
 
 		http.authorizeRequests(withDefaults())
 			.formLogin(form -> form
