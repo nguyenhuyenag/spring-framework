@@ -15,6 +15,10 @@ public class AppRunner implements ApplicationRunner {
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
+		// howToUseIMUDS();
+	}
+
+	protected void howToUseIMUDS() {
 		UserDetails user = inMemoryUserDetailsManager.loadUserByUsername("admin");
 		System.out.println("Check user exits: " + inMemoryUserDetailsManager.userExists("admin"));
 		if (user != null) {

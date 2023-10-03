@@ -66,14 +66,7 @@ public class InMemoryAuthWebSecurityConfig extends WebSecurityConfigurerAdapter 
 		http.authorizeRequests(withDefaults())
 			.exceptionHandling(handling -> handling.accessDeniedPage("/403"));
 		
-		/**
-		 * Token CSRF sẽ được lưu trữ trong một cookie có thể truy cập bằng JavaScript,
-		 * và được sử dụng để kiểm tra tính bảo mật của các yêu cầu từ phía máy khách
-		 * 
-		 * - https://www.baeldung.com/spring-security-csrf
-		 */
-		http.csrf() //
-            .csrfTokenRepository(csrfTokenRepository());
+        http.csrf(csrf -> csrf.csrfTokenRepository(csrfTokenRepository()));
 	}
 	
 //	@Autowired
