@@ -25,21 +25,15 @@ import com.auth.LoginFailureHandler;
 import com.util.Roles;
 
 @Configuration
-@EnableWebSecurity // (debug = true)
+@EnableWebSecurity
 public class InMemoryAuthWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	// @Autowired
-	// private UserDetailsService userDetailsService;
-	
-	// @Autowired
-    // private AccessDeniedHandler customAccessDeniedHandler;
-	
 	private final String[] AUTH_WHITELIST = { "/static/**", "/login", "/logout", "/favicon.ico" };
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests(request -> request
-				.antMatchers(AUTH_WHITELIST).permitAll() // Public URL
+				.antMatchers(AUTH_WHITELIST).permitAll()
 				.antMatchers("/admin").hasAuthority(Roles.ROLE_ADMIN.name())
 				// .antMatchers("/auth/admin/*").hasAuthority("ADMIN")
 			    // .antMatchers("/auth/*").hasAnyAuthority("ADMIN", "USER")
@@ -51,13 +45,13 @@ public class InMemoryAuthWebSecurityConfig extends WebSecurityConfigurerAdapter 
 				.loginPage("/login")
 				.usernameParameter("username")
 				.passwordParameter("password")
-				.loginProcessingUrl("/j_spring_security_check") // The URL to submit the username and password to
+				.loginProcessingUrl("/j_spring_security_check")
 				// .successHandler(successHandler())
 				.defaultSuccessUrl("/")
 				.failureUrl("/login?error=true")
 				.failureHandler(failureHandler()))
 			.logout(logout -> logout
-				.logoutRequestMatcher(new AntPathRequestMatcher("/logout")) // Csrf logout
+				.logoutRequestMatcher(new AntPathRequestMatcher("/logout")) // CSRF logout
 				.logoutSuccessHandler(logoutSuccessHandler())
 				.logoutSuccessUrl("/login?logout")
 				.invalidateHttpSession(true)
@@ -94,7 +88,7 @@ public class InMemoryAuthWebSecurityConfig extends WebSecurityConfigurerAdapter 
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth .userDetailsService(userDetailsService())
 			// .inMemoryAuthentication()
-			.passwordEncoder(passwordEncoder())
+			.passwordEncoder(passwordEncoder());
 //			.withUser("admin")
 //				.password(passwordEncoder().encode("123456"))
 //				.roles("ADMIN")
@@ -106,7 +100,6 @@ public class InMemoryAuthWebSecurityConfig extends WebSecurityConfigurerAdapter 
 			// .withUser("no_password_encode")
 			//	.password("{noop}1234567")
 			//	.roles("USER")
-			;
 	}
 	
 	@Bean

@@ -68,9 +68,9 @@ public class MyFilter extends OncePerRequestFilter {
 		CsrfToken csrfToken = csrfTokenRepository.loadToken(request);
 		if (csrfToken != null) {
 			String token = csrfToken.getToken();
-			String token2 = csrfToken.getToken();
+			// String token2 = csrfToken.getToken();
 			System.out.println("Request Csrf Token: " + token);
-			System.out.println("Server Csrf Token: " + token2);
+			// System.out.println("Server Csrf Token: " + token2);
 		}
 	}
 
