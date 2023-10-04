@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.entity.User;
@@ -32,9 +33,10 @@ public class ParamController {
 		// HttpHeaders responseHeaders = new HttpHeaders();
 		return ResponseEntity.ok(list);
 	}
-	
+
 	/**
-	 * Annotation PathVariable được sử dụng để xử lý những URI động, có một hoặc nhiều paramter bên trong URI
+	 * Annotation PathVariable được sử dụng để xử lý những URI động, có một hoặc
+	 * nhiều paramter bên trong URI
 	 */
 	@RequestMapping("/test1/{id}")
 	public String test1(@PathVariable("id") int id, Model model) {
@@ -48,11 +50,9 @@ public class ParamController {
 		model.addAttribute("name", name);
 		return "test2";
 	}
-    
-	/**
-	 * /user/id/11
-	 * 
-	 * 11 được gọi là tham số đường dẫn
+
+	/*-
+	 * /user/id/11	->	`11` được gọi là tham số đường dẫn
 	 */
 	@GetMapping("id/{id}")
 	// @ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "Was Not Found")
@@ -68,7 +68,9 @@ public class ParamController {
 	 * /user/find			(0)
 	 * /user/find?id=1 		(1)
 	 * 
-	 * @RequestParam(required = true) 		: (0) => 400 Bad Request: Required String parameter 'id' is not present
+	 * @RequestParam(required = true) 		: (0) => 400 Bad Request: Required String parameter 'id' 
+	 * 										   is not present
+	 * 
 	 * @RequestParam(required = false)		: (0) => id = null
 	 * 										: Mặc định `required = true`
 	 * 
@@ -100,6 +102,20 @@ public class ParamController {
 	}
 
 	/*-
+	 * /api/employees/1/bar
+	 */
+	@GetMapping("/api/employees/{id}/{name}")
+	@ResponseBody
+	public String getEmployeesByIdAndNameWithMapVariable(@PathVariable Map<String, String> pathVarsMap) {
+		String id = pathVarsMap.get("id");
+		String name = pathVarsMap.get("name");
+		if (id != null && name != null) {
+			return "ID: " + id + ", name: " + name;
+		}
+		return "Missing Parameters";
+	}
+
+	/*-
 	 * /user/set-all?name=ABC&name=DEF
 	 */
 	@GetMapping("set-all")
@@ -121,4 +137,29 @@ public class ParamController {
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 
+	/*-
+	 * Optional Path Variables
+	 * 
+	 * 		/api/employeeswithrequired		->	Erorr 404
+	 * 
+	 * 		/api/employeeswithrequired/1   	-> 	ID: 111
+	 */
+	@GetMapping(value = { "/api/employeeswithrequired", "/api/employeeswithrequired/{id}" })
+	@ResponseBody
+	public String getEmployeesByIdWithRequired(@PathVariable String id) {
+		return "ID: " + id;
+	}
+
+	/**
+	 * Setting @PathVariable as Not Required
+	 */
+	@GetMapping(value = { "/api/employeeswithoptional", "/api/employeeswithoptional/{id}" })
+	@ResponseBody
+	public String getEmployeesByIdWithOptional(@PathVariable Optional<String> id) {
+	    if (id.isPresent()) {
+	        return "ID: " + id.get();
+	    } else {
+	        return "ID missing";
+	    }
+	}
 }
