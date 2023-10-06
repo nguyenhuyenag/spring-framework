@@ -7,7 +7,7 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
-// @Configuration (tạm đóng, mở ra chạy lỗi do chưa cấu hình EntityManagerFactory)
+// @Configuration (tạm đóng, mở ra chạy sẽ lỗi do chưa cấu hình EntityManagerFactory)
 public class CreateDataSource {
 
 	private String url, username, password;

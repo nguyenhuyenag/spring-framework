@@ -25,10 +25,6 @@ public class EntityUtils {
 
 	/**
 	 * Returns the table name for a given entity type in the {@link EntityManager}.
-	 * 
-	 * @param em
-	 * @param entityClass
-	 * @return
 	 */
 	public static <T> String getTableName(EntityManager em, Class<T> entityClass) {
 		/*

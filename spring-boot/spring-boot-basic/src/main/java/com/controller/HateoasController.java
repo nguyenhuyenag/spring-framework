@@ -28,6 +28,17 @@ class Greeting extends RepresentationModel<Greeting> {
 	}
 }
 
+/*-
+	{
+		"content": "Hello, World!",
+		"_links": {
+			"self": {
+	        	"href": "http://localhost:8082/greeting?name=World"
+			}
+	    }
+	}
+ */
+
 @RestController
 public class HateoasController {
 
