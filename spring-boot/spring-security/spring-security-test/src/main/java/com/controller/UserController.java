@@ -110,11 +110,11 @@ public class UserController {
 		return "security-taglib";
 	}
 
-	private Authentication auth(EditUser editUser) {
+	protected Authentication auth(EditUser editUser) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Set<GrantedAuthority> updatedAuths = new HashSet<>(auth.getAuthorities());
-		// updatedAuthorities.add(...); // add your role here [e.g., new
-		// SimpleGrantedAuthority("ROLE_NEW")]
+		// add your role here [e.g., new SimpleGrantedAuthority("ROLE_NEW")]
+		// updatedAuthorities.add(...); 
 		// new UsernamePasswordAuthenticationToken(auth.getPrincipal(),
 		// auth.getCredentials(), updatedAuths);
 		return new UsernamePasswordAuthenticationToken(editUser.getUsername(), "?????", updatedAuths);
