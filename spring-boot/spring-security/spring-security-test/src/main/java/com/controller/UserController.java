@@ -20,10 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 
-import com.repository.UserRepository;
 import com.request.EditUser;
 import com.util.WebUtils;
 
@@ -33,8 +30,8 @@ public class UserController {
 	@Autowired
 	PasswordEncoder encoder;
 
-	@Autowired
-	private UserRepository userRepository;
+//	@Autowired
+//	private UserRepository userRepository;
 
 	// JDK 17
 	private Optional<User> castUser(Principal principal) {
@@ -96,17 +93,17 @@ public class UserController {
 		return "edit-user";
 	}
 
-	@PostMapping("edit-user")
-	private String _____editUser(@ModelAttribute EditUser editUser, Principal principal) {
-		System.out.println(editUser.toString());
-		if (principal != null) {
-			String password = encoder.encode(editUser.getPassword());
-			userRepository.updateUsernameAndPassword(principal.getName(), editUser.getUsername(), password);
-			Authentication newAuth = auth(editUser);
-			SecurityContextHolder.getContext().setAuthentication(newAuth);
-		}
-		return "edit-user";
-	}
+//	@PostMapping("edit-user")
+//	private String _____editUser(@ModelAttribute EditUser editUser, Principal principal) {
+//		System.out.println(editUser.toString());
+//		if (principal != null) {
+//			String password = encoder.encode(editUser.getPassword());
+//			userRepository.updateUsernameAndPassword(principal.getName(), editUser.getUsername(), password);
+//			Authentication newAuth = auth(editUser);
+//			SecurityContextHolder.getContext().setAuthentication(newAuth);
+//		}
+//		return "edit-user";
+//	}
 
 	@GetMapping("security-taglib") // Spring Security - Taglib
 	public String securityTaglib() {

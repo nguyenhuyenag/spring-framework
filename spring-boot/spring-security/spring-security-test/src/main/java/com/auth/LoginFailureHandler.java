@@ -1,7 +1,6 @@
 package com.auth;
 
 import java.io.IOException;
-import java.util.Optional;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -14,8 +13,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
-import com.entity.User;
-import com.repository.UserRepository;
 import com.util.LoginAttemptService;
 import com.util.RequestUtils;
 
@@ -23,8 +20,8 @@ public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
 	private final Logger LOG = LoggerFactory.getLogger(LoginFailureHandler.class);
 
-	@Autowired
-	private UserRepository repository;
+//	@Autowired
+//	private UserRepository repository;
 
 	@Autowired
 	private LoginAttemptService loginAttemptService;
@@ -37,10 +34,10 @@ public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 		
 		String email = request.getParameter("username");
 		
-		Optional<User> opt = repository.findByUsername(email);
-		if (opt.isPresent()) {
-			// exception = handleError(opt.get());
-		}
+//		Optional<User> opt = repository.findByUsername(email);
+//		if (opt.isPresent()) {
+//			// exception = handleError(opt.get());
+//		}
 		
 		// Login failed by BadCredentialsException (username or password incorrect)
 		if (exception.getClass().isAssignableFrom(BadCredentialsException.class)) {
