@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.model.Employee;
+import com.util.DataUtils;
 
 /*-
  * - Yêu cầu cấu hình trong WebConfig.configureContentNegotiation
@@ -18,12 +19,8 @@ public class ContentNegotiationController {
 
 	@ResponseBody
 	@GetMapping(value = "employee")
-	public Employee getEmployeeById() {
-		Employee employee = new Employee();
-		employee.setId(10);
-		employee.setContactNumber("999-999-9999");
-		employee.setName("Test Employee");
-		return employee;
+	public Employee getEmployee() {
+		return DataUtils.employee();
 	}
 
 }
