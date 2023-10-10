@@ -10,7 +10,7 @@ import com.util.DataUtils;
 import com.util.TimeWatch;
 
 @RestController
-public class RestTimeoutController {
+public class RestTimeout {
 
 	@GetMapping("request-timeout")
 	public Callable<Employee> requestTimeout() {

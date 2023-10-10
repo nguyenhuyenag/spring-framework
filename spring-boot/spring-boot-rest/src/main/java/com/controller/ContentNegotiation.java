@@ -15,7 +15,7 @@ import com.util.DataUtils;
  * 		http://localhost:8080/employee/?mediaType=json
  */
 @Controller
-public class ContentNegotiationController {
+public class ContentNegotiation {
 
 	@ResponseBody
 	@GetMapping(value = "employee")
