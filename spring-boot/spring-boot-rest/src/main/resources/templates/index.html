@@ -3,27 +3,31 @@
 
 <head>
 	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Rest API</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 </head>
 
 <body>
-	<h1>Spring Boot Rest API</h1>
-	<ul>
-		<li>
-			Spring MVC Content Negotiation (<a target='_blank' href='/employee/?mediaType=json'>JSON</a>, <a target='_blank' href='/employee/?mediaType=xml'>XML</a>)
-			<!-- <ul>
-				<li><a target='_blank' href='/employee/?mediaType=json'>JSON</a></li>
-				<li><a target='_blank' href='/employee/?mediaType=xml'>XML</a></li>
-			</ul> -->
-		</li>
-		<li><a target='_blank' href='/request-timeout'>Rest timeout</a></li>
-		<li>
-			<a target='_blank' href='/tweets-blocking'>RestTemplate</a>
-			vs
-			<a target='_blank' href='/tweets-non-blocking'>WebClient</a>
-		</li>
-	</ul>
+	<div class='container mt-4'>
+		<h1>Spring Boot Rest API</h1>
+		<ul>
+			<li>
+				Content Negotiation (<a target='_blank' href='/employee/?mediaType=json'>JSON</a>, 
+				<a target='_blank' href='/employee/?mediaType=xml'>XML</a>)
+				<!-- <ul>
+					<li><a target='_blank' href='/employee/?mediaType=json'>JSON</a></li>
+					<li><a target='_blank' href='/employee/?mediaType=xml'>XML</a></li>
+				</ul> -->
+			</li>
+			<li><a target='_blank' href='/request-timeout'>Rest timeout</a></li>
+			<li>
+				<a target='_blank' href='/tweets-blocking'>RestTemplate</a>
+				vs
+				<a target='_blank' href='/tweets-non-blocking'>WebClient</a> (xem log trên server)
+			</li>
+			<li><a target='_blank' href='/flux'>Flux</a></li>
+			<li><a target='_blank' href='/encoding'>Encoding</a></li>
+		</ul>
+	</div>
 </body>
 </html>

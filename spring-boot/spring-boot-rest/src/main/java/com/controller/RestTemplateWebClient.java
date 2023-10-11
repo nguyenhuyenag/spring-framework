@@ -1,5 +1,6 @@
 package com.controller;
 
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 
@@ -38,12 +39,13 @@ public class RestTemplateWebClient {
 	}
 
 	@GetMapping("/slow-service-tweets")
-	private List<Tweet> getAllTweets() throws InterruptedException {
+	private ResponseEntity<List<Tweet>> getAllTweets() throws InterruptedException {
 		Thread.sleep(2000L); // delay
-		return Arrays.asList( //
+		List<Tweet> listTweet = Arrays.asList( //
 				new Tweet("RestTemplate rules", "@user1"), //
 				new Tweet("WebClient is better", "@user2"), //
 				new Tweet("OK, both are useful", "@user1"));
+		return ResponseEntity.ok(listTweet);
 	}
 
 	@GetMapping("/tweets-blocking")
@@ -64,7 +66,7 @@ public class RestTemplateWebClient {
 	}
 
 	@GetMapping(value = "/tweets-non-blocking", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-	public Flux<Tweet> getTweetsNonBlocking() {
+	public Flux<?> getTweetsNonBlocking() {
 		System.out.println("Starting NON-BLOCKING Controller!");
 		
 		Flux<Tweet> tweetFlux = WebClient.create() //
@@ -75,7 +77,11 @@ public class RestTemplateWebClient {
 		
 		tweetFlux.subscribe(tweet -> System.out.println(tweet.toString()));
 		System.out.println("Exiting NON-BLOCKING Controller!");
-		return tweetFlux;
+		
+		return Flux.just("Data 1", "Data 2", "Data 3")
+	            .delayElements(Duration.ofSeconds(1));
+		
+		//return tweetFlux;
 	}
 
 }
