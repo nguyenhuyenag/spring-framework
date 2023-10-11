@@ -24,6 +24,7 @@ import com.pojo.Jokes;
 import com.pojo.LoginRequest;
 import com.pojo.LoginResponse;
 
+@SuppressWarnings("deprecation")
 public class RestTest {
 
 	private static RestTemplate restTemplate = new RestTemplate();
@@ -122,10 +123,9 @@ public class RestTest {
 	}
 	
 	// Config -> HttpComponentsClientHttpRequestFactoryBasicAuth.java
-	@SuppressWarnings("deprecation")
 	public static void testAuthenBasicAutomatic() {
 		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("user", "123456"));
-		HashMap<String, String> forObject = restTemplate.getForObject("http://localhost:8081/user", HashMap.class);
+		HashMap<?, ?> forObject = restTemplate.getForObject("http://localhost:8081/user", HashMap.class);
 		if (forObject != null) {
 			System.out.println(forObject);
 		}
