@@ -1,6 +1,8 @@
 package com.controller;
 
-import org.springframework.http.HttpStatus;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,20 +11,24 @@ import org.springframework.web.bind.annotation.RestController;
 public class AppController {
 
 	@GetMapping("/public")
-	public String publicResource() {
-		return "Allowed to all";
+	public Map<String, String> publicResource() {
+		Map<String, String> map = new HashMap<>();
+		map.put("data", "Allowed to all");
+		return map;
 	}
 
 	@GetMapping(value = "/user")
-	public ResponseEntity<String> guest() {
-		System.out.println("Showing guest page.");
-		return new ResponseEntity<>("Hello from guest page!", HttpStatus.OK);
+	public ResponseEntity<?> guest() {
+		Map<String, String> map = new HashMap<>();
+		map.put("data", "Hello from user page!");
+		return ResponseEntity.ok(map);
 	}
 
 	@GetMapping(value = "/admin")
-	public ResponseEntity<String> admin() {
-		System.out.println("Showing administrator page.");
-		return new ResponseEntity<>("Welcome to secure/admin page!", HttpStatus.OK);
+	public ResponseEntity<?> admin() {
+		Map<String, String> map = new HashMap<>();
+		map.put("data", "Welcome to secure/admin page!");
+		return ResponseEntity.ok(map);
 	}
 
 }

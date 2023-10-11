@@ -24,8 +24,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	    	.authorizeRequests(request -> {
 	    		request.antMatchers("/user").hasRole("USER")
 	               	   .antMatchers("/admin").hasRole("ADMIN")
-	               	   .anyRequest()
-	               	   .authenticated();
+	               	   .anyRequest().authenticated();
 		    }).httpBasic(httpBasic -> {
 		        httpBasic.authenticationEntryPoint(authenticationEntryPoint);
 		    }).sessionManagement(session -> {
@@ -38,12 +37,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		auth.inMemoryAuthentication()
 			.passwordEncoder(passwordEncoder())
 			.withUser("user")
-				.password("$2a$10$FmFXnXCQcqZyzMQ0JNtXN.Btw3/ItGPZkptxx6yurfiAPMZ2z98WO")
+				.password(passwordEncoder().encode("123456"))
 				.roles("USER")
 			.and()
 			.withUser("admin")
 				// .password("{noop}password")
-				.password("$2a$10$FmFXnXCQcqZyzMQ0JNtXN.Btw3/ItGPZkptxx6yurfiAPMZ2z98WO")
+				.password(passwordEncoder().encode("123456"))
 				.roles("ADMIN");
 	}
 	
