@@ -139,7 +139,6 @@ public class RestTest {
 		// optionsForAllow();
 		// postJWT();
 		testAuthenBasicAutomatic();
-		System.out.println();
 	}
 
 }
