@@ -1,6 +1,7 @@
 package com.resttemplate;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Set;
 
 import org.apache.http.client.config.RequestConfig;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.client.support.BasicAuthorizationInterceptor;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -26,9 +28,9 @@ public class RestTest {
 
 	private static RestTemplate restTemplate = new RestTemplate();
 
-	private static String API_GET_ONE 	= "http://localhost:8080/v2/get-one";
-	private static String GET_ONE 		= "http://localhost:8080/v1/get-one"; // public
-	private static String LOGIN 		= "http://localhost:8080/auth/login";
+	private static String API_GET_ONE = "http://localhost:8080/v2/get-one";
+	private static String GET_ONE = "http://localhost:8080/v1/get-one"; // public
+	private static String LOGIN = "http://localhost:8080/auth/login";
 
 	public static void getPlainJSON() throws JsonMappingException, JsonProcessingException {
 		ResponseEntity<String> response = restTemplate.getForEntity(GET_ONE, String.class);
@@ -57,7 +59,8 @@ public class RestTest {
 
 	public static void exchange() throws JsonMappingException, JsonProcessingException {
 		HttpEntity<LoginRequest> request = new HttpEntity<>(new LoginRequest("huyennv", "123456"));
-		ResponseEntity<LoginResponse> response = restTemplate.exchange(LOGIN, HttpMethod.POST, request, LoginResponse.class);
+		ResponseEntity<LoginResponse> response = restTemplate.exchange(LOGIN, HttpMethod.POST, request,
+				LoginResponse.class);
 		if (response != null) {
 			System.out.println(response.getStatusCode());
 			LoginResponse login = response.getBody();
@@ -95,14 +98,14 @@ public class RestTest {
 		}
 		return null;
 	}
-	
+
 	private static HttpHeaders getHeaders() {
 		HttpHeaders headers = new HttpHeaders();
 		// headers.set("Content-Type", MediaType.APPLICATION_JSON_VALUE);
 		// headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
 		return headers;
 	}
-	
+
 	public static void postJWT() throws JsonMappingException, JsonProcessingException {
 		LoginResponse login = postForObject();
 		if (login != null) {
@@ -117,14 +120,25 @@ public class RestTest {
 			}
 		}
 	}
+	
+	// Config -> HttpComponentsClientHttpRequestFactoryBasicAuth.java
+	@SuppressWarnings("deprecation")
+	public static void testAuthenBasicAutomatic() {
+		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("user", "123456"));
+		HashMap<String, String> forObject = restTemplate.getForObject("http://localhost:8081/user", HashMap.class);
+		if (forObject != null) {
+			System.out.println(forObject);
+		}
+	}
 
 	public static void main(String[] args) throws JsonMappingException, JsonProcessingException {
-		getPOJO();
+		// getPOJO();
 		// getPlainJSON();
 		// postForObject();
 		// exchange();
 		// optionsForAllow();
 		// postJWT();
+		testAuthenBasicAutomatic();
 		System.out.println();
 	}
 
