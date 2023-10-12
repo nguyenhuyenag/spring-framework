@@ -47,7 +47,7 @@ public class URLQuery {
 		// 
 		URL _url = new URL(url);
 		URI uri = new URI(_url.getProtocol(), _url.getUserInfo(), _url.getHost(), _url.getPort(), _url.getPath(), _url.getQuery(), _url.getRef());
-		System.out.println(uri);
+		System.out.println(uri.toASCIIString());
 		
 	}
 
