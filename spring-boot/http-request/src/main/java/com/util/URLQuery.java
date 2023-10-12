@@ -2,6 +2,7 @@ package com.util;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 
@@ -39,14 +40,20 @@ public class URLQuery {
 
 	public static void encodeURL() throws Exception {
 		String url = "http://www.example.com/CEREC® Materials & Accessories/IPS Empress® CAD.pdf";
+		// Encode & Decode
 		URI encodeValue = encodeValue(url);
 		System.out.println(encodeValue);
 		System.out.println(decode(encodeValue.toString()));
+		// 
+		URL _url = new URL(url);
+		URI uri = new URI(_url.getProtocol(), _url.getUserInfo(), _url.getHost(), _url.getPort(), _url.getPath(), _url.getQuery(), _url.getRef());
+		System.out.println(uri);
+		
 	}
 
 	public static void main(String[] args) throws Exception {
-		usingApacheUriBuilder();
-		usingSpringUriComponentsBuilder();
+		// usingApacheUriBuilder();
+		// usingSpringUriComponentsBuilder();
 		encodeURL();
 	}
 
