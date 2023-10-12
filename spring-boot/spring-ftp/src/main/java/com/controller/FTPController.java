@@ -128,7 +128,7 @@ public class FTPController {
 				.body(new ByteArrayResource(data));
 	}
 
-	private static void showAllHeaderFields(String downloadUrl) throws IOException {
+	protected static void showAllHeaderFields(String downloadUrl) throws IOException {
 		URLConnection conn = URI.create(downloadUrl).toURL().openConnection();
 		// get all headers
 		Map<String, List<String>> map = conn.getHeaderFields();
@@ -154,7 +154,7 @@ public class FTPController {
 		return fieldValue.substring(fieldValue.indexOf("filename=") + 9, fieldValue.length());
 	}
 
-	private static long downloadFile(String downloadUrl) throws IOException {
+	protected static long downloadFile(String downloadUrl) throws IOException {
 		// showAllHeaderFields(downloadUrl);
 		URL url = URI.create(downloadUrl).toURL();
 		try (InputStream is = url.openStream()) {
