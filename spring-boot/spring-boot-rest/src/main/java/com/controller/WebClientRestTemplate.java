@@ -27,7 +27,7 @@ import reactor.core.publisher.Flux;
  * 
  */
 @RestController
-public class RestTemplateWebClient {
+public class WebClientRestTemplate {
 
 	// private Logger log = LoggerFactory.getLogger(this.getClass());
 

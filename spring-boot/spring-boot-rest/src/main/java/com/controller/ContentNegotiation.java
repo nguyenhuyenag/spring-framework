@@ -8,7 +8,7 @@ import com.model.Employee;
 import com.util.DataUtils;
 
 /*-
- * - Yêu cầu cấu hình trong WebConfig.configureContentNegotiation
+ * - Yêu cầu cấu hình trong WebMvcConfig.configureContentNegotiation
  * 
  * 		http://localhost:8080/employee/?mediaType=xml
  * 
