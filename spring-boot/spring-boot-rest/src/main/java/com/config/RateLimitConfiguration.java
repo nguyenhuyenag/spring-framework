@@ -1,11 +1,7 @@
 package com.config;
 
-import java.time.Duration;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import io.github.resilience4j.ratelimiter.RateLimiterConfig;
 
 /*-
 	@Bean 
@@ -30,15 +26,15 @@ public class RateLimitConfiguration {
 		return com.google.common.util.concurrent.RateLimiter.create(1); // 1 requests per second
 	}
 
-	@Bean
-	public io.github.resilience4j.ratelimiter.RateLimiter rateLimiter() {
-		RateLimiterConfig config = RateLimiterConfig.custom() //
-				.limitForPeriod(1) //
-				.limitRefreshPeriod(Duration.ofSeconds(1)) //
-				.timeoutDuration(Duration.ofMillis(0)) //
-				.build();
-
-		return io.github.resilience4j.ratelimiter.RateLimiter.of("myRateLimiter", config);
-	}
+//	@Bean
+//	public io.github.resilience4j.ratelimiter.RateLimiter rateLimiter() {
+//		RateLimiterConfig config = RateLimiterConfig.custom() //
+//				.limitForPeriod(1) //
+//				.limitRefreshPeriod(Duration.ofSeconds(1)) //
+//				.timeoutDuration(Duration.ofMillis(0)) //
+//				.build();
+//
+//		return io.github.resilience4j.ratelimiter.RateLimiter.of("myRateLimiter", config);
+//	}
 
 }

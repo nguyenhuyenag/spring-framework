@@ -24,10 +24,10 @@ public class LimitRequests {
 		return ResponseEntity.ok(HttpStatus.TOO_MANY_REQUESTS);
 	}
 	
-	@io.github.resilience4j.ratelimiter.annotation.RateLimiter(name = "myRateLimiter")
-    @GetMapping("/limited-endpoint")
-    public String limitedEndpoint() {
-        return "This endpoint is rate-limited to 10 requests per second.";
-    }
+//	@io.github.resilience4j.ratelimiter.annotation.RateLimiter(name = "myRateLimiter")
+//    @GetMapping("/limited-endpoint")
+//    public String limitedEndpoint() {
+//        return "This endpoint is rate-limited to 10 requests per second.";
+//    }
 
 }
