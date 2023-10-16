@@ -1,11 +1,10 @@
 package com.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.google.common.util.concurrent.RateLimiter;
 
 /**
  * Cấu hình RateLimitConfiguration.java
@@ -14,29 +13,21 @@ import com.google.common.util.concurrent.RateLimiter;
 public class LimitRequests {
 
 	@Autowired
-	private RateLimiter rateLimiter;
-
-	@Autowired
-	@Qualifier("rate2Limiter")
-	private RateLimiter rate2Limiter;
+	private com.google.common.util.concurrent.RateLimiter rateLimiter;
 
 	@GetMapping("limit-requests")
-	public String limitRequests() {
+	public ResponseEntity<?> limitRequests() {
 		if (rateLimiter.tryAcquire()) {
 			// Logic here
-			return "Success!";
+			return ResponseEntity.ok("Success!");
 		}
-		return "Rate limit exceeded.";
-
+		return ResponseEntity.ok(HttpStatus.TOO_MANY_REQUESTS);
 	}
-
-	@GetMapping("limit-requests-2")
-	public String limitRequests2() {
-		if (rate2Limiter.tryAcquire()) {
-			return "Success!";
-		}
-		return "Rate limit exceeded.";
-
-	}
+	
+	@io.github.resilience4j.ratelimiter.annotation.RateLimiter(name = "myRateLimiter")
+    @GetMapping("/limited-endpoint")
+    public String limitedEndpoint() {
+        return "This endpoint is rate-limited to 10 requests per second.";
+    }
 
 }
