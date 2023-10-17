@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Rest API</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+	<div class='container mt-4'>
+		<h1>Spring Boot Rest API</h1>
+		<ul>
+			<li><a target='_blank' href='/read-header'>Read header</a></li>
+			<li>
+				Content Negotiation (<a target='_blank' href='/employee/?mediaType=json'>JSON</a>, 
+				<a target='_blank' href='/employee/?mediaType=xml'>XML</a>)
+				<!-- <ul>
+					<li><a target='_blank' href='/employee/?mediaType=json'>JSON</a></li>
+					<li><a target='_blank' href='/employee/?mediaType=xml'>XML</a></li>
+				</ul> -->
+			</li>
+			<li><a target='_blank' href='/request-timeout'>Rest timeout</a></li>
+			<li>
+				<a target='_blank' href='/tweets-blocking'>RestTemplate</a>
+				vs
+				<a target='_blank' href='/tweets-non-blocking'>WebClient</a> (xem log trên server)
+			</li>
+			<li><a target='_blank' href='/flux'>Flux</a></li>
+			<li><a target='_blank' href='/encoding'>Encoding</a></li>
+			<li><a target='_blank' href='/limit-requests'>Limit requests per second</a></li>
+		</ul>
+	</div>
+</body>
+</html>

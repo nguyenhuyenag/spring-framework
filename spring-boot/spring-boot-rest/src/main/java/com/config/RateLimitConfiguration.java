@@ -1,7 +1,12 @@
 package com.config;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import com.google.common.util.concurrent.RateLimiter;
 
 /*-
 	@Bean 
@@ -24,6 +29,14 @@ public class RateLimitConfiguration {
 	@Bean
 	public com.google.common.util.concurrent.RateLimiter rateLimiterByGuava() {
 		return com.google.common.util.concurrent.RateLimiter.create(1); // 1 requests per second
+	}
+	
+	@Bean 
+	public Map<String, RateLimiter> rateLimiters() { 
+		Map<String, RateLimiter> rateLimiters = new ConcurrentHashMap<>();
+		rateLimiters.put("LIMIT_1", RateLimiter.create(1));
+		rateLimiters.put("LIMIT_2", RateLimiter.create(2));
+		return rateLimiters;
 	}
 
 //	@Bean
