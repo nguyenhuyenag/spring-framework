@@ -13,6 +13,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+/**
+ * https://www.baeldung.com/spring-webflux-databufferlimitexception
+ */
 public class LimitedFileDownloadWebClient {
 
 	// If we don’t allocate enough memory, we’ll get an OutOfMemoryError
