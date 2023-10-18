@@ -32,6 +32,7 @@ public class WebClientParams {
 				.bodyToMono(String.class) //
 				.onErrorResume(e -> Mono.empty()) //
 				.block();
+
 		/**
 		 * URI Query Parameters
 		 */
