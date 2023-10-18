@@ -1,24 +1,20 @@
-package com;
+package com.webclient.retry;
 
 import java.time.Duration;
 
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import reactor.core.publisher.Mono;
 import reactor.util.retry.Retry;
 
-@SpringBootApplication
-public class BootApplication implements CommandLineRunner {
+/**
+ * retryWhen(Retry.max(3))
+ * 
+ * retryWhen(Retry.fixedDelay(3, Duration.ofSeconds(2)));
+ */
+public class RetryExample {
 
 	public static void main(String[] args) {
-		SpringApplication.run(BootApplication.class, args);
-	}
-
-	@Override
-	public void run(String... args) throws Exception {
 		// Tạo một WebClient để thực hiện yêu cầu HTTP
 		WebClient webClient = WebClient.builder() //
 				.baseUrl("http://localhost:8080") //

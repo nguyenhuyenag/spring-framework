@@ -36,10 +36,14 @@ public class LimitedFileDownloadWebClient {
 
 	public static void main(String... args) throws IOException {
 		String baseUrl = "http://localhost:8081/large-file";
-		String destination = "C:/Users/huyennv/Desktop/new/download_large.dat";
-		WebClient client = WebClient.builder().baseUrl(baseUrl).exchangeStrategies(useMaxMemory()).build();
+		String output = "C:/Users/huyennv/Desktop/new/download_large.dat";
+		WebClient client = WebClient.builder() //
+				.baseUrl(baseUrl) //
+				.exchangeStrategies(useMaxMemory()) //
+				.build();
 		// long bytes = fetch(client, destination);
-		long bytes = fetchAnyFileSizeWithDataBuffer(client, destination);
+		long bytes = fetchAnyFileSizeWithDataBuffer(client, output);
+		
 		System.out.printf("downloaded %d bytes", bytes);
 	}
 
