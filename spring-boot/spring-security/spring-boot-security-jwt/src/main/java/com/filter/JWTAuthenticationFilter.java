@@ -37,10 +37,11 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
 	}
 
 	@Override
-	public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res)
+	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException, IOException, ServletException {
-		UsernamePasswordAuthenticationToken authRequest = getAuthRequest(req);
+		UsernamePasswordAuthenticationToken authRequest = getAuthRequest(request);
 		SecurityContextHolder.getContext().setAuthentication(authRequest);
+		// Authentication authentication = AuthenticationService.getAuthentication(req);
 		return getAuthenticationManager().authenticate(authRequest);
 	}
 
@@ -69,7 +70,7 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
 	private UsernamePasswordAuthenticationToken getAuthRequest(HttpServletRequest req) throws IOException {
 		LoginRequest login = JsonUtils.readValue(req.getInputStream(), LoginRequest.class);
 		if (login == null) {
-			return null;
+			throw new IllegalArgumentException("The login object is missing or invalid");
 		}
 		return new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword());
 	}
