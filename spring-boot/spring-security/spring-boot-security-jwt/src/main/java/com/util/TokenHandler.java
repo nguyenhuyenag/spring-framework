@@ -30,8 +30,8 @@ public class TokenHandler {
 	private static final String SECRET_KEY 			= "JWT_26A879D65E22";
 	private static final long EXPIRATION_TIME 		= TimeUnit.DAYS.toMillis(1);
 	
-	private static Algorithm algorithm 	= Algorithm.HMAC512(SECRET_KEY);;
-	private static JWTVerifier verifier = JWT.require(algorithm).withIssuer(ISSUER).build();
+	private static final Algorithm ALGORITHM 	= Algorithm.HMAC512(SECRET_KEY);;
+	private static JWTVerifier verifier = JWT.require(ALGORITHM).withIssuer(ISSUER).build();
 
 //	public static Claims getClaims(String token) {
 //		Claims claims = null;
@@ -81,7 +81,7 @@ public class TokenHandler {
 				.withIssuer(ISSUER) //
 				.withIssuedAt(new Date()) //
 				.withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME)) //
-				.sign(algorithm);
+				.sign(ALGORITHM);
 	}
 	
 	public static DecodedJWT verifyJWT(String jwt) {
