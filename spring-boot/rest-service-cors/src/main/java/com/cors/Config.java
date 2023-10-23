@@ -1,16 +1,11 @@
 package com.cors;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-@SpringBootApplication
-public class RestServiceCorsApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(RestServiceCorsApplication.class, args);
-	}
+@Configuration
+public class Config {
 
 	@Bean
 	FilterRegistrationBean<CORSFilter> filterRegistrationBean() {

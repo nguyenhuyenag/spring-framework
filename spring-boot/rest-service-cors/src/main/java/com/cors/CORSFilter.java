@@ -13,15 +13,15 @@ import jakarta.servlet.http.HttpServletResponse;
 public class CORSFilter extends GenericFilterBean { // implements Filter {
 
 	@Override
-	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
+		HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 		httpServletResponse.setHeader("Access-Control-Allow-Origin", "*");
 		httpServletResponse.setHeader("Access-Control-Allow-Methods", "*");
 		httpServletResponse.setHeader("Access-Control-Allow-Headers", "*");
 		httpServletResponse.setHeader("Access-Control-Allow-Credentials", "*");
 		httpServletResponse.setHeader("Access-Control-Max-Age", "3600");
-		filterChain.doFilter(servletRequest, servletResponse);
+		chain.doFilter(request, response);
 	}
 
 }
