@@ -30,7 +30,7 @@ public class AppRunner implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		// testUpdateTimestamp();
 		// testCreationTimestamp();
-		// List<BankAccount> findAll = testRepository.findAll();
+		testRepository.findAll().forEach(System.out::println);
 	}
 
 	public void testCreationTimestamp() throws InterruptedException {
