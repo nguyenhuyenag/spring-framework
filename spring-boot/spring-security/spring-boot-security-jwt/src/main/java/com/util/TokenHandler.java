@@ -3,6 +3,9 @@ package com.util;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.auth0.jwt.JWT;
@@ -76,7 +79,7 @@ public class TokenHandler {
 	
 	public static String createJWT(String username, String authorities) {
 		return JWT.create() //
-				.withSubject(username) //
+				.withSubject(username) // (1)
 				.withClaim(AUTHORITIES_KEY, authorities) //
 				.withIssuer(ISSUER) //
 				.withIssuedAt(new Date()) //
@@ -103,6 +106,9 @@ public class TokenHandler {
 		return null;
 	}
 	
+	/**
+	 * (1): It's 'username' or 'email',...
+	 */
 	public static String getSubject(DecodedJWT decodedJWT) {
 		return decodedJWT.getSubject();
 	}
@@ -121,6 +127,14 @@ public class TokenHandler {
 
 	public static Claim getClaim(DecodedJWT decodedJWT) {
 		return decodedJWT.getClaim(AUTHORITIES_KEY);
+	}
+	
+	public static String extractJWT(HttpServletRequest req) {
+		String header = req.getHeader(HttpHeaders.AUTHORIZATION);
+		if (header != null && header.startsWith(TokenHandler.BEARER)) {
+			return header.replace(TokenHandler.BEARER, "");
+		}
+		return "";
 	}
 	
 	public static void main(String args[]) throws InterruptedException {

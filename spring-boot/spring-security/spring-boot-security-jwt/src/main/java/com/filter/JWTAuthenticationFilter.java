@@ -45,16 +45,17 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
 		return getAuthenticationManager().authenticate(authRequest);
 	}
 
-	// Login successful
-	@Override
+	@Override // Login successful
 	protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain,
 			Authentication authResult) throws IOException, ServletException {
-		String json = createJWTResponse(authResult);
-		res.getWriter().write(json);
+		// String json = createJWTResponse(authResult);
+		JwtResponse jwtResponse = createJWTResponse(authResult);
+		
+		res.setHeader("Authorization", jwtResponse.getAccessToken());
+		res.getWriter().write(JsonUtils.toJSON(jwtResponse));
 	}
 
-	// Login fail
-	@Override
+	@Override // Login fail
 	protected void unsuccessfulAuthentication(HttpServletRequest req, HttpServletResponse res,
 			AuthenticationException failed) throws IOException, ServletException {
 		// if user is disable status = 403
@@ -74,13 +75,20 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
 		}
 		return new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword());
 	}
-
-	private String createJWTResponse(Authentication authResult) {
-		String authorities = getStringAuthorities(authResult);
-		String jwt = TokenHandler.createJWT(authResult.getName(), authorities);
-		RefreshToken refreshToken = refreshTokenService.createRefreshToken(authResult.getName());
-		return JsonUtils.toJSON(new JwtResponse(jwt, refreshToken.getToken()));
+	
+	private JwtResponse createJWTResponse(Authentication auth) {
+		String authorities = getStringAuthorities(auth);
+		String jwt = TokenHandler.createJWT(auth.getName(), authorities);
+		RefreshToken refreshToken = refreshTokenService.createRefreshToken(auth.getName());
+		return new JwtResponse(jwt, refreshToken.getToken());
 	}
+
+//	private String createJWTResponse(Authentication auth) {
+//		String authorities = getStringAuthorities(auth);
+//		String jwt = TokenHandler.createJWT(auth.getName(), authorities);
+//		RefreshToken refreshToken = refreshTokenService.createRefreshToken(auth.getName());
+//		return JsonUtils.toJSON(new JwtResponse(jwt, refreshToken.getToken()));
+//	}
 
 	// auth.getAuthorities() -> never null
 	private String getStringAuthorities(Authentication auth) {

@@ -51,7 +51,10 @@ public class AuthenticationRequestFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
 			throws IOException, ServletException {
-
+		
+		/**
+		 * Cần đặt ở đầu tiên (để successfulAuthentication() sẽ trả về JSON)
+		 */
 		res.setCharacterEncoding("UTF-8");
 		res.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 
@@ -69,10 +72,10 @@ public class AuthenticationRequestFilter extends OncePerRequestFilter {
 		}
 
 		LOG.info("Filter request '{}'", req.getRequestURI());
-		String jwt = extractJWT(req);
+		String jwt = TokenHandler.extractJWT(req);
 		if (StringUtils.isEmpty(jwt)) {
 			LOG.info("Couldn't find bearer string");
-			throw new BadCredentialsException("Missing authentication token");
+			throw new BadCredentialsException("Missing authentication token (JWT)");
 		}
 		
 		DecodedJWT verify = TokenHandler.verifyJWT(jwt);
@@ -91,6 +94,7 @@ public class AuthenticationRequestFilter extends OncePerRequestFilter {
 			LOG.info("Authenticated '" + username + "', setting security context");
 			SecurityContextHolder.getContext().setAuthentication(authToken);
 		}
+		
 		chain.doFilter(req, res);
 	}
 
@@ -114,12 +118,12 @@ public class AuthenticationRequestFilter extends OncePerRequestFilter {
 		return false;
 	}
 
-	private String extractJWT(HttpServletRequest req) {
-		String header = req.getHeader(HttpHeaders.AUTHORIZATION);
-		if (header != null && header.startsWith(TokenHandler.BEARER)) {
-			return header.replace(TokenHandler.BEARER, "");
-		}
-		return "";
-	}
+//	private String extractJWT(HttpServletRequest req) {
+//		String header = req.getHeader(HttpHeaders.AUTHORIZATION);
+//		if (header != null && header.startsWith(TokenHandler.BEARER)) {
+//			return header.replace(TokenHandler.BEARER, "");
+//		}
+//		return "";
+//	}
 
 }

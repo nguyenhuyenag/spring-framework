@@ -1,5 +1,6 @@
 package com.payload.reponse;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import lombok.Getter;
@@ -13,12 +14,16 @@ import lombok.Setter;
 public class JwtResponse {
 
 	private String type = "Bearer";
-	private String access_token;
-	private String refresh_token;
+
+	@JsonProperty("access_token")
+	private String accessToken;
+
+	@JsonProperty("refresh_token")
+	private String refreshToken;
 
 	public JwtResponse(String token, String refreshToken) {
-		this.access_token = token;
-		this.refresh_token = refreshToken;
+		this.accessToken = token;
+		this.refreshToken = refreshToken;
 	}
 
 }
