@@ -16,10 +16,18 @@ import lombok.Data;
  * 
  * - Cách quan hệ 1 - 1 trong cơ sở dữ liệu biểu thị rằng một thực thể A tương
  * ứng với một thực thể B và ngược lại. Ví dụ một người sẽ có một địa chỉ duy
- * nhất (giả sử)
+ * nhất (giả sử).
  * 
  * - Khi tạo table trong DB để biểu thị mối quan hệ này, thì sẽ có một bảng chứa
- * khóa ngoại của bảng còn lại
+ * khóa ngoại của bảng còn lại.
+ * 
+ * - Trong mối quan hệ hai chiều (bi-directional), ta dùng chú thích @OneToOne ở
+ * cả 2 entity nhưng chỉ một entity là chủ sở hữu (owner) của mối quan hệ. Thông
+ * thường, entity con là chủ sở hữu của mối quan hệ và thực thể cha là bên
+ * nghịch đảo của mối quan hệ. Chủ sở hữu của mối quan hệ (MyUser) chứa chú
+ * thích @JoinColumn để chỉ ra cột nào là khóa ngoại và entity nào là nghịch đảo
+ * của mối quan hệ (MyAddress). Entity nghịch đảo này sẽ chứa thuộc tính
+ * mappedBy để chỉ ra rằng mối quan hệ được ánh xạ bởi thực thể còn lại.
  * 
  * + CascadeType.ALL: Tất cả các hoạt động (CREATE, READ, UPDATE, DELETE) trên
  * đối tượng chính cũng sẽ được áp dụng cho đối tượng liên quan
