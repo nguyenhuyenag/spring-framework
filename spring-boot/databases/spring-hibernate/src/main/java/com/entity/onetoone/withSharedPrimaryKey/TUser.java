@@ -17,8 +17,6 @@ public class TUser {
     @Column(name = "id")
     private Long id;
 
-    //...
-
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private TAddress address;
