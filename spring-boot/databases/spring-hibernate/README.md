@@ -80,6 +80,15 @@
 	
 	- @IdClass
 
+# @OneToOne
+
+	- Một bản ghi chỉ cho phép duy nhất một bản ghi khác tham chiếu tới nó
+	
+	- Annotation @OneToOne biểu thị mối quan hệ 1 – 1
+	
+	- @JoinColumn(name = "person_id") biểu thị rằng 2 đối tượng mapping qua column person_id 
+	Trường hợp dùng chung id thì ta thay bằng annotation @PrimaryKeyJoinColumn
+
 # @OneToMany & @ManyToOne
 	
 	class Company {
@@ -110,15 +119,6 @@
 			@OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
 			@OrderBy("title")
 			private Set<Post> posts;
-				
-# @OneToOne
-
-	- Một bản ghi chỉ cho phép duy nhất một bản ghi khác tham chiếu tới nó
-	
-	- Annotation @OneToOne biểu thị mối quan hệ 1 – 1
-	
-	- @JoinColumn(name = "person_id") biểu thị rằng 2 đối tượng mapping qua column person_id 
-	Trường hợp dùng chung id thì ta thay bằng annotation @PrimaryKeyJoinColumn
 	
 
 # @ElementCollection

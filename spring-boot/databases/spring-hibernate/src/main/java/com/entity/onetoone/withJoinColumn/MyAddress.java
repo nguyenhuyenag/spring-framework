@@ -5,23 +5,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
-/**
- * - Hay còn gọi với tên with Foreign Key
- * 
- * - Cách quan hệ 1 - 1 trong cơ sở dữ liệu biểu thị rằng một thực thể A tương
- * ứng với một thực thể B và ngược lại. Ví dụ một người sẽ có một địa chỉ duy
- * nhất (giả sử)
- * 
- * - Bình thường, khi tạo table trong csdl để biểu thị mối quan hệ này, thì sẽ
- * có một bảng chứa khóa ngoại của bảng còn lại
- */
+import lombok.Data;
+
+@Data
 @Entity
+@Table(name = "my_address")
 public class MyAddress {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
+	private String street;
+	private String city;
 
 	@OneToOne(mappedBy = "address")
 	private MyUser user;

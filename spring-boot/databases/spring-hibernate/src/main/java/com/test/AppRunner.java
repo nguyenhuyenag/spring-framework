@@ -11,10 +11,15 @@ public class AppRunner implements CommandLineRunner {
 
 	@Autowired
 	TestRepository testRepository;
+	
+	@Autowired
+	TestOneToOne testOneToOne;
 
 	@Override
 	public void run(String... args) throws Exception {
-		// testRepository.findAll().forEach(System.out::println);
+		testOneToOne.test();
 	}
+
+	
 
 }
