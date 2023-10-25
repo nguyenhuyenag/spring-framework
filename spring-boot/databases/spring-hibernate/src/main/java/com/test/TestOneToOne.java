@@ -5,40 +5,59 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.entity.onetoone.withJoinColumn.MyAddress;
-import com.entity.onetoone.withJoinColumn.MyUser;
-import com.repository.MyUserRepository;
+import com.entity.onetoone.withJoinColumn.AddressJC;
+import com.entity.onetoone.withJoinColumn.UserJC;
+import com.entity.onetoone.withJoinTable.AddressJT;
+import com.entity.onetoone.withJoinTable.UserJT;
+import com.repository.UserJCRepository;
+import com.repository.UserJTRepository;
 
 @Component
 public class TestOneToOne {
 
 	@Autowired
-	MyUserRepository myUserRepository;
+	UserJCRepository userJCRepository;
+	
+	@Autowired
+	UserJTRepository userJTRepository;
 
 	public void test() {
-		// myUserRepository.deleteAll();
-		// create();
-		read();
+		userJCRepository.deleteAll();
+		// withJoinColumn();
+		withJoinTable();
+		// read();
 	}
 
 	protected void read() {
-		Optional<MyUser> opt = myUserRepository.findById(4);
+		Optional<UserJC> opt = userJCRepository.findById(4);
 		opt.ifPresent(u -> {
 			System.out.println(u.getUsername());
 			System.out.println(u.getAddress().getStreet());
 		});
 	}
+	
+	protected void withJoinTable() {
+		AddressJT address = new AddressJT();
+		address.setCity("Hà Nội");
+		address.setStreet("Võ Nguyên Giáp");
 
-	protected void create() {
-		MyAddress address = new MyAddress();
+		UserJT user = new UserJT();
+		user.setUsername("abc");
+		user.setAddress(address);
+
+		userJTRepository.save(user);
+	}
+
+	protected void withJoinColumn() {
+		AddressJC address = new AddressJC();
 		address.setCity("Ho Chi Minh");
 		address.setStreet("Dien Bien Phu");
 
-		MyUser user = new MyUser();
+		UserJC user = new UserJC();
 		user.setUsername("huyennv");
 		user.setAddress(address);
 
-		myUserRepository.save(user);
+		userJCRepository.save(user);
 	}
 
 }

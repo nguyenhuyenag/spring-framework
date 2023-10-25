@@ -1,4 +1,4 @@
-package com.entity.onetoone.withJoinColumn;
+package com.entity.onetoone.withJoinTable;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,16 +9,10 @@ import javax.persistence.Table;
 
 import lombok.Data;
 
-/**
- * + mappedBy = "address": Dùng để cho JPA biết rằng thực thể MyUser không chứa
- * khóa ngoại, hãy tìm kiếm khóa ngoại trong thực thể MyAddress tại trường có
- * tên là 'address'. Khóa ngoại đó được chỉ ra bới giá trị của thuộc tính `name`
- * trong annotation @JoinColumn
- */
 @Data
 @Entity
 @Table(name = "my_address")
-public class MyAddress {
+public class AddressJT {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +22,6 @@ public class MyAddress {
 	private String city;
 
 	@OneToOne(mappedBy = "address")
-	private MyUser user;
+	private UserJT user;
 
 }

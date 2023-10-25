@@ -27,17 +27,17 @@ CREATE TABLE `mysql_name` (
 );
 
 ---  @OneToOne  ---
-CREATE TABLE `my_address`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `street` varchar(255),
-  `city` varchar(255),
-  PRIMARY KEY (`id`) USING BTREE
-);
-
 CREATE TABLE `my_user`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(255),
   `address_id` int(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+);
+
+CREATE TABLE `my_address`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `street` varchar(255),
+  `city` varchar(255),
   PRIMARY KEY (`id`) USING BTREE
 );
 

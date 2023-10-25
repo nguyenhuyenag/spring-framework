@@ -39,7 +39,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "my_user")
-public class MyUser {
+public class UserJC {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,6 +49,6 @@ public class MyUser {
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "address_id", referencedColumnName = "id")
-	private MyAddress address;
+	private AddressJC address;
 
 }
