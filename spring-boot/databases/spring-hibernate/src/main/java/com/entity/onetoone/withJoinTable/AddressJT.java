@@ -1,5 +1,6 @@
 package com.entity.onetoone.withJoinTable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,7 +12,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "my_address")
+@Table(name = "address_jt")
 public class AddressJT {
 
 	@Id
@@ -21,7 +22,7 @@ public class AddressJT {
 	private String street;
 	private String city;
 
-	@OneToOne(mappedBy = "address")
+	@OneToOne(mappedBy = "address", cascade = CascadeType.ALL)
 	private UserJT user;
 
 }

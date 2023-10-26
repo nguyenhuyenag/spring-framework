@@ -9,26 +9,39 @@ import com.entity.onetoone.withJoinColumn.AddressJC;
 import com.entity.onetoone.withJoinColumn.UserJC;
 import com.entity.onetoone.withJoinTable.AddressJT;
 import com.entity.onetoone.withJoinTable.UserJT;
+import com.repository.AddressJTRepository;
 import com.repository.UserJCRepository;
 import com.repository.UserJTRepository;
 
+/**
+ * @JoinColumn -> Xóa tự User
+ * 
+ * @Jointable  -> Xóa tự Address
+ */
 @Component
 public class TestOneToOne {
 
 	@Autowired
 	UserJCRepository userJCRepository;
-	
+
 	@Autowired
 	UserJTRepository userJTRepository;
 
+	@Autowired
+	AddressJTRepository addressJTRepository;
+
 	public void test() {
-		userJCRepository.deleteAll();
+		// userJCRepository.deleteAll();
+		// addressJTRepository.deleteAll();
+
 		// withJoinColumn();
-		withJoinTable();
-		// read();
+		// withJoinTable();
+		
+		// readWithJoinColumn();
+		// readWithJoinTable();
 	}
 
-	protected void read() {
+	protected void readWithJoinColumn() {
 		Optional<UserJC> opt = userJCRepository.findById(4);
 		opt.ifPresent(u -> {
 			System.out.println(u.getUsername());
@@ -36,6 +49,14 @@ public class TestOneToOne {
 		});
 	}
 	
+	protected void readWithJoinTable() {
+		Optional<UserJT> opt = userJTRepository.findById(3);
+		opt.ifPresent(u -> {
+			System.out.println(u.getUsername());
+			System.out.println(u.getAddress().getStreet());
+		});
+	}
+
 	protected void withJoinTable() {
 		AddressJT address = new AddressJT();
 		address.setCity("Hà Nội");

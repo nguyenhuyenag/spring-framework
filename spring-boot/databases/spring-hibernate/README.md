@@ -111,6 +111,18 @@
 	- @JoinColumn: Chỉ rõ mapping qua cột company_id trong table staff, quy tắc tự động
 		
 		TenClassChuKhoaChinh_TenKhoaChinh	=> Ví dụ `company_id`
+
+# Kiểm soát việc tạo cơ sở dữ liệu với Hibernate
+
+		spring.jpa.hibernate.ddl-auto=xxx
+
+	+ create: Drop các bảng đang có và sau đó tạo ra các bảng mới.
+	+ update: Cập nhật schema cơ sở dữ liệu hiện tại để khớp với mô hình của bạn. Nó sẽ không bao giờ xóa đi các bảng hay các cột đang có ngay cả khi chúng không còn được ứng dụng của ta yêu cầu nữa.
+	+ create-drop: Tương tự như create nhưng sau khi tất cả các hoạt động đã được hoàn thành, Hibernate sẽ thực hiện việc drop database. Thường được sử dụng cho unit test.
+	+ validate: Xác thực xem các bảng và các cột có tồn tại hay không, nếu không nó sẽ ném ra một ngoại lệ (exception).
+	+ none: Giá trị này được dùng để tắt việc tạo DDL.
+	
+	Với Spring Boot thuộc tính giá trị mặc định của DDL là create-drop nếu không có schema nào được khai bao, nếu đã được khai báo giá trị mặc định của nó sẽ là none
 		
 # @OrderBy
 

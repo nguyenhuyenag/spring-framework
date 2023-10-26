@@ -11,7 +11,7 @@ public class AppRunner implements CommandLineRunner {
 
 	@Autowired
 	TestRepository testRepository;
-	
+
 	@Autowired
 	TestOneToOne testOneToOne;
 
@@ -19,7 +19,5 @@ public class AppRunner implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		testOneToOne.test();
 	}
-
-	
 
 }

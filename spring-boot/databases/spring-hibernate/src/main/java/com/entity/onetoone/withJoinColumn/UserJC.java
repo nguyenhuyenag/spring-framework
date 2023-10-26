@@ -38,7 +38,7 @@ import lombok.Data;
  */
 @Data
 @Entity
-@Table(name = "my_user")
+@Table(name = "user_jc")
 public class UserJC {
 
 	@Id
