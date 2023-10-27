@@ -12,6 +12,7 @@ import com.repository.PersonRepository;
 import com.service.CriteriaService;
 import com.service.EntityManagerService;
 import com.service.FindByExample;
+import com.service.GetSession;
 import com.service.JDBCTemplateService;
 import com.service.JpaSelectSpecificColumns;
 import com.service.MappingQueryToPOJOService;
@@ -64,12 +65,19 @@ public class AppRunner implements CommandLineRunner {
 
 	@Autowired
 	MapStructServiceTest mapStructServiceTest;
-	
+
 	@Autowired
 	FindByExample findByExample;
+	
+	@Autowired
+	GetSession getSession;
 
 	@Override
 	public void run(String... args) throws Exception {
+		callTest();
+	}
+
+	public void callTest() {
 		// selectSomeField();
 		// service();
 		// vbService();
@@ -79,11 +87,13 @@ public class AppRunner implements CommandLineRunner {
 		// jdbcTemplateService();
 		// mapStructServiceTest.convert();
 		// System.out.println(mysqlToolService.checkTableExist("categories"));
-		
+
 		// try (Connection connection = mysqlToolService.getConnection()) {
-		//	System.out.println(connection.getMetaData().getURL().toString());
+		// System.out.println(connection.getMetaData().getURL().toString());
 		// };
-		findByExample.test();
+
+		// findByExample.test();
+		getSession.getSession();
 	}
 
 	public void selectSomeField() {
@@ -92,7 +102,8 @@ public class AppRunner implements CommandLineRunner {
 		// selectSomeFieldService.forJdbcTemplate();
 		// selectSomeFieldService.forEntityManager();
 		// selectSomeFieldService.forSqlResultSetMapping();
-		List<com.service.JpaSelectSpecificColumns.SubOrder> findAllSubOrder = springDataSelectSpecificColumns.findAllSubOrder();
+		List<com.service.JpaSelectSpecificColumns.SubOrder> findAllSubOrder = springDataSelectSpecificColumns
+				.findAllSubOrder();
 		findAllSubOrder.forEach(t -> System.out.println(t));
 	}
 
