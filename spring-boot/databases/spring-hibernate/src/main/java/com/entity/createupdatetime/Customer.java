@@ -21,9 +21,9 @@ import lombok.NoArgsConstructor;
  * 
  * - Định dạng thời gian cho field
  * 
- * 			@Temporal(TemporalType.TIME)			// 10:03:33
-			@Temporal(TemporalType.DATE) 			// 2023-08-24
-			@Temporal(TemporalType.TIMESTAMP)		// 2023-08-24 10:03:33.0
+ * 			@Temporal(TemporalType.TIME)			//	10:03:33
+			@Temporal(TemporalType.DATE) 			// 	2023-08-24
+			@Temporal(TemporalType.TIMESTAMP)		// 	2023-08-24 10:03:33.0
  */
 @Data
 @NoArgsConstructor
