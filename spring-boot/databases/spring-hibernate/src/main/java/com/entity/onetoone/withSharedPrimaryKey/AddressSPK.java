@@ -8,7 +8,7 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
 @Entity
-public class TAddress {
+public class AddressSPK {
 
 	@Id
 	@Column(name = "user_id")
@@ -17,6 +17,6 @@ public class TAddress {
 	@OneToOne
 	@MapsId
 	@JoinColumn(name = "user_id")
-	private TUser user;
+	private UserSPK user;
 
 }
