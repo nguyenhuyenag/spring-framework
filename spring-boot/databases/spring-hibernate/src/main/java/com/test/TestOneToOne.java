@@ -9,9 +9,12 @@ import com.entity.onetoone.withJoinColumn.AddressJC;
 import com.entity.onetoone.withJoinColumn.UserJC;
 import com.entity.onetoone.withJoinTable.AddressJT;
 import com.entity.onetoone.withJoinTable.UserJT;
+import com.entity.onetoone.withSharedPrimaryKey.AddressSPK;
+import com.entity.onetoone.withSharedPrimaryKey.UserSPK;
 import com.repository.AddressJTRepository;
 import com.repository.UserJCRepository;
 import com.repository.UserJTRepository;
+import com.repository.UserSPKRepository;
 
 /**
  * @JoinColumn -> Xóa tự User
@@ -26,6 +29,9 @@ public class TestOneToOne {
 
 	@Autowired
 	UserJTRepository userJTRepository;
+	
+	@Autowired
+	UserSPKRepository userSPKRepository;
 
 	@Autowired
 	AddressJTRepository addressJTRepository;
@@ -36,6 +42,7 @@ public class TestOneToOne {
 
 		// withJoinColumn();
 		// withJoinTable();
+		withSharePrimaryKey();
 		
 		// readWithJoinColumn();
 		// readWithJoinTable();
@@ -56,7 +63,7 @@ public class TestOneToOne {
 			System.out.println(u.getAddress().getStreet());
 		});
 	}
-
+	
 	protected void withJoinTable() {
 		AddressJT address = new AddressJT();
 		address.setCity("Hà Nội");
@@ -79,6 +86,18 @@ public class TestOneToOne {
 		user.setAddress(address);
 
 		userJCRepository.save(user);
+	}
+	
+	protected void withSharePrimaryKey() {
+		AddressSPK address = new AddressSPK();
+		address.setCity("Hồ Chí Minh");
+		address.setStreet("Lê Đại Hành");
+		
+		UserSPK user = new UserSPK();
+		user.setName("Nguyễn Văn A");
+		user.setAddress(address);
+		
+		userSPKRepository.save(user);
 	}
 
 }

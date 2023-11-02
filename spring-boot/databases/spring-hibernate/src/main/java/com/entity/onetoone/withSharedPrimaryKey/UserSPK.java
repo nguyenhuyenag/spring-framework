@@ -7,16 +7,23 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
 
+import lombok.Data;
+
+@Data
 @Entity
+@Table(name = "user_spk")
 public class UserSPK {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
+	private String name;
 
-	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 	@PrimaryKeyJoinColumn
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 	private AddressSPK address;
 
 }
