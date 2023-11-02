@@ -47,6 +47,9 @@ public class UserJC {
 
 	private String username;
 
+	/**
+	 * name = "address_id" là tên cột trong DB 
+	 */
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "address_id", referencedColumnName = "id")
 	private AddressJC address;

@@ -20,10 +20,10 @@ public class UserSPK {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	private String name;
+	private String username;
 
-	@PrimaryKeyJoinColumn
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+	@PrimaryKeyJoinColumn
 	private AddressSPK address;
 
 }

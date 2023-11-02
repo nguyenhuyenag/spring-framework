@@ -20,11 +20,13 @@ public class AddressSPK {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_id")
 	private Integer id;
-	
+
 	private String city;
 	private String street;
 
-	// @MapsId
+	/**
+	 * Đối tượng Hibernate map, không tạo thủ công
+	 */
 	@OneToOne
 	@JoinColumn(name = "user_id")
 	private UserSPK user;

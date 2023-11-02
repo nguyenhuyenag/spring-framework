@@ -1,7 +1,9 @@
 package com.test;
 
 import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +13,9 @@ import com.entity.onetoone.withJoinTable.AddressJT;
 import com.entity.onetoone.withJoinTable.UserJT;
 import com.entity.onetoone.withSharedPrimaryKey.AddressSPK;
 import com.entity.onetoone.withSharedPrimaryKey.UserSPK;
+import com.repository.AddressJCRepository;
 import com.repository.AddressJTRepository;
+import com.repository.AddressSPKRepository;
 import com.repository.UserJCRepository;
 import com.repository.UserJTRepository;
 import com.repository.UserSPKRepository;
@@ -19,7 +23,7 @@ import com.repository.UserSPKRepository;
 /**
  * @JoinColumn -> Xóa tự User
  * 
- * @Jointable  -> Xóa tự Address
+ * @Jointable -> Xóa tự Address
  */
 @Component
 public class TestOneToOne {
@@ -29,23 +33,32 @@ public class TestOneToOne {
 
 	@Autowired
 	UserJTRepository userJTRepository;
-	
+
 	@Autowired
 	UserSPKRepository userSPKRepository;
 
 	@Autowired
+	AddressJCRepository addressJCRepository;
+
+	@Autowired
 	AddressJTRepository addressJTRepository;
+
+	@Autowired
+	AddressSPKRepository addressSPKRepository;
 
 	public void test() {
 		// userJCRepository.deleteAll();
 		// addressJTRepository.deleteAll();
 
-		// withJoinColumn();
-		// withJoinTable();
-		withSharePrimaryKey();
-		
-		// readWithJoinColumn();
+		// createJoinColumn();
+		// createJoinTable();
+		// createSharePrimaryKey();
+
 		// readWithJoinTable();
+		// readWithJoinColumn();
+
+		// read_UserAddress_SharePrimaryKey();
+		read_AddressUser_JC();
 	}
 
 	protected void readWithJoinColumn() {
@@ -55,7 +68,15 @@ public class TestOneToOne {
 			System.out.println(u.getAddress().getStreet());
 		});
 	}
-	
+
+	protected void read_AddressUser_JC() {
+		Optional<AddressJC> opt = addressJCRepository.findById(7);
+		opt.ifPresent(t -> {
+			System.out.println(t.getStreet());
+			System.out.println(t.getUser().getUsername());
+		});
+	}
+
 	protected void readWithJoinTable() {
 		Optional<UserJT> opt = userJTRepository.findById(3);
 		opt.ifPresent(u -> {
@@ -63,8 +84,16 @@ public class TestOneToOne {
 			System.out.println(u.getAddress().getStreet());
 		});
 	}
-	
-	protected void withJoinTable() {
+
+	protected void read_UserAddress_SharePrimaryKey() {
+		Optional<UserSPK> opt = userSPKRepository.findById(3);
+		opt.ifPresent(u -> {
+			System.out.println(u.getUsername());
+			System.out.println(u.getAddress().getStreet());
+		});
+	}
+
+	protected void createJoinTable() {
 		AddressJT address = new AddressJT();
 		address.setCity("Hà Nội");
 		address.setStreet("Võ Nguyên Giáp");
@@ -76,10 +105,11 @@ public class TestOneToOne {
 		userJTRepository.save(user);
 	}
 
-	protected void withJoinColumn() {
+	protected void createJoinColumn() {
 		AddressJC address = new AddressJC();
-		address.setCity("Ho Chi Minh");
-		address.setStreet("Dien Bien Phu");
+		address.setCity("Hồ Chí Minh");
+		int n = ThreadLocalRandom.current().nextInt(50, 100);
+		address.setStreet(n + " Điệp Biên Phủ");
 
 		UserJC user = new UserJC();
 		user.setUsername("huyennv");
@@ -87,16 +117,19 @@ public class TestOneToOne {
 
 		userJCRepository.save(user);
 	}
-	
-	protected void withSharePrimaryKey() {
+
+	protected void createSharePrimaryKey() {
 		AddressSPK address = new AddressSPK();
 		address.setCity("Hồ Chí Minh");
 		address.setStreet("Lê Đại Hành");
-		
+
 		UserSPK user = new UserSPK();
-		user.setName("Nguyễn Văn A");
+		int id = ThreadLocalRandom.current().nextInt(50, 99);
+		System.out.println("ID: " + id);
+		user.setId(id);
+		user.setUsername("Nguyễn Văn " + RandomStringUtils.randomAlphabetic(3).toUpperCase());
 		user.setAddress(address);
-		
+
 		userSPKRepository.save(user);
 	}
 

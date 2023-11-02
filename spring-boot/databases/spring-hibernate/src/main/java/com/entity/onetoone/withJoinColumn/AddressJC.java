@@ -7,7 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * + @OneToOne(mappedBy = "address"): Dùng để cho JPA biết rằng thực thể User
@@ -15,7 +16,8 @@ import lombok.Data;
  * trường có tên là 'address'. Khóa ngoại đó được chỉ ra bới giá trị của thuộc
  * tính `name`.
  */
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "address_jc")
 public class AddressJC {
