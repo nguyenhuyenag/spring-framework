@@ -10,6 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import lombok.Data;
+
+@Data
 @Entity(name = "tag")
 public class Tag {
 
@@ -18,14 +21,17 @@ public class Tag {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(name = "name")
-	private String name;
+	private String title;
 
 	/**
 	 * mappedBy = "tags": Chỉ ra tên của thuộc tính ở entity đối diện dùng để mapping cho mối quan hệ
-	 * (thuộc tính của entity đối diện có tên là tags)
+	 * (thuộc tính của entity đối diện có tên là 'tags')
 	 */
 	@ManyToMany(mappedBy = "tags")
 	Set<Article> articles = new HashSet<>();
+
+	public Tag(String title) {
+		this.title = title;
+	}
 
 }

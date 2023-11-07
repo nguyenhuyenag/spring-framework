@@ -44,4 +44,8 @@ public class Article {
 	)
 	private Set<Tag> tags = new HashSet<>();
 	
+	public Article(String title) {
+		this.title = title;
+	}
+	
 }
