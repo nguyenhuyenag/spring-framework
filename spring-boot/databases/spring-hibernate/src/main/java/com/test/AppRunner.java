@@ -14,10 +14,14 @@ public class AppRunner implements CommandLineRunner {
 
 	@Autowired
 	TestOneToOne testOneToOne;
+	
+	@Autowired
+	TestManyToMany testManyToMany;
 
 	@Override
 	public void run(String... args) throws Exception {
-		testOneToOne.test();
+		// testOneToOne.test();
+		testManyToMany.test();
 	}
 
 }

@@ -1,6 +1,5 @@
-package com.entity.manytomany;
+package com.entity.manytomany.type1;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -20,13 +19,18 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 /*-
- * - Sử dụng @ManyToMany để biểu thị mối quan hệ nhiều - nhiều
+ * - Sử dụng @ManyToMany để biểu thị mối quan hệ n - n
+ * 
  * - @JoinTable sẽ chỉ rõ bảng trung gian trong thuộc tính `name = `
+ * 
  * - joinColumns sẽ chỉ rõ cột mapping với table hiện tại
+ * 
  * - inverseJoinColumns sẽ chỉ rõ cột mapping với table còn lại
  */
-@Getter @Setter
-@AllArgsConstructor @RequiredArgsConstructor
+@Getter
+@Setter
+@AllArgsConstructor
+@RequiredArgsConstructor
 @Entity
 public class Category {
 
@@ -41,18 +45,13 @@ public class Category {
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable( //
 		name = "product_category", // Tạo ra một join table tên là "product_category"
-		joinColumns = { @JoinColumn(name = "category_id") }, 	  // khóa ngoại chính là category_id trỏ tới class hiện tại
-		inverseJoinColumns = { @JoinColumn(name = "product_id") } // khóa ngoại thứ 2 trỏ tới thuộc tính ở dưới
+		joinColumns = { @JoinColumn(name = "category_id") }, // Khóa ngoại chính là category_id trỏ tới class hiện tại
+		inverseJoinColumns = { @JoinColumn(name = "product_id") } // Khóa ngoại thứ hai trỏ tới thuộc tính ở dưới
 	)
-	private Set<Product> products = new HashSet<>();
+	private Set<Product> products; // = new HashSet<>();
 
 	public Category(String name) {
 		this.name = name;
-	}
-
-	@Override
-	public String toString() {
-		return "Category [id=" + this.id + ", name=" + this.name + "  - products size: " + this.products.size() + "]";
 	}
 
 }

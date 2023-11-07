@@ -1,6 +1,5 @@
-package com.entity.manytomany;
+package com.entity.manytomany.type1;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -19,8 +18,10 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-@Getter @Setter
-@AllArgsConstructor @RequiredArgsConstructor
+@Getter
+@Setter
+@AllArgsConstructor
+@RequiredArgsConstructor
 @Entity
 public class Product {
 
@@ -34,19 +35,14 @@ public class Product {
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable( //
-		name = "product_category",
+		name = "product_category", //
 		joinColumns = { @JoinColumn(name = "product_id") }, //
 		inverseJoinColumns = { @JoinColumn(name = "category_id") } //
 	)
-	private Set<Category> categorys = new HashSet<>();
+	private Set<Category> categorys; // = new HashSet<>();
 
 	public Product(String name) {
 		this.name = name;
-	}
-
-	@Override
-	public String toString() {
-		return "Product [id=" + this.id + ", name=" + this.name + "  - categories size: " + this.categorys.size() + "]";
 	}
 
 }
