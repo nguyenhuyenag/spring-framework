@@ -16,11 +16,11 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 public class Auditing {
 
-	@PrePersist // before save(entity)
+	@PrePersist // before save entity
 	public void onPrePersist() {
 	}
 
-	@PostPersist // after save(entity)
+	@PostPersist // after save entity
 	public void onPostPersist() {
 	}
 
