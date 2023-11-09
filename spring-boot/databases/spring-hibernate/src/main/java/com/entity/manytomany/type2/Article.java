@@ -3,6 +3,7 @@ package com.entity.manytomany.type2;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +13,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * Quan hệ N-N là quan hệ giữa hai tập thực thể trong đó một thực thể của tập
@@ -23,7 +26,9 @@ import lombok.Data;
  * Ví dụ: Mối quan hệ giữa bảng bài báo và bảng thẻ, một bài báo có thể có nhiều
  * thẻ, 1 thẻ có thể xuất hiện trong nhiều bài báo
  */
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity(name = "article")
 public class Article {
 	
@@ -34,7 +39,7 @@ public class Article {
 
 	private String title;
 	
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable( //
 		name = "article_tag", // Tên bảng mới được sinh ra trong CSDL
 		// Chỉ ra khóa ngoại ứng với khóa chính của entity là chủ sở hữu của mối quan hệ (Article)

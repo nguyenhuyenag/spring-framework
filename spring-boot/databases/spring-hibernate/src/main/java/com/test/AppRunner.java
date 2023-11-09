@@ -21,7 +21,7 @@ public class AppRunner implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		// testOneToOne.test();
-		testManyToMany.test();
+		// testManyToMany.test();
 	}
 
 }
