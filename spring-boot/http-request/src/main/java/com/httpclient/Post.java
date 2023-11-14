@@ -45,10 +45,13 @@ public class Post {
 
 	public static void postParams() throws ClientProtocolException, IOException {
 		HttpPost httpPost = new HttpPost("http://localhost:8080/post-params");
+		
 		List<NameValuePair> params = new ArrayList<>();
 		params.add(new BasicNameValuePair("username", "huyennv"));
 		params.add(new BasicNameValuePair("password", "123456"));
+		
 		httpPost.setEntity(new UrlEncodedFormEntity(params));
+		
 		try (CloseableHttpClient client = HttpClients.createDefault();) {
 			HttpResponse response = client.execute(httpPost);
 			System.out.println("Status:" + response.getStatusLine().toString());
@@ -61,14 +64,18 @@ public class Post {
 
 	public static void postJson() throws ClientProtocolException, IOException {
 		HttpPost httpPost = new HttpPost("http://localhost:8082/auth/login");
+		
 		Map<String, String> map = new HashMap<>();
 		map.put("email", "huyennv@abc.com");
 		map.put("password", "123456");
+		
 		ObjectMapper mapper = new ObjectMapper();
 		StringEntity entity = new StringEntity(mapper.writeValueAsString(map));
 		httpPost.setEntity(entity);
+		
 		httpPost.setHeader("Accept", "application/json");
 		httpPost.setHeader("Content-type", "application/json");
+		
 		try (CloseableHttpClient client = HttpClients.createDefault();) {
 			HttpResponse response = client.execute(httpPost);
 			System.out.println("Status:" + response.getStatusLine().toString());
@@ -97,15 +104,17 @@ public class Post {
 		// RequestConfig config = RequestConfig.custom()
 		// .setConnectTimeout(timeout)
 		// .setConnectionRequestTimeout(timeout)
-		// .setSocketTimeout(timeout)
-		// .build();
+		// .setSocketTimeout(timeout).build();
 		String url = "http://localhost:8080/auth/login";
+		
 		Map<String, String> login = new HashMap<>();
 		login.put("username", "huyennv");
 		login.put("password", "123456");
+		
 		final RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(30 * 1000).build();
 		// try (CloseableHttpClient httpClient =
 		// HttpClientBuilder.create().setDefaultRequestConfig(requestConfig).build();) {
+		
 		try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
 			HttpPost httpPost = new HttpPost(url);
 			httpPost.setConfig(requestConfig);
