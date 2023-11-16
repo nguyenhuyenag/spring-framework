@@ -13,7 +13,7 @@ public class ListenerUserCreatedEvent implements ApplicationListener<UserCreated
 
 	@Override
 	public void onApplicationEvent(UserCreatedEvent event) {
-		System.out.println("[" + this.getClass().getSimpleName() + "] Received: " + event.getMessage());
+		System.out.println("[" + this.getClass().getSimpleName() + "] UserCreatedEvent received: " + event.getMessage());
 	}
 
 }

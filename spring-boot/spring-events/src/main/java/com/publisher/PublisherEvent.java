@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
-import com.event.UserCreatedEvent;
 import com.event.UserRemovedEvent;
 
 /**
@@ -19,9 +18,10 @@ public class PublisherEvent {
 
 	public void publishCustomEvent(final String message) {
 		// Publishing an object as an event
-		applicationEventPublisher.publishEvent(new UserRemovedEvent("Message from UserRemovedEvent=" + message));
+		applicationEventPublisher.publishEvent(new UserRemovedEvent("Public message from UserRemovedEvent=" + message));
+		
 		// Publishing event created by extending ApplicationEvent
-		applicationEventPublisher.publishEvent(new UserCreatedEvent(this, "Message from UserCreatedEvent=" + message));
+		// applicationEventPublisher.publishEvent(new UserCreatedEvent(this, "Public message from UserCreatedEvent=" + message));
 	}
 
 }

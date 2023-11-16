@@ -37,7 +37,7 @@ public class Application extends SpringBootServletInitializer implements Command
 		while (true) {
 			customSpringEventPublisher.publishCustomEvent(i + "");
 			i++;
-			TimeUnit.SECONDS.sleep(2);
+			TimeUnit.SECONDS.sleep(5);
 		}
 	}
 

@@ -11,7 +11,7 @@ public class ListenerUserRemovedEvent {
 	// @Async
 	@EventListener
 	public void handleReturnedEvent(UserRemovedEvent event) {
-		System.out.println("[" + this.getClass().getSimpleName() + "] Received: " + event.getMessage());
+		System.out.println("[" + this.getClass().getSimpleName() + "] UserRemovedEvent received: " + event.getMessage());
 	}
 
 }
