@@ -1,4 +1,4 @@
-package com.entity.idclass;
+package com.entity.id.idclass;
 
 import java.io.Serializable;
 

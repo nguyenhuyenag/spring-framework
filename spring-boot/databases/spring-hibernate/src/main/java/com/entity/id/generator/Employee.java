@@ -1,4 +1,4 @@
-package com.entity.generator;
+package com.entity.id.generator;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +17,7 @@ public class Employee {
 	// Khai báo phương thức sinh id, sử dụng generator có tên generator_id
 	@GeneratedValue(generator = "generator_id")
 	// Khai báo generator có tên generator_id được định nghĩa ở class GeneratorId
-	@GenericGenerator(name = "generator_id", strategy = "com.entity.generator.GeneratorId")
+	@GenericGenerator(name = "generator_id", strategy = "com.entity.id.generator.GeneratorId")
 	private String id;
 
 	@SuppressWarnings("unused")

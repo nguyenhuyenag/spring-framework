@@ -4,8 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.entity.idclass.User;
-import com.entity.idclass.UserId;
+import com.entity.id.idclass.User;
+import com.entity.id.idclass.UserId;
 
 public interface JpaAndNativeQueryRepository extends JpaRepository<User, UserId> {
 
