@@ -8,8 +8,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.entity.manytomany.type1.Category;
-import com.entity.manytomany.type1.Product;
+import com.entity.manytomany.type2.Category;
+import com.entity.manytomany.type2.Product;
 import com.repository.CategoryRepository;
 import com.service.ManyToManyService;
 

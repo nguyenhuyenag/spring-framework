@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.entity.manytomany.type2.Article;
-import com.entity.manytomany.type2.Tag;
+import com.entity.manytomany.type1.Article;
+import com.entity.manytomany.type1.Tag;
 import com.repository.ArticleRepository;
 import com.repository.TagRepository;
 

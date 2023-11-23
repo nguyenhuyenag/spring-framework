@@ -1,4 +1,4 @@
-package com.entity.manytomany.type2;
+package com.entity.manytomany.type1;
 
 import java.util.HashSet;
 import java.util.Set;
