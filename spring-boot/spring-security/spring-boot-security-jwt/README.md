@@ -9,5 +9,7 @@
 	and enable pre- and post- annotations in security class
 		
 		@EnableGlobalMethodSecurity(prePostEnabled = true)
+
+- Authentication (Xác thực người dùng) và Authorization (Ủy quyền truy cập vào tài nguyên)
 		
 - Không nên lưu list role vào token, nên truy vấn database để lấy role mỗi khi authentication thành công?
