@@ -1,4 +1,4 @@
-package io.webflux.client;
+package webflux.util;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;

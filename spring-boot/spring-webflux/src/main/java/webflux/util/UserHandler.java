@@ -1,4 +1,4 @@
-package io.webflux.handler;
+package webflux.util;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -7,9 +7,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
-import io.webflux.model.User;
-import io.webflux.service.UserService;
 import reactor.core.publisher.Mono;
+import webflux.model.User;
+import webflux.service.UserService;
 
 @Component
 @RequiredArgsConstructor

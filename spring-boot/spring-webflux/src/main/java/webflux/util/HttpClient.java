@@ -1,4 +1,4 @@
-package io.webflux.client;
+package webflux.util;
 
 import java.io.IOException;
 import java.io.InputStream;

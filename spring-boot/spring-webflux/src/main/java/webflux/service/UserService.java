@@ -1,4 +1,4 @@
-package io.webflux.service;
+package webflux.service;
 
 import java.util.Collections;
 
@@ -10,11 +10,11 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import io.webflux.model.User;
-import io.webflux.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import webflux.model.User;
+import webflux.repository.UserRepository;
 
 @Service
 @RequiredArgsConstructor

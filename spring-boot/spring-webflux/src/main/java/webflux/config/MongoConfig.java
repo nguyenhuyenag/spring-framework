@@ -1,3 +1,4 @@
+package webflux.config;
 //package io.webflux.config;
 //
 //import org.springframework.context.annotation.Bean;

@@ -1,4 +1,4 @@
-package io.webflux.config;
+package webflux.config;
 
 import java.util.concurrent.TimeUnit;
 

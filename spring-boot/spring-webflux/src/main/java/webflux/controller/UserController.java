@@ -1,4 +1,4 @@
-package io.webflux.controller;
+package webflux.controller;
 
 import java.time.Duration;
 import java.util.stream.Stream;
@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.webflux.model.User;
-import io.webflux.service.UserService;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.util.function.Tuple2;
+import webflux.model.User;
+import webflux.service.UserService;
 
 @RequiredArgsConstructor
 @RestController
@@ -38,7 +38,7 @@ public class UserController {
 	}
 
 	@GetMapping
-	public Flux<User> getAllUsers() {
+	public Flux<?> getAllUsers() {
 		return userService.getAllUsers();
 	}
 
