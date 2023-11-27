@@ -21,8 +21,8 @@ public class AppRunner implements ApplicationRunner {
 	public void run(ApplicationArguments args) throws Exception {
 		while (true) {
 			Document doc = HttpClient.getUser();
-			mongoTemplate.insert(doc, "user");
-			System.out.println("OK");
+			Document insert = mongoTemplate.insert(doc, "user");
+			System.out.println(insert);
 			TimeUnit.SECONDS.sleep(5);
 		}
 	}
