@@ -66,7 +66,7 @@ public class UserController {
 	}
 
 	@GetMapping(value = "/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-	public Flux<User> streamAllUsers() {
+	public Flux<?> streamAllUsers() {
 		return userService.getAllUsers()
 				.flatMap(user -> Flux
 						.zip(Flux.interval(Duration.ofSeconds(2)), Flux.fromStream(Stream.generate(() -> user)))

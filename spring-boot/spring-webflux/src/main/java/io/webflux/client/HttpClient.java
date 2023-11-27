@@ -10,7 +10,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.json.simple.JSONObject;
+import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,13 +55,15 @@ public class HttpClient {
 		return null;
 	}
 
-	public static void main(String[] args) {
-		// callSlowService();
+	public static Document getUser() {
 		String url = "https://randomuser.me/api/";
-		// String url = "https://mocki.io/v1/d943e462-f4f3-4e3f-a5a2-56d8ef3d8657";
-		// BSONObject obj = new BSONObject();
-		JSONObject res = doGet(url, JSONObject.class);
-		System.out.println(res);
+		return doGet(url, Document.class);
 	}
+
+//	public static void main(String[] args) {
+//		String url = "https://randomuser.me/api/";
+//		Document json = doGet(url, Document.class);
+//		System.out.println(json);
+//	}
 
 }
