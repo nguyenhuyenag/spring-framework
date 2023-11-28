@@ -60,10 +60,11 @@ public class HttpClient {
 		return doGet(url, Document.class);
 	}
 
-//	public static void main(String[] args) {
-//		String url = "https://randomuser.me/api/";
-//		Document json = doGet(url, Document.class);
-//		System.out.println(json);
-//	}
+	public static void main(String[] args) {
+		String url = "https://randomuser.me/api/";
+		Document doc = doGet(url, Document.class);
+		System.out.println(doc.toJson());
+		// System.out.println(doc);
+	}
 
 }
