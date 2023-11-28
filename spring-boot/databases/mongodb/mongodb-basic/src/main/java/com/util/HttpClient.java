@@ -2,6 +2,7 @@ package com.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -109,9 +110,10 @@ public class HttpClient {
 	public static void main(String[] args) throws IOException {
 		String url = "https://randomuser.me/api/";
 		Document document = doGet(url);
-		if (!document.isEmpty()) {
-			System.out.println(document.toJson());
-		}
+		System.out.println(document.toJson());
+		ArrayList<?> arrayList = document.get("results", ArrayList.class);
+		System.out.println(arrayList);
+		System.out.println(arrayList.get(0));
 	}
 
 }

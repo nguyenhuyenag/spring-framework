@@ -1,12 +1,17 @@
 # Spring Boot Keycloak
 
-- Run keycloak 
+# Run keycloak 
 
-	bin/standalone.bat -> http://localhost:8080/auth/
+		keycloak-12.0.1\bin\standalone.bat
 	
-	E:\SOFTWARE\Programs\Keycloak\keycloak-12.0.1\bin\standalone.bat
+	+ Setup environment 
+	
+		CMD > standalone.bat
+			> standalone.bat --http-port=8081
+	
+	+ http://localhost:8080/auth/
+	
 
-- Create user
+# Create user
 	
 	bin/add-user-keycloak.bat -r master -u admin -p admin
-
