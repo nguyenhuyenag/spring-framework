@@ -6,9 +6,8 @@
 	
 	+ Setup environment 
 	
-		CMD > standalone.bat
-			> standalone.bat --http-port=8081
-	
+		CMD  >	standalone.bat
+			
 	+ http://localhost:8080/auth/
 	
 
