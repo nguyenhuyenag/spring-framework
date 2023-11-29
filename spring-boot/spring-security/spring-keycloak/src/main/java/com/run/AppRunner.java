@@ -1,4 +1,4 @@
-package com.keycloak.run;
+package com.run;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
