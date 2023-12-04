@@ -1,1 +1,1 @@
-# Java Mail
+# Mail Service

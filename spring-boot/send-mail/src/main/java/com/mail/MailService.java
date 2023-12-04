@@ -18,19 +18,22 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
 /*-
+ * 
+ * - https://stackoverflow.com/a/59760500
+ * 
  * - https://myaccount.google.com/lesssecureapps?pli=1
  * 
- * - Allow less secure apps => ON
+ * 		+ Allow less secure apps => ON
  * 
- * - CC (Carbon Copy): 		Người nhận xem được danh sách các người nhận
+ * - CC (Carbon Copy): 		 Người nhận xem được danh sách các người nhận
  * 
- * - (Blind Carbon Copy): 	Người nhận không xem được danh sách các người nhận
+ * - BCC(Blind Carbon Copy): Người nhận không xem được danh sách các người nhận
  */
 public class MailService {
 
 	private final static String HOME = System.getProperty("user.dir");
 
-	private static final Session buildSession() {
+	private static final javax.mail.Session buildSession() {
 		Properties prop = new Properties();
 		prop.put("mail.smtp.host", "smtp.gmail.com");
 		prop.put("mail.smtp.port", "465");
