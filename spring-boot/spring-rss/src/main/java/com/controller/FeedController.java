@@ -32,8 +32,7 @@ public class FeedController {
 		channel.setGenerator("In House Programming");
 
 		Image image = new Image();
-		image.setUrl(
-				"https://howtodoinjava.com/wp-content/uploads/2015/05/howtodoinjava_logo-55696c1cv1_site_icon-32x32.png");
+		image.setUrl("https://howtodoinjava.com/wp-content/uploads/2015/05/howtodoinjava_logo-55696c1cv1_site_icon-32x32.png");
 		image.setTitle("HowToDoInJava Feed");
 		image.setHeight(32);
 		image.setWidth(32);
@@ -54,8 +53,7 @@ public class FeedController {
 		item.setCategories(Collections.singletonList(category));
 
 		Description descr = new Description();
-		descr.setValue(
-				"CORS helps in serving web content from multiple domains into browsers who usually have the same-origin security policy. In this example, we will learn to enable CORS support in Spring MVC application at method and global level."
+		descr.setValue("CORS helps in serving web content from multiple domains into browsers who usually have the same-origin security policy. In this example, we will learn to enable CORS support in Spring MVC application at method and global level."
 						+ "The post <a rel=\"nofollow\" href=\"https://howtodoinjava.com/spring5/webmvc/spring-mvc-cors-configuration/\">Spring CORS Configuration Examples</a> appeared first on <a rel=\"nofollow\" href=\"https://howtodoinjava.com\">HowToDoInJava</a>.");
 		item.setDescription(descr);
 		item.setPubDate(postDate);
@@ -100,8 +98,7 @@ public class FeedController {
 
 		Content summary = new Content();
 		summary.setType("text/plain");
-		summary.setValue(
-				"CORS helps in serving web content from multiple domains into browsers who usually have the same-origin security policy. In this example, we will learn to enable CORS support in Spring MVC application at method and global level."
+		summary.setValue("CORS helps in serving web content from multiple domains into browsers who usually have the same-origin security policy. In this example, we will learn to enable CORS support in Spring MVC application at method and global level."
 						+ "The post <a rel=\"nofollow\" href=\"https://howtodoinjava.com/spring5/webmvc/spring-mvc-cors-configuration/\">Spring CORS Configuration Examples</a> appeared first on <a rel=\"nofollow\" href=\"https://howtodoinjava.com\">HowToDoInJava</a>.");
 		entry.setSummary(summary);
 
@@ -109,4 +106,5 @@ public class FeedController {
 		// Like more Entries here about different new topics
 		return feed;
 	}
+	
 }
