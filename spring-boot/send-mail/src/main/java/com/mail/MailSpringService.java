@@ -1,7 +1,6 @@
 package com.mail;
 
 import java.io.File;
-import java.io.IOException;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
@@ -9,6 +8,8 @@ import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.mail.MailException;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
@@ -19,27 +20,16 @@ public class MailSpringService {
 	@Autowired
 	private JavaMailSender javaMailSender;
 
-//	public void sendEmail(String to, String subject, String body) {
-//		SimpleMailMessage message = new SimpleMailMessage();
-//		message.setTo(to);
-//		message.setTo(new String[] {"recipient1@example.com", "recipient2@example.com"});
-//		message.setSubject(subject);
-//		message.setText(body);
-//		mailSender.send(message);
-//	}
-
-	public void sendEmailWithAttachment(String to, String subject, String body) throws MessagingException, IOException {
-
-		MimeMessage message = javaMailSender.createMimeMessage();
-		MimeMessageHelper helper = new MimeMessageHelper(message, true);
-
-		helper.setTo(to);
-		helper.setSubject(subject);
-		helper.setText(body);
-
-		FileSystemResource file = new FileSystemResource(new File("attachment.jpg"));
-		helper.addAttachment("attachment.jpg", file);
-
+	/**
+	 * Sending Simple Emails
+	 */
+	public void sendEmail(String to, String subject, String body) {
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.setFrom("noreply@baeldung.com");
+		message.setTo(to);
+		// message.setTo(new String[] {"recipient1@example.com"});
+		message.setSubject(subject);
+		message.setText(body);
 		javaMailSender.send(message);
 	}
 
@@ -55,8 +45,29 @@ public class MailSpringService {
 
 		message.setContent(htmlContent, "text/html; charset=utf-8");
 
-		javaMailSender.send(message);
+		try {
+			javaMailSender.send(message);
+		} catch (MailException ex) {
+			System.err.println(ex.getMessage());
+		}
 		return true;
+	}
+
+	/**
+	 * Sending Emails With Attachments
+	 */
+	public void sendEmailWithAttachment(String to, String subject, String body) throws Exception {
+		MimeMessage message = javaMailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+		helper.setTo(to);
+		helper.setSubject(subject);
+		helper.setText(body);
+
+		FileSystemResource file = new FileSystemResource(new File("attachment.jpg"));
+		helper.addAttachment("attachment.jpg", file); // <tên file sẽ hiển thị trong mail, file> 
+
+		javaMailSender.send(message);
 	}
 
 }
