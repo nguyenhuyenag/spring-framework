@@ -23,7 +23,7 @@ import org.springframework.stereotype.Component;
  * - BCC(Blind Carbon Copy): Người nhận không xem được danh sách các người nhận
  */
 @Component
-public class MailService {
+public class MailJavaService {
 
 	@Autowired
 	private javax.mail.Session javaxSession;

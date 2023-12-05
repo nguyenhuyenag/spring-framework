@@ -18,7 +18,7 @@ public class MailConfig {
 	private String password;
 
 	@Bean
-	public javax.mail.Session buildSession() {
+	public javax.mail.Session javaMailSession() {
 		Properties props = new Properties();
 		props.put("mail.smtp.host", "smtp.gmail.com");
 		props.put("mail.smtp.port", "465");
