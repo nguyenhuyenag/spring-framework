@@ -1,7 +1,6 @@
 package com.reader;
 
 import java.net.URL;
-import java.util.List;
 
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
@@ -15,10 +14,10 @@ public class FeedConsumer {
 		// String url = "https://vnexpress.net/rss/tin-moi-nhat.rss";
 		// String url = "https://www.24h.com.vn/upload/rss/trangchu24h.rss";
 		URL feedUrl = new URL(url);
-		SyndFeedInput input = new SyndFeedInput();
 		try (XmlReader xmlReader = new XmlReader(feedUrl);) {
+			SyndFeedInput input = new SyndFeedInput();
 			SyndFeed feed = input.build(xmlReader);
-			for (SyndEntry entry : (List<SyndEntry>) feed.getEntries()) {
+			for (SyndEntry entry : feed.getEntries()) {
 				System.out.println("-----------------------------");
 				System.out.println("Title : " + entry.getTitle());
 				System.out.println("Author: " + entry.getAuthor());
