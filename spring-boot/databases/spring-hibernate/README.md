@@ -11,12 +11,15 @@
 			spring.jpa.hibernate.ddl-auto=xxx
 
 	+ create: Drop các bảng đang có và sau đó tạo ra các bảng mới.
-	+ update: Kiểm tra CSDL hiện tại để khớp với mô hình không. Nó sẽ không bao giờ xóa đi các bảng hay các cột đang có ngay cả khi chúng không còn được ứng dụng của ta yêu cầu nữa.
-	+ create-drop: Tương tự như create nhưng sau khi tất cả các hoạt động đã được hoàn thành, Hibernate sẽ thực hiện việc drop database. Thường được sử dụng cho unit test.
-	+ validate: Xác thực xem các bảng và các cột có tồn tại hay không, nếu không nó sẽ ném ra một ngoại lệ (exception).
+	+ update: Kiểm tra CSDL hiện tại để khớp với mô hình không. Nó sẽ không bao giờ xóa đi các bảng hay các 
+			  cột đang có ngay cả khi chúng không còn được ứng dụng của ta yêu cầu nữa.
+	+ create-drop: Tương tự như create nhưng sau khi tất cả các hoạt động đã được hoàn thành, Hibernate sẽ 
+		      thực hiện việc drop database. Thường được sử dụng cho unit test.
+	+ validate: Xác thực xem các bảng và các cột có tồn tại hay không, nếu không nó sẽ ném ra một ngoại lệ.
 	+ none: Giá trị này được dùng để tắt việc tạo DDL.
 	
-	Với Spring Boot thuộc tính giá trị mặc định của DDL là create-drop nếu không có schema nào được khai bao, nếu đã được khai báo giá trị mặc định của nó sẽ là none
+	Với Spring Boot thuộc tính giá trị mặc định của DDL là create-drop nếu không có schema nào được khai báo, 
+	nếu đã được khai báo giá trị mặc định của nó sẽ là none
 	
 # @Entity & @Table
 
@@ -40,7 +43,8 @@
 
 	- Sử dụng khi Entity chứa 1 field mà bảng không có
 	
-	- Field được đánh dấu @Transient sẽ được JPA bỏ qua, dữ liệu load lên từ bảng sẽ là null và không save dữ liệu xuống bảng
+	- Field được đánh dấu @Transient sẽ được JPA bỏ qua, dữ liệu load lên từ bảng sẽ là null và 
+	  không save dữ liệu xuống bảng
 
 	- Unknown column 'user0_.company' in 'field list'
 
@@ -151,13 +155,14 @@
 
 	- Đều dùng cho trường hợp mối quan hệ giữa các bảng là 1-nhiều
 
-	- Với annotation @ElementCollection thì khi mapping entity trong class Java, ta không cần phải tạo class mapping cho phía many (phía many sẽ là kiểu dữ liệu basic hoặc là 1 class được đánh dấu @Embeddable)
+	- Với annotation @ElementCollection thì khi mapping entity trong class Java, ta không cần phải tạo class 
+	  mapping cho phía many (phía many sẽ là kiểu dữ liệu basic hoặc là 1 class được đánh dấu @Embeddable)
 
-	- Với annotation@OneToMany thì khi mapping entity trong class Java ta cần phải tạo cả 2 class mapping tới 2 table tương ứng cho cả phía one và phía many.
+	- Với annotation@OneToMany thì khi mapping entity trong class Java ta cần phải tạo cả 2 class mapping tới 
+	  2 table tương ứng cho cả phía one và phía many.
 
-	- Annotation @ElementCollection dùng cho những trường hợp mà bên phía table many không được dùng 1 cách riêng biệt (chỉ có ý nghĩa khi gán với table phía one). Hoặc những trường hợp phía many chỉ có dữ liệu basic như int, string,...
-
-# @ManyToMany
+	- Annotation @ElementCollection dùng cho những trường hợp mà bên phía table many không được dùng 1 cách riêng 
+	  biệt (chỉ có ý nghĩa khi gán với table phía one). Hoặc những trường hợp phía many chỉ có dữ liệu nguyên thủy
 
 # @Cascade
 
@@ -175,18 +180,22 @@
 			private Set<Employee> listEmployee = new HashSet<>();
 		}
 		
-		+ Với cascade = CascadeType.REMOVE, khi xóa đối tượng company thì tất cả các đối tượng employee liên quan cũng bị xóa theo (nó chỉ tác động tới các employee khi object company bị remove).
+		+ Với cascade = CascadeType.REMOVE, khi xóa đối tượng company thì tất cả các đối tượng employee liên quan 
+		  cũng bị xóa theo (nó chỉ tác động tới các employee khi object company bị remove).
     
-		+ Với thuộc tính orphanRemoval = true thì khi remove 1 đối tượng employee khỏi listEmployee thì nó sẽ bị xóa khỏi database (nó chỉ tác động tới các employee khi listEmployee thay đổi).
+		+ Với thuộc tính orphanRemoval = true thì khi remove 1 đối tượng employee khỏi listEmployee thì nó sẽ bị 
+		  xóa khỏi database (nó chỉ tác động tới các employee khi listEmployee thay đổi).
 		
 		+ Mặc định orphanRemoval = false
 		
 		+ cascade = {CascadeType.ALL} sẽ bao gồm cascade = {CascadeType.REMOVE}
 		
 		+ Nếu muốn xóa tất cả các đối tượng Employee bên trong Company với orphanRemoval = true :
-			- Ta remove tất cả các object Employee trong listEmployee bằng method clear() (company.getListEmployee().clear();)
+			- Ta remove tất cả các object Employee trong listEmployee bằng method clear() (
+			  company.getListEmployee().clear();)
 			
-			- Không được set null hoặc set new HashSet() (  company.setListEmployee(new HashSet<>()); or company.setListEmployee(null);)
+			- Không được set null hoặc set new HashSet() (  
+			  company.setListEmployee(new HashSet<>()); or company.setListEmployee(null);)
 	
 	- Các loại cascade
 	
@@ -207,11 +216,34 @@
 		Hibernate: select listprovin0_.country_id as country_3_13_0_,...
 		Hibernate: select listprovin0_.country_id as country_3_13_0_,...
 	
+	- fetch = FetchType.LAZY: Tức là mặc định không lấy ra các đối tượng liên quan nhưng bên trong transaction, khi gọi
+			company.getListEmployee() thì nó vẫn có dữ liệu, bởi vì khi gọi method nó sẽ query các đối tượng Employee
+			liên quan và lưu vào listEmployee, và khi kết thúc transaction listEmployee sẽ chứa các employee liên quan.
+			Tuy nhiên nếu không gọi method đó thì listEmployee không có dữ liệu và khi kết thúc transaction
+			listEmployee sẽ không có đối tượng employee nào
+	
+	- fetch = FetchType.EAGER: Khi lấy đối tượng Company là nó mặc định query luôn các đối tượng Employee liên quan
+	 		và lưu vào listEmployee, do đó khi kết thúc transaction, listEmployee sẽ có chứa các đối tượng Employee 
+	 		của Company đó.
+	
 	- FetchType mặc định
 		
-		- @ManyToOne và @OneToOne là EAGER
+		+ @ManyToOne và @OneToOne là EAGER
 	
-		- @ManyToMany và @OneToMany LAZY
+		+ @ManyToMany và @OneToMany LAZY
+	
+	- Ưu nhược điểm của mỗi loại FetchType:
+		
+		+ Với FetchType = LAZY(Lazy Loading):
+	
+			Ưu điểm: tiết kiệm thời gian và bộ nhớ khi select
+			Nhược điểm: gây ra lỗi LazyInitializationException, khi muốn lấy các đối tượng liên quan phải mở
+			 			transaction 1 lần nữa để query
+	
+		+ Với FetchType = EAGER(Eager Loading):
+	
+			Ưu điểm: có thể lấy luôn các đối tượng liên quan, xử lý đơn giản, tiện lợi
+			Nhược điểm: tốn nhiều thời gian và bộ nhớ khi select, dữ liệu lấy ra bị thừa, không cần thiết.
 		
 	- Nên sử dụng LAZY thay vì EAGER vì lý do hiệu năng chương trình
 
@@ -261,11 +293,14 @@
 
 # Locking trong Hibernate
 
-	- Optimistic lock: Đảm bảo nhiều giao dịch (transaction) có thể hoàn thành mà không ảnh hưởng tới nhau, các transaction tiến hành mà không cần khóa các tài nguyên lại.
+	- Optimistic lock: Đảm bảo nhiều giao dịch (transaction) có thể hoàn thành mà không ảnh hưởng tới nhau, 
+	  các transaction tiến hành mà không cần khóa các tài nguyên lại.
 	
-	Trước khi commit, mỗi transaction sẽ kiểm tra lại xem dữ liệu của nó có bị transaction khác làm thay đổi không, nếu có thì sẽ quay trở lại trạng thái lúc đầu (rollback).
+	Trước khi commit, mỗi transaction sẽ kiểm tra lại xem dữ liệu của nó có bị transaction khác làm thay 
+	đổi không, nếu có thì sẽ quay trở lại trạng thái lúc đầu (rollback).
 	
-	- Pessimistic lock: Khi bắt đầu một transaction, pessimistic lock sẽ khóa dữ liệu mà nó sử dụng lại và chỉ mở khóa khi nó đã sử dụng xong.
+	- Pessimistic lock: Khi bắt đầu một transaction, pessimistic lock sẽ khóa dữ liệu mà nó sử dụng lại 
+	  và chỉ mở khóa khi nó đã sử dụng xong.
 	
 	- Khi một entity bị khoá với pessimistic lock, nó sẽ có 2 loại khoá như sau:
 
@@ -274,13 +309,18 @@
 
 	- Lock Modes
 	
-		+ PESSIMISTIC_READ (shared lock): Chỉ có thể đọc dữ liệu, dùng khi chỉ muốn đọc dữ liệu mà không bị làm phiền bởi các transaction khác.
+		+ PESSIMISTIC_READ (shared lock): Chỉ có thể đọc dữ liệu, dùng khi chỉ muốn đọc dữ liệu mà không bị 
+		  làm phiền bởi các transaction khác.
 		
-		+ PESSIMISTIC_WRITE (exclusive lock): Có toàn quyền đọc, xoá, chỉnh sửa dữ liệu và ngăn không cho các transaction khác đọc, xoá, và cập nhật dữ liệu lên chúng.
+		+ PESSIMISTIC_WRITE (exclusive lock): Có toàn quyền đọc, xoá, chỉnh sửa dữ liệu và ngăn không cho 
+		  các transaction khác đọc, xoá, và cập nhật dữ liệu lên chúng.
 		
-		+ PESSIMISTIC_FORCE_INCREMENT: Giống với PESSIMISTIC_WRITE, ngoài ra nó còn tăng giá trị của thuộc tính @Version trong entity. Một entity có thuộc tính @Version thì nên sử dụng PESSIMISTIC_FORCE_INCREMENT thay vì PESSIMISTIC_WRITE.
+		+ PESSIMISTIC_FORCE_INCREMENT: Giống với PESSIMISTIC_WRITE, ngoài ra nó còn tăng giá trị của thuộc 
+		  tính @Version trong entity. Một entity có thuộc tính @Version thì nên sử dụng 
+		  PESSIMISTIC_FORCE_INCREMENT thay vì PESSIMISTIC_WRITE.
 		
-		+ Tất cả chúng đều là static members của lớp LockModeType cho phép các transaction có được database lock. Tất cả đều được giữ lại cho đến khi transaction commits hoặc rolls back.
+		+ Tất cả chúng đều là static members của lớp LockModeType cho phép các transaction có được database 
+		  lock. Tất cả đều được giữ lại cho đến khi transaction commits hoặc rolls back.
 
 	- Ví dụ
 	
