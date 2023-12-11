@@ -216,9 +216,10 @@
 		Hibernate: select listprovin0_.country_id as country_3_13_0_,...
 		Hibernate: select listprovin0_.country_id as country_3_13_0_,...
 	
-	- fetch = FetchType.LAZY: Tức là mặc định không lấy ra các đối tượng liên quan nhưng bên trong transaction, khi gọi
-			company.getListEmployee() thì nó vẫn có dữ liệu, bởi vì khi gọi method nó sẽ query các đối tượng Employee
-			liên quan và lưu vào listEmployee, và khi kết thúc transaction listEmployee sẽ chứa các employee liên quan.
+	- LAZY: Tức là mặc định không lấy ra các đối tượng liên quan nhưng bên trong transaction, khi gọi
+			company.getListEmployee() thì nó vẫn có dữ liệu, bởi vì khi gọi method nó sẽ query các đối 
+			tượng Employee liên quan và lưu vào listEmployee, và khi kết thúc transaction listEmployee 
+			sẽ chứa các employee liên quan.
 			Tuy nhiên nếu không gọi method đó thì listEmployee không có dữ liệu và khi kết thúc transaction
 			listEmployee sẽ không có đối tượng employee nào
 	
@@ -277,19 +278,20 @@
 	
 	- Định nghĩa bởi JPA nên chỉ dùng cho EntityManager, không dùng với hibernate session
 	
-	@PrePersist: Thực thi trước khi entity được persist (được lưu vào database) bởi method persist()
+		@PrePersist: Thực thi trước khi entity được persist (được lưu vào database) bởi method persist()
 
-	@PostPersist: Thực thi sau khi entity được persist
+		@PostPersist: Thực thi sau khi entity được persist
 	
-	@PostLoad: Thực thi sau khi một entity được load vào persistence context hiện tại hoặc một entity được refreshed.
+		@PostLoad: Thực thi sau khi một entity được load vào persistence context hiện tại hoặc một entity 
+		           được refreshed.
 	
-	@PreUpdate: Thực thi trước khi entity được update.
+		@PreUpdate: Thực thi trước khi entity được update.
 	
-	@PostUpdate: Thực thi sau khi entity được update.
+		@PostUpdate: Thực thi sau khi entity được update.
 	
-	@PreRemove: Thực thi trước khi entity bị xóa khỏi database bởi method remove()
+		@PreRemove: Thực thi trước khi entity bị xóa khỏi database bởi method remove()
 	
-	@PostRemove: Thực thi sau khi entity bị xóa
+		@PostRemove: Thực thi sau khi entity bị xóa
 
 # Locking trong Hibernate
 
@@ -343,3 +345,19 @@
 		public Optional<Customer> findById(Long customerId);
 	
 	- Xem Hibernate annotation @Version (Hibernate Locking Version)
+
+# openSession() và getCurrentSession()
+
+	- getCurrentSession
+
+		+ getCurrentSession() thì session sẽ tự động đẩy dữ liệu (flush()) và đóng (close()) session.
+
+		+ Khi lấy session từ getCurrentSession() mà thực hiện 2 thao tác truy vấn bạn sẽ gặp lỗi 
+		  "Session is closed" vì sau lần truy vấn thứ nhất, session đã bị close.
+	  
+	- openSession() thì sau khi truy vấn dữ liệu (thêm, xóa, sửa) thì session vẫn còn giữ và không 
+	  tự động đẩy (flush()) hay close mà bạn phải tự làm việc này
+
+
+
+	  
