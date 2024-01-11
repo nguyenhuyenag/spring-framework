@@ -272,6 +272,10 @@
 	- TemporalType.TIME 		 - 	Lưu trữ thời gian (Giờ phút giây)
 	- TemporalType.TIMESTAMP	 - 	Lưu trữ ngày tháng và cả thời gian
 
+# Có nên đóng EntityManager?
+
+	https://stackoverflow.com/questions/220374/do-i-have-to-close-every-entitymanager
+
 # JPA Callbacks Method: Event của một entity lifecycle 
 
 	- Dùng trong các class có đánh dấu @Entity
