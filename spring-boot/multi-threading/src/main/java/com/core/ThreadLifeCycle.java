@@ -1,7 +1,6 @@
 package com.core;
 
 /*_
- 
  	Vòng đời của thread
  
 	  - NEW: Thread được khởi tạo nhưng chưa start
