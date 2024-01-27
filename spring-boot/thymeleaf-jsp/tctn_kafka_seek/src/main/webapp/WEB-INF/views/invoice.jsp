@@ -208,7 +208,7 @@
 					<th class="align-middle">Mã thông điệp</th>
 					<th class="align-middle">
 						<button id="search-all" class="btn btn-primary">
-							Seek Checked <span hidden class='search-all spinner-border spinner-border-sm'></span>
+							Seek Checked <span hidden=true class='search-all spinner-border spinner-border-sm'></span>
 						</button>
 					</th>
 					<th class="align-middle"><input id="flowcheckall" type="checkbox" /></th>

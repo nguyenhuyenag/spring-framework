@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
@@ -6,16 +7,35 @@
 	<link rel="shortcut icon" href="#">
 	<script type="text/javascript">
 		$(function () {
-			$('button').click(function (e) {
+			// Button 1
+			$('#btn1').click(function (e) {
 				e.preventDefault();
 				$.ajax({
 					type: 'POST',
 					url: './api/my-ajax?name=test2023',
 					contentType: "application/json;charset=utf-8",
-					data: JSON.stringify({ 'data': '123456', 'input': $('#comment').val() }),
+					data: JSON.stringify({ 'id': '123456', 'comment': $('#comment').val() }),
 					success: function (data, status, xhr) {
 						console.log(data);
 						// console.log(window.location.href);
+					},
+					error: function (jqXhr, textStatus, errorMessage) {
+						console.log(errorMessage);
+					}
+				});
+			});
+
+			// Button 2
+			$('#btn2').click(function (e) {
+				e.preventDefault();
+				// console.log(JSON.stringify(JSON.parse(`${dataListJSON}`)));
+				$.ajax({
+					type: 'POST',
+					url: './api/my-ajax2',
+					contentType: "application/json;charset=utf-8",
+					data: JSON.stringify(JSON.parse(`${dataListJSON}`)),
+					success: function (data, status, xhr) {
+						console.log(data);
 					},
 					error: function (jqXhr, textStatus, errorMessage) {
 						console.log(errorMessage);
@@ -29,12 +49,24 @@
 <div>
 	<div class='container'>
 		<h2>Ajax</h2>
+
+		<hr/>
+		<code><b>Data from Controller (Normal):</b> ${dataListNormal}</code>
+		<br>
+		<code><b>Data from Controller (JSON):</b> ${dataListJSON}</code>
+		
+		<hr/>
 		<form id=''>
 			<div class="form-group">
-				<label for="comment">Body:</label>
-				<input class="form-control" rows="5" id="comment" value="abcdrf">
+				<label for="comment"><b>POST Form data to Controller</b>: (Post và xem console trên server)</label>
+				<input class="form-control" rows="5" id="comment" value="Test gửi dữ liệu">
 			</div>
-			<button class="btn btn-primary" type="submit">Submit</button>
+			<button id='btn1' class="btn btn-primary" type="submit">Submit 1</button>
 		</form>
+		
+		<hr/>
+		<b>Get JSP data to Ajax:</b>
+		
+		<button id='btn2' class="btn btn-primary" type="submit">Submit 2</button>
 	</div>
 </div>
