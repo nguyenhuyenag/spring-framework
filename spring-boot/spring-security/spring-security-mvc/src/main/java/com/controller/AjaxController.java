@@ -29,7 +29,7 @@ public class AjaxController {
 		Map<String, String> data = new LinkedHashMap<>();
 		data.put("name", "Java");
 		data.put("year", "1995");
-		model.addAttribute("dataListNormal", data);
+		model.addAttribute("dataList", data); // test
 		model.addAttribute("dataListJSON", mapper.writeValueAsString(data));
 		return "ajax";
 	}
