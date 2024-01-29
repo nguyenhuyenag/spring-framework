@@ -42,11 +42,9 @@
                 xhrFields: {
                     responseType: 'blob' // Set the response type to 'blob'
                 },
-                success: function(responseData, textStatus, jqXHR) {
-                    // console.log(responseData);
+                success: function (responseData, textStatus, jqXHR) {
                     // Create a Blob from the response data
-                    let blob = new Blob([responseData], { type: 'application/octet-stream' });
-
+                    let blob = new Blob([responseData], {type: 'application/octet-stream'});
                     // Get the filename from the Content-Disposition header
                     let filename = '';
                     let disposition = jqXHR.getResponseHeader('Content-Disposition');
@@ -57,24 +55,19 @@
                             filename = matches[1].replace(/['"]/g, '');
                         }
                     }
-
                     // Create a download link
                     let downloadLink = document.createElement('a');
                     downloadLink.href = window.URL.createObjectURL(blob);
-
                     // Set the file name (use the extracted filename if available, otherwise use a default name)
                     downloadLink.download = filename || 'downloaded_file.txt';
-
                     // Append the link to the body
                     document.body.appendChild(downloadLink);
-
                     // Trigger a click event on the link to prompt the user to download the file
                     downloadLink.click();
-
                     // Remove the link from the body
                     document.body.removeChild(downloadLink);
                 },
-                error: function(jqXHR, textStatus, errorThrown) {
+                error: function (jqXHR, textStatus, errorThrown) {
                     console.log(textStatus, errorThrown);
                 }
             });
