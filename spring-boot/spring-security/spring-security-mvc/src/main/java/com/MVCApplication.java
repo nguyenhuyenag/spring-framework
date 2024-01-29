@@ -8,10 +8,10 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 @SpringBootApplication
-public class BootApplication implements CommandLineRunner {
+public class MVCApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {
-		SpringApplication.run(BootApplication.class, args);
+		SpringApplication.run(MVCApplication.class, args);
 	}
 	
 	@Secured("ROLE_ADMIN")

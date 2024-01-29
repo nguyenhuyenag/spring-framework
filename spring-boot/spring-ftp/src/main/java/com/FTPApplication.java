@@ -7,16 +7,16 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class Application extends SpringBootServletInitializer implements CommandLineRunner {
+public class FTPApplication extends SpringBootServletInitializer implements CommandLineRunner {
 
 	/* WAR */
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(Application.class);
+		return application.sources(FTPApplication.class);
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
+		SpringApplication.run(FTPApplication.class, args);
 	}
 
 	@Override

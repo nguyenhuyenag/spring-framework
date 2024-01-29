@@ -1,6 +1,5 @@
 package com.controller;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,14 +49,14 @@ public class AjaxController {
 		}
 		System.out.println("RequestParam: " + name);
 		System.out.println("RequestBody: " + bodyData);
-		return ResponseEntity.ok(bodyData);
+		return ResponseEntity.ok("AjaxController_Success_OK_1");
 	}
 	
 	@ResponseBody
 	@PostMapping("/api/my-ajax2")
 	public ResponseEntity<?> ajaxPost2(@RequestBody Map<String, String> bodyData) {
 		System.out.println("RequestBody: " + bodyData);
-		return ResponseEntity.ok(bodyData);
+		return ResponseEntity.ok("AjaxController_Success_OK_2");
 	}
 
 }

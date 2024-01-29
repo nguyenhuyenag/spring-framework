@@ -2,10 +2,10 @@ package com.util;
 
 import javax.servlet.ServletContext;
 
-import org.springframework.http.InvalidMediaTypeException;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
 
-// @Component
+@Component
 public class MediaTypeUtils {
 
 	private static ServletContext servletContext;
@@ -17,22 +17,19 @@ public class MediaTypeUtils {
 	// input: abc.zip, abc.pdf,..
 	// output: application/pdf, application/xml, image/gif, ...
 	public static MediaType fromFileName(String fileName) {
-		try {
-			if (servletContext != null) {
-				String mineType = servletContext.getMimeType(fileName);
+		if (servletContext != null) {
+			String mineType = servletContext.getMimeType(fileName);
+			if (mineType != null) {
 				return MediaType.parseMediaType(mineType);
 			}
-		} catch (InvalidMediaTypeException e) {
-			e.printStackTrace();
 		}
+		// Loại generic, không rõ định dạng cụ thể của dữ liệu
 		return MediaType.APPLICATION_OCTET_STREAM;
 	}
 
 	public static MediaType fromMineType(String mineType) {
-		try {
+		if (mineType != null) {
 			return MediaType.parseMediaType(mineType);
-		} catch (InvalidMediaTypeException e) {
-			e.printStackTrace();
 		}
 		return MediaType.APPLICATION_OCTET_STREAM;
 	}

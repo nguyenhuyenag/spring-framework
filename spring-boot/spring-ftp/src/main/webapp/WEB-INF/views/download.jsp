@@ -27,7 +27,7 @@
 		    <tr>
 				<td>${loop.index + 1}</td>
 				<td>${file.fileName}</td>
-				<td><a href="./download-file?fileid=${file.fileId}">Download</a></td>
+				<td><a href="./download-ajax?fileId=${file.fileId}">Download</a></td>
 		    </tr>
 		</c:forEach>
 	</table>
