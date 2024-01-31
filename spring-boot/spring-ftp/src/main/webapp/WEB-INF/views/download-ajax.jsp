@@ -13,6 +13,7 @@
   			border: 1px solid black;
   			border-collapse: collapse;
 		}
+        a {cursor: pointer;}
 	</style>
 </head>
 <body>
@@ -23,12 +24,14 @@
 			<th>STT</th>
 			<th>File</th>
 			<th>Download</th>
+			<th>Download by Base64</th>
 		</tr>
 		<c:forEach items="${files}" var="file" varStatus="loop">
 		    <tr>
-				<td>${loop.index + 1}</td>
+				<td style='text-align: center'>${loop.index + 1}</td>
 				<td>${file.fileName}</td>
-                <td><a onclick='downloadAjax(this)' data-fileId='${file.fileId}' href="#">Download</a></td>
+                <td style="text-align: center"><a onclick='downloadAjax(this)' data-fileId='${file.fileId}' href="#">Download</a></td>
+                <td style="text-align: center"><a onclick='downloadAjaxBase64(this)' data-fileId='${file.fileId}' href="#">Download</a></td>
 		    </tr>
 		</c:forEach>
 	</table>
@@ -72,6 +75,40 @@
                 }
             });
         }
+
+		function base64ToBlob(base64String) {
+			const byteCharacters = atob(base64String);
+			const byteNumbers = new Array(byteCharacters.length);
+			for (let i = 0; i < byteCharacters.length; i++) {
+				byteNumbers[i] = byteCharacters.charCodeAt(i);
+			}
+			const byteArray = new Uint8Array(byteNumbers);
+			return new Blob([byteArray], { type: 'application/octet-stream' });
+		}
+
+		function downloadAjaxBase64(event) {
+			const fileId = $(event).attr('data-fileId');
+			$.ajax({
+				type: "POST",
+				url: "./download-ajax-base64?fileId=" + fileId,
+				contentType: 'application/json',
+				dataType: 'json', // specify the dataType as JSON
+				success: function (responseData, textStatus, jqXHR) {
+                    // Create blob
+                    const blob = base64ToBlob(responseData['base64']);
+                    const downloadLink = document.createElement('a');
+                    // Create download link
+                    downloadLink.href = URL.createObjectURL(blob);
+                    downloadLink.download = responseData['filename'];
+                    document.body.appendChild(downloadLink);
+                    downloadLink.click();
+                    document.body.removeChild(downloadLink);
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					console.log(textStatus, errorThrown);
+				}
+			});
+		}
     </script>
 </body>
 </html>

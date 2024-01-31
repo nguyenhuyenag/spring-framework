@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -46,7 +47,7 @@ import com.util.MediaTypeUtils;
 public class FTPController {
 
 	private static final String DEFAULT_ID = "J9VWJBPIJKQCMFY4F8UM";
-
+	
 	@Autowired
 	private FileStoreService fileStoreService;
 
@@ -139,7 +140,7 @@ public class FTPController {
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + file.getFileName()) //
 				.body(new ByteArrayResource(data));
 	}
-	
+
 	/**
 	 * Download using Ajax
 	 */
@@ -149,7 +150,7 @@ public class FTPController {
 		model.addAttribute("files", files);
 		return "download-ajax";
 	}
-	
+
 	@ResponseBody
 	@PostMapping(value = "/download-ajax")
 	public void downloadAjax(HttpServletResponse response, String fileId) throws Exception {
@@ -160,8 +161,9 @@ public class FTPController {
 			byte[] fileData = Base64Utils.decodeToByte(fileContent);
 			File tempFile = File.createTempFile("tmp_", fileInfo.getFileName());
 			Files.write(tempFile.toPath(), fileData);
-			
-			// Có thể dùng cách tương tự ở trên. Ở đây dùng TempFile để test guessContentTypeFromStream()
+
+			// Có thể dùng cách tương tự ở trên. Ở đây dùng TempFile để test
+			// guessContentTypeFromStream()
 			try (FileInputStream in = new FileInputStream(tempFile)) {
 				// Set file to header
 				response.setContentType(URLConnection.guessContentTypeFromStream(in));
@@ -176,6 +178,16 @@ public class FTPController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@PostMapping(value = "/download-ajax-base64")
+	public ResponseEntity<?> downloadAjaxBase64(String fileId) throws Exception {
+		Map<String, String> map = new HashMap<>();
+		FileStore fileInfo = fileStoreService.findByFileId(fileId);
+		map.put("filename", fileInfo.getFileName());
+		map.put("base64", fileInfo.getFileContent());
+		// System.out.println(map);
+		return ResponseEntity.ok(map);
 	}
 
 	// ???
