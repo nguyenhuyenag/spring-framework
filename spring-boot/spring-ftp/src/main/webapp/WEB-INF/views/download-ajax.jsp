@@ -91,15 +91,19 @@
 			$.ajax({
 				type: "POST",
 				url: "./download-ajax-base64?fileId=" + fileId,
-				contentType: 'application/json',
-				dataType: 'json', // specify the dataType as JSON
+				// contentType: 'application/json',
+				// dataType: 'json', // specify the dataType as JSON
 				success: function (responseData, textStatus, jqXHR) {
+                    const { base64, filename } = responseData;
+
                     // Create blob
-                    const blob = base64ToBlob(responseData['base64']);
-                    const downloadLink = document.createElement('a');
+                    const blob = base64ToBlob(base64);
+
                     // Create download link
+                    const downloadLink = document.createElement('a');
                     downloadLink.href = URL.createObjectURL(blob);
-                    downloadLink.download = responseData['filename'];
+                    downloadLink.download = filename;
+
                     document.body.appendChild(downloadLink);
                     downloadLink.click();
                     document.body.removeChild(downloadLink);
