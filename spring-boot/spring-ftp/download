@@ -1,0 +1,146 @@
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Download Ajax</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<style>
+		table, th, td {
+  			border: 1px solid black;
+  			border-collapse: collapse;
+		}
+        a {cursor: pointer;}
+	</style>
+</head>
+<body>
+	<p><a href="/">Back</a></p>
+	<h1>Total file: 5</h1>
+	<table style="width: 50%">
+		<tr>
+			<th>STT</th>
+			<th>File</th>
+			<th>Download</th>
+			<th>Download by Base64</th>
+		</tr>
+		
+		    <tr>
+				<td style='text-align: center'>1</td>
+				<td>json.txt</td>
+                <td style="text-align: center"><a onclick='downloadAjax(this)' data-fileId='9773dbb4-19fa-47cd-9664-d9c83705495d' href="#">Download</a></td>
+                <td style="text-align: center"><a onclick='downloadAjaxBase64(this)' data-fileId='9773dbb4-19fa-47cd-9664-d9c83705495d' href="#">Download</a></td>
+		    </tr>
+		
+		    <tr>
+				<td style='text-align: center'>2</td>
+				<td>licenseID.wsdl</td>
+                <td style="text-align: center"><a onclick='downloadAjax(this)' data-fileId='21ff6b0a-7005-4fae-b510-b52a0edaf9b7' href="#">Download</a></td>
+                <td style="text-align: center"><a onclick='downloadAjaxBase64(this)' data-fileId='21ff6b0a-7005-4fae-b510-b52a0edaf9b7' href="#">Download</a></td>
+		    </tr>
+		
+		    <tr>
+				<td style='text-align: center'>3</td>
+				<td>test.txt</td>
+                <td style="text-align: center"><a onclick='downloadAjax(this)' data-fileId='bf767295-6aa0-42cc-81ed-0886d4e0081d' href="#">Download</a></td>
+                <td style="text-align: center"><a onclick='downloadAjaxBase64(this)' data-fileId='bf767295-6aa0-42cc-81ed-0886d4e0081d' href="#">Download</a></td>
+		    </tr>
+		
+		    <tr>
+				<td style='text-align: center'>4</td>
+				<td>test_on_server.txt</td>
+                <td style="text-align: center"><a onclick='downloadAjax(this)' data-fileId='b24569b7-9e34-4c88-88fd-8a8c694517dc' href="#">Download</a></td>
+                <td style="text-align: center"><a onclick='downloadAjaxBase64(this)' data-fileId='b24569b7-9e34-4c88-88fd-8a8c694517dc' href="#">Download</a></td>
+		    </tr>
+		
+		    <tr>
+				<td style='text-align: center'>5</td>
+				<td>ts24comvn_ssl.jks</td>
+                <td style="text-align: center"><a onclick='downloadAjax(this)' data-fileId='39e71f0d-8bed-4684-99dd-1250ef07926f' href="#">Download</a></td>
+                <td style="text-align: center"><a onclick='downloadAjaxBase64(this)' data-fileId='39e71f0d-8bed-4684-99dd-1250ef07926f' href="#">Download</a></td>
+		    </tr>
+		
+	</table>
+    <script>
+        function downloadAjax(event) {
+            const fileId = $(event).attr('data-fileId');
+            // console.log('fileId: ' + fileId);
+            $.ajax({
+                type: "POST",
+                url: "./download-ajax?fileId=" + fileId,
+                xhrFields: {
+                    responseType: 'blob' // Set the response type to 'blob'
+                },
+                success: function (responseData, textStatus, jqXHR) {
+                    // Create a Blob from the response data
+                    let blob = new Blob([responseData], {type: 'application/octet-stream'});
+                    // Get the filename from the Content-Disposition header
+                    let filename = '';
+                    let disposition = jqXHR.getResponseHeader('Content-Disposition');
+                    if (disposition && disposition.indexOf('attachment') !== -1) {
+                        let filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                        let matches = filenameRegex.exec(disposition);
+                        if (matches != null && matches[1]) {
+                            filename = matches[1].replace(/['"]/g, '');
+                        }
+                    }
+                    // Create a download link
+                    let downloadLink = document.createElement('a');
+                    downloadLink.href = window.URL.createObjectURL(blob);
+                    // Set the file name (use the extracted filename if available, otherwise use a default name)
+                    downloadLink.download = filename || 'downloaded_file.txt';
+                    // Append the link to the body
+                    document.body.appendChild(downloadLink);
+                    // Trigger a click event on the link to prompt the user to download the file
+                    downloadLink.click();
+                    // Remove the link from the body
+                    document.body.removeChild(downloadLink);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus, errorThrown);
+                }
+            });
+        }
+
+		function base64ToBlob(base64String) {
+			const byteCharacters = atob(base64String);
+			const byteNumbers = new Array(byteCharacters.length);
+			for (let i = 0; i < byteCharacters.length; i++) {
+				byteNumbers[i] = byteCharacters.charCodeAt(i);
+			}
+			const byteArray = new Uint8Array(byteNumbers);
+			return new Blob([byteArray], { type: 'application/octet-stream' });
+		}
+
+		function downloadAjaxBase64(event) {
+			const fileId = $(event).attr('data-fileId');
+			$.ajax({
+				type: "POST",
+				url: "./download-ajax-base64?fileId=" + fileId,
+				// contentType: 'application/json',
+				// dataType: 'json', // specify the dataType as JSON
+				success: function (responseData, textStatus, jqXHR) {
+                    const { base64, filename } = responseData;
+
+                    // Create blob
+                    const blob = base64ToBlob(base64);
+
+                    // Create download link
+                    const downloadLink = document.createElement('a');
+                    downloadLink.href = URL.createObjectURL(blob);
+                    downloadLink.download = filename;
+
+                    document.body.appendChild(downloadLink);
+                    downloadLink.click();
+                    document.body.removeChild(downloadLink);
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					console.log(textStatus, errorThrown);
+				}
+			});
+		}
+    </script>
+</body>
+</html>

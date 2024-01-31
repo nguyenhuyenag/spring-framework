@@ -1,24 +1,16 @@
 package com.controller;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
-import java.net.URL;
 import java.net.URLConnection;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -47,7 +39,7 @@ import com.util.MediaTypeUtils;
 public class FTPController {
 
 	private static final String DEFAULT_ID = "J9VWJBPIJKQCMFY4F8UM";
-	
+
 	@Autowired
 	private FileStoreService fileStoreService;
 
@@ -188,53 +180,6 @@ public class FTPController {
 		map.put("base64", fileInfo.getFileContent());
 		// System.out.println(map);
 		return ResponseEntity.ok(map);
-	}
-
-	// ???
-	protected static void showAllHeaderFields(String downloadUrl) throws IOException {
-		URLConnection conn = URI.create(downloadUrl).toURL().openConnection();
-		// get all headers
-		Map<String, List<String>> map = conn.getHeaderFields();
-		for (Map.Entry<String, List<String>> entry : map.entrySet()) {
-			System.out.println(entry.getKey() + ", " + entry.getValue());
-		}
-		// get and verify the header field
-		String fieldValue = conn.getHeaderField("Content-Disposition");
-		if (fieldValue == null || !fieldValue.contains("filename=")) {
-			// no file name there -> throw exception ...
-		}
-		// parse the file name from the header field
-		String filename = fieldValue.substring(fieldValue.indexOf("filename=") + 9, fieldValue.length());
-		System.out.println("FileName: " + filename);
-	}
-
-	// ???
-	private static String getFileName(URL url) throws IOException {
-		URLConnection conn = url.openConnection();
-		String fieldValue = conn.getHeaderField("Content-Disposition");
-		if (fieldValue == null || !fieldValue.contains("filename=")) {
-			return "";
-		}
-		return fieldValue.substring(fieldValue.indexOf("filename=") + 9, fieldValue.length());
-	}
-
-	// ???
-	protected static long downloadFile(String downloadUrl) throws IOException {
-		// showAllHeaderFields(downloadUrl);
-		URL url = URI.create(downloadUrl).toURL();
-		try (InputStream is = url.openStream()) {
-			byte[] byteArray = IOUtils.toByteArray(is);
-			InputStream input = new ByteArrayInputStream(byteArray);
-			String mimeType = URLConnection.guessContentTypeFromStream(input);
-			MediaType mediaType = MediaTypeUtils.fromMineType(mimeType);
-			System.out.println("MimeType: " + mimeType);
-			System.out.println("Type: " + mediaType.getType());
-			System.out.println("Subtype: " + mediaType.getSubtype());
-			String fileName = getFileName(url);
-			Path path = Paths.get("download", fileName);
-			// Files.write(path, byteArray);
-			return Files.copy(input, path, StandardCopyOption.REPLACE_EXISTING);
-		}
 	}
 
 }
