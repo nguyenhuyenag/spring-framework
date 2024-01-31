@@ -38,148 +38,146 @@ import com.util.MediaTypeUtils;
 @RequestMapping("ftp")
 public class FTPController {
 
-	private static final String DEFAULT_ID = "J9VWJBPIJKQCMFY4F8UM";
+    @Autowired
+    private FileStoreService fileStoreService;
 
-	@Autowired
-	private FileStoreService fileStoreService;
+    /**
+     * Upload file
+     */
+    @GetMapping("upload")
+    public String upload() {
+        return "upload";
+    }
 
-	/**
-	 * Upload file
-	 */
-	@GetMapping("upload")
-	public String upload() {
-		return "upload";
-	}
+    @PostMapping("upload")
+    public String upload(MyFile myFile) {
+        try {
+            MultipartFile multipartFile = myFile.getMultipartFile();
+            String fileName = multipartFile.getOriginalFilename();
+            FileStore fileStore = new FileStore();
+            fileStore.setFileName(fileName);
+            String content = Base64Utils.encodeToString(multipartFile.getBytes());
+            fileStore.setFileContent(content);
+            fileStoreService.save(fileStore);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "upload";
+    }
 
-	@PostMapping("upload")
-	public String upload(MyFile myFile) {
-		try {
-			MultipartFile multipartFile = myFile.getMultipartFile();
-			String fileName = multipartFile.getOriginalFilename();
-			FileStore fileStore = new FileStore();
-			fileStore.setFileName(fileName);
-			String content = Base64Utils.encodeToString(multipartFile.getBytes());
-			fileStore.setFileContent(content);
-			fileStoreService.save(fileStore);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return "upload";
-	}
+    @GetMapping("multi-upload")
+    public String multiUpload() {
+        return "multi-upload";
+    }
 
-	@GetMapping("multi-upload")
-	public String multiUpload() {
-		return "multi-upload";
-	}
+    @PostMapping("multi-upload")
+    public String multiUpload(MultiFile myFile) {
+        try {
+            MultipartFile[] multipartFiles = myFile.getMultipartFile();
+            for (MultipartFile multipartFile : multipartFiles) {
+                String fileName = multipartFile.getOriginalFilename();
+                FileStore fileStore = new FileStore();
+                fileStore.setFileName(fileName);
+                String content = Base64Utils.encodeToString(multipartFile.getBytes());
+                fileStore.setFileContent(content);
+                fileStoreService.save(fileStore);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "multi-upload";
+    }
 
-	@PostMapping("multi-upload")
-	public String multiUpload(MultiFile myFile) {
-		try {
-			MultipartFile[] multipartFiles = myFile.getMultipartFile();
-			for (MultipartFile multipartFile : multipartFiles) {
-				String fileName = multipartFile.getOriginalFilename();
-				FileStore fileStore = new FileStore();
-				fileStore.setFileName(fileName);
-				String content = Base64Utils.encodeToString(multipartFile.getBytes());
-				fileStore.setFileContent(content);
-				fileStoreService.save(fileStore);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return "multi-upload";
-	}
+    /**
+     * Download file
+     */
+    @GetMapping("download")
+    public String downloadView(Model model) {
+        List<FileStore> files = fileStoreService.findAll();
+        model.addAttribute("files", files);
+        return "download";
+    }
 
-	/**
-	 * Download file
-	 */
-	@GetMapping("download")
-	public String downloadView(Model model) {
-		List<FileStore> files = fileStoreService.findAll();
-		model.addAttribute("files", files);
-		return "download";
-	}
+    @GetMapping("download-file")
+    public ResponseEntity<ByteArrayResource> download(@RequestParam(defaultValue = "XYZ") String fileId) {
+        FileStore file = fileStoreService.findByFileId(fileId);
+        MediaType mediaType = MediaTypeUtils.fromFileName(file.getFileName());
+        // System.out.println("mediaType: " + mediaType);
+        // System.out.println("fileName: " + file.getFileName());
+        String fileContent = file.getFileContent();
+        byte[] data = Base64Utils.decodeToByte(fileContent);
+        return ResponseEntity.ok() //
+                .contentType(mediaType) //
+                .contentLength(data.length) //
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + file.getFileName()) //
+                .body(new ByteArrayResource(data));
+    }
 
-	@GetMapping("download-file")
-	public ResponseEntity<ByteArrayResource> download(@RequestParam(defaultValue = DEFAULT_ID) String fileId) {
-		FileStore file = fileStoreService.findByFileId(fileId);
-		MediaType mediaType = MediaTypeUtils.fromFileName(file.getFileName());
-		// System.out.println("mediaType: " + mediaType);
-		// System.out.println("fileName: " + file.getFileName());
-		String fileContent = file.getFileContent();
-		byte[] data = Base64Utils.decodeToByte(fileContent);
-		return ResponseEntity.ok() //
-				.contentType(mediaType) //
-				.contentLength(data.length) //
-				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + file.getFileName()) //
-				.body(new ByteArrayResource(data));
-	}
+    @GetMapping("download-from-url")
+    public String downloadFromUrlView() {
+        return "download-from-url";
+    }
 
-	@GetMapping("download-from-url")
-	public String downloadFromUrlView() {
-		return "download-from-url";
-	}
+    @PostMapping("download-from-url")
+    public ResponseEntity<Resource> downloadFromUrl(String fileId) throws IOException {
+        FileStore file = fileStoreService.findByFileId(fileId);
+        MediaType mediaType = MediaTypeUtils.fromFileName(file.getFileName());
+        String fileContent = file.getFileContent();
+        byte[] data = Base64Utils.decodeToByte(fileContent);
+        return ResponseEntity.ok() //
+                .contentType(mediaType) //
+                .contentLength(data.length) //
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + file.getFileName()) //
+                .body(new ByteArrayResource(data));
+    }
 
-	@PostMapping("download-from-url")
-	public ResponseEntity<Resource> downloadFromUrl(String fileId) throws IOException {
-		FileStore file = fileStoreService.findByFileId(fileId);
-		MediaType mediaType = MediaTypeUtils.fromFileName(file.getFileName());
-		String fileContent = file.getFileContent();
-		byte[] data = Base64Utils.decodeToByte(fileContent);
-		return ResponseEntity.ok() //
-				.contentType(mediaType) //
-				.contentLength(data.length) //
-				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + file.getFileName()) //
-				.body(new ByteArrayResource(data));
-	}
+    /**
+     * Download using Ajax
+     */
+    @GetMapping(value = "/download-ajax")
+    public String downloadAjax(Model model) {
+        List<FileStore> files = fileStoreService.findAll();
+        model.addAttribute("files", files);
+        return "download-ajax";
+    }
 
-	/**
-	 * Download using Ajax
-	 */
-	@GetMapping(value = "/download-ajax")
-	public String downloadAjax(Model model) {
-		List<FileStore> files = fileStoreService.findAll();
-		model.addAttribute("files", files);
-		return "download-ajax";
-	}
+    @ResponseBody
+    @PostMapping(value = "/download-ajax")
+    public void downloadAjax(HttpServletResponse response, String fileId) throws Exception {
+        try {
+            FileStore fileInfo = fileStoreService.findByFileId(fileId);
+            String fileContent = fileInfo.getFileContent();
 
-	@ResponseBody
-	@PostMapping(value = "/download-ajax")
-	public void downloadAjax(HttpServletResponse response, String fileId) throws Exception {
-		try {
-			FileStore fileInfo = fileStoreService.findByFileId(fileId);
-			String fileContent = fileInfo.getFileContent();
+            byte[] fileData = Base64Utils.decodeToByte(fileContent);
+            File tempFile = File.createTempFile("tmp_", fileInfo.getFileName());
+            Files.write(tempFile.toPath(), fileData);
 
-			byte[] fileData = Base64Utils.decodeToByte(fileContent);
-			File tempFile = File.createTempFile("tmp_", fileInfo.getFileName());
-			Files.write(tempFile.toPath(), fileData);
+            // Có thể dùng cách tương tự ở trên. Ở đây dùng TempFile để test
+            // guessContentTypeFromStream()
+            try (FileInputStream in = new FileInputStream(tempFile)) {
+                // Set file to header
+                response.setContentType(URLConnection.guessContentTypeFromStream(in));
+                response.setContentLength(fileData.length);
+                response.setHeader("Content-Disposition", "attachment; filename=\"" + fileInfo.getFileName() + "\"");
+                FileCopyUtils.copy(in, response.getOutputStream());
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                tempFile.deleteOnExit();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-			// Có thể dùng cách tương tự ở trên. Ở đây dùng TempFile để test
-			// guessContentTypeFromStream()
-			try (FileInputStream in = new FileInputStream(tempFile)) {
-				// Set file to header
-				response.setContentType(URLConnection.guessContentTypeFromStream(in));
-				response.setContentLength(fileData.length);
-				response.setHeader("Content-Disposition", "attachment; filename=\"" + fileInfo.getFileName() + "\"");
-				FileCopyUtils.copy(in, response.getOutputStream());
-			} catch (IOException e) {
-				e.printStackTrace();
-			} finally {
-				tempFile.deleteOnExit();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	@PostMapping(value = "/download-ajax-base64")
-	public ResponseEntity<?> downloadAjaxBase64(String fileId) throws Exception {
-		Map<String, String> map = new HashMap<>();
-		FileStore fileInfo = fileStoreService.findByFileId(fileId);
-		map.put("filename", fileInfo.getFileName());
-		map.put("base64", fileInfo.getFileContent());
-		// System.out.println(map);
-		return ResponseEntity.ok(map);
-	}
+    @PostMapping(value = "/download-ajax-base64")
+    public ResponseEntity<?> downloadAjaxBase64(String fileId) throws Exception {
+        Map<String, String> map = new HashMap<>();
+        FileStore fileInfo = fileStoreService.findByFileId(fileId);
+        map.put("filename", fileInfo.getFileName());
+        map.put("base64", fileInfo.getFileContent());
+        // System.out.println("map: " + map);
+        return ResponseEntity.ok(map);
+    }
 
 }

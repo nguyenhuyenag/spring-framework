@@ -7,6 +7,10 @@
 <html>
 <head>
 	<title>Download</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 	<style>
 		table, th, td {
   			border: 1px solid black;
@@ -15,21 +19,23 @@
 	</style>
 </head>
 <body>
-	<p><a href="/">Back</a></p>
-	<h1>Total file: ${fn:length(files)}</h1>
-	<table style="width: 50%">
-		<tr>
-			<th>STT</th>
-			<th>File</th>
-			<th>Download</th>
-		</tr>
-		<c:forEach items="${files}" var="file" varStatus="loop">
-		    <tr>
-				<td>${loop.index + 1}</td>
-				<td>${file.fileName}</td>
-				<td><a href="./download-ajax?fileId=${file.fileId}">Download</a></td>
-		    </tr>
-		</c:forEach>
-	</table>
+	<div class="container">
+		<p><a href="/">Back</a></p>
+		<h1>Total file: ${fn:length(files)}</h1>
+		<table class="table">
+			<tr>
+				<th class="text-center">STT</th>
+				<th>File</th>
+				<th class="text-center">Download</th>
+			</tr>
+			<c:forEach items="${files}" var="file" varStatus="loop">
+				<tr>
+					<td class="text-center">${loop.index + 1}</td>
+					<td>${file.fileName}</td>
+					<td class="text-center"><a href="./download-ajax?fileId=${file.fileId}">Download</a></td>
+				</tr>
+			</c:forEach>
+		</table>
+	</div>
 </body>
 </html>

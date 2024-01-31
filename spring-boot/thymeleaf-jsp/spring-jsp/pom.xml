@@ -14,7 +14,7 @@
 	<groupId>com</groupId>
 	<artifactId>spring-jsp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Boot</name>
+	<name>SpringJSPApplication</name>
 	<description>Project for Spring Boot</description>
 	
 	<properties>

@@ -12,7 +12,7 @@
 	<groupId>com</groupId>
 	<artifactId>spring-security-mvc</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>spring-security-mvc</name>
+	<name>MVCApplication</name>
 	<description>Project for Spring Boot</description>
 
 	<properties>
