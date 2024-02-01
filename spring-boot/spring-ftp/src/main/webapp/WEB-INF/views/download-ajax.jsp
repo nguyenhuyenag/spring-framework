@@ -37,10 +37,12 @@
                 <tr>
                     <td style='text-align: center'>${loop.index + 1}</td>
                     <td>${file.fileName}</td>
-                    <td style="text-align: center"><a onclick='downloadAjax(this)' data-fileId='${file.fileId}' href="#">Download</a>
+                    <td style="text-align: center">
+                        <a onclick='downloadAjax(this)' data-fileId='${file.fileId}' href="#">Download</a>
                     </td>
-                    <td style="text-align: center"><a onclick='downloadAjaxBase64(this)' data-fileId='${file.fileId}'
-                                                      href="#">Download</a></td>
+                    <td style="text-align: center">
+                        <a onclick='downloadAjaxBase64(this)' data-fileId='${file.fileId}' href="#">Download</a>
+                    </td>
                 </tr>
             </c:forEach>
         </table>
@@ -113,7 +115,6 @@
                     const downloadLink = document.createElement('a');
                     downloadLink.href = URL.createObjectURL(blob);
                     downloadLink.download = filename;
-
                     document.body.appendChild(downloadLink);
                     downloadLink.click();
                     document.body.removeChild(downloadLink);

@@ -41,14 +41,6 @@ public class FTPController {
     @Autowired
     private FileStoreService fileStoreService;
 
-    /**
-     * Upload file
-     */
-    @GetMapping("upload")
-    public String upload() {
-        return "upload";
-    }
-
     @PostMapping("upload")
     public String upload(MyFile myFile) {
         try {
@@ -63,11 +55,6 @@ public class FTPController {
             e.printStackTrace();
         }
         return "upload";
-    }
-
-    @GetMapping("multi-upload")
-    public String multiUpload() {
-        return "multi-upload";
     }
 
     @PostMapping("multi-upload")
@@ -88,16 +75,6 @@ public class FTPController {
         return "multi-upload";
     }
 
-    /**
-     * Download file
-     */
-    @GetMapping("download")
-    public String downloadView(Model model) {
-        List<FileStore> files = fileStoreService.findAll();
-        model.addAttribute("files", files);
-        return "download";
-    }
-
     @GetMapping("download-file")
     public ResponseEntity<ByteArrayResource> download(@RequestParam(defaultValue = "XYZ") String fileId) {
         FileStore file = fileStoreService.findByFileId(fileId);
@@ -113,11 +90,6 @@ public class FTPController {
                 .body(new ByteArrayResource(data));
     }
 
-    @GetMapping("download-from-url")
-    public String downloadFromUrlView() {
-        return "download-from-url";
-    }
-
     @PostMapping("download-from-url")
     public ResponseEntity<Resource> downloadFromUrl(String fileId) throws IOException {
         FileStore file = fileStoreService.findByFileId(fileId);
@@ -129,16 +101,6 @@ public class FTPController {
                 .contentLength(data.length) //
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + file.getFileName()) //
                 .body(new ByteArrayResource(data));
-    }
-
-    /**
-     * Download using Ajax
-     */
-    @GetMapping(value = "/download-ajax")
-    public String downloadAjax(Model model) {
-        List<FileStore> files = fileStoreService.findAll();
-        model.addAttribute("files", files);
-        return "download-ajax";
     }
 
     @ResponseBody

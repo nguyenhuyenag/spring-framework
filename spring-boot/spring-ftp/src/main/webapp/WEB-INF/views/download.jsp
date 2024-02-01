@@ -7,9 +7,6 @@
 <html>
 <head>
 	<title>Download</title>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 	<style>
 		table, th, td {
@@ -20,7 +17,7 @@
 </head>
 <body>
 	<div class="container">
-		<p><a href="/">Back</a></p>
+		<p><a href="${pageContext.request.contextPath}/">Back</a></p>
 		<h1>Total file: ${fn:length(files)}</h1>
 		<table class="table">
 			<tr>
