@@ -113,7 +113,6 @@ public class FTPController {
             byte[] fileData = Base64Utils.decodeToByte(fileContent);
             File tempFile = File.createTempFile("tmp_", fileInfo.getFileName());
             Files.write(tempFile.toPath(), fileData);
-
             // Có thể dùng cách tương tự ở trên. Ở đây dùng TempFile để test
             // guessContentTypeFromStream()
             try (FileInputStream in = new FileInputStream(tempFile)) {
