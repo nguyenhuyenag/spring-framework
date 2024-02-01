@@ -25,7 +25,7 @@ public class FileManager {
 		if (fieldValue == null || !fieldValue.contains("filename=")) {
 			return "";
 		}
-		return fieldValue.substring(fieldValue.indexOf("filename=") + 9, fieldValue.length());
+		return fieldValue.substring(fieldValue.indexOf("filename=") + 9);
 	}
 	
 	// Xem thong tin cua file download
@@ -40,7 +40,7 @@ public class FileManager {
 		String fieldValue = conn.getHeaderField("Content-Disposition");
 		if (fieldValue != null && fieldValue.contains("filename=")) {
 			// parse the file name from the header field
-			String filename = fieldValue.substring(fieldValue.indexOf("filename=") + 9, fieldValue.length());
+			String filename = fieldValue.substring(fieldValue.indexOf("filename=") + 9);
 			System.out.println("FileName: " + filename);
 		}
 	}

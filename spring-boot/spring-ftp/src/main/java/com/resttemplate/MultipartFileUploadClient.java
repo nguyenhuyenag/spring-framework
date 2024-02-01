@@ -16,7 +16,7 @@ import org.springframework.web.client.RestTemplate;
 
 public class MultipartFileUploadClient {
 
-	private static int serverPort = 8080;
+	private static final int serverPort = 8080;
 
 	public static void main(String[] args) throws IOException {
 		uploadSingleFile();
