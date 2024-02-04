@@ -9,11 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Map;
 
 @Controller
 @RequestMapping("ftp")
@@ -50,6 +52,12 @@ public class UploadController {
     @PostMapping("upload-ajax")
     public String uploadAjax(@RequestParam("file") MultipartFile file) throws IOException {
         saveFile(file);
+        return "upload-ajax";
+    }
+
+    @PostMapping("upload-ajax-base64")
+    public String uploadAjax(@RequestBody Map<String, String> reqData) {
+        System.out.println(reqData);
         return "upload-ajax";
     }
 

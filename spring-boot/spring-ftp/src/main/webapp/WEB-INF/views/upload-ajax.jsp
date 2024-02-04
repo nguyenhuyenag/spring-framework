@@ -3,6 +3,7 @@
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Upload</title>
     <link rel="shortcut icon" href="#">
@@ -16,6 +17,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <p><a href="/">Back</a></p>
@@ -31,67 +33,53 @@
             <button class="btn btn-primary" type="button" onclick="uploadAjaxBase64()">Upload Base64</button>
         </form>
     </div>
-<script>
-    function uploadFile() {
-        let formData = new FormData(document.getElementById('uploadForm'));
-        $.ajax({
-            type: 'POST',
-            url: '${pageContext.request.contextPath}/ftp/upload-ajax',
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function (response) {
-                console.log('success');
-            },
-            error: function (error) {
-                console.log(error);
-            }
-        });
-    }
+    <script>
+        function uploadFile() {
+            let formData = new FormData(document.getElementById('uploadForm'));
+            $.ajax({
+                type: 'POST',
+                url: '${pageContext.request.contextPath}/ftp/upload-ajax',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    console.log('success');
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
 
-    // function file_to_base64(file) {
-    //     let reader = new FileReader();
-    //     reader.readAsBinaryString(file);
-    //     reader.onload = function() {
-    //         // console.log(btoa(reader.result));
-    //         return btoa(reader.result);
-    //     };
-    //     reader.onerror = function() {
-    //         console.log('there are some problems');
-    //     };
-    // }
+        /**
+         * Upload file using Base64
+         */
+        function getBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(btoa(reader.result));
+                reader.onerror = error => reject(error);
+            });
+        }
 
-    function getBase64(file) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(btoa(reader.result));
-            reader.onerror = error => reject(error);
-        });
-    }
-
-    function uploadAjaxBase64() {
-        let myFile = $('#fileinput').prop('files');
-        console.log(myFile);
-        getBase64(myFile[0]).then(
-            data => console.log(data)
-        );
-
-        <%--$.ajax({--%>
-        <%--    type: 'POST',--%>
-        <%--    url: '${pageContext.request.contextPath}/ftp/upload-ajax-base64',--%>
-        <%--    data: {'filename': '', 'base64': ''},--%>
-        <%--    contentType: false,--%>
-        <%--    processData: false,--%>
-        <%--    success: function (response) {--%>
-        <%--        console.log('success');--%>
-        <%--    },--%>
-        <%--    error: function (error) {--%>
-        <%--        console.log(error);--%>
-        <%--    }--%>
-        <%--});--%>
-    }
-</script>
-
+        function uploadAjaxBase64() {
+            const myFile = $('#fileinput').prop('files')[0];
+            // console.log(myFile);
+            getBase64(myFile)
+                .then(data => ({
+                    filename: myFile.name,
+                    base64: data
+                }))
+                .then(json => $.ajax({
+                    type: 'POST',
+                    url: '${pageContext.request.contextPath}/ftp/upload-ajax-base64',
+                    data: JSON.stringify(json),
+                    contentType: "application/json; charset=utf-8",
+                    success: () => console.log('success'),
+                    error: console.error
+                }));
+        }
+    </script>
 </body>
 </html>
