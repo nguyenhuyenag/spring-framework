@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
 
 @Controller
-public class HomeController {
+public class ViewsController {
 
     @Autowired
     private FileStoreService fileStoreService;
@@ -26,6 +26,11 @@ public class HomeController {
     @GetMapping("/ftp/upload")
     public String upload() {
         return "upload";
+    }
+
+    @GetMapping("/ftp/upload-ajax")
+    public String uploadAjax() {
+        return "upload-ajax";
     }
 
     @GetMapping("/ftp/multi-upload")

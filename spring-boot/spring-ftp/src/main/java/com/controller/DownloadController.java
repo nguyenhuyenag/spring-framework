@@ -1,16 +1,11 @@
 package com.controller;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.net.URLConnection;
-import java.nio.file.Files;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletResponse;
-
+import com.entity.FileStore;
+import com.entity.MultiFile;
+import com.entity.MyFile;
+import com.service.FileStoreService;
+import com.util.Base64Utils;
+import com.util.MediaTypeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -18,62 +13,59 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.entity.FileStore;
-import com.entity.MultiFile;
-import com.entity.MyFile;
-import com.service.FileStoreService;
-import com.util.Base64Utils;
-import com.util.MediaTypeUtils;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.URLConnection;
+import java.nio.file.Files;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("ftp")
-public class FTPController {
+public class DownloadController {
 
     @Autowired
     private FileStoreService fileStoreService;
 
-    @PostMapping("upload")
-    public String upload(MyFile myFile) {
-        try {
-            MultipartFile multipartFile = myFile.getMultipartFile();
-            String fileName = multipartFile.getOriginalFilename();
-            FileStore fileStore = new FileStore();
-            fileStore.setFileName(fileName);
-            String content = Base64Utils.encodeToString(multipartFile.getBytes());
-            fileStore.setFileContent(content);
-            fileStoreService.save(fileStore);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "upload";
-    }
-
-    @PostMapping("multi-upload")
-    public String multiUpload(MultiFile myFile) {
-        try {
-            MultipartFile[] multipartFiles = myFile.getMultipartFile();
-            for (MultipartFile multipartFile : multipartFiles) {
-                String fileName = multipartFile.getOriginalFilename();
-                FileStore fileStore = new FileStore();
-                fileStore.setFileName(fileName);
-                String content = Base64Utils.encodeToString(multipartFile.getBytes());
-                fileStore.setFileContent(content);
-                fileStoreService.save(fileStore);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "multi-upload";
-    }
+//    @PostMapping("upload")
+//    public String upload(MyFile myFile) {
+//        try {
+//            MultipartFile multipartFile = myFile.getMultipartFile();
+//            String fileName = multipartFile.getOriginalFilename();
+//            FileStore fileStore = new FileStore();
+//            fileStore.setFileName(fileName);
+//            String content = Base64Utils.encodeToString(multipartFile.getBytes());
+//            fileStore.setFileContent(content);
+//            fileStoreService.save(fileStore);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return "upload";
+//    }
+//
+//    @PostMapping("multi-upload")
+//    public String multiUpload(MultiFile myFile) {
+//        try {
+//            MultipartFile[] multipartFiles = myFile.getMultipartFile();
+//            for (MultipartFile multipartFile : multipartFiles) {
+//                String fileName = multipartFile.getOriginalFilename();
+//                FileStore fileStore = new FileStore();
+//                fileStore.setFileName(fileName);
+//                String content = Base64Utils.encodeToString(multipartFile.getBytes());
+//                fileStore.setFileContent(content);
+//                fileStoreService.save(fileStore);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return "multi-upload";
+//    }
 
     @GetMapping("download-file")
     public ResponseEntity<ByteArrayResource> download(@RequestParam(defaultValue = "XYZ") String fileId) {
