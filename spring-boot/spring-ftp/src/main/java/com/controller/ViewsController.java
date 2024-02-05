@@ -58,4 +58,9 @@ public class ViewsController {
         return "download-ajax";
     }
 
+    @GetMapping("/ftp/upload-auto-delete")
+    public String downloadLargeFile() {
+        return "upload-auto-delete";
+    }
+
 }

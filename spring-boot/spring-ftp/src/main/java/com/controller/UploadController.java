@@ -5,7 +5,9 @@ import com.entity.MultiFile;
 import com.entity.MyFile;
 import com.service.FileStoreService;
 import com.util.Base64Utils;
+import org.apache.commons.lang3.SystemUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
 
 @Controller
@@ -61,7 +66,7 @@ public class UploadController {
         return "upload-ajax";
     }
 
-    protected void saveFile(MultipartFile multipartFile) throws IOException {
+    private void saveFile(MultipartFile multipartFile) throws IOException {
         String fileName = multipartFile.getOriginalFilename();
         FileStore fileStore = new FileStore();
         fileStore.setFileName(fileName);
