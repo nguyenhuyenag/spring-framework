@@ -70,9 +70,10 @@
         /**
          * Auto delete
          */
-        // $(window).bind('beforeunload', function () {
-        //
-        // });
+        $(window).on('unload', function () {
+            // console.log('Leaving page');
+            deleteFile();
+        });
     </script>
 </body>
 </html>
