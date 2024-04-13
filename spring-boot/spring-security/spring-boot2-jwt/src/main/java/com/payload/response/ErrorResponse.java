@@ -1,4 +1,4 @@
-package com.payload.reponse;
+package com.payload.response;
 
 import java.util.Date;
 

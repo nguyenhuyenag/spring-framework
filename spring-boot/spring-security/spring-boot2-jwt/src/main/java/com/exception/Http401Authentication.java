@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
-import com.payload.reponse.ErrorResponse;
+import com.payload.response.ErrorResponse;
 import com.util.JsonUtils;
 
 // @Component

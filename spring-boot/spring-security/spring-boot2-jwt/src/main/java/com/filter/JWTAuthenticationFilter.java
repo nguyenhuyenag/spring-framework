@@ -18,8 +18,8 @@ import org.springframework.security.web.authentication.AbstractAuthenticationPro
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.entity.RefreshToken;
-import com.payload.reponse.ErrorResponse;
-import com.payload.reponse.JwtResponse;
+import com.payload.response.ErrorResponse;
+import com.payload.response.JwtResponse;
 import com.payload.request.LoginRequest;
 import com.service.RefreshTokenService;
 import com.util.JsonUtils;
