@@ -22,6 +22,10 @@ public class UserService {
 
 	public boolean create(UserCreationRequest request) {
 		User user = new User();
+		if (userRepository.existsByUsername(request.getUsername())) {
+			// Ném ra RuntimeException + message sau đó dùng @ControllerAdvice để xử lý
+			throw new RuntimeException("User exist");
+		}
 		BeanUtils.copyProperties(request, user);
 		user.setPassword(encoder.encode(request.getPassword()));
 		return userRepository.save(user) != null;
