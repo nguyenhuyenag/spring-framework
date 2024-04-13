@@ -2,7 +2,10 @@ package com.service;
 
 import java.util.List;
 
+import com.payload.request.UserCreationRequest;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.entity.User;
@@ -14,7 +17,13 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepository;
 
-	public boolean save(User user) {
+	@Autowired
+	private PasswordEncoder encoder;
+
+	public boolean create(UserCreationRequest request) {
+		User user = new User();
+		BeanUtils.copyProperties(request, user);
+		user.setPassword(encoder.encode(request.getPassword()));
 		return userRepository.save(user) != null;
 	}
 

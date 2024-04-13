@@ -1,8 +1,6 @@
 package com.entity;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.StringJoiner;
+import java.util.*;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -17,6 +15,7 @@ import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -32,8 +31,12 @@ public class User { // implements UserDetails
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	// private String uuid = UUID.randomUUID().toString();
 	private String username;
 	private String password;
+	private String email;
+	@CreationTimestamp
+	private Date createdAt;
 	private int enabled = 0;
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
