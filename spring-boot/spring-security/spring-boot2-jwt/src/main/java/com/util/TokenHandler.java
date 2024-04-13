@@ -1,6 +1,7 @@
 package com.util;
 
 import java.util.Date;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
@@ -79,10 +80,11 @@ public class TokenHandler {
 	
 	public static String createJWT(String username, String authorities) {
 		return JWT.create() //
-				.withSubject(username) // (1)
+				.withSubject(username) // (1) xem hàm getSubject()
 				.withClaim(AUTHORITIES_KEY, authorities) //
 				.withIssuer(ISSUER) //
 				.withIssuedAt(new Date()) //
+				.withJWTId(UUID.randomUUID().toString())
 				.withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME)) //
 				.sign(ALGORITHM);
 	}
@@ -90,6 +92,7 @@ public class TokenHandler {
 	public static DecodedJWT verifyJWT(String jwt) {
 		try {
 			DecodedJWT verify = verifier.verify(jwt);
+			String id = verify.getId();
 			return verify;
 		} catch (JWTVerificationException e) {
 			e.printStackTrace();
@@ -113,9 +116,9 @@ public class TokenHandler {
 		return decodedJWT.getSubject();
 	}
 
-	public static boolean validateToken(UserDetails userDetails, String username, DecodedJWT decodedJWT) {
-		return (isJWTAlive(decodedJWT) && userDetails.getUsername().equals(username));
-	}
+//	public static boolean validateToken(UserDetails userDetails, String username, DecodedJWT decodedJWT) {
+//		return (isJWTAlive(decodedJWT) && userDetails.getUsername().equals(username));
+//	}
 
 	private static boolean isJWTAlive(DecodedJWT decodedJWT) {
 		Date expiresAt = decodedJWT.getExpiresAt();

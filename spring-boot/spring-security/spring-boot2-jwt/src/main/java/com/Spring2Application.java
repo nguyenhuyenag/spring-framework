@@ -7,17 +7,17 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class Application extends SpringBootServletInitializer implements CommandLineRunner {
+public class Spring2Application extends SpringBootServletInitializer implements CommandLineRunner {
 
 	// WAR
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(Application.class);
+		return application.sources(Spring2Application.class);
 	}
 
 	// JAR
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
+		SpringApplication.run(Spring2Application.class, args);
 	}
 
 	@Override
