@@ -31,10 +31,11 @@ public class User { // implements UserDetails
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	// private String uuid = UUID.randomUUID().toString();
+	private String uuid = UUID.randomUUID().toString();
 	private String username;
 	private String password;
 	private String email;
+
 	@CreationTimestamp
 	private Date createdAt;
 	private int enabled = 0;

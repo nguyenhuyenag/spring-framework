@@ -1,5 +1,6 @@
 CREATE table `user` (
     `id` int NOT NULL AUTO_INCREMENT,
+    `uuid` varchar(255) NOT NULL,
     `username` varchar(255) DEFAULT NULL,
     `password` varchar(255) DEFAULT NULL,
     `email` varchar(255) DEFAULT NULL,

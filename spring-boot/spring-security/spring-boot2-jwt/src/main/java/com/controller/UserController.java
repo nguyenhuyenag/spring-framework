@@ -1,6 +1,8 @@
 package com.controller;
 
+import com.entity.User;
 import com.payload.request.UserCreationRequest;
+import com.payload.response.ApiResponse;
 import com.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +21,12 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("create")
-    public ResponseEntity<String> create(@RequestBody @Valid UserCreationRequest request) {
-        boolean b = userService.create(request);
-        return ResponseEntity.ok("OK");
+    public ResponseEntity<?> create(@RequestBody @Valid UserCreationRequest request) {
+        ApiResponse<User> apiResponse = new ApiResponse<>();
+        apiResponse.setCode(1111);
+        apiResponse.setMessage("Create success");
+        apiResponse.setResult(userService.create(request));
+        return ResponseEntity.ok(apiResponse);
     }
 
 }

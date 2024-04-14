@@ -13,13 +13,15 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 public class UserCreationRequest {
 
-    private String username;
-
     /**
      * Nếu xảy ra lỗi -> MethodArgumentNotValidException.class (xem log)
      */
-    @Size(min = 8, message = "Password must be at least 8 characters")
+    @Size(min = 3, message = "Username must be at least 3 characters")
+    private String username;
+
+    @Size(min = 6, message = "Password must be at least 8 characters")
     private String password;
+
     private String email;
 
 }
