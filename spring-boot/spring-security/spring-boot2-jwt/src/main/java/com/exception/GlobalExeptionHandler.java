@@ -20,8 +20,8 @@ public class GlobalExeptionHandler {
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public ResponseEntity<String> argumentNotValidException(MethodArgumentNotValidException ex) {
-        // FieldError fieldError = ex.getFieldError();
         // String message = ex.getMessage();
+        // FieldError fieldError = ex.getFieldError();
         String message = ex.getFieldError().getDefaultMessage();
         return ResponseEntity.badRequest().body(message);
     }
