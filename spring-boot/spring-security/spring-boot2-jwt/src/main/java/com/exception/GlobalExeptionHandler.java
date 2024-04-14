@@ -1,6 +1,8 @@
 package com.exception;
 
 import com.payload.response.ApiResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
  */
 @ControllerAdvice
 public class GlobalExeptionHandler {
+
+    private Logger LOG = LoggerFactory.getLogger(GlobalExeptionHandler.class);
 
     // Những lỗi không kiểm soát được
     @ExceptionHandler(value = Exception.class)
@@ -33,11 +37,21 @@ public class GlobalExeptionHandler {
     }
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    public ResponseEntity<String> argumentNotValidException(MethodArgumentNotValidException ex) {
+    public ResponseEntity<ApiResponse> argumentNotValidException(MethodArgumentNotValidException ex) {
         // String message = ex.getMessage();
-        // FieldError fieldError = ex.getFieldError();
-        String message = ex.getFieldError().getDefaultMessage();
-        return ResponseEntity.badRequest().body(message);
+        // String message = ex.getFieldError().getDefaultMessage();
+
+        String errorKey = ex.getFieldError().getDefaultMessage();
+        ErrorCode errorCode = ErrorCode.INVALID_CODE;
+        try {
+            errorCode = ErrorCode.valueOf(errorKey);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setCode(errorCode.getCode());
+        apiResponse.setMessage(errorCode.getMessage());
+        return ResponseEntity.badRequest().body(apiResponse);
     }
 
 }
