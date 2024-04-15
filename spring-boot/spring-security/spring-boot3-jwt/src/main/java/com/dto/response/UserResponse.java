@@ -1,7 +1,6 @@
 package com.dto.response;
 
 import lombok.*;
-import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
 
@@ -10,7 +9,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 // @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserCreationResponse {
+public class UserResponse {
 
     private String id;
     private String username;

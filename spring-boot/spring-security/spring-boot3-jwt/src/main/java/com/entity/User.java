@@ -22,7 +22,7 @@ public class User {
     private String password;
     // String firstName;
     // String lastName;
-    LocalDate dob;
+    private LocalDate birthday;
 
     // @ManyToMany
     // Set<Role> roles;
