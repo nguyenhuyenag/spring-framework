@@ -5,25 +5,25 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-// @FieldDefaults(level = AccessLevel.PRIVATE)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
-    private String username;
-    private String password;
-    // String firstName;
-    // String lastName;
+    String id;
+    String username;
+    String password;
+    String firstName;
     LocalDate dob;
+    String lastName;
 
-    // @ManyToMany
-    // Set<Role> roles;
+    @ManyToMany
+    Set<Role> roles;
 }
