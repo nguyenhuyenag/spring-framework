@@ -68,10 +68,17 @@
 		<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api -->
 		<!-- <dependency> <groupId>io.jsonwebtoken</groupId> <artifactId>jjwt-api</artifactId> 
 			<version>0.11.5</version> </dependency> -->
+		<!-- JWT Libary -->
 		<dependency>
 			<groupId>com.auth0</groupId>
 			<artifactId>java-jwt</artifactId>
 			<version>4.2.1</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.nimbusds/nimbus-jose-jwt -->
+		<dependency>
+			<groupId>com.nimbusds</groupId>
+			<artifactId>nimbus-jose-jwt</artifactId>
+			<version>9.37.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
