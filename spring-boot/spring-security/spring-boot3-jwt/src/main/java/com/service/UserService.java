@@ -4,6 +4,7 @@ import com.dto.request.UserCreationRequest;
 import com.dto.response.UserResponse;
 import com.entity.User;
 import com.enums.ErrorCode;
+import com.enums.Role;
 import com.exception.AppException;
 import com.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +15,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /*-
     @FieldDefaults(makeFinal = true): Đánh dấu tất cả các field là final (trừ field được đánh dấu @NonFinal)
@@ -34,8 +37,15 @@ public class UserService {
         }
         User user = new User();
         BeanUtils.copyProperties(request, user);
+        // Encode password
         user.setPassword(encoder.encode(request.getPassword()));
+        // Add default role
+        Set<String> roles = new HashSet<>();
+        roles.add(Role.USER.name());
+        user.setRoles(roles);
+
         User entity = userRepository.save(user);
+
         UserResponse response = new UserResponse();
         BeanUtils.copyProperties(entity, response);
         return response;

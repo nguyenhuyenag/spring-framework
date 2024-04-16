@@ -12,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
 
 import javax.crypto.spec.SecretKeySpec;
@@ -20,7 +22,7 @@ import javax.crypto.spec.SecretKeySpec;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final String[] PUBLIC_ENDPOINTS = {"/auth/**", "/users/create"};
+    private final String[] PUBLIC_ENDPOINTS = {"/auth/**", "/users"};
 
     @Value("${jwt.signerKey}")
     private String signerKey;
@@ -28,17 +30,33 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(req ->
-                req.requestMatchers(PUBLIC_ENDPOINTS).permitAll()
+                req.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()
+                        .requestMatchers(HttpMethod.GET, "/users")
+                            // .hasAuthority("ROLE_ADMIN")
+                            .hasRole("ADMIN")
                         .anyRequest().authenticated()
         );
 
         http.oauth2ResourceServer(oauth2 ->
-            oauth2.jwt(jwtConfigurer -> jwtConfigurer.decoder(jwtDecoder()))
+                oauth2.jwt(jwtConfigurer -> jwtConfigurer.decoder(jwtDecoder())
+                        .jwtAuthenticationConverter(jwtAuthenticationConverter()))
         );
 
         http.csrf(AbstractHttpConfigurer::disable);
 
         return http.build();
+    }
+
+    @Bean
+    public JwtAuthenticationConverter jwtAuthenticationConverter() {
+        JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
+        JwtGrantedAuthoritiesConverter grantConverter = new JwtGrantedAuthoritiesConverter();
+        grantConverter.setAuthorityPrefix("ROLE_");
+        // grantConverter.setAuthoritiesClaimDelimiter();
+        // (*) Đổi {"scope": "ADMIN"} -> {"roles": "ADMIN"}
+        // grantConverter.setAuthoritiesClaimName("roles");
+        converter.setJwtGrantedAuthoritiesConverter(grantConverter);
+        return converter;
     }
 
     @Bean

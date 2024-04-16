@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -25,5 +26,6 @@ public class User {
     private LocalDate birthday;
 
     // @ManyToMany
-    // Set<Role> roles;
+    // @ElementCollection // => 'Basic' attribute type should not be a container
+    private Set<String> roles;
 }
