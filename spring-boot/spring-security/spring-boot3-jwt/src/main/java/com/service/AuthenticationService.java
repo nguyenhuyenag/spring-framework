@@ -35,7 +35,7 @@ import java.util.UUID;
 @Service
 public class AuthenticationService {
 
-    private Logger log = LoggerFactory.getLogger(AuthenticationService.class);
+    private final Logger LOG = LoggerFactory.getLogger(AuthenticationService.class);
 
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
@@ -79,7 +79,7 @@ public class AuthenticationService {
             jwsObject.sign(new MACSigner(signerKey.getBytes()));
             return jwsObject.serialize();
         } catch (JOSEException e) {
-            log.error("Cannot create token", e);
+            LOG.error("Cannot create token", e);
             throw new RuntimeException(e);
         }
     }

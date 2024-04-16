@@ -12,10 +12,10 @@ public class GlobalExceptionHandler extends RuntimeException {
 
     // Exception không thể kiểm soát
     @ExceptionHandler(value = Exception.class)
-    public ResponseEntity<?> exeptionHandling(RuntimeException exp) {
+    public ResponseEntity<?> exceptionHandling(RuntimeException exp) {
         ApiResponse apiResponse = new ApiResponse<>();
         apiResponse.setCode(ErrorCode.UNCATEGORIZED_EXCEPTION.getCode());
-        apiResponse.setMessage(ErrorCode.USER_NOT_FOUND.getMessage());
+        apiResponse.setMessage(ErrorCode.UNCATEGORIZED_EXCEPTION.getMessage());
         return ResponseEntity.badRequest().body(apiResponse);
     }
 
