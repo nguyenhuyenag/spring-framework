@@ -1,7 +1,7 @@
 package com.exception;
 
 import com.dto.request.ApiResponse;
-import jakarta.validation.ConstraintViolation;
+import com.enums.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;

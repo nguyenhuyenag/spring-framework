@@ -9,7 +9,7 @@ import com.dto.response.IntrospectResponse;
 import com.entity.InvalidatedToken;
 import com.entity.User;
 import com.exception.AppException;
-import com.exception.ErrorCode;
+import com.enums.ErrorCode;
 import com.repository.InvalidatedTokenRepository;
 import com.repository.UserRepository;
 import com.nimbusds.jose.*;

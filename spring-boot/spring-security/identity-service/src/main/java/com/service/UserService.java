@@ -6,7 +6,7 @@ import com.dto.response.UserResponse;
 import com.entity.User;
 import com.enums.Role;
 import com.exception.AppException;
-import com.exception.ErrorCode;
+import com.enums.ErrorCode;
 import com.mapper.UserMapper;
 import com.repository.RoleRepository;
 import com.repository.UserRepository;
