@@ -14,6 +14,7 @@ public enum ErrorCode {
     INVALID_CODE(1003, "Invalid error code"),
     USERNAME_INVALID(1004, "Username must be at least 3 characters"),
     INVALID_PASSWORD(1005, "Password must be at least 6 characters"),
+    UNAUTHENTICATED(1006, "Unauthenticated"),
     ;
 
     private final int code;

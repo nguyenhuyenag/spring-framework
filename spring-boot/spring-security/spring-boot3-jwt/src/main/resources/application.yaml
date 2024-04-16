@@ -1,0 +1,16 @@
+server:
+  port: 8080
+# spring.application.name=spring-boot3-jwt
+spring:
+  datasource:
+    url: 'jdbc:mysql://localhost:3306/spring_boot3_jwt'
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+jwt:
+  signerKey: cThl2O+Ogi/nkciMZpyIlXw6l4Zsh7dyUZfExYssEJaegAmbsInT6dUVR5n9pjA9
+

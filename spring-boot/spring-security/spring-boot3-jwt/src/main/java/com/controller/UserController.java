@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true)
 @RestController
@@ -17,7 +19,7 @@ public class UserController {
 
     private UserService userService;
 
-    @PostMapping
+    @PostMapping("create")
     public ApiResponse<?> createUser(@RequestBody @Valid UserCreationRequest request) {
         UserResponse user = userService.createUser(request);
         return ApiResponse.<UserResponse>builder()
@@ -30,6 +32,14 @@ public class UserController {
         UserResponse user = userService.getUserById(userId);
         return ApiResponse.<UserResponse>builder()
                 .result(user)
+                .build();
+    }
+
+    @GetMapping
+    public ApiResponse<?> getUsers() {
+        List<UserResponse> users = userService.getUsers();
+        return ApiResponse.builder()
+                .result(users)
                 .build();
     }
 

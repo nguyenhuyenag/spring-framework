@@ -38,6 +38,7 @@ public class SecurityConfig {
                                 .jwtAuthenticationConverter(jwtAuthenticationConverter()))
                         .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
         );
+        
         httpSecurity.csrf(AbstractHttpConfigurer::disable);
 
         return httpSecurity.build();
