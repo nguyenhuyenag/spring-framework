@@ -10,6 +10,7 @@ import lombok.experimental.FieldDefaults;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,7 +35,7 @@ public class UserController {
                 .build();
     }
 
-    public void showAuthenticationInfo() {
+    public void getAuthenticationInfo() {
         // Lấy thông tin của user đang được authentication trong request hiện tại
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         LOG.info("The authenticates using the Token created by the user:");
@@ -42,9 +43,17 @@ public class UserController {
         LOG.info("Roles: {}", Arrays.toString(authentication.getAuthorities().toArray()));
     }
 
+    @PostMapping("/who-i-am")
+    public ApiResponse<?> whoIam() {
+        UserResponse result = userService.whoIam();
+        return ApiResponse.<UserResponse>builder()
+                .result(result)
+                .build();
+    }
+
     @GetMapping("/{userId}")
     public ApiResponse<?> getUser(@PathVariable("userId") String userId) {
-        showAuthenticationInfo();
+        getAuthenticationInfo();
         UserResponse user = userService.getUserById(userId);
         return ApiResponse.<UserResponse>builder()
                 .result(user)

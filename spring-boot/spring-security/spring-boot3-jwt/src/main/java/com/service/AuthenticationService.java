@@ -6,6 +6,7 @@ import com.dto.response.AuthenticationResponse;
 import com.dto.response.IntrospectResponse;
 import com.entity.User;
 import com.enums.ErrorCode;
+import com.enums.Role;
 import com.exception.AppException;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
@@ -29,9 +30,8 @@ import org.springframework.util.CollectionUtils;
 import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
-import java.util.StringJoiner;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true)
@@ -112,10 +112,10 @@ public class AuthenticationService {
     // Set<Role> -> "ROLE_USER ROLE_ADMIN"
     private String buildScope(User user) {
         if (!CollectionUtils.isEmpty(user.getRoles())) {
-            return String.join(" ", user.getRoles());
+            Set<String> roles = user.getRoles();
+            return String.join(" ", roles);
         }
         return StringUtils.EMPTY;
     }
-
 
 }

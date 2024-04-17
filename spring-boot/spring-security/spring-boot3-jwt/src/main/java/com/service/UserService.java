@@ -9,15 +9,19 @@ import com.exception.AppException;
 import com.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /*-
     @FieldDefaults(makeFinal = true): Đánh dấu tất cả các field là final (trừ field được đánh dấu @NonFinal)
@@ -28,6 +32,8 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class UserService {
 
+    private final Logger LOG = LoggerFactory.getLogger(UserService.class);
+
     private UserRepository userRepository;
     private PasswordEncoder encoder;
 
@@ -37,11 +43,11 @@ public class UserService {
         }
         User user = new User();
         BeanUtils.copyProperties(request, user);
+
         // Encode password
         user.setPassword(encoder.encode(request.getPassword()));
         // Add default role
-        Set<String> roles = new HashSet<>();
-        roles.add(Role.USER.name());
+        Set<String> roles = Set.of(Role.USER.name());
         user.setRoles(roles);
 
         User entity = userRepository.save(user);
@@ -51,23 +57,46 @@ public class UserService {
         return response;
     }
 
+    /**
+     * Kiểm tra user được xác thực có phải là user cần thao tác lấy dữ liệu.
+     * Để tránh trường hợp token của user A dùng cho user B
+     */
+    @PostAuthorize("returnObject.username == authentication.name")
     public UserResponse getUserById(String userId) {
-        // User user = userRepository.findUserById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-        User user = userRepository.findById(userId).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        // .orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
         UserResponse response = new UserResponse();
         BeanUtils.copyProperties(user, response);
+        response.setRoles(user.getRoles());
         return response;
     }
 
+    /*-
+        @PreAuthorize  -> Kiểm tra trước khi gọi hàm (không có log)
+        @PostAuthorize -> Kiểm tra sau khi gọi hàm chạy xong (có dòng log)
+     */
+    @PreAuthorize("hasRole('ADMIN')")
+    // @PostAuthorize("hasRole('ADMIN')")
     public List<UserResponse> getUsers() {
-        List<User> users = userRepository.findAll();
+        LOG.info("In getUsers method");
         List<UserResponse> result = new ArrayList<>();
-        users.forEach(u -> {
+        userRepository.findAll().forEach(u -> {
             UserResponse response = new UserResponse();
             BeanUtils.copyProperties(u, response);
             result.add(response);
         });
         return result;
+    }
+
+    public UserResponse whoIam() {
+        SecurityContext context = SecurityContextHolder.getContext();
+        String username = context.getAuthentication().getName();
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        UserResponse response = new UserResponse();
+        BeanUtils.copyProperties(user, response);
+        return response;
     }
 
 }

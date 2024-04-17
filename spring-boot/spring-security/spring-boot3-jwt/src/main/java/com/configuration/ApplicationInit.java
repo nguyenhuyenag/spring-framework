@@ -30,13 +30,11 @@ public class ApplicationInit {
     public ApplicationRunner applicationRunner(UserRepository userRepository) {
         return args -> {
             Optional<User> admin = userRepository.findByUsername("admin");
-            if (!admin.isPresent()) {
-                Set<String> roles = new HashSet<>();
-                roles.add(Role.ADMIN.name());
+            if (admin.isEmpty()) {
                 User user = User.builder()
                         .username("admin")
                         .password(passwordEncoder.encode("123456"))
-                        .roles(roles)
+                        .roles(Set.of(Role.ADMIN.name()))
                         .build();
                 userRepository.save(user);
                 // log.warn("Admin user has been created with default password: admin, please change it");
