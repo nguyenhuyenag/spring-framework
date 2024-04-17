@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -34,6 +35,7 @@ public class ApplicationInit {
                 User user = User.builder()
                         .username("admin")
                         .password(passwordEncoder.encode("123456"))
+                        .birthday(LocalDate.of(1994, 8, 20))
                         .roles(Set.of(Role.ADMIN.name()))
                         .build();
                 userRepository.save(user);

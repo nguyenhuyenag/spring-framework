@@ -43,7 +43,7 @@ public class UserController {
         LOG.info("Roles: {}", Arrays.toString(authentication.getAuthorities().toArray()));
     }
 
-    @PostMapping("/who-i-am")
+    @GetMapping("/who-i-am")
     public ApiResponse<?> whoIam() {
         UserResponse result = userService.whoIam();
         return ApiResponse.<UserResponse>builder()
