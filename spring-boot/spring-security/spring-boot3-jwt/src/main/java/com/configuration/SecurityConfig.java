@@ -1,6 +1,7 @@
 package com.configuration;
 
 import com.enums.Role;
+import com.exception.JwtAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,6 +41,8 @@ public class SecurityConfig {
         http.oauth2ResourceServer(oauth2 ->
                 oauth2.jwt(jwtConfigurer -> jwtConfigurer.decoder(jwtDecoder())
                         .jwtAuthenticationConverter(jwtAuthenticationConverter()))
+                        // Điểm mà authentication faild -> Sẽ làm gì
+                        .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
         );
 
         http.csrf(AbstractHttpConfigurer::disable);
@@ -51,10 +54,16 @@ public class SecurityConfig {
     public JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
         JwtGrantedAuthoritiesConverter grantConverter = new JwtGrantedAuthoritiesConverter();
+
+        // (1) Thay đổi prefix, mặc định là 'SCOPE_XXX'
         grantConverter.setAuthorityPrefix("ROLE_");
+
+        // (2) Thay đổi dấu phân cách giữa các role, mặc định là khoảng trắng
         // grantConverter.setAuthoritiesClaimDelimiter();
-        // (*) Đổi {"scope": "ADMIN"} -> {"roles": "ADMIN"}
+
+        // (3) Thay đổi {"scope": "ADMIN"} -> {"roles": "ADMIN"}
         // grantConverter.setAuthoritiesClaimName("roles");
+
         converter.setJwtGrantedAuthoritiesConverter(grantConverter);
         return converter;
     }

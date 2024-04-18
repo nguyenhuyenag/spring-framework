@@ -3,6 +3,7 @@ package com.exception;
 import com.dto.request.ApiResponse;
 import com.enums.ErrorCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,6 +17,7 @@ public class GlobalExceptionHandler extends RuntimeException {
         ApiResponse apiResponse = new ApiResponse<>();
         apiResponse.setCode(ErrorCode.UNCATEGORIZED_EXCEPTION.getCode());
         apiResponse.setMessage(ErrorCode.UNCATEGORIZED_EXCEPTION.getMessage());
+
         return ResponseEntity.badRequest().body(apiResponse);
     }
 
@@ -24,10 +26,14 @@ public class GlobalExceptionHandler extends RuntimeException {
     public ResponseEntity<?> appExceptionHandling(AppException exp) {
         // Lấy ra ErrorCode từ Exception
         ErrorCode errorCode = exp.getErrorCode();
+
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setCode(errorCode.getCode());
         apiResponse.setMessage(errorCode.getMessage());
-        return ResponseEntity.badRequest().body(apiResponse);
+
+        return ResponseEntity
+                .status(errorCode.getHttpStatus())
+                .body(apiResponse);
     }
 
     // Exception từ validation
@@ -41,10 +47,26 @@ public class GlobalExceptionHandler extends RuntimeException {
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
+
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setCode(errorCode.getCode());
         apiResponse.setMessage(errorCode.getMessage());
+
         return ResponseEntity.badRequest().body(apiResponse);
+    }
+
+    @ExceptionHandler(value = AccessDeniedException.class)
+    public ResponseEntity<ApiResponse> handlingAccessDeniedException(AccessDeniedException exp){
+        ErrorCode errorCode = ErrorCode.FORBIDDEN;
+
+        ApiResponse<?> apiResponse = ApiResponse.builder()
+                .code(errorCode.getCode())
+                .message(errorCode.getMessage())
+                .build();
+
+        return ResponseEntity
+                .status(errorCode.getHttpStatus())
+                .body(apiResponse);
     }
 
 }
