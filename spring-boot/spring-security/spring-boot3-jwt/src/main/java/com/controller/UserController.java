@@ -35,20 +35,20 @@ public class UserController {
                 .build();
     }
 
-    public void getAuthenticationInfo() {
-        // Lấy thông tin của user đang được authentication trong request hiện tại
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        LOG.info("The authenticates using the Token created by the user:");
-        LOG.info("Username: {}", authentication.getName());
-        LOG.info("Roles: {}", Arrays.toString(authentication.getAuthorities().toArray()));
-    }
-
     @GetMapping("/who-i-am")
     public ApiResponse<?> whoIam() {
         UserResponse result = userService.whoIam();
         return ApiResponse.<UserResponse>builder()
                 .result(result)
                 .build();
+    }
+
+    public void getAuthenticationInfo() {
+        // Lấy thông tin của user đang được authentication trong request hiện tại
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        LOG.info("The authenticates using the Token created by the user:");
+        LOG.info("Username: {}", authentication.getName());
+        LOG.info("Roles: {}", Arrays.toString(authentication.getAuthorities().toArray()));
     }
 
     @GetMapping("/{userId}")
