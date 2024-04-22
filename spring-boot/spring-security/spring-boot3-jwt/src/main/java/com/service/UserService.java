@@ -1,11 +1,14 @@
 package com.service;
 
 import com.dto.request.UserCreationRequest;
+import com.dto.request.UserUpdateRequest;
+import com.dto.response.RoleResponse;
 import com.dto.response.UserResponse;
 import com.entity.User;
 import com.enums.ErrorCode;
 import com.enums.Role;
 import com.exception.AppException;
+import com.repository.RoleRepository;
 import com.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -35,7 +38,9 @@ public class UserService {
     private final Logger LOG = LoggerFactory.getLogger(UserService.class);
 
     private UserRepository userRepository;
-    private PasswordEncoder encoder;
+    // private PasswordEncoder encoder;
+    private PasswordEncoder passwordEncoder;
+    private RoleRepository roleRepository;
 
     public UserResponse createUser(UserCreationRequest request) {
         if (userRepository.existsByUsername(request.getUsername())) {
@@ -45,7 +50,7 @@ public class UserService {
         BeanUtils.copyProperties(request, user);
 
         // Encode password
-        user.setPassword(encoder.encode(request.getPassword()));
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
 
         // Add default role
         Set<String> roles = Set.of(Role.USER.name());
@@ -99,6 +104,32 @@ public class UserService {
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
         UserResponse response = new UserResponse();
         BeanUtils.copyProperties(user, response);
+        return response;
+    }
+
+    public UserResponse updateUser(String userId, UserUpdateRequest request) {
+        // Get user from db by userId
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+
+        // userMapper.updateUser(user, request);
+        BeanUtils.copyProperties(request, user);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+
+        var roles = roleRepository.findAllById(request.getRoles());
+        user.setRoles(new HashSet<>(roles));
+
+        var response = new UserResponse();
+        user = userRepository.save(user);
+        BeanUtils.copyProperties(user, response);
+        // Convert Set<Role> -> Set<RoleResponse>
+        Set<RoleResponse> responseSet = new HashSet<>();
+        user.getRoles().forEach(r -> {
+            RoleResponse roleResponse = new RoleResponse();
+            BeanUtils.copyProperties(r, roleResponse);
+            responseSet.add(roleResponse);
+        });
+        response.setRoles(responseSet);
         return response;
     }
 

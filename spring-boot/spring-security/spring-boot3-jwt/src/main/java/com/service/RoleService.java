@@ -3,6 +3,7 @@ package com.service;
 import com.dto.request.RoleRequest;
 import com.dto.response.PermissionResponse;
 import com.dto.response.RoleResponse;
+import com.entity.Permission;
 import com.entity.Role;
 // import com.mapper.RoleMapper;
 import com.repository.PermissionRepository;
@@ -14,9 +15,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -34,6 +38,9 @@ public class RoleService {
 
         // Tạo permission
         var permissions = permissionRepository.findAllById(request.getPermissions());
+        if (CollectionUtils.isEmpty(permissions)) {
+            log.info("Role not found");
+        }
         entity.setPermissions(new HashSet<>(permissions));
 
         entity = roleRepository.save(entity);
@@ -50,17 +57,46 @@ public class RoleService {
         return response;
     }
 
+//    public List<RoleResponse> getAll() {
+//        return roleRepository.findAll()
+//                .stream()
+//                .map(entity -> {
+//                    // return roleMapper.toRoleResponse(entity);
+//                    var response = new RoleResponse();
+//                    BeanUtils.copyProperties(entity, response);
+//
+//                    Set<PermissionResponse> setPr = new HashSet<>();
+//                    entity.getPermissions().forEach(p -> {
+//                        var pr = new PermissionResponse();
+//                        BeanUtils.copyProperties(p, pr);
+//                        setPr.add(pr);
+//                    });
+//
+//                    response.setPermissions(setPr);
+//                    return response;
+//                }).toList();
+//    }
+
     public List<RoleResponse> getAll() {
         return roleRepository.findAll()
                 .stream()
-                .map(r -> {
-                    var response = new RoleResponse();
+                .map(entity -> {
                     // return roleMapper.toRoleResponse(entity);
-                    BeanUtils.copyProperties(r, response);
+                    var response = new RoleResponse();
+                    BeanUtils.copyProperties(entity, response);
+
+                    Set<PermissionResponse> permissionResponses = new HashSet<>();
+                    entity.getPermissions().forEach(permission -> {
+                        var permissionResponse = new PermissionResponse();
+                        BeanUtils.copyProperties(permission, permissionResponse);
+                        permissionResponses.add(permissionResponse);
+                    });
+
+                    response.setPermissions(permissionResponses);
                     return response;
-                })
-                .toList();
+                }).toList();
     }
+
 
     public void delete(String role) {
         roleRepository.deleteById(role);

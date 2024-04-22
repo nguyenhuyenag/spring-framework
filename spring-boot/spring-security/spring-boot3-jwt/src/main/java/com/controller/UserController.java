@@ -2,6 +2,7 @@ package com.controller;
 
 import com.dto.request.ApiResponse;
 import com.dto.request.UserCreationRequest;
+import com.dto.request.UserUpdateRequest;
 import com.dto.response.UserResponse;
 import com.service.UserService;
 import jakarta.validation.Valid;
@@ -65,6 +66,13 @@ public class UserController {
         List<UserResponse> users = userService.getUsers();
         return ApiResponse.builder()
                 .result(users)
+                .build();
+    }
+
+    @PutMapping("/{userId}")
+    public ApiResponse<UserResponse> updateUser(@PathVariable String userId, @RequestBody UserUpdateRequest request){
+        return ApiResponse.<UserResponse>builder()
+                .result(userService.updateUser(userId, request))
                 .build();
     }
 

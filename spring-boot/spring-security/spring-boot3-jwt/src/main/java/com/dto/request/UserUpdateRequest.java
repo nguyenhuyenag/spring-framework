@@ -1,6 +1,5 @@
 package com.dto.request;
 
-import com.validator.DobConstraint;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -13,12 +12,10 @@ import java.util.List;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserUpdateRequest {
-	
-    String password;
-    String firstName;
-    String lastName;
 
-    @DobConstraint(min = 18, message = "INVALID_DOB")
-    LocalDate dob;
+    String password;
+
+    // @DobConstraint(min = 18, message = "INVALID_DOB")
+    LocalDate birthday;
     List<String> roles;
 }
