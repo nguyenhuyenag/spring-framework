@@ -36,7 +36,7 @@ public class ApplicationInit {
                         .username("admin")
                         .password(passwordEncoder.encode("123456"))
                         .birthday(LocalDate.of(1994, 8, 20))
-                        .roles(Set.of(Role.ADMIN.name()))
+                        // .roles(Set.of(Role.ADMIN.name()))
                         .build();
                 userRepository.save(user);
                 // log.warn("Admin user has been created with default password: admin, please change it");

@@ -1,6 +1,6 @@
 package com.entity;
 
-import com.enums.Role;
+// import com.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -27,7 +27,7 @@ public class User {
     // String lastName;
     private LocalDate birthday;
 
-    // @ManyToMany
     // @ElementCollection // => 'Basic' attribute type should not be a container
-    private Set<String> roles;
+    @ManyToMany
+    private Set<Role> roles;
 }

@@ -46,9 +46,10 @@ public class UserService {
 
         // Encode password
         user.setPassword(encoder.encode(request.getPassword()));
+
         // Add default role
         Set<String> roles = Set.of(Role.USER.name());
-        user.setRoles(roles);
+        // user.setRoles(roles);
 
         User entity = userRepository.save(user);
 
@@ -68,7 +69,9 @@ public class UserService {
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
         UserResponse response = new UserResponse();
         BeanUtils.copyProperties(user, response);
-        response.setRoles(user.getRoles());
+
+        // response.setRoles(user.getRoles());
+
         return response;
     }
 

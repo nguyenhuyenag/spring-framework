@@ -112,8 +112,8 @@ public class AuthenticationService {
     // Set<Role> -> "ROLE_USER ROLE_ADMIN"
     private String buildScope(User user) {
         if (!CollectionUtils.isEmpty(user.getRoles())) {
-            Set<String> roles = user.getRoles();
-            return String.join(" ", roles);
+            // Set<String> roles = user.getRoles();
+            return ""; // String.join(" ", roles);
         }
         return StringUtils.EMPTY;
     }
