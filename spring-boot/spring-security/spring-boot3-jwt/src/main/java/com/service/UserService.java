@@ -8,6 +8,7 @@ import com.entity.User;
 import com.enums.ErrorCode;
 import com.enums.Role;
 import com.exception.AppException;
+import com.mapper.UserMapper;
 import com.repository.RoleRepository;
 import com.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +42,7 @@ public class UserService {
     // private PasswordEncoder encoder;
     private PasswordEncoder passwordEncoder;
     private RoleRepository roleRepository;
+    private UserMapper userMapper;
 
     public UserResponse createUser(UserCreationRequest request) {
         if (userRepository.existsByUsername(request.getUsername())) {
@@ -107,30 +109,44 @@ public class UserService {
         return response;
     }
 
+//    public UserResponse updateUser(String userId, UserUpdateRequest request) {
+//        // Get user from db by userId
+//        User user = userRepository.findById(userId)
+//                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+//
+//        // userMapper.updateUser(user, request);
+//        BeanUtils.copyProperties(request, user);
+//        user.setPassword(passwordEncoder.encode(request.getPassword()));
+//
+//        var roles = roleRepository.findAllById(request.getRoles());
+//        user.setRoles(new HashSet<>(roles));
+//
+//        var response = new UserResponse();
+//        user = userRepository.save(user);
+//        BeanUtils.copyProperties(user, response);
+//        // Convert Set<Role> -> Set<RoleResponse>
+//        Set<RoleResponse> responseSet = new HashSet<>();
+//        user.getRoles().forEach(r -> {
+//            RoleResponse roleResponse = new RoleResponse();
+//            BeanUtils.copyProperties(r, roleResponse);
+//            responseSet.add(roleResponse);
+//        });
+//        response.setRoles(responseSet);
+//        return response;
+//    }
+
     public UserResponse updateUser(String userId, UserUpdateRequest request) {
-        // Get user from db by userId
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
-        // userMapper.updateUser(user, request);
-        BeanUtils.copyProperties(request, user);
+        userMapper.updateUser(user, request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 
         var roles = roleRepository.findAllById(request.getRoles());
         user.setRoles(new HashSet<>(roles));
 
-        var response = new UserResponse();
         user = userRepository.save(user);
-        BeanUtils.copyProperties(user, response);
-        // Convert Set<Role> -> Set<RoleResponse>
-        Set<RoleResponse> responseSet = new HashSet<>();
-        user.getRoles().forEach(r -> {
-            RoleResponse roleResponse = new RoleResponse();
-            BeanUtils.copyProperties(r, roleResponse);
-            responseSet.add(roleResponse);
-        });
-        response.setRoles(responseSet);
-        return response;
+        return userMapper.toUserResponse(user);
     }
 
 }
