@@ -2,8 +2,10 @@ package com.service;
 
 import com.dto.request.AuthenticationRequest;
 import com.dto.request.IntrospectRequest;
+import com.dto.request.LogoutRequest;
 import com.dto.response.AuthenticationResponse;
 import com.dto.response.IntrospectResponse;
+import com.entity.InvalidatedToken;
 import com.entity.User;
 import com.enums.ErrorCode;
 import com.enums.Role;
@@ -13,6 +15,7 @@ import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
+import com.repository.InvalidatedTokenRepository;
 import com.repository.UserRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +45,7 @@ public class AuthenticationService {
 
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
+    private InvalidatedTokenRepository invalidatedTokenRepository;
 
     @NonFinal // Để @RequiredArgsConstructor không DI field này
     @Value("${jwt.signerKey}")
@@ -50,6 +54,7 @@ public class AuthenticationService {
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         User user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        // Check password
         boolean matches = passwordEncoder.matches(request.getPassword(), user.getPassword());
         if (!matches) {
             throw new AppException(ErrorCode.UNAUTHENTICATED);
@@ -70,7 +75,7 @@ public class AuthenticationService {
                 .issuer("nguyenhuyenag")
                 .issueTime(new Date())
                 .expirationTime(new Date(expirationTime))
-                // .jwtID(UUID.randomUUID().toString())
+                .jwtID(UUID.randomUUID().toString())
                 .claim("scope", buildScope(user))
                 .build();
 
@@ -95,18 +100,38 @@ public class AuthenticationService {
                 .build();
     }
 
-    private boolean verifyToken(String token) {
+    public boolean verifyToken(String token) {
         try {
             SignedJWT signedJWT = SignedJWT.parse(token);
-            Date expiryTime = signedJWT.getJWTClaimsSet().getExpirationTime();
             JWSVerifier verifier = new MACVerifier(signerKey.getBytes());
+
             boolean verify = signedJWT.verify(verifier);
-            return verify && expiryTime.after(new Date());
+            Date expiryTime = signedJWT.getJWTClaimsSet().getExpirationTime();
+
+            return verify && expiryTime.after(new Date())
+                    && !invalidatedTokenRepository.existsById(signedJWT.getJWTClaimsSet().getJWTID());
         } catch (ParseException | JOSEException e) {
-            // throw new RuntimeException(e);
             e.printStackTrace();
         }
         return false;
+    }
+
+    private SignedJWT verifyAndExtractToken(String token) throws JOSEException, ParseException {
+        SignedJWT signedJWT = SignedJWT.parse(token);
+        JWSVerifier verifier = new MACVerifier(signerKey.getBytes());
+
+        boolean isVerified = signedJWT.verify(verifier);
+        Date expiryTime = signedJWT.getJWTClaimsSet().getExpirationTime();
+
+        if (!(isVerified && expiryTime.after(new Date()))) {
+            throw new AppException(ErrorCode.UNAUTHENTICATED);
+        }
+
+        if (invalidatedTokenRepository.existsById(signedJWT.getJWTClaimsSet().getJWTID())) {
+            throw new AppException(ErrorCode.UNAUTHENTICATED);
+        }
+
+        return signedJWT;
     }
 
     // Set<Role> -> "ROLE_USER ROLE_ADMIN"
@@ -123,6 +148,20 @@ public class AuthenticationService {
             });
         }
         return stringJoiner.toString();
+    }
+
+    public void logout(LogoutRequest request) throws ParseException, JOSEException {
+        var signToken = verifyAndExtractToken(request.getToken());
+
+        String jit = signToken.getJWTClaimsSet().getJWTID();
+        Date expiryTime = signToken.getJWTClaimsSet().getExpirationTime();
+
+        InvalidatedToken invalidatedToken = InvalidatedToken.builder()
+                .id(jit)
+                .expiryTime(expiryTime)
+                .build();
+
+        invalidatedTokenRepository.save(invalidatedToken);
     }
 
 }
