@@ -2,6 +2,7 @@ package com.configuration;
 
 import com.enums.Role;
 import com.exception.JwtAuthenticationEntryPoint;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,8 +29,11 @@ public class SecurityConfig {
 
     private final String[] PUBLIC_ENDPOINTS = {"/auth/**", "/users"};
 
-    @Value("${jwt.signerKey}")
-    private String signerKey;
+    // @Value("${jwt.signerKey}")
+    // private String signerKey;
+
+    // @Autowired
+    // private CustomJwtDecoder customJwtDecoder;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -39,7 +43,8 @@ public class SecurityConfig {
         );
 
         http.oauth2ResourceServer(oauth2 ->
-                oauth2.jwt(jwtConfigurer -> jwtConfigurer.decoder(jwtDecoder())
+                oauth2.jwt(jwtConfigurer ->
+                                jwtConfigurer.decoder(jwtDecoder())
                         .jwtAuthenticationConverter(jwtAuthenticationConverter()))
                         // Điểm mà authentication faild -> Sẽ làm gì
                         .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
@@ -70,11 +75,12 @@ public class SecurityConfig {
 
     @Bean
     public JwtDecoder jwtDecoder() {
-        SecretKeySpec secretKeySpec = new SecretKeySpec(signerKey.getBytes(), "HS512");
-        return NimbusJwtDecoder
-                .withSecretKey(secretKeySpec)
-                .macAlgorithm(MacAlgorithm.HS512)
-                .build();
+//        SecretKeySpec secretKeySpec = new SecretKeySpec(signerKey.getBytes(), "HS512");
+//        return NimbusJwtDecoder
+//                .withSecretKey(secretKeySpec)
+//                .macAlgorithm(MacAlgorithm.HS512)
+//                .build();
+        return new CustomJwtDecoder();
     }
 
     @Bean
