@@ -56,7 +56,7 @@ public class SecurityConfig {
         JwtGrantedAuthoritiesConverter grantConverter = new JwtGrantedAuthoritiesConverter();
 
         // (1) Thay đổi prefix, mặc định là 'SCOPE_XXX'
-        grantConverter.setAuthorityPrefix("ROLE_");
+        grantConverter.setAuthorityPrefix("");
 
         // (2) Thay đổi dấu phân cách giữa các role, mặc định là khoảng trắng
         // grantConverter.setAuthoritiesClaimDelimiter();

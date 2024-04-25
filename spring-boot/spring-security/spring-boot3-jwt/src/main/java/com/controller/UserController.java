@@ -28,7 +28,7 @@ public class UserController {
 
     private UserService userService;
 
-    @PostMapping // ("create")
+    @PostMapping
     public ApiResponse<?> createUser(@RequestBody @Valid UserCreationRequest request) {
         UserResponse user = userService.createUser(request);
         return ApiResponse.<UserResponse>builder()
@@ -63,6 +63,7 @@ public class UserController {
 
     @GetMapping
     public ApiResponse<?> getUsers() {
+        getAuthenticationInfo();
         List<UserResponse> users = userService.getUsers();
         return ApiResponse.builder()
                 .result(users)

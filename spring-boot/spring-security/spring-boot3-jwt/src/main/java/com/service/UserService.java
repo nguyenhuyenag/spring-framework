@@ -86,17 +86,12 @@ public class UserService {
         @PreAuthorize  -> Kiểm tra trước khi gọi hàm (không có log)
         @PostAuthorize -> Kiểm tra sau khi gọi hàm chạy xong (có dòng log)
      */
-    @PreAuthorize("hasRole('ADMIN')")
-    // @PostAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')") // = ROLE_ADMIN
+    // @PreAuthorize("hasAuthority('APPROVE_POST')") // = APPROVE_POST
     public List<UserResponse> getUsers() {
         LOG.info("In getUsers method");
-        List<UserResponse> result = new ArrayList<>();
-        userRepository.findAll().forEach(u -> {
-            UserResponse response = new UserResponse();
-            BeanUtils.copyProperties(u, response);
-            result.add(response);
-        });
-        return result;
+        return userRepository.findAll().stream()
+                .map(userMapper::toUserResponse).toList();
     }
 
     public UserResponse whoIam() {

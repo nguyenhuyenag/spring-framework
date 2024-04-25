@@ -111,11 +111,18 @@ public class AuthenticationService {
 
     // Set<Role> -> "ROLE_USER ROLE_ADMIN"
     private String buildScope(User user) {
+        StringJoiner stringJoiner = new StringJoiner(" ");
         if (!CollectionUtils.isEmpty(user.getRoles())) {
-            // Set<String> roles = user.getRoles();
-            return ""; // String.join(" ", roles);
+            user.getRoles().forEach(role -> {
+                // Add role name to scope
+                stringJoiner.add("ROLE_" + role.getName());
+                // Add list permissions to scope
+                if (!CollectionUtils.isEmpty(role.getPermissions())) {
+                    role.getPermissions().forEach(permission -> stringJoiner.add(permission.getName()));
+                }
+            });
         }
-        return StringUtils.EMPTY;
+        return stringJoiner.toString();
     }
 
 }
