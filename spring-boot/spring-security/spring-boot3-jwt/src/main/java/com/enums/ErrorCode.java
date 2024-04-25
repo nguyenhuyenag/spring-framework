@@ -24,6 +24,8 @@ public enum ErrorCode {
 
     // 403
     FORBIDDEN(1007, "You do not have permission", HttpStatus.FORBIDDEN),
+
+    INVALID_BIRTHDAY(1008, "Invalid date of birth", HttpStatus.BAD_REQUEST),
     ;
 
     private final int code;

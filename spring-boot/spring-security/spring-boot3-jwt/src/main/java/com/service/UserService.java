@@ -2,11 +2,10 @@ package com.service;
 
 import com.dto.request.UserCreationRequest;
 import com.dto.request.UserUpdateRequest;
-import com.dto.response.RoleResponse;
 import com.dto.response.UserResponse;
+import com.entity.Role;
 import com.entity.User;
 import com.enums.ErrorCode;
-import com.enums.Role;
 import com.exception.AppException;
 import com.mapper.UserMapper;
 import com.repository.RoleRepository;
@@ -20,12 +19,12 @@ import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /*-
     @FieldDefaults(makeFinal = true): Đánh dấu tất cả các field là final (trừ field được đánh dấu @NonFinal)
@@ -39,7 +38,6 @@ public class UserService {
     private final Logger LOG = LoggerFactory.getLogger(UserService.class);
 
     private UserRepository userRepository;
-    // private PasswordEncoder encoder;
     private PasswordEncoder passwordEncoder;
     private RoleRepository roleRepository;
     private UserMapper userMapper;
@@ -55,14 +53,11 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 
         // Add default role
-        Set<String> roles = Set.of(Role.USER.name());
-        // user.setRoles(roles);
+        Set<Role> roles = Set.of(roleRepository.findByName("USER"));
+        user.setRoles(roles);
 
-        User entity = userRepository.save(user);
-
-        UserResponse response = new UserResponse();
-        BeanUtils.copyProperties(entity, response);
-        return response;
+        user = userRepository.save(user);
+        return userMapper.toUserResponse(user);
     }
 
     /**
@@ -74,12 +69,12 @@ public class UserService {
         // .orElseThrow(() -> new RuntimeException("User not found"));
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
-        UserResponse response = new UserResponse();
-        BeanUtils.copyProperties(user, response);
+        // UserResponse response = new UserResponse();
+        // BeanUtils.copyProperties(user, response);
 
         // response.setRoles(user.getRoles());
 
-        return response;
+        return userMapper.toUserResponse(user);
     }
 
     /*-
@@ -99,9 +94,9 @@ public class UserService {
         String username = context.getAuthentication().getName();
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
-        UserResponse response = new UserResponse();
-        BeanUtils.copyProperties(user, response);
-        return response;
+        // UserResponse response = new UserResponse();
+        // BeanUtils.copyProperties(user, response);
+        return userMapper.toUserResponse(user);
     }
 
 //    public UserResponse updateUser(String userId, UserUpdateRequest request) {

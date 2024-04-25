@@ -1,5 +1,6 @@
 package com.dto.request;
 
+import com.validator.BirthdayConstraint;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -22,6 +23,7 @@ public class UserCreationRequest {
     // private String lastName;
 
     // @DobConstraint(min = 10, message = "INVALID_DOB")
+    @BirthdayConstraint(min = 5, message = "INVALID_BIRTHDAY")
     private LocalDate birthday;
 
 }

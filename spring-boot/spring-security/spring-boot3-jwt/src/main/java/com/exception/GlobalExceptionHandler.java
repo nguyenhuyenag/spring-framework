@@ -14,7 +14,7 @@ public class GlobalExceptionHandler extends RuntimeException {
     // Exception không thể kiểm soát
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<?> exceptionHandling(RuntimeException exp) {
-        ApiResponse apiResponse = new ApiResponse<>();
+        ApiResponse<?> apiResponse = new ApiResponse<>();
         apiResponse.setCode(ErrorCode.UNCATEGORIZED_EXCEPTION.getCode());
         apiResponse.setMessage(ErrorCode.UNCATEGORIZED_EXCEPTION.getMessage());
 
@@ -27,7 +27,7 @@ public class GlobalExceptionHandler extends RuntimeException {
         // Lấy ra ErrorCode từ Exception
         ErrorCode errorCode = exp.getErrorCode();
 
-        ApiResponse apiResponse = new ApiResponse();
+        ApiResponse<?> apiResponse = new ApiResponse<>();
         apiResponse.setCode(errorCode.getCode());
         apiResponse.setMessage(errorCode.getMessage());
 
@@ -48,7 +48,7 @@ public class GlobalExceptionHandler extends RuntimeException {
             e.printStackTrace();
         }
 
-        ApiResponse apiResponse = new ApiResponse();
+        ApiResponse<?> apiResponse = new ApiResponse<>();
         apiResponse.setCode(errorCode.getCode());
         apiResponse.setMessage(errorCode.getMessage());
 
@@ -56,7 +56,7 @@ public class GlobalExceptionHandler extends RuntimeException {
     }
 
     @ExceptionHandler(value = AccessDeniedException.class)
-    public ResponseEntity<ApiResponse> handlingAccessDeniedException(AccessDeniedException exp){
+    public ResponseEntity<?> handlingAccessDeniedException(AccessDeniedException exp){
         ErrorCode errorCode = ErrorCode.FORBIDDEN;
 
         ApiResponse<?> apiResponse = ApiResponse.builder()
