@@ -1,9 +1,6 @@
 package com.controller;
 
-import com.dto.request.ApiResponse;
-import com.dto.request.AuthenticationRequest;
-import com.dto.request.IntrospectRequest;
-import com.dto.request.LogoutRequest;
+import com.dto.request.*;
 import com.dto.response.AuthenticationResponse;
 import com.dto.response.IntrospectResponse;
 import com.nimbusds.jose.JOSEException;
@@ -46,6 +43,15 @@ public class AuthenticationController {
         IntrospectResponse response = authenticationService.introspect(request);
         return ApiResponse.<IntrospectResponse>builder()
                 .result(response)
+                .build();
+    }
+
+    @PostMapping("/refresh-token")
+    public ApiResponse<?> authenticate(@RequestBody RefreshRequest request)
+            throws ParseException, JOSEException {
+        var result = authenticationService.refreshToken(request);
+        return ApiResponse.<AuthenticationResponse>builder()
+                .result(result)
                 .build();
     }
 
