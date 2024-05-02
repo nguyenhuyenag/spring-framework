@@ -65,7 +65,7 @@ public class UserControllerTest {
         String content = objectMapper.writeValueAsString(request);
 
         // When, Then
-        // Khi gọi đến userService.createUser() thì sẽ trả về response (userService sẽ được test ở hàm khác)
+        // Khi gọi đến userService.createUser() thì sẽ trả về response (Cô lặp userService sẽ được test ở hàm khác)
         Mockito.when(userService.createUser(ArgumentMatchers.any()))
                 .thenReturn(response);
 
