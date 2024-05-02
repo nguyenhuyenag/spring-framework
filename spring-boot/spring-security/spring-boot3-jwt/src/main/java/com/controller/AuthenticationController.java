@@ -39,7 +39,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("verify-token")
-    public ApiResponse<?> authenticate(@RequestBody IntrospectRequest request) {
+    public ApiResponse<?> authenticate(@RequestBody IntrospectRequest request) throws ParseException {
         IntrospectResponse response = authenticationService.introspect(request);
         return ApiResponse.<IntrospectResponse>builder()
                 .result(response)

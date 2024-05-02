@@ -9,24 +9,22 @@ import com.dto.response.IntrospectResponse;
 import com.entity.InvalidatedToken;
 import com.entity.User;
 import com.enums.ErrorCode;
-import com.enums.Role;
 import com.exception.AppException;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
+import com.nimbusds.jwt.JWT;
 import com.nimbusds.jwt.JWTClaimsSet;
+import com.nimbusds.jwt.JWTParser;
 import com.nimbusds.jwt.SignedJWT;
 import com.repository.InvalidatedTokenRepository;
 import com.repository.UserRepository;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -35,7 +33,6 @@ import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true)
@@ -73,7 +70,7 @@ public class AuthenticationService {
         long expirationTime = Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli();
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
                 .subject(user.getUsername())
-                .issuer("nguyenhuyenag")
+                .issuer("huyennv")
                 .issueTime(new Date())
                 .expirationTime(new Date(expirationTime))
                 .jwtID(UUID.randomUUID().toString())
@@ -81,7 +78,6 @@ public class AuthenticationService {
                 .build();
 
         Payload payload = new Payload(jwtClaimsSet.toJSONObject());
-
         JWSObject jwsObject = new JWSObject(header, payload);
 
         try {
@@ -93,7 +89,7 @@ public class AuthenticationService {
         }
     }
 
-    public IntrospectResponse introspect(IntrospectRequest request) {
+    public IntrospectResponse introspect(IntrospectRequest request) throws ParseException {
         String token = request.getToken();
         boolean isValid = verifyToken(token);
         return IntrospectResponse.builder()
@@ -101,14 +97,22 @@ public class AuthenticationService {
                 .build();
     }
 
+    public void showTokenInfoWithoutVerify(String token) throws ParseException {
+        JWT jwt = JWTParser.parse(token);
+        Map<String, Object> claims = jwt.getJWTClaimsSet().getClaims();
+        claims.forEach((key, value) -> {
+            System.out.printf("%s: %s\n", key, value);
+        });
+    }
+
     public boolean verifyToken(String token) {
         try {
+            showTokenInfoWithoutVerify(token);
+            // Parse & verify
             SignedJWT signedJWT = SignedJWT.parse(token);
             JWSVerifier verifier = new MACVerifier(signerKey.getBytes());
-
             boolean verify = signedJWT.verify(verifier);
             Date expiryTime = signedJWT.getJWTClaimsSet().getExpirationTime();
-
             return verify && expiryTime.after(new Date())
                     && !invalidatedTokenRepository.existsById(signedJWT.getJWTClaimsSet().getJWTID());
         } catch (ParseException | JOSEException e) {
