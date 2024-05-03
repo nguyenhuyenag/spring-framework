@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.TestPropertySource;
 
 import java.time.LocalDate;
@@ -90,7 +91,7 @@ public class UserServiceTest {
     void getMyInfo_valid_success() {
         when(userRepository.findByUsername(anyString())).thenReturn(Optional.of(user));
 
-        var response = userService.getMyInfo();
+        var response = userService.whoIam();
 
         Assertions.assertThat(response.getUsername()).isEqualTo("john");
         Assertions.assertThat(response.getId()).isEqualTo("cf0600f538b3");
@@ -102,7 +103,7 @@ public class UserServiceTest {
         when(userRepository.findByUsername(anyString())).thenReturn(Optional.ofNullable(null));
 
         // WHEN
-        var exception = assertThrows(AppException.class, () -> userService.getMyInfo());
+        var exception = assertThrows(AppException.class, () -> userService.whoIam());
 
         Assertions.assertThat(exception.getErrorCode().getCode()).isEqualTo(1005);
     }
