@@ -5,7 +5,6 @@ import jakarta.validation.ConstraintValidatorContext;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.Locale;
 import java.util.Objects;
 
 public class BirthdayValidator implements ConstraintValidator<BirthdayConstraint, LocalDate> {

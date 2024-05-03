@@ -39,7 +39,7 @@ import java.util.*;
 @Service
 public class AuthenticationService {
 
-    private final Logger LOG = LoggerFactory.getLogger(AuthenticationService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AuthenticationService.class);
 
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
