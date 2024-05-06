@@ -39,8 +39,6 @@ public class JsonUtils {
 	public static JsonNode toJsonNode(String jsonString) {
 		try {
 			return MAPPER.readTree(jsonString);
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
