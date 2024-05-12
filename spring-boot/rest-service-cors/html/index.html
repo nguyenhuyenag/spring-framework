@@ -8,9 +8,6 @@
         $(function () {
             $.ajax({url: "http://localhost:8080/data"})
                 .then((data, status, jqxhr) => {
-                    // let json = JSON.stringify(data);
-                    // console.log(json);
-                    // $('.result').text(json);
                     let json = JSON.stringify(data, null, 4); // The last argument (2) makes the output prettified with indentation
                     $('.result').html(`<code>${json}</code>`); // Wrapping the JSON string with <code> tag to preserve formatting
                 });

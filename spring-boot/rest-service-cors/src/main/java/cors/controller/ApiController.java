@@ -1,4 +1,4 @@
-package cors;
+package cors.controller;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -20,10 +20,10 @@ public class ApiController {
     private HttpServletRequest request;
 
     private final AtomicLong counter = new AtomicLong();
-    private Map<String, Object> content = new LinkedHashMap<>();
 
     @GetMapping("data")
     public Map<String, Object> greeting() {
+        Map<String, Object> content = new LinkedHashMap<>();
         content.put("id", counter.incrementAndGet());
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
