@@ -1,14 +1,14 @@
-package com.cors;
+package cors.config;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class Config {
+public class BeanConfig {
 
 	@Bean
-	FilterRegistrationBean<CORSFilter> filterRegistrationBean() {
+	public FilterRegistrationBean<CORSFilter> filterRegistrationBean() {
 		FilterRegistrationBean<CORSFilter> filter = new FilterRegistrationBean<>();
 		filter.setFilter(new CORSFilter());
 		filter.setName("CORS Filter");

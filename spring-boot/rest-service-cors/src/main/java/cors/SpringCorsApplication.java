@@ -1,13 +1,13 @@
-package com.cors;
+package cors;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BootApplication {
+public class SpringCorsApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(BootApplication.class, args);
+		SpringApplication.run(SpringCorsApplication.class, args);
 	}
 
 }

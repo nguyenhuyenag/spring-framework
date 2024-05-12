@@ -1,25 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>CORS</title>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-	<script>
-		$(function() {
-            $.ajax({
-                url: "http://localhost:8080/greeting"
-            }).then(function(data, status, jqxhr) {
-               $('.greeting-id').append("<b>" + data.id + "</b>");
-               $('.greeting-content').append("<b>" + data.content + "</b>");
-               console.log(jqxhr);
-            });
+    <title>CORS</title>
+    <link rel="shortcut icon" href="#">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        $(function () {
+            $.ajax({url: "http://localhost:8080/data"})
+                .then((data, status, jqxhr) => {
+                    // let json = JSON.stringify(data);
+                    // console.log(json);
+                    // $('.result').text(json);
+                    let json = JSON.stringify(data, null, 4); // The last argument (2) makes the output prettified with indentation
+                    $('.result').html(`<code>${json}</code>`); // Wrapping the JSON string with <code> tag to preserve formatting
+                });
         });
-	</script>
+    </script>
 </head>
 
 <body>
-	<div>
-		<p class="greeting-id">The ID is: </p>
-		<p class="greeting-content">The content is: </p>
-	</div>
+<div>
+    <pre class="result"></pre>
+</div>
 </body>
 </html>
