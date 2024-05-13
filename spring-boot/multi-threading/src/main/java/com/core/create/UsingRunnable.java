@@ -9,8 +9,8 @@ public class UsingRunnable implements Runnable {
     }
 
     /**
-     * Không tạo ra thread mới, phương thức run() vẫn thực thi trên chính thread
-     * hiện tại
+     * Cách sai -> Phương thức run() không tạo ra thread mới, chương trình vẫn thực thi trên
+     * thread hiện tại.
      */
     public static void incorrect() {
         System.out.println("ThreadName -> " + Thread.currentThread().getName());

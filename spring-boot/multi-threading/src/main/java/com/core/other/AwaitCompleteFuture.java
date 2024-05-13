@@ -33,10 +33,13 @@ public class AwaitCompleteFuture {
 		Async.init(); // enable async/await, chỉ cần gọi hàm này 1 lần duy nhất trong project
 		ExecutorService executor = Executors.newFixedThreadPool(10);
 		CompletableFuture<Integer> future1 = CompletableFuture.supplyAsync(() -> add(1, 2), executor);
+
 		Async.await(future1); // Chờ future1 thực hiện xong mới chạy tới dòng code tiếp theo
 		CompletableFuture<Integer> future2 = CompletableFuture.supplyAsync(() -> add(2, 3), executor);
+
 		Async.await(future2);
 		CompletableFuture<Integer> future3 = CompletableFuture.supplyAsync(() -> add(3, 4), executor);
+
 		Async.await(future3);
 		System.out.println("Done");
 		executor.shutdown();

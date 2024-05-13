@@ -3,7 +3,7 @@ package com.core.create;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class UsingLambda {
+public class UsingRunnableWithLambda {
 
 	public static void main(String[] args) {
 		System.out.println("ThreadName -> " + Thread.currentThread().getName());

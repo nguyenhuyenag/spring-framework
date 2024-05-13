@@ -1,15 +1,15 @@
 package com.core.other;
 
-/**
- * Khi sử dụng Thread.sleep() method nó sẽ tự động đánh thức sau một khoảng thời
- * gian được chỉ định nếu không bị gián đoạn.
- * 
- * Đối với wait(), khi wait() method được gọi, thread hiện tại sẽ rơi vào trạng
- * thái chờ cho đến khi một thread khác gọi notify() hay notifyAll() trên cùng
- * một object. Vì thế wait() method phải được đặt trong monitor object (là một
- * khối code truy cập vào các object được sử dụng bởi nhiều thread, chúng được
- * bảo vệ bởi synchronized để đảm bảo rằng chỉ có 1 thread truy cập vào object
- * tại cùng một thời điểm).
+/*-
+ 	- Khi sử dụng Thread.sleep() method nó sẽ tự động đánh thức sau một khoảng thời
+ 	gian được chỉ định nếu không bị gián đoạn.
+
+ 	- Đối với wait(), khi wait() method được gọi, thread hiện tại sẽ rơi vào trạng
+ 	thái chờ cho đến khi một thread khác gọi notify() hay notifyAll() trên cùng
+ 	một object. Vì thế wait() method phải được đặt trong monitor object (là một
+ 	khối code truy cập vào các object được sử dụng bởi nhiều thread, chúng được
+ 	bảo vệ bởi synchronized để đảm bảo rằng chỉ có 1 thread truy cập vào object
+ 	tại cùng một thời điểm).
  */
 class Sum implements Runnable {
 

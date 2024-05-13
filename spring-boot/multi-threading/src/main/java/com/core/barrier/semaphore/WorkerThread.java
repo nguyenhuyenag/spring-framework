@@ -2,7 +2,7 @@ package com.core.barrier.semaphore;
 
 import java.util.concurrent.Semaphore;
 
-/*-
+/**
 	- Semaphore là một cơ chế giúp quản lý các nguồn chia sẻ và đảm bảo access không bị tắc nghẽn.
 
 	- Có hai loại semaphore: binary semaphore và counting semaphore.
