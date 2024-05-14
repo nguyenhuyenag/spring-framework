@@ -19,7 +19,6 @@ import com.service.MappingQueryToPOJOService;
 import com.service.MySQLToolService;
 import com.service.ProcedureService;
 import com.service.QueryDSLService;
-import com.service.impl.MapStructServiceTest;
 
 @Component
 public class AppRunner implements CommandLineRunner {
@@ -63,8 +62,8 @@ public class AppRunner implements CommandLineRunner {
 	@Autowired
 	MySQLToolService mysqlToolService;
 
-	@Autowired
-	MapStructServiceTest mapStructServiceTest;
+	// @Autowired
+	// MapStructServiceTest mapStructServiceTest;
 
 	@Autowired
 	FindByExample findByExample;
