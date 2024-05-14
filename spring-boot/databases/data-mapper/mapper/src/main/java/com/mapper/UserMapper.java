@@ -8,7 +8,8 @@ import org.mapstruct.Mapper;
  * How to run? 	-> mvn clean install
  * 				-> View /target/generated-sources/annotations/
  */
-@Mapper(componentModel = "spring") // Đánh dấu một mapping interface và cho phép MapStrust hoạt động trên interface này
+// Đánh dấu một mapping interface và cho phép MapStrust hoạt động trên interface này
+@Mapper(componentModel = "spring")
 public interface UserMapper {
 
     UserResponse toUserResponse(User user);
