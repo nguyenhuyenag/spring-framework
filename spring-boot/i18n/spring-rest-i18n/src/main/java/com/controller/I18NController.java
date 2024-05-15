@@ -3,6 +3,7 @@ package com.controller;
 import com.config.Translator;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,11 +20,12 @@ public class I18NController {
 
     /*
         headers = {
-          'Content-Type': 'application/json;charset=utf-8',
-          'Accept-Language': 'en-US'
+          // 'Content-Type': 'application/json;charset=utf-8',
+          'Accept-Language': 'en-US',
+          // 'Accept-Language': 'vi-VN',
         }
      */
-    @GetMapping("/greet")
+    @GetMapping(value = "/greet")
     public ResponseEntity<?> getMessages(String name) {
         Map<String, String> data = new LinkedHashMap<>();
         Locale locale = LocaleContextHolder.getLocale();
