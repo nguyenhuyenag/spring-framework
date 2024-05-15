@@ -6,6 +6,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
+	<link rel="shortcut icon" href="#">
 	<title><spring:message code="label.title" /></title>
 </head>
 <body>

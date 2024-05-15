@@ -14,7 +14,7 @@
 	<groupId>com</groupId>
 	<artifactId>spring-i18n</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Boot</name>
+	<name>I18N</name>
 	<description>Project for Spring Boot</description>
 
 	<properties>
