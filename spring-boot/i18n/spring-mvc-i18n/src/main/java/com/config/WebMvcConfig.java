@@ -24,17 +24,6 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
  * (2) Trước khi request được xử lý bởi Controller, nó phải đi qua các
  * Interceptors, ở đây bạn cần đăng ký LocaleChangeInterceptor, Interceptor này
  * xử lý các thay đổi Locale từ phía người dùng.
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
  */
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
@@ -62,7 +51,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 		LocaleChangeInterceptor localeInterceptor = new LocaleChangeInterceptor();
 		localeInterceptor.setParamName("lang");
-		registry.addInterceptor(localeInterceptor).addPathPatterns("/*");
+		registry.addInterceptor(localeInterceptor)
+				.addPathPatterns("/*");
 	}
 	
 	
