@@ -2,6 +2,7 @@ package com.util;
 
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -12,14 +13,15 @@ import com.model.Product;
 import com.repository.ProductRepository;
 
 @Component
+@RequiredArgsConstructor
 public class PageableJPA {
 
-	private static ProductRepository repository;
+	private static final ProductRepository repository = null;
 
 	// @Autowired // Constructor @Autowired
-	public PageableJPA(ProductRepository repository) {
-		PageableJPA.repository = repository;
-	}
+//	public PageableJPA(ProductRepository repository) {
+//		PageableJPA.repository = repository;
+//	}
 
 	public static void init() {
 		// Page 0
@@ -42,11 +44,14 @@ public class PageableJPA {
 		System.out.println("Tổng số page: " + page.getTotalPages());
 	}
 
-	// Sort theo tên, lấy ra 5 user ở page 1. Lưu ý, phương thức này sắp xếp trước
-	// rồi mới chia page
+	// Sort theo tên, lấy ra 5 user ở page 1. Lưu ý, phương thức này sắp xếp trước rồi mới chia page
 	public static void sortPage() {
-		// Page<Product> page = repository.findAll(PageRequest.of(1, 5, Sort.by("email")));
-		Page<Product> page = repository.findAll(PageRequest.of(1, 5, Sort.Direction.ASC, "email"));
+		int pageNo = 1;
+		int pageSize = 10;
+		// PageRequest.of(pageNo, pageSize, Sort.by("email"));
+		// PageRequest.of(pageNo, pageSize, Sort.Direction.ASC, "email");
+		Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(Sort.Direction.ASC, "email"));
+		Page<Product> page = repository.findAll(pageable);
 		page.forEach(System.out::println);
 	}
 

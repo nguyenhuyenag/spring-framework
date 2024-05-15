@@ -13,8 +13,9 @@ public class GetSession {
 	private EntityManager entityManager;
 	
 	public void getSession() {
-		Session session = entityManager.unwrap(Session.class);
-		System.out.println(session.getTenantIdentifier());
+		try (Session session = entityManager.unwrap(Session.class)) {
+			System.out.println(session.getTenantIdentifier());
+		}
 	}
 	
 }
