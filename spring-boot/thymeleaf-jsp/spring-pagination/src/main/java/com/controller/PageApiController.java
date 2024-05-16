@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.service.ProductService;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
@@ -31,12 +33,29 @@ public class PageApiController {
         return ResponseEntity.ok(productService.info(request));
     }
 
-    @GetMapping("/products")
+    @GetMapping("/spring-jpa-pagination")
     public ResponseEntity<?> getProducts(
-            @RequestParam(defaultValue = "0") int pageNo,
+            @RequestParam(defaultValue = "0") int pageNumber,
             @RequestParam(defaultValue = "10") int pageSize, // Min = 10 is the best
             String sortBy) {
-        var result = productService.getProducts(pageNo, pageSize, sortBy);
+        if (pageNumber <= 0) {
+            var result = Map.of("message", "Page number must be ≥ 1");
+            return ResponseEntity.ok(result);
+        }
+        var result = productService.springJpaPagination(pageNumber, pageSize, sortBy);
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/entity-manager-pagination")
+    public ResponseEntity<?> getProductsByEntityManager(
+            @RequestParam(defaultValue = "0") int pageNumber,
+            @RequestParam(defaultValue = "10") int pageSize, // Min = 10 is the best
+            String sortBy) {
+        if (pageNumber <= 0) {
+            var result = Map.of("message", "Page number must be ≥ 1");
+            return ResponseEntity.ok(result);
+        }
+        var result = productService.entityManagerPagination(pageNumber, pageSize, sortBy);
         return ResponseEntity.ok(result);
     }
 

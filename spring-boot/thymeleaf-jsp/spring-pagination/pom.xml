@@ -14,7 +14,7 @@
 	<groupId>com</groupId>
 	<artifactId>spring-pagination</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Boot</name>
+	<name>Pagination</name>
 	<description>Project for Spring Boot</description>
 
 	<properties>

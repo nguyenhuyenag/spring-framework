@@ -5,10 +5,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BootApplication implements CommandLineRunner {
+public class PaginationApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {
-		SpringApplication.run(BootApplication.class, args);
+		SpringApplication.run(PaginationApplication.class, args);
 	}
 
 	@Override

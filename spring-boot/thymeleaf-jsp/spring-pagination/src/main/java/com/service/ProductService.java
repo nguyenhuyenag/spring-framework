@@ -15,6 +15,9 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.ServletRequestUtils;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
@@ -24,6 +27,9 @@ public class ProductService {
 
     // @Autowired
     private final ProductRepository productRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     /*-
      * getSize() vs getNumberOfElements()
@@ -112,9 +118,9 @@ public class ProductService {
         return ReflectionUtils.findField(clazz, fieldName) != null;
     }
 
-    public PageResponse<?> getProducts(int pageNo, int pageSize, String sortField) {
+    public PageResponse<?> springJpaPagination(int pageNumber, int pageSize, String sortField) {
         // Page count from 0
-        pageNo = Math.max(0, pageNo - 1);
+        pageNumber = Math.max(0, pageNumber - 1);
 
         List<Sort.Order> sortOrders = new ArrayList<>();
         if (StringUtils.isNotEmpty(sortField)) {
@@ -126,16 +132,36 @@ public class ProductService {
             }
         }
 
-        Sort sort = sortOrders.isEmpty() ? Sort.by("id") : Sort.by(sortOrders); // Default is sort by `id`
-        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+        Sort sort = Sort.by(sortOrders);
+        Pageable pageable = sortOrders.isEmpty()
+                ? PageRequest.of(pageNumber, pageSize) : PageRequest.of(pageNumber, pageSize, sort);
         var result = productRepository.findAll(pageable);
 
         return PageResponse.builder()
                 .totalPage(result.getTotalPages())
-                .pageNo(result.getNumber() + 1) // Count from 0
+                .totalElements(result.getTotalElements())
+                .pageNumber(result.getNumber() + 1) // Count from 0
                 .pageSize(result.getSize())
                 .sortBy(sort.stream().map(Sort.Order::getProperty).toList())
                 .result(result.getContent())
+                .build();
+    }
+
+    public PageResponse<?> entityManagerPagination(int pageNumber, int pageSize, String sortField) {
+        pageNumber = Math.max(0, pageNumber - 1);
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+
+        String sql = "select * from product";
+        Query query = entityManager.createNativeQuery(sql, Product.class);
+        query.setFirstResult(pageable.getPageNumber() * pageable.getPageSize());
+        query.setMaxResults(pageable.getPageSize());
+
+        List<?> result = query.getResultList();
+
+        return PageResponse.builder()
+                .pageNumber(pageable.getPageNumber() + 1) // Count from 0
+                .pageSize(pageable.getPageSize())
+                .result(result)
                 .build();
     }
 
