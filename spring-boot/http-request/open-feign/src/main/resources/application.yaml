@@ -1,0 +1,6 @@
+server:
+  port: 8080
+
+app:
+  services:
+    profile: 'https://random-data-api.com/api/v2'
