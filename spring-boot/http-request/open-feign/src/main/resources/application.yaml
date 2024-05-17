@@ -3,4 +3,4 @@ server:
 
 app:
   services:
-    profile: 'https://random-data-api.com/api/v2'
+    profile: "https://api.escuelajs.co/api/v1/"
