@@ -21,10 +21,10 @@ public class AppRunner implements ApplicationRunner {
         // var posts = jsonPlaceHolderClient.getPosts();
         // posts.forEach(p -> System.out.println(p.getTitle()));
 
-        var post = jsonPlaceHolderClient.getPostById(1L);
-        if (post != null) {
-            System.out.println(post);
-        }
+//        var post = jsonPlaceHolderClient.getPostById(1L);
+//        if (post != null) {
+//            System.out.println(post);
+//        }
     }
 
 }

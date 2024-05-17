@@ -11,7 +11,7 @@
 	</parent>
 
 	<groupId>com.feign</groupId>
-	<artifactId>OpenFeign</artifactId>
+	<artifactId>open-feign</artifactId>
 	<name>OpenFeign</name>
 	<version>0.0.1-SNAPSHOT</version>
 	<description>Spring Cloud OpenFeign</description>

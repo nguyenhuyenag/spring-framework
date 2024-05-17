@@ -3,11 +3,13 @@ package feign.configuration;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Slf4j
+// @Component // Nếu đánh dấu đây là Component thì sẽ áp dụng cho global
 public class AuthenticationRequestInterceptor implements RequestInterceptor {
 
     @Override
@@ -15,11 +17,11 @@ public class AuthenticationRequestInterceptor implements RequestInterceptor {
         ServletRequestAttributes servletRequestAttributes
                 = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 
-        var authHeader = servletRequestAttributes.getRequest().getHeader("Authorization");
+        var authHeader = servletRequestAttributes.getRequest().getHeader(HttpHeaders.AUTHORIZATION);
 
         log.info("Header: {}", authHeader);
         if (StringUtils.hasText(authHeader)) {
-            template.header("Authorization", authHeader);
+            template.header(HttpHeaders.AUTHORIZATION, authHeader);
         }
     }
 
