@@ -32,10 +32,11 @@ public class CustomJwtDecoder implements JwtDecoder {
         }
 
         if (Objects.isNull(nimbusJwtDecoder)) {
-            SecretKeySpec secretKeySpec = new SecretKeySpec(signerKey.getBytes(), MacAlgorithm.HS512.getName());
+            SecretKeySpec secretKeySpec = new SecretKeySpec(signerKey.getBytes(), AuthenticationService.JWSAlgorithm.getName());
             nimbusJwtDecoder = NimbusJwtDecoder
                     .withSecretKey(secretKeySpec)
-                    .macAlgorithm(MacAlgorithm.HS512)
+                    // .macAlgorithm(MacAlgorithm.HS512)
+                    .macAlgorithm(MacAlgorithm.from(AuthenticationService.JWSAlgorithm.getName()))
                     .build();
         }
 

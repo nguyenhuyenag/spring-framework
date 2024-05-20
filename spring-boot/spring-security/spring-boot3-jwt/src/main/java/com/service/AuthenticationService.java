@@ -45,6 +45,8 @@ public class AuthenticationService {
     private PasswordEncoder passwordEncoder;
     private InvalidatedTokenRepository invalidatedTokenRepository;
 
+    public static JWSAlgorithm JWSAlgorithm = com.nimbusds.jose.JWSAlgorithm.HS384;
+
     @NonFinal // Để @RequiredArgsConstructor không DI field này
     @Value("${jwt.signerKey}")
     private String signerKey;
@@ -65,7 +67,7 @@ public class AuthenticationService {
     }
 
     private String generateToken(User user) {
-        JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
+        JWSHeader header = new JWSHeader(JWSAlgorithm);
 
         long expirationTime = Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli();
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()

@@ -1,6 +1,7 @@
 server:
   port: 8080
-# spring.application.name=spring-boot3-jwt
+  servlet:
+    context-path: /jwt3
 
 spring:
   datasource:
@@ -11,6 +12,8 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+#  application:
+#    name: '/jwt3'
 
 jwt:
   signerKey: cThl2O+Ogi/nkciMZpyIlXw6l4Zsh7dyUZfExYssEJaegAmbsInT6dUVR5n9pjA9

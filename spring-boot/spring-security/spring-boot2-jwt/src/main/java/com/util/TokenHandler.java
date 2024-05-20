@@ -35,10 +35,10 @@ public class TokenHandler {
     public static final String BEARER = "Bearer ";
     public static final String AUTHORITIES_KEY = "scopes";
     private static final String ISSUER = "JWT_ISSUER";
-    private static final String SECRET_KEY = "JWT_26A879D65E22";
+    private static final String SECRET_KEY = "cThl2O+Ogi/nkciMZpyIlXw6l4Zsh7dyUZfExYssEJaegAmbsInT6dUVR5n9pjA9";
     private static final long EXPIRATION_TIME = TimeUnit.DAYS.toMillis(1);
 
-    private static final Algorithm ALGORITHM = Algorithm.HMAC512(SECRET_KEY);
+    private static final Algorithm ALGORITHM = Algorithm.HMAC384(SECRET_KEY);
     private static final JWTVerifier verifier = JWT.require(ALGORITHM)
             .withIssuer(ISSUER)
             .build();
@@ -61,17 +61,6 @@ public class TokenHandler {
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME)) //
                 .sign(ALGORITHM);
     }
-
-//    public static DecodedJWT verifyJWT(String jwt) {
-//        try {
-//            // DecodedJWT verify = verifier.verify(jwt);
-//            // String id = verify.getId();
-//            return verifier.verify(jwt);
-//        } catch (JWTVerificationException e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
 
     public static Map<String, Boolean> validateToken(ValidateTokenRequest request) {
         boolean value = false;
