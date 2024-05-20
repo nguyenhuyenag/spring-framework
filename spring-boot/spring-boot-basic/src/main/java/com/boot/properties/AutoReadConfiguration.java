@@ -19,7 +19,7 @@ public class AutoReadConfiguration {
 
 	/*-
 	 * How to use? -> 	@Autowired 
-	 * 					ReadBasicConfiguration configuration;
+	 * 					private AutoReadConfiguration autoReadConfiguration;
 	 */
 	private String url;
 	private String language;

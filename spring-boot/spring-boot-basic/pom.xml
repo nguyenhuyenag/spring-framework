@@ -68,6 +68,11 @@
 			<artifactId>commons-beanutils</artifactId>
 			<version>1.9.4</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-configuration2</artifactId>
+			<version>2.9.0</version>
+		</dependency>
 		<!-- JsonObject -->
 		<dependency>
 			<groupId>javax.json</groupId>
