@@ -1,9 +1,6 @@
 package com.configuration;
 
-import com.enums.Role;
 import com.exception.JwtAuthenticationEntryPoint;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -13,14 +10,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
-
-import javax.crypto.spec.SecretKeySpec;
 
 @Configuration
 @EnableWebSecurity
@@ -37,20 +30,25 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.csrf(AbstractHttpConfigurer::disable);
+
+        // @formatter:off
         http.authorizeHttpRequests(req ->
-                req.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()
-                        .anyRequest().authenticated()
+                req.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS)
+                        .permitAll()
+                   .anyRequest()
+                   .authenticated()
         );
 
         http.oauth2ResourceServer(oauth2 ->
                 oauth2.jwt(jwtConfigurer ->
-                                jwtConfigurer.decoder(jwtDecoder())
-                        .jwtAuthenticationConverter(jwtAuthenticationConverter()))
-                        // Điểm mà authentication faild -> Sẽ làm gì
-                        .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
+                        jwtConfigurer.decoder(jwtDecoder())
+                                     .jwtAuthenticationConverter(jwtAuthenticationConverter())
+                )
+                // Điểm mà authentication faild -> Sẽ làm gì đó
+                .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
         );
-
-        http.csrf(AbstractHttpConfigurer::disable);
+        // @formatter:on
 
         return http.build();
     }
@@ -87,5 +85,11 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+//    // @formatter:off
+//    public void method() {
+//        int a=1;    String b="hello"; // This line will not be formatted
+//    }
+//    // @formatter:on
 
 }
