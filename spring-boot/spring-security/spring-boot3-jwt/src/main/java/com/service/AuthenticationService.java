@@ -54,21 +54,23 @@ public class AuthenticationService {
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         User user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+
         // Check password
         boolean matches = passwordEncoder.matches(request.getPassword(), user.getPassword());
         if (!matches) {
             throw new AppException(ErrorCode.UNAUTHENTICATED);
         }
+
         String token = generateToken(user);
         return AuthenticationResponse.builder()
                 .token(token)
-                // .authenticated(true)
                 .build();
     }
 
     private String generateToken(User user) {
         JWSHeader header = new JWSHeader(JWSAlgorithm);
 
+        // @formatter:on
         long expirationTime = Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli();
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
                 .subject(user.getUsername())
@@ -78,6 +80,7 @@ public class AuthenticationService {
                 .jwtID(UUID.randomUUID().toString())
                 .claim("scope", buildScope(user))
                 .build();
+        // @formatter:off
 
         Payload payload = new Payload(jwtClaimsSet.toJSONObject());
         JWSObject jwsObject = new JWSObject(header, payload);
