@@ -1,11 +1,14 @@
 package com.util;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.payload.request.ValidateTokenRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -36,7 +39,9 @@ public class TokenHandler {
     private static final long EXPIRATION_TIME = TimeUnit.DAYS.toMillis(1);
 
     private static final Algorithm ALGORITHM = Algorithm.HMAC512(SECRET_KEY);
-    private static final JWTVerifier verifier = JWT.require(ALGORITHM).withIssuer(ISSUER).build();
+    private static final JWTVerifier verifier = JWT.require(ALGORITHM)
+            .withIssuer(ISSUER)
+            .build();
 
     public static String extractJWT(HttpServletRequest request) {
         String header = request.getHeader(HttpHeaders.AUTHORIZATION);
@@ -57,15 +62,28 @@ public class TokenHandler {
                 .sign(ALGORITHM);
     }
 
-    public static DecodedJWT verifyJWT(String jwt) {
+//    public static DecodedJWT verifyJWT(String jwt) {
+//        try {
+//            // DecodedJWT verify = verifier.verify(jwt);
+//            // String id = verify.getId();
+//            return verifier.verify(jwt);
+//        } catch (JWTVerificationException e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
+
+    public static Map<String, Boolean> validateToken(ValidateTokenRequest request) {
+        boolean value = false;
         try {
-            // DecodedJWT verify = verifier.verify(jwt);
-            // String id = verify.getId();
-            return verifier.verify(jwt);
+            DecodedJWT decode = verifier.verify(request.getToken().trim());
+            value = (decode != null && decode.getExpiresAt().after(new Date()));
         } catch (JWTVerificationException e) {
             e.printStackTrace();
         }
-        return null;
+        Map<String, Boolean> result = new HashMap<>();
+        result.put("validate", value);
+        return result;
     }
 
     public static DecodedJWT decodedJWT(String jwt) {
@@ -96,7 +114,7 @@ public class TokenHandler {
     public static void main(String[] args) throws InterruptedException {
         String jwt = createJWT("dev1", null);
         System.out.println("JWT: " + jwt);
-        DecodedJWT decodedJWT = verifyJWT(jwt);
+        DecodedJWT decodedJWT = decodedJWT(jwt);
         if (decodedJWT == null) {
             System.out.println("JWT Verification Failed");
         }
@@ -112,7 +130,7 @@ public class TokenHandler {
         }
     }
 
-	//	public static Claims getClaims(String token) {
+    //	public static Claims getClaims(String token) {
 //		Claims claims = null;
 //		try {
 //			claims = Jwts.parser() //
@@ -153,7 +171,7 @@ public class TokenHandler {
 //			.compact();
 //}
 
-	//	public static boolean validateToken(UserDetails userDetails, String username, DecodedJWT decodedJWT) {
+    //	public static boolean validateToken(UserDetails userDetails, String username, DecodedJWT decodedJWT) {
 //		return (isJWTAlive(decodedJWT) && userDetails.getUsername().equals(username));
 //	}
 

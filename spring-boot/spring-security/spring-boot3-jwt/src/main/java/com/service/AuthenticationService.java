@@ -70,7 +70,7 @@ public class AuthenticationService {
         long expirationTime = Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli();
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
                 .subject(user.getUsername())
-                .issuer("huyennv")
+                .issuer("dev")
                 .issueTime(new Date())
                 .expirationTime(new Date(expirationTime))
                 .jwtID(UUID.randomUUID().toString())
@@ -112,6 +112,7 @@ public class AuthenticationService {
             SignedJWT signedJWT = SignedJWT.parse(token);
             JWSVerifier verifier = new MACVerifier(signerKey.getBytes());
             boolean verify = signedJWT.verify(verifier);
+
             Date expiryTime = signedJWT.getJWTClaimsSet().getExpirationTime();
             return verify && expiryTime.after(new Date())
                     && !invalidatedTokenRepository.existsById(signedJWT.getJWTClaimsSet().getJWTID());
@@ -139,13 +140,14 @@ public class AuthenticationService {
         return signedJWT;
     }
 
-    // Set<Role> -> "ROLE_USER ROLE_ADMIN"
+    // Convert Set<Role> -> "ROLE_USER ROLE_ADMIN"
     private String buildScope(User user) {
         StringJoiner stringJoiner = new StringJoiner(" ");
         if (!CollectionUtils.isEmpty(user.getRoles())) {
             user.getRoles().forEach(role -> {
                 // Add role name to scope
                 stringJoiner.add("ROLE_" + role.getName());
+
                 // Add list permissions to scope
                 if (!CollectionUtils.isEmpty(role.getPermissions())) {
                     role.getPermissions().forEach(permission -> stringJoiner.add(permission.getName()));
@@ -173,10 +175,13 @@ public class AuthenticationService {
             throws ParseException, JOSEException {
         // Get SignedJWT
         var signedJWT = verifyAndExtractToken(request.getToken());
+
         // Get token id
         var tokeId = signedJWT.getJWTClaimsSet().getJWTID();
+
         // Get expiration time
         var expiryTime = signedJWT.getJWTClaimsSet().getExpirationTime();
+
         InvalidatedToken invalidatedToken = InvalidatedToken.builder()
                 .id(tokeId)
                 .expiryTime(expiryTime)
@@ -188,9 +193,8 @@ public class AuthenticationService {
         // Get username & create new token
         var username = signedJWT.getJWTClaimsSet().getSubject();
 
-        var user = userRepository.findByUsername(username).orElseThrow(
-                () -> new AppException(ErrorCode.UNAUTHENTICATED)
-        );
+        var user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED));
 
         var token = generateToken(user);
 

@@ -2,11 +2,13 @@ package com.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.payload.request.ValidateTokenRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
@@ -14,8 +16,10 @@ import com.payload.response.TokenRefreshResponse;
 import com.service.RefreshTokenService;
 import com.util.TokenHandler;
 
+import java.util.Map;
+
 @Controller
-@RequestMapping("auth")
+@RequestMapping("/auth")
 public class AuthController {
 
 	@Autowired
@@ -87,14 +91,14 @@ public class AuthController {
 //		}
 //	}
 
-	@GetMapping("validate-token")
-	private ResponseEntity<?> checkToken(String token) {
-		DecodedJWT validate = TokenHandler.verifyJWT(token);
+	@PostMapping("/validate-token")
+	private ResponseEntity<?> validateToken(@RequestBody ValidateTokenRequest request) {
+		Map<String, Boolean> validate = TokenHandler.validateToken(request);
 		return ResponseEntity.ok(validate);
 	}
 
-	@PostMapping("refresh-token")
-	public ResponseEntity<?> refreshtoken(String token) {
+	@PostMapping("/refresh-token")
+	public ResponseEntity<?> refreshToken(String token) {
 		TokenRefreshResponse refreshToken = refreshTokenService.refreshToken(token);
 		return ResponseEntity.ok(refreshToken);
 	}

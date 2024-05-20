@@ -25,6 +25,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -34,29 +35,29 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.config.WebSecurityConfig;
 import com.util.TokenHandler;
 
-// @Component
+@Component
 public class AuthenticationRequestFilter extends OncePerRequestFilter {
 
-	private static final Logger LOG = LoggerFactory.getLogger(AuthenticationRequestFilter.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AuthenticationRequestFilter.class);
 
-	@Autowired
-	private UserDetailsService userDetailsService;
+    @Autowired
+    private UserDetailsService userDetailsService;
 
-	private static final AntPathMatcher antPathMatcher = new AntPathMatcher();
+    private static final AntPathMatcher antPathMatcher = new AntPathMatcher();
 
-	public AuthenticationRequestFilter(UserDetailsService userDetailsService) {
-		this.userDetailsService = userDetailsService;
-	}
+    public AuthenticationRequestFilter(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
 
-	@Override
-	protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
-			throws IOException, ServletException {
-		
-		/**
-		 * Cần đặt ở đầu tiên (để successfulAuthentication() sẽ trả về JSON)
-		 */
-		res.setCharacterEncoding("UTF-8");
-		res.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+    @Override
+    protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
+            throws IOException, ServletException {
+
+        /**
+         * Cần đặt ở đầu tiên (để successfulAuthentication() sẽ trả về JSON)
+         */
+        res.setCharacterEncoding("UTF-8");
+        res.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 
 //	    final String param = Optional.ofNullable(req.getHeader(HttpHeaders.AUTHORIZATION))
 //	            .orElse(req.getParameter("t"));
@@ -65,58 +66,58 @@ public class AuthenticationRequestFilter extends OncePerRequestFilter {
 //	            .map(String::trim)
 //	            .orElseThrow(() -> new BadCredentialsException("Missing Authentication Token"));
 
-		if (inAntMatcher(req.getRequestURI())) {
-			LOG.info("Request '{}' is in white list", req.getRequestURI());
-			chain.doFilter(req, res);
-			return;
-		}
+        if (inAntMatcher(req.getRequestURI())) {
+            LOG.info("Request '{}' is in white list", req.getRequestURI());
+            chain.doFilter(req, res);
+            return;
+        }
 
-		LOG.info("Filter request '{}'", req.getRequestURI());
-		String jwt = TokenHandler.extractJWT(req);
-		if (StringUtils.isEmpty(jwt)) {
-			LOG.info("Couldn't find bearer string");
-			throw new BadCredentialsException("Missing authentication token (JWT)");
-		}
-		
-		DecodedJWT verify = TokenHandler.verifyJWT(jwt);
-		if (verify == null) {
-			throw new JWTDecodeException("Invalid JWT token");
-		}
-		
-		DecodedJWT decoded = TokenHandler.decodedJWT(jwt);
-		String username = TokenHandler.getSubject(decoded);
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth == null && StringUtils.isNotEmpty(username)) {
-			UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-			UsernamePasswordAuthenticationToken authToken = getAuthentication(userDetails, decoded);
-			authToken.setDetails(new WebAuthenticationDetailsSource() //
-					 .buildDetails(req));
-			LOG.info("Authenticated '" + username + "', setting security context");
-			SecurityContextHolder.getContext().setAuthentication(authToken);
-		}
-		
-		chain.doFilter(req, res);
-	}
+        LOG.info("Filter request '{}'", req.getRequestURI());
+        String jwt = TokenHandler.extractJWT(req);
+        if (StringUtils.isEmpty(jwt)) {
+            LOG.info("Couldn't find bearer string");
+            throw new BadCredentialsException("Missing authentication token (JWT)");
+        }
 
-	private UsernamePasswordAuthenticationToken getAuthentication(UserDetails userDetails, DecodedJWT decoded) {
-		Set<GrantedAuthority> authorities = new HashSet<>();
-		Claim claims = TokenHandler.getClaim(decoded);
-		if (StringUtils.isNotEmpty(claims.asString())) {
-			Arrays.stream(claims.asString().split(",")).forEach(t -> {
-				authorities.add(new SimpleGrantedAuthority(t));
-			});
-		}
-		return new UsernamePasswordAuthenticationToken(userDetails, "", authorities);
-	}
+        DecodedJWT verify = TokenHandler.decodedJWT(jwt);
+        if (verify == null) {
+            throw new JWTDecodeException("Invalid JWT token");
+        }
 
-	private boolean inAntMatcher(String path) {
-		for (String pattern : WebSecurityConfig.WHITE_LIST) {
-			if (antPathMatcher.match(pattern, path)) {
-				return true;
-			}
-		}
-		return false;
-	}
+        DecodedJWT decoded = TokenHandler.decodedJWT(jwt);
+        String username = TokenHandler.getSubject(decoded);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null && StringUtils.isNotEmpty(username)) {
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            UsernamePasswordAuthenticationToken authToken = getAuthentication(userDetails, decoded);
+            authToken.setDetails(new WebAuthenticationDetailsSource() //
+                    .buildDetails(req));
+            LOG.info("Authenticated '" + username + "', setting security context");
+            SecurityContextHolder.getContext().setAuthentication(authToken);
+        }
+
+        chain.doFilter(req, res);
+    }
+
+    private UsernamePasswordAuthenticationToken getAuthentication(UserDetails userDetails, DecodedJWT decoded) {
+        Set<GrantedAuthority> authorities = new HashSet<>();
+        Claim claims = TokenHandler.getClaim(decoded);
+        if (StringUtils.isNotEmpty(claims.asString())) {
+            Arrays.stream(claims.asString().split(",")).forEach(t -> {
+                authorities.add(new SimpleGrantedAuthority(t));
+            });
+        }
+        return new UsernamePasswordAuthenticationToken(userDetails, "", authorities);
+    }
+
+    private boolean inAntMatcher(String path) {
+        for (String pattern : WebSecurityConfig.WHITE_LIST) {
+            if (antPathMatcher.match(pattern, path)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 //	private String extractJWT(HttpServletRequest req) {
 //		String header = req.getHeader(HttpHeaders.AUTHORIZATION);

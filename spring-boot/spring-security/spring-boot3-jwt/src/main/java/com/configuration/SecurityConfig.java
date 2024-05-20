@@ -86,10 +86,4 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-//    // @formatter:off
-//    public void method() {
-//        int a=1;    String b="hello"; // This line will not be formatted
-//    }
-//    // @formatter:on
-
 }
