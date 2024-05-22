@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.Objects;
 
+import static com.service.AuthenticationService.*;
+
 @Component
 public class CustomJwtDecoder implements JwtDecoder {
 
@@ -32,11 +34,11 @@ public class CustomJwtDecoder implements JwtDecoder {
         }
 
         if (Objects.isNull(nimbusJwtDecoder)) {
-            SecretKeySpec secretKeySpec = new SecretKeySpec(signerKey.getBytes(), AuthenticationService.JWSAlgorithm.getName());
+            SecretKeySpec secretKeySpec = new SecretKeySpec(signerKey.getBytes(), JWS_ALGORITHM.getName());
             nimbusJwtDecoder = NimbusJwtDecoder
                     .withSecretKey(secretKeySpec)
                     // .macAlgorithm(MacAlgorithm.HS512)
-                    .macAlgorithm(MacAlgorithm.from(AuthenticationService.JWSAlgorithm.getName()))
+                    .macAlgorithm(MacAlgorithm.from(JWS_ALGORITHM.getName()))
                     .build();
         }
 

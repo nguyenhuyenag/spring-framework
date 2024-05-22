@@ -34,7 +34,7 @@ public class SecurityConfig {
                 req.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS)
                         .permitAll()
                    .anyRequest()
-                   .authenticated()
+                        .authenticated()
         );
 
         http.oauth2ResourceServer(oauth2 ->
@@ -42,7 +42,7 @@ public class SecurityConfig {
                         jwtConfigurer.decoder(jwtDecoder())
                                      .jwtAuthenticationConverter(jwtAuthenticationConverter())
                 )
-                // Điểm mà authentication faild -> Sẽ làm gì đó
+                // Điểm mà authentication failed -> Sẽ làm gì đó 401
                 .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
         );
         // @formatter:on
