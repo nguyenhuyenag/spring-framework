@@ -22,9 +22,6 @@ public class SecurityConfig {
 
     private final String[] PUBLIC_ENDPOINTS = {"/auth/**", "/users"};
 
-    // @Value("${jwt.signerKey}")
-    // private String signerKey;
-
     // @Autowired
     // private CustomJwtDecoder customJwtDecoder;
 
