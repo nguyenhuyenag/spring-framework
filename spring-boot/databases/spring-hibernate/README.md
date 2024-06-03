@@ -393,8 +393,4 @@
 
     - saveOrUpdate: Đây là phương thức chỉ có ở Hibernate, nó không xảy ra exception kể cả ta truyền vào 
     đối tượng transient.
-
-    
-
-
-	  
+~~~~

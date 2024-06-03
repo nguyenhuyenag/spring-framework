@@ -7,7 +7,10 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
-public class Application {
+/*
+	Tạo EntityManager từ file `persistence.xml`
+ */
+public class EntityManagerUtils {
 
 	public static void main(String[] args) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpaexample");
