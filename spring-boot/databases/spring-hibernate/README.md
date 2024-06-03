@@ -87,7 +87,7 @@
 	
 	- Cột kiểu int, chứa giá trị NULL khi map với class sẽ lỗi
 	
-# Composite Primary Key (Bảng có nhiều khóa chính)
+# Composite Primary Key (bảng có nhiều khóa chính)
 	
 	- @Embeddable
 			+ Tạo class chứa các khóa chính, đánh dấu @Embeddable
@@ -267,10 +267,9 @@
 # @Temporal
 
 	Có 3 giá trị cho TemporalType:
-	
-	- TemporalType.DATE 		 -	Lưu trữ ngày tháng năm (bỏ đi thời gian)
-	- TemporalType.TIME 		 - 	Lưu trữ thời gian (Giờ phút giây)
-	- TemporalType.TIMESTAMP	 - 	Lưu trữ ngày tháng và cả thời gian
+	    - TemporalType.DATE 		 -	Lưu trữ ngày tháng năm (bỏ đi thời gian)
+	    - TemporalType.TIME 		 - 	Lưu trữ thời gian (Giờ phút giây)
+	    - TemporalType.TIMESTAMP	 - 	Lưu trữ ngày tháng và cả thời gian
 
 # Có nên đóng EntityManager?
 
@@ -352,16 +351,50 @@
 
 # openSession() và getCurrentSession()
 
-	- getCurrentSession
+	- getCurrentSession:
 
-		+ getCurrentSession() thì session sẽ tự động đẩy dữ liệu (flush()) và đóng (close()) session.
-
+		+ getCurrentSession() -> Session sẽ tự động đẩy dữ liệu (flush()) và đóng (close()) session.
 		+ Khi lấy session từ getCurrentSession() mà thực hiện 2 thao tác truy vấn bạn sẽ gặp lỗi 
 		  "Session is closed" vì sau lần truy vấn thứ nhất, session đã bị close.
 	  
-	- openSession() thì sau khi truy vấn dữ liệu (thêm, xóa, sửa) thì session vẫn còn giữ và không 
-	  tự động đẩy (flush()) hay close mà bạn phải tự làm việc này
+	- openSession() -> Sau khi truy vấn dữ liệu (thêm, xóa, sửa) thì session vẫn còn giữ và không 
+	  tự động đẩy (flush()) hay close mà bạn phải tự làm việc này.
 
+# Các trạng thái của 1 thể hiện Entity trong Session:
+
+    - Trong một Session persistence context, các entity có 4 trạng thái:
+
+        + Transient: Đối tượng chưa bao giờ bị quản lí bởi session và nó không tương ứng với bản ghi nào trong database,
+        thông thường đây là một đối tượng mới được tạo để save vào database.
+        
+        + Persistent: Đối tượng bị quản lý bởi session và là unique (trong 1 session không thể tồn tại 2 object có cùng id), 
+        sau khi flush bởi session sẽ tồn tại 1 bản ghi tương ứng đối tượng này trong database.
+        
+        + Detached: Đối tượng này đã từng bị quản lý bởi session nhưng hiện tại thì không (bị evict(), clear(), close()).
+        
+        + Removed: Giống như detached nhưng bản ghi tương ứng với đối tượng này trước đó đã bị xóa khỏi database. (bị remove()).
+
+# Hibernate: save, persist, update, merge & saveOrUpdate
+    
+    - Các method này không lập tức đưa ra kết quả tương ứng SQL UPDATE hoặc INSERT. Thực tế thì việc 
+    cập nhật dữ liệu vào database xảy ra khi transaction được commit hoặc flushing session.
+
+    - persist: Đối tượng person bị đổi trạng thái từ transient sang persistent. Đối tượng vào trong 
+    persistence context nhưng vẫn chưa được lưu vào database. Thông thường lệnh INSERT sẽ chỉ xuất 
+    hiện khi commit transaction hoặc flushing/close session.
+
+    - save: Giống với persist nhưng trả về một định danh (còn persist() trả về void).
+
+    - merge: Là update một thể hiện entity có trạng thái persistent vào 1 một thể hiện entity có trạng 
+    thái detached. Phương thức merge trả về 1 đối tượng, đó là đối tượng đã được merge không phải đối 
+    tượng truyền vào.
+
+    - update: Cũng giống persist và save nhưng sẽ ném ra exception nếu truyền vào đối tượng transient.
+
+    - saveOrUpdate: Đây là phương thức chỉ có ở Hibernate, nó không xảy ra exception kể cả ta truyền vào 
+    đối tượng transient.
+
+    
 
 
 	  

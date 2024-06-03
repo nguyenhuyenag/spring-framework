@@ -25,14 +25,14 @@ public class MySQLToolService {
 	private JdbcTemplate jdbcTemplate;
 
 	/**
-	 * SCHEMA() -> Current database name
+	 * Hàm SCHEMA() = Current database name or NULL
 	 */
 	public boolean checkTableExist(String tableName) {
 		String sql = "SHOW TABLES";
 		// String sql = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = SCHEMA()";
 		List<String> listTables = jdbcTemplate.queryForList(sql, String.class);
 		System.out.println("All tables: " + listTables);
-		return listTables != null ? listTables.stream().anyMatch(t -> t.equalsIgnoreCase(tableName)) : false;
+		return listTables.stream().anyMatch(t -> t.equalsIgnoreCase(tableName));
 	}
 
 	public Connection getConnection() throws SQLException {

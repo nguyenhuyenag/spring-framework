@@ -20,15 +20,20 @@ public class HibernateUtils {
 	}
 
 	private static SessionFactory buildSessionFactory() {
-		return new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+		return new Configuration()
+				.configure("hibernate.cfg.xml")
+				.buildSessionFactory();
 	}
 
 	@SuppressWarnings("unused")
 	private static SessionFactory buildSessionFactory2() {
-		Configuration config = new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(com.User.class);
-		ServiceRegistry service = new StandardServiceRegistryBuilder().applySettings(config.getProperties()).build();
-		SessionFactory sessionFactory = config.buildSessionFactory(service);
-		return sessionFactory;
+		Configuration config = new Configuration()
+				.configure("hibernate.cfg.xml")
+				.addAnnotatedClass(com.User.class);
+		ServiceRegistry service = new StandardServiceRegistryBuilder()
+				.applySettings(config.getProperties())
+				.build();
+		return config.buildSessionFactory(service);
 	}
 
 	@SuppressWarnings("unused")
