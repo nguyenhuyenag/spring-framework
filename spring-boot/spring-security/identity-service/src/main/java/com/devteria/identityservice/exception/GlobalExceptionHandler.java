@@ -1,5 +1,6 @@
 package com.devteria.identityservice.exception;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -59,7 +60,7 @@ public class GlobalExceptionHandler {
         String enumKey = exception.getFieldError().getDefaultMessage();
 
         ErrorCode errorCode = ErrorCode.INVALID_KEY;
-        Map<String, Object> attributes = null;
+        Map<String, Object> attributes = new HashMap<>();
         try {
             errorCode = ErrorCode.valueOf(enumKey);
 
