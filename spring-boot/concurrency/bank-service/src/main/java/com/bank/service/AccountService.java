@@ -26,6 +26,8 @@ public class AccountService {
         Map<String, Object> response = new HashMap<>();
         String username = request.getUsername();
         response.put("username", username);
+
+        // Important, see AccountRepository.findByUsername()
         var accountOpt = accountRepository.findByUsername(username);
 
         if (accountOpt.isEmpty()) {
