@@ -2,7 +2,7 @@ package com.core.create;
 
 /**
  * Có 2 cách tạo thread là `extends Thread` hoặc `implements Runnable`
- * <p>
+ *
  * Cách implements Runnable được ưa chuộng hơn vì chỉ có thể extends được 1 class
  */
 public class UsingThread extends Thread {
