@@ -10,8 +10,8 @@
     </parent>
 
     <groupId>com.bank</groupId>
-    <artifactId>spring-boot-bank</artifactId>
-    <name>spring-boot-bank</name>
+    <artifactId>bank-service</artifactId>
+    <name>bank-service</name>
     <version>0.0.1-SNAPSHOT</version>
     <description>Spring Boot Bank</description>
 

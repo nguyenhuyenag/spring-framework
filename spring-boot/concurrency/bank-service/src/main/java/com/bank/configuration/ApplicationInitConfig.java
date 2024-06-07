@@ -23,7 +23,7 @@ public class ApplicationInitConfig {
         log.info("Initializing application.....");
         return args -> {
             Map<String, Integer> accounts = new HashMap<>();
-            accounts.put("halinh", 10_000_000);
+            accounts.put("halinh", 5_000_000);
             accounts.put("minhanh", 20_000_000);
             accounts.put("nguyenvy", 30_000_000);
             accounts.forEach((username, balance) -> {
