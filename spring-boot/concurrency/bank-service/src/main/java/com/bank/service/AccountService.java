@@ -1,18 +1,13 @@
 package com.bank.service;
 
-import com.bank.dto.request.WithDrawRequest;
-import com.bank.entity.Account;
+import com.bank.dto.request.AtmRequest;
+import com.bank.dto.response.AtmResponse;
 import com.bank.repository.AccountRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Service
@@ -22,30 +17,35 @@ public class AccountService {
     private final AccountRepository accountRepository;
 
     @Transactional
-    public Map<String, Object> withdraw(WithDrawRequest request) {
-        Map<String, Object> response = new HashMap<>();
+    public AtmResponse withdraw(AtmRequest request) {
         String username = request.getUsername();
-        response.put("username", username);
 
-        // Important, see AccountRepository.findByUsername()
+        AtmResponse response = new AtmResponse();
+        response.setUsername(username);
+
+        // => Important, see AccountRepository.findByUsername()
         var accountOpt = accountRepository.findByUsername(username);
 
         if (accountOpt.isEmpty()) {
-            response.put("message", "User not found");
+            response.setStatus(false);
+            response.setMessage("Account not found");
             return response;
         }
 
         var account = accountOpt.get();
 
         if (account.getBalance() < request.getAmount()) {
-            response.put("message", "The balance is not enough");
+            response.setStatus(false);
+            response.setMessage("Insufficient balance");
             return response;
         }
 
         account.setBalance(account.getBalance() - request.getAmount());
-        var save = accountRepository.save(account);
-        response.put("message", "Successful withdrawal " + request.getAmount());
-        response.put("account_balance", save.getBalance());
+        var entity = accountRepository.save(account);
+        response.setStatus(true);
+        response.setMessage("Successfully");
+        response.setAccountBalance(entity.getBalance());
+        response.setAmountWithdrawn(request.getAmount());
 
         return response;
     }
