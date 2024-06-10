@@ -3,6 +3,7 @@ package com.bank.service;
 import com.bank.dto.request.AtmRequest;
 import com.bank.dto.response.AtmResponse;
 import com.bank.repository.AccountRepository;
+import com.bank.repository.AccountVersionRepository;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class AccountService {
 
     private final AccountRepository accountRepository;
+    private final AccountVersionRepository accountVersionRepository;
+
 
     @Transactional
     public AtmResponse withdraw(AtmRequest request) {
@@ -23,11 +26,10 @@ public class AccountService {
         AtmResponse response = new AtmResponse();
         response.setUsername(username);
 
-        // => Important, see AccountRepository.findByUsername()
+        // => PESSIMISTIC_WRITE
         var accountOpt = accountRepository.findByUsername(username);
 
         if (accountOpt.isEmpty()) {
-            response.setStatus(false);
             response.setMessage("Account not found");
             return response;
         }
@@ -35,13 +37,48 @@ public class AccountService {
         var account = accountOpt.get();
 
         if (account.getBalance() < request.getAmount()) {
-            response.setStatus(false);
             response.setMessage("Insufficient balance");
             return response;
         }
 
         account.setBalance(account.getBalance() - request.getAmount());
+
         var entity = accountRepository.save(account);
+
+        response.setStatus(true);
+        response.setMessage("Successfully");
+        response.setAccountBalance(entity.getBalance());
+        response.setAmountWithdrawn(request.getAmount());
+
+        return response;
+    }
+
+    @Transactional
+    public AtmResponse withdrawVersion(AtmRequest request) {
+        String username = request.getUsername();
+
+        AtmResponse response = new AtmResponse();
+        response.setUsername(username);
+
+        // => OPTIMISTIC_FORCE_INCREMENT + @Version
+        var accountOpt = accountVersionRepository.findByUsername(username);
+
+        if (accountOpt.isEmpty()) {
+            response.setMessage("Account not found");
+            return response;
+        }
+
+        var account = accountOpt.get();
+
+        if (account.getBalance() < request.getAmount()) {
+            response.setMessage("Insufficient balance");
+            return response;
+        }
+
+        account.setBalance(account.getBalance() - request.getAmount());
+
+        var entity = accountVersionRepository.save(account);
+
         response.setStatus(true);
         response.setMessage("Successfully");
         response.setAccountBalance(entity.getBalance());

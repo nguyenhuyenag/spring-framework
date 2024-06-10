@@ -1,15 +1,12 @@
 package com.bank.entity;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.Date;
-
 import jakarta.persistence.*;
-
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -17,7 +14,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Account {
+@Table(name = "account_version") // => Table using @Version
+public class AccountVersion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -33,5 +31,9 @@ public class Account {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    @Version
+    @Column(name = "version")
+    private Long version;
 
 }
