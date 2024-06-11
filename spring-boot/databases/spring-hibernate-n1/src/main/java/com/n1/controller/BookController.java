@@ -15,7 +15,7 @@ public class BookController {
     private final BookService bookService;
 
     @GetMapping("/books-lazy-error")
-    public ResponseEntity<?> findAllBooks1() {
+    public ResponseEntity<?> findAllBooks() {
         var books = bookService.findAllBooks();
         return ResponseEntity.ok(books);
     }

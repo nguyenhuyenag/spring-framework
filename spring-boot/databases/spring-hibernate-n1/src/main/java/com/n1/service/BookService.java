@@ -15,11 +15,11 @@ public class BookService {
 
     /*
         HibernateLazyInitializer, LazyInitializationException
-        => Xảy ra khi ta cố gắng truy cập dữ liệu liên quan (được định nghĩa
-        với FetchType.LAZY) ngoài phạm vi của Hibernate Session.
+        => Xảy ra khi ta cố gắng truy cập dữ liệu liên quan (được định nghĩa với FetchType.LAZY)
+        ngoài phạm vi của Hibernate Session.
      */
     public List<Book> findAllBooks() {
-        return bookRepository.findAllBooks(); // Error
+        return bookRepository.findAllBooks();
     }
 
     // Cách 1: Sử dụng JOIN FETCH
@@ -31,5 +31,21 @@ public class BookService {
     public List<Book> findAllBooksWithEntityGraph() {
         return bookRepository.findAllBooksWithEntityGraph();
     }
+
+    /*
+        @Entity
+        @NamedEntityGraph(name = "Book.author",
+            attributeNodes = @NamedAttributeNode("author")
+        )
+        public class Book {
+
+        }
+
+        @Repository
+        public interface BookRepository extends JpaRepository<Book, Long> {
+            @EntityGraph(value = "Book.author")
+            Book findByTitle(String title);
+        }
+     */
 
 }
