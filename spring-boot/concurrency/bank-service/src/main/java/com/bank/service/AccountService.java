@@ -18,7 +18,7 @@ public class AccountService {
     private final AccountRepository accountRepository;
     private final AccountVersionRepository accountVersionRepository;
 
-
+    // PESSIMISTIC_WRITE
     @Transactional
     public AtmResponse withdraw(AtmRequest request) {
         String username = request.getUsername();
@@ -26,7 +26,6 @@ public class AccountService {
         AtmResponse response = new AtmResponse();
         response.setUsername(username);
 
-        // => PESSIMISTIC_WRITE
         var accountOpt = accountRepository.findByUsername(username);
 
         if (accountOpt.isEmpty()) {
@@ -53,6 +52,7 @@ public class AccountService {
         return response;
     }
 
+    // OPTIMISTIC_FORCE_INCREMENT + @Version
     @Transactional
     public AtmResponse withdrawVersion(AtmRequest request) {
         String username = request.getUsername();
@@ -60,7 +60,6 @@ public class AccountService {
         AtmResponse response = new AtmResponse();
         response.setUsername(username);
 
-        // => OPTIMISTIC_FORCE_INCREMENT + @Version
         var accountOpt = accountVersionRepository.findByUsername(username);
 
         if (accountOpt.isEmpty()) {
@@ -77,12 +76,15 @@ public class AccountService {
 
         account.setBalance(account.getBalance() - request.getAmount());
 
-        var entity = accountVersionRepository.save(account);
-
-        response.setStatus(true);
-        response.setMessage("Successfully");
-        response.setAccountBalance(entity.getBalance());
-        response.setAmountWithdrawn(request.getAmount());
+        try {
+            var entity = accountVersionRepository.save(account);
+            response.setStatus(true);
+            response.setMessage("Successfully");
+            response.setAccountBalance(entity.getBalance());
+            response.setAmountWithdrawn(request.getAmount());
+        } catch (Exception e) {
+            response.setMessage(e.getMessage());
+        }
 
         return response;
     }

@@ -1,5 +1,17 @@
 # Hibernate Locking
 
+# Optimistic Lock
+
+    - Optimistic lock đảm bảo nhiều giao dịch (transaction) có thể hoàn thành mà không ảnh hưởng 
+    tới nhau, các transaction tiến hành mà không cần khóa các tài nguyên lại.
+    
+    - Trước khi commit, mỗi transaction sẽ kiểm tra lại xem dữ liệu của nó có bị transaction khác 
+    làm thay đổi không, nếu có thì sẽ quay trở lại trạng thái lúc đầu (rollback).
+
+    - Khi nào sử dụng Optimistic Locking?
+        + Khi xung đột dữ liệu ít xảy ra. 
+        + Dựa vào một cột phiên bản (version) để kiểm tra xung đột khi cập nhật.
+
 # Pessimistic Lock
 
     - Khi bắt đầu một transaction, pessimistic lock sẽ khóa dữ liệu mà nó sử dụng lại và chỉ 
@@ -20,22 +32,9 @@
         + PESSIMISTIC_FORCE_INCREMENT – giống với cơ chế hoạt động của PESSIMISTIC_WRITE, ngoài ra 
                             nó còn tăng giá trị của thuộc tính version trong entity.
 
-# Optimistic Lock
+    - Khi nào sử dụng Pessimistic Locking?
+        + Khi xung đột dữ liệu có khả năng xảy ra cao.
+        + Dùng các khóa để ngăn các giao dịch khác truy cập vào dữ liệu bị khóa cho đến 
+          khi khóa được giải phóng.
 
-    - Optimistic lock đảm bảo nhiều giao dịch (transaction) có thể hoàn thành mà không ảnh hưởng 
-    tới nhau, các transaction tiến hành mà không cần khóa các tài nguyên lại.
-    
-    - Trước khi commit, mỗi transaction sẽ kiểm tra lại xem dữ liệu của nó có bị transaction khác 
-    làm thay đổi không, nếu có thì sẽ quay trở lại trạng thái lúc đầu (rollback).
-
-# Khi nào sử dụng Pessimistic Locking:
-
-    - Khi xung đột dữ liệu có khả năng xảy ra cao.
-    - Khi cần đảm bảo tính toàn vẹn của dữ liệu và không thể chấp nhận xung đột.
-    - Khi ứng dụng của bạn có các giao dịch dài và cần tránh việc cập nhật đồng thời
-
-# Khi nào sử dụng Optimistic Locking:
-
-    - Khi xung đột dữ liệu ít xảy ra.
-    - Khi hiệu suất là quan trọng và bạn muốn tránh việc khóa dữ liệu thường xuyên.
-    - Khi bạn muốn giảm tải cho cơ sở dữ liệu.
+# https://viblo.asia/p/tai-sao-phai-dung-bigdecimal-khi-tinh-toan-ve-tien-te-trong-java-oOVlYqRnl8W

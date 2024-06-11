@@ -33,7 +33,7 @@ public class AccountVersion {
     private LocalDateTime updatedAt;
 
     @Version
-    @Column(name = "version")
+    @Column(name = "version") // Important
     private Long version;
 
 }
