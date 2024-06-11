@@ -27,6 +27,7 @@ public class BookService {
         return bookRepository.findAllBooksWithJoinFetch();
     }
 
+    // Cách 2: Sử dụng @EntityGraph
     public List<Book> findAllBooksWithEntityGraph() {
         return bookRepository.findAllBooksWithEntityGraph();
     }

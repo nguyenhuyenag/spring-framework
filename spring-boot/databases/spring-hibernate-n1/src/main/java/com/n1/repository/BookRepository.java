@@ -18,7 +18,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     List<Book> findAllBooksWithJoinFetch();
 
     @EntityGraph(attributePaths = { "author" })
-    @Query("SELECT b FROM Book b JOIN FETCH b.author")
+    @Query("SELECT b FROM Book b")
     List<Book> findAllBooksWithEntityGraph();
 
 }

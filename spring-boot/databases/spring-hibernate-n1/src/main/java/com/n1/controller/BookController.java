@@ -14,19 +14,19 @@ public class BookController {
 
     private final BookService bookService;
 
-    @GetMapping("books-lazy-error")
+    @GetMapping("/books-lazy-error")
     public ResponseEntity<?> findAllBooks1() {
         var books = bookService.findAllBooks();
         return ResponseEntity.ok(books);
     }
 
-    @GetMapping("books-join-fetch-authors")
+    @GetMapping("/books-join-fetch-author")
     public ResponseEntity<?> findAllBooksWithJoinFetch() {
         var books = bookService.findAllBooksWithJoinFetch();
         return ResponseEntity.ok(books);
     }
 
-    @GetMapping("books-entity-graph-authors")
+    @GetMapping("/books-entity-graph-author")
     public ResponseEntity<?> findAllBooksWithEntityGraph() {
         var books = bookService.findAllBooksWithEntityGraph();
         return ResponseEntity.ok(books);
