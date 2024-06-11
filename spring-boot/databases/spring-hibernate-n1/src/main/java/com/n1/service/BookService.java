@@ -32,9 +32,11 @@ public class BookService {
         return bookRepository.findAllBooksWithEntityGraph();
     }
 
+    // Cách 3: Sử dụng @NamedEntityGraph
     /*
         @Entity
-        @NamedEntityGraph(name = "Book.author",
+        @NamedEntityGraph(
+            name = "Book.author",
             attributeNodes = @NamedAttributeNode("author")
         )
         public class Book {
