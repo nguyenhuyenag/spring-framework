@@ -1,0 +1,35 @@
+package com.n1.controller;
+
+import com.n1.service.BookService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("api")
+@RequiredArgsConstructor
+public class BookController {
+
+    private final BookService bookService;
+
+    @GetMapping("books-lazy-error")
+    public ResponseEntity<?> findAllBooks1() {
+        var books = bookService.findAllBooks();
+        return ResponseEntity.ok(books);
+    }
+
+    @GetMapping("books-join-fetch-authors")
+    public ResponseEntity<?> findAllBooksWithJoinFetch() {
+        var books = bookService.findAllBooksWithJoinFetch();
+        return ResponseEntity.ok(books);
+    }
+
+    @GetMapping("books-entity-graph-authors")
+    public ResponseEntity<?> findAllBooksWithEntityGraph() {
+        var books = bookService.findAllBooksWithEntityGraph();
+        return ResponseEntity.ok(books);
+    }
+
+}
