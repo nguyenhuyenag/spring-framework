@@ -1,5 +1,6 @@
 package com.entity;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -27,6 +28,7 @@ import lombok.Setter;
 @Table(name = "address")
 public class Address implements Serializable {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	@Id
