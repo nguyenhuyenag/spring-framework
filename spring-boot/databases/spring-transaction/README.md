@@ -1,35 +1,11 @@
 # Spring Transaction
-	
-# Propagation
-   
-    - REQUIRED: Nếu có một transaction đang hoạt động thì nó sẽ sử dụng chung,
-        nếu không method được gọi sẽ tạo một transaction mới. Đây là giá trị mặc định
-        của Propagation.
-   
-    - SUPPORTS: Sử dụng lại transaction hiện đang hoạt động. Nếu không thì method
-        được gọi sẽ thực thi mà không được đặt trong một transactional context nào
-   
-    - MANDATORY: Yêu cầu phải có một transaction đang hoạt động trước khi gọi,
-        nếu không method được gọi sẽ ném ra một exception.
-   
-    - NEVER: Ném một exception nếu method được gọi trong một transaction hoạt động.
-   
-    - NOT_SUPPORTED: Dừng transaction hiện tại và thực thi method mà không thuộc
-        một transaction nào
-   
-    - REQUIRES_NEW: Luôn bắt đầu một transaction mới cho method được gọi. Nếu
-        method được gọi với một transaction đang hoạt động, transaction đó sẽ bị tạm
-        ngưng, một transaction mới sẽ được tạo và sử dụng cho method này. Transaction
-        mới vừa được tạo sẽ thực thi độc lập với transaction bên ngoài, khi
-        transaction này kết thúc dữ liệu sẽ được đồng bộ xuống database. Sau đó
-        transaction bên ngoài sẽ được kích hoạt và hoạt động trở lại.
-    - NESTED: Method được gọi sẽ tạo một transaction mới nếu không có transaction
-        nào đang hoạt động. Nếu method được gọi với một transaction đang hoạt động
-        Spring sẽ tạo một savepoint và rollback tại đây nếu có Exception xảy ra.
 
 # Mức độ cô lập giao dịch (Transaction Isolation Levels)
 
-    - Định nghĩa: @Transactional(isolation = Isolation.READ_COMMITTED)
+        @Transactional(isolation = Isolation.READ_COMMITTED)
+        public User createUser(User user) {
+            return userRepository.save(user);
+        }
 
     Các mức độ cô lập giao dịch phổ biến bao gồm:
 
@@ -43,6 +19,27 @@
     
      + SERIALIZABLE: Đảm bảo các giao dịch được thực hiện tuần tự, ngăn chặn tất cả các vấn đề 
         về đồng thời.
+	
+# Các chiến lược quản lý giao dịch (Propagation)
+
+        @Transactional(propagation = Propagation.REQUIRES_NEW)
+        public User createUser(User user) {
+            return userRepository.save(user);
+        }
+   
+    - REQUIRED: Mặc định, sử dụng transaction hiện tại hoặc tạo mới nếu không có transaction nào.
+   
+    - REQUIRES_NEW: Luôn tạo một transaction mới, bất kể có giao dịch hiện tại hay không.
+
+    - NESTED: Tạo một giao dịch lồng trong giao dịch hiện tại.
+
+    - MANDATORY: Bắt buộc phải có transaction hiện tại, nếu không sẽ ném ra exception.
+    
+    - SUPPORTS: Thực thi method trong transaction hiện tại nếu có, nếu không thì không cần transaction.
+   
+    - NOT_SUPPORTED: Dừng transaction hiện tại và thực thi method mà không thuộc một transaction nào.
+   
+    - NEVER: Thực thi phương thức mà không cần giao dịch, ném ngoại lệ nếu có giao dịch hiện tại.
 
 - @Transactional(readOnly = true): Đánh dấu phương thức getUserById để chỉ thực hiện các thao tác đọc, 
   không cần lock cơ sở dữ liệu

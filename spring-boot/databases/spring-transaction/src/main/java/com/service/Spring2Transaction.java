@@ -6,14 +6,6 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import com.mysql.cj.xdevapi.Result;
 
-class MyException1 extends Throwable {
-	private static final long serialVersionUID = 1L;
-}
-
-class MyException2 extends Throwable {
-	private static final long serialVersionUID = 1L;
-}
-
 /**
  * Spring transactional when using try catch block
  * 
@@ -21,6 +13,14 @@ class MyException2 extends Throwable {
  */
 @Service
 public class Spring2Transaction {
+
+	class MyException1 extends Throwable {
+		private static final long serialVersionUID = 1L;
+	}
+
+	class MyException2 extends Throwable {
+		private static final long serialVersionUID = 1L;
+	}
 
 	/**
 	 * If there is an exception in the method doStuff the transaction isn't rolled
