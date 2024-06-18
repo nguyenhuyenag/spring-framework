@@ -20,6 +20,12 @@ public class BookController {
         return ResponseEntity.ok(books);
     }
 
+    @GetMapping("/books-lazy-initialization-exception")
+    public ResponseEntity<?> lazyInitializationException() {
+        var books = bookService.lazyInitializationException();
+        return ResponseEntity.ok(books);
+    }
+
     @GetMapping("/books-join-fetch-author")
     public ResponseEntity<?> findAllBooksWithJoinFetch() {
         var books = bookService.findAllBooksWithJoinFetch();
