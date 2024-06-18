@@ -15,7 +15,7 @@ public class BookController {
     private final BookService bookService;
 
     @GetMapping("/books-lazy-error")
-    public ResponseEntity<?> findAllBooks() {
+    public ResponseEntity<?> lazyError() {
         var books = bookService.findAllBooks();
         return ResponseEntity.ok(books);
     }
@@ -27,13 +27,13 @@ public class BookController {
     }
 
     @GetMapping("/books-join-fetch-author")
-    public ResponseEntity<?> findAllBooksWithJoinFetch() {
+    public ResponseEntity<?> joinFetch() {
         var books = bookService.findAllBooksWithJoinFetch();
         return ResponseEntity.ok(books);
     }
 
     @GetMapping("/books-entity-graph-author")
-    public ResponseEntity<?> findAllBooksWithEntityGraph() {
+    public ResponseEntity<?> entityGraph() {
         var books = bookService.findAllBooksWithEntityGraph();
         return ResponseEntity.ok(books);
     }

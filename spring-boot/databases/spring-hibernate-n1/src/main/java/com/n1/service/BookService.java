@@ -48,12 +48,11 @@ public class BookService {
 
             List<Book> books = q.getResultList();
             em.getTransaction().commit();
-
-//        for (Book book : books) {
-//            var authors = book.getAuthor();
-//            log.info("... the next line will throw LazyInitializationException ...");
-//            books.size();
-//        }
+//            for (Book book : books) {
+//                var authors = book.getAuthor();
+//                log.info("... the next line will throw LazyInitializationException ...");
+//                books.size();
+//            }
             return books;
         }
     }
@@ -79,28 +78,23 @@ public class BookService {
 
         }
 
-        ------------------------------------------------------------------
-        Cách 1:
+        -------------------------------------------------------------------
+        Cách 3.1:
         @Repository
         public interface BookRepository extends JpaRepository<Book, Long> {
             @EntityGraph(value = "Book.author")
             Book findByTitle(String title);
         }
 
-        ------------------------------------------------------------------
-        Cách 2:
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-
+        -------------------------------------------------------------------
+        Cách 3.2:
         EntityGraph<?> entityGraph = em.createEntityGraph("Book.author");
         TypedQuery<Author> q = em.createQuery("SELECT a FROM Author a", Author.class)
                 .setHint("javax.persistence.fetchgraph", entityGraph);
         List<Author> authors = q.getResultList();
 
-        ------------------------------------------------------------------
-        Cách 3:
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
+        -------------------------------------------------------------------
+        Cách 3.3:
         EntityGraph<Author> entityGraph = em.createEntityGraph(Author.class);
         entityGraph.addAttributeNodes("books");
         TypedQuery<Author> q = em.createQuery("SELECT a FROM Author a", Author.class)
