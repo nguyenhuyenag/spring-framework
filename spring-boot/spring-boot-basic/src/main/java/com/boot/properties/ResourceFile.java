@@ -39,7 +39,7 @@ public class ResourceFile {
 		return null;
 	}
 
-	// Read file from `resources` 
+	// Read file from `resources`
 	public static void readProperties() {
 		try {
 			PropertiesFactoryBean factory = new PropertiesFactoryBean();
