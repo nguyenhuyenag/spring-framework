@@ -2,10 +2,7 @@ package com.core.executors;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
 /*-
 	- Các phương thức của ExecutorService
@@ -42,7 +39,7 @@ import java.util.concurrent.Future;
 */
 class MyTask implements Runnable {
 
-	private String name;
+	private final String name;
 
 	public MyTask(String name) {
 		this.name = name;
@@ -67,6 +64,28 @@ public class ExecutorServiceApi {
 		// submit();
 	}
 
+	public static void execute() {
+		ExecutorService executor = Executors.newFixedThreadPool(5);
+		for (int i = 1; i <= 10; i++) {
+			Runnable r = new MyTask("Thread " + i);
+			executor.execute(r);
+		}
+
+		// Sau khi thêm task vào queue cần phải đóng ExecutorService  để ngăn chặn rò rỉ tài nguyên.
+		// Đóng ExecutorService sẽ không ngay lập tức dừng các task đang chạy mà đợi chúng hoàn thành
+		executor.shutdown();
+
+		// Để đợi cho đến khi tất cả các task hoàn thành trước khi tiếp tục, bạn có thể sử dụng
+		// executor.awaitTermination()
+		try {
+			if (!executor.awaitTermination(1, TimeUnit.SECONDS)) {
+				executor.shutdownNow();
+			}
+		} catch (InterruptedException e) {
+			executor.shutdownNow();
+		}
+	}
+
 	public static void submit() {
 		List<Future<?>> futures = new ArrayList<>(); // Khởi tạo danh sách các Future
 		ExecutorService executor = Executors.newFixedThreadPool(5);
@@ -82,16 +101,20 @@ public class ExecutorServiceApi {
 				e.printStackTrace();
 			}
 		}
-		executor.shutdown(); // tắt executor sau khi thêm task vào queue
-	}
 
-	public static void execute() throws InterruptedException {
-		ExecutorService executor = Executors.newFixedThreadPool(5);
-		for (int i = 1; i <= 10; i++) {
-			Runnable r = new MyTask("Thread " + i);
-			executor.execute(r);
-		}
+		// Sau khi thêm task vào queue cần phải đóng ExecutorService  để ngăn chặn rò rỉ tài nguyên.
+		// Đóng ExecutorService sẽ không ngay lập tức dừng các task đang chạy mà đợi chúng hoàn thành
 		executor.shutdown();
+
+		// Để đợi cho đến khi tất cả các task hoàn thành trước khi tiếp tục, bạn có thể sử dụng
+		// executor.awaitTermination()
+		try {
+			if (!executor.awaitTermination(1, TimeUnit.SECONDS)) {
+				executor.shutdownNow();
+			}
+		} catch (InterruptedException e) {
+			executor.shutdownNow();
+		}
 	}
 
 }
