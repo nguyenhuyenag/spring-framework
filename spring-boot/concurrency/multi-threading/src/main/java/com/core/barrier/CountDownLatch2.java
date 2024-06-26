@@ -5,51 +5,68 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-// A class to represent threads for which the main thread waits. 
-class Worker extends Thread {
+/*
+    - CountDownLatch & ExecutorService:
 
-	private int delay;
-	private CountDownLatch latch;
+		 + Nếu CountDownLatch khởi tạo giá trị ban đầu là 3 thì bắt buộc phải countdown
+		 về 0 thì main-thread mới thực thi. Khi hàm CountDownLatch.await() được gọi, các
+		 thread sẽ bị chặn cho đến khi đếm đến 0. CountDownLatch thực sự hữu ích khi biết
+		 chính xác số lượng Thread.
 
-	public Worker(int delay, CountDownLatch latch, String name) {
-		super(name);
-		this.delay = delay;
-		this.latch = latch;
-	}
-
-	@Override
-	public void run() {
-		try {
-			TimeUnit.SECONDS.sleep(delay);
-			latch.countDown();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		System.out.println(Thread.currentThread().getName() + " -> finished");
-	}
-
-}
-
+		 + Đối với Executor, ta có thể khởi tạo giá trị ban đầu là 4, queue là 20. Nếu
+		 số lượng thread là 5 hay 10 thì nó có thể thêm vào queue để thực thi sau.
+ */
 public class CountDownLatch2 {
 
-	public static void main(String args[]) throws InterruptedException {
-		int count = 4;
-		
-		final CountDownLatch latch = new CountDownLatch(count);
-		
-		ExecutorService executor = Executors.newFixedThreadPool(count);
-		
-		for (int i = 0; i < count; i++) {
-			Worker w = new Worker(i, latch, "WORKER-" + (i + 1));
-			executor.submit(w);
-		}
+    private static class Worker implements Runnable {
 
-		executor.shutdown();
+        private final int delay;
+        private final String name;
+        private final CountDownLatch latch;
 
-		// The main task waits for four threads
-		latch.await();
+        public Worker(int delay, CountDownLatch latch, String name) {
+            this.delay = delay;
+            this.latch = latch;
+            this.name = name;
+        }
 
-		// Main thread has started
-		System.out.println(Thread.currentThread().getName() + " -> finished");
-	}
+        @Override
+        public void run() {
+            Thread.currentThread().setName(name);  // Set the thread name here
+            try {
+                TimeUnit.SECONDS.sleep(delay);
+                latch.countDown();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(Thread.currentThread().getName() + " -> finished");
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println("Start main-thread, name=" + Thread.currentThread().getName());
+        int count = 4;
+        final CountDownLatch latch = new CountDownLatch(count);
+
+        ExecutorService executor = Executors.newFixedThreadPool(count);
+
+        for (int i = 0; i < count; i++) {
+            executor.execute(new Worker(i, latch, "WORKER-" + (i + 1)));
+        }
+
+        executor.shutdown(); // No more tasks will be accepted
+
+        try {
+            if (!latch.await(30, TimeUnit.SECONDS)) {
+                System.out.println("Timeout waiting for tasks to complete.");
+            }
+        } catch (InterruptedException e) {
+            System.out.println("Main thread interrupted: " + e.getMessage());
+        } finally {
+            executor.shutdownNow(); // Cancel currently executing tasks
+        }
+
+        // Main thread has started
+        System.out.println(Thread.currentThread().getName() + " -> finished");
+    }
 }
