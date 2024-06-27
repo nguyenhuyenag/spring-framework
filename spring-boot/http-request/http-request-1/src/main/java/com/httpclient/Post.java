@@ -10,10 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpHeaders;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
+import org.apache.http.*;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
@@ -31,6 +28,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,8 +36,35 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pojo.LoginResponse;
 import com.util.JsonUtils;
+import org.springframework.util.StringUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 public class Post {
+
+	private static class Interceptor implements HttpRequestInterceptor {
+		@Override
+		public void process(final HttpRequest httpRequest, final HttpContext httpContext)
+				throws HttpException, IOException {
+			ServletRequestAttributes servletRequestAttributes
+					= (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+
+			String authHeader = servletRequestAttributes.getRequest().getHeader(HttpHeaders.AUTHORIZATION);
+
+			// log.info("Header: {}", authHeader);
+			if (StringUtils.hasText(authHeader)) {
+				httpRequest.setHeader(HttpHeaders.AUTHORIZATION, authHeader);
+			}
+		}
+	}
+
+
+
+
+
+
+
+
 
 	private static final Logger LOG = LoggerFactory.getLogger(Post.class);
 

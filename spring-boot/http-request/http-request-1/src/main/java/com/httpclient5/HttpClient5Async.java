@@ -18,6 +18,7 @@ import org.apache.hc.core5.http.HttpException;
 import org.apache.hc.core5.http.HttpResponse;
 import org.apache.hc.core5.http.nio.AsyncRequestProducer;
 import org.apache.hc.core5.http.nio.support.AsyncRequestBuilder;
+import org.apache.http.HttpHeaders;
 
 @SuppressWarnings("deprecation")
 public class HttpClient5Async {
@@ -101,10 +102,16 @@ public class HttpClient5Async {
 			// start http clinet
 			httpclient.start();
 
-			SimpleHttpRequest request = SimpleHttpRequests.get(url);
+			SimpleHttpRequest request = SimpleHttpRequests
+					.get(url)
+					;
 
 			CountDownLatch latch = new CountDownLatch(1);
-			AsyncRequestProducer producer = AsyncRequestBuilder.get("http://httpbin.org/get").build();
+			AsyncRequestProducer producer = AsyncRequestBuilder
+					.get("http://httpbin.org/get")
+					.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + Your_JWT)
+					.build();
+
 			AbstractCharResponseConsumer<HttpResponse> consumer3 = new AbstractCharResponseConsumer<HttpResponse>() {
 
 				HttpResponse response;
