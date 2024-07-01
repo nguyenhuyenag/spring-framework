@@ -18,6 +18,9 @@ public class UsingRunnable implements Runnable {
         task.run();
     }
 
+    /**
+     * Cách đúng
+     */
     public static void correct() {
         System.out.println("ThreadName -> " + Thread.currentThread().getName());
         Runnable task = new UsingRunnable();

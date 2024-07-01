@@ -37,27 +37,27 @@ import java.util.concurrent.*;
 		kết thúc ngay khi được gọi, lúc này đây các Thread chưa được thực thi sẽ bị
 		buộc phải kết thúc theo ES.
 */
-class MyTask implements Runnable {
-
-	private final String name;
-
-	public MyTask(String name) {
-		this.name = name;
-	}
-
-	@Override
-	public void run() {
-		System.out.println(name + " running...");
-		try {
-			Thread.sleep(1000); // Giả lập thời gian chạy của Runnable mất 1 giây
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		System.out.println(name + " stop");
-	}
-}
-
 public class ExecutorServiceApi {
+
+	private static class MyTask implements Runnable {
+
+		private final String name;
+
+		public MyTask(String name) {
+			this.name = name;
+		}
+
+		@Override
+		public void run() {
+			System.out.println(name + " running...");
+			try {
+				Thread.sleep(1000); // Giả lập thời gian chạy của Runnable mất 1 giây
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			System.out.println(name + " stop");
+		}
+	}
 
 	public static void main(String[] args) throws InterruptedException {
 		execute();

@@ -13,7 +13,7 @@ public class AwaitCompleteFuture {
 
 	public static int add(int a, int b) {
 		int sum = a + b;
-		System.out.println(a + " + " + b + " = " + sum);
+		System.out.println(String.format("a + b = %d", sum));
 		return sum;
 	}
 

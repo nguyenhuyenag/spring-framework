@@ -8,9 +8,9 @@ public class UsingRunnableWithLambda {
 	public static void main(String[] args) {
 		System.out.println("ThreadName -> " + Thread.currentThread().getName());
 		ExecutorService executor = Executors.newSingleThreadExecutor();
-		String message = "Hello from my parameterized lambda Runnable!";
 		Runnable task = () -> {
 			System.out.println("ThreadName -> " + Thread.currentThread().getName());
+			String message = "Hello from my parameterized lambda Runnable!";
 			System.out.println(message);
 		};
 		executor.execute(task);
