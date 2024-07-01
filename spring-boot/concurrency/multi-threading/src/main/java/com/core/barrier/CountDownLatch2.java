@@ -37,7 +37,7 @@ public class CountDownLatch2 {
                 TimeUnit.SECONDS.sleep(delay);
                 latch.countDown();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                System.out.println("Exception: " + e.getMessage());
             }
             System.out.println(Thread.currentThread().getName() + " -> finished");
         }

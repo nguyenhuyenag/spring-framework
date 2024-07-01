@@ -4,7 +4,7 @@ import java.util.concurrent.Semaphore;
 
 public class SemaphoreExample {
 
-	private static Semaphore semaphore = new Semaphore(1);
+	private final static Semaphore semaphore = new Semaphore(1);
 
 	public static void main(String[] args) {
 		for (int i = 1; i <= 6; i++) {

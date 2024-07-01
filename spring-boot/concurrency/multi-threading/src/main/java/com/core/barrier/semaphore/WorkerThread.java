@@ -2,10 +2,10 @@ package com.core.barrier.semaphore;
 
 import java.util.concurrent.Semaphore;
 
-/**
+/*-
 	- Semaphore là một cơ chế giúp quản lý các nguồn chia sẻ và đảm bảo access không bị tắc nghẽn.
 
-	- Có hai loại semaphore: binary semaphore và counting semaphore.
+	- Có hai loại semaphore: Binary semaphore và Counting semaphore.
 
 		+ Binary semaphore (Mutex): Dùng làm lock vì nó chỉ có 2 giá trị là 0 và 1 (lock/unlock).
 		
@@ -30,32 +30,33 @@ import java.util.concurrent.Semaphore;
 */
 public class WorkerThread extends Thread {
 
-	private final Semaphore semaphore;
-	private int name;
+    private final Semaphore semaphore;
+    private final int name;
 
-	public WorkerThread(Semaphore semaphore, int name) {
-		this.semaphore = semaphore;
-		this.name = name;
-	}
+    public WorkerThread(Semaphore semaphore, int name) {
+        this.semaphore = semaphore;
+        this.name = name;
+    }
 
-	@Override
-	public void run() {
-		try {
-			System.out.println("AMT " + name + ": Locked");
-			System.out.println("AMT " + name + ": Available Semaphore: " + semaphore.availablePermits());
-			semaphore.acquire();
-			System.out.println("AMT " + name + ": Got the permit!");
-			System.out.println("AMT " + name + ": Available Semaphore: " + semaphore.availablePermits());
-			try {
-				System.out.println("AMT " + name + ": Do something...");
-				Thread.sleep(2000);
-			} finally {
-				semaphore.release();
-				System.out.println("AMT " + name + ": Release");
-				System.out.println("AMT " + name + ": Available Semaphore: " + semaphore.availablePermits());
-			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
+    @Override
+    public void run() {
+        try {
+            System.out.println("AMT " + name + ": Locked");
+            System.out.println("AMT " + name + ": Available Semaphore: " + semaphore.availablePermits());
+            semaphore.acquire();
+            System.out.println("AMT " + name + ": Got the permit!");
+            System.out.println("AMT " + name + ": Available Semaphore: " + semaphore.availablePermits());
+            try {
+                System.out.println("AMT " + name + ": Do something...");
+                Thread.sleep(2000);
+            } finally {
+                semaphore.release();
+                System.out.println("AMT " + name + ": Release");
+                System.out.println("AMT " + name + ": Available Semaphore: " + semaphore.availablePermits());
+            }
+        } catch (InterruptedException e) {
+            System.out.println("Exception: " + e.getMessage());
+        }
+    }
+
 }

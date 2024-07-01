@@ -16,8 +16,8 @@ public class CountDownLatch1 {
         public void run() {
             try {
                 Thread.sleep(4000);
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
+            } catch (InterruptedException e) {
+                System.out.println("Exception: " + e.getMessage());
             }
             System.out.println("Thread 1 done, Id = " + Thread.currentThread().getId());
             this.countDownLatch.countDown();
@@ -34,8 +34,8 @@ public class CountDownLatch1 {
         public void run() {
             try {
                 Thread.sleep(3000);
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
+            } catch (InterruptedException e) {
+                System.out.println("Exception: " + e.getMessage());
             }
             System.out.println("Thread 2 done, Id = " + Thread.currentThread().getId());
             this.countDownLatch.countDown();
@@ -52,8 +52,8 @@ public class CountDownLatch1 {
         public void run() {
             try {
                 Thread.sleep(2000);
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
+            } catch (InterruptedException e) {
+                System.out.println("Exception: " + e.getMessage());
             }
             System.out.println("Thread 3 done, Id = " + Thread.currentThread().getId());
             this.countDownLatch.countDown();
@@ -73,10 +73,11 @@ public class CountDownLatch1 {
         t3.start();
 
         try {
-            System.out.println("Waiting for 3 services have started ... ");
-            latch.await(30, TimeUnit.SECONDS); //
+            if (!latch.await(30, TimeUnit.SECONDS)) {
+                System.out.println("Timeout waiting for tasks to complete.");
+            }
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            System.out.println("Main thread interrupted: " + e.getMessage());
         }
 
         System.out.println("Starting main Thread, id = " + Thread.currentThread().getId());
