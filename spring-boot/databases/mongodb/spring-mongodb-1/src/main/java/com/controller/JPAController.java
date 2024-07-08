@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +21,11 @@ import com.service.VocabService;
 
 @RestController
 @RequestMapping("jpa")
+@RequiredArgsConstructor
 public class JPAController {
 
-	@Autowired
-	private VocabService service;
+	// @Autowired
+	private final VocabService service;
 
 	private Map<String, String> map = new HashMap<>();
 
@@ -113,8 +115,8 @@ public class JPAController {
 		return ResponseEntity.ok(list);
 	}
 
-	@GetMapping("find-with-or-conditons")
-	public ResponseEntity<?> findWithORConditons() {
+	@GetMapping("find-with-or-conditions")
+	public ResponseEntity<?> findWithORConditions() {
 		List<Vocabulary> list = service.findWithORConditons("adjective", "budget");
 		return ResponseEntity.ok(list);
 	}

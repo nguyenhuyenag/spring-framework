@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.json.JSONObject;
@@ -28,13 +29,11 @@ import com.service.TemplateService;
 
 @Service
 @SuppressWarnings("unused")
+@RequiredArgsConstructor
 public class DocumentServiceImpl implements DocumentService {
 
-	@Autowired
-	private MongoTemplate mongoTemplate;
-
-	@Autowired
-	private TemplateService templateService;
+	private final MongoTemplate mongoTemplate;
+	private final TemplateService templateService;
 
 	@Override
 	public Document insertAny(String json) {

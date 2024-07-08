@@ -14,7 +14,7 @@
 	<groupId>com</groupId>
 	<artifactId>spring-mongodb-2</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>BootApplication</name>
+	<name>MDB2Application</name>
 	<description>Project for Spring Boot</description>
 
 	<properties>

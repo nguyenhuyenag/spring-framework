@@ -12,10 +12,10 @@ public class WebConfig implements WebServerFactoryCustomizer<ConfigurableServlet
     @Override
     public void customize(ConfigurableServletWebServerFactory factory) {
         factory.addErrorPages(
-            //new ErrorPage(HttpStatus.FORBIDDEN, "/403"), //
+            // new ErrorPage(HttpStatus.FORBIDDEN, "/403"), //
             new ErrorPage(HttpStatus.NOT_FOUND, "/404"), // 
             new ErrorPage(HttpStatus.METHOD_NOT_ALLOWED, "/405")
-            //new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/500")
+            // new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/500")
         );
     }
     
