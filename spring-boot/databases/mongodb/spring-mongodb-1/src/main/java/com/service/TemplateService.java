@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.entity.Vocabulary;
 import com.request.InsertDTO;
+import org.bson.Document;
 
 public interface TemplateService {
 
@@ -22,7 +23,7 @@ public interface TemplateService {
 
 	Vocabulary update(InsertDTO dto);
 
-	List<Vocabulary> findAll();
+	List<Document> findAll(int page, int size);
 
 	List<Vocabulary> findAllAndSort();
 	

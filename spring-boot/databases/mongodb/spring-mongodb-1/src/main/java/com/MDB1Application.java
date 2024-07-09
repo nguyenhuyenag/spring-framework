@@ -14,30 +14,13 @@ import com.repository.RestaurantRepository;
 @SpringBootApplication
 public class MDB1Application implements CommandLineRunner {
 
-	public static void main(String[] args) {
-		SpringApplication.run(MDB1Application.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(MDB1Application.class, args);
+    }
 
-	@Autowired
-	RestaurantRepository repository;
+    @Override
+    public void run(String... args) throws Exception {
 
-//	@Autowired
-//	MongodbTransaction mongodbTransaction;
-
-	public void find() {
-		List<?> findAll = repository.findAll();
-		if (!findAll.isEmpty()) {
-			findAll.forEach(t -> System.out.println(t.toString()));
-		}
-	}
-
-	@Override
-	public void run(String... args) throws Exception {
-		// find();
-		// insert();
-		// mongodbTransaction.testTransaction();
-		// testTransaction();
-		// System.out.println("OK");
-	}
+    }
 
 }

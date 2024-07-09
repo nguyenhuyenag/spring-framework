@@ -6,11 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.entity.Vocabulary;
 import com.request.InsertDTO;
@@ -20,62 +16,63 @@ import com.service.TemplateService;
 @RequestMapping("template")
 public class TemplateController {
 
-	@Autowired
-	private TemplateService service;
+    @Autowired
+    private TemplateService service;
 
-	@GetMapping("find-one")
-	public ResponseEntity<?> findOne(String word) {
-		Vocabulary v = service.findOne(word);
-		if (v != null) {
-			return ResponseEntity.ok(v);
-		}
-		return ResponseEntity.ok(Arrays.asList("Not found!"));
-	}
+    // http://localhost:8080/template/find-all?size=10&page=0
+    @GetMapping("find-all")
+    public ResponseEntity<?> findAll(@RequestParam("page") int page, @RequestParam("size") int size) {
+        List<?> list = service.findAll(page, size);
+        return ResponseEntity.ok(list);
+    }
 
-	@PostMapping("insert")
-	public ResponseEntity<?> insert(@RequestBody InsertDTO dto) {
-		Vocabulary v = service.insert(dto);
-		if (v != null) {
-			return ResponseEntity.ok(v);
-		}
-		return ResponseEntity.ok(Arrays.asList(dto.getWord() + " already existed!"));
-	}
+    @GetMapping("find-one")
+    public ResponseEntity<?> findOne(String word) {
+        Vocabulary v = service.findOne(word);
+        if (v != null) {
+            return ResponseEntity.ok(v);
+        }
+        return ResponseEntity.ok(Arrays.asList("Not found!"));
+    }
 
-	@PostMapping("update")
-	public ResponseEntity<?> update(@RequestBody InsertDTO dto) {
-		Vocabulary v = service.update(dto);
-		if (v != null) {
-			return ResponseEntity.ok(v);
-		}
-		return ResponseEntity.ok(Arrays.asList(dto.getWord() + " doesn't existed!"));
-	}
+    @PostMapping("insert")
+    public ResponseEntity<?> insert(@RequestBody InsertDTO dto) {
+        Vocabulary v = service.insert(dto);
+        if (v != null) {
+            return ResponseEntity.ok(v);
+        }
+        return ResponseEntity.ok(Arrays.asList(dto.getWord() + " already existed!"));
+    }
 
-	@GetMapping("remove")
-	public ResponseEntity<?> remove(String word) {
-		boolean b = service.remove(word);
-		if (b) {
-			ResponseEntity.ok(Arrays.asList("Delete successful"));
-		}
-		return ResponseEntity.ok(Arrays.asList(word + " not found!"));
-	}
+    @PostMapping("update")
+    public ResponseEntity<?> update(@RequestBody InsertDTO dto) {
+        Vocabulary v = service.update(dto);
+        if (v != null) {
+            return ResponseEntity.ok(v);
+        }
+        return ResponseEntity.ok(Arrays.asList(dto.getWord() + " doesn't existed!"));
+    }
 
-	@GetMapping("find-all")
-	public ResponseEntity<?> findAll() {
-		List<?> list = service.findAll();
-		return ResponseEntity.status(HttpStatus.OK).body(list);
-	}
+    @GetMapping("remove")
+    public ResponseEntity<?> remove(String word) {
+        boolean b = service.remove(word);
+        if (b) {
+            ResponseEntity.ok(Arrays.asList("Delete successful"));
+        }
+        return ResponseEntity.ok(Arrays.asList(word + " not found!"));
+    }
 
-	@GetMapping("find-all-and-sort")
-	public ResponseEntity<?> findAllAndSort() {
-		List<?> list = service.findAllAndSort();
-		return ResponseEntity.status(HttpStatus.OK).body(list);
-	}
+    @GetMapping("find-all-and-sort")
+    public ResponseEntity<?> findAllAndSort() {
+        List<?> list = service.findAllAndSort();
+        return ResponseEntity.status(HttpStatus.OK).body(list);
+    }
 
-	@PostMapping("find-and-modify")
-	public ResponseEntity<?> findAndModify(@RequestBody InsertDTO dto) {
-		Vocabulary v = service.findAndModify(dto);
-		return ResponseEntity.ok(v);
-	}
+    @PostMapping("find-and-modify")
+    public ResponseEntity<?> findAndModify(@RequestBody InsertDTO dto) {
+        Vocabulary v = service.findAndModify(dto);
+        return ResponseEntity.ok(v);
+    }
 
 //	// Co the dung
 //	// @RequestBody Document jsonString

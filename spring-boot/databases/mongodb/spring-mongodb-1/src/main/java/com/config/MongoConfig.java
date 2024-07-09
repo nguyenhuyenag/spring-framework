@@ -1,5 +1,6 @@
 package com.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.mongo.MongoProperties;
 import org.springframework.context.annotation.Bean;
@@ -14,10 +15,11 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 
 @Configuration
+@RequiredArgsConstructor
 public class MongoConfig extends AbstractMongoClientConfiguration {
 
-	@Autowired
-	private MongoProperties mongoProperties;
+	// @Autowired
+	private final MongoProperties mongoProperties;
 
 	@Bean
 	public MongoTransactionManager transactionManager(MongoDatabaseFactory dbFactory) {
