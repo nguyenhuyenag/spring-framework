@@ -37,9 +37,9 @@ public class VocabServiceImpl implements VocabService {
 	@Override
 	public Vocabulary update(InsertDTO dto) {
 		Optional<Vocabulary> opt = repository.findByWord(dto.getWord().toLowerCase());
-		if (!opt.isPresent()) {
-			return null;
-		}
+		if (opt.isEmpty()) {
+            return null;
+        }
 		Vocabulary entity = opt.get();
 		entity.setPronounce(dto.getPronounce());
 		entity.setTranslate(dto.getTranslate());
@@ -59,7 +59,7 @@ public class VocabServiceImpl implements VocabService {
 	@Override
 	public Vocabulary findByWordUsingJSON(String word) {
 		Optional<Vocabulary> opt = repository.findByWord(word.toLowerCase());
-		return opt.isPresent() ? opt.get() : null;
+		return opt.orElse(null);
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public class VocabServiceImpl implements VocabService {
 	@Override
 	public Vocabulary findByWord(String word) {
 		Optional<Vocabulary> opt = repository.findByWord(word);
-		return opt.isPresent() ? opt.get() : null;
+		return opt.orElse(null);
 	}
 
 	@Override
@@ -89,8 +89,8 @@ public class VocabServiceImpl implements VocabService {
 	}
 
 	@Override
-	public List<Vocabulary> findWithORConditons(String startWith1, String startWith2) {
-		return repository.findWithORConditons(startWith1, startWith2);
+	public List<Vocabulary> findWithORConditions(String startWith1, String startWith2) {
+		return repository.findWithORConditions(startWith1, startWith2);
 	}
 
 	@Override

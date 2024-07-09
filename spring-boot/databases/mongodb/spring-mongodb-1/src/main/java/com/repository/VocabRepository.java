@@ -29,7 +29,7 @@ public interface VocabRepository extends MongoRepository<Vocabulary, String> {
 
 	// TODO
 	@Query("{$or : [{word: ?0}, {word : ?1}]}")
-	List<Vocabulary> findWithORConditons(String startWith1, String startWith2);
+	List<Vocabulary> findWithORConditions(String startWith1, String startWith2);
 
 	// TODO
 	@Query("{$and : [{$or : [{noOfPages: {$gt: 275}}, {noOfPages : {$lt: 200}}]}, {$or : [{id: {$gt: 103}}, {id : {$lt: 102}}]}]}")

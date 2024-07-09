@@ -32,7 +32,7 @@ public class TemplateController {
         if (v != null) {
             return ResponseEntity.ok(v);
         }
-        return ResponseEntity.ok(Arrays.asList("Not found!"));
+        return ResponseEntity.ok(List.of("Not found!"));
     }
 
     @PostMapping("insert")
@@ -41,7 +41,7 @@ public class TemplateController {
         if (v != null) {
             return ResponseEntity.ok(v);
         }
-        return ResponseEntity.ok(Arrays.asList(dto.getWord() + " already existed!"));
+        return ResponseEntity.ok(List.of(dto.getWord() + " already existed!"));
     }
 
     @PostMapping("update")
@@ -50,16 +50,16 @@ public class TemplateController {
         if (v != null) {
             return ResponseEntity.ok(v);
         }
-        return ResponseEntity.ok(Arrays.asList(dto.getWord() + " doesn't existed!"));
+        return ResponseEntity.ok(List.of(dto.getWord() + " doesn't existed!"));
     }
 
     @GetMapping("remove")
     public ResponseEntity<?> remove(String word) {
         boolean b = service.remove(word);
         if (b) {
-            ResponseEntity.ok(Arrays.asList("Delete successful"));
+            ResponseEntity.ok(List.of("Delete successful"));
         }
-        return ResponseEntity.ok(Arrays.asList(word + " not found!"));
+        return ResponseEntity.ok(List.of(word + " not found!"));
     }
 
     @GetMapping("find-all-and-sort")

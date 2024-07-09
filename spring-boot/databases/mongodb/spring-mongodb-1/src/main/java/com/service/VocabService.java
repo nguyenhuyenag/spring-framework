@@ -31,6 +31,6 @@ public interface VocabService {
 	
 	List<Vocabulary> findAndSortByJSON();
 
-	List<Vocabulary> findWithORConditons(String startWith1, String startWith2);
+	List<Vocabulary> findWithORConditions(String startWith1, String startWith2);
 
 }

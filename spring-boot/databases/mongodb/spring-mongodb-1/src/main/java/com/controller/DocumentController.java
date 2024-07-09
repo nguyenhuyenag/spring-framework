@@ -33,7 +33,7 @@ public class DocumentController {
 			return ResponseEntity.ok(d);
 		}
 		JSONObject jsonObject = new JSONObject(jsonString);
-		return ResponseEntity.ok(Arrays.asList(jsonObject.get("word") + " already existed!"));
+		return ResponseEntity.ok(List.of(jsonObject.get("word") + " already existed!"));
 	}
 
 	@GetMapping("basic-query")

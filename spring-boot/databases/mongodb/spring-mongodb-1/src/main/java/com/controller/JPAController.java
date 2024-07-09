@@ -35,7 +35,7 @@ public class JPAController {
 		if (v != null) {
 			return ResponseEntity.ok(v);
 		}
-		return ResponseEntity.ok(Arrays.asList(dto.getWord() + " already existed!"));
+		return ResponseEntity.ok(List.of(dto.getWord() + " already existed!"));
 	}
 
 	@PostMapping("update")
@@ -44,7 +44,7 @@ public class JPAController {
 		if (v != null) {
 			return ResponseEntity.ok(v);
 		}
-		return ResponseEntity.ok(Arrays.asList(dto.getWord() + " doesn't existed!"));
+		return ResponseEntity.ok(List.of(dto.getWord() + " doesn't existed!"));
 	}
 
 	@GetMapping("find-by-word")
@@ -53,7 +53,7 @@ public class JPAController {
 		if (v != null) {
 			return ResponseEntity.ok(v);
 		}
-		List<String> list = Arrays.asList(word + " doesn't existed!");
+		List<String> list = List.of(word + " doesn't existed!");
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(list);
 	}
 
@@ -63,7 +63,7 @@ public class JPAController {
 		if (b) {
 			return ResponseEntity.ok(b);
 		}
-		List<String> list = Arrays.asList(word + " doesn't existed!");
+		List<String> list = List.of(word + " doesn't existed!");
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(list);
 	}
 
@@ -117,7 +117,7 @@ public class JPAController {
 
 	@GetMapping("find-with-or-conditions")
 	public ResponseEntity<?> findWithORConditions() {
-		List<Vocabulary> list = service.findWithORConditons("adjective", "budget");
+		List<Vocabulary> list = service.findWithORConditions("adjective", "budget");
 		return ResponseEntity.ok(list);
 	}
 
