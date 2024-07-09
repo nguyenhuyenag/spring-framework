@@ -22,7 +22,7 @@ public class TemplateController {
     // http://localhost:8080/template/find-all?size=10&page=0
     @GetMapping("find-all")
     public ResponseEntity<?> findAll(@RequestParam("page") int page, @RequestParam("size") int size) {
-        List<?> list = service.findAll(page, size);
+        List<?> list = service.findAllAndPageable(page, size);
         return ResponseEntity.ok(list);
     }
 

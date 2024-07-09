@@ -10,18 +10,20 @@ import com.mongodb.client.MongoCollection;
 import lombok.RequiredArgsConstructor;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Service;
 
 import com.entity.Vocabulary;
 import com.request.InsertDTO;
 import com.service.TemplateService;
+
+import static com.mongodb.client.model.Filters.where;
+import static org.springframework.data.mongodb.core.query.Query.query;
 
 @Service
 @RequiredArgsConstructor
@@ -107,8 +109,22 @@ public class TemplateServiceImpl implements TemplateService {
         return false;
     }
 
+    public Page<Document> findAllAndPageable_2(Pageable pageable) {
+        Query query = new Query().with(pageable);
+        long totalCount = mongoTemplate.count(query, Document.class);
+        List<Document> results = mongoTemplate.find(query.with(pageable), Document.class);
+        return PageableExecutionUtils.getPage(results, pageable, () -> totalCount);
+    }
+
+    public Page<Document> findAllAndPageable_3(Pageable pageable) {
+        Query query = new Query().with(pageable);
+        long totalCount = mongoTemplate.count(query, Document.class);
+        List<Document> results = mongoTemplate.find(query.with(pageable), Document.class);
+        return new PageImpl<>(results, pageable, totalCount);
+    }
+
     @Override
-    public List<Document> findAll(int page, int size) {
+    public List<Document> findAllAndPageable(int page, int size) {
         // mongoTemplate.find(query, entityClass, collectionName)
         Query query = new Query();
         final Pageable pageableRequest = PageRequest.of(page, size);

@@ -23,7 +23,7 @@ public interface TemplateService {
 
 	Vocabulary update(InsertDTO dto);
 
-	List<Document> findAll(int page, int size);
+	List<Document> findAllAndPageable(int page, int size);
 
 	List<Vocabulary> findAllAndSort();
 	
