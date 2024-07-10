@@ -8,31 +8,38 @@ import org.bson.Document;
 
 public interface TemplateService {
 
-	boolean isExists(String word);
+    List<Document> findAllAndPageable(int page, int size);
 
-	boolean remove(String word);
+    // Find by field
+    Document findByIsbn(String isbn);
 
-	boolean collectionExists();
+    Document findAndModify();
 
-	Vocabulary insert(InsertDTO dto);
+    void basicQuery();
 
-	Vocabulary findOne(String word);
+    void updateMulti();
 
-	// phuong thuc nay tra ve object truoc khi duoc sua doi
-	Vocabulary findAndModify(InsertDTO dto);
+    boolean isExists(String word);
 
-	Vocabulary update(InsertDTO dto);
+    boolean remove(String word);
 
-	List<Document> findAllAndPageable(int page, int size);
+    boolean collectionExists();
 
-	List<Vocabulary> findAllAndSort();
-	
-	List<Vocabulary> andOperator();
+    Vocabulary insert(InsertDTO dto);
 
-	// BSON & Document: doc.toJSON() & Document.parse(json)
-	// Document insertAny(String jsonString);
-	// List<Vocabulary> basicQuery(); // <- MongoDB `raw` query
-	// List<Document> bsonFilter();
-	// List<Document> bsonSort();
+    // phuong thuc nay tra ve object truoc khi duoc sua doi
+    Vocabulary findAndModify(InsertDTO dto);
+
+    Vocabulary update(InsertDTO dto);
+
+    List<Vocabulary> findAllAndSort();
+
+    List<Vocabulary> andOperator();
+
+    // BSON & Document: doc.toJSON() & Document.parse(json)
+    // Document insertAny(String jsonString);
+    // List<Vocabulary> basicQuery(); // <- MongoDB `raw` query
+    // List<Document> bsonFilter();
+    // List<Document> bsonSort();
 
 }

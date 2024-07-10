@@ -3,6 +3,7 @@ package com.controller;
 import java.util.Arrays;
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,29 +14,31 @@ import com.request.InsertDTO;
 import com.service.TemplateService;
 
 @RestController
-@RequestMapping("template")
+@RequestMapping("/template")
+@RequiredArgsConstructor
 public class TemplateController {
 
-    @Autowired
-    private TemplateService service;
+    private final TemplateService service;
 
     // http://localhost:8080/template/find-all?size=10&page=0
-    @GetMapping("find-all")
+    @GetMapping("/find-all")
     public ResponseEntity<?> findAll(@RequestParam("page") int page, @RequestParam("size") int size) {
         List<?> list = service.findAllAndPageable(page, size);
         return ResponseEntity.ok(list);
     }
 
-    @GetMapping("find-one")
-    public ResponseEntity<?> findOne(String word) {
-        Vocabulary v = service.findOne(word);
-        if (v != null) {
-            return ResponseEntity.ok(v);
-        }
-        return ResponseEntity.ok(List.of("Not found!"));
+    @GetMapping("/find-by-isbn")
+    public ResponseEntity<?> findOne(String isbn) {
+        var book = service.findByIsbn(isbn);
+        return ResponseEntity.ok(book);
     }
 
-    @PostMapping("insert")
+    @GetMapping("/find-and-modify")
+    public ResponseEntity<?> findAndModify() {
+        return ResponseEntity.ok(service.findAndModify());
+    }
+
+    @PostMapping("/insert")
     public ResponseEntity<?> insert(@RequestBody InsertDTO dto) {
         Vocabulary v = service.insert(dto);
         if (v != null) {
@@ -44,7 +47,7 @@ public class TemplateController {
         return ResponseEntity.ok(List.of(dto.getWord() + " already existed!"));
     }
 
-    @PostMapping("update")
+    @PostMapping("/update")
     public ResponseEntity<?> update(@RequestBody InsertDTO dto) {
         Vocabulary v = service.update(dto);
         if (v != null) {
@@ -53,7 +56,7 @@ public class TemplateController {
         return ResponseEntity.ok(List.of(dto.getWord() + " doesn't existed!"));
     }
 
-    @GetMapping("remove")
+    @GetMapping("/remove")
     public ResponseEntity<?> remove(String word) {
         boolean b = service.remove(word);
         if (b) {
@@ -62,13 +65,13 @@ public class TemplateController {
         return ResponseEntity.ok(List.of(word + " not found!"));
     }
 
-    @GetMapping("find-all-and-sort")
+    @GetMapping("/find-all-and-sort")
     public ResponseEntity<?> findAllAndSort() {
         List<?> list = service.findAllAndSort();
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
-    @PostMapping("find-and-modify")
+    @PostMapping("/find-and-modify")
     public ResponseEntity<?> findAndModify(@RequestBody InsertDTO dto) {
         Vocabulary v = service.findAndModify(dto);
         return ResponseEntity.ok(v);

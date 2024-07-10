@@ -9,18 +9,17 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import lombok.RequiredArgsConstructor;
 import org.bson.Document;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.data.mongodb.core.query.*;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Service;
 
 import com.entity.Vocabulary;
 import com.request.InsertDTO;
 import com.service.TemplateService;
+
+import javax.print.Doc;
 
 import static com.mongodb.client.model.Filters.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
@@ -33,8 +32,60 @@ public class TemplateServiceImpl implements TemplateService {
     private static final String COUNT = "count";
     private static final String VOCABULARY = "vocabulary";
 
+    private static final String DOCUMENT = "books";
+
     private final MongoClient mongoClient;
     private final MongoTemplate mongoTemplate;
+
+    @Override
+    // mongoTemplate.find(query, entityClass, collectionName)
+    public Document findByIsbn(String isbn) {
+        Query query = new Query(Criteria.where("isbn").is(isbn));
+        // Loại bỏ một số field
+        query.fields().exclude("shortDescription", "longDescription");
+        return mongoTemplate.findOne(query, Document.class, DOCUMENT);
+    }
+
+    @Override
+    public List<Document> findAllAndPageable(int page, int size) {
+        Query query = new Query();
+        final Pageable pageableRequest = PageRequest.of(page, size);
+        query.with(pageableRequest);
+        return mongoTemplate.find(query, Document.class, "books");
+    }
+
+    @Override
+    public Document findAndModify() {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("_id").is(1));
+
+        Update update = new Update();
+        update.set("isbn", System.currentTimeMillis());
+
+        return mongoTemplate.findAndModify(query, update, Document.class, DOCUMENT);
+    }
+
+    @Override
+    public void basicQuery() {
+        Query query = new BasicQuery("{ age : { $lt : 50 }, accounts.balance : { $gt : 1000.00 }}");
+        List<Document> result = mongoTemplate.find(query, Document.class);
+        result.forEach(Document::toJson);
+    }
+
+    @Override
+    public void updateMulti() {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("pages").lte(180));
+        Update update = new Update();
+        update.set("cost", 999.0);
+        mongoTemplate.updateMulti(query, update, Document.class, DOCUMENT);
+    }
+
+    public void test() {
+        mongoTemplate.query(Document.class)
+                .distinct("lastname")
+                .all();
+    }
 
     public List<String> allDocuments() {
         final List<String> list = new ArrayList<>();
@@ -64,13 +115,6 @@ public class TemplateServiceImpl implements TemplateService {
     }
 
     @Override
-    public Vocabulary findOne(String word) {
-        Query query = new Query(Criteria.where(WORD).is(word));
-        mongoTemplate.findOne(query, Vocabulary.class);
-        return mongoTemplate.findOne(query, Vocabulary.class);
-    }
-
-    @Override
     public Vocabulary insert(InsertDTO dto) {
         // is exist
         if (isExists(dto.getWord())) {
@@ -84,7 +128,7 @@ public class TemplateServiceImpl implements TemplateService {
 
     @Override
     public Vocabulary update(InsertDTO dto) {
-        Vocabulary v = findOne(dto.getWord().toLowerCase());
+        Vocabulary v = null; // findOne(dto.getWord().toLowerCase());
         // not found
         if (v == null) {
             return null;
@@ -100,7 +144,7 @@ public class TemplateServiceImpl implements TemplateService {
 
     @Override
     public boolean remove(String word) {
-        Vocabulary v = findOne(word);
+        Vocabulary v = null; // findOne(word);
         // is exist
         if (v != null) {
             mongoTemplate.remove(v, VOCABULARY);
@@ -121,15 +165,6 @@ public class TemplateServiceImpl implements TemplateService {
         long totalCount = mongoTemplate.count(query, Document.class);
         List<Document> results = mongoTemplate.find(query.with(pageable), Document.class);
         return new PageImpl<>(results, pageable, totalCount);
-    }
-
-    @Override
-    public List<Document> findAllAndPageable(int page, int size) {
-        // mongoTemplate.find(query, entityClass, collectionName)
-        Query query = new Query();
-        final Pageable pageableRequest = PageRequest.of(page, size);
-        query.with(pageableRequest);
-        return mongoTemplate.find(query, Document.class, "books");
     }
 
     @Override
