@@ -11,4 +11,3 @@
 - Find all documents where the _id field is not an integer
 
 	db.getCollection("book").find({ "_id": { "$not": { "$type": 16 } } });
-

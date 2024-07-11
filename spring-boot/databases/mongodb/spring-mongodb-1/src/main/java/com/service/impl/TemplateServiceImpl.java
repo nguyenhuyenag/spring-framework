@@ -19,8 +19,6 @@ import com.entity.Vocabulary;
 import com.request.InsertDTO;
 import com.service.TemplateService;
 
-import javax.print.Doc;
-
 import static com.mongodb.client.model.Filters.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 
