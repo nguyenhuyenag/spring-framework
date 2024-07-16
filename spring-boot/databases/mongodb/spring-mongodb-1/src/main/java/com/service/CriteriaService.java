@@ -23,8 +23,9 @@ public class CriteriaService {
 
     public List<Document> findLte() {
         Query query = new Query();
-        // Tìm tất cả các id <= 20
+        // Tìm tất cả các 10 <= id <= 20
         query.addCriteria(Criteria.where("_id").lte(20).gte(10));
+        // Exclude some fields
         query.fields().exclude("shortDescription", "longDescription");
         return mongoTemplate.find(query, Document.class, COLLECTION_NAME);
     }

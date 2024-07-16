@@ -28,7 +28,6 @@ import com.service.DocumentService;
 import com.service.TemplateService;
 
 @Service
-@SuppressWarnings("unused")
 @RequiredArgsConstructor
 public class DocumentServiceImpl implements DocumentService {
 

@@ -7,9 +7,10 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
 import com.entity.Vocabulary;
+import org.springframework.stereotype.Repository;
 
-// @Repository
 // @Transactional
+@Repository
 public interface VocabRepository extends MongoRepository<Vocabulary, String> {
 
     Optional<Vocabulary> findByWord(String word);
