@@ -37,13 +37,17 @@ import com.service.TemplateService;
 @RequiredArgsConstructor
 public class DocumentServiceImpl implements DocumentService {
 
+    // private final MongoClient mongoClient;
     private final MongoTemplate mongoTemplate;
     private final TemplateService templateService;
+
+    private static final String COLLECTION_NAME = "books";
 
     private final DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Override
     public Document mongoDate() {
+        // MongoDB db.eval() command has been in deprecation mode since MongoDB v3.0.
         // Document doc = mongoTemplate.executeCommand(new Document("$eval", "new Date()"));
         // Date current = (Date) doc.get("retval");
 
@@ -76,32 +80,36 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public List<Document> bsonFilter() {
+        // try (MongoClient mongoClient = MongoClients.create()) {
+
+        // MongoDatabase database = mongoClient.getDatabase("english");
+        // MongoCollection<Document> collection = database.getCollection("vocabulary");
+
+        MongoCollection<Document> collection = mongoTemplate.getCollection(COLLECTION_NAME);
+
+        /**
+         * Comparison
+         */
+        // Bson filter = Filters.eq("word", "able");
+        // Bson filter = Filters.ne("count", 5);
+        // Bson filter = Filters.in("count", 90, 97);
+        // Bson filter = Filters.in("count", Arrays.asList(90, 97));
+
+        // tương tự cho `Filters.nin()`
+        // Bson filter = Filters.gt("count", 97);
+        // Bson filter = Filters.gte("count", 5);
+        // Bson filter = Filters.lt("count", 5);
+        // Bson filter = Filters.lte("count", 5);
+
+        /**
+         * Logical
+         */
+        Bson filter = Filters.and(Filters.gt("_id", 10), Filters.lt("_id", 15));
+        FindIterable<Document> cursor = collection.find(filter);
+
         List<Document> list = new ArrayList<>();
-        try (MongoClient mongoClient = MongoClients.create();) {
-            MongoDatabase database = mongoClient.getDatabase("english");
-            MongoCollection<Document> collection = database.getCollection("vocabulary");
+        cursor.forEach(list::add);
 
-            /**
-             * Comparison
-             */
-            // Bson filter = Filters.eq("word", "able");
-            // Bson filter = Filters.ne("count", 5);
-            // Bson filter = Filters.in("count", 90, 97);
-            // Bson filter = Filters.in("count", Arrays.asList(90, 97));
-
-            // tương tự cho `Filters.nin()`
-            // Bson filter = Filters.gt("count", 97);
-            // Bson filter = Filters.gte("count", 5);
-            // Bson filter = Filters.lt("count", 5);
-            // Bson filter = Filters.lte("count", 5);
-
-            /**
-             * Logical
-             */
-            Bson filter = Filters.and(gt("i", 10), lt("i", 15));
-            FindIterable<Document> cursor = collection.find(filter);
-            // cursor.forEach(list::add);
-        }
         return list;
     }
 

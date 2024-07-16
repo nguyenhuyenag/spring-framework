@@ -48,8 +48,7 @@ public class DocumentController {
 
 	@GetMapping("bson-filter")
 	public ResponseEntity<?> bsonFilter() {
-		List<Document> list = documentService.bsonFilter();
-		return ResponseEntity.ok(list);
+		return ResponseEntity.ok(documentService.bsonFilter());
 	}
 
 	@GetMapping("bson-sort")
