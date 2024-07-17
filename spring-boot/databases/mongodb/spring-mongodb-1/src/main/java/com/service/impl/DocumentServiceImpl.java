@@ -58,18 +58,22 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public Document insertAny(String json) {
-        Document doc = new Document();
-        JSONObject jsonObject = new JSONObject(json);
-        if (templateService.isExists(jsonObject.getString("word"))) {
-            return null;
-        }
-        doc.append("word", jsonObject.get("word"));
-        doc.append("createBy", jsonObject.get("createBy"));
-        doc.append("pronounce", jsonObject.get("pronounce"));
-        doc.append("translate", jsonObject.get("translate"));
-        doc.append("createDate", new Date());
-        return mongoTemplate.insert(doc, "new_word");
+    public List<Document> bsonSort() {
+        MongoCollection<Document> collection = mongoTemplate.getCollection(COLLECTION_NAME);
+        Bson filter = Filters.and(Filters.gte("pageCount", 700));
+        Bson sortCriteria = Sorts.orderBy(Sorts.descending("title"), Sorts.ascending("author"));
+        FindIterable<Document> cursor = collection.find(filter)
+                .sort(sortCriteria);
+        // List<Document> result = new ArrayList<>();
+        // cursor.forEach(result::add);
+        return cursor.into(new ArrayList<>());
+    }
+
+    @Override
+    public Document insert(Document document) {
+        // JSONObject jsonObject = new JSONObject(document);
+        document.put("isbn", System.currentTimeMillis());
+        return mongoTemplate.insert(document, COLLECTION_NAME);
     }
 
     @Override
@@ -110,19 +114,6 @@ public class DocumentServiceImpl implements DocumentService {
         List<Document> list = new ArrayList<>();
         cursor.forEach(list::add);
 
-        return list;
-    }
-
-    @Override
-    public List<Document> bsonSort() {
-        List<Document> list = new ArrayList<>();
-        try (MongoClient mongoClient = MongoClients.create();) {
-            MongoDatabase database = mongoClient.getDatabase("english");
-            MongoCollection<Document> collection = database.getCollection("vocabulary");
-            Bson filter = Sorts.ascending("word");
-            FindIterable<Document> cursor = collection.find(filter);
-            // cursor.forEach(list::add);
-        }
         return list;
     }
 

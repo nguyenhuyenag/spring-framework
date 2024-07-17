@@ -1,7 +1,5 @@
 package com.service;
 
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 import org.bson.Document;
@@ -14,12 +12,12 @@ public interface DocumentService {
 
     Document mongoDate();
 
-    Document insertAny(String json);
+    List<Document> bsonSort();
+
+    Document insert(Document document);
 
     List<Vocabulary> basicQuery(); // <- MongoDB `raw` query
 
     List<Document> bsonFilter();
-
-    List<Document> bsonSort();
 
 }

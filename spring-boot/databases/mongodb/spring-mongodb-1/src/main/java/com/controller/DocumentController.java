@@ -20,41 +20,32 @@ import com.service.DocumentService;
 @RequiredArgsConstructor
 public class DocumentController {
 
-	private final DocumentService documentService;
+    private final DocumentService documentService;
 
-	@GetMapping("current-datetime")
-	public ResponseEntity<?> getTime() {
-		return ResponseEntity.ok(documentService.mongoDate());
-	}
+    @GetMapping("/current-datetime")
+    public ResponseEntity<?> getTime() {
+        return ResponseEntity.ok(documentService.mongoDate());
+    }
 
-	/**
-	 * Cach (2): @RequestBody Document jsonString
-	 */
-	@PostMapping("insert-any")
-	public ResponseEntity<?> insertAny(@RequestBody String jsonString) {
-		Document d = documentService.insertAny(jsonString);
-		if (d != null) {
-			return ResponseEntity.ok(d);
-		}
-		JSONObject jsonObject = new JSONObject(jsonString);
-		return ResponseEntity.ok(List.of(jsonObject.get("word") + " already existed!"));
-	}
+    @GetMapping("/bson-sort")
+    public ResponseEntity<?> bsonSort() {
+        return ResponseEntity.ok(documentService.bsonSort());
+    }
 
-	@GetMapping("basic-query")
-	public ResponseEntity<?> basicQuery() {
-		List<Vocabulary> list = documentService.basicQuery();
-		return ResponseEntity.ok(list);
-	}
+    @PostMapping("/insert")
+    public ResponseEntity<?> insert(@RequestBody Document request) {
+        return ResponseEntity.ok(documentService.insert(request));
+    }
 
-	@GetMapping("bson-filter")
-	public ResponseEntity<?> bsonFilter() {
-		return ResponseEntity.ok(documentService.bsonFilter());
-	}
+    @GetMapping("basic-query")
+    public ResponseEntity<?> basicQuery() {
+        List<Vocabulary> list = documentService.basicQuery();
+        return ResponseEntity.ok(list);
+    }
 
-	@GetMapping("bson-sort")
-	public ResponseEntity<?> bsonSort() {
-		List<Document> list = documentService.bsonSort();
-		return ResponseEntity.ok(list);
-	}
+    @GetMapping("bson-filter")
+    public ResponseEntity<?> bsonFilter() {
+        return ResponseEntity.ok(documentService.bsonFilter());
+    }
 
 }
