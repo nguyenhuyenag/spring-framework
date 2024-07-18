@@ -13,8 +13,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-/**
- * https://www.baeldung.com/spring-webflux-databufferlimitexception
+/*
+	https://www.baeldung.com/spring-webflux-databufferlimitexception
  */
 public class LimitedFileDownloadWebClient {
 
@@ -27,7 +27,8 @@ public class LimitedFileDownloadWebClient {
 		return bytes.length;
 	}
 
-	public static long fetchAnyFileSizeWithDataBuffer(WebClient client, String destination) throws IOException {
+	public static long fetchAnyFileSizeWithDataBuffer(WebClient client, String destination)
+			throws IOException {
 		Flux<DataBuffer> flux = client.get().retrieve().bodyToFlux(DataBuffer.class);
 		Path path = Paths.get(destination);
 		DataBufferUtils.write(flux, path).block();

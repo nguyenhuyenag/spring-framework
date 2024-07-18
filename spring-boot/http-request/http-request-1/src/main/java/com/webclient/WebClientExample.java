@@ -5,7 +5,7 @@ import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
 
 /*-
- *  WebClient webClient = WebClient.create("http://localhost:8080");
+ 	WebClient webClient = WebClient.create("http://localhost:8080");
   	Mono<User> user = webClient.get()
 				        .uri("/user/{id}", id)
 				        .retrieve()
@@ -21,7 +21,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 	}
 
   	webClient.get()
-  		.uri(uriBuilder -> uriBuilder.path("/author/transactional")
+  			 .uri(uriBuilder -> uriBuilder.path("/author/transactional")
   									 .queryParam("title", title)
   									 .build())
   		.retrieve()

@@ -23,153 +23,154 @@ import org.apache.http.HttpHeaders;
 @SuppressWarnings("deprecation")
 public class HttpClient5Async {
 
-	public static void main(String[] args) {
-		getAsync1("http://httpbin.org/get");
-		getAsync2("http://httpbin.org/get");
-		getAsync3("http://httpbin.org/get");
-	}
+    public static void main(String[] args) {
+        getAsync1("http://httpbin.org/get");
+        getAsync2("http://httpbin.org/get");
+        getAsync3("http://httpbin.org/get");
+    }
 
-	/**
-	 * Asynchronous requests
-	 *
-	 * @param url
-	 * @return
-	 */
-	public static String getAsync1(String url) {
-		try (CloseableHttpAsyncClient httpclient = HttpAsyncClients.createDefault()) {
-			// start http clinet
-			httpclient.start();
-			// Execution of requests
-			SimpleHttpRequest request1 = SimpleHttpRequests.get(url);
-			Future<SimpleHttpResponse> future = httpclient.execute(request1, null);
-			// Wait until the return is complete
-			SimpleHttpResponse response1 = future.get();
-			System.out.println("getAsync1:" + request1.getRequestUri() + "->" + response1.getCode());
-		} catch (IOException | ExecutionException | InterruptedException e) {
-			throw new RuntimeException(e);
-		}
-		return null;
-	}
+    /**
+     * Asynchronous requests
+     *
+     * @param url
+     * @return
+     */
+    public static String getAsync1(String url) {
+        try (CloseableHttpAsyncClient httpclient = HttpAsyncClients.createDefault()) {
+            // start http clinet
+            httpclient.start();
+            // Execution of requests
+            SimpleHttpRequest request1 = SimpleHttpRequests.get(url);
+            Future<SimpleHttpResponse> future = httpclient.execute(request1, null);
+            // Wait until the return is complete
+            SimpleHttpResponse response1 = future.get();
+            System.out.println("getAsync1:" + request1.getRequestUri() + "->" + response1.getCode());
+        } catch (IOException | ExecutionException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
 
-	/**
-	 * Asynchronous requests, callbacks based on response
-	 *
-	 * @param url
-	 * @return
-	 */
-	public static String getAsync2(String url) {
-		try (CloseableHttpAsyncClient httpclient = HttpAsyncClients.createDefault()) {
-			// start http clinet
-			httpclient.start();
+    /**
+     * Asynchronous requests, callbacks based on response
+     *
+     * @param url
+     * @return
+     */
+    public static String getAsync2(String url) {
+        try (CloseableHttpAsyncClient httpclient = HttpAsyncClients.createDefault()) {
+            // start http clinet
+            httpclient.start();
 
-			CountDownLatch latch = new CountDownLatch(1);
-			SimpleHttpRequest request = SimpleHttpRequests.get(url);
-			httpclient.execute(request, new FutureCallback<SimpleHttpResponse>() {
-				@Override
-				public void completed(SimpleHttpResponse response2) {
-					latch.countDown();
-					System.out.println("getAsync2:" + request.getRequestUri() + "->" + response2.getCode());
-				}
+            CountDownLatch latch = new CountDownLatch(1);
+            SimpleHttpRequest request = SimpleHttpRequests.get(url);
+            httpclient.execute(request, new FutureCallback<SimpleHttpResponse>() {
+                @Override
+                public void completed(SimpleHttpResponse response2) {
+                    latch.countDown();
+                    System.out.println("getAsync2:" + request.getRequestUri() + "->" + response2.getCode());
+                }
 
-				@Override
-				public void failed(Exception ex) {
-					latch.countDown();
-					System.out.println("getAsync2:" + request.getRequestUri() + "->" + ex);
-				}
+                @Override
+                public void failed(Exception ex) {
+                    latch.countDown();
+                    System.out.println("getAsync2:" + request.getRequestUri() + "->" + ex);
+                }
 
-				@Override
-				public void cancelled() {
-					latch.countDown();
-					System.out.println("getAsync2:" + request.getRequestUri() + " cancelled");
-				}
+                @Override
+                public void cancelled() {
+                    latch.countDown();
+                    System.out.println("getAsync2:" + request.getRequestUri() + " cancelled");
+                }
 
-			});
-			latch.await();
-		} catch (IOException | InterruptedException e) {
-			throw new RuntimeException(e);
-		}
-		return null;
-	}
+            });
+            latch.await();
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
 
-	/**
-	 * Asynchronous requests, do something about the response stream
-	 *
-	 * @param url
-	 * @return
-	 */
-	public static String getAsync3(String url) {
-		try (CloseableHttpAsyncClient httpclient = HttpAsyncClients.createDefault()) {
-			// start http clinet
-			httpclient.start();
+    /**
+     * Asynchronous requests, do something about the response stream
+     *
+     * @param url
+     * @return
+     */
+    public static String getAsync3(String url) {
+        try (CloseableHttpAsyncClient httpclient = HttpAsyncClients.createDefault()) {
+            // start http clinet
+            httpclient.start();
 
-			SimpleHttpRequest request = SimpleHttpRequests
-					.get(url)
-					;
+            SimpleHttpRequest request = SimpleHttpRequests
+                    .get(url);
 
-			CountDownLatch latch = new CountDownLatch(1);
-			AsyncRequestProducer producer = AsyncRequestBuilder
-					.get("http://httpbin.org/get")
-					.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + Your_JWT)
-					.build();
+            String Your_JWT = "xyz";
 
-			AbstractCharResponseConsumer<HttpResponse> consumer3 = new AbstractCharResponseConsumer<HttpResponse>() {
+            CountDownLatch latch = new CountDownLatch(1);
+            AsyncRequestProducer producer = AsyncRequestBuilder
+                    .get("http://httpbin.org/get")
+                    .setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + Your_JWT)
+                    .build();
 
-				HttpResponse response;
+            AbstractCharResponseConsumer<HttpResponse> consumer3 = new AbstractCharResponseConsumer<HttpResponse>() {
 
-				@Override
-				protected void start(HttpResponse response, ContentType contentType) throws HttpException, IOException {
-					System.out.println("getAsync3: Start response....");
-					this.response = response;
-				}
+                HttpResponse response;
 
-				@Override
-				protected int capacityIncrement() {
-					return Integer.MAX_VALUE;
-				}
+                @Override
+                protected void start(HttpResponse response, ContentType contentType) throws HttpException, IOException {
+                    System.out.println("getAsync3: Start response....");
+                    this.response = response;
+                }
 
-				@Override
-				protected void data(CharBuffer data, boolean endOfStream) throws IOException {
-					System.out.println("getAsync3: Data received....");
-					// Do something useful
-				}
+                @Override
+                protected int capacityIncrement() {
+                    return Integer.MAX_VALUE;
+                }
 
-				@Override
-				protected HttpResponse buildResult() throws IOException {
-					System.out.println("getAsync3: Receiving completed...");
-					return response;
-				}
+                @Override
+                protected void data(CharBuffer data, boolean endOfStream) throws IOException {
+                    System.out.println("getAsync3: Data received....");
+                    // Do something useful
+                }
 
-				@Override
-				public void releaseResources() {
-				}
+                @Override
+                protected HttpResponse buildResult() throws IOException {
+                    System.out.println("getAsync3: Receiving completed...");
+                    return response;
+                }
 
-			};
-			httpclient.execute(producer, consumer3, new FutureCallback<HttpResponse>() {
+                @Override
+                public void releaseResources() {
+                }
 
-				@Override
-				public void completed(HttpResponse response) {
-					latch.countDown();
-					System.out.println("getAsync3: " + request.getRequestUri() + "->" + response.getCode());
-				}
+            };
+            httpclient.execute(producer, consumer3, new FutureCallback<HttpResponse>() {
 
-				@Override
-				public void failed(Exception ex) {
-					latch.countDown();
-					System.out.println("getAsync3: " + request.getRequestUri() + "->" + ex);
-				}
+                @Override
+                public void completed(HttpResponse response) {
+                    latch.countDown();
+                    System.out.println("getAsync3: " + request.getRequestUri() + "->" + response.getCode());
+                }
 
-				@Override
-				public void cancelled() {
-					latch.countDown();
-					System.out.println("getAsync3: " + request.getRequestUri() + " cancelled");
-				}
-			});
-			latch.await();
-		} catch (IOException | InterruptedException e) {
-			throw new RuntimeException(e);
-		}
-		return null;
+                @Override
+                public void failed(Exception ex) {
+                    latch.countDown();
+                    System.out.println("getAsync3: " + request.getRequestUri() + "->" + ex);
+                }
 
-	}
+                @Override
+                public void cancelled() {
+                    latch.countDown();
+                    System.out.println("getAsync3: " + request.getRequestUri() + " cancelled");
+                }
+            });
+            latch.await();
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+
+    }
 
 }
