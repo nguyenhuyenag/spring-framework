@@ -1,6 +1,7 @@
 package com.entity.createupdatetime;
 
 import java.time.LocalDateTime;
+import java.time.Year;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -8,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -53,6 +55,13 @@ public class Customer {
 
 	// @org.springframework.data.annotation.LastModifiedDate
 	// private LocalDateTime updatedAt;
+	
+	private int nam;
+	
+    @PrePersist
+    public void prePersist() {
+        this.nam = createdAt != null ? createdAt.getYear() : Year.now().getValue();
+    }
 
 	public Customer(final String name, final String email) {
 		this.name = name;
