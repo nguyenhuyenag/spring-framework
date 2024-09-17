@@ -52,9 +52,8 @@
         width: 110px;
         background: blue;
     }
-    .table-responsive {
-        overflow-x: auto;
-        overflow-y: hidden;
+    .fixed-table-pagination>.pagination .page-jump-to input {
+        width: 100px !important;
     }
 </style>
 
@@ -65,16 +64,19 @@
         <div class="col-md-8">
             <div class="search">
                 <i class="fa fa-search"></i>
-                <input id="input-search" type="text" class="form-control" placeholder="">
+                <input id="input-search" type="search" class="form-control" placeholder="">
                 <button id="btn-search" class="btn btn-primary">Search</button>
             </div>
         </div>
     </div>
+
     <!-- Loading Spinner -->
-    <button class="btn btn-primary" disabled>
-        <span class="spinner-grow spinner-grow-sm"></span>
-        Loading..
-    </button>
+    <div class="text-center mb-4" style="margin-top: -10px;">
+        <div id="loading" class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+
     <!-- Table -->
     <table id="myTable" class="table table-striped" data-show-jump-to="true">
         <thead>
@@ -91,13 +93,17 @@
 <script>
     // Show loading spinner using jQuery
     function showLoading() {
-        $("#loadingSpinner").show(); // Use jQuery to show the spinner
+        $("#loading").show();
     }
 
     // Hide loading spinner using jQuery
     function hideLoading() {
-        $("#loadingSpinner").hide(); // Use jQuery to hide the spinner
+        $("#loading").hide();
     }
+
+    $('#input-search').on("search", function () {
+        $('#btn-search').click();
+    });
 
     function createTable(data) {
         // console.log(data);
@@ -106,16 +112,18 @@
             // page info
             pagination: true,
             pageSize: 10,
-            // pageList: [9, 30, 45, 100],
+            showJumpTo: true,
             paginationPreText: "Previous",
             paginationNextText: "Next",
-            showJumpTo: true,
-            // Event to show loading before loading data
-            onLoadSuccess: function() {
-                hideLoading(); // Hide spinner after table is loaded
+            onLoadSuccess: function () {
+                console.log('onLoadSuccess');
+                hideLoading();
+                return false;
             },
-            onLoadError: function() {
-                hideLoading(); // Hide spinner if there is an error
+            onLoadError: function () {
+                console.log('onLoadError');
+                hideLoading();
+                return false;
             },
             columns: [
                 {
@@ -140,28 +148,38 @@
         });
     }
 
+    // Search
+    $('#btn-search').on('click', function() {
+        showLoading();
+        let search = $('#input-search').val();
+        if (search !== '' && search.length > 0) {
+            $.ajax({
+                type: "GET",
+                url: './transactions?query=' + search,
+                success: function (data) {
+                    $('#myTable').bootstrapTable('load', data);
+                    // hideLoading();
+                },
+                error: function (e) {
+                    console.log("ERROR : ", e);
+                    // showLoading();
+                },
+                complete: function (data) {
+                    // console.log("SEMPRE FUNFA!");
+                    // A function to be called when the request finishes
+                    // (after success and error callbacks are executed).
+                    hideLoading();
+                }
+            });
+        }
+        return false;
+    });
+
     $(function () {
         // Init table
         $.getJSON('./transactions', (data) => {
             createTable(data);
-        });
-
-        // Search
-        $('#btn-search').on('click', function() {
-            let search = $('#input-search').val();
-            if (search !== '' && search.length > 0) {
-                $.ajax({
-                    type: "GET",
-                    url: './transactions?query=' + search,
-                    success: function (data) {
-                        $('#myTable').bootstrapTable('load', data);
-                    },
-                    error: function (e) {
-                        console.log("ERROR : ", e);
-                    }
-                });
-            }
-            return false;
+            // hideLoading();
         });
     });
 </script>
