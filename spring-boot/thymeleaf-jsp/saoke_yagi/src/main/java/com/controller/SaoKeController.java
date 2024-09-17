@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
-
 @Controller
 @RequiredArgsConstructor
 public class SaoKeController {
@@ -30,7 +28,8 @@ public class SaoKeController {
 	public ResponseEntity<?> transactions(@RequestParam(defaultValue = "1") int pageNo,
 									   @RequestParam(defaultValue = "10") int pageSize) {
 		Pageable paging = PageRequest.of(pageNo - 1, pageSize);
-		return ResponseEntity.ok(saoKeRepository.findAll(paging));
+		Page<SaoKe> result = saoKeRepository.findAll(paging);
+		return ResponseEntity.ok(result.getContent());
 	}
 
 }
