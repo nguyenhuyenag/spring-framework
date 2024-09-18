@@ -19,13 +19,12 @@
 
 <style>
     body {
-        /*background-color: #eee;*/
         font-family: "Poppins", sans-serif;
         font-weight: 300;
     }
-    .height {
-        height: 40vh;
-    }
+    /*.height {*/
+    /*    height: 40vh;*/
+    /*}*/
     .search {
         position: relative;
         box-shadow: 0 0 40px rgba(51, 51, 51, .1);
@@ -52,13 +51,13 @@
         width: 110px;
         background: blue;
     }
-    .fixed-table-pagination>.pagination .page-jump-to input {
-        width: 100px !important;
+    .fixed-table-pagination > .pagination .page-jump-to input {
+        width: 85px !important;
     }
 </style>
 
 <div class="container">
-    <h1 class="text-center">Datatable From URL</h1>
+    <h1 class="text-center">Bootstrap Datatable</h1>
     <!-- Search -->
     <div class="row height d-flex justify-content-center align-items-center">
         <div class="col-md-8">
@@ -71,60 +70,33 @@
     </div>
 
     <!-- Loading Spinner -->
-    <div class="text-center mb-4" style="margin-top: -10px;">
+    <div class="text-center mt-4 mb-4">
         <div id="loading" class="spinner-border" role="status">
             <span class="sr-only">Loading...</span>
         </div>
     </div>
 
     <!-- Table -->
-    <table id="myTable" class="table table-striped" data-show-jump-to="true">
+    <table id="myTable" class="table table-striped">
         <thead>
-        <tr class="text-center">
-            <th>Mã giao dịch</th>
-            <th>Số tiền</th>
-            <th>Nội dung giao dịch</th>
-            <th>Ngày giao dịch</th>
-        </tr>
+            <tr class="text-center">
+                <th>Mã giao dịch</th>
+                <th>Số tiền</th>
+                <th>Nội dung giao dịch</th>
+                <th>Ngày giao dịch</th>
+            </tr>
         </thead>
     </table>
 </div>
 
 <script>
-    // Show loading spinner using jQuery
-    function showLoading() {
-        $("#loading").show();
-    }
-
-    // Hide loading spinner using jQuery
-    function hideLoading() {
-        $("#loading").hide();
-    }
-
-    $('#input-search').on("search", function () {
-        $('#btn-search').click();
-    });
-
-    function createTable(data) {
-        // console.log(data);
+    function drawTable(data) {
         $('#myTable').bootstrapTable({
             data: data,
-            // page info
+            pageSize: 15,
             pagination: true,
-            pageSize: 10,
             showJumpTo: true,
-            paginationPreText: "Previous",
-            paginationNextText: "Next",
-            onLoadSuccess: function () {
-                console.log('onLoadSuccess');
-                hideLoading();
-                return false;
-            },
-            onLoadError: function () {
-                console.log('onLoadError');
-                hideLoading();
-                return false;
-            },
+            paginationLoop: false,
             columns: [
                 {
                     field: 'code',
@@ -148,38 +120,52 @@
         });
     }
 
-    // Search
-    $('#btn-search').on('click', function() {
-        showLoading();
-        let search = $('#input-search').val();
-        if (search !== '' && search.length > 0) {
-            $.ajax({
-                type: "GET",
-                url: './transactions?query=' + search,
-                success: function (data) {
+    $(function () {
+        search(true); // init table when reload page
+    });
+
+    // search(true, keySearch = '')
+    function search(init, keySearch = '') {
+        $.ajax({
+            type: "GET",
+            url: './transactions?query=' + keySearch,
+            beforeSend: function() {
+                showLoading();
+            },
+            success: function (data) {
+                if (init) {
+                    drawTable(data);
+                } else {
                     $('#myTable').bootstrapTable('load', data);
-                    // hideLoading();
-                },
-                error: function (e) {
-                    console.log("ERROR : ", e);
-                    // showLoading();
-                },
-                complete: function (data) {
-                    // console.log("SEMPRE FUNFA!");
-                    // A function to be called when the request finishes
-                    // (after success and error callbacks are executed).
-                    hideLoading();
                 }
-            });
-        }
+            },
+            error: function (e) {
+                console.log("ERROR : ", e);
+            },
+            complete: function () { // finally
+                hideLoading();
+                $('#btn-search').prop('disabled', false);
+            }
+        });
+    }
+
+    // Search
+    $('#btn-search').on('click', function () {
+        $(this).prop('disabled', true);
+        // let keyword = $('#input-search').val().trim();
+        search(false, $('#input-search').val().trim());
         return false;
     });
 
-    $(function () {
-        // Init table
-        $.getJSON('./transactions', (data) => {
-            createTable(data);
-            // hideLoading();
-        });
+    function showLoading() {
+        $('#loading').show();
+    }
+
+    function hideLoading() {
+        $('#loading').hide();
+    }
+
+    $('#input-search').on("search", function () {
+        $('#btn-search').click();
     });
 </script>

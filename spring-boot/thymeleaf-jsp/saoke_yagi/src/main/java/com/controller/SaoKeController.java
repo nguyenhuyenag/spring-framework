@@ -29,15 +29,11 @@ public class SaoKeController {
 	@GetMapping("/transactions")
 	@ResponseBody
 	public ResponseEntity<?> transactions(@RequestParam(required = false, defaultValue = "") String query) {
-		if (StringUtils.isEmpty(query)) {
-//			int pageNo = 1;
-//			int pageSize = 10;
-//			Pageable paging = PageRequest.of(pageNo - 1, pageSize);
-//			Page<SaoKe> result = saoKeRepository.findAll(paging);
-			// return ResponseEntity.ok(result.getContent());
-			return ResponseEntity.ok(saoKeRepository.findAll());
-		}
-		return ResponseEntity.ok(saoKeService.search(query.trim()));
+//		int pageNo = 1;
+//		int pageSize = 10;
+//		Pageable paging = PageRequest.of(pageNo - 1, pageSize);
+//		Page<SaoKe> result = saoKeRepository.findAll(paging);
+		return ResponseEntity.ok(saoKeService.listTransactions(query.trim()));
 	}
 
 }

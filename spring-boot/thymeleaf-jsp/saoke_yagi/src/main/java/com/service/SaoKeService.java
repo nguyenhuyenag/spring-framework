@@ -1,8 +1,10 @@
 package com.service;
 
 import com.entity.SaoKe;
+import com.mapper.SaoKeMapper;
 import com.repository.SaoKeRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -18,27 +20,37 @@ public class SaoKeService {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public List<SaoKe> search(String keyword) {
+    private final SaoKeMapper mapper;
+    private final SaoKeRepository repository;
+
+    public List<?> listTransactions(String keyword) {
+        if (StringUtils.isEmpty(keyword)) {
+            return mapper.toSaoKeResponse(repository.findAll());
+        }
+        return mapper.toSaoKeResponse(search(keyword));
+    }
+
+    private List<SaoKe> search(String keyword) {
         String[] keySearch = keyword.split(" ");
 
         String sql = "SELECT * FROM sao_ke";
 
-        // WHERE [column LIKE '%Text%' OR column LIKE 'Hello%' OR column LIKE 'That%']
+        // WHERE [column LIKE '%Text%' OR column LIKE 'Hello%']
         StringJoiner joiner = new StringJoiner(" OR ");
         for (String key : keySearch) {
             joiner.add("code LIKE '%" + key + "%'");
             joiner.add("notes LIKE '%" + key + "%'");
         }
 
+        joiner.add("notes LIKE '%" + keyword + "%'");
+
         if (joiner.length() > 0) {
             sql += " WHERE " + joiner;
         }
 
-        // Create a native query with the SQL string and specify the entity class
         Query query = entityManager.createNativeQuery(sql, SaoKe.class);
-        List<SaoKe> list = query.getResultList();
-        return list;
+        List<SaoKe> result = query.getResultList();
+        return result;
     }
-
 
 }
