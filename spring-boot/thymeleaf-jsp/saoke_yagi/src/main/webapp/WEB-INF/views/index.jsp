@@ -77,13 +77,13 @@
     </div>
 
     <!-- Table -->
-    <table id="myTable" class="table table-striped">
+    <table id="myTable" class="table table-striped mb-4">
         <thead>
             <tr class="text-center">
+                <th>Ngày giao dịch</th>
                 <th>Mã giao dịch</th>
                 <th>Số tiền</th>
                 <th>Nội dung giao dịch</th>
-                <th>Ngày giao dịch</th>
             </tr>
         </thead>
     </table>
@@ -99,22 +99,22 @@
             paginationLoop: false,
             columns: [
                 {
-                    field: 'code',
-                    title: 'Mã giao dịch',
+                    title: 'Ngày giao dịch',
+                    field: 'date',
                     align: 'center',
                     sortable: true
                 }, {
-                    field: 'amount',
-                    align: 'center',
-                    title: 'Số tiền'
+                    title: 'Mã giao dịch',
+                    field: 'code',
+                    align: 'center'
                 }, {
+                    title: 'Số tiền',
+                    field: 'amount',
+                    align: 'right',
+                }, {
+                    title: 'Nội dung giao dịch',
                     field: 'notes',
                     align: 'center',
-                    title: 'Nội dung giao dịch'
-                }, {
-                    field: 'date',
-                    align: 'center',
-                    title: 'Ngày giao dịch'
                 }
             ]
         });

@@ -18,7 +18,7 @@ public interface SaoKeMapper {
     List<SaoKeResponse> toSaoKeResponse(List<SaoKe> listSaoKe);
 
     default String formatDate(LocalDate date) {
-        DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         return date != null ? date.format(formatters) : null;
     }
 
