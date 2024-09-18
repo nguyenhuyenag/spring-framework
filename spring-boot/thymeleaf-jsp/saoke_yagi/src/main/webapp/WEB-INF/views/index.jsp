@@ -115,6 +115,16 @@
                     title: 'Nội dung giao dịch',
                     field: 'notes',
                     align: 'center',
+                    formatter: function (value, row, index) {
+                        var keyword = $('#input-search').val().trim().toLowerCase(); // Lấy từ khóa tìm kiếm
+                        if (!keyword || keyword === '') {
+                            return value;
+                        }
+
+                        // Kiểm tra và tô màu từ khóa trong 'notes'
+                        var highlighted = value.replace(new RegExp('(' + keyword + ')', 'gi'), '<strong class="text-warning">$1</strong>');
+                        return highlighted;
+                    }
                 }
             ]
         });
@@ -127,7 +137,7 @@
     // search(true, keySearch = '')
     function search(init, keySearch = '') {
         $.ajax({
-            type: "GET",
+            type: 'GET',
             url: './transactions?query=' + keySearch,
             beforeSend: function() {
                 showLoading();
