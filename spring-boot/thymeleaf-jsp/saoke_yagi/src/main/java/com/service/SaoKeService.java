@@ -3,6 +3,7 @@ package com.service;
 import com.entity.SaoKe;
 import com.mapper.SaoKeMapper;
 import com.repository.SaoKeRepository;
+import com.response.SaoKeResponse;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class SaoKeService {
     private final SaoKeMapper mapper;
     private final SaoKeRepository repository;
 
-    public List<?> listTransactions(String keyword) {
+    public List<SaoKeResponse> listTransactions(String keyword) {
         if (StringUtils.isEmpty(keyword)) {
             return mapper.toSaoKeResponse(repository.findAll());
         }
