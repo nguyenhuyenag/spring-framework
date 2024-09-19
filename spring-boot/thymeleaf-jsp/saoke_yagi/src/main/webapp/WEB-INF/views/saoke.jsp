@@ -28,6 +28,7 @@
     }
     .search input {
         height: 60px;
+        width: 500px;
         text-indent: 25px;
         border: 2px solid #d6d4d4;
     }
@@ -48,6 +49,12 @@
         width: 110px;
         background: blue;
     }
+    .btn-load-data {
+        height: 60px;
+        width: 110px;
+        margin-left: 10px;
+        background: blue;
+    }
     .fixed-table-pagination > .pagination .page-jump-to input {
         width: 85px !important;
     }
@@ -55,25 +62,25 @@
 
 <div class="container">
     <h1 class="text-center">Bootstrap Datatable</h1>
-    <h3 class="text-center"><a href="/saoke">Sao Kê</a></h3>
     <!-- Search -->
-    <div class="row height d-flex justify-content-center align-items-center">
-        <div class="col-md-8">
-            <div class="search">
+    <div class="row justify-content-center align-items-center">
+        <div class="d-flex">
+            <div class="d-inline-block search">
                 <i class="fa fa-search"></i>
-                <input id="input-search" type="search" class="form-control" placeholder="">
+                <input id="input-search" type="search" class="form-control">
                 <button id="btn-search" class="btn btn-primary">Search</button>
+            </div>
+            <div class="load-data d-inline-block">
+                <button class="btn btn-primary btn-load-data">Load Data</button>
             </div>
         </div>
     </div>
-
     <!-- Loading Spinner -->
     <div class="text-center mt-4 mb-4">
         <div id="loading" class="spinner-border" role="status">
             <span class="sr-only">Loading...</span>
         </div>
     </div>
-
     <!-- Table -->
     <table id="myTable" class="table table-striped mb-4">
         <thead>
@@ -153,9 +160,11 @@
 
     // Search
     $('#btn-search').on('click', function () {
-        $(this).prop('disabled', true);
-        // let keyword = $('#input-search').val().trim();
-        search(false, $('#input-search').val().trim());
+        let keyword = $('#input-search').val().trim();
+        if (keyword !== '' && keyword.length > 0) {
+            $(this).prop('disabled', true);
+            search(false, keyword);
+        }
         return false;
     });
 

@@ -32,27 +32,15 @@ public class SaoKeService {
     }
 
     private List<SaoKe> search(String keyword) {
-        // String[] keySearch = keyword.split(" ");
-
         String sql = "SELECT * FROM sao_ke";
 
-        // WHERE [column LIKE '%Text%' OR column LIKE 'Hello%']
         StringJoiner joiner = new StringJoiner(" OR ");
-//        for (String key : keySearch) {
-//            joiner.add("code LIKE '%" + key + "%'");
-//            // joiner.add("notes LIKE '%" + key + "%'");
-//        }
-
         joiner.add("code LIKE '%" + keyword + "%'");
         joiner.add("notes LIKE '%" + keyword + "%'");
-
-        //if (joiner.length() > 0) {
         sql += " WHERE " + joiner;
-        //}
 
         Query query = entityManager.createNativeQuery(sql, SaoKe.class);
-        List<SaoKe> result = query.getResultList();
-        return result;
+        return query.getResultList();
     }
 
     private List<SaoKe> advanceSearch(String keyword) {

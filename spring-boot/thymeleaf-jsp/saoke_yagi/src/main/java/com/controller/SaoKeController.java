@@ -20,23 +20,28 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SaoKeController {
 
-	private final SaoKeService saoKeService;
-	private final SaoKeRepository saoKeRepository;
+    private final SaoKeService saoKeService;
+    // private final SaoKeRepository saoKeRepository;
 
-	@GetMapping({ "/", "index" })
-	public String index() {
-		return "index";
-	}
+    @GetMapping({"/", "saoke"})
+    public String saoke() {
+        return "saoke";
+    }
 
-	@GetMapping("/transactions")
-	@ResponseBody
-	public ResponseEntity<?> transactions(@RequestParam(required = false, defaultValue = "") String query) {
+    @GetMapping("index")
+    public String index() {
+        return "index";
+    }
+
+    @GetMapping("/transactions")
+    @ResponseBody
+    public ResponseEntity<?> transactions(@RequestParam(required = false, defaultValue = "") String query) {
 //		int pageNo = 1;
 //		int pageSize = 10;
 //		Pageable paging = PageRequest.of(pageNo - 1, pageSize);
 //		Page<SaoKe> result = saoKeRepository.findAll(paging);
-		List<?> list = saoKeService.listTransactions(query.trim());
-		return ResponseEntity.ok(list);
-	}
+        List<?> list = saoKeService.listTransactions(query.trim());
+        return ResponseEntity.ok(list);
+    }
 
 }
