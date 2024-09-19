@@ -1,5 +1,4 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
-<%--<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>--%>
 
 <head>
     <meta charset="UTF-8">
@@ -151,8 +150,7 @@
             },
             complete: function () { // finally
                 hideLoading();
-                $('#btn-search').prop('disabled', false);
-                $('.btn-load-data').prop('disabled', false);
+                $('#btn-search, .btn-load-data').prop('disabled', false);
             }
         });
     }
@@ -163,13 +161,15 @@
 
     // Search
     $('#btn-search').on('click', function () {
+        const $button = $(this);
         let keyword = searchValue();
-        if (keyword !== '' && keyword.length > 0) {
-            $(this).prop('disabled', true);
+        if (keyword !== '') {
+            $button.prop('disabled', true);
             search(keyword);
         }
         return false;
     });
+
 
     function showLoading() {
         $('#loading').show();
