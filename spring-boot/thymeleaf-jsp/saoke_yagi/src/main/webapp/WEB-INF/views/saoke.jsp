@@ -1,5 +1,5 @@
-<%@ page contentType="text/html" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html" pageEncoding="UTF-8"%>
+<%--<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>--%>
 
 <head>
     <meta charset="UTF-8">
@@ -26,7 +26,7 @@
         position: relative;
         box-shadow: 0 0 40px rgba(51, 51, 51, .1);
     }
-    .search input {
+    #input-search {
         height: 60px;
         width: 500px;
         text-indent: 25px;
@@ -41,7 +41,7 @@
         top: 20px;
         left: 16px;
     }
-    .search button {
+    #btn-search {
         position: absolute;
         top: 5px;
         right: 5px;
@@ -50,7 +50,7 @@
         background: blue;
     }
     .btn-load-data {
-        height: 60px;
+        height: 58px;
         width: 110px;
         margin-left: 10px;
         background: blue;
@@ -77,12 +77,12 @@
     </div>
     <!-- Loading Spinner -->
     <div class="text-center mt-4 mb-4">
-        <div id="loading" class="spinner-border" role="status">
+        <div id="loading" class="spinner-border" role="status" style="display: none">
             <span class="sr-only">Loading...</span>
         </div>
     </div>
     <!-- Table -->
-    <table id="myTable" class="table table-striped mb-4">
+    <table id="myTable" class="table table-striped mb-4" style="display: none">
         <thead>
             <tr class="text-center">
                 <th>Ngày giao dịch</th>
@@ -96,7 +96,10 @@
 
 <script>
     function drawTable(data) {
-        $('#myTable').bootstrapTable({
+        let table = $('#myTable');
+        table.show();
+        table.bootstrapTable('destroy'); // Destroy bootstrap table
+        table.bootstrapTable({
             data: data,
             pageSize: 15,
             pagination: true,
@@ -121,7 +124,7 @@
                     field: 'notes',
                     align: 'center',
                     formatter: function (value, row, index) {
-                        var keyword = $('#input-search').val().trim().toLowerCase();
+                        var keyword = searchValue().toLowerCase();
                         if (!keyword || keyword === '') {
                             return value;
                         }
@@ -133,12 +136,7 @@
         });
     }
 
-    $(function () {
-        search(true); // init table when reload page
-    });
-
-    // search(true, keySearch = '')
-    function search(init, keySearch = '') {
+    function search(keySearch = '') {
         $.ajax({
             type: 'GET',
             url: './transactions?query=' + encodeURIComponent(keySearch),
@@ -146,7 +144,7 @@
                 showLoading();
             },
             success: function (data) {
-                init ? drawTable(data) : $('#myTable').bootstrapTable('load', data);
+                drawTable(data);
             },
             error: function (e) {
                 console.log("ERROR : ", e);
@@ -154,16 +152,21 @@
             complete: function () { // finally
                 hideLoading();
                 $('#btn-search').prop('disabled', false);
+                $('.btn-load-data').prop('disabled', false);
             }
         });
     }
 
+    function searchValue() {
+        return $('#input-search').val().trim();
+    }
+
     // Search
     $('#btn-search').on('click', function () {
-        let keyword = $('#input-search').val().trim();
+        let keyword = searchValue();
         if (keyword !== '' && keyword.length > 0) {
             $(this).prop('disabled', true);
-            search(false, keyword);
+            search(keyword);
         }
         return false;
     });
@@ -176,7 +179,48 @@
         $('#loading').hide();
     }
 
-    $('#input-search').on("search", function () {
-        $('#btn-search').click();
+    // $('#input-search').on('search', function () {
+    //     $('#btn-search').click();
+    // });
+
+    $('#input-search').on('search', () => $('#btn-search').click());
+
+    $('.btn-load-data').on('click', function () {
+        $(this).prop('disabled', true);
+        search(); // Search all
+        return false;
     });
+
+    // // Trả về giá trị tìm kiếm đã trim
+    // const searchValue = () => $('#input-search').val().trim();
+    //
+    // // Hàm kích hoạt tìm kiếm
+    // const triggerSearch = (keyword = '') => {
+    //     if (keyword !== '') {
+    //         $('#btn-search, .btn-load-data').prop('disabled', true);
+    //         showLoading();
+    //         search(keyword);
+    //     }
+    // };
+    //
+    // // Hiển thị loading
+    // const showLoading = () => $('#loading').show();
+    //
+    // // Ẩn loading
+    // const hideLoading = () => $('#loading').hide();
+    //
+    // // Sự kiện click nút Search
+    // $('#btn-search').on('click', function () {
+    //     triggerSearch(searchValue());
+    //     return false;
+    // });
+    //
+    // // Tự động kích hoạt tìm kiếm khi ô input-search kích hoạt sự kiện 'search'
+    // $('#input-search').on('search', () => $('#btn-search').click());
+    //
+    // // Sự kiện click nút Load Data (tìm kiếm toàn bộ)
+    // $('.btn-load-data').on('click', function () {
+    //     triggerSearch();
+    //     return false;
+    // });
 </script>
