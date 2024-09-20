@@ -179,10 +179,6 @@
         $('#loading').hide();
     }
 
-    // $('#input-search').on('search', function () {
-    //     $('#btn-search').click();
-    // });
-
     $('#input-search').on('search', () => $('#btn-search').click());
 
     $('.btn-load-data').on('click', function () {
@@ -191,36 +187,4 @@
         return false;
     });
 
-    // // Trả về giá trị tìm kiếm đã trim
-    // const searchValue = () => $('#input-search').val().trim();
-    //
-    // // Hàm kích hoạt tìm kiếm
-    // const triggerSearch = (keyword = '') => {
-    //     if (keyword !== '') {
-    //         $('#btn-search, .btn-load-data').prop('disabled', true);
-    //         showLoading();
-    //         search(keyword);
-    //     }
-    // };
-    //
-    // // Hiển thị loading
-    // const showLoading = () => $('#loading').show();
-    //
-    // // Ẩn loading
-    // const hideLoading = () => $('#loading').hide();
-    //
-    // // Sự kiện click nút Search
-    // $('#btn-search').on('click', function () {
-    //     triggerSearch(searchValue());
-    //     return false;
-    // });
-    //
-    // // Tự động kích hoạt tìm kiếm khi ô input-search kích hoạt sự kiện 'search'
-    // $('#input-search').on('search', () => $('#btn-search').click());
-    //
-    // // Sự kiện click nút Load Data (tìm kiếm toàn bộ)
-    // $('.btn-load-data').on('click', function () {
-    //     triggerSearch();
-    //     return false;
-    // });
 </script>
