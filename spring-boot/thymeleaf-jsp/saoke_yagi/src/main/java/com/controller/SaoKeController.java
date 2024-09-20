@@ -1,13 +1,7 @@
 package com.controller;
 
-import com.entity.SaoKe;
-import com.repository.SaoKeRepository;
 import com.service.SaoKeService;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +15,6 @@ import java.util.List;
 public class SaoKeController {
 
     private final SaoKeService saoKeService;
-    // private final SaoKeRepository saoKeRepository;
 
     @GetMapping({"/", "saoke"})
     public String saoke() {

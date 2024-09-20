@@ -62,8 +62,7 @@ public class SaoKeService {
         }
 
         Query query = entityManager.createNativeQuery(sql, SaoKe.class);
-        List<SaoKe> result = query.getResultList();
-        return result;
+        return query.getResultList();
     }
 
 }
