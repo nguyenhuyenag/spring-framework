@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Sao Kê YaGi</title>
+    <link rel="shortcut icon" href="#">
     <!-- JS -->
     <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
@@ -55,7 +56,7 @@
 
 <div class="container">
     <h1 class="text-center">Bootstrap Datatable</h1>
-    <h3 class="text-center"><a href="/saoke">Sao Kê</a></h3>
+    <h3 class="text-center"><a href="${pageContext.request.contextPath}/saoke">Sao Kê</a></h3>
     <!-- Search -->
     <div class="row height d-flex justify-content-center align-items-center">
         <div class="col-md-8">
@@ -118,8 +119,7 @@
                         if (!keyword || keyword === '') {
                             return value;
                         }
-                        var highlighted = value.replace(new RegExp('(' + keyword + ')', 'gi'), '<strong class="text-warning">$1</strong>');
-                        return highlighted;
+                        return value.replace(new RegExp('(' + keyword + ')', 'gi'), '<strong class="text-warning">$1</strong>');
                     }
                 }
             ]

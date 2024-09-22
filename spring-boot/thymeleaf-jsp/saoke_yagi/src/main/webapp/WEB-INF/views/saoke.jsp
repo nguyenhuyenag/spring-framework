@@ -1,8 +1,9 @@
-<%@ page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html" pageEncoding="UTF-8" %>
 
 <head>
     <meta charset="UTF-8">
     <title>Sao Kê YaGi</title>
+    <link rel="shortcut icon" href="#">
     <!-- JS -->
     <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
@@ -13,7 +14,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-table@1.23.2/dist/bootstrap-table.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-table@1.23.2/dist/extensions/page-jump-to/bootstrap-table-page-jump-to.min.css">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-table@1.23.2/dist/extensions/page-jump-to/bootstrap-table-page-jump-to.min.css">
 </head>
 
 <style>
@@ -21,25 +23,30 @@
         font-family: "Poppins", sans-serif;
         font-weight: 300;
     }
+
     .search {
         position: relative;
         box-shadow: 0 0 40px rgba(51, 51, 51, .1);
     }
+
     #input-search {
         height: 60px;
         width: 500px;
         text-indent: 25px;
         border: 2px solid #d6d4d4;
     }
+
     .search input:focus {
         box-shadow: none;
         border: 2px solid blue;
     }
+
     .search .fa-search {
         position: absolute;
         top: 20px;
         left: 16px;
     }
+
     #btn-search {
         position: absolute;
         top: 5px;
@@ -48,12 +55,14 @@
         width: 110px;
         background: blue;
     }
+
     .btn-load-data {
         height: 58px;
         width: 110px;
         margin-left: 10px;
         background: blue;
     }
+
     .fixed-table-pagination > .pagination .page-jump-to input {
         width: 85px !important;
     }
@@ -83,12 +92,12 @@
     <!-- Table -->
     <table id="myTable" class="table table-striped mb-4" style="display: none">
         <thead>
-            <tr class="text-center">
-                <th>Ngày giao dịch</th>
-                <th>Mã giao dịch</th>
-                <th>Số tiền</th>
-                <th>Nội dung giao dịch</th>
-            </tr>
+        <tr class="text-center">
+            <th>Ngày giao dịch</th>
+            <th>Mã giao dịch</th>
+            <th>Số tiền</th>
+            <th>Nội dung giao dịch</th>
+        </tr>
         </thead>
     </table>
 </div>
@@ -127,8 +136,7 @@
                         if (!keyword || keyword === '') {
                             return value;
                         }
-                        var highlighted = value.replace(new RegExp('(' + keyword + ')', 'gi'), '<strong class="text-warning">$1</strong>');
-                        return highlighted;
+                        return value.replace(new RegExp('(' + keyword + ')', 'gi'), '<strong class="text-warning">$1</strong>');
                     }
                 }
             ]
@@ -139,7 +147,7 @@
         $.ajax({
             type: 'GET',
             url: './transactions?query=' + encodeURIComponent(keySearch),
-            beforeSend: function() {
+            beforeSend: function () {
                 showLoading();
             },
             success: function (data) {
@@ -155,8 +163,10 @@
         });
     }
 
+    const $inputSearch = $('#input-search');
+
     function searchValue() {
-        return $('#input-search').val().trim();
+        return $inputSearch.val().trim();
     }
 
     // Search
@@ -170,6 +180,12 @@
         return false;
     });
 
+    $inputSearch.on('keyup', (event) => {
+        const id = event.key || event.which || event.keyCode || 0;
+        if ((id === 'Enter' || id === 13) && searchValue() !== '') {
+            $('#btn-search').trigger('click');
+        }
+    });
 
     function showLoading() {
         $('#loading').show();
@@ -179,12 +195,9 @@
         $('#loading').hide();
     }
 
-    $('#input-search').on('search', () => $('#btn-search').click());
-
     $('.btn-load-data').on('click', function () {
         $(this).prop('disabled', true);
         search(); // Search all
         return false;
     });
-
 </script>
