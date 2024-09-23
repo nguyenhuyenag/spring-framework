@@ -1,20 +1,20 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <style>
-		.active {
-			font-weight: bold;
-		}
-		.bg-color {
-			background-color: #009ee3 !important;
-		}
-		.nav-link, .navbar-brand {
-			color: white;
-		}
-		.pointer {
-			cursor: pointer;
-		}
+	.active {
+		font-weight: bold;
+	}
+	.bg-color {
+		background-color: #009ee3 !important;
+	}
+	.nav-link, .navbar-brand {
+		color: white;
+	}
+	.pointer {
+		cursor: pointer;
+	}
 </style>
 
 <script type="text/javascript">
@@ -27,7 +27,7 @@
 		const path = window.location.pathname;
 		// If not found i = -1
 		const i = menu.findIndex(item => path.startsWith('${CONTEXT_PATH}' + '/' + item));
-		if (i != -1) {
+		if (i !== -1) {
 			$('#' + menu[i]).addClass('active');
 		}
 	}
@@ -44,7 +44,7 @@
 				<li id="edit-user" class="nav-item"><a class="nav-link" href="./edit-user">Edit User</a></li>
 				<li id="admin" class="nav-item"><a class="nav-link" href="./admin">Admin</a></li>
 				<li id="ajax" class="nav-item"><a class="nav-link" href="./ajax">Ajax</a></li>
-				<li id="ajax" class="nav-item"><a class="nav-link" href="./test">Test</a></li>
+				<li id="test" class="nav-item"><a class="nav-link" href="./test">Test</a></li>
 			</ul>
 			<ul class="navbar-nav pull-right">
 				<li class="nav-item">

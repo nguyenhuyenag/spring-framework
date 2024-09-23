@@ -88,9 +88,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         
         // http.sessionManagement(management -> management
         //        .sessionCreationPolicy(SessionCreationPolicy.ALWAYS));
-
         // http.sessionManagement().maximumSessions(1); // Limit login (thiết bị đăng nhập)
-        
 	}
 	
 	@Autowired

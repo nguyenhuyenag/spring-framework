@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +19,13 @@ import com.entity.User;
 import com.repository.UserRepository;
 import com.util.LoginAttemptService;
 import com.util.RequestUtils;
+import org.springframework.stereotype.Component;
 
+@Slf4j
+@Component
 public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
-	private final Logger LOG = LoggerFactory.getLogger(LoginFailureHandler.class);
+	// private final Logger LOG = LoggerFactory.getLogger(LoginFailureHandler.class);
 
 	@Autowired
 	private UserRepository repository;
@@ -34,17 +38,17 @@ public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 			AuthenticationException exception) throws IOException, ServletException {
 
 		System.out.println("[" + this.getClass().getSimpleName() + "] Exception: " + exception.getMessage());
-		
+
 		String email = request.getParameter("username");
-		
+
 		Optional<User> opt = repository.findByUsername(email);
 		if (opt.isPresent()) {
 			// exception = handleError(opt.get());
 		}
-		
+
 		// Login failed by BadCredentialsException (username or password incorrect)
 		if (exception.getClass().isAssignableFrom(BadCredentialsException.class)) {
-			LOG.info("IP: {}", RequestUtils.getClientIPAddress(request));
+			log.info("IP: {}", RequestUtils.getClientIPAddress(request));
 			loginAttemptService.loginFailed(RequestUtils.getClientIPAddress(request));
 		}
 

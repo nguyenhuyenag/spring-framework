@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Controller
 public class AjaxController {
 
-	private ObjectMapper mapper = new ObjectMapper();
+	private final ObjectMapper mapper = new ObjectMapper();
 
 	@GetMapping("/ajax")
 	public String ajaxView(Model model) throws JsonProcessingException {
