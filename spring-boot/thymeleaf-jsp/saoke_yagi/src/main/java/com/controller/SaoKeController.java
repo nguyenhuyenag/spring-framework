@@ -21,10 +21,10 @@ public class SaoKeController {
         return "saoke";
     }
 
-    @GetMapping("index")
-    public String index() {
-        return "index";
-    }
+//    @GetMapping("index")
+//    public String index() {
+//        return "index";
+//    }
 
     @GetMapping("/transactions")
     @ResponseBody

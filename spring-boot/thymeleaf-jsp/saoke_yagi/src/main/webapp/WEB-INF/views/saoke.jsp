@@ -6,16 +6,13 @@
     <link rel="shortcut icon" href="#">
     <!-- JS -->
     <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.21.4/bootstrap-table.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.23.2/dist/extensions/page-jump-to/bootstrap-table-page-jump-to.min.js"></script>
     <!-- CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-table@1.23.2/dist/bootstrap-table.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap-table@1.23.2/dist/extensions/page-jump-to/bootstrap-table-page-jump-to.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-table@1.23.2/dist/bootstrap-table.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-table@1.23.2/dist/extensions/page-jump-to/bootstrap-table-page-jump-to.min.css">
 </head>
 
 <style>
@@ -103,6 +100,14 @@
 </div>
 
 <script>
+    function isEmpty(str) {
+        return !str || str.trim().length === 0;
+    }
+
+    function isNotEmpty(str) {
+        return str && str.trim().length > 0;
+    }
+
     function drawTable(data) {
         let table = $('#myTable');
         table.show();
@@ -133,14 +138,18 @@
                     align: 'center',
                     formatter: function (value, row, index) {
                         var keyword = searchValue().toLowerCase();
-                        if (!keyword || keyword === '') {
+                        if (isEmpty(keyword)) {
                             return value;
                         }
-                        return value.replace(new RegExp('(' + keyword + ')', 'gi'), '<strong class="text-warning">$1</strong>');
+                        return highlightText(value, keyword);
                     }
                 }
             ]
         });
+    }
+
+    function highlightText(text, keyword) {
+        return text.replace(new RegExp('(' + keyword + ')', 'gi'), '<strong class="text-warning">$1</strong>');
     }
 
     function search(keySearch = '') {
@@ -173,7 +182,7 @@
     $('#btn-search').on('click', function () {
         const $button = $(this);
         let keyword = searchValue();
-        if (keyword !== '') {
+        if (isNotEmpty(keyword)) {
             $button.prop('disabled', true);
             search(keyword);
         }
