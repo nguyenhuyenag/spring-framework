@@ -11,7 +11,7 @@ public class RequestUtils {
 	public static String getClientIPAddress(HttpServletRequest request) {
 		for (String header : HEADERS_TO_TRY) {
 			String ip = request.getHeader(header);
-			if (ip != null && ip.length() != 0 && !"unknown".equalsIgnoreCase(ip)) {
+			if (ip != null && !ip.isEmpty() && !"unknown".equalsIgnoreCase(ip)) {
 				return ip;
 			}
 		}

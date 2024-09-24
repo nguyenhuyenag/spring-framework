@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,52 +22,45 @@ import com.repository.UserRepository;
 import com.util.LoginAttemptService;
 import com.util.RequestUtils;
 
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
-	
-	private static final Logger LOG = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
 
-	@Autowired
-	private UserService userService;
+    private final UserService userService;
+    private final UserRepository repository;
+    private final HttpServletRequest request;
+    private final LoginAttemptService loginAttemptService;
 
-	@Autowired
-	private UserRepository repository;
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        String ip = RequestUtils.getClientIPAddress(request);
+        if (loginAttemptService.isBlocked(ip)) {
+            throw new BadCredentialsException("BLOCK_IP");
+        }
 
-	@Autowired
-	private HttpServletRequest request;
+        Optional<User> opt = repository.findByUsername(username);
+        if (opt.isEmpty()) {
+            log.info("User `{}` was not found!", username);
+            throw new UsernameNotFoundException("User `" + username + "` was not found!");
+        }
 
-	@Autowired
-	private LoginAttemptService loginAttemptService;
+        User user = opt.get();
+        if (user.isDisabled()) {
+            log.info("User `{}` is disabled", username);
+            // throw new BadCredentialsException("USER_DISABLED");
+        }
 
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		String ip = RequestUtils.getClientIPAddress(request);
-		if (loginAttemptService.isBlocked(ip)) {
-			throw new BadCredentialsException("BLOCK_IP");
-		}
-		
-		Optional<User> opt = repository.findByUsername(username);
-		if (opt.isEmpty()) {
-			LOG.info("User `{}` was not found!", username);
-			throw new UsernameNotFoundException("User `" + username + "` was not found!");
-		}
-		
-		User user = opt.get();
-		if (user.isDisabled()) {
-			LOG.info("User `{}` is disabled", username);
-			// throw new BadCredentialsException("USER_DISABLED");
-		}
-		
-		// [ROLE_USER, ROLE_ADMIN, ...]
-		List<GrantedAuthority> roles = userService.getGrantedAuthorityByUserId(user.getUserId());
-		LOG.info("Roles of `{}`: {}", user.getUsername(), roles);
-		return org.springframework.security.core.userdetails.User //
-				.withUsername(user.getUsername()) //
-				.password(user.getPassword()) ///
-				.disabled(user.isDisabled()) //
-				// .accountLocked(true)
-				.authorities(roles) //
-				.build();
-	}
+        // [ROLE_USER, ROLE_ADMIN, ...]
+        List<GrantedAuthority> roles = userService.getGrantedAuthorityByUserId(user.getUserId());
+        log.info("Roles of `{}`: {}", user.getUsername(), roles);
+        return org.springframework.security.core.userdetails.User //
+                .withUsername(user.getUsername()) //
+                .password(user.getPassword()) ///
+                .disabled(user.isDisabled()) //
+                // .accountLocked(true)
+                .authorities(roles) //
+                .build();
+    }
 
 }

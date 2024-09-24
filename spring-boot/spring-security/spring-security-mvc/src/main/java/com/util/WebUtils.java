@@ -33,7 +33,7 @@ public class WebUtils {
 		for (GrantedAuthority grant : authorities) {
 			sj.add(grant.toString());
 		}
-		builder.append(sj.toString());
+		builder.append(sj);
 		// Or using: StringUtils.join(authorities, ",");
 		return builder.toString();
 	}

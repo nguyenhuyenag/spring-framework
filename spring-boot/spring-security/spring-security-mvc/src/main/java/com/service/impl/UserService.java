@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -12,12 +13,11 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-	// private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
-
-	@Autowired
-	private NamedParameterJdbcTemplate namedJdbcTemplate;
+	// @Autowired
+	private final NamedParameterJdbcTemplate namedJdbcTemplate;
 
 	public List<String> getRolesByUserId(int userId) {
 		String sql = "SELECT t1.role_name" //
