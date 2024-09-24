@@ -10,7 +10,7 @@
 			$("li").click(function () {
 				const [username, password] = $(this).text().split("/");
 				if (username && password) {
-					console.log([username, password]);
+					// console.log([username, password]);
 					$('#inputUsername').val(username);
 					$('#inputPassword').val(password);
 				}
@@ -23,7 +23,7 @@
 				const hideEye = $('#hide_eye');
   				const showEye = $('#show_eye');
 				
-				  // condition ? exprIfTrue : exprIfFalse
+				// condition ? exprIfTrue : exprIfFalse
 			  	showPassword
 					? (hideEye.addClass('d-none'), showEye.removeClass('d-none'))
 					: (showEye.addClass('d-none'), hideEye.removeClass('d-none'));
