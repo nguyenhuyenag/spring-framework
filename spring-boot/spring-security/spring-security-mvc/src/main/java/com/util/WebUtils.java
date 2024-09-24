@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class WebUtils {
 
-	protected static Logger LOG = LoggerFactory.getLogger(WebUtils.class);
+	// protected static Logger LOG = LoggerFactory.getLogger(WebUtils.class);
 
 	// @Autowired
 	// private HttpServletRequest request;

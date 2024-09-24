@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,13 +29,11 @@ import com.request.EditUser;
 import com.util.WebUtils;
 
 @Controller
+@RequiredArgsConstructor
 public class UserController {
 
-	@Autowired
-	PasswordEncoder encoder;
-
-	@Autowired
-	private UserRepository userRepository;
+	private final PasswordEncoder encoder;
+	private final UserRepository userRepository;
 
 	// JDK 17
 	private Optional<User> castUser(Principal principal) {

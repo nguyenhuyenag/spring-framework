@@ -2,6 +2,7 @@ package com.controller;
 
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,11 +13,11 @@ import com.entity.User;
 import com.repository.UserRepository;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("rest-api")
 public class RestApiController {
 
-	@Autowired
-	UserRepository userRepository;
+	private final UserRepository userRepository;
 
 	@GetMapping("users")
 	public ResponseEntity<List<?>> users() {

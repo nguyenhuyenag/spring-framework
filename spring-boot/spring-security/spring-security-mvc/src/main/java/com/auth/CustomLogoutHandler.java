@@ -1,14 +1,13 @@
 package com.auth;
 
-import java.io.IOException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.security.core.Authentication;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
-import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
+import java.io.IOException;
 
 public class CustomLogoutHandler extends SimpleUrlLogoutSuccessHandler implements LogoutSuccessHandler {
 
@@ -22,7 +21,8 @@ public class CustomLogoutHandler extends SimpleUrlLogoutSuccessHandler implement
 	}
 
 	public static String getAuthenticatedUserName(Authentication auth) {
-		return auth != null ? ((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername()
+		return auth != null
+				? ((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername()
 				: null;
 	}
 
