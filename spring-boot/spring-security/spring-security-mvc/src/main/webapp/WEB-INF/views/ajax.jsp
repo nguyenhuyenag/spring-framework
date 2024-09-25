@@ -18,7 +18,7 @@
         <code><b>Data from Controller (JSON):</b> ${dataListJSON}</code>
 
         <hr/>
-        <form id=''>
+        <form>
             <div class="form-group">
                 <label for="comment">
                     <b class="text-danger">1) POST Form data to Controller</b>: Post và xem console trên server
@@ -72,7 +72,7 @@
                 <%--	dataList['${entry.key}'] = '${entry.value}';--%>
                 <%--</c:forEach>--%>
 
-                // Now you can use 'dataList' in your JavaScript code
+                // Now you can use 'dataList' (from JSP) in your JavaScript code
                 let myData = JSON.stringify(JSON.parse(`${dataListJSON}`));
                 console.log(myData);
 
