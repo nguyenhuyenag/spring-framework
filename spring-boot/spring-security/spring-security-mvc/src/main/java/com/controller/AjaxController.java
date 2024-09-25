@@ -49,14 +49,14 @@ public class AjaxController {
 		}
 		System.out.println("RequestParam: " + name);
 		System.out.println("RequestBody: " + bodyData);
-		return ResponseEntity.ok("AjaxController_Success_OK_1");
+		return ResponseEntity.ok("AjaxController_ResponseEntity_Success_OK_1");
 	}
 	
 	@ResponseBody
 	@PostMapping("/api/my-ajax2")
 	public ResponseEntity<?> ajaxPost2(@RequestBody Map<String, String> bodyData) {
 		System.out.println("RequestBody: " + bodyData);
-		return ResponseEntity.ok("AjaxController_Success_OK_2");
+		return ResponseEntity.ok("AjaxController_ResponseEntity_Success_OK_2");
 	}
 
 }

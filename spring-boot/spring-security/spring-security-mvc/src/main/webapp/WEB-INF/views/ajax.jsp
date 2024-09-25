@@ -20,19 +20,21 @@
         <hr/>
         <form id=''>
             <div class="form-group">
-                <label for="comment"><b>POST Form data to Controller</b>: Post và xem console trên server</label>
+                <label for="comment">
+                    <b class="text-danger">1) POST Form data to Controller</b>: Post và xem console trên server
+                </label>
                 <input class="form-control" rows="5" id="comment" value="Test gửi dữ liệu">
             </div>
             <button id='btn1' class="btn btn-primary" type="submit">Submit 1</button>
         </form>
 
         <hr/>
-        <b>Get JSP data to Ajax:</b>
+        <b class="text-danger">2) Get JSP data to Ajax:</b>
         <button id='btn2' class="btn btn-primary" type="submit">Submit 2</button>
-        <p id='mess1'></p>
+        <p id='result' class="text-danger"></p>
     </div>
 
-    <script type="text/javascript">
+    <script>
         $(function () {
             // Button 1
             $('#btn1').click(function (e) {
@@ -45,7 +47,7 @@
                     success: function (data, status, xhr) {
                         // console.log(data);
                         // console.log(window.location.href);
-                        $("#mess1").text(data);
+                        $("#result").text(data);
                     },
                     error: function (jqXhr, textStatus, errorMessage) {
                         console.log(errorMessage);
@@ -71,7 +73,6 @@
                 <%--</c:forEach>--%>
 
                 // Now you can use 'dataList' in your JavaScript code
-
                 let myData = JSON.stringify(JSON.parse(`${dataListJSON}`));
                 console.log(myData);
 
@@ -82,7 +83,7 @@
                     data: myData,
                     success: function (data, status, xhr) {
                         // console.log(data);
-                        $("#mess1").text(data);
+                        $("#result").text(data);
                     },
                     error: function (jqXhr, textStatus, errorMessage) {
                         console.log(errorMessage);
