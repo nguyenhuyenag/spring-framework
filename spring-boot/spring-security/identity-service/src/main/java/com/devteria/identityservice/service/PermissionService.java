@@ -20,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class PermissionService {
+
     PermissionRepository permissionRepository;
     PermissionMapper permissionMapper;
 
@@ -37,4 +38,5 @@ public class PermissionService {
     public void delete(String permission) {
         permissionRepository.deleteById(permission);
     }
+
 }

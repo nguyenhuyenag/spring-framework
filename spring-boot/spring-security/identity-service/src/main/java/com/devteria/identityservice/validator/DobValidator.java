@@ -25,4 +25,5 @@ public class DobValidator implements ConstraintValidator<DobConstraint, LocalDat
         ConstraintValidator.super.initialize(constraintAnnotation);
         min = constraintAnnotation.min();
     }
+
 }

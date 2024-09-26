@@ -16,8 +16,9 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 public class InvalidatedToken {
+
     @Id
     String id;
-
     Date expiryTime;
+
 }

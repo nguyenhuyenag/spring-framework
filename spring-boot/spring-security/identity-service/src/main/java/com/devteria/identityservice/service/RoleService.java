@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class RoleService {
+
     RoleRepository roleRepository;
     PermissionRepository permissionRepository;
     RoleMapper roleMapper;
@@ -42,4 +43,5 @@ public class RoleService {
     public void delete(String role) {
         roleRepository.deleteById(role);
     }
+
 }
