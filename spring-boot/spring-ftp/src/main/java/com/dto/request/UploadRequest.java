@@ -11,6 +11,6 @@ import lombok.Setter;
 @Setter
 public class UploadRequest {
 
-    private MultipartFile multipartFile;
+    private MultipartFile multipartFileXXX;
 
 }

@@ -35,8 +35,9 @@ public class FileStoreService {
         return entity;
     }
 
-    public void saveFile(MultipartFile multipartFile) throws IOException {
-        fileStoreRepository.save(toFileStore(multipartFile));
+    public String saveFile(MultipartFile multipartFile) throws IOException {
+        FileStore entity = fileStoreRepository.save(toFileStore(multipartFile));
+        return entity.getFileId();
     }
 
     public void saveMultipleFile(MultipartFile[] multipartFiles) throws IOException {

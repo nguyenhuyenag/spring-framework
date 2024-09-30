@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
-@Controller
 @RequiredArgsConstructor
+@Controller
 @RequestMapping("ftp")
 public class ViewsController {
 

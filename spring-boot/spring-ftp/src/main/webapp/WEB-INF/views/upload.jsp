@@ -22,7 +22,7 @@
         <h2>Upload File (Multipart)</h2>
         <!-- Form upload -->
         <form id="form-upload" method="POST" enctype="multipart/form-data" action='/ftp/upload'>
-            <input type="file" id="multipartFile" name="multipartFile"/>
+            <input type="file" id="multipartFile" name="multipartFileXXX"/>
             <br/> <br/>
             <input type="submit" value="Submit"/>
         </form>

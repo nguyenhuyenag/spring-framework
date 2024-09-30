@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/ftp")
 @RequiredArgsConstructor
-public class UploadFileController {
+public class UploadController {
 
     private final FileStoreService fileStoreService;
 
