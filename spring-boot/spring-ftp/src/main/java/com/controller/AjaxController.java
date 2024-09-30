@@ -33,10 +33,20 @@ public class AjaxController {
         return "upload-ajax";
     }
 
+//    @PostMapping("/upload-ajax")
+//    public String uploadAjax(@RequestParam("file") MultipartFile file) throws IOException {
+//        fileStoreService.saveFile(file);
+//        return "upload-ajax";
+//    }
+
+    @ResponseBody
     @PostMapping("/upload-ajax")
-    public String uploadAjax(@RequestParam("file") MultipartFile file) throws IOException {
-        fileStoreService.saveFile(file);
-        return "upload-ajax";
+    public ResponseEntity<?> uploadAjax(@RequestParam("file") MultipartFile file) {
+        try {
+            return ResponseEntity.ok(fileStoreService.saveFile(file));
+        } catch (Exception e) {
+            return ResponseEntity.ok(e.getMessage());
+        }
     }
 
     @PostMapping("upload-ajax-base64")
