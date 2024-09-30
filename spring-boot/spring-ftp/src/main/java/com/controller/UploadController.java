@@ -1,33 +1,45 @@
 package com.controller;
 
 import com.dto.request.MultiFile;
-import com.dto.request.UploadRequest;
 import com.service.FileStoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+
+@RequiredArgsConstructor
 @Controller
 @RequestMapping("/ftp")
-@RequiredArgsConstructor
 public class UploadController {
 
     private final FileStoreService fileStoreService;
 
-    @PostMapping("/upload")
-    public String upload(UploadRequest myFile) {
+    @GetMapping("/upload")
+    public String upload() {
+        return "upload";
+    }
+
+    @PostMapping("/upload") // Mapping to name="multipartFile" in form upload
+    public String upload(@RequestParam("multipartFile") MultipartFile file, Model model) {
         try {
-            fileStoreService.saveFile(myFile.getMultipartFile());
-        } catch (Exception e) {
-            e.printStackTrace();
-            // model.addAttribute("message", e.getMessage());
+            String fileId = fileStoreService.saveFile(file);
+            model.addAttribute("fileId", fileId);
+        } catch (IOException e) {
+            model.addAttribute("fileId", e.getMessage());
         }
         return "upload";
     }
 
+    @GetMapping("/upload-multiple-files")
+    public String uploadMultiple() {
+        return "upload-multiple-files";
+    }
+
     @PostMapping("/upload-multiple-files")
-    public String multiUpload(MultiFile myFile) {
+    public String uploadMultiple(MultiFile myFile) {
         try {
             fileStoreService.saveMultipleFile(myFile.getMultipartFile());
         } catch (Exception e) {

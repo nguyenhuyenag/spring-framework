@@ -1,16 +1,14 @@
-package com.dto.request;
-
-import java.io.Serializable;
-
-import org.springframework.web.multipart.MultipartFile;
-
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
-public class UploadRequest {
-
-    private MultipartFile multipartFileXXX;
-
-}
+//package com.dto.request;
+//
+//import lombok.Getter;
+//import lombok.Setter;
+//import org.springframework.web.multipart.MultipartFile;
+//
+//@Getter
+//@Setter
+//public class UploadRequest {
+//
+//    // Mapping to name="multipartFile" in form upload
+//    private MultipartFile multipartFile;
+//
+//}

@@ -1,4 +1,5 @@
-<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%--<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>--%>
 
 <!DOCTYPE html>
 <html>
@@ -19,19 +20,20 @@
 <body>
     <div class="container">
         <p><a href="javascript:window.close();">Close</a></p>
-        <h2>Upload File (Multipart)</h2>
-        <!-- Form upload -->
+        <h2>Upload File:</h2>
+        <%-- Form upload--%>
         <form id="form-upload" method="POST" enctype="multipart/form-data" action='/ftp/upload'>
-            <input type="file" id="multipartFile" name="multipartFileXXX"/>
-            <br/> <br/>
-            <input type="submit" value="Submit"/>
+            <input type="file" name="multipartFile"/>
+            <br/>
+            <input class="mt-2" type="submit" value="Submit"/>
         </form>
-        <!-- Progress bar-->
+        <%-- Progress bar --%>
         <div id="progressbox" class="progress mt-3" style="height: 45px; width: 50%">
             <div class="progress-bar progress-bar-striped active" id="progressbar" style="width: 0%">
                 <div id="status" style="text-align: center; width: 100%; margin-top: 10px"></div>
             </div>
         </div>
+        <p class="result"></p>
     </div>
 </body>
 
@@ -39,7 +41,7 @@
     function resetBar() {
         $("#status").html(0 + '%');
         $("#progressbar").width(0 + '%')
-                         .addClass('progress-bar-striped active');
+            .addClass('progress-bar-striped active');
     }
 
     $(function () {
@@ -62,9 +64,13 @@
                     $("#status").html("Completed!");
                     $("#progressbar").removeClass('progress-bar-striped active')
                                      .css('background-color', '#5cb85c');
+                    $('.result').text(responseText);
+                    console.log(responseText);
                 },
                 error: function (responseText, statusText, xhr) {
                     resetBar();
+                    $('.result').text(responseText);
+                    console.log(responseText);
                 },
                 // url:         url		    // override for form's 'action' attribute
                 // type:        'POST',     // 'get' or 'post', override for form's 'method' attribute

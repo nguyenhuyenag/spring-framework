@@ -17,19 +17,6 @@ public class ViewsController {
 
     private final FileStoreService fileStoreService;
 
-    /**
-     * Có tiền tố '/ftp/xxx' vì đây là view (GET) của một POST '/ftp/xxx'
-     */
-    @GetMapping("/upload")
-    public String upload() {
-        return "upload";
-    }
-
-    @GetMapping("/upload-multiple-files")
-    public String multiUpload() {
-        return "upload-multiple-files";
-    }
-
     @GetMapping("/download")
     public String downloadView(Model model) {
         List<FileStore> files = fileStoreService.findAll();

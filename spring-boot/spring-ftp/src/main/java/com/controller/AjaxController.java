@@ -21,9 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Upload và luu file dưới dạng Base64 vào DB
- */
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/ftp")
@@ -32,7 +29,7 @@ public class AjaxController {
     private final FileStoreService fileStoreService;
 
     @GetMapping("/upload-ajax")
-    public String uploadAjax() {
+    public String uploadAjaxView() {
         return "upload-ajax";
     }
 
