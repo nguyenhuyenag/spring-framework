@@ -21,8 +21,8 @@
 <body>
     <div class="container">
         <p><a href="javascript:window.close();">Close</a></p>
-        <h2>Upload File</h2>
-        <form id="formUploadFile" method="POST" action="upload" enctype="multipart/form-data">
+        <h2>Upload File (Multipart)</h2>
+        <form id="form-upload" method="POST" action="upload" enctype="multipart/form-data">
             <input type="file" id="multipartFile" name="multipartFile"/>
             <br/> <br/>
             <input type="submit" value="Submit"/>
@@ -43,7 +43,7 @@
     }
 
     $(function () {
-        $('#formUploadFile').submit(function (e) {
+        $('#form-upload').submit(function (e) {
             e.preventDefault();
             $(this).ajaxSubmit({
                 beforeSubmit: function () {
@@ -69,11 +69,11 @@
                     // console.log(statusText);
                     // console.log(responseText);
                 },
-                // url:       url		// override for form's 'action' attribute 
-                // type:      'POST',   // 'get' or 'post', override for form's 'method' attribute 
-                // dataType:  null      // 'xml', 'script', or 'json' (expected server response type) 
-                clearForm: true,        // clear all form fields after successful submit 
-                resetForm: true        	// reset the form after successful submit 
+                // url:         url		    // override for form's 'action' attribute
+                // type:        'POST',     // 'get' or 'post', override for form's 'method' attribute
+                // dataType:    null        // 'xml', 'script', or 'json' (expected server response type)
+                clearForm: true,            // clear all form fields after successful submit
+                resetForm: true        	    // reset the form after successful submit
             });
         });
     });
