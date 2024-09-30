@@ -38,7 +38,7 @@ public class AjaxController {
 
     @PostMapping("/upload-ajax")
     public String uploadAjax(@RequestParam("file") MultipartFile file) throws IOException {
-        fileStoreService.save(file);
+        fileStoreService.saveFile(file);
         return "upload-ajax";
     }
 

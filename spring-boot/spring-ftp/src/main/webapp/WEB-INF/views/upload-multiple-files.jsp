@@ -4,7 +4,7 @@
 
 <html>
 <head>
-    <title>Upload Multi File</title>
+    <title>Upload Multiple Files</title>
     <link rel="shortcut icon" href="#">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
@@ -20,9 +20,10 @@
 <body>
 <div class="container">
     <p><a href="javascript:window.close();">Close</a></p>
-    <h2>Upload Multi File</h2>
-    <form id="formUploadFile" method="POST" action="multi-upload" enctype="multipart/form-data">
-        <%-- <input type="file" name="multipartFile" accept="image/png, image/jpeg" multiple required />--%>
+    <h2>Upload Multiple Files</h2>
+    <!-- Form upload -->
+    <form id="form-upload" method="POST" enctype="multipart/form-data" action='/ftp/upload-multiple-files'>
+        <!-- <input type="file" name="multipartFile" accept="image/png, image/jpeg" multiple required /> -->
         <input type="file" name="multipartFile" accept="*" multiple required/>
         <br/> <br/>
         <input type="submit" value="Submit"/>
@@ -39,7 +40,7 @@
 </body>
 
 <script>
-    $('#formUploadFile').submit(function (e) {
+    $('#form-upload').submit(function (e) {
         e.preventDefault();
         $(this).ajaxSubmit({
             beforeSubmit: function () {
@@ -74,7 +75,7 @@
         });
     });
 
-    $('#formUploadFile').on('change', function (evt) {
+    $('#form-upload').on('change', function (evt) {
         // console.log(evt.target.files);
         $('.list-files li').remove(); // Clear the existing list
         for (let i = 0; i < evt.target.files.length; i++) {

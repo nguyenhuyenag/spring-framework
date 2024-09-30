@@ -17,16 +17,16 @@
 <body>
 	<div class="container">
 		<p><a href="javascript:window.close();">Close</a></p>
-		<h2>Download file using Ajax</h2>
+		<h2>Download file from URL using Ajax</h2>
 		<form>
 			<div class="input-group mb-3">
 				<div class="input-group-prepend">
 					<span class="input-group-text" id="basic-addon1">http://localhost:8080/ftp/download-from-url?fileId=</span>
 				</div>
-				<input type="text" id="fileId" class="form-control" value="b24569b7-9e34-4c88-88fd-8a8c694517dc">
+				<input type="text" autofocus id="fileId" class="form-control" value="b24569b7-9e34-4c88-88fd-8a8c694517dc">
 			</div>
 		</form>
-		<button id="btn-download">Download</button>
+		<button id="btn-download btn btn-primary">Download</button>
 	</div>
 	<script type="text/javascript">
 		$(function() {

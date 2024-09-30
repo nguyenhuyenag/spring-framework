@@ -1,6 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:set var="CONTEXT_PATH" value="${pageContext.request.contextPath}" scope="session"/>
 
 <!DOCTYPE html>
 <html>
@@ -16,7 +14,7 @@
 			<li>Upload File (Using multipart):
 				<ul>
 					<li><a target="_blank" href="./ftp/upload">Upload file</a></li>
-					<li><a target="_blank" href="${CONTEXT_PATH}/ftp/multi-upload">Upload multiple file</a></li>
+					<li><a target="_blank" href="${pageContext.request.contextPath}/ftp/upload-multiple-files">Upload multiple file</a></li>
 				</ul>
 			</li>
 			<li>Upload File Using Ajax:
@@ -26,7 +24,7 @@
 			</li>
 			<li>Download:
 				<ul>
-					<li><a target="_blank" href="${CONTEXT_PATH}/ftp/download">Download using ByteArrayResource</a></li>
+					<li><a target="_blank" href="${pageContext.request.contextPath}/ftp/download">Download using ByteArrayResource</a></li>
 					<li><a target="_blank" href="./ftp/download-ajax">Download using Ajax</a></li>
 					<li><a target="_blank" href="./ftp/download-from-url">Download from URL</a></li>
 					<li><a target="_blank" href="./ftp/upload-auto-delete">Upload Auto Delete</a></li>

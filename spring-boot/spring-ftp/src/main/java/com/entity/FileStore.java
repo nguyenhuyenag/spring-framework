@@ -19,8 +19,8 @@ public class FileStore {
     private Integer id;
 
     private String fileId;
-
     private String fileName;
+    private String fileSize;
 
     @Lob
     private byte[] fileByte; // Lưu file trực tiếp vào DB

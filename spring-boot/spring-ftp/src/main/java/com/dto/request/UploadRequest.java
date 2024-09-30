@@ -9,10 +9,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class MyFile implements Serializable {
+public class UploadRequest {
 
-	private static final long serialVersionUID = 1L;
-
-	private MultipartFile multipartFile;
+    private MultipartFile multipartFile;
 
 }

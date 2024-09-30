@@ -22,40 +22,6 @@ public class DownloadController {
 
     private final FileStoreService fileStoreService;
 
-//    @PostMapping("upload")
-//    public String upload(MyFile myFile) {
-//        try {
-//            MultipartFile multipartFile = myFile.getMultipartFile();
-//            String fileName = multipartFile.getOriginalFilename();
-//            FileStore fileStore = new FileStore();
-//            fileStore.setFileName(fileName);
-//            String content = Base64Utils.encodeToString(multipartFile.getBytes());
-//            fileStore.setFileContent(content);
-//            fileStoreService.save(fileStore);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return "upload";
-//    }
-//
-//    @PostMapping("multi-upload")
-//    public String multiUpload(MultiFile myFile) {
-//        try {
-//            MultipartFile[] multipartFiles = myFile.getMultipartFile();
-//            for (MultipartFile multipartFile : multipartFiles) {
-//                String fileName = multipartFile.getOriginalFilename();
-//                FileStore fileStore = new FileStore();
-//                fileStore.setFileName(fileName);
-//                String content = Base64Utils.encodeToString(multipartFile.getBytes());
-//                fileStore.setFileContent(content);
-//                fileStoreService.save(fileStore);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return "multi-upload";
-//    }
-
     @GetMapping("/download-file")
     public ResponseEntity<ByteArrayResource> download(@RequestParam(defaultValue = "XYZ") String fileId) {
         FileStore file = fileStoreService.findByFileId(fileId);
@@ -72,7 +38,7 @@ public class DownloadController {
     }
 
     @PostMapping("/download-from-url")
-    public ResponseEntity<Resource> downloadFromUrl(String fileId) throws IOException {
+    public ResponseEntity<Resource> downloadFromUrl(String fileId) {
         FileStore file = fileStoreService.findByFileId(fileId);
         MediaType mediaType = MediaTypeUtils.fromFileName(file.getFileName());
         String fileBase64 = file.getFileBase64();
