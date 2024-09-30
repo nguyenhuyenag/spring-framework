@@ -1,8 +1,7 @@
 package com.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.SystemUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,14 +15,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+@Slf4j
 @Controller
-@RequestMapping("ftp")
+@RequestMapping("/ftp")
 public class AutoDeleteController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AutoDeleteController.class);
+    // private static final Logger LOG = LoggerFactory.getLogger(AutoDeleteController.class);
 
-    @PostMapping("upload-xfile")
-    public ResponseEntity<?> downloadLargeFile(@RequestParam("xfile") MultipartFile multipartFile) throws IOException {
+    @PostMapping("/upload-xfile")
+    public ResponseEntity<?> downloadLargeFile(@RequestParam("xfile") MultipartFile multipartFile)
+            throws IOException {
         String filename = saveFileTemp(multipartFile);
         return ResponseEntity.ok(filename);
     }
@@ -31,14 +32,14 @@ public class AutoDeleteController {
     /**
      * Xóa file trong `/upload_tmp`
      */
-    @PostMapping("auto-delete")
+    @PostMapping("/auto-delete")
     public ResponseEntity<?> deleteFile(String filename) throws IOException {
         Path file = Paths.get(SystemUtils.USER_DIR, "upload_tmp", filename);
         if (Files.exists(file)) {
             Files.delete(file);
-            LOG.info("Delete file '{}'", file.getFileName());
+            log.info("Delete file '{}'", file.getFileName());
         } else {
-            LOG.info("File '{}' not found!", file.getFileName());
+            log.info("File '{}' not found!", file.getFileName());
         }
         return ResponseEntity.ok(null);
     }

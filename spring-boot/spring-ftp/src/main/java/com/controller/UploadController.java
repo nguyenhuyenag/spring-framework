@@ -1,13 +1,11 @@
 package com.controller;
 
 import com.entity.FileStore;
-import com.entity.MultiFile;
-import com.entity.MyFile;
+import com.dto.request.MultiFile;
+import com.dto.request.MyFile;
 import com.service.FileStoreService;
 import com.util.Base64Utils;
-import org.apache.commons.lang3.SystemUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,24 +14,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Map;
 
 @Controller
-@RequestMapping("ftp")
+@RequestMapping("/ftp")
+@RequiredArgsConstructor
 public class UploadController {
 
-    @Autowired
-    private FileStoreService fileStoreService;
+    private final FileStoreService fileStoreService;
 
-    @PostMapping("upload")
+    @PostMapping("/upload")
     public String upload(MyFile myFile, Model model) {
         try {
             MultipartFile multipartFile = myFile.getMultipartFile();
-            saveFile(multipartFile);
+            saveFileAsBase64(multipartFile);
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("message", e.getMessage());
@@ -41,12 +36,12 @@ public class UploadController {
         return "upload";
     }
 
-    @PostMapping("multi-upload")
+    @PostMapping("/multi-upload")
     public String multiUpload(MultiFile myFile) {
         try {
             MultipartFile[] multipartFiles = myFile.getMultipartFile();
             for (MultipartFile multipartFile : multipartFiles) {
-                saveFile(multipartFile);
+                saveFileAsBase64(multipartFile);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -54,9 +49,9 @@ public class UploadController {
         return "multi-upload";
     }
 
-    @PostMapping("upload-ajax")
+    @PostMapping("/upload-ajax")
     public String uploadAjax(@RequestParam("file") MultipartFile file) throws IOException {
-        saveFile(file);
+        saveFileAsBase64(file);
         return "upload-ajax";
     }
 
@@ -66,7 +61,7 @@ public class UploadController {
         return "upload-ajax";
     }
 
-    private void saveFile(MultipartFile multipartFile) throws IOException {
+    private void saveFileAsBase64(MultipartFile multipartFile) throws IOException {
         String fileName = multipartFile.getOriginalFilename();
         FileStore fileStore = new FileStore();
         fileStore.setFileName(fileName);

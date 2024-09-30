@@ -20,7 +20,7 @@
 
 <body>
     <div class="container">
-        <p><a href="/">Back</a></p>
+        <p><a href="javascript:window.close();">Close</a></p>
         <h2>Upload File</h2>
         <form id="formUploadFile" method="POST" action="upload" enctype="multipart/form-data">
             <input type="file" id="multipartFile" name="multipartFile"/>
@@ -50,7 +50,6 @@
                     resetProgressBar();
                 },
                 uploadProgress: function (event, position, total, percentComplete) {
-                    // console.log(percentComplete + "");
                     $("#progressbar").width(percentComplete + '%');
                     if (percentComplete < 100) {
                         $("#status").html(percentComplete + '%');
@@ -62,6 +61,7 @@
                 success: function (responseText, statusText, xhr) {
                     $("#status").html("Completed!");
                     $("#progressbar").removeClass('progress-bar-striped active')
+                                     .css('background-color', '#5cb85c');
                 },
                 error: function (responseText, statusText, xhr) {
                     resetProgressBar();

@@ -20,7 +20,7 @@
 
 <body>
     <div class="container">
-        <p><a href="/">Back</a></p>
+        <p><a href="javascript:window.close();">Close</a></p>
         <h2>Upload File Using Ajax</h2>
         <hr>
         <form action="#" method="post" enctype="multipart/form-data" id="uploadForm">

@@ -1,12 +1,10 @@
 package com.controller;
 
 import com.entity.FileStore;
-import com.entity.MultiFile;
-import com.entity.MyFile;
 import com.service.FileStoreService;
 import com.util.Base64Utils;
 import com.util.MediaTypeUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -15,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -28,10 +25,10 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("ftp")
+@RequiredArgsConstructor
 public class DownloadController {
 
-    @Autowired
-    private FileStoreService fileStoreService;
+    private final FileStoreService fileStoreService;
 
 //    @PostMapping("upload")
 //    public String upload(MyFile myFile) {
@@ -67,7 +64,7 @@ public class DownloadController {
 //        return "multi-upload";
 //    }
 
-    @GetMapping("download-file")
+    @GetMapping("/download-file")
     public ResponseEntity<ByteArrayResource> download(@RequestParam(defaultValue = "XYZ") String fileId) {
         FileStore file = fileStoreService.findByFileId(fileId);
         MediaType mediaType = MediaTypeUtils.fromFileName(file.getFileName());
@@ -82,7 +79,7 @@ public class DownloadController {
                 .body(new ByteArrayResource(data));
     }
 
-    @PostMapping("download-from-url")
+    @PostMapping("/download-from-url")
     public ResponseEntity<Resource> downloadFromUrl(String fileId) throws IOException {
         FileStore file = fileStoreService.findByFileId(fileId);
         MediaType mediaType = MediaTypeUtils.fromFileName(file.getFileName());

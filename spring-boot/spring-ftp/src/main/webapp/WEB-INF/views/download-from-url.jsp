@@ -16,7 +16,7 @@
 </head>
 <body>
 	<div class="container">
-		<p><a href="/">Back</a></p>
+		<p><a href="javascript:window.close();">Close</a></p>
 		<h2>Download file using Ajax</h2>
 		<form>
 			<div class="input-group mb-3">

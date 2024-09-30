@@ -1,4 +1,4 @@
-package com.entity;
+package com.dto.request;
 
 import java.io.Serializable;
 
@@ -9,11 +9,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class MultiFile implements Serializable {
+public class MyFile implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	// private String description;
-	private MultipartFile[] multipartFile;
+	private MultipartFile multipartFile;
 
 }

@@ -20,7 +20,7 @@
 </head>
 <body>
     <div class="container">
-        <p><a href="/">Back</a></p>
+        <p><a href="javascript:window.close();">Close</a></p>
         Link: <a href="https://testfiledownload.com/">https://testfiledownload.com</a>
         <p>Upload file trả về id để download. Tự động xóa file sau khi thoát page</p>
         <!-- Upload -->

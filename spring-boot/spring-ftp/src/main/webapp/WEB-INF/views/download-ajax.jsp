@@ -25,7 +25,7 @@
 </head>
 <body>
     <div class="container">
-        <p><a href="/">Back</a></p>
+        <p><a href="javascript:window.close();">Close</a></p>
         <h1>Total file: ${fn:length(files)}</h1>
         <table class="table">
             <tr>
