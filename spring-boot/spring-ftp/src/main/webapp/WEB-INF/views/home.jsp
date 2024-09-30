@@ -13,10 +13,14 @@
 	<div class="container mt-4">
 		<h1>Spring Boot Upload/Download File</h1>
 		<ol>
-			<li>Upload File (save file as Base64 to DB):
+			<li>Upload File (Using multipart):
 				<ul>
 					<li><a target="_blank" href="./ftp/upload">Upload file</a></li>
 					<li><a target="_blank" href="${CONTEXT_PATH}/ftp/multi-upload">Upload multiple file</a></li>
+				</ul>
+			</li>
+			<li>Upload File Using Ajax:
+				<ul>
 					<li><a target="_blank" href="./ftp/upload-ajax">Upload Ajax</a></li>
 				</ul>
 			</li>

@@ -3,11 +3,9 @@ package com.controller;
 import com.entity.FileStore;
 import com.service.FileStoreService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
@@ -30,11 +28,6 @@ public class ViewsController {
         return "upload";
     }
 
-    @GetMapping("/ftp/upload-ajax")
-    public String uploadAjax() {
-        return "upload-ajax";
-    }
-
     @GetMapping("/ftp/multi-upload")
     public String multiUpload() {
         return "multi-upload";
@@ -50,14 +43,6 @@ public class ViewsController {
     @GetMapping("/ftp/download-from-url")
     public String downloadFromUrlView() {
         return "download-from-url";
-    }
-
-    // Download using Ajax
-    @GetMapping(value = "/ftp/download-ajax")
-    public String downloadAjax(Model model) {
-        List<FileStore> files = fileStoreService.findAll();
-        model.addAttribute("files", files);
-        return "download-ajax";
     }
 
     @GetMapping("/ftp/upload-auto-delete")

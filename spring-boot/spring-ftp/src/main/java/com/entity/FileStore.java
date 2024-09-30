@@ -1,15 +1,12 @@
 package com.entity;
 
-import java.util.Date;
-import java.util.UUID;
-
-import javax.persistence.*;
-
-import org.hibernate.annotations.CreationTimestamp;
-
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.CreationTimestamp;
+
+import javax.persistence.*;
+import java.util.Date;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -21,15 +18,15 @@ public class FileStore {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    // @GeneratedValue(generator = "uuid")
-    // @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
-    // @Column(length = 36)
     private String fileId;
 
     private String fileName;
 
     @Lob
-    private String fileContent;
+    private byte[] fileByte; // Lưu file trực tiếp vào DB
+
+    @Lob
+    private String fileBase64; // File dạng Base64
 
     @CreationTimestamp
     private Date created;
