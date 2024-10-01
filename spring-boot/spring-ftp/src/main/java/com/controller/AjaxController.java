@@ -88,21 +88,7 @@ public class AjaxController {
 //        FileStore fileInfo = fileStoreService.findByFileId(fileId);
 //        map.put("filename", fileInfo.getFileName());
 //        map.put("base64", fileInfo.getFileBase64());
-//        // System.out.println("map: " + map);
 //        return ResponseEntity.ok(map);
 //    }
-
-////    private void saveFile(MultipartFile multipartFile) throws IOException {
-////        String fileName = multipartFile.getOriginalFilename();
-////        FileStore file = new FileStore();
-////        file.setFileName(fileName);
-////        // Set Base 64
-////        file.setFileBase64(Base64Utils.encodeToString(multipartFile.getBytes()));
-////        // Set byte[]
-////        file.setFileByte(multipartFile.getBytes());
-////        // Save file
-////        fileStoreService.save(file);
-////        System.out.println("Size: " + (float) multipartFile.getSize() / 1_000_000 + " MB");
-////    }
 
 }
