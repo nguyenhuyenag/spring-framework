@@ -36,91 +36,140 @@
         <p class="result"></p>
     </div>
     <script>
-        $('#form-upload-multiple').submit(function (event) {
-            event.preventDefault();  // Ngăn trang tải lại hoặc chuyển hướng
-            const $loading = $('.loading');
-            const $btn = $('.btn-upload-multiple');
-            const $fileInput = $('#files-upload');
-            const $result = $('.result').empty().removeClass('text-success text-danger');
+        function handleFormSubmit(formId, buttonClass, url) {
+            $("#" + formId).submit(function (event) {
+                event.preventDefault();  // Ngăn trang tải lại hoặc chuyển hướng
+                const $loading = $('.loading');
+                const $btn = $(buttonClass);
+                const $fileInput = $("#" + formId + " input[type='file']");
+                const $result = $('.result').empty().removeClass('text-success text-danger');
 
-            // Vô hiệu hóa nút bấm khi bắt đầu xử lý
-            $btn.prop('disabled', true);
+                // Vô hiệu hóa nút bấm khi bắt đầu xử lý
+                $btn.prop('disabled', true);
 
-            // Kiểm tra nếu chưa chọn file
-            if (!$fileInput.val()) {
-                $result.addClass('text-danger').text('No file selected.');
-                $btn.prop('disabled', false);
-                return;
-            }
-
-            // Hiển thị biểu tượng loading
-            $loading.show();
-
-            // Tạo formData từ form có id 'form-upload-multiple'
-            const formData = new FormData(document.getElementById('form-upload-multiple'));
-
-            // Gửi request AJAX
-            $.ajax({
-                url: `${pageContext.request.contextPath}/ftp/upload-multiple-ajax`,
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: (result, status, xhr) => {
-                    $result.addClass('text-success').text('Success: ').append(xhr.responseText);
-                },
-                error: (xhr, status, error) => {
-                    $result.addClass('text-danger').text('Error: ').append(xhr.responseText);
-                },
-                complete: () => {
-                    $loading.hide();
-                    $btn.prop('disabled', false);  // Bật lại nút khi hoàn tất
+                // Kiểm tra nếu chưa chọn file
+                if (!$fileInput.val()) {
+                    $result.addClass('text-danger').text('No file selected.');
+                    $btn.prop('disabled', false);
+                    return;
                 }
+
+                // Hiển thị biểu tượng loading
+                $loading.show();
+
+                // Tạo formData từ form có id
+                const formData = new FormData(document.getElementById(formId));
+
+                // Gửi request AJAX
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: (result, status, xhr) => {
+                        $result.addClass('text-success').text('Success: ').append(xhr.responseText);
+                    },
+                    error: (xhr, status, error) => {
+                        $result.addClass('text-danger').text('Error: ').append(xhr.responseText);
+                    },
+                    complete: () => {
+                        $loading.hide();
+                        $btn.prop('disabled', false);  // Bật lại nút khi hoàn tất
+                    }
+                });
             });
-        });
+        }
 
-        $('#form-upload').submit(function (event) {
-            event.preventDefault();  // Ngăn trang tải lại hoặc chuyển hướng
-            const $loading = $('.loading');
-            const $btn = $('.btn-upload');
-            const $fileInput = $('#file-upload');
-            const $result = $('.result').empty().removeClass('text-success text-danger');
+        // Gọi hàm chung cho từng form
+        handleFormSubmit('form-upload', '.btn-upload', `${pageContext.request.contextPath}/ftp/upload-ajax`);
+        handleFormSubmit('form-upload-multiple', '.btn-upload-multiple', `${pageContext.request.contextPath}/ftp/upload-multiple-ajax`);
 
-            // Vô hiệu hóa nút bấm khi bắt đầu xử lý
-            $btn.prop('disabled', true);
+        <%--$('#form-upload-multiple').submit(function (event) {--%>
+        <%--    event.preventDefault();  // Ngăn trang tải lại hoặc chuyển hướng--%>
+        <%--    const $loading = $('.loading');--%>
+        <%--    const $btn = $('.btn-upload-multiple');--%>
+        <%--    const $fileInput = $('#files-upload');--%>
+        <%--    const $result = $('.result').empty().removeClass('text-success text-danger');--%>
 
-            // Kiểm tra nếu chưa chọn file
-            if (!$fileInput.val()) {
-                $result.addClass('text-danger').text('No file selected.');
-                $btn.prop('disabled', false);
-                return;
-            }
+        <%--    // Vô hiệu hóa nút bấm khi bắt đầu xử lý--%>
+        <%--    $btn.prop('disabled', true);--%>
 
-            // Hiển thị biểu tượng loading
-            $loading.show();
+        <%--    // Kiểm tra nếu chưa chọn file--%>
+        <%--    if (!$fileInput.val()) {--%>
+        <%--        $result.addClass('text-danger').text('No file selected.');--%>
+        <%--        $btn.prop('disabled', false);--%>
+        <%--        return;--%>
+        <%--    }--%>
 
-            // Tạo formData từ form có id 'form-upload-multiple'
-            const formData = new FormData(document.getElementById('form-upload'));
+        <%--    // Hiển thị biểu tượng loading--%>
+        <%--    $loading.show();--%>
 
-            // Gửi request AJAX
-            $.ajax({
-                url: `${pageContext.request.contextPath}/ftp/upload-ajax`,
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: (result, status, xhr) => {
-                    $result.addClass('text-success').text('Success: ').append(xhr.responseText);
-                },
-                error: (xhr, status, error) => {
-                    $result.addClass('text-danger').text('Error: ').append(xhr.responseText);
-                },
-                complete: () => {
-                    $loading.hide();
-                    $btn.prop('disabled', false);  // Bật lại nút khi hoàn tất
-                }
-            });
-        });
+        <%--    // Tạo formData từ form có id 'form-upload-multiple'--%>
+        <%--    const formData = new FormData(document.getElementById('form-upload-multiple'));--%>
+
+        <%--    // Gửi request AJAX--%>
+        <%--    $.ajax({--%>
+        <%--        url: `${pageContext.request.contextPath}/ftp/upload-multiple-ajax`,--%>
+        <%--        type: 'POST',--%>
+        <%--        data: formData,--%>
+        <%--        contentType: false,--%>
+        <%--        processData: false,--%>
+        <%--        success: (result, status, xhr) => {--%>
+        <%--            $result.addClass('text-success').text('Success: ').append(xhr.responseText);--%>
+        <%--        },--%>
+        <%--        error: (xhr, status, error) => {--%>
+        <%--            $result.addClass('text-danger').text('Error: ').append(xhr.responseText);--%>
+        <%--        },--%>
+        <%--        complete: () => {--%>
+        <%--            $loading.hide();--%>
+        <%--            $btn.prop('disabled', false);  // Bật lại nút khi hoàn tất--%>
+        <%--        }--%>
+        <%--    });--%>
+        <%--});--%>
+
+        <%--$('#form-upload').submit(function (event) {--%>
+        <%--    event.preventDefault();  // Ngăn trang tải lại hoặc chuyển hướng--%>
+        <%--    const $loading = $('.loading');--%>
+        <%--    const $btn = $('.btn-upload');--%>
+        <%--    const $fileInput = $('#file-upload');--%>
+        <%--    const $result = $('.result').empty().removeClass('text-success text-danger');--%>
+
+        <%--    // Vô hiệu hóa nút bấm khi bắt đầu xử lý--%>
+        <%--    $btn.prop('disabled', true);--%>
+
+        <%--    // Kiểm tra nếu chưa chọn file--%>
+        <%--    if (!$fileInput.val()) {--%>
+        <%--        $result.addClass('text-danger').text('No file selected.');--%>
+        <%--        $btn.prop('disabled', false);--%>
+        <%--        return;--%>
+        <%--    }--%>
+
+        <%--    // Hiển thị biểu tượng loading--%>
+        <%--    $loading.show();--%>
+
+        <%--    // Tạo formData từ form có id 'form-upload-multiple'--%>
+        <%--    const formData = new FormData(document.getElementById('form-upload'));--%>
+
+        <%--    // Gửi request AJAX--%>
+        <%--    $.ajax({--%>
+        <%--        url: `${pageContext.request.contextPath}/ftp/upload-ajax`,--%>
+        <%--        type: 'POST',--%>
+        <%--        data: formData,--%>
+        <%--        contentType: false,--%>
+        <%--        processData: false,--%>
+        <%--        success: (result, status, xhr) => {--%>
+        <%--            $result.addClass('text-success').text('Success: ').append(xhr.responseText);--%>
+        <%--        },--%>
+        <%--        error: (xhr, status, error) => {--%>
+        <%--            $result.addClass('text-danger').text('Error: ').append(xhr.responseText);--%>
+        <%--        },--%>
+        <%--        complete: () => {--%>
+        <%--            $loading.hide();--%>
+        <%--            $btn.prop('disabled', false);  // Bật lại nút khi hoàn tất--%>
+        <%--        }--%>
+        <%--    });--%>
+        <%--});--%>
 
         <%--$('#form-upload').submit(function (event) {--%>
         <%--    event.preventDefault();  // Ngăn trang tải lại hoặc chuyển hướng--%>
