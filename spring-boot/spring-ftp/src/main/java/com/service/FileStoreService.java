@@ -9,7 +9,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -35,25 +37,22 @@ public class FileStoreService {
         return entity;
     }
 
-    public String saveFile(MultipartFile multipartFile) throws IOException {
-        FileStore entity = fileStoreRepository.save(toFileStore(multipartFile));
+    public String saveFile(MultipartFile file) throws IOException {
+        FileStore entity = fileStoreRepository.save(toFileStore(file));
         return entity.getFileId();
     }
 
-    public void saveMultipleFile(MultipartFile[] multipartFiles) throws IOException {
+    public List<String> saveMultipleFile(MultipartFile[] multipartFiles) throws IOException {
         List<FileStore> fileStoreList = new ArrayList<>();
         for (MultipartFile multipartFile : multipartFiles) {
             fileStoreList.add(toFileStore(multipartFile));
-            // System.out.println("Size: " + (float) multipartFile.getSize() / 1_000_000 + " MB");
         }
         if (!fileStoreList.isEmpty()) {
-            fileStoreRepository.saveAll(fileStoreList);
+            List<FileStore> fileStores = fileStoreRepository.saveAll(fileStoreList);
+            return fileStores.stream().map(FileStore::getFileId).collect(Collectors.toList());
         }
+        return Collections.emptyList();
     }
-
-//    private void save(FileStore entity) {
-//        fileStoreRepository.save(entity);
-//    }
 
     public List<FileStore> findAll() {
         return fileStoreRepository.findAll();

@@ -17,6 +17,11 @@ public class ViewsController {
 
     private final FileStoreService fileStoreService;
 
+    @GetMapping("/upload-ajax")
+    public String uploadAjaxView() {
+        return "upload-ajax";
+    }
+
     @GetMapping("/download")
     public String downloadView(Model model) {
         List<FileStore> files = fileStoreService.findAll();
