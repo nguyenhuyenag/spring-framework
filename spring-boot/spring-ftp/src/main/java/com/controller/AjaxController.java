@@ -105,7 +105,6 @@ public class AjaxController {
         }
     }
 
-
     @PostMapping(value = "/download-ajax-base64")
     public ResponseEntity<?> downloadAjaxBase64(String fileId) {
         Map<String, String> map = new HashMap<>();

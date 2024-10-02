@@ -24,8 +24,7 @@
 			</li>
 			<li>Download:
 				<ul>
-					<li><a target="_blank" href="./ftp/download">Download using ByteArrayResource</a></li>
-					<li><a target="_blank" href="./ftp/download-ajax">Download using Ajax</a></li>
+					<li><a target="_blank" href="./ftp/download-ajax">Download</a></li>
 					<li><a target="_blank" href="./ftp/download-from-url">Download from URL</a></li>
 					<li><a target="_blank" href="./ftp/upload-auto-delete">Upload Auto Delete</a></li>
 				</ul>

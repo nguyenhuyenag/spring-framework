@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Download Ajax</title>
+    <title>Download</title>
     <link rel="shortcut icon" href="#">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
@@ -28,42 +28,65 @@
         <p><a href="javascript:window.close();">Close</a></p>
         <h1>Total file: ${fn:length(files)}</h1>
         <table class="table">
-            <tr>
-                <th>STT</th>
-                <th>File</th>
-                <th style="text-align: center">Download</th>
-                <th style="text-align: center">Download by Base64</th>
-            </tr>
-            <c:forEach items="${files}" var="file" varStatus="loop">
+            <thead class="text-center">
                 <tr>
-                    <td style='text-align: center'>${loop.index + 1}</td>
-                    <td>${file.fileName}</td>
-                    <td style="text-align: center">
-                        <a onclick='downloadAjax(this)' data-fileId='${file.fileId}' href="#">Download</a>
-                    </td>
-                    <td style="text-align: center">
-                        <a onclick='downloadAjaxBase64(this)' data-fileId='${file.fileId}' href="#">Download</a>
-                    </td>
+                    <th>STT</th>
+                    <th>File</th>
+                    <th>StreamingResponseBody</th>
+                    <th>ByteArrayResource</th>
+                    <th>Ajax</th>
+                    <th>Base64</th>
                 </tr>
-            </c:forEach>
+            </thead>
+            <tbody>
+                <c:forEach items="${files}" var="file" varStatus="loop">
+                    <tr>
+                        <td style='text-align: center'>${loop.index + 1}</td>
+                        <td>${file.fileName}</td>
+                        <td class="text-center">
+                            <a onclick='downloadStreaming(this)' data-fileId='${file.fileId}' href="#">Download</a>
+                        </td>
+                        <td class="text-center">
+                            <a onclick='downloadFile(this)' data-fileId='${file.fileId}' href="#">Download</a>
+                        </td>
+                        <td class="text-center">
+                            <a onclick='downloadAjax(this)' data-fileId='${file.fileId}' href="#">Download</a>
+                        </td>
+                        <td class="text-center">
+                            <a onclick='downloadAjaxBase64(this)' data-fileId='${file.fileId}' href="#">Download</a>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>
         </table>
     </div>
     <script>
+        function downloadStreaming(event) {
+            const fileId = $(event).attr('data-fileId');
+            const downloadUrl = '/ftp/download-streaming?fileId=' + fileId;
+            $(event).attr('href', downloadUrl);
+        }
+
+        function downloadFile(event) {
+            const fileId = $(event).attr('data-fileId');
+            const downloadUrl = '/ftp/download-file?fileId=' + fileId;
+            $(event).attr('href', downloadUrl);
+        }
+
         function downloadAjax(event) {
             const fileId = $(event).attr('data-fileId');
-            // console.log('fileId: ' + fileId);
             $.ajax({
                 type: "POST",
                 url: "./download-ajax?fileId=" + fileId,
                 xhrFields: {
                     responseType: 'blob' // Set the response type to 'blob'
                 },
-                success: function (responseData, textStatus, jqXHR) {
+                success: function (result, status, xhr) {
                     // Create a Blob from the response data
-                    let blob = new Blob([responseData], {type: 'application/octet-stream'});
+                    let blob = new Blob([result], {type: 'application/octet-stream'});
                     // Get the filename from the Content-Disposition header
                     let filename = '';
-                    let disposition = jqXHR.getResponseHeader('Content-Disposition');
+                    let disposition = xhr.getResponseHeader('Content-Disposition');
                     if (disposition && disposition.indexOf('attachment') !== -1) {
                         let filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
                         let matches = filenameRegex.exec(disposition);
