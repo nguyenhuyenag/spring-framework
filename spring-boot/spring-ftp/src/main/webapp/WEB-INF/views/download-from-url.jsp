@@ -19,8 +19,23 @@
 <body>
     <div class="container">
         <p><a href="javascript:window.close();">Close</a></p>
+        <!-- Total file -->
+        <h1>Total file: ${fn:length(files)}</h1>
+        <!-- Form input -->
         <div style="display: flex; flex-direction: column; align-items: center;">
-            <h1>Total file: ${fn:length(files)}</h1>
+            <form style="width: 800px;">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">File ID</span>
+                    </div>
+                    <input type="text" id="fileId" class="form-control" placeholder="Enter file id">
+                    <div class="input-group-append">
+                        <button id="btn-download" class="btn btn-primary">Download</button>
+                    </div>
+                </div>
+            </form>
+            <p class="result"></p>
+            <!-- Table -->
             <div class="myTable" style="align-self: center;">
                 <table class="table" style="width: 800px;">
                     <tr>
@@ -31,23 +46,11 @@
                     <c:forEach items="${files}" var="file" varStatus="loop">
                         <tr>
                             <td class="text-center">${loop.index + 1}</td>
-                            <td class="text-center text-danger insert-id" data-toggle="tooltip" data-placement="top" title="Insert file id">${file.fileId}</td>
+                            <td class="text-center text-success insert-id" data-toggle="tooltip" data-placement="top" title="Click to insert the file ID">${file.fileId}</td>
                             <td>${file.fileName}</td>
                         </tr>
                     </c:forEach>
                 </table>
-                <form style="width: 800px;">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">File ID</span>
-                        </div>
-                        <input type="text" id="fileId" class="form-control" placeholder="Enter file id">
-                        <div class="input-group-append">
-                            <button id="btn-download" class="btn btn-primary">Download</button>
-                        </div>
-                    </div>
-                </form>
-                <p class="result"></p>
             </div>
         </div>
     </div>
