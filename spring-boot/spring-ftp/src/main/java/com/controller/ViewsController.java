@@ -22,12 +22,12 @@ public class ViewsController {
         return "upload-ajax";
     }
 
-    @GetMapping("/download")
-    public String downloadView(Model model) {
-        List<FileStore> files = fileStoreService.findAll();
-        model.addAttribute("files", files);
-        return "download";
-    }
+//    @GetMapping("/download")
+//    public String downloadView(Model model) {
+//        List<FileStore> files = fileStoreService.findAll();
+//        model.addAttribute("files", files);
+//        return "download";
+//    }
 
     // Download using Ajax
     @GetMapping(value = "/download-ajax")
