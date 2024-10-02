@@ -14,8 +14,10 @@ public class MediaTypeUtils {
 		MediaTypeUtils.servletContext = context;
 	}
 
-	// input: abc.zip, abc.pdf,..
-	// output: application/pdf, application/xml, image/gif, ...
+	/*
+		 Input: abc.pdf, abc.xml, ...
+		 Output: application/pdf, application/xml, image/gif, ...
+	 */
 	public static MediaType fromFileName(String fileName) {
 		if (servletContext != null) {
 			String mineType = servletContext.getMimeType(fileName);

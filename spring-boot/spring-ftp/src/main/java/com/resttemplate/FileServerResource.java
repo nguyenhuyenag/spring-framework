@@ -24,7 +24,7 @@ public class FileServerResource {
 		System.out.println("File Content Type: " + file.getContentType());
 		System.out.println("File Content:\n" + new String(bytes));
 
-		return (new ResponseEntity<>("Successful", null, HttpStatus.OK));
+		return new ResponseEntity<>("Successful", null, HttpStatus.OK);
 	}
 
 	@PostMapping(path = "/multiplefileupload/")
@@ -38,7 +38,7 @@ public class FileServerResource {
 			System.out.println("File Content:\n" + new String(bytes));
 		}
 
-		return (new ResponseEntity<>("Successful", null, HttpStatus.OK));
+		return new ResponseEntity<>("Successful", null, HttpStatus.OK);
 	}
 
 }
