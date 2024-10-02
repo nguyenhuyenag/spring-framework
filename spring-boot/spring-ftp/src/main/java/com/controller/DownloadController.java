@@ -32,8 +32,8 @@ public class DownloadController {
         MediaType mediaType = MediaTypeUtils.fromFileName(file.getFileName());
         // System.out.println("mediaType: " + mediaType);
         // System.out.println("fileName: " + file.getFileName());
-        String fileBase64 = file.getFileBase64();
-        byte[] data = Base64Utils.decodeToByte(fileBase64);
+        // String fileBase64 = file.getFileBase64();
+        byte[] data = Base64Utils.decodeToByte(file.getFileBase64());
         return ResponseEntity.ok() //
                 .contentType(mediaType) //
                 .contentLength(data.length) //

@@ -29,6 +29,14 @@ public class ViewsController {
         return "download";
     }
 
+    // Download using Ajax
+    @GetMapping(value = "/download-ajax")
+    public String downloadAjax(Model model) {
+        List<FileStore> files = fileStoreService.findAll();
+        model.addAttribute("files", files);
+        return "download-ajax";
+    }
+
     @GetMapping("/upload-auto-delete")
     public String downloadLargeFile() {
         return "upload-auto-delete";
