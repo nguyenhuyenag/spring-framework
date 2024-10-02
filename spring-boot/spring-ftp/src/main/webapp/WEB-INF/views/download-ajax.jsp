@@ -34,7 +34,7 @@
                     <th>File</th>
                     <th>StreamingResponseBody</th>
                     <th>ByteArrayResource</th>
-                    <th>Ajax</th>
+                    <th>Ajax (Void)</th>
                     <th>Base64</th>
                 </tr>
             </thead>
