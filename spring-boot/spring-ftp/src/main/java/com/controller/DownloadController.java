@@ -8,13 +8,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("ftp")
@@ -38,17 +42,30 @@ public class DownloadController {
                 .body(new ByteArrayResource(data));
     }
 
+    @GetMapping("/download-from-url")
+    public String downloadFromUrlView(Model model) {
+        List<FileStore> files = fileStoreService.findAll();
+        model.addAttribute("files", files);
+        return "download-from-url";
+    }
+
     @PostMapping("/download-from-url")
-    public ResponseEntity<Resource> downloadFromUrl(String fileId) {
-        FileStore file = fileStoreService.findByFileId(fileId);
-        MediaType mediaType = MediaTypeUtils.fromFileName(file.getFileName());
-        String fileBase64 = file.getFileBase64();
-        byte[] data = Base64Utils.decodeToByte(fileBase64);
-        return ResponseEntity.ok() //
-                .contentType(mediaType) //
-                .contentLength(data.length) //
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + file.getFileName()) //
-                .body(new ByteArrayResource(data));
+    // ResponseEntity<Resource>
+    public ResponseEntity<?> downloadFromUrl(String fileId) {
+        try {
+            FileStore file = fileStoreService.findByFileId(fileId);
+            MediaType mediaType = MediaTypeUtils.fromFileName(file.getFileName());
+            String fileBase64 = file.getFileBase64();
+            byte[] data = Base64Utils.decodeToByte(fileBase64);
+            return ResponseEntity.ok() //
+                    .contentType(mediaType) //
+                    .contentLength(data.length) //
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + file.getFileName()) //
+                    .body(new ByteArrayResource(data));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(e.getMessage());
+        }
     }
 
 }

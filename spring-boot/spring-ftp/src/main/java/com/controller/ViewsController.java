@@ -29,11 +29,6 @@ public class ViewsController {
         return "download";
     }
 
-    @GetMapping("/download-from-url")
-    public String downloadFromUrlView() {
-        return "download-from-url";
-    }
-
     @GetMapping("/upload-auto-delete")
     public String downloadLargeFile() {
         return "upload-auto-delete";
