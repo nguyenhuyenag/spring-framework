@@ -21,9 +21,8 @@ public class FileStoreService {
 
     public FileStore findByFileId(String id) {
         return fileStoreRepository.findByFileId(id)
-                .orElseThrow(() -> new IllegalArgumentException("FileStore with id=" + id + " not found"));
+                .orElseThrow(() -> new IllegalArgumentException("FileStore with FileID=" + id + " not found"));
     }
-
 
     // Convert MultipartFile -> MultipartFile
     public FileStore toFileStore(MultipartFile multipartFile) throws IOException {

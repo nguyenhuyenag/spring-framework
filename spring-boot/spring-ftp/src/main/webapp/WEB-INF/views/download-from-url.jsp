@@ -28,7 +28,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">File ID</span>
                     </div>
-                    <input type="text" id="fileId" class="form-control" placeholder="Enter file id">
+                    <input type="text" id="fileId" class="form-control" placeholder="Click to file ID">
                     <div class="input-group-append">
                         <button id="btn-download" class="btn btn-primary">Download</button>
                     </div>
@@ -38,18 +38,20 @@
             <!-- Table -->
             <div class="myTable" style="align-self: center;">
                 <table class="table" style="width: 800px;">
-                    <tr>
-                        <th class="text-center">STT</th>
-                        <th class="text-center">File ID</th>
+                    <tr class="text-center">
+                        <th>STT</th>
+                        <th>File ID</th>
                         <th>File name</th>
                     </tr>
-                    <c:forEach items="${files}" var="file" varStatus="loop">
-                        <tr>
-                            <td class="text-center">${loop.index + 1}</td>
-                            <td class="text-center text-success insert-id" data-toggle="tooltip" data-placement="top" title="Click to insert the file ID">${file.fileId}</td>
-                            <td>${file.fileName}</td>
-                        </tr>
-                    </c:forEach>
+                    <tbody>
+                        <c:forEach items="${files}" var="file" varStatus="loop">
+                            <tr>
+                                <td class="text-center">${loop.index + 1}</td>
+                                <td class="text-center text-success insert-id" data-toggle="tooltip" data-placement="top" title="Click to insert the file ID">${file.fileId}</td>
+                                <td>${file.fileName}</td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
                 </table>
             </div>
         </div>

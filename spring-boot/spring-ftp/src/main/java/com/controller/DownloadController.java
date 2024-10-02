@@ -6,7 +6,6 @@ import com.util.Base64Utils;
 import com.util.MediaTypeUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -55,8 +54,9 @@ public class DownloadController {
         try {
             FileStore file = fileStoreService.findByFileId(fileId);
             MediaType mediaType = MediaTypeUtils.fromFileName(file.getFileName());
-            String fileBase64 = file.getFileBase64();
-            byte[] data = Base64Utils.decodeToByte(fileBase64);
+            // String fileBase64 = file.getFileBase64();
+            // byte[] data = Base64Utils.decodeToByte(fileBase64);
+            byte[] data = file.getFileByte();
             return ResponseEntity.ok() //
                     .contentType(mediaType) //
                     .contentLength(data.length) //
