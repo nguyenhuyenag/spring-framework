@@ -4,6 +4,7 @@ import com.entity.FileStore;
 import com.repository.FileStoreRepository;
 import com.util.Base64Utils;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,6 +14,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class FileStoreService {
@@ -48,11 +50,17 @@ public class FileStoreService {
         for (MultipartFile multipartFile : multipartFiles) {
             fileStoreList.add(toFileStore(multipartFile));
         }
-        if (!fileStoreList.isEmpty()) {
+        if (fileStoreList.isEmpty()) {
+            throw new RuntimeException("No files to save.");
+        }
+        //if (!fileStoreList.isEmpty()) {
+        try {
             List<FileStore> fileStores = fileStoreRepository.saveAll(fileStoreList);
             return fileStores.stream().map(FileStore::getFileId).collect(Collectors.toList());
+        } catch (Exception e) {
+            log.error("saveMultipleFile: " + e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
-        return Collections.emptyList();
     }
 
     public List<FileStore> findAll() {

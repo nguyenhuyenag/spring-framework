@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.SystemUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +28,11 @@ public class AutoDeleteController {
             throws IOException {
         String filename = saveFileTemp(multipartFile);
         return ResponseEntity.ok(filename);
+    }
+
+    @GetMapping("/upload-auto-delete")
+    public String downloadLargeFile() {
+        return "upload-auto-delete";
     }
 
     /**

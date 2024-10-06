@@ -68,6 +68,7 @@
                     contentType: false,
                     processData: false,
                     success: (result, status, xhr) => {
+                        console.log(status);
                         $result.addClass('text-success').text('Success: ').append(xhr.responseText);
                     },
                     error: (xhr, status, error) => {

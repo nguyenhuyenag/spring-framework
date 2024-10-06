@@ -135,27 +135,6 @@ public class DownloadController {
 //        }
 //    }
 
-    @ResponseBody
-    @PostMapping(value = "/download-ajax")
-    public void downloadAjax(HttpServletResponse response, String fileId) {
-        try {
-            FileStore fileInfo = fileStoreService.findByFileId(fileId);
-            byte[] fileData = fileInfo.getFileByte();
-
-            // Set headers for the response
-            response.setContentType(URLConnection.guessContentTypeFromName(fileInfo.getFileName()));
-            response.setContentLength(fileData.length);
-            response.setHeader("Content-Disposition", "attachment; filename=\"" + fileInfo.getFileName() + "\"");
-
-            // Stream file data directly to response output stream
-            try (OutputStream out = response.getOutputStream()) {
-                FileCopyUtils.copy(fileData, out);
-            }
-        } catch (Exception e) {
-            log.error("Error while downloading file: {}", fileId, e);
-        }
-    }
-
     @PostMapping(value = "/download-ajax-base64")
     public ResponseEntity<?> downloadAjaxBase64(String fileId) {
         Map<String, String> map = new HashMap<>();
