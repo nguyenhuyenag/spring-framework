@@ -1,6 +1,7 @@
 package com.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -15,14 +16,19 @@ import java.sql.SQLException;
 @ControllerAdvice
 public class FileUploadExceptionAdvice {
 
-    @Value("${spring.servlet.multipart.max-file-size}")
+    @Value("${spring.servlet.multipart.max-file-size:20MB}")
     private String maxFilesize;
 
     // TODO: https://stackoverflow.com/a/54405341/7068014
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public ResponseEntity<?> maxUploadSizeExceeded(MaxUploadSizeExceededException ex) {
         log.error("File upload error: {}", ex.getMessage());
-        String message = "The maximum upload size " + maxFilesize;
+        String message = "";
+        String localizedMessage = ex.getLocalizedMessage();
+        int lastIndex = localizedMessage.lastIndexOf(":");
+        if (lastIndex != -1) {
+            message = StringUtils.capitalize(localizedMessage.substring(lastIndex + 1).trim());
+        }
         return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE)
                 .body(message);
     }
