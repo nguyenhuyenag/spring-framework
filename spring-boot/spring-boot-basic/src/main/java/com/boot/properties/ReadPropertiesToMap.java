@@ -2,12 +2,13 @@ package com.boot.properties;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.Properties;
 
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.core.io.ClassPathResource;
 
-public class ReadPropertiesFileManual {
+public class ReadPropertiesToMap {
 	
 	public static void main(String[] args) throws IOException {
 		PropertiesFactoryBean factory = new PropertiesFactoryBean();
@@ -25,9 +26,7 @@ public class ReadPropertiesFileManual {
 		
 		// convert -> HashMap
 		HashMap<String, Object> map = new HashMap<>();
-		factory.getObject().entrySet().forEach(e -> {
-			map.put(String.valueOf(e.getKey()), e.getValue());
-		});
+		Objects.requireNonNull(factory.getObject()).forEach((key, value) -> map.put(String.valueOf(key), value));
 		System.out.println(map);
 	}
 	
