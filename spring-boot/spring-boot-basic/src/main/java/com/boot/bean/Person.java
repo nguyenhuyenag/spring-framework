@@ -1,5 +1,6 @@
 package com.boot.bean;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import lombok.Setter;
 @Builder
 public class Person implements Serializable {
 
+	@Serial
 	private static final long serialVersionUID = 5956882926782425852L;
 
 	private int age;

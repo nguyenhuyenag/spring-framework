@@ -26,7 +26,7 @@ public class BeanUtilsOfApache {
 		Person shallow = person; // (Person) BeanUtils.cloneBean(person);
 		// Deep clone
 		Person deep = SerializationUtils.clone(person);
-		// change orignal value
+		// change original value
 		person.setAge(100);
 		System.out.println("Shallow: " + shallow.getAge());
 		System.out.println("Deep: " + deep.getAge());
