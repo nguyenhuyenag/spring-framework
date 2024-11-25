@@ -3,6 +3,7 @@ package com.controller;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+import lombok.Getter;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@Getter
 class Greeting extends RepresentationModel<Greeting> {
 
 	private final String content;
@@ -23,9 +25,6 @@ class Greeting extends RepresentationModel<Greeting> {
 		this.content = content;
 	}
 
-	public String getContent() {
-		return content;
-	}
 }
 
 /*-
