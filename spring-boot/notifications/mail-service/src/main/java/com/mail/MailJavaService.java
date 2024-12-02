@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 /*-
  * - CC (Carbon Copy): 		 Người nhận xem được danh sách các người nhận
  * 
- * - BCC(Blind Carbon Copy): Người nhận không xem được danh sách các người nhận
+ * - BCC (Blind Carbon Copy): Người nhận không xem được danh sách các người nhận
  */
 @Component
 public class MailJavaService {
