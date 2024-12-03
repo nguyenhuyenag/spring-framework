@@ -15,7 +15,7 @@
 	<artifactId>spring-boot2-jwt</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>Spring2Application</name>
+	<name>Spring2JWTApplication</name>
 	<description>Spring Boot 2 JWT</description>
 
 	<properties>

@@ -27,7 +27,7 @@ import com.service.RefreshTokenService;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(
     prePostEnabled = false,
-    securedEnabled = false,        // for @RolesAllowed
+    securedEnabled = false,     // for @RolesAllowed
     jsr250Enabled = true        // for @RolesAllowed
 )
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {

@@ -18,7 +18,7 @@ import com.util.TokenHandler;
 @Service
 public class RefreshTokenService {
 
-	private Long refreshTokenDurationMs = TimeUnit.DAYS.toMillis(1);
+	private final long refreshTokenDurationMs = TimeUnit.DAYS.toMillis(1);
 
 	@Autowired
 	private UserRepository userRepository;
@@ -28,11 +28,8 @@ public class RefreshTokenService {
 
 	private boolean verifyJwtExpiration(String token) {
 		Optional<Integer> verify = refreshTokenRepository.verifyJwtExpiration(token);
-		if (verify.isPresent()) {
-			return verify.get() == 1;
-		}
-		return false;
-	}
+        return verify.filter(x -> x == 1).isPresent();
+    }
 
 	public RefreshToken createRefreshToken(String username) {
 		RefreshToken refreshToken = new RefreshToken();

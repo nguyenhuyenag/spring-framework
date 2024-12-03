@@ -110,3 +110,8 @@
 
 	- Một điểm khác biệt quan trọng giữa POST và PUT đó là nếu chúng ta gọi PUT method nhiều lần thì sẽ nó tạo hoặc cập nhật cùng một tài nguyên (dựa vào mã định danh). Còn với POST thì việc chúng ta thực thi nhiều lần với cùng một enity thì nó sẽ tạo ra nhiều tài nguyên ở phía server có giá trị tương tự nhau.
 
+# ContextPath 
+
+    - ContextPath must start with '/' and not end with '/'
+    
+        server.servlet.context-path=/jwt2

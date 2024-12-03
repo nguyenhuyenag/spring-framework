@@ -3,6 +3,7 @@ package com.controller;
 import javax.servlet.http.HttpServletRequest;
 
 import com.payload.request.ValidateTokenRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,17 +21,18 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/auth")
+@RequiredArgsConstructor
 public class AuthController {
 
-	@Autowired
-	private RefreshTokenService refreshTokenService;
+	// @Autowired
+	private final RefreshTokenService refreshTokenService;
 
-	@Autowired
-	HttpServletRequest req;
+//	@Autowired
+//	HttpServletRequest req;
 
-	public String url() {
-		return req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort();
-	}
+//	public String url() {
+//		return req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort();
+//	}
 
 //	@PostMapping("/signin")
 //	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {

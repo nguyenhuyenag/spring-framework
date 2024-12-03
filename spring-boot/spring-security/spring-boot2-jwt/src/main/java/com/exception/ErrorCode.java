@@ -11,10 +11,9 @@ public enum ErrorCode {
     INVALID_CODE(1000, "ErrorCode -> Invalid message code"),
     USER_EXIST(1001, "ErrorCode -> User exits"),
     USERNAME_INVALID(1002, "ErrorCode -> Username must be at least 3 characters"),
-    PASSWORD_INVALID(1003, "ErrorCode -> Password must be at least 6 characters")
-    ;
+    PASSWORD_INVALID(1003, "ErrorCode -> Password must be at least 6 characters");
 
-    private int code;
-    private String message;
+    private final int code;
+    private final String message;
 
 }

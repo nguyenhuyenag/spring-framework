@@ -13,22 +13,22 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @JsonInclude(Include.NON_NULL)
-@JsonPropertyOrder({ "type", "refresh_token", "access_token" }) // sort field
+@JsonPropertyOrder({"type", "refresh_token", "access_token"}) // Sort field
 public class TokenRefreshResponse {
 
-	private String type; // = "Bearer";
+    private String type; // = "Bearer";
 
-	@JsonProperty("access_token")
-	private String accessToken;
+    @JsonProperty("access_token")
+    private String accessToken;
 
-	@JsonProperty("refresh_token")
-	private String refreshToken;
-	
-	String message;
+    @JsonProperty("refresh_token")
+    private String refreshToken;
 
-	public TokenRefreshResponse(String accessToken, String refreshToken) {
-		this.accessToken = accessToken;
-		this.refreshToken = refreshToken;
-	}
+    String message;
+
+    public TokenRefreshResponse(String accessToken, String refreshToken) {
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
+    }
 
 }

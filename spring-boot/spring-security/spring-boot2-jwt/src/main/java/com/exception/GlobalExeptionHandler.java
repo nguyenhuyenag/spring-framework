@@ -19,9 +19,9 @@ public class GlobalExeptionHandler {
 
     // Những lỗi không kiểm soát được
     @ExceptionHandler(value = Exception.class)
-    public ResponseEntity<?> handlinException(Exception exp) {
+    public ResponseEntity<?> handleException(Exception exp) {
         String message = exp.getMessage();
-        ApiResponse apiResponse = new ApiResponse<>();
+        ApiResponse<?> apiResponse = new ApiResponse<>();
         apiResponse.setCode(9999);
         apiResponse.setMessage(message);
         return ResponseEntity.badRequest().body(apiResponse);
@@ -30,7 +30,7 @@ public class GlobalExeptionHandler {
     @ExceptionHandler(value = AppException.class)
     public ResponseEntity<?> handlingAppException(AppException exp) {
         ErrorCode errorCode = exp.getErrorCode();
-        ApiResponse apiResponse = new ApiResponse<>();
+        ApiResponse<?> apiResponse = new ApiResponse<>();
         apiResponse.setCode(errorCode.getCode());
         apiResponse.setMessage(errorCode.getMessage());
         return ResponseEntity.badRequest().body(apiResponse);
@@ -48,7 +48,7 @@ public class GlobalExeptionHandler {
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
-        ApiResponse apiResponse = new ApiResponse();
+        ApiResponse<?> apiResponse = new ApiResponse<>();
         apiResponse.setCode(errorCode.getCode());
         apiResponse.setMessage(errorCode.getMessage());
         return ResponseEntity.badRequest().body(apiResponse);
