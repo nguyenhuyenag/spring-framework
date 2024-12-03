@@ -1,4 +1,4 @@
-package com.mail;
+package com.mail.service;
 
 import java.io.File;
 

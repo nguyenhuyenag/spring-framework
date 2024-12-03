@@ -1,4 +1,4 @@
-package com.mail;
+package com.mail.util;
 
 import java.io.IOException;
 import java.io.InputStream;
