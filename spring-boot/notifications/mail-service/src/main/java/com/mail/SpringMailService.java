@@ -3,7 +3,6 @@ package com.mail;
 import java.io.File;
 
 import javax.mail.MessagingException;
-import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MailSpringService {
+public class SpringMailService {
 
 	@Autowired
 	private JavaMailSender javaMailSender;
@@ -36,7 +35,7 @@ public class MailSpringService {
 	public boolean sendHtmlEmail() throws MessagingException {
 		MimeMessage message = javaMailSender.createMimeMessage();
 
-		message.setFrom(new InternetAddress(PropertiesReader.MAIL_USERNAME));
+		// message.setFrom(new InternetAddress(PropertiesReader.MAIL_USERNAME));
 		message.setRecipients(MimeMessage.RecipientType.TO, "bathudaide@gmail.com");
 		message.setSubject("Test email from Spring");
 
