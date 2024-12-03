@@ -2,6 +2,7 @@ package com.mail;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import javax.mail.BodyPart;
 import javax.mail.Message;
@@ -9,10 +10,7 @@ import javax.mail.Message.RecipientType;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
+import javax.mail.internet.*;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,12 +34,13 @@ public class JavaMailService {
         try {
             // message.setFrom(new InternetAddress(MAIL_SENDER));
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
+            subject = MimeUtility.encodeText(subject, "utf-8", "Q");
             message.setSubject(subject);
             message.setText(textContent);
             Transport.send(message);
             log.info("Email sent successfully to {}", recipient);
             return true;
-        } catch (MessagingException e) {
+        } catch (MessagingException | UnsupportedEncodingException e) {
             log.error("Failed to send email to {}. Error: {}", recipient, e.getMessage(), e);
         }
         return false;
@@ -50,6 +49,7 @@ public class JavaMailService {
     public boolean sendHtml(String recipient, String subject, String htmlContent) {
         Message message = new MimeMessage(javaxSession);
         try {
+            // message.setFrom(new InternetAddress(MAIL_SENDER));
             message.setRecipient(RecipientType.TO, new InternetAddress(recipient));
             message.setSubject(subject);
             message.setContent(htmlContent, "text/html; charset=utf-8");
