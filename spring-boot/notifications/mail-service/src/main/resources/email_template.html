@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông báo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .email-header {
+            background-color: #28a745;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px;
+            font-size: 24px;
+        }
+        .email-body {
+            padding: 20px;
+            color: #333;
+            line-height: 1.6;
+        }
+        .email-body h2 {
+            color: #28a745;
+        }
+        .email-footer {
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 15px;
+            font-size: 12px;
+            color: #666;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            font-size: 16px;
+            color: #ffffff;
+            background-color: #28a745;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Phần tiêu đề -->
+        <div class="email-header">
+            Thông báo quan trọng
+        </div>
+        <!-- Phần nội dung -->
+        <div class="email-body">
+            <h2>Xin chào %TAIKHOAN_KYDUYET%,</h2>
+            <p>Chúng tôi muốn thông báo đến bạn nội dung sau:</p>
+            <p><strong>Bạn có một hợp đồng điện tử %MANHAN_HOPDONG% đã xử lý ký duyệt hoàn thành. Vui lòng đăng nhập hệ thống ContractSigning để xem kết quả.</strong></p>
+            <p>Trân trọng!</p>
+        </div>
+        <!-- Phần chân trang -->
+        <div class="email-footer">
+            &copy; 2024. Mọi quyền được bảo lưu.
+            <br>
+            <a href="#">Chính sách bảo mật</a> | <a href="#">Liên hệ</a>
+        </div>
+    </div>
+</body>
+</html>
