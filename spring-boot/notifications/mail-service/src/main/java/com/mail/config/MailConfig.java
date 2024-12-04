@@ -16,6 +16,9 @@ import org.springframework.context.annotation.Configuration;
     - mail.smtp.socketFactory.port=456
         > Cổng được sử dụng bởi socket factory để thiết lập một kết SSL/TLS.
 
+    - mail.smtp.starttls.required=true
+        > Yêu cầu sử dụng STARTTLS, nếu máy chủ không hỗ trợ STARTTLS, kết nối sẽ bị từ chối.
+
     - So sánh với mail.smtp.ssl.enable & mail.smtp.starttls.enable
         Thuộc tính      SSL (465)	                                    STARTTLS (587)
         Bảo mật	        Bảo mật ngay từ đầu                             Kết nối bắt đầu không mã hóa, sau đó nâng cấp
@@ -26,13 +29,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MailConfig {
 
-    public static final String MAIL_SENDER = "frompostmail@gmail.com";
-
     @Value("${spring.mail.host}")
-    private String host;
+    private String smtpHost;
 
     @Value("${spring.mail.port}")
-    private int port;
+    private String smtpPort;
 
     @Value("${spring.mail.username}")
     private String username;
@@ -40,19 +41,29 @@ public class MailConfig {
     @Value("${spring.mail.password}")
     private String password;
 
+    @Value("${spring.mail.properties.mail.smtp.from}")
+    private String senderEmail;
+
+    @Value("${spring.mail.properties.mail.smtp.auth}")
+    private String smtpAuth;
+
+    @Value("${spring.mail.properties.mail.smtp.starttls.enable}")
+    private String starttls;
+
+    @Value("${spring.mail.properties.mail.smtp.starttls.required}")
+    private String requiredTsl;
+
     @Bean
     public javax.mail.Session javaMailSession() {
         Properties props = new Properties();
-        props.put("mail.smtp.host", host);
-        props.put("mail.smtp.port", port);
-        props.put("mail.smtp.from", MAIL_SENDER);
-        props.put("mail.smtp.auth", true);
-        props.put("mail.smtp.ssl.enable", true);
+        props.put("mail.smtp.host", smtpHost);
+        props.put("mail.smtp.port", smtpPort);
+        props.put("mail.smtp.auth", smtpAuth);
+        props.put("mail.smtp.from", senderEmail);
 
-        // Old config
-        // props.put("mail.smtp.starttls.enable", "true");
-        // props.put("mail.smtp.socketFactory.port", "465"); // Cổng cho socket factory
-        // props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory"); // Sử dụng SSLSocketFactory
+        props.put("mail.smtp.starttls.enable", starttls);
+        props.put("mail.smtp.starttls.required", requiredTsl);
+        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 
         return javax.mail.Session.getInstance(props, new javax.mail.Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
@@ -60,30 +71,5 @@ public class MailConfig {
             }
         });
     }
-
-//	@Bean
-//	public javax.mail.Session javaMailSession() {
-//		Properties props = new Properties();
-//		props.put("mail.smtp.host", hostname);
-//		props.put("mail.smtp.port", port);
-//		props.put("mail.smtp.auth", "true");
-//		props.put("mail.smtp.from", fromHostName);
-//
-//		// props.put("mail.smtp.socketFactory.port", port);
-//
-//		if (useSSL) {
-//			props.put("mail.smtp.ssl.trust", hostname);
-//			props.put("mail.smtp.ssl.enable", "true");
-//		} else {
-//			props.put("mail.smtp.starttls.enable", "true");
-//			props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-//		}
-//
-//		return javax.mail.Session.getInstance(props, new javax.mail.Authenticator() {
-//			protected PasswordAuthentication getPasswordAuthentication() {
-//				return new PasswordAuthentication(username, password);
-//			}
-//		});
-//	}
 
 }

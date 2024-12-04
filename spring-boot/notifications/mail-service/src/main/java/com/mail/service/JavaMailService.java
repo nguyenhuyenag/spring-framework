@@ -1,24 +1,24 @@
 package com.mail.service;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-
-import javax.mail.BodyPart;
-import javax.mail.Message;
-import javax.mail.Message.RecipientType;
-import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.Transport;
-import javax.mail.internet.*;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.mail.*;
+import javax.mail.Message.RecipientType;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.List;
+
 /*
-    - CC (Carbon Copy):         Người nhận xem được danh sách các người nhận.
-    - BCC (Blind Carbon Copy):  Người nhận không xem được danh sách các người nhận.
+    - CC (Carbon Copy):         Người nhận thấy được danh sách các người nhận.
+
+    - BCC (Blind Carbon Copy):  Người nhận KHÔNG thấy được danh sách các người nhận.
  */
 @Slf4j
 @Service
@@ -29,6 +29,14 @@ public class JavaMailService {
 
     private static final String HOME = System.getProperty("user.dir");
 
+    private void logSendEmailSuccessfully(String recipient) {
+        log.info("Email sent successfully to: {}", recipient);
+    }
+
+    private void logSendEmailFailed(String error) {
+        log.error("Failed to send email. Error: {}", error);
+    }
+
     public boolean sendText(String recipient, String subject, String textContent) {
         Message message = new MimeMessage(javaxSession);
         try {
@@ -38,10 +46,10 @@ public class JavaMailService {
             message.setSubject(subject);
             message.setText(textContent);
             Transport.send(message);
-            log.info("Email sent successfully to {}", recipient);
+            logSendEmailSuccessfully(recipient);
             return true;
         } catch (MessagingException e) {
-            log.error("Failed to send email to {}. Error: {}", recipient, e.getMessage(), e);
+            logSendEmailFailed(e.getMessage());
         }
         return false;
     }
@@ -49,43 +57,45 @@ public class JavaMailService {
     public boolean sendHtml(String recipient, String subject, String htmlContent) {
         Message message = new MimeMessage(javaxSession);
         try {
-            // message.setFrom(new InternetAddress(MAIL_SENDER));
             message.setRecipient(RecipientType.TO, new InternetAddress(recipient));
-            // MimeUtility.encodeText(subject);
             message.setSubject(subject);
             message.setContent(htmlContent, "text/html; charset=utf-8");
             Transport.send(message);
-            log.info("Email sent successfully to '{}'.", recipient);
+            logSendEmailSuccessfully(recipient);
             return true;
         } catch (MessagingException e) {
-            log.error("Failed to send email to {}. Error: {}", recipient, e.getMessage(), e);
+            logSendEmailFailed(e.getMessage());
         }
         return false;
     }
+
+    //===============================================================
+
+//    public boolean sendToManyCC(String recipients, String subject, String emailBody) {
+//        return sendToMany(Arrays.asList(recipients.split(",")), RecipientType.CC, subject, emailBody);
+//    }
+//
+//    public boolean sendToManyBCC(String recipients, String subject, String emailBody) {
+//        return sendToMany(Arrays.asList(recipients.split(",")), RecipientType.BCC, subject, emailBody);
+//    }
 
     /**
-     * @param listRecipient là chuỗi các email phân cách bởi dấu phẩy
+     * @param type = RecipientType.CC or RecipientType.BCC
      */
-    private boolean sendMany(String listRecipient, RecipientType type) {
+    public boolean sendToMany(List<String> recipients, RecipientType type, String subject, String emailBody) {
+        Message message = new MimeMessage(javaxSession);
         try {
-            Message message = new MimeMessage(javaxSession);
-            message.setRecipients(type, InternetAddress.parse(listRecipient));
-            message.setSubject("Testing Gmail");
-            message.setText("Dear fen, this is content of email.");
+            String listRecipients = String.join(",", new HashSet<>(recipients));
+            message.setRecipients(type, InternetAddress.parse(listRecipients));
+            message.setSubject(subject);
+            message.setText(emailBody);
             Transport.send(message);
+            logSendEmailSuccessfully(listRecipients);
             return true;
         } catch (MessagingException e) {
-            e.printStackTrace();
+            logSendEmailFailed(e.getMessage());
         }
         return false;
-    }
-
-    public boolean sendManyCC(String recipient) {
-        return sendMany(recipient, RecipientType.CC);
-    }
-
-    public boolean sendManyBCC(String recipient) {
-        return sendMany(recipient, RecipientType.BCC);
     }
 
     public boolean sendMailWithAttachment(String recipient) {
@@ -114,7 +124,7 @@ public class JavaMailService {
             Transport.send(message);
             return true;
         } catch (MessagingException | IOException e) {
-            e.printStackTrace();
+            log.error("Error: {}", e.getMessage());
         }
         return false;
     }
