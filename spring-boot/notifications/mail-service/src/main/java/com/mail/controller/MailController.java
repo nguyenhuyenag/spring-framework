@@ -19,14 +19,14 @@ public class MailController {
 
     @PostMapping("/send-text")
     public ResponseEntity<?> sendText(String recipient) {
-        String subject = "text_mail_subject";
-        String textContent = "This is a test mail";
+        String subject = "Chào bạn, đây là email thử nghiệm (text)!";
+        String textContent = "This is a text mail";
         return ResponseEntity.ok(javaMailService.sendText(recipient, subject, textContent));
     }
 
     @PostMapping("/send-html")
     public ResponseEntity<?> sendHtml(String recipient) {
-        String subject = "html_mail_subject";
+        String subject = "Chào bạn, đây là email thử nghiệm (html)!";
         String textContent = FileManager.getFileFromResource("email_template.html");
         return ResponseEntity.ok(javaMailService.sendHtml(recipient, subject, textContent));
     }

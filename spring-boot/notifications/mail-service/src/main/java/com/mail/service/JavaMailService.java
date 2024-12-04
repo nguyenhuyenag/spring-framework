@@ -34,13 +34,13 @@ public class JavaMailService {
         try {
             // message.setFrom(new InternetAddress(MAIL_SENDER));
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
-            subject = MimeUtility.encodeText(subject, "utf-8", "Q");
+            // MimeUtility.encodeText(subject, "utf-8", "Q");
             message.setSubject(subject);
             message.setText(textContent);
             Transport.send(message);
             log.info("Email sent successfully to {}", recipient);
             return true;
-        } catch (MessagingException | UnsupportedEncodingException e) {
+        } catch (MessagingException e) {
             log.error("Failed to send email to {}. Error: {}", recipient, e.getMessage(), e);
         }
         return false;
@@ -51,6 +51,7 @@ public class JavaMailService {
         try {
             // message.setFrom(new InternetAddress(MAIL_SENDER));
             message.setRecipient(RecipientType.TO, new InternetAddress(recipient));
+            // MimeUtility.encodeText(subject);
             message.setSubject(subject);
             message.setContent(htmlContent, "text/html; charset=utf-8");
             Transport.send(message);
@@ -68,7 +69,6 @@ public class JavaMailService {
     private boolean sendMany(String listRecipient, RecipientType type) {
         try {
             Message message = new MimeMessage(javaxSession);
-            // message.setFrom(new InternetAddress(MAIL_SENDER));
             message.setRecipients(type, InternetAddress.parse(listRecipient));
             message.setSubject("Testing Gmail");
             message.setText("Dear fen, this is content of email.");
