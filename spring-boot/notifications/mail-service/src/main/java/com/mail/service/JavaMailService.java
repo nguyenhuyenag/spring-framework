@@ -69,18 +69,8 @@ public class JavaMailService {
         return false;
     }
 
-    //===============================================================
-
-//    public boolean sendToManyCC(String recipients, String subject, String emailBody) {
-//        return sendToMany(Arrays.asList(recipients.split(",")), RecipientType.CC, subject, emailBody);
-//    }
-//
-//    public boolean sendToManyBCC(String recipients, String subject, String emailBody) {
-//        return sendToMany(Arrays.asList(recipients.split(",")), RecipientType.BCC, subject, emailBody);
-//    }
-
-    /**
-     * @param type = RecipientType.CC or RecipientType.BCC
+    /*
+        type = RecipientType.CC or RecipientType.BCC
      */
     public boolean sendToMany(List<String> recipients, RecipientType type, String subject, String emailBody) {
         Message message = new MimeMessage(javaxSession);
@@ -101,46 +91,36 @@ public class JavaMailService {
     public boolean sendMailWithAttachment(String recipient) {
         try {
             Message message = new MimeMessage(javaxSession);
-            // message.setFrom(new InternetAddress(MAIL_SENDER));
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
-            message.setSubject("Test Mail Subject");
+            message.setSubject("Test mail with attachment");
+            message.setContent(buildContent());
 
-            Multipart multipart = new MimeMultipart();
-
-            // Content
-            BodyPart content = new MimeBodyPart();
-            content.setText("This is message body");
-            multipart.addBodyPart(content);
-
-            // AttachFile
-            String[] fileNames = {"img1.jpg", "data.txt"};
-            for (String name : fileNames) {
-                MimeBodyPart attachmentPart = new MimeBodyPart();
-                attachmentPart.attachFile(new File(HOME + "/file/" + name));
-                multipart.addBodyPart(attachmentPart);
-            }
-
-            message.setContent(multipart);
             Transport.send(message);
+            logSendEmailSuccessfully(recipient);
             return true;
         } catch (MessagingException | IOException e) {
-            log.error("Error: {}", e.getMessage());
+            logSendEmailFailed(e.getMessage());
         }
         return false;
     }
 
-    //	private static final javax.mail.Session buildSession() {
-//		Properties prop = new Properties();
-//		prop.put("mail.smtp.host", "smtp.gmail.com");
-//		prop.put("mail.smtp.port", "465");
-//		prop.put("mail.smtp.auth", "true");
-//		prop.put("mail.smtp.socketFactory.port", "465");
-//		prop.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-//		return javax.mail.Session.getInstance(prop, new javax.mail.Authenticator() {
-//			protected PasswordAuthentication getPasswordAuthentication() {
-//				return new PasswordAuthentication(PropertiesReader.MAIL_USERNAME, PropertiesReader.MAIL_PASSWORD);
-//			}
-//		});
-//	}
+    private static Multipart buildContent() throws MessagingException, IOException {
+        Multipart multipart = new MimeMultipart();
+
+        // Content
+        BodyPart content = new MimeBodyPart();
+        content.setText("This is message body");
+        multipart.addBodyPart(content);
+
+        // Attachment
+        String[] fileNames = {"data.txt", "funny-meme.jpg"};
+        for (String name : fileNames) {
+            MimeBodyPart attachmentPart = new MimeBodyPart();
+            attachmentPart.attachFile(new File(HOME + "/attachment/" + name));
+            multipart.addBodyPart(attachmentPart);
+        }
+
+        return multipart;
+    }
 
 }
