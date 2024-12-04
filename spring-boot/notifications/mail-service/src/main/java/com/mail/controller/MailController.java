@@ -51,4 +51,9 @@ public class MailController {
         return ResponseEntity.ok(javaMailService.sendToMany(listRecipients, Message.RecipientType.BCC, subject, textContent));
     }
 
+    @PostMapping("/send-attachment")
+    public ResponseEntity<?> sendMailWithAttachment(String recipient) {
+        return ResponseEntity.ok(javaMailService.sendMailWithAttachment(recipient));
+    }
+
 }

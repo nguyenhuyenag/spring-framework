@@ -5,68 +5,81 @@ import java.io.File;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
+@RequiredArgsConstructor
 public class SpringMailService {
 
-	@Autowired
-	private JavaMailSender javaMailSender;
+    private final JavaMailSender javaMailSender;
 
-	/**
-	 * Sending Simple Emails
-	 */
-	public void sendEmail(String to, String subject, String body) {
-		SimpleMailMessage message = new SimpleMailMessage();
-		message.setFrom("noreply@baeldung.com");
-		message.setTo(to);
-		// message.setTo(new String[] {"recipient1@example.com"});
-		message.setSubject(subject);
-		message.setText(body);
-		javaMailSender.send(message);
-	}
+    public void viewMailConfiguration() {
+        if (javaMailSender instanceof JavaMailSenderImpl) {
+            JavaMailSenderImpl mailSender = (JavaMailSenderImpl) javaMailSender;
+            System.out.println("Host: " + mailSender.getHost());
+            System.out.println("Port: " + mailSender.getPort());
+            System.out.println("Username: " + mailSender.getUsername());
+            System.out.println("Password: " + mailSender.getPassword());
+            mailSender.getJavaMailProperties()
+                    .forEach((k, v) -> System.out.println(k + "=" + v));
+        }
+    }
 
-	public boolean sendHtmlEmail() throws MessagingException {
-		MimeMessage message = javaMailSender.createMimeMessage();
+    /**
+     * Sending Simple Emails
+     */
+    public void sendEmail(String to, String subject, String body) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("noreply@baeldung.com");
+        message.setTo(to);
+        // message.setTo(new String[] {"recipient1@example.com"});
+        message.setSubject(subject);
+        message.setText(body);
+        javaMailSender.send(message);
+    }
 
-		// message.setFrom(new InternetAddress(PropertiesReader.MAIL_USERNAME));
-		message.setRecipients(MimeMessage.RecipientType.TO, "bathudaide@gmail.com");
-		message.setSubject("Test email from Spring");
+    public boolean sendHtmlEmail() throws MessagingException {
+        MimeMessage message = javaMailSender.createMimeMessage();
 
-		String htmlContent = "<h1>This is a test Spring Boot email</h1>" + //
-				"<p>It can contain <strong>HTML</strong> content.</p>";
+        // message.setFrom(new InternetAddress(PropertiesReader.MAIL_USERNAME));
+        message.setRecipients(MimeMessage.RecipientType.TO, "bathudaide@gmail.com");
+        message.setSubject("Test email from Spring");
 
-		message.setContent(htmlContent, "text/html; charset=utf-8");
+        String htmlContent = "<h1>This is a test Spring Boot email</h1>" + //
+                "<p>It can contain <strong>HTML</strong> content.</p>";
 
-		try {
-			javaMailSender.send(message);
-		} catch (MailException ex) {
-			System.err.println(ex.getMessage());
-		}
-		return true;
-	}
+        message.setContent(htmlContent, "text/html; charset=utf-8");
 
-	/**
-	 * Sending Emails With Attachments
-	 */
-	public void sendEmailWithAttachment(String to, String subject, String body) throws Exception {
-		MimeMessage message = javaMailSender.createMimeMessage();
-		MimeMessageHelper helper = new MimeMessageHelper(message, true);
+        try {
+            javaMailSender.send(message);
+        } catch (MailException ex) {
+            System.err.println(ex.getMessage());
+        }
+        return true;
+    }
 
-		helper.setTo(to);
-		helper.setSubject(subject);
-		helper.setText(body);
+    /**
+     * Sending Emails With Attachments
+     */
+    public void sendEmailWithAttachment(String to, String subject, String body) throws Exception {
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-		FileSystemResource file = new FileSystemResource(new File("attachment.jpg"));
-		helper.addAttachment("attachment.jpg", file); // <tên file sẽ hiển thị trong mail, file> 
+        helper.setTo(to);
+        helper.setSubject(subject);
+        helper.setText(body);
 
-		javaMailSender.send(message);
-	}
+        FileSystemResource file = new FileSystemResource(new File("attachment.jpg"));
+        helper.addAttachment("attachment.jpg", file); // <tên file sẽ hiển thị trong mail, file>
+
+        javaMailSender.send(message);
+    }
 
 }
