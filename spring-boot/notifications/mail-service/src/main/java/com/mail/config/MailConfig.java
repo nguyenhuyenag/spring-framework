@@ -20,20 +20,20 @@ import org.springframework.context.annotation.Configuration;
         > Yêu cầu sử dụng STARTTLS, nếu máy chủ không hỗ trợ STARTTLS, kết nối sẽ bị từ chối.
 
     - So sánh với mail.smtp.ssl.enable & mail.smtp.starttls.enable
-        Thuộc tính      SSL (465)	                                    STARTTLS (587)
-        Bảo mật	        Bảo mật ngay từ đầu                             Kết nối bắt đầu không mã hóa, sau đó nâng cấp
-        Cấu hình	    mail.smtp.ssl.enable=true	                    mail.smtp.starttls.enable=true
-        Cổng mặc định   465	                                            587
-        Tương thích	    Thích hợp cho máy chủ yêu cầu SSL ngay từ đầu   Thích hợp cho máy chủ yêu cầu STARTTLS
+        SSL (465)	                        STARTTLS (587)
+        Bảo mật ngay từ đầu                 Kết nối bắt đầu không mã hóa, sau đó nâng cấp
+        mail.smtp.ssl.enable=true           mail.smtp.starttls.enable=true
+
+    - Gmail mặc định sẽ sử dụng username làm mail-sender (from).
  */
 @Configuration
 public class MailConfig {
 
     @Value("${spring.mail.host}")
-    private String smtpHost;
+    private String host;
 
     @Value("${spring.mail.port}")
-    private String smtpPort;
+    private String port;
 
     @Value("${spring.mail.username}")
     private String username;
@@ -42,10 +42,10 @@ public class MailConfig {
     private String password;
 
     @Value("${spring.mail.properties.mail.smtp.from}")
-    private String senderEmail;
+    private String mailSender;
 
     @Value("${spring.mail.properties.mail.smtp.auth}")
-    private String smtpAuth;
+    private String auth;
 
     @Value("${spring.mail.properties.mail.smtp.starttls.enable}")
     private String starttls;
@@ -56,10 +56,10 @@ public class MailConfig {
     @Bean
     public javax.mail.Session javaMailSession() {
         Properties props = new Properties();
-        props.put("mail.smtp.host", smtpHost);
-        props.put("mail.smtp.port", smtpPort);
-        props.put("mail.smtp.auth", smtpAuth);
-        props.put("mail.smtp.from", senderEmail);
+        props.put("mail.smtp.host", host);
+        props.put("mail.smtp.port", port);
+        props.put("mail.smtp.auth", auth);
+        props.put("mail.smtp.from", mailSender);
 
         props.put("mail.smtp.starttls.enable", starttls);
         props.put("mail.smtp.starttls.required", requiredTsl);

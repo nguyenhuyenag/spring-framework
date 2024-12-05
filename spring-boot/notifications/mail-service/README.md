@@ -17,5 +17,3 @@
 		> Generated app password
 		
 		Link: https://stackoverflow.com/a/72592946
-  		
-  		

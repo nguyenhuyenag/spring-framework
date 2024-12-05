@@ -2,6 +2,7 @@ package com.mail.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.mail.*;
@@ -12,6 +13,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.HashSet;
 import java.util.List;
 
@@ -27,7 +29,10 @@ public class JavaMailService {
 
     private final javax.mail.Session javaxSession;
 
-    private static final String HOME = System.getProperty("user.dir");
+    @Value("${spring.mail.properties.mail.smtp.from}")
+    private String mailSender;
+
+    // private static final String HOME = System.getProperty("user.dir");
 
     private void logSendEmailSuccessfully(String recipient) {
         log.info("Email sent successfully to: {}", recipient);
@@ -40,7 +45,8 @@ public class JavaMailService {
     public boolean sendText(String recipient, String subject, String textContent) {
         Message message = new MimeMessage(javaxSession);
         try {
-            // message.setFrom(new InternetAddress(MAIL_SENDER));
+            // Trường hợp gmail, chỉ có giá trị "Company XYZ" được set
+            message.setFrom(new InternetAddress(mailSender, "Company XYZ"));
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
             // MimeUtility.encodeText(subject, "utf-8", "Q");
             message.setSubject(subject);
@@ -48,7 +54,7 @@ public class JavaMailService {
             Transport.send(message);
             logSendEmailSuccessfully(recipient);
             return true;
-        } catch (MessagingException e) {
+        } catch (MessagingException | UnsupportedEncodingException e) {
             logSendEmailFailed(e.getMessage());
         }
         return false;
@@ -105,6 +111,8 @@ public class JavaMailService {
     }
 
     private static Multipart buildContent() throws MessagingException, IOException {
+        String HOME = System.getProperty("user.dir");
+
         Multipart multipart = new MimeMultipart();
 
         // Content

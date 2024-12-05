@@ -70,6 +70,7 @@ public class SpringMailService {
      */
     public void sendEmailWithAttachment(String to, String subject, String body) throws Exception {
         MimeMessage message = javaMailSender.createMimeMessage();
+
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
         helper.setTo(to);
