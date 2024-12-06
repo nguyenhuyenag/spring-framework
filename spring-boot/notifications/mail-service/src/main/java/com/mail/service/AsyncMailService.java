@@ -37,23 +37,20 @@ public class AsyncMailService {
     @Value("${spring.mail.properties.mail.smtp.from}")
     private String mailSender;
 
-    public void sendByExecutorService(String recipient, String subject, String body) {
-        executorService.submit(() -> sendText(recipient, subject, body));
-    }
-
-    public CompletableFuture<Boolean> sendByCompletableFuture(String recipient, String subject, String body) {
-        return CompletableFuture.supplyAsync(() -> sendText(recipient, subject, body));
+    private Message buildMessage(String recipient, String subject, String body)
+            throws MessagingException, UnsupportedEncodingException {
+        Message message = new MimeMessage(javaxSession);
+        message.setFrom(new InternetAddress(mailSender, "Company XYZ"));
+        message.setRecipient(RecipientType.TO, new InternetAddress(recipient));
+        message.setSubject(subject);
+        message.setText(body);
+        return message;
     }
 
     private boolean sendText(String recipient, String subject, String body) {
         log.info("Start AsyncMailService.sendText() on thread: {}", Thread.currentThread().getName());
         try {
-            Message message = new MimeMessage(javaxSession);
-            message.setFrom(new InternetAddress(mailSender, "Company XYZ"));
-            message.setRecipient(RecipientType.TO, new InternetAddress(recipient));
-            message.setSubject(subject);
-            message.setText(body);
-            Transport.send(message);
+            Transport.send(buildMessage(recipient, subject, body));
             logSendEmailSuccessfully(recipient);
             return true;
         } catch (MessagingException | UnsupportedEncodingException e) {
@@ -62,16 +59,19 @@ public class AsyncMailService {
         return false;
     }
 
+    public void sendByExecutorService(String recipient, String subject, String body) {
+        executorService.submit(() -> sendText(recipient, subject, body));
+    }
+
+    public CompletableFuture<Boolean> sendByCompletableFuture(String recipient, String subject, String body) {
+        return CompletableFuture.supplyAsync(() -> sendText(recipient, subject, body));
+    }
+
     @Async // Important -> Bật @EnableAsync ở SpringMailApplication.java
     public void sendByAsync(String recipient, String subject, String textContent) {
         log.info("Start AsyncMailService.sendByAsync() on thread: {}", Thread.currentThread().getName());
         try {
-            Message message = new MimeMessage(javaxSession);
-            message.setFrom(new InternetAddress(mailSender, "Company XYZ"));
-            message.setRecipient(RecipientType.TO, new InternetAddress(recipient));
-            message.setSubject(subject);
-            message.setText(textContent);
-            Transport.send(message);
+            Transport.send(buildMessage(recipient, subject, textContent));
             logSendEmailSuccessfully(recipient);
         } catch (MessagingException | UnsupportedEncodingException e) {
             logSendEmailFailed(e);
