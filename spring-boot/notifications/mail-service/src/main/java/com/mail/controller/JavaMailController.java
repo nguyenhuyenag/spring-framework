@@ -14,9 +14,9 @@ import java.util.Arrays;
 import java.util.List;
 
 @RestController
-@RequestMapping("/mail")
+@RequestMapping("/java-mail")
 @RequiredArgsConstructor
-public class MailController {
+public class JavaMailController {
 
     private final JavaMailService javaMailService;
     private final SpringMailService springMailService;

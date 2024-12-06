@@ -17,6 +17,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashSet;
 import java.util.List;
 
+import static com.mail.util.LogUtils.logSendEmailFailed;
+import static com.mail.util.LogUtils.logSendEmailSuccessfully;
+
 /*
     - CC (Carbon Copy):         Người nhận thấy được danh sách các người nhận.
 
@@ -28,19 +31,18 @@ import java.util.List;
 public class JavaMailService {
 
     private final javax.mail.Session javaxSession;
+    // private final BlockingQueue<SimpleMailMessage> queue;
 
     @Value("${spring.mail.properties.mail.smtp.from}")
     private String mailSender;
 
-    // private static final String HOME = System.getProperty("user.dir");
-
-    private void logSendEmailSuccessfully(String recipient) {
-        log.info("Email sent successfully to: {}", recipient);
-    }
-
-    private void logSendEmailFailed(String error) {
-        log.error("Failed to send email. Error: {}", error);
-    }
+//    private void logSendEmailSuccessfully(String recipient) {
+//        log.info("Email sent successfully to: {}", recipient);
+//    }
+//
+//    private void logSendEmailFailed(String error) {
+//        log.error("Failed to send email. Error: {}", error);
+//    }
 
     public boolean sendText(String recipient, String subject, String textContent) {
         Message message = new MimeMessage(javaxSession);
@@ -55,7 +57,7 @@ public class JavaMailService {
             logSendEmailSuccessfully(recipient);
             return true;
         } catch (MessagingException | UnsupportedEncodingException e) {
-            logSendEmailFailed(e.getMessage());
+            logSendEmailFailed(e);
         }
         return false;
     }
@@ -70,7 +72,7 @@ public class JavaMailService {
             logSendEmailSuccessfully(recipient);
             return true;
         } catch (MessagingException e) {
-            logSendEmailFailed(e.getMessage());
+            logSendEmailFailed(e);
         }
         return false;
     }
@@ -89,7 +91,7 @@ public class JavaMailService {
             logSendEmailSuccessfully(listRecipients);
             return true;
         } catch (MessagingException e) {
-            logSendEmailFailed(e.getMessage());
+            logSendEmailFailed(e);
         }
         return false;
     }
@@ -105,7 +107,7 @@ public class JavaMailService {
             logSendEmailSuccessfully(recipient);
             return true;
         } catch (MessagingException | IOException e) {
-            logSendEmailFailed(e.getMessage());
+            logSendEmailFailed(e);
         }
         return false;
     }

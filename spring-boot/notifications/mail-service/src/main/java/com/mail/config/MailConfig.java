@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/*
+/*-
     - mail.smtp.auth=true
         > JavaMail sẽ sử dụng thông tin xác thực (username và password) được cung
         cấp trong Session để đăng nhập vào máy chủ SMTP trước khi gửi email.
@@ -42,7 +42,7 @@ public class MailConfig {
     private String password;
 
     @Value("${spring.mail.properties.mail.smtp.from}")
-    private String mailSender;
+    private String defaultSenderEmail;
 
     @Value("${spring.mail.properties.mail.smtp.auth}")
     private String auth;
@@ -58,11 +58,11 @@ public class MailConfig {
         Properties props = new Properties();
         props.put("mail.smtp.host", host);
         props.put("mail.smtp.port", port);
-        props.put("mail.smtp.auth", auth);
-        props.put("mail.smtp.from", mailSender);
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.from", defaultSenderEmail);
 
-        props.put("mail.smtp.starttls.enable", starttls);
-        props.put("mail.smtp.starttls.required", requiredTsl);
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.starttls.required", "true");
         props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 
         return javax.mail.Session.getInstance(props, new javax.mail.Authenticator() {

@@ -6,6 +6,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
@@ -14,11 +15,17 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import static com.mail.util.LogUtils.logSendEmailFailed;
+import static com.mail.util.LogUtils.logSendEmailSuccessfully;
+
 @Service
 @RequiredArgsConstructor
 public class SpringMailService {
 
     private final JavaMailSender javaMailSender;
+
+    @Value("${spring.mail.properties.mail.smtp.from}")
+    private String defaultSenderEmail;
 
     public void viewMailConfiguration() {
         if (javaMailSender instanceof JavaMailSenderImpl) {
@@ -32,17 +39,23 @@ public class SpringMailService {
         }
     }
 
-    /**
-     * Sending Simple Emails
-     */
-    public void sendEmail(String to, String subject, String body) {
+    public boolean sendText(String recipient, String subject, String body) {
+
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("noreply@baeldung.com");
-        message.setTo(to);
-        // message.setTo(new String[] {"recipient1@example.com"});
+        message.setFrom(defaultSenderEmail);
+        message.setTo(recipient);
+        // message.setTo(new String[]{recipient});
         message.setSubject(subject);
         message.setText(body);
-        javaMailSender.send(message);
+
+        try {
+            javaMailSender.send(message);
+            logSendEmailSuccessfully(recipient);
+            return true;
+        } catch (MailException e) {
+            logSendEmailFailed(e);
+        }
+        return false;
     }
 
     public boolean sendHtmlEmail() throws MessagingException {
