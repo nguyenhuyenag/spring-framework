@@ -21,32 +21,4 @@ public class SpringMailController {
         return ResponseEntity.ok(springMailService.sendText(recipient, subject, textContent));
     }
 
-//    @PostMapping("/send-html")
-//    public ResponseEntity<?> sendHtml(String recipient) {
-//        String subject = "Chào bạn, đây là email thử nghiệm (html)!";
-//        String textContent = FileManager.getFileFromResource("email_template.html");
-//        return ResponseEntity.ok(javaMailService.sendHtml(recipient, subject, textContent));
-//    }
-//
-//    @PostMapping("/send-to-many-cc")
-//    public ResponseEntity<?> sendToManyCC(String recipients) {
-//        String subject = "Chào bạn, đây là email thử nghiệm (text)!";
-//        String textContent = "This is a text mail";
-//        List<String> listRecipients = Arrays.asList(recipients.split(","));
-//        return ResponseEntity.ok(javaMailService.sendToMany(listRecipients, Message.RecipientType.CC, subject, textContent));
-//    }
-//
-//    @PostMapping("/send-to-many-bcc")
-//    public ResponseEntity<?> sendToManyBCC(String recipients) {
-//        String subject = "Chào bạn, đây là email thử nghiệm (text)!";
-//        String textContent = "This is a text mail";
-//        List<String> listRecipients = Arrays.asList(recipients.split(","));
-//        return ResponseEntity.ok(javaMailService.sendToMany(listRecipients, Message.RecipientType.BCC, subject, textContent));
-//    }
-//
-//    @PostMapping("/send-attachment")
-//    public ResponseEntity<?> sendMailWithAttachment(String recipient) {
-//        return ResponseEntity.ok(javaMailService.sendMailWithAttachment(recipient));
-//    }
-
 }

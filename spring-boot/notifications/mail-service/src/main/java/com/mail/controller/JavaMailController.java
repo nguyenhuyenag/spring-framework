@@ -1,7 +1,6 @@
 package com.mail.controller;
 
 import com.mail.service.JavaMailService;
-import com.mail.service.SpringMailService;
 import com.mail.util.FileManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +18,6 @@ import java.util.List;
 public class JavaMailController {
 
     private final JavaMailService javaMailService;
-    private final SpringMailService springMailService;
 
     @PostMapping("/send-text")
     public ResponseEntity<?> sendText(String recipient) {

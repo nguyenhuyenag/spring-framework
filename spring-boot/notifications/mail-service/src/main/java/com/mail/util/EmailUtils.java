@@ -1,9 +1,7 @@
 package com.mail.util;
 
-import java.util.regex.Pattern;
-
 /*
-https://www.baeldung.com/java-email-validation-regex
+    https://www.baeldung.com/java-email-validation-regex
 */
 public class EmailUtils {
 

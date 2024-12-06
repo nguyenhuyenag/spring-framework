@@ -31,18 +31,9 @@ import static com.mail.util.LogUtils.logSendEmailSuccessfully;
 public class JavaMailService {
 
     private final javax.mail.Session javaxSession;
-    // private final BlockingQueue<SimpleMailMessage> queue;
 
     @Value("${spring.mail.properties.mail.smtp.from}")
     private String mailSender;
-
-//    private void logSendEmailSuccessfully(String recipient) {
-//        log.info("Email sent successfully to: {}", recipient);
-//    }
-//
-//    private void logSendEmailFailed(String error) {
-//        log.error("Failed to send email. Error: {}", error);
-//    }
 
     public boolean sendText(String recipient, String subject, String textContent) {
         Message message = new MimeMessage(javaxSession);
