@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.concurrent.CompletableFuture;
 
+/*
+    Cách sử dụng join() hoặc get() chỉ dùng khi thực sự cần kết quả ngay lập tức và không quan tâm đến việc block thread.
+ */
 @Slf4j
 @RestController
 @RequestMapping("async-mail")
