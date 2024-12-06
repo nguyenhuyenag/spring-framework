@@ -12,13 +12,13 @@ import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @RestController
-@RequestMapping("/async-mail")
+@RequestMapping("async-mail")
 @RequiredArgsConstructor
 public class AsyncMailController {
 
     private final AsyncMailService asyncMailService;
 
-    private final String subject = "[Async Mail] Chào bạn, đây là email thử nghiệm.";
+    private final String subject = "[Async] Chào bạn, đây là email thử nghiệm.";
     private final String textContent = "This is mail body.";
 
     private void log(String method, String threadName) {
@@ -53,10 +53,10 @@ public class AsyncMailController {
         log("AsyncMailController.sendByCompletableFuture()", Thread.currentThread().getName());
         CompletableFuture<Boolean> sendEmailFuture = asyncMailService.sendByCompletableFuture(recipient, subject, textContent);
 
-        // Chặn luồng chính cho đến khi tác vụ bất đồng bộ hoàn thành và trả về kết quả -> chậm chương trình
+// Chặn luồng chính cho đến khi tác vụ bất đồng bộ hoàn thành và trả về kết quả -> chậm chương trình
         boolean success = sendEmailFuture.join();  // join() sẽ chặn và lấy kết quả
 
-        // Trả về kết quả trong ResponseEntity
+// Trả về kết quả trong ResponseEntity
         if (success) {
             return ResponseEntity.ok("Email sent successfully!");
         } else {

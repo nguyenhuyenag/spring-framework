@@ -37,22 +37,22 @@ public class AsyncMailService {
     @Value("${spring.mail.properties.mail.smtp.from}")
     private String mailSender;
 
-    public void sendByExecutorService(String recipient, String subject, String textContent) {
-        executorService.submit(() -> sendText(recipient, subject, textContent));
+    public void sendByExecutorService(String recipient, String subject, String body) {
+        executorService.submit(() -> sendText(recipient, subject, body));
     }
 
-    public CompletableFuture<Boolean> sendByCompletableFuture(String recipient, String subject, String textContent) {
-        return CompletableFuture.supplyAsync(() -> sendText(recipient, subject, textContent));
+    public CompletableFuture<Boolean> sendByCompletableFuture(String recipient, String subject, String body) {
+        return CompletableFuture.supplyAsync(() -> sendText(recipient, subject, body));
     }
 
-    private boolean sendText(String recipient, String subject, String textContent) {
+    private boolean sendText(String recipient, String subject, String body) {
         log.info("Start AsyncMailService.sendText() on thread: {}", Thread.currentThread().getName());
         try {
             Message message = new MimeMessage(javaxSession);
             message.setFrom(new InternetAddress(mailSender, "Company XYZ"));
             message.setRecipient(RecipientType.TO, new InternetAddress(recipient));
             message.setSubject(subject);
-            message.setText(textContent);
+            message.setText(body);
             Transport.send(message);
             logSendEmailSuccessfully(recipient);
             return true;

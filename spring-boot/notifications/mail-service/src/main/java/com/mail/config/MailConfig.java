@@ -1,12 +1,11 @@
 package com.mail.config;
 
-import java.util.Properties;
-
-import javax.mail.PasswordAuthentication;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import javax.mail.PasswordAuthentication;
+import java.util.Properties;
 
 /*-
     - mail.smtp.auth=true
@@ -44,14 +43,14 @@ public class MailConfig {
     @Value("${spring.mail.properties.mail.smtp.from}")
     private String defaultSenderEmail;
 
-    @Value("${spring.mail.properties.mail.smtp.auth}")
-    private String auth;
+    // @Value("${spring.mail.properties.mail.smtp.auth}")
+    // private String auth;
 
-    @Value("${spring.mail.properties.mail.smtp.starttls.enable}")
-    private String starttls;
+    // @Value("${spring.mail.properties.mail.smtp.starttls.enable}")
+    // private String starttls;
 
-    @Value("${spring.mail.properties.mail.smtp.starttls.required}")
-    private String requiredTsl;
+    // @Value("${spring.mail.properties.mail.smtp.starttls.required}")
+    // private String requiredTsl;
 
     @Bean
     public javax.mail.Session javaMailSession() {
