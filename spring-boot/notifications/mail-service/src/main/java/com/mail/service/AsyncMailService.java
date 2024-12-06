@@ -68,14 +68,16 @@ public class AsyncMailService {
     }
 
     @Async // Important -> Bật @EnableAsync ở SpringMailApplication.java
-    public void sendByAsync(String recipient, String subject, String textContent) {
+    public CompletableFuture<Boolean> sendByAsync(String recipient, String subject, String textContent) {
         log.info("Start AsyncMailService.sendByAsync() on thread: {}", Thread.currentThread().getName());
         try {
             Transport.send(buildMessage(recipient, subject, textContent));
             logSendEmailSuccessfully(recipient);
+            return CompletableFuture.completedFuture(true);
         } catch (MessagingException | UnsupportedEncodingException e) {
             logSendEmailFailed(e);
         }
+        return CompletableFuture.completedFuture(false);
     }
 
     @PreDestroy

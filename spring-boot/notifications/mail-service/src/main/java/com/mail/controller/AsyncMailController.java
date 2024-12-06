@@ -3,6 +3,7 @@ package com.mail.controller;
 import com.mail.service.AsyncMailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,10 +54,10 @@ public class AsyncMailController {
         log("AsyncMailController.sendByCompletableFuture()", Thread.currentThread().getName());
         CompletableFuture<Boolean> sendEmailFuture = asyncMailService.sendByCompletableFuture(recipient, subject, textContent);
 
-// Chặn luồng chính cho đến khi tác vụ bất đồng bộ hoàn thành và trả về kết quả -> chậm chương trình
+        // Chặn luồng chính cho đến khi tác vụ bất đồng bộ hoàn thành và trả về kết quả -> chậm chương trình
         boolean success = sendEmailFuture.join();  // join() sẽ chặn và lấy kết quả
 
-// Trả về kết quả trong ResponseEntity
+        // Trả về kết quả trong ResponseEntity
         if (success) {
             return ResponseEntity.ok("Email sent successfully!");
         } else {
@@ -66,9 +67,17 @@ public class AsyncMailController {
 
     @PostMapping("/send-by-async")
     public ResponseEntity<?> sendByAsync(String recipient) {
-        log("AsyncMailController.sendByAsync()", Thread.currentThread().getName());
-        asyncMailService.sendByAsync(recipient, subject, textContent);
-        return ResponseEntity.ok(null);
+        try {
+            CompletableFuture<Boolean> result = asyncMailService.sendByAsync(recipient, subject, textContent);
+            // Chờ kết quả của CompletableFuture, but block main thread
+            boolean isSuccess = result.get();
+            if (isSuccess) {
+                return ResponseEntity.ok(isSuccess);
+            }
+        } catch (Exception e) {
+            log.error("Error while sending email: {}", e.getMessage(), e);
+        }
+        return ResponseEntity.ok(false);
     }
 
 }
