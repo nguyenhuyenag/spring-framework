@@ -7,9 +7,13 @@ package com.core.create;
  */
 public class UsingThread extends Thread {
 
+    private static void showThreadName(String threadName) {
+        System.out.println("ThreadName -> " + Thread.currentThread().getName());
+    }
+
     @Override
     public void run() {
-        System.out.println("ThreadName -> " + Thread.currentThread().getName());
+        showThreadName(Thread.currentThread().getName());
         try {
             for (int i = 5; i > 0; i--) {
                 System.out.println(i);
@@ -28,7 +32,7 @@ public class UsingThread extends Thread {
 
     public static void cach2() {
         Thread task = new Thread(() -> {
-            System.out.println("ThreadName -> " + Thread.currentThread().getName());
+            showThreadName(Thread.currentThread().getName());
             try {
                 for (int i = 5; i > 0; i--) {
                     System.out.println(i);
@@ -42,9 +46,9 @@ public class UsingThread extends Thread {
     }
 
     public static void main(String[] args) {
-        System.out.println("ThreadName -> " + Thread.currentThread().getName());
-        cach1();
-        // cach2();
+        showThreadName(Thread.currentThread().getName());
+        // cach1();
+        cach2();
     }
 
 }
