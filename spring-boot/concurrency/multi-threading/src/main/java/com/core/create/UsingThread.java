@@ -1,10 +1,13 @@
 package com.core.create;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Có 2 cách tạo thread là `extends Thread` hoặc `implements Runnable`.
  *
  * Cách implements Runnable được ưa chuộng hơn vì chỉ có thể extends được 1 class.
  */
+@Slf4j
 public class UsingThread extends Thread {
 
     private static void showThreadName(String threadName) {
@@ -20,7 +23,7 @@ public class UsingThread extends Thread {
                 Thread.sleep(100); // thread sleep
             }
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.error("Error: {}", e.getMessage());
         }
     }
 
@@ -39,7 +42,7 @@ public class UsingThread extends Thread {
                     Thread.sleep(100); // thread sleep
                 }
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                log.error("Exception: {}", e.getMessage());
             }
         });
         task.start();
