@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.concurrent.CompletableFuture;
 
 /*
-    Cách sử dụng join() hoặc get() chỉ dùng khi thực sự cần kết quả ngay lập tức và không quan tâm đến việc block thread.
+    Cách sử dụng join() hoặc get() chỉ dùng khi thực sự cần kết quả ngay lập tức và
+    không quan tâm đến việc block thread.
  */
 @Slf4j
 @RestController
@@ -58,7 +59,7 @@ public class AsyncMailController {
         CompletableFuture<Boolean> sendEmailFuture = asyncMailService.sendByCompletableFuture(recipient, subject, textContent);
 
         // Chặn luồng chính cho đến khi tác vụ bất đồng bộ hoàn thành và trả về kết quả -> chậm chương trình
-        boolean success = sendEmailFuture.join();  // join() sẽ chặn và lấy kết quả
+        boolean success = sendEmailFuture.join();
 
         // Trả về kết quả trong ResponseEntity
         if (success) {
@@ -75,7 +76,7 @@ public class AsyncMailController {
             // Chờ kết quả của CompletableFuture, but block main thread
             boolean isSuccess = result.get();
             if (isSuccess) {
-                return ResponseEntity.ok(isSuccess);
+                return ResponseEntity.ok(true);
             }
         } catch (Exception e) {
             log.error("Error while sending email: {}", e.getMessage(), e);

@@ -12,9 +12,6 @@ import java.util.Properties;
         > JavaMail sẽ sử dụng thông tin xác thực (username và password) được cung
         cấp trong Session để đăng nhập vào máy chủ SMTP trước khi gửi email.
 
-    - mail.smtp.socketFactory.port=456
-        > Cổng được sử dụng bởi socket factory để thiết lập một kết SSL/TLS.
-
     - mail.smtp.starttls.required=true
         > Yêu cầu sử dụng STARTTLS, nếu máy chủ không hỗ trợ STARTTLS, kết nối sẽ bị từ chối.
 
