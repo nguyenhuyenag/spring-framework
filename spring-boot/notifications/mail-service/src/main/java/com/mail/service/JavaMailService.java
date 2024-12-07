@@ -93,7 +93,6 @@ public class JavaMailService {
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
             message.setSubject("Test mail with attachment");
             message.setContent(buildContent());
-
             Transport.send(message);
             logSendEmailSuccessfully(recipient);
             return true;
