@@ -25,7 +25,6 @@ public class AsyncMailController {
     private final AsyncMailService asyncMailService;
     private final QueueMailService queueMailService;
 
-    private final String subject = "[Async] Chào bạn, đây là email thử nghiệm.";
     private final String textContent = "This is mail body.";
 
     private void log(String method, String threadName) {
@@ -35,6 +34,7 @@ public class AsyncMailController {
     @PostMapping("/send-by-executor-service")
     public ResponseEntity<?> sendByExecutorService(String recipient) {
         log("AsyncMailController.sendByExecutorService()", Thread.currentThread().getName());
+        String subject = "[SendByExecutorService] Chào bạn, đây là email thử nghiệm.";
         asyncMailService.sendByExecutorService(recipient, subject, textContent);
         return ResponseEntity.ok(null);
     }
@@ -42,6 +42,7 @@ public class AsyncMailController {
     // Không quan tâm kết quả gửi mail
     @PostMapping("/send-by-completable-future")
     public ResponseEntity<?> sendByCompletableFuture(String recipient) {
+        String subject = "[SendByCompletableFuture] Chào bạn, đây là email thử nghiệm.";
         log("AsyncMailController.sendByCompletableFuture()", Thread.currentThread().getName());
         CompletableFuture<Boolean> sendEmailFuture = asyncMailService.sendByCompletableFuture(recipient, subject, textContent);
         sendEmailFuture.thenAccept(success -> {
@@ -57,6 +58,7 @@ public class AsyncMailController {
     // Quan tâm kết quả gửi mail
     @PostMapping("/send-by-completable-future-join")
     public ResponseEntity<?> sendByCompletableFutureJoin(String recipient) {
+        String subject = "[SendByCompletableFutureJoin] Chào bạn, đây là email thử nghiệm.";
         log("AsyncMailController.sendByCompletableFuture()", Thread.currentThread().getName());
         CompletableFuture<Boolean> sendEmailFuture = asyncMailService.sendByCompletableFuture(recipient, subject, textContent);
 
@@ -73,6 +75,7 @@ public class AsyncMailController {
 
     @PostMapping("/send-by-async")
     public ResponseEntity<?> sendByAsync(String recipient) {
+        String subject = "[SendByAsync] Chào bạn, đây là email thử nghiệm.";
         try {
             CompletableFuture<Boolean> result = asyncMailService.sendByAsync(recipient, subject, textContent);
             // Chờ kết quả của CompletableFuture, but block main thread
@@ -86,12 +89,12 @@ public class AsyncMailController {
         return ResponseEntity.ok(false);
     }
 
-    @PostMapping("/blocking-queue")
-    public ResponseEntity<?> blockingQueue(String recipient) {
-        String subject = "[Queue] Chào bạn, đây là email thử nghiệm.";
-        String textContent = "This is mail body.";
-        queueMailService.sendMail(recipient, subject, textContent);
-        return ResponseEntity.ok(null);
-    }
+//    @PostMapping("/blocking-queue")
+//    public ResponseEntity<?> blockingQueue(String recipient) {
+//        String subject = "[Queue] Chào bạn, đây là email thử nghiệm.";
+//        String textContent = "This is mail body.";
+//        queueMailService.sendMail(recipient, subject, textContent);
+//        return ResponseEntity.ok(null);
+//    }
 
 }

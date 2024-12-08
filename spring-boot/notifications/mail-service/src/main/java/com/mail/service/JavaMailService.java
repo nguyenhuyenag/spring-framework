@@ -50,14 +50,6 @@ public class JavaMailService {
 
     public boolean sendText(String to, String subject, String body) {
         try {
-//            Message message = new MimeMessage(javaxSession);
-//            // Trường hợp gmail, chỉ có giá trị "Company XYZ" được set
-//            message.setFrom(new InternetAddress(mailSender, "Company XYZ"));
-//            message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
-//            // MimeUtility.encodeText(subject, "utf-8", "Q");
-//            message.setSubject(subject);
-//            message.setText(textContent);
-            // Message message = buildMessage(to, subject, body);
             Transport.send(buildMessage(to, subject, body));
             logSendEmailSuccessfully(to);
             return true;
