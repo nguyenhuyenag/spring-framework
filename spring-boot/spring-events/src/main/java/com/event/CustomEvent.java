@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class UserRemovedEvent {
+public class CustomEvent {
 
     private final String message;
 
