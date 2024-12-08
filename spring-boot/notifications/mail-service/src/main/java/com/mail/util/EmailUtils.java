@@ -8,8 +8,8 @@ public class EmailUtils {
     // Regular expression by RFC 5322 for Email Validation
     private static final String REGEX_EMAIL = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^-]+(?:\\.[a-zA-Z0-9_!#$%&'*+/=?`{|}~^-]+)*@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$";
 
-    public static boolean isEmail(String emailAddress) {
-        return (emailAddress != null && emailAddress.matches(REGEX_EMAIL));
+    public static boolean isEmail(String email) {
+        return (email != null && email.matches(REGEX_EMAIL));
     }
 
     public static void main(String[] args) {

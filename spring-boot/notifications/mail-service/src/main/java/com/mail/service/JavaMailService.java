@@ -35,27 +35,41 @@ public class JavaMailService {
     @Value("${spring.mail.properties.mail.smtp.from}")
     private String mailSender;
 
-    public boolean sendText(String recipient, String subject, String textContent) {
+    public Message buildMessage(String recipient, String subject, String body) {
         Message message = new MimeMessage(javaxSession);
         try {
-            // Trường hợp gmail, chỉ có giá trị "Company XYZ" được set
             message.setFrom(new InternetAddress(mailSender, "Company XYZ"));
-            message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
-            // MimeUtility.encodeText(subject, "utf-8", "Q");
+            message.setRecipient(RecipientType.TO, new InternetAddress(recipient));
             message.setSubject(subject);
-            message.setText(textContent);
-            Transport.send(message);
-            logSendEmailSuccessfully(recipient);
-            return true;
+            message.setText(body);
         } catch (MessagingException | UnsupportedEncodingException e) {
+            log.error("Error build mail message: {}", e.getMessage());
+        }
+        return message;
+    }
+
+    public boolean sendText(String to, String subject, String body) {
+        try {
+//            Message message = new MimeMessage(javaxSession);
+//            // Trường hợp gmail, chỉ có giá trị "Company XYZ" được set
+//            message.setFrom(new InternetAddress(mailSender, "Company XYZ"));
+//            message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
+//            // MimeUtility.encodeText(subject, "utf-8", "Q");
+//            message.setSubject(subject);
+//            message.setText(textContent);
+            // Message message = buildMessage(to, subject, body);
+            Transport.send(buildMessage(to, subject, body));
+            logSendEmailSuccessfully(to);
+            return true;
+        } catch (MessagingException e) {
             logSendEmailFailed(e);
         }
         return false;
     }
 
     public boolean sendHtml(String recipient, String subject, String htmlContent) {
-        Message message = new MimeMessage(javaxSession);
         try {
+            Message message = new MimeMessage(javaxSession);
             message.setRecipient(RecipientType.TO, new InternetAddress(recipient));
             message.setSubject(subject);
             message.setContent(htmlContent, "text/html; charset=utf-8");
@@ -72,8 +86,8 @@ public class JavaMailService {
         type = RecipientType.CC or RecipientType.BCC
      */
     public boolean sendToMany(List<String> recipients, RecipientType type, String subject, String emailBody) {
-        Message message = new MimeMessage(javaxSession);
         try {
+            Message message = new MimeMessage(javaxSession);
             String listRecipients = String.join(",", new HashSet<>(recipients));
             message.setRecipients(type, InternetAddress.parse(listRecipients));
             message.setSubject(subject);
@@ -92,7 +106,7 @@ public class JavaMailService {
             Message message = new MimeMessage(javaxSession);
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
             message.setSubject("Test mail with attachment");
-            message.setContent(buildContent());
+            message.setContent(buildContentAttachment());
             Transport.send(message);
             logSendEmailSuccessfully(recipient);
             return true;
@@ -102,7 +116,8 @@ public class JavaMailService {
         return false;
     }
 
-    private static Multipart buildContent() throws MessagingException, IOException {
+    private static Multipart buildContentAttachment()
+            throws MessagingException, IOException {
         String HOME = System.getProperty("user.dir");
 
         Multipart multipart = new MimeMultipart();
