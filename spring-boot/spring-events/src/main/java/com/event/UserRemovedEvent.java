@@ -1,14 +1,12 @@
 package com.event;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 public class UserRemovedEvent {
 
-	private String message;
-
-	public UserRemovedEvent(String message) {
-		this.message = message;
-	}
+    private final String message;
 
 }

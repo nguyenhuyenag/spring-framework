@@ -1,20 +1,16 @@
 package com.event;
 
+import lombok.Getter;
 import org.springframework.context.ApplicationEvent;
 
+@Getter
 public class UserCreatedEvent extends ApplicationEvent {
 
-	private static final long serialVersionUID = -8874223071665993075L;
+    private final String message;
 
-	private String message;
-
-	public UserCreatedEvent(Object source, String message) {
-		super(source);
-		this.message = message;
-	}
-
-	public String getMessage() {
-		return message;
-	}
+    public UserCreatedEvent(Object source, String message) {
+        super(source);
+        this.message = message;
+    }
 
 }
