@@ -1,5 +1,6 @@
 package com.publisher;
 
+import com.event.EventAsync;
 import com.event.EventBasic;
 import com.event.EventByApplicationEvent;
 import com.util.DatetimeUtils;
@@ -33,6 +34,16 @@ public class PublisherEvent {
         System.out.println(DatetimeUtils.now()
                 + ", Thread=" + Thread.currentThread().getName()
                 + ", method=publishEventBasic"
+                + ",\tPublic message: " + message);
+        applicationEventPublisher.publishEvent(event);
+    }
+
+    // Publishing an object as an event
+    public void publishEventAsync(final String message) {
+        EventAsync event = new EventAsync(message);
+        System.out.println(DatetimeUtils.now()
+                + ", Thread=" + Thread.currentThread().getName()
+                + ", method=publishEventAsync"
                 + ",\tPublic message: " + message);
         applicationEventPublisher.publishEvent(event);
     }

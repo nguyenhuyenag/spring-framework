@@ -18,8 +18,9 @@ public class AppRunner implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         int i = 0;
         while (true) {
-            publisherEvent.publishEvent("My message " + i++);
-            publisherEvent.publishEventBasic("My message " + i++);
+            // publisherEvent.publishEvent("My message " + i++);
+            // publisherEvent.publishEventBasic("My message " + i++);
+            publisherEvent.publishEventAsync("My message " + i++);
             TimeUnit.SECONDS.sleep(4);
         }
     }
