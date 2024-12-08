@@ -27,7 +27,7 @@ import static com.mail.util.LogUtils.logSendEmailSuccessfully;
 public class AsyncMailService {
 
     private final JavaMailService javaMailService;
-    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
+    private static final ExecutorService executorService = Executors.newFixedThreadPool(2);
 
     private void sendMail(String recipient, String subject, String body) {
         log.info("Start sendMail() on thread: {}", Thread.currentThread().getName());
@@ -41,30 +41,45 @@ public class AsyncMailService {
     }
 
     public void sendByExecutorService(String recipient, String subject, String body) {
-        executorService.submit(() -> sendMail(recipient, subject, body));
+        executorService.submit(() -> {
+            try {
+                sendMail(recipient, subject, body);
+            } catch (Exception e) {
+                log.error("Error while sending email: {}", e.getMessage(), e);
+            }
+        });
     }
 
-//    public CompletableFuture<Boolean> sendByCompletableFuture(String recipient, String subject, String body) {
-//        return null; // return CompletableFuture.supplyAsync(() -> sendMail(recipient, subject, body));
-//    }
-//
-//    @Async // Important -> Bật @EnableAsync ở SpringMailApplication.java
-//    public CompletableFuture<Boolean> sendByAsync(String recipient, String subject, String textContent) {
-//        log.info("Start AsyncMailService.sendByAsync() on thread: {}", Thread.currentThread().getName());
-//        try {
-//            Transport.send(javaMailService.buildMessage(recipient, subject, textContent));
-//            logSendEmailSuccessfully(recipient);
-//            return CompletableFuture.completedFuture(true);
-//        } catch (MessagingException e) {
-//            logSendEmailFailed(e);
-//        }
-//        return CompletableFuture.completedFuture(false);
-//    }
-//
-//    @PreDestroy
-//    public void shutdownService() {
-//        executorService.shutdown(); // Tắt ExecutorService
-//        System.out.println("ExecutorService has been shut down.");
-//    }
+    public CompletableFuture<Boolean> sendByCompletableFuture(String recipient, String subject, String body) {
+        return CompletableFuture.supplyAsync(() -> {
+            log.info("Start supplyAsync() on thread: {}", Thread.currentThread().getName());
+            try {
+                Transport.send(javaMailService.buildMessage(recipient, subject, body));
+                logSendEmailSuccessfully(recipient);
+                return true;
+            } catch (MessagingException e) {
+                logSendEmailFailed(e);
+            }
+            return false;
+        });
+    }
+
+    @Async // Important -> Bật @EnableAsync ở SpringMailApplication.java
+    public CompletableFuture<Boolean> sendByAsync(String recipient, String subject, String body) {
+        log.info("Start sendByAsync() on thread: {}", Thread.currentThread().getName());
+        try {
+            Transport.send(javaMailService.buildMessage(recipient, subject, body));
+            logSendEmailSuccessfully(recipient);
+            return CompletableFuture.completedFuture(true);
+        } catch (MessagingException e) {
+            logSendEmailFailed(e);
+        }
+        return CompletableFuture.completedFuture(false);
+    }
+
+    @PreDestroy
+    public void shutdownService() {
+        executorService.shutdown(); // Tắt ExecutorService
+    }
 
 }
