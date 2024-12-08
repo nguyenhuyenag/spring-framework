@@ -1,11 +1,11 @@
 package com.publisher;
 
+import com.event.EventBasic;
+import com.event.EventByApplicationEvent;
 import com.util.DatetimeUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
-
-import com.event.CustomEvent;
 
 /*-
     When the object we’re publishing is not an ApplicationEvent,
@@ -17,19 +17,24 @@ public class PublisherEvent {
 
     private final ApplicationEventPublisher applicationEventPublisher;
 
-    // Publishing an object as an event
-    public void publishCustomEvent(final String message) {
-        CustomEvent event = new CustomEvent(message);
+    // Publishing event created by extending ApplicationEvent
+    public void publishEvent(final String message) {
+        EventByApplicationEvent event = new EventByApplicationEvent(this, message);
         System.out.println(DatetimeUtils.now()
                 + ", Thread=" + Thread.currentThread().getName()
-                + ", class=" + this.getClass().getSimpleName()
-                + ", \t\t\t\tPublic message: " + message);
+                + ", method=publishEvent"
+                + ",\t\t\tPublic message: " + message);
         applicationEventPublisher.publishEvent(event);
     }
 
-    public void publishCustomEvent2(final String message) {
-        // Publishing event created by extending ApplicationEvent
-        // applicationEventPublisher.publishEvent(new UserCreatedEvent(this, "Public message from UserCreatedEvent=" + message));
+    // Publishing an object as an event
+    public void publishEventBasic(final String message) {
+        EventBasic event = new EventBasic(message);
+        System.out.println(DatetimeUtils.now()
+                + ", Thread=" + Thread.currentThread().getName()
+                + ", method=publishEventBasic"
+                + ",\tPublic message: " + message);
+        applicationEventPublisher.publishEvent(event);
     }
 
 }

@@ -17,8 +17,9 @@ public class AppRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         int i = 0;
-        while (i < 20) {
-            publisherEvent.publishCustomEvent("My message " + i++);
+        while (true) {
+            publisherEvent.publishEvent("My message " + i++);
+            publisherEvent.publishEventBasic("My message " + i++);
             TimeUnit.SECONDS.sleep(4);
         }
     }
