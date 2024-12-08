@@ -40,15 +40,6 @@ public class MailConfig {
     @Value("${spring.mail.properties.mail.smtp.from}")
     private String defaultSenderEmail;
 
-    // @Value("${spring.mail.properties.mail.smtp.auth}")
-    // private String auth;
-
-    // @Value("${spring.mail.properties.mail.smtp.starttls.enable}")
-    // private String starttls;
-
-    // @Value("${spring.mail.properties.mail.smtp.starttls.required}")
-    // private String requiredTsl;
-
     @Bean
     public javax.mail.Session javaMailSession() {
         Properties props = new Properties();
