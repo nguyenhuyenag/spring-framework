@@ -6,8 +6,10 @@ import org.springframework.stereotype.Component;
 
 import com.event.EventByApplicationEvent;
 
-/**
- * Nếu khai báo 2 Listener thì cả 2 sẽ cùng nhận được message.
+/*
+    - Listener sử dụng ApplicationListener.
+
+    - Nếu khai báo 2 Listener thì cả 2 sẽ cùng nhận được message.
  */
 @Component
 public class ListenerUsingApplicationListener implements ApplicationListener<EventByApplicationEvent> {

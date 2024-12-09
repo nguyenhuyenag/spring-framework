@@ -6,10 +6,12 @@ import org.springframework.stereotype.Component;
 
 import com.event.EventBasic;
 
+/*
+    Listener sử dụng @EventListener.
+ */
 @Component
-public class ListenerUsingEventListener {
+public class ListenerEventBasic {
 
-    // @Async
     @EventListener
     public void eventListener(EventBasic event) {
         System.out.println(DatetimeUtils.now()
