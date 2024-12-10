@@ -21,6 +21,14 @@ import java.util.Properties;
         mail.smtp.ssl.enable=true           mail.smtp.starttls.enable=true
 
     - Gmail mặc định sẽ sử dụng username làm mail-sender (from).
+
+    - Timeout cho SMTP giúp đảm bảo rằng các thread hoặc tài nguyên của bạn không bị giữ lại
+    quá lâu nếu có sự cố như:
+        + SMTP server không phản hồi.
+        + Kết nối mạng kém hoặc bị gián đoạn.
+        + Server gửi email bị quá tải.
+        
+        + Các giá trị cấu hình hợp lý là 5-10 giây
  */
 @Configuration
 public class MailConfig {
@@ -40,6 +48,18 @@ public class MailConfig {
     @Value("${spring.mail.properties.mail.smtp.from}")
     private String defaultSenderEmail;
 
+    // Giới hạn thời gian để thiết lập kết nối, nếu quá thời gian -> java.net.SocketTimeoutException
+    @Value("${spring.mail.properties.mail.smtp.connectiontimeout}")
+    private String connectionTimeout;
+
+    // Thời gian chờ phản hồi từ server
+    @Value("${spring.mail.properties.mail.smtp.timeout}")
+    private String readTimeout;
+
+    // Thời gian chờ để ghi dữ liệu email
+    @Value("${spring.mail.properties.mail.smtp.writetimeout}")
+    private String writeTimeout;
+
     @Bean
     public javax.mail.Session javaMailSession() {
         Properties props = new Properties();
@@ -51,6 +71,11 @@ public class MailConfig {
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.starttls.required", "true");
         props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+
+        // Timeout configurations
+        props.put("mail.smtp.connectiontimeout", connectionTimeout);
+        props.put("mail.smtp.timeout", readTimeout);
+        props.put("mail.smtp.writetimeout", writeTimeout);
 
         return javax.mail.Session.getInstance(props, new javax.mail.Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {

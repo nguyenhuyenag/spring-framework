@@ -33,6 +33,8 @@ public class AsynchronousSpringEventsConfig {
         executor.setCorePoolSize(5);    // Số thread chính
         executor.setMaxPoolSize(10);    // Số thread tối đa
         executor.setQueueCapacity(50);  // Dung lượng hàng đợi
+        executor.setWaitForTasksToCompleteOnShutdown(true); // Đợi xử lý hết tác vụ trước khi shutdown
+        executor.setAwaitTerminationSeconds(30);            // Thời gian chờ tối đa khi shutdown
         executor.setThreadNamePrefix("ListenerTaskExecutor-");
         executor.initialize();
         return executor;
