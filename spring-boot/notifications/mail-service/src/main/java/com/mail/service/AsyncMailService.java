@@ -17,9 +17,14 @@ import static com.mail.util.LogUtils.logSendEmailFailed;
 import static com.mail.util.LogUtils.logSendEmailSuccessfully;
 
 /*-
-    - Để gửi một email thông qua SMTP có thể mất đến vài giây trong trường hợp xấu nhất, như vậy thì nó sẽ làm block luồng xử lý yêu cầu đang gọi gửi email như vậy làm khả năng phục vụ của toàn bộ hệ thống gặp vấn đề, sẽ có những yêu cầu đến sau phải chờ đợi rất lâu.
+    - Để gửi một email thông qua SMTP có thể mất đến vài giây trong trường hợp xấu nhất,
+    như vậy thì nó sẽ làm block luồng xử lý yêu cầu đang gọi gửi email như vậy làm khả
+    năng phục vụ của toàn bộ hệ thống gặp vấn đề, sẽ có những yêu cầu đến sau phải chờ
+    đợi rất lâu.
 
-    - Để giải quyết vấn đề này chúng ta phải sử dụng kỹ thuật lập trình sử dụng blocking queue và đa luồng để tách phần gửi mail ra khỏi luồng xử lý, lúc này mã nguồn của EmailService sẽ như sau.
+    - Để giải quyết vấn đề này chúng ta phải sử dụng kỹ thuật lập trình sử dụng blocking
+    queue và đa luồng để tách phần gửi mail ra khỏi luồng xử lý, lúc này mã nguồn của
+    EmailService sẽ như sau.
  */
 @Slf4j
 @Service
@@ -27,7 +32,7 @@ import static com.mail.util.LogUtils.logSendEmailSuccessfully;
 public class AsyncMailService {
 
     private final JavaMailService javaMailService;
-    private static final ExecutorService executorService = Executors.newFixedThreadPool(2);
+    private static final ExecutorService executorService = Executors.newFixedThreadPool(5);
 
     private void sendMail(String recipient, String subject, String body) {
         log.info("Start sendMail() on thread: {}", Thread.currentThread().getName());
@@ -64,7 +69,11 @@ public class AsyncMailService {
         });
     }
 
-    @Async // Important -> Bật @EnableAsync ở SpringMailApplication.java
+    /*
+        - Cần bật @EnableAsync ở SpringMailApplication.java
+        - Xem thêm cấu hình @Async trong spring-events
+     */
+    @Async
     public CompletableFuture<Boolean> sendByAsync(String recipient, String subject, String body) {
         log.info("Start sendByAsync() on thread: {}", Thread.currentThread().getName());
         try {

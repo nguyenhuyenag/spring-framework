@@ -1,6 +1,7 @@
 package com.mail.controller;
 
 import com.mail.service.AsyncMailService;
+import com.mail.service.QueueMailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ import java.util.concurrent.CompletableFuture;
 public class AsyncMailController {
 
     private final AsyncMailService asyncMailService;
-    // private final QueueMailService queueMailService;
+    private final QueueMailService queueMailService;
 
     String body = "This is mail body.";
 
@@ -97,12 +98,15 @@ public class AsyncMailController {
         return ResponseEntity.ok(false);
     }
 
-//    @PostMapping("/blocking-queue")
-//    public ResponseEntity<?> blockingQueue(String recipient) {
-//        String subject = "[Queue] Chào bạn, đây là email thử nghiệm.";
-//        String textContent = "This is mail body.";
-//        queueMailService.sendMail(recipient, subject, textContent);
-//        return ResponseEntity.ok(null);
-//    }
+    @PostMapping("/queue-mail")
+    public ResponseEntity<?> queueMail(String recipient) {
+        log("blockingQueue()");
+
+        String subject = "Queue mail using BlockingQueue " + System.currentTimeMillis();
+
+        queueMailService.sendMail(recipient, subject, body);
+
+        return ResponseEntity.ok(null);
+    }
 
 }

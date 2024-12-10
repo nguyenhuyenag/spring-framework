@@ -13,7 +13,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class ListenerAsync {
 
-    @Async
+    // @Async
+    // @Async("applicationEventMulticaster")
+    @Async("listenerTaskExecutor")
     @EventListener
     public void eventListenerAsync(EventAsync event) {
         System.out.println(DatetimeUtils.now()

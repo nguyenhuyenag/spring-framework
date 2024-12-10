@@ -1,61 +1,77 @@
-//package com.mail.service;
-//
-//import lombok.RequiredArgsConstructor;
-//import lombok.extern.slf4j.Slf4j;
-//import org.springframework.beans.factory.annotation.Value;
-//import org.springframework.stereotype.Service;
-//
-//import javax.mail.Message;
-//import javax.mail.MessagingException;
-//import javax.mail.Transport;
-//import java.util.concurrent.BlockingQueue;
-//import java.util.concurrent.LinkedBlockingQueue;
-//
-//@Slf4j
-//@Service
-//// @RequiredArgsConstructor
-//public class QueueMailService {
-//
-//    private final JavaMailService javaMailService;
-//    private static final BlockingQueue<Message> queue = new LinkedBlockingQueue<>();
-//
-//    // @Value("${spring.mail.properties.mail.smtp.from}")
-//    // private String mailSender;
-//
-////    private Message buildMessage(String recipient, String subject, String body) {
-////        Message message = new MimeMessage(javaxSession);
-////        try {
-////            message.setFrom(new InternetAddress(mailSender, "Company XYZ"));
-////            message.setRecipient(RecipientType.TO, new InternetAddress(recipient));
-////            message.setSubject(subject);
-////            message.setText(body);
-////        } catch (MessagingException | UnsupportedEncodingException e) {
-////            log.error("Error build mail message: {}", e.getMessage());
-////        }
-////        return message;
-////    }
-//
-//    public QueueMailService(JavaMailService javaMailService) {
-//        this.javaMailService = javaMailService;
-//        Thread workerThread = new Thread(() -> {
-//            while (true) {
-//                try {
-//                    Message message = queue.take();
-//                    Transport.send(message); // Gửi email
-//                    log.info("Email sent successfully");
-//                } catch (MessagingException | InterruptedException e) {
-//                    log.error("Failed to send email: {}", e.getMessage());
-//                }
-//            }
-//        });
-//
-//        workerThread.setDaemon(true); // Đảm bảo thread sẽ dừng khi ứng dụng dừng
-//        workerThread.start();
-//    }
-//
-//    public void sendMail(String to, String subject, String text) {
-//        Message message = javaMailService.buildMessage(to, subject, text);
-//        queue.add(message);
-//    }
-//
-//}
+package com.mail.service;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import javax.mail.Address;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Transport;
+import java.util.Arrays;
+import java.util.concurrent.*;
+
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class QueueMailService {
+
+    private final JavaMailService javaMailService;
+
+    // Giới hạn kích thước hàng đợi
+    private static final BlockingQueue<Message> queue = new LinkedBlockingQueue<>(1000);
+
+    // Pool với 5 thread
+    private static final ExecutorService mailExecutor = Executors.newFixedThreadPool(5);
+
+    static {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            log.info("Shutting down MailWorker...");
+            mailExecutor.shutdown();
+            try {
+                if (!mailExecutor.awaitTermination(5, TimeUnit.SECONDS)) {
+                    log.warn("Forcing shutdown of MailWorker...");
+                    mailExecutor.shutdownNow();
+                }
+            } catch (InterruptedException e) {
+                log.error("Error while shutting down MailWorker: {}", e.getMessage());
+                mailExecutor.shutdownNow();
+            }
+        }));
+
+        for (int i = 0; i < 5; i++) {
+            int worker = i + 1;
+            mailExecutor.submit(() -> {
+                log.info("Start MailWorker {}", worker);
+                while (true) {
+                    try {
+                        Message message = queue.take(); // Chờ đến khi có email
+                        Transport.send(message); // Gửi email
+                        Address[] recipients = message.getRecipients(Message.RecipientType.TO);
+                        log.info("Email sent successfully to: {}", Arrays.toString(recipients));
+                    } catch (MessagingException e) {
+                        log.error("Failed to send email: {}", e.getMessage());
+                        // TODO: Thêm logic lưu hoặc retry email thất bại
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt(); // Đảm bảo thread thoát an toàn
+                        break;
+                    }
+                }
+            });
+        }
+    }
+
+    public void sendMail(String to, String subject, String text) {
+        try {
+            Message message = javaMailService.buildMessage(to, subject, text);
+            if (!queue.offer(message, 5, TimeUnit.SECONDS)) {
+                log.warn("Failed to queue email: {}", to);
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            log.error("Interrupted while queuing email to: {}", to);
+        }
+    }
+
+
+}
