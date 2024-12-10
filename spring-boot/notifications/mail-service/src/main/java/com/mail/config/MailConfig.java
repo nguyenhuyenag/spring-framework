@@ -27,7 +27,7 @@ import java.util.Properties;
         + SMTP server không phản hồi.
         + Kết nối mạng kém hoặc bị gián đoạn.
         + Server gửi email bị quá tải.
-        
+
         + Các giá trị cấu hình hợp lý là 5-10 giây
  */
 @Configuration
@@ -68,6 +68,7 @@ public class MailConfig {
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.from", defaultSenderEmail);
 
+        // SSL configurations
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.starttls.required", "true");
         props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
@@ -83,23 +84,5 @@ public class MailConfig {
             }
         });
     }
-
-//    @Bean
-//    public JavaMailSender getJavaMailSender() {
-//        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-//        mailSender.setHost("smtp.gmail.com");
-//        mailSender.setPort(587);
-//
-//        mailSender.setUsername("my.gmail@gmail.com");
-//        mailSender.setPassword("password");
-//
-//        Properties props = mailSender.getJavaMailProperties();
-//        props.put("mail.transport.protocol", "smtp");
-//        props.put("mail.smtp.auth", "true");
-//        props.put("mail.smtp.starttls.enable", "true");
-//        props.put("mail.debug", "true");
-//
-//        return mailSender;
-//    }
 
 }
