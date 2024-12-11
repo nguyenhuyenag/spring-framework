@@ -34,8 +34,12 @@ public class AsyncMailService {
     private final JavaMailService javaMailService;
     private static final ExecutorService executorService = Executors.newFixedThreadPool(5);
 
+    private void log(String method) {
+        log.info("Start {} on thread: {}", method, Thread.currentThread().getName());
+    }
+
     private void sendMail(String recipient, String subject, String body) {
-        log.info("Start sendMail() on thread: {}", Thread.currentThread().getName());
+        log("sendMail()");
         try {
             Message mail = javaMailService.buildMessage(recipient, subject, body);
             Transport.send(mail);
@@ -57,7 +61,7 @@ public class AsyncMailService {
 
     public CompletableFuture<Boolean> sendByCompletableFuture(String recipient, String subject, String body) {
         return CompletableFuture.supplyAsync(() -> {
-            log.info("Start supplyAsync() on thread: {}", Thread.currentThread().getName());
+            log("supplyAsync()");
             try {
                 Transport.send(javaMailService.buildMessage(recipient, subject, body));
                 logSendEmailSuccessfully(recipient);
@@ -73,17 +77,16 @@ public class AsyncMailService {
         - Cần bật @EnableAsync ở SpringMailApplication.java
         - Xem thêm cấu hình @Async trong spring-events
      */
-    @Async
-    public CompletableFuture<Boolean> sendByAsync(String recipient, String subject, String body) {
-        log.info("Start sendByAsync() on thread: {}", Thread.currentThread().getName());
+    @Async("mailSenderTaskExecutor")
+    public void sendByAsync(String recipient, String subject, String body) {
+        log("sendByAsync()");
         try {
             Transport.send(javaMailService.buildMessage(recipient, subject, body));
             logSendEmailSuccessfully(recipient);
-            return CompletableFuture.completedFuture(true);
+            // return CompletableFuture.completedFuture(true);
         } catch (MessagingException e) {
             logSendEmailFailed(e);
         }
-        return CompletableFuture.completedFuture(false);
     }
 
     @PreDestroy

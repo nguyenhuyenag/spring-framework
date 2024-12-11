@@ -26,29 +26,24 @@ public class AsyncMailController {
 
     String body = "This is mail body.";
 
-    private void log(String method) {
-        log.info("Start {} on thread: {}", method, Thread.currentThread().getName());
+    private void log() {
+        log.info("Start Controller on thread: {}", Thread.currentThread().getName());
     }
 
     // Không quan tâm kết quả gửi mail
     @PostMapping("/send-by-executor-service")
     public ResponseEntity<?> sendByExecutorService(String recipient) {
-        log("sendByExecutorService()");
-
+        log();
         String subject = "Async mail using Executor Service " + System.currentTimeMillis();
-
         asyncMailService.sendByExecutorService(recipient, subject, body);
-
         return ResponseEntity.noContent().build();
     }
 
     // Không quan tâm kết quả gửi mail
     @PostMapping("/send-by-completable-future")
     public ResponseEntity<?> sendByCompletableFuture(String recipient) {
-        log("sendByCompletableFuture()");
-
+        log();
         String subject = "Async mail using CompletableFuture " + System.currentTimeMillis();
-
         asyncMailService.sendByCompletableFuture(recipient, subject, body)
                 .thenAccept(result -> {
                     if (result) {
@@ -57,21 +52,17 @@ public class AsyncMailController {
                         log.info("Failed to send email to: {}", recipient);
                     }
                 });
-
         return ResponseEntity.noContent().build();
     }
 
     // Quan tâm kết quả gửi mail
     @PostMapping("/send-by-completable-future-join")
     public ResponseEntity<?> sendByCompletableFutureJoin(String recipient) {
-        log("sendByCompletableFutureJoin()");
+        log();
         String subject = "Async mail using CompletableFuture_Join" + System.currentTimeMillis();
-
         CompletableFuture<Boolean> result = asyncMailService.sendByCompletableFuture(recipient, subject, body);
-
         // Chặn luồng chính cho đến khi tác vụ bất đồng bộ hoàn thành và trả về kết quả -> chậm chương trình
         boolean success = result.join();
-
         // Trả về kết quả trong ResponseEntity
         if (success) {
             return ResponseEntity.ok("Email sent successfully!");
@@ -82,16 +73,16 @@ public class AsyncMailController {
 
     @PostMapping("/send-by-async")
     public ResponseEntity<?> sendByAsync(String recipient) {
-        log("sendByCompletableFutureJoin()");
-
+        log();
         String subject = "Async mail using @Async " + System.currentTimeMillis();
         try {
-            CompletableFuture<Boolean> result = asyncMailService.sendByAsync(recipient, subject, body);
+            asyncMailService.sendByAsync(recipient, subject, body);
             // Chờ kết quả của CompletableFuture, but block main thread
-            boolean isSuccess = result.get();
-            if (isSuccess) {
-                return ResponseEntity.ok(true);
-            }
+            // boolean isSuccess = result.get();
+            // if (isSuccess) {
+            //    return ResponseEntity.ok(true);
+            // }
+            return ResponseEntity.ok(true);
         } catch (Exception e) {
             log.error("Error while sending email: {}", e.getMessage(), e);
         }
@@ -100,12 +91,9 @@ public class AsyncMailController {
 
     @PostMapping("/queue-mail")
     public ResponseEntity<?> queueMail(String recipient) {
-        log("blockingQueue()");
-
+        log();
         String subject = "Queue mail using BlockingQueue " + System.currentTimeMillis();
-
         queueMailService.sendMail(recipient, subject, body);
-
         return ResponseEntity.ok(null);
     }
 
