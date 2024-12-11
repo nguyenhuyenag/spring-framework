@@ -1,4 +1,4 @@
-package com.core.synchronize;
+package com.controller.synchronize;
 
 /*-
 	- Cách java giải quyết xung đột giữa cách thread

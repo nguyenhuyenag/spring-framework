@@ -1,4 +1,4 @@
-package com.core.create;
+package com.controller.create;
 
 import lombok.extern.slf4j.Slf4j;
 

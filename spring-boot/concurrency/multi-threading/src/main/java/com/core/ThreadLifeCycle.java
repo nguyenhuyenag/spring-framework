@@ -1,4 +1,4 @@
-package com.core;
+package com.controller;
 
 /*_
  	Vòng đời của thread:

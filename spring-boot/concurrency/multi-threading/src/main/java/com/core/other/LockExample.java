@@ -1,4 +1,4 @@
-package com.core.other;
+package com.controller.other;
 
 /*-
  	- wait() là một instance method được sử dụng để đồng bộ hoá. Nó có thể được

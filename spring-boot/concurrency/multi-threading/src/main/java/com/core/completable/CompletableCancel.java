@@ -1,4 +1,4 @@
-package com.core.completable;
+package com.controller.completable;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;

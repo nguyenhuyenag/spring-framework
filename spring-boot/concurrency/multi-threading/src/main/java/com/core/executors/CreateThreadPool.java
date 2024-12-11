@@ -1,4 +1,4 @@
-package com.core.executors;
+package com.controller.executors;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

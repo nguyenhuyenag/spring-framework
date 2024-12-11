@@ -1,4 +1,4 @@
-package com.core.barrier;
+package com.controller.barrier;
 
 import lombok.RequiredArgsConstructor;
 

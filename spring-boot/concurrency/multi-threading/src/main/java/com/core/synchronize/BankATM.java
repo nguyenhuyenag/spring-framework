@@ -1,4 +1,4 @@
-package com.core.synchronize;
+package com.controller.synchronize;
 
 public class BankATM extends Thread {
 

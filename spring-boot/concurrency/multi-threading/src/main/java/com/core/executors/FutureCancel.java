@@ -1,4 +1,4 @@
-package com.core.executors;
+package com.controller.executors;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;

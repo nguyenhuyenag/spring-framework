@@ -1,4 +1,4 @@
-package com.core.other;
+package com.controller.other;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;

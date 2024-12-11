@@ -1,4 +1,4 @@
-package com.core.test;
+package com.controller.test;
 
 public class MyTest {
 
