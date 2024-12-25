@@ -2,6 +2,7 @@ package com.spring;
 
 import java.util.concurrent.CompletableFuture;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.jni.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,10 +20,11 @@ import org.springframework.web.client.RestTemplate;
          thức sẽ tiếp tục chạy bất đồng bộ trong thread mới và không chờ đợi
          cho đến khi hoàn thành.
  */
+@Slf4j
 @Service
 public class AsyncMethod {
 
-    private static final Logger logger = LoggerFactory.getLogger(AsyncMethod.class);
+//    private static final Logger log = LoggerFactory.getLogger(AsyncMethod.class);
 
     private final RestTemplate restTemplate;
 
@@ -32,7 +34,7 @@ public class AsyncMethod {
 
     @Async
     public CompletableFuture<User> findUser(String user) {
-        logger.info("findUser -> " + Thread.currentThread().getName());
+        log.info("findUser -> " + Thread.currentThread().getName());
         String url = String.format("https://api.github.com/users/%s", user);
         User results = restTemplate.getForObject(url, User.class);
         // Artificial delay of 1s for demonstration purposes
@@ -45,7 +47,7 @@ public class AsyncMethod {
     }
 
     public User findUserWithoutAsync(String user) {
-        logger.info("findUserWithoutAsync -> " + Thread.currentThread().getName());
+        log.info("findUserWithoutAsync -> " + Thread.currentThread().getName());
         String url = String.format("https://api.github.com/users/%s", user);
         User results = restTemplate.getForObject(url, User.class);
         // Artificial delay of 1s for demonstration purposes

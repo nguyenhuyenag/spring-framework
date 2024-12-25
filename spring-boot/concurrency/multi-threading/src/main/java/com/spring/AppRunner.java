@@ -3,16 +3,18 @@ package com.spring;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.jni.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 public class AppRunner implements CommandLineRunner {
 
-    private static final Logger logger = LoggerFactory.getLogger(AppRunner.class);
+//    private static final Logger log = LoggerFactory.getLogger(AppRunner.class);
 
     private final AsyncMethod gitHubLookupService;
 
@@ -30,10 +32,10 @@ public class AppRunner implements CommandLineRunner {
         // Wait until they are all done
         CompletableFuture.allOf(page1, page2, page3).join();
         // Print results, including elapsed time
-        logger.info("Elapsed time: {}", (System.currentTimeMillis() - start));
-        logger.info("--> " + page1.get());
-        logger.info("--> " + page2.get());
-        logger.info("--> " + page3.get());
+        log.info("Elapsed time: {}", (System.currentTimeMillis() - start));
+        log.info("--> " + page1.get());
+        log.info("--> " + page2.get());
+        log.info("--> " + page3.get());
     }
 
     public void test2() {
@@ -44,10 +46,10 @@ public class AppRunner implements CommandLineRunner {
         User page2 = gitHubLookupService.findUserWithoutAsync("CloudFoundry");
         User page3 = gitHubLookupService.findUserWithoutAsync("Spring-Projects");
         // Print results, including elapsed time
-        logger.info("Elapsed time: {}", (System.currentTimeMillis() - start));
-        logger.info("--> " + page1);
-        logger.info("--> " + page2);
-        logger.info("--> " + page3);
+        log.info("Elapsed time: {}", (System.currentTimeMillis() - start));
+        log.info("--> " + page1);
+        log.info("--> " + page2);
+        log.info("--> " + page3);
     }
 
     @Override
