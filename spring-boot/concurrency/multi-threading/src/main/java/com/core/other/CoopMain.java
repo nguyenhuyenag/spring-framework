@@ -1,4 +1,4 @@
-package com.controller.other;
+package com.core.other;
 
 /*-
     - wait(): Phương thức này khi được gọi, nó sẽ làm Thread đang nắm giữ Lock trên

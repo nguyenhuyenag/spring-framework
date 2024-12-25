@@ -1,4 +1,4 @@
-package com.controller;
+package com.core;
 
 /**
  * Tạm ngắt (interrupted) thread

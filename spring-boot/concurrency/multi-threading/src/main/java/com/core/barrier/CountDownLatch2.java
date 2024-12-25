@@ -1,4 +1,4 @@
-package com.controller.barrier;
+package com.core.barrier;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;

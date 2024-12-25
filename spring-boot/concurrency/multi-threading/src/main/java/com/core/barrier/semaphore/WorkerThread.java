@@ -1,4 +1,4 @@
-package com.controller.barrier.semaphore;
+package com.core.barrier.semaphore;
 
 import java.util.concurrent.Semaphore;
 

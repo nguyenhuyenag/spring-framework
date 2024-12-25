@@ -1,4 +1,4 @@
-package com.controller.executors;
+package com.core.executors;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,7 @@ public class InvokeAll {
 		ExecutorService executor = Executors.newFixedThreadPool(5);
 		List<Callable<Integer>> callables = new ArrayList<>();
 		for (int i = 1; i <= 10; i++) {
-			callables.add(new Worker(i));
+			callables.add(new com.controller.executors.Worker(i));
 		}
 		List<Future<Integer>> futures = executor.invokeAll(callables);
 		int sum = 0;

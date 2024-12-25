@@ -1,4 +1,4 @@
-package com.controller.executors;
+package com.core.executors;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;

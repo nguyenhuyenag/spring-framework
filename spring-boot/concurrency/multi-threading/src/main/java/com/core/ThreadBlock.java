@@ -1,4 +1,4 @@
-package com.controller;
+package com.core;
 
 public class ThreadBlock implements Runnable {
 

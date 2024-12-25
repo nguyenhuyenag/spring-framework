@@ -1,4 +1,4 @@
-package com.controller.synchronize;
+package com.core.synchronize;
 
 public class BankAccount {
 

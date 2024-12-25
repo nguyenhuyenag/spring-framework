@@ -1,4 +1,4 @@
-package com.controller.executors;
+package com.core.executors;
 
 import java.util.ArrayList;
 import java.util.List;

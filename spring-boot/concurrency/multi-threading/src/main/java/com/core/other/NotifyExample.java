@@ -1,4 +1,4 @@
-package com.controller.other;
+package com.core.other;
 
 /*-
  	- Khi sử dụng Thread.sleep() method nó sẽ tự động đánh thức sau một khoảng thời

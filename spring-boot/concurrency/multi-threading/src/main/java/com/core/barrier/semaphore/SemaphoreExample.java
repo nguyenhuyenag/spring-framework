@@ -1,4 +1,4 @@
-package com.controller.barrier.semaphore;
+package com.core.barrier.semaphore;
 
 import java.util.concurrent.Semaphore;
 
@@ -8,7 +8,7 @@ public class SemaphoreExample {
 
 	public static void main(String[] args) {
 		for (int i = 1; i <= 6; i++) {
-			WorkerThread worker = new WorkerThread(semaphore, i);
+			com.controller.barrier.semaphore.WorkerThread worker = new com.controller.barrier.semaphore.WorkerThread(semaphore, i);
 			worker.start();
 		}
 	}
