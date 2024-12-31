@@ -20,7 +20,6 @@ public class Worker implements Runnable {
         }
     }
 
-
     @Override
     public void run() {
         // Khi duyệt qua Set, cần đồng bộ hóa:
