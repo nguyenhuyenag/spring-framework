@@ -12,7 +12,7 @@ public class FutureCancel {
 		ExecutorService executor = Executors.newSingleThreadExecutor();
 
 		long startTime = System.currentTimeMillis();
-		Future<Integer> future = executor.submit(new com.controller.executors.Worker(1));
+		Future<Integer> future = executor.submit(new Worker(1));
 
 		while (!future.isDone()) {
 			System.out.println("Task is still working ...");

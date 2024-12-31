@@ -30,7 +30,7 @@ public class InvokeAny {
 		ExecutorService executor = Executors.newFixedThreadPool(5);
 		List<Callable<Integer>> callables = new ArrayList<>();
 		for (int i = 1; i <= 10; i++) {
-			callables.add(new com.controller.executors.Worker(i));
+			callables.add(new Worker(i));
 		}
 		int result = executor.invokeAny(callables);
 		System.out.println("Result = " + result);

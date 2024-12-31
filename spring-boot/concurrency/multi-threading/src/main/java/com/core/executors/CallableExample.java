@@ -24,7 +24,7 @@ public class CallableExample {
         ExecutorService executor = Executors.newFixedThreadPool(threads);
         for (int i = 0; i < threads; i++) {
             // Worker w = new Worker(i);
-            Future<Integer> f = executor.submit(new com.controller.executors.Worker(i));
+            Future<Integer> f = executor.submit(new Worker(i));
             System.out.println("Get -> " + f.get());
         }
         try {
