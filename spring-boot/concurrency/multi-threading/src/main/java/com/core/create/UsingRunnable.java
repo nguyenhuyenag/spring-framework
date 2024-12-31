@@ -8,8 +8,9 @@ public class UsingRunnable implements Runnable {
         System.out.println("Thread running");
     }
 
-    /**
-     * TODO: Cách sai -> Phương thức run() không tạo ra thread mới, chương trình vẫn thực thi trên thread hiện tại.
+    /*-
+        Cách sai -> Phương thức run() không tạo ra thread mới, chương trình vẫn
+                    thực thi trên thread hiện tại.
      */
     public static void incorrect() {
         System.out.println("ThreadName -> " + Thread.currentThread().getName());
@@ -17,8 +18,8 @@ public class UsingRunnable implements Runnable {
         task.run();
     }
 
-    /**
-     * TODO: Cách đúng
+    /*-
+        TODO: Cách đúng
      */
     public static void correct() {
         System.out.println("ThreadName -> " + Thread.currentThread().getName());
