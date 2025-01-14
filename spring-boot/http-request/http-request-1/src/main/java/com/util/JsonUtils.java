@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -13,6 +14,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+@Slf4j
 public class JsonUtils {
 
 	private static final ObjectMapper MAPPER = new ObjectMapper();
@@ -30,6 +32,18 @@ public class JsonUtils {
 				return MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(object);
 			} catch (JsonProcessingException e) {
 				e.printStackTrace();
+			}
+		}
+		return "";
+	}
+
+	public static String toJson(Object object) {
+		if (object != null) {
+			try {
+				return MAPPER.writerWithDefaultPrettyPrinter() //
+						.writeValueAsString(object);
+			} catch (JsonProcessingException e) {
+				log.error("Error occurred while processing JSON: {}", e.getMessage(), e);
 			}
 		}
 		return "";
