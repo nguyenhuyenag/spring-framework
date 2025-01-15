@@ -23,12 +23,12 @@ import java.util.List;
 import java.util.Map;
 
 @Slf4j
-public class PostCompleted {
+public class HttpUtils {
 
-    private <T> T createPostMethod(String url, Map<String, String> headers, HttpEntity entity, Class<T> type) {
+    public static <T> T createPostMethod(String url, Map<String, String> headers, HttpEntity entity, Class<T> type) {
         HttpPost httpPost = new HttpPost(url);
         // Add headers
-        if (headers != null && !headers.isEmpty()) {
+        if (headers != null) {
             headers.forEach(httpPost::setHeader);
         }
         // Add body, params
@@ -37,8 +37,8 @@ public class PostCompleted {
         }
         // @formatter:off
         try (
-                CloseableHttpClient client = HttpClients.createDefault();
-                CloseableHttpResponse response = client.execute(httpPost);
+            CloseableHttpClient client = HttpClients.createDefault();
+            CloseableHttpResponse response = client.execute(httpPost);
         ) {
             HttpEntity responseEntity = response.getEntity();
             int statusCode = response.getStatusLine().getStatusCode();
