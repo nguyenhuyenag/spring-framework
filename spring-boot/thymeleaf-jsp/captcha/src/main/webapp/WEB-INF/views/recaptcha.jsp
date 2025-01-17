@@ -10,7 +10,7 @@
 	<script src='https://www.google.com/recaptcha/api.js?hl=en'></script>
 </head>
 <body>
-	<jsp:include page="menu.jsp"></jsp:include>
+	<%--	<jsp:include page="home.jsp"></jsp:include>--%>
 	<h3>Login:</h3>
 	<p style="color: red;">${errorString}</p>
 	<form name="loginForm" method="POST" action="/recaptcha">

@@ -6,7 +6,7 @@
 	<link rel="shortcut icon" href="#">
 </head>
 <body>
-	<jsp:include page="menu.jsp"></jsp:include>
+	<jsp:include page="home.jsp"></jsp:include>
 	<h3>UserInfo Page</h3>
 </body>
 </html>

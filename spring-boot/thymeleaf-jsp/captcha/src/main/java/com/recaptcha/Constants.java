@@ -1,4 +1,4 @@
-package com.util;
+package com.recaptcha;
 
 /**
  * https://www.google.com/recaptcha/admin?hl=en
