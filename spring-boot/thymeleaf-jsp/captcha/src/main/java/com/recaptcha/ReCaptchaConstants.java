@@ -1,7 +1,7 @@
 package com.recaptcha;
 
-/**
- * https://www.google.com/recaptcha/admin?hl=en
+/*-
+ 	https://www.google.com/recaptcha/admin?hl=en
  */
 public class ReCaptchaConstants {
 	

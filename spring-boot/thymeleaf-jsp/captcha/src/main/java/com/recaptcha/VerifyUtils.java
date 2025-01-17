@@ -6,8 +6,8 @@ import org.springframework.web.client.RestTemplate;
 
 public class VerifyUtils {
 
-	public static final String RECAPTCHA_ENDPOINT = "https://www.google.com/recaptcha/api/siteverify";
-	
+    public static final String RECAPTCHA_ENDPOINT = "https://www.google.com/recaptcha/api/siteverify";
+
 //	public static JsonObject readValue(InputStream is) {
 //		if (is != null) {
 //			try (JsonReader jsonReader = Json.createReader(is)) {
@@ -63,17 +63,17 @@ public class VerifyUtils {
 //		return false;
 //	}
 
-	public static boolean validateCaptcha(String token) {
-		RestTemplate restTemplate = new RestTemplate();
-		MultiValueMap<String, String> requestMap = new LinkedMultiValueMap<>();
-		requestMap.add("secret", ReCaptchaConstants.SECRET_KEY);
-		requestMap.add("response", token);
-		CaptchaResponse response = restTemplate.postForObject(RECAPTCHA_ENDPOINT, requestMap, CaptchaResponse.class);
-		if (response == null) {
-			return false;
-		}
-		// System.out.println(response.toString());
-		return response.getSuccess();
-	}
+    public static boolean validateCaptcha(String token) {
+        RestTemplate restTemplate = new RestTemplate();
+        MultiValueMap<String, String> requestMap = new LinkedMultiValueMap<>();
+        requestMap.add("secret", ReCaptchaConstants.SECRET_KEY);
+        requestMap.add("response", token);
+        CaptchaResponse response = restTemplate.postForObject(RECAPTCHA_ENDPOINT, requestMap, CaptchaResponse.class);
+        if (response == null) {
+            return false;
+        }
+        // System.out.println(response.toString());
+        return response.getSuccess();
+    }
 
 }
