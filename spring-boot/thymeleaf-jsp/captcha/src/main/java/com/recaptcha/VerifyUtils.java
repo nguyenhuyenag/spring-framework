@@ -1,17 +1,8 @@
 package com.recaptcha;
 
-import com.util.JsonUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
-import javax.net.ssl.HttpsURLConnection;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
 
 public class VerifyUtils {
 
@@ -75,7 +66,7 @@ public class VerifyUtils {
 	public static boolean validateCaptcha(String token) {
 		RestTemplate restTemplate = new RestTemplate();
 		MultiValueMap<String, String> requestMap = new LinkedMultiValueMap<>();
-		requestMap.add("secret", Constants.SECRET_KEY);
+		requestMap.add("secret", ReCaptchaConstants.SECRET_KEY);
 		requestMap.add("response", token);
 		CaptchaResponse response = restTemplate.postForObject(RECAPTCHA_ENDPOINT, requestMap, CaptchaResponse.class);
 		if (response == null) {

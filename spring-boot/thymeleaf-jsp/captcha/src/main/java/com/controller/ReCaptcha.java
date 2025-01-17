@@ -1,7 +1,6 @@
 package com.controller;
 
-import com.recaptcha.CaptchaResponse;
-import com.recaptcha.Constants;
+import com.recaptcha.ReCaptchaConstants;
 import com.recaptcha.VerifyUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,14 +14,14 @@ import javax.servlet.http.HttpServletResponse;
 public class ReCaptcha {
 
     @GetMapping("/recaptcha")
-    public String login(Model model) {
-        model.addAttribute("SITE_KEY", Constants.SITE_KEY);
+    public String recaptcha(Model model) {
+        model.addAttribute("SITE_KEY", ReCaptchaConstants.SITE_KEY);
         return "recaptcha";
     }
 
     @PostMapping("/recaptcha")
-    public String login(HttpServletRequest request, HttpServletResponse response, Model model) {
-        model.addAttribute("SITE_KEY", Constants.SITE_KEY);
+    public String recaptcha(HttpServletRequest request, HttpServletResponse response, Model model) {
+        model.addAttribute("SITE_KEY", ReCaptchaConstants.SITE_KEY);
         String userName = request.getParameter("username");
         String password = request.getParameter("password");
 

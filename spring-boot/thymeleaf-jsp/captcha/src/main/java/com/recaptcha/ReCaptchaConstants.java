@@ -3,7 +3,7 @@ package com.recaptcha;
 /**
  * https://www.google.com/recaptcha/admin?hl=en
  */
-public class Constants {
+public class ReCaptchaConstants {
 	
 	// re-captcha
 	public static final String SITE_KEY 	=	"6LcB3csaAAAAAASS2buZJ-olgepn_r7bb7zaNJsS";

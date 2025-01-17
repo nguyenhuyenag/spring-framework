@@ -10,7 +10,9 @@
 <body>
     <h3>Captcha:</h3>
     <ol>
-        <li><a href="/recaptcha">ReCaptcha</a></li>
+        <li><a href="${pageContext.request.contextPath}/recaptcha">ReCaptcha</a></li>
+        <li><a href="${pageContext.request.contextPath}/hcaptcha">HCaptcha</a></li>
+        <li><a href="${pageContext.request.contextPath}/cloudflare">Cloudflare</a></li>
     </ol>
 </body>
 </html>
