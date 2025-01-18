@@ -25,7 +25,7 @@ public class HCaptchaUtils {
         requestMap.add("secret", SECRET_KEY);
         requestMap.add("response", token);
 
-        ReCaptchaResponse response = restTemplate.postForObject(HCAPTCHA_ENDPOINT, requestMap, ReCaptchaResponse.class);
+        HCaptchaResponse response = restTemplate.postForObject(HCAPTCHA_ENDPOINT, requestMap, HCaptchaResponse.class);
 
         if (response == null) {
             return false;
