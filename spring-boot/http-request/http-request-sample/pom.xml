@@ -5,12 +5,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com</groupId>
-	<artifactId>http-request</artifactId>
+	<artifactId>http-request-sample</artifactId>
 	<version>1.0</version>
 	<packaging>jar</packaging>
 
-	<name>http-request</name>
-	<description>Spring Boot</description>
+	<name>HttpRequest</name>
+	<description>Spring Boot Http Request</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -88,6 +88,5 @@
 			</plugin>
 		</plugins>
 	</build>
-
 
 </project>
