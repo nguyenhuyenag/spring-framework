@@ -30,7 +30,7 @@ public class CloudflareController {
         String viewName = "cloudflare";
 
         // Verify CAPTCHA
-        String token = request.getParameter("cf-turnstile-response");
+        String token = request.getParameter(CloudflareUtils.CF_TURNSTILE_RESPONSE);
         if (StringUtils.isEmpty(token)) {
             errorString = "Captcha invalid!";
             request.setAttribute("errorString", errorString);

@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-public class CaptchaResponse {
+public class ReCaptchaResponse {
 
     private Boolean success;
     private Date timestamp;

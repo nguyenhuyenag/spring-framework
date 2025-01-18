@@ -77,7 +77,7 @@ public class ReCaptchaUtils {
         MultiValueMap<String, String> requestMap = new LinkedMultiValueMap<>();
         requestMap.add("secret", ReCaptchaUtils.SECRET_KEY);
         requestMap.add("response", token);
-        CaptchaResponse response = restTemplate.postForObject(RECAPTCHA_ENDPOINT, requestMap, CaptchaResponse.class);
+        ReCaptchaResponse response = restTemplate.postForObject(RECAPTCHA_ENDPOINT, requestMap, ReCaptchaResponse.class);
         if (response == null) {
             return false;
         }
