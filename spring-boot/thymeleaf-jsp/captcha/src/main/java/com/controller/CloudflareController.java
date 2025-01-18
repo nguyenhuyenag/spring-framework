@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,7 +22,8 @@ public class CloudflareController {
     }
 
     @PostMapping("/cloudflare")
-    public String cloudflare(HttpServletRequest request, HttpServletResponse response, Model model) {
+    public String cloudflare(HttpServletRequest request, HttpServletResponse response,
+                             RedirectAttributes redirectAttributes, Model model) {
         model.addAttribute("SITE_KEY", CloudflareUtils.SITE_KEY);
 
         String errorString;
@@ -49,7 +51,12 @@ public class CloudflareController {
             return viewName;
         }
 
-        // Neu captcha thi chuyen qua trang '/user'
+        /*
+             Flash Attributes là một loại dữ liệu tạm thời được lưu trữ trong phiên làm việc
+             (session) và tồn tại chỉ trong chu kỳ redirect tiếp theo. Sau khi redirect hoàn tất,
+             dữ liệu sẽ tự động bị xóa.
+         */
+        redirectAttributes.addFlashAttribute("message", "Cloudflare captcha");
         return "redirect:/user";
     }
 

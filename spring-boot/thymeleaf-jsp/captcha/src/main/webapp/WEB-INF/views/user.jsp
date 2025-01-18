@@ -11,7 +11,14 @@
 <body>
 	<div class="container mt-4">
 		<h4><a href="${pageContext.request.contextPath}/home">Back Home</a></h4>
-		<h3>Hi, captcha passed successfully. Hello!</h3>
+		<%
+			String message = (String) request.getAttribute("message");
+			if (message != null) {
+		%>
+			<h3>Hi, <span class="text-danger"><%= message %></span> passed successfully. Hello!</h3>
+		<%
+			}
+		%>
 	</div>
 </body>
 </html>

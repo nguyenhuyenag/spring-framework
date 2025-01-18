@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,7 +22,9 @@ public class ReCaptchaController {
     }
 
     @PostMapping("/recaptcha")
-    public String recaptcha(HttpServletRequest request, HttpServletResponse response, Model model) {
+    public String recaptcha(HttpServletRequest request, HttpServletResponse response,
+                            RedirectAttributes redirectAttributes,
+                            Model model) {
         model.addAttribute("SITE_KEY", ReCaptchaUtils.SITE_KEY);
 
         String errorString;
@@ -49,6 +52,7 @@ public class ReCaptchaController {
         }
 
         // Neu captcha thi chuyen qua trang '/user'
+        redirectAttributes.addFlashAttribute("message", "ReCaptcha");
         return "redirect:/user";
     }
 
