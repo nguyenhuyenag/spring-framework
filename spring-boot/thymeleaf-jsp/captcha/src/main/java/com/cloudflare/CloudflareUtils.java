@@ -13,7 +13,6 @@ public class CloudflareUtils {
     public static final String SECRET_KEY = "0x4AAAAAAA5itUEfNyrew-6fidVDDnWXBLE";
 
     public static final String CF_TURNSTILE_RESPONSE = "cf-turnstile-response";
-
     private static final String TURNSTILE_ENDPOINT = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
 
     public static boolean validateToken(String token) {
