@@ -11,4 +11,9 @@ public class HomeController {
         return "home";
     }
 
+    @GetMapping("/user")
+    public String userInfo() {
+        return "user";
+    }
+
 }

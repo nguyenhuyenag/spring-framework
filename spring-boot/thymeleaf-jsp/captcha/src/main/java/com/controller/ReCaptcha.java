@@ -48,12 +48,8 @@ public class ReCaptcha {
             request.setAttribute("errorString", errorString);
             return "recaptcha";
         }
-        return "redirect:/userInfo";
-    }
-
-    @GetMapping("userInfo")
-    public String userInfo() {
-        return "userInfo";
+        // Neu captcha thi chuyen qua trang '/user'
+        return "redirect:/user";
     }
 
 }
