@@ -25,7 +25,7 @@ import java.util.Map;
 @Slf4j
 public class HttpUtils {
 
-    public static <T> T createPostRequest(String url, Map<String, String> headers, HttpEntity entity, Class<T> type)
+    public static <T> T createPostRequest(String url, Map<String, String> headers, HttpEntity body, Class<T> type)
             throws NoSuchAlgorithmException, KeyStoreException {
         HttpPost httpPost = new HttpPost(url);
         // Add headers
@@ -35,17 +35,18 @@ public class HttpUtils {
             }
         }
         // Add body, params
-        if (entity != null) {
-            httpPost.setEntity(entity);
+        if (body != null) {
+            httpPost.setEntity(body);
         }
         SSLContextBuilder builder = new SSLContextBuilder();
         builder.loadTrustMaterial(null, TrustAllStrategy.INSTANCE);
+        // @formatter:off
         try (
-                CloseableHttpClient httpClient = HttpClients.custom()
-                        .setSSLContext(builder.build())
-                        .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
-                        .build();
-                CloseableHttpResponse response = httpClient.execute(httpPost);
+            CloseableHttpClient httpClient = HttpClients.custom()
+                    .setSSLContext(builder.build())
+                    .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
+                    .build();
+            CloseableHttpResponse response = httpClient.execute(httpPost);
         ) {
             HttpEntity responseEntity = response.getEntity();
             int statusCode = response.getStatusLine().getStatusCode();
@@ -58,6 +59,7 @@ public class HttpUtils {
         } catch (IOException | KeyManagementException e) {
             log.error("An error occurred: {}", e.getMessage(), e);
         }
+        // @formatter:on
         return null;
     }
 
