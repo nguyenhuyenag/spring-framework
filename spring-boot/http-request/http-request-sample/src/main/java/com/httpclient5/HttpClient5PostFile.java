@@ -14,10 +14,8 @@ public class HttpClient5PostFile {
 
 	public static void main(final String[] args) throws Exception {
 		String params = "/Users/huyennv/params.json";
-
 		try (final CloseableHttpClient httpclient = HttpClients.createDefault()) {
 			final HttpPost httppost = new HttpPost("http://httpbin.org/post");
-
 			// You can also use the FileEntity
 			// final InputStreamEntity reqEntity = new InputStreamEntity(new
 			// FileInputStream(params), -1, ContentType.APPLICATION_JSON);

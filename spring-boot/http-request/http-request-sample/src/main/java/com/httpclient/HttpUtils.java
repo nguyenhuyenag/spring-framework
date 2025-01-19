@@ -29,7 +29,12 @@ public class HttpUtils {
         HttpPost httpPost = new HttpPost(url);
         // Add headers
         if (headers != null) {
-            headers.forEach(httpPost::setHeader);
+            // TODO: Java 8+
+            // headers.forEach(httpPost::setHeader);
+            // TOTO: Java 7
+            for (Map.Entry<String, String> entry : headers.entrySet()) {
+                httpPost.setHeader(entry.getKey(), entry.getValue());
+            }
         }
         // Add body, params
         if (entity != null) {

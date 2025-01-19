@@ -3,11 +3,7 @@ package com.httpclient;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.*;
@@ -218,7 +214,6 @@ public class Post {
                 System.out.println(result);
             }
         }
-
     }
 
     private static final String getBasicAuthenticationHeader(String username, String password) {

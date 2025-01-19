@@ -27,7 +27,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class AsynchronousRequest {
 
 	public static void invoke() {
-
 		try (CloseableHttpAsyncClient client = HttpAsyncClients.createDefault();) {
 			client.start();
 

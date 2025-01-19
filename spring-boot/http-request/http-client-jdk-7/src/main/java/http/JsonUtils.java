@@ -1,18 +1,15 @@
-package com.util;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Objects;
-
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
+package http;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Collections;
+import java.util.Map;
 
 @Slf4j
 public class JsonUtils {
@@ -38,7 +35,7 @@ public class JsonUtils {
     }
 
     public static String toJson(Object object) {
-		if (object != null) {
+        if (object != null) {
             try {
                 return MAPPER.writerWithDefaultPrettyPrinter() //
                         .writeValueAsString(object);
@@ -53,7 +50,7 @@ public class JsonUtils {
      * InputStream to Object
      */
     public static <T> T readValue(InputStream is, Class<T> type) {
-		if (is != null) {
+        if (is != null) {
             try {
                 return MAPPER.readValue(is, type);
             } catch (IOException e) {
@@ -63,16 +60,16 @@ public class JsonUtils {
         return null;
     }
 
-    public static Map<String, String> asMap(String json) {
-        if (StringUtils.isNotEmpty(json)) {
-            try {
-                return MAPPER.readValue(json, new TypeReference<Map<String, String>>() {
-                });
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return Collections.emptyMap();
-    }
+//    public static Map<String, String> asMap(String json) {
+//        if (StringUtils.isNotEmpty(json)) {
+//            try {
+//                return MAPPER.readValue(json, new TypeReference<Map<String, String>>() {
+//                });
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        return Collections.emptyMap();
+//    }
 
 }
