@@ -74,7 +74,8 @@ public class HttpUtils {
             StringEntity entity = new StringEntity(JsonUtils.toJson(templateData));
             ZaloResponse response = createPostRequest(url, headers, entity, ZaloResponse.class);
             if (response != null) {
-                System.out.println("Error code: " + response.getError());
+                System.out.println("Call API successfully");
+                System.out.println("Message: " + response.getMessage());
             }
         } catch (NoSuchAlgorithmException | KeyStoreException | IOException e) {
             log.error("Unsupported encoding exception occurred: {}", e.getMessage(), e);
