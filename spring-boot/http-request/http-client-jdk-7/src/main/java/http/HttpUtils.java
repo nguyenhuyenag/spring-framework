@@ -56,7 +56,7 @@ public class HttpUtils {
             }
             EntityUtils.consume(responseEntity);
         } catch (IOException | KeyManagementException e) {
-            throw new RuntimeException(e);
+            log.error("An error occurred: {}", e.getMessage(), e);
         }
         return null;
     }
@@ -74,7 +74,7 @@ public class HttpUtils {
             StringEntity entity = new StringEntity(JsonUtils.toJson(templateData));
             ZaloResponse response = createPostRequest(url, headers, entity, ZaloResponse.class);
             if (response != null) {
-                System.out.println(response.getError());
+                System.out.println("Error code: " + response.getError());
             }
         } catch (NoSuchAlgorithmException | KeyStoreException | IOException e) {
             log.error("Unsupported encoding exception occurred: {}", e.getMessage(), e);
