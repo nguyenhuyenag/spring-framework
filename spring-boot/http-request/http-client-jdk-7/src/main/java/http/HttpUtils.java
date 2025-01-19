@@ -1,6 +1,7 @@
 package http;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.SystemUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -81,6 +82,7 @@ public class HttpUtils {
     }
 
     public static void main(String[] args) {
+        System.out.println("Is JDK 7: " + SystemUtils.IS_JAVA_1_7);
         postWithJson();
     }
 
