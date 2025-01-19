@@ -1,4 +1,4 @@
-package http;
+package httpclient;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.SystemUtils;
@@ -74,8 +74,13 @@ public class HttpUtils {
             StringEntity entity = new StringEntity(JsonUtils.toJson(templateData));
             ZaloResponse response = createPostRequest(url, headers, entity, ZaloResponse.class);
             if (response != null) {
+                System.out.println();
+                System.out.println("=========================================");
+                System.out.println("Is JDK 7: " + SystemUtils.IS_JAVA_1_7);
                 System.out.println("Call API successfully");
                 System.out.println("Message: " + response.getMessage());
+                System.out.println("=========================================");
+                System.out.println();
             }
         } catch (NoSuchAlgorithmException | KeyStoreException | IOException e) {
             log.error("Unsupported encoding exception occurred: {}", e.getMessage(), e);
@@ -83,7 +88,6 @@ public class HttpUtils {
     }
 
     public static void main(String[] args) {
-        System.out.println("Is JDK 7: " + SystemUtils.IS_JAVA_1_7);
         postWithJson();
     }
 

@@ -1,15 +1,12 @@
-package http;
+package httpclient;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collections;
-import java.util.Map;
 
 @Slf4j
 public class JsonUtils {
@@ -20,19 +17,19 @@ public class JsonUtils {
         MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
-    /**
-     * Object to JSON
-     */
-    public static <T> String toJSON(T object) {
-        if (object != null) {
-            try {
-                return MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(object);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }
-        }
-        return "";
-    }
+//    /**
+//     * Object to JSON
+//     */
+//    public static <T> String toJSON(T object) {
+//        if (object != null) {
+//            try {
+//                return MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(object);
+//            } catch (JsonProcessingException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        return "";
+//    }
 
     public static String toJson(Object object) {
         if (object != null) {
@@ -54,7 +51,20 @@ public class JsonUtils {
             try {
                 return MAPPER.readValue(is, type);
             } catch (IOException e) {
-                e.printStackTrace();
+                // e.printStackTrace();
+                log.error("Error occurred while processing JSON: {}", e.getMessage(), e);
+            }
+        }
+        return null;
+    }
+
+    public static <T> T readValue(String input, Class<T> type) {
+        if (input != null) {
+            try {
+                return MAPPER.readValue(input, type);
+            } catch (IOException e) {
+                // e.printStackTrace();
+                log.error("Error occurred while processing JSON: {}", e.getMessage(), e);
             }
         }
         return null;
