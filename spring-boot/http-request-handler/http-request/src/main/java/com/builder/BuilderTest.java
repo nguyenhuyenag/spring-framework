@@ -19,10 +19,11 @@ public class BuilderTest {
         StringEntity body = new StringEntity(GsonUtils.toJson(data));
 
         // Build POST request
-        HttpRequestBuilder httpPost = new HttpRequestBuilder()
+        HttpRequestBuilder httpRequest = new HttpRequestBuilder()
                 .withUrl("https://business.openapi.zalo.me/message/template")
                 .addHeader("Content-Type", "application/json")
                 .withBody(body)
+                .withHttpPost()
                 .build();
 
 //        HttpRequestExecutor<ZaloResponse> executor = new HttpRequestExecutor<ZaloResponse>()
