@@ -3,7 +3,9 @@ package com.builder;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpRequestBase;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,6 +13,10 @@ public class HttpRequestBuilder {
 
     private String url;
     private HttpEntity body;
+
+    private HttpGet httpGet;
+    private HttpPost httpPost;
+
     private final Map<String, String> headers = new HashMap<>();
 
     public HttpRequestBuilder withUrl(String url) {
@@ -28,8 +34,17 @@ public class HttpRequestBuilder {
         return this;
     }
 
-    public HttpPost build() {
-        HttpPost httpPost = new HttpPost(url);
+    public HttpRequestBuilder withHttpGet() {
+        this.httpGet = new HttpGet(url);
+        return this;
+    }
+
+    public HttpRequestBuilder withHttpPost() {
+        this.httpPost = new HttpPost(url);
+        return this;
+    }
+
+    public HttpRequestBuilder build() {
         // Set header
         if (!headers.isEmpty()) {
             headers.forEach(httpPost::setHeader);
@@ -38,14 +53,7 @@ public class HttpRequestBuilder {
         if (body != null) {
             httpPost.setEntity(body);
         }
-        return httpPost;
+        return this;
     }
-
-//    public HttpGet build() {
-//        HttpGet httpGet = new HttpGet(url);
-//        headers.forEach(httpGet::setHeader);
-//        // Set body if needed
-//        return httpGet;
-//    }
 
 }

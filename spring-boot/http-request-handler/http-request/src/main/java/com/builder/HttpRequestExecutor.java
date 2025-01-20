@@ -28,16 +28,16 @@ public class HttpRequestExecutor<T> {
         return this;
     }
 
+    // @formatter:off
     public T execute() {
-        try (CloseableHttpClient client = HttpClients.createDefault();
-             CloseableHttpResponse response = client.execute(httpPost)) {
-
+        try (
+            CloseableHttpClient client = HttpClients.createDefault();
+            CloseableHttpResponse response = client.execute(httpPost)
+        ) {
             HttpEntity responseEntity = response.getEntity();
             int statusCode = response.getStatusLine().getStatusCode();
-
-            if (responseEntity != null && statusCode == 200) { // HttpStatus.SC_OK = 200
+            if (responseEntity != null && statusCode == 200) {
                 try (InputStream is = responseEntity.getContent()) {
-                    // Replace JsonUtils.readValue with your JSON parsing logic
                     return JsonUtils.readValue(is, responseType);
                 }
             } else {
@@ -49,5 +49,5 @@ public class HttpRequestExecutor<T> {
         }
         return null;
     }
-
+    // @formatter:on
 }
