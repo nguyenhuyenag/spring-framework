@@ -18,15 +18,14 @@ public class BuilderTest {
 
         // Build POST request
         String url = "https://business.openapi.zalo.me/message/template";
-        HttpPostRequestBuilder postRequest = HttpPostRequestBuilder.builder()
+        ZaloResponse result = HttpPostRequestBuilder.builder()
                 .withUrl(url)
-                .addHeader("key", "value")
+                .addHeader("Authorization", "Bearer token")
                 .withBody(body)
-                .build();
+                .execute(ZaloResponse.class);
 
-        ZaloResponse response = postRequest.execute(ZaloResponse.class);
-        if (response != null) {
-            System.out.println(response.getMessage());
+        if (result != null) {
+            System.out.println(result.getMessage());
         }
     }
 
