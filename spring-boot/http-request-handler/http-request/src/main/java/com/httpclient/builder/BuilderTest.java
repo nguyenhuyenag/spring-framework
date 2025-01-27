@@ -2,6 +2,7 @@ package com.httpclient.builder;
 
 import com.pojo.ZaloResponse;
 import com.util.GsonUtils;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 
 import java.io.UnsupportedEncodingException;
@@ -21,6 +22,7 @@ public class BuilderTest {
         ZaloResponse result = HttpPostRequestBuilder.builder()
                 .withUrl(url)
                 .addHeader("Authorization", "Bearer token")
+                .addHeader("Content-Type", "application/json")
                 .withBody(body)
                 .execute(ZaloResponse.class);
 
