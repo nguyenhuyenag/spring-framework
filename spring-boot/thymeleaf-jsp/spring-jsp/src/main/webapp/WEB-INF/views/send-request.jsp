@@ -8,25 +8,25 @@
 	<link rel="shortcut icon" href="#">
 	<script type="text/javascript">
 		window.onload = function() {
-			var hashmap = {
-				"scheme" : '${pageContext.request.scheme}',
-				"serverName" : '${pageContext.request.serverName}',
-				"serverPort" : '${pageContext.request.serverPort}',
-				"contextPath" : '${pageContext.request.contextPath}',
-				"servletPath" : '${pageContext.request.servletPath}',
-				"requestURI" : '${pageContext.request.requestURI}',
-				"requestURL" : '${pageContext.request.requestURL}',
-				"method" : '${pageContext.request.method}',
-				"characterEncoding" : '${pageContext.request.characterEncoding}',
-				"queryString" : '${pageContext.request.queryString}',
-				"controller path" : '${controller_path}',
+			const hashmap = {
+				"scheme": '${pageContext.request.scheme}',
+				"serverName": '${pageContext.request.serverName}',
+				"serverPort": '${pageContext.request.serverPort}',
+				"contextPath": '${pageContext.request.contextPath}',
+				"servletPath": '${pageContext.request.servletPath}',
+				"requestURI": '${pageContext.request.requestURI}',
+				"requestURL": '${pageContext.request.requestURL}',
+				"method": '${pageContext.request.method}',
+				"characterEncoding": '${pageContext.request.characterEncoding}',
+				"queryString": '${pageContext.request.queryString}',
+				"controller path": '${controller_path}',
 			};
+
 			function makeUL() {
-				var list = document.createElement('ul');
-				for (var key in hashmap) {
+				const list = document.createElement('ul');
+				for (const key in hashmap) {
 					if (hashmap.hasOwnProperty(key)) {
-						var item = document.createElement('li');
-						// console.log(key + " -> " + hashmap[key]);
+						const item = document.createElement('li');
 						item.appendChild(document.createTextNode(key + " : " + hashmap[key]));
 						list.appendChild(item);
 					}
@@ -40,11 +40,13 @@
 <body>
 	<h2>1) HttpServletRequest from 'pageContext'</h2>
 	<div id="dynamicUL"></div>
-	<%
-		// Map<String, String[]> map = request.getParameterMap();
-		// request.getParameterMap().forEach((k,v) -> out.print(k, v));
-	%>
+	<h2>2) From Server Controller</h2>
+	<ul>
+		<jsp:useBean id="requestInfo" scope="request" type="java.util.Map"/>
+		<c:forEach var="entry" items="${requestInfo}">
+			<li><strong>${entry.key}</strong>: ${entry.value}</li>
+		</c:forEach>
+	</ul>
 </body>
 
 </html>
-

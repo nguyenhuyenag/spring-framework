@@ -7,6 +7,10 @@ import org.springframework.ui.Model;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.HandlerMapping;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class SendRequestController {
@@ -47,6 +51,23 @@ public class SendRequestController {
 		// System.out.println("Pattern matched 2: " + bestMatchPattern);
 		// System.out.println("Pattern final: " + finalPath);
 		// model.addAttribute("controller_path", bestMatchPattern);
+
+		// (2) From Controller
+		Map<String, String> requestInfo = new HashMap<>();
+		requestInfo.put("contextPath", request.getContextPath());
+		requestInfo.put("localAddr", request.getLocalAddr());
+
+		String scheme = request.getHeader("X-Forwarded-Proto"); // Kiểm tra header
+		if (scheme == null) {
+			scheme = request.getScheme(); // Nếu không có, dùng scheme mặc định
+		}
+		requestInfo.put("scheme", scheme);
+
+		// Tự động phát hiện HTTP/HTTPS
+		requestInfo.put("baseUrl", ServletUriComponentsBuilder.fromCurrentContextPath().toUriString());
+
+		// model.addAttribute("requestInfo", requestInfo);
+		request.setAttribute("requestInfo", requestInfo);
 
 		return "send-request";
 	}
