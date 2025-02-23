@@ -23,7 +23,7 @@ import com.model.Language;
 @RequestMapping("core")
 public class CoreController {
 
-	private static List<Language> list = new ArrayList<>();
+	private static final List<Language> list = new ArrayList<>();
 
 	static {
 		list.add(new Language("C"));

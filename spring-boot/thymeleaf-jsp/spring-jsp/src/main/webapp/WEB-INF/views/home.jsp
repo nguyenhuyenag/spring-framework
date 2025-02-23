@@ -31,7 +31,7 @@
 	<div class="navbar navbar-inverse">
 		<div class="container">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="home">Spring Boot</a>
+				<a class="navbar-brand" href="${pageContext.request.contextPath}/home">Spring Boot</a>
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
@@ -49,21 +49,28 @@
 			</ul> -->
 			<h3>Header</h3>
 			<ul>
-				<li><a href="/listHeaders">listHeaders</a></li>
+				<li><a href="${pageContext.request.contextPath}/listHeaders">listHeaders</a></li>
 			</ul>
 			<h3>JSP</h3>
 			<ul>
 				<li><a href="${CONTEXT_PATH}/test" class="red">Test</a></li>
 				<li><a href="${CONTEXT_PATH}/send-request?name=java&version=1.8">HttpServletRequest</a></li>
 				<li><a href="${CONTEXT_IMPLICIT}/send-request?name=Java&version=8&company=oracle">Request (implicit object)</a></li>
-				<li><a href="${CONTEXT_PATH}/view">Create View</a></li>
-				<li><a href="${CONTEXT_PATH}/view1">Create View 1</a></li>
-				<li><a href="${CONTEXT_PATH}/view2">Create View 2</a></li>
-				<li><a href="${CONTEXT_PATH}/view3">Create View 3</a></li>
+<%--				<li><a href="${CONTEXT_PATH}/view">Create View</a></li>--%>
+<%--				<li><a href="${CONTEXT_PATH}/view1">Create View 1</a></li>--%>
+<%--				<li><a href="${CONTEXT_PATH}/view2">Create View 2</a></li>--%>
+<%--				<li><a href="${CONTEXT_PATH}/view3">Create View 3</a></li>--%>
 				<li><a href="${CONTEXT_PATH}/pass-data/send-by-request-1">Send data by request</a></li>
 				<li><a href="${CONTEXT_PATH}/pass-data/send-by-session-1">Send data by session</a></li>
 				<li><a href="${CONTEXT_PATH}/pass-data/send-by-localstorage-1">Send data by localstorage</a></li>
 				<li><a href="${CONTEXT_PATH}/page1">RedirectAttributes</a></li>
+			</ul>
+			<h3>View</h3>
+			<ul>
+				<li><a href="${CONTEXT_PATH}/view">Create View</a></li>
+				<li><a href="${CONTEXT_PATH}/view1">Create View 1</a></li>
+				<li><a href="${CONTEXT_PATH}/view2">Create View 2</a></li>
+				<li><a href="${CONTEXT_PATH}/view3">Create View 3</a></li>
 			</ul>
 			<h3>Core</h3>
 			<ul>

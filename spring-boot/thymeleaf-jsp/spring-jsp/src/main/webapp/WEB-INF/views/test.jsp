@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="java.util.Date" %> <!-- equivalent to import java.uti.* in plain java -->
+<!-- equivalent to import java.uti.* in plain java -->
+<%@ page import="java.util.Date" %>
 
 <!DOCTYPE html>
 <html>
@@ -27,4 +28,3 @@
 </body>
 
 </html>
-
