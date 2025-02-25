@@ -2,6 +2,7 @@ package com.util;
 
 import java.lang.reflect.Type;
 
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -11,6 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+@Slf4j
 public class JsonUtils {
 
 	// private static final Gson GSON = new Gson();
@@ -26,12 +28,12 @@ public class JsonUtils {
 	 * @param object Java object
 	 * @return JSON
 	 */
-	public static String toJsonString(Object object) {
+	public static String toJson(Object object) {
 		if (object != null) {
 			try {
 				return MAPPER.writeValueAsString(object);
 			} catch (JsonProcessingException e) {
-				e.printStackTrace();
+				log.error("Failed to convert object to JSON: {}", object, e);
 			}
 		}
 		return "";
