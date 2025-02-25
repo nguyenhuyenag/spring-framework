@@ -3,6 +3,9 @@ package com.boot.runonce;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 
+/*
+    Phương thưc chỉ chạy 1 lần
+ */
 @Component
 public class MyService implements InitializingBean {
 
