@@ -7,10 +7,10 @@ import org.springframework.stereotype.Component;
     Phương thưc chỉ chạy 1 lần
  */
 @Component
-public class MyService implements InitializingBean {
+public class RunOnceInitializingBean implements InitializingBean {
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         System.out.println("[InitializingBean] This method runs automatically once after the bean is initialized.");
     }
 

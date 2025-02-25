@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
     Phương thưc chỉ chạy 1 lần
  */
 @Component
-public class StartupEventListener {
+public class RunOnceApplicationReadyEvent {
 
     @EventListener(ApplicationReadyEvent.class)
     public void runAfterStartup() {

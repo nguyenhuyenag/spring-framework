@@ -8,7 +8,7 @@ import javax.annotation.PostConstruct;
     Phương thưc chỉ chạy 1 lần
  */
 @Component
-public class RunOneMethod {
+public class RunOnePostConstruct {
 
     @PostConstruct
     public void init() {
