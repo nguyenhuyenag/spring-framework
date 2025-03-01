@@ -16,7 +16,7 @@ public class CommandLineRunnerStartup implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		System.out.println(new Date() + " [CommandLineRunnerStartup] Run method ");
+		// System.out.println(new Date() + " [CommandLineRunnerStartup] Run method ");
 		// System.out.println(configuration.getUrl());
 		// System.out.println(configuration.getGiftCode());
 		// System.out.println(configuration.getLanguage());

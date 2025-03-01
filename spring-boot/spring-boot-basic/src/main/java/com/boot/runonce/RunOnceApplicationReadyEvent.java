@@ -4,6 +4,8 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
+
 /*
     - Phương thưc chỉ chạy 1 lần
 
@@ -15,7 +17,7 @@ public class RunOnceApplicationReadyEvent {
 
     @EventListener(ApplicationReadyEvent.class)
     public void runAfterStartup() {
-        System.out.println("[ApplicationReadyEvent] Application is fully started. This runs once.");
+        System.out.println(Instant.now() + "[ApplicationReadyEvent] Application is fully started. This runs once.");
     }
 
 }

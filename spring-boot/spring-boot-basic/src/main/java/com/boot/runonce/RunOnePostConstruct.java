@@ -3,6 +3,7 @@ package com.boot.runonce;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.time.Instant;
 
 /*
     Phương thưc chỉ chạy 1 lần
@@ -12,7 +13,7 @@ public class RunOnePostConstruct {
 
     @PostConstruct
     public void init() {
-        System.out.println("[PostConstruct] This method runs automatically once after the bean is initialized.");
+        System.out.println(Instant.now() + "[PostConstruct] This method runs automatically once after the bean is initialized.");
     }
 
 }
