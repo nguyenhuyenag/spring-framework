@@ -11,17 +11,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.repository.UserRepository;
 
 @SpringBootApplication
-public class Application extends SpringBootServletInitializer implements CommandLineRunner {
+public class RedisApplication extends SpringBootServletInitializer implements CommandLineRunner {
 
 	// JAR
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
+		SpringApplication.run(RedisApplication.class, args);
 	}
 
 	// WAR
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(Application.class);
+		return application.sources(RedisApplication.class);
 	}
 
 	@Autowired
