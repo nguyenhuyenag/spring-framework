@@ -19,16 +19,6 @@ public class OtpUtils {
 
     private static final String ALGORITHM = "HMACSHA1";
 
-    // private final TimeBasedOneTimePasswordGenerator totp = new TimeBasedOneTimePasswordGenerator();
-
-//    public static String generateSecretKey() {
-//        SecureRandom random = new SecureRandom();
-//        byte[] bytes = new byte[10]; // 80 bits
-//        random.nextBytes(bytes);
-//        Base32 base32 = new Base32();
-//        return base32.encodeToString(bytes).replace("=", ""); // Remove padding
-//    }
-
     public static String generateSecretKey() {
         byte[] bytes = new byte[10]; // 80 bits
         SECURE_RANDOM.nextBytes(bytes);

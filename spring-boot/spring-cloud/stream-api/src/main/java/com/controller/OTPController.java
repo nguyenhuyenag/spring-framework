@@ -25,14 +25,14 @@ public class OTPController {
     }
 
     @GetMapping(value = "/generate-otp", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<?> getFlux(String secretKey,
+    public Flux<?> generateOtp(String secretKey,
                            @RequestParam(value = "duration", defaultValue = "30") int duration) {
         return Flux.interval(Duration.ofSeconds(2))
-                .map(t -> OtpUtils.generateOtp(secretKey, duration));
+                .map(t -> "OTP: " + OtpUtils.generateOtp(secretKey, duration));
     }
 
-    @GetMapping(value = "/generate-google-otp")
-    public ResponseEntity<?> generateGoogleOtp() {
+    @GetMapping(value = "/generate-google-qr-otp")
+    public ResponseEntity<?> generateGoogleQrOtp() {
         Map<String, String> map = new HashMap<>();
         map.put("qr_code", QRUtils.createQRCode());
         return ResponseEntity.ok(JsonUtils.toJson(map));
