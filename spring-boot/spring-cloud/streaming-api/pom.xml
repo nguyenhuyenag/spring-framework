@@ -11,7 +11,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>stream-api</groupId>
+    <groupId>streaming-api</groupId>
     <artifactId>stream-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>stream-api</name>
