@@ -23,9 +23,8 @@ public class ApiController {
 
     @GetMapping("verify-otp")
     private ResponseEntity<?> verifyOtp(String id, @RequestParam(value = "otp", defaultValue = "-1") int otp) {
-        boolean validated = cacheService.verifyOtp(id, otp);
         Map<String, String> map = new HashMap<>();
-        map.put("message", validated ? "Successful" : "Failure");
+        map.put("status", Boolean.toString(cacheService.verifyOtp(id, otp)));
         return ResponseEntity.ok(map);
     }
 
