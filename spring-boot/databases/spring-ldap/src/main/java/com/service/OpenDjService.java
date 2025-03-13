@@ -1,17 +1,21 @@
 package com.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.forgerock.opendj.ldap.*;
 import org.forgerock.opendj.ldif.ConnectionEntryReader;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.PreDestroy;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class OpenDjService {
 
-    @Value("${spring.ldap.base}")
-    private String base;
+    private final LdapTemplate ldapTemplate;
 
     @Value("${spring.ldap.username}")
     private String username;
@@ -19,12 +23,21 @@ public class OpenDjService {
     @Value("${spring.ldap.password}")
     private String password;
 
-    public void searchTokenZNS() {
-        String uid = "5569998187330363604";
-        try (LDAPConnectionFactory factory = new LDAPConnectionFactory("192.168.0.98", 389)) {
-            Connection connection = factory.getConnection();
+    @Value("${spring.ldap.base}")
+    private String base;
+
+    private final LDAPConnectionFactory factory = new LDAPConnectionFactory("192.168.0.98", 389);
+
+    @PreDestroy
+    public void destroy() {
+        factory.close();
+    }
+
+    public void searchTokenZNS() throws ErrorResultException {
+        try (Connection connection = factory.getConnection()) {
             connection.bind(username, password.toCharArray());
 
+            String uid = "5569998187330363604";
             String baseDN = "ou=tokenzns," + base;
             final String filter = "(uid=" + uid + ")";
             final ConnectionEntryReader reader = connection.search(baseDN, SearchScope.WHOLE_SUBTREE, filter, "*");
@@ -34,7 +47,7 @@ public class OpenDjService {
                     return;
                 }
             }
-        } catch (ErrorResultIOException | SearchResultReferenceIOException | ErrorResultException e) {
+        } catch (ErrorResultIOException | SearchResultReferenceIOException e) {
             log.error("ErrorResultException: {}", e.getMessage(), e);
         }
     }

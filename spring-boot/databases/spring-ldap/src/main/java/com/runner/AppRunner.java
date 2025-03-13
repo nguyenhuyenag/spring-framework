@@ -3,8 +3,6 @@ package com.runner;
 import com.model.User;
 import com.service.OpenDjService;
 import lombok.RequiredArgsConstructor;
-import org.forgerock.opendj.ldap.*;
-import org.forgerock.opendj.ldif.ConnectionEntryReader;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.ldap.core.DirContextOperations;
@@ -93,8 +91,8 @@ public class AppRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // System.out.println(ldapTemplate.toString());
         openDjService.searchTokenZNS();
+        // System.out.println(ldapTemplate.toString());
     }
 
 }
