@@ -34,17 +34,19 @@ public class OpenDjService {
     }
 
     public void searchTokenZNS() throws ErrorResultException {
+        // Open connection
         try (Connection connection = factory.getConnection()) {
             connection.bind(username, password.toCharArray());
-
-            String uid = "5569998187330363604";
-            String baseDN = "ou=tokenzns," + base;
+            // Search
+            String uid = "ABC11@abcD.com";
+            String baseDN = "ou=users," + base;
             final String filter = "(uid=" + uid + ")";
             final ConnectionEntryReader reader = connection.search(baseDN, SearchScope.WHOLE_SUBTREE, filter, "*");
             while (reader.hasNext()) {
                 if (reader.isEntry()) {
+                    System.out.println("(1)");
                     System.out.println(reader.readEntry());
-                    return;
+                    // return;
                 }
             }
         } catch (ErrorResultIOException | SearchResultReferenceIOException e) {
