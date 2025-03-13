@@ -24,7 +24,7 @@ public class OpenDjService {
         try (LDAPConnectionFactory factory = new LDAPConnectionFactory("192.168.0.98", 389)) {
             Connection connection = factory.getConnection();
             connection.bind(username, password.toCharArray());
-            
+
             String baseDN = "ou=tokenzns," + base;
             final String filter = "(uid=" + uid + ")";
             final ConnectionEntryReader reader = connection.search(baseDN, SearchScope.WHOLE_SUBTREE, filter, "*");

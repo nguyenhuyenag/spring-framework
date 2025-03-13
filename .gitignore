@@ -6,7 +6,6 @@
 **/.idea/
 
 # Package
-*.jar
 *.war
 *.nar
 *.ear
