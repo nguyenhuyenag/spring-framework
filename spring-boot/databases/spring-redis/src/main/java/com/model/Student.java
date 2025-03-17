@@ -1,9 +1,11 @@
 package com.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-public class Student {
+@AllArgsConstructor
+public class Student implements java.io.Serializable {
 
     private String id;
     private String name;
