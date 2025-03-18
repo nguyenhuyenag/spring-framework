@@ -87,9 +87,12 @@
 							<li class='pointer'>admin/123456</li>
 						</ul>
 					</div>
-					<sec:csrfInput />
-					<!-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> -->
-					<button class="btn btn-primary w-100 mt-3" type="submit" value="submit">Đăng Nhập</button>
+					<div class="form-group text-center">
+						<sec:csrfInput />
+						<!-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> -->
+						<button class="btn btn-primary w-100 mt-3" type="submit" value="submit">Đăng Nhập</button>
+						<a href="#">Login with Token</a>
+					</div>
 				</form>
 			</div>
 		</div>
