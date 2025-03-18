@@ -39,7 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final CustomLoginSuccessHandler loginSuccessHandler;
     private final CustomLoginFailureHandler loginFailureHandler;
 
-    private final String[] AUTH_WHITELIST = {"/static/**", "/login", "/logout", "/favicon.ico"};
+    private final String[] AUTH_WHITELIST = {"/static/**", "/login", "/login-token", "/logout", "/favicon.ico"};
 
 //	@Autowired
 //    private CustomAuthenticationProvider authProvider;
@@ -65,7 +65,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         .passwordParameter("password")
                         .loginProcessingUrl("/j_spring_security_check") // The URL to submit the username and password to
                         .successHandler(loginSuccessHandler)
-                        .defaultSuccessUrl("/")
                         .failureUrl("/login?error=true")
                         .failureHandler(loginFailureHandler))
                 .logout(logout -> logout
@@ -99,11 +98,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService)    // Cài đặt dịch vụ để tìm kiếm User trong Database
             .passwordEncoder(passwordEncoder());    // Cài đặt PasswordEncoder
     }
-
-//    @Bean
-//    public AuthenticationFailureHandler failureHandler() {
-//        return new CustomLoginFailureHandler();
-//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {

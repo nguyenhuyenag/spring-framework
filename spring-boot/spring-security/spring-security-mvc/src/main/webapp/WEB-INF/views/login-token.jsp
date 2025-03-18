@@ -3,7 +3,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <head>
-	<title>Login</title>
+	<title>Login Token</title>
 	<link rel="shortcut icon" href="#">
 	<script>
 		$(function () {
@@ -45,7 +45,7 @@
 	<sec:authorize access="!isAuthenticated()">
 		<div class="container mt-5 d-flex justify-content-center align-items-center">
 			<div class="d-flex flex-column justify-content-center align-items-center border w-50 py-5 shadow-lg rounded">
-				<h1 class="mb-4">Login</h1>
+				<h1 class="mb-4">Login Token</h1>
 				<c:if test="${not empty param.error && not empty SPRING_SECURITY_LAST_EXCEPTION}">
 					<div class="alert alert-danger alert-dismissible fade show" style="width: 85%;">
 						<button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -57,22 +57,7 @@
 				</c:if>
 				<form class="w-75" method="POST" action="${CONTEXT_PATH}/j_spring_security_check">
 					<div class="form-group">
-						<input class="form-control" name="username" id="inputUsername" placeholder="Tài Khoản" value="user1" />
-					</div>
-					<div class="form-group">
-						<div class="input-group">
-							<input type="password" class="form-control" name="password" id="inputPassword" placeholder="Mật khẩu" value="123456" />
-							<div class="input-group-append">
-								<span id="toggle-eye" class="input-group-text make-pointer">
-									<!--Font awesome icon-->
-									<i class="fa fa-eye d-none" id="show_eye"></i>
-                  					<i class="fa fa-eye-slash" id="hide_eye"></i>
-									<!--Bootstrap icon-->
-									<!-- <i class="bi bi-eye-fill d-none" id="show_eye"></i>
-									<i class="bi bi-eye-slash-fill" id="hide_eye"></i> -->
-								</span>
-							</div>
-						</div>
+						<input class="form-control" name="username" id="inputUsername" placeholder="Token Id" value="" />
 					</div>
 					<div class="form-group">
 						<div class="form-check">
@@ -80,18 +65,10 @@
 							<label class="form-check-label" for="rememberMe">Remember Me</label>
 						</div>
 					</div>
-					<div class="form-group">
-						<ul>
-							<li class='pointer'>none_role/123456</li>
-							<li class='pointer'>user/123456</li>
-							<li class='pointer'>admin/123456</li>
-						</ul>
-					</div>
 					<div class="form-group text-center">
 						<sec:csrfInput />
-						<!-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> -->
 						<button class="btn btn-primary w-100 mt-3" type="submit" value="submit">Đăng Nhập</button>
-						<a href="${CONTEXT_PATH}/login-token">Login with Token</a>
+						<a href="${CONTEXT_PATH}/login">Login with username/password</a>
 					</div>
 				</form>
 			</div>

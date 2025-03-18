@@ -41,4 +41,7 @@
 	<definition extends="base.definition" name="test">
 		<put-attribute name="body" value="/WEB-INF/views/test.jsp" />
 	</definition>
+	<definition extends="base.definition" name="login-token">
+		<put-attribute name="body" value="/WEB-INF/views/login-token.jsp" />
+	</definition>
 </tiles-definitions>

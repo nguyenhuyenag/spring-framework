@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class AuthController {
 
-	// private final Logger LOG = LoggerFactory.getLogger(this.getClass());
+    // private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
 //	private boolean isAuthenticated() {
 //	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -40,15 +40,21 @@ public class AuthController {
 //		}
 //	}
 
-	@GetMapping("login")
-	public String login(Principal principal) {
-		if (principal == null) {
-			// System.out.println("[" + this.getClass().getSimpleName() + "] No Login");
-		} else {
-			// System.out.println("[" + this.getClass().getSimpleName() + "] Already Login");
-			// return "redirect:/";
-		}
-		return "login";
-	}
+    @GetMapping("login")
+    public String login(Principal principal) {
+        if (principal == null) {
+            // System.out.println("[" + this.getClass().getSimpleName() + "] No Login");
+        } else {
+            // System.out.println("[" + this.getClass().getSimpleName() + "] Already Login");
+            // return "redirect:/";
+        }
+        return "login";
+    }
+
+    @GetMapping("/login-token")
+    public String loginToken(String tokenId) {
+        System.out.println("tokenId = " + tokenId);
+        return "login-token";
+    }
 
 }

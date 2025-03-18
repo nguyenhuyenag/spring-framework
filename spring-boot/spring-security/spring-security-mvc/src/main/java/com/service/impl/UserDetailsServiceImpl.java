@@ -39,13 +39,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new BadCredentialsException("BLOCK_IP");
         }
 
-        Optional<User> opt = repository.findByUsername(username);
-        if (opt.isEmpty()) {
+        Optional<User> optionalUser = repository.findByUsername(username);
+        if (optionalUser.isEmpty()) {
             log.info("User `{}` was not found!", username);
             throw new UsernameNotFoundException("User `" + username + "` was not found!");
         }
 
-        User user = opt.get();
+        User user = optionalUser.get();
         if (user.isDisabled()) {
             log.info("User `{}` is disabled", username);
             // throw new BadCredentialsException("USER_DISABLED");

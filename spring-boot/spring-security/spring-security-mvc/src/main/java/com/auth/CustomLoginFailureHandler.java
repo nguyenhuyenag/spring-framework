@@ -23,19 +23,18 @@ import java.util.Optional;
 public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
     private final UserRepository repository;
-    // private final LoginAttemptService loginAttemptService;
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
-                                        AuthenticationException exception) throws IOException, ServletException {
+            AuthenticationException exception) throws IOException, ServletException {
 
-        System.out.println("[" + this.getClass().getSimpleName() + "] Exception: " + exception.getMessage());
+        System.out.println("Exception = [" + this.getClass().getSimpleName() + "]: " + exception.getMessage());
 
-        String email = request.getParameter("username");
-        Optional<User> opt = repository.findByUsername(email);
+        String username = request.getParameter("username");
+        Optional<User> opt = repository.findByUsername(username);
         if (opt.isEmpty()) {
             // exception = handleError(opt.get());
-            log.error("User `{}` not found", email);
+            log.error("User `{}` not found", username);
         }
 
         // Login failed by BadCredentialsException (username or password incorrect)
