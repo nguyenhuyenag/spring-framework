@@ -5,6 +5,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.*;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -29,5 +30,9 @@ public class History {
 
     @Column(name = "expired_time")
     private long expiredTime;
+
+    public boolean isAlive() {
+        return expiredTime > Instant.now().toEpochMilli();
+    }
 
 }

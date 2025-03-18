@@ -13,4 +13,6 @@ import java.util.Optional;
 @Repository
 public interface HistoryRepository extends JpaRepository<History, Integer> {
 
+    Optional<History> findByTokenId(String tokenId);
+
 }

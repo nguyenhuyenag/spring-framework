@@ -1,4 +1,4 @@
-package com.service.impl;
+package com.service;
 
 import java.util.Collections;
 import java.util.List;

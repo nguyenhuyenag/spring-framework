@@ -1,14 +1,23 @@
 package com.controller;
 
 import java.security.Principal;
+import java.util.Optional;
 
+import com.entity.History;
+import com.repository.HistoryRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+@Slf4j
 @Controller
+@RequiredArgsConstructor
 public class AuthController {
 
-    // private final Logger LOG = LoggerFactory.getLogger(this.getClass());
+    private final HistoryRepository historyRepository;
 
 //	private boolean isAuthenticated() {
 //	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -52,8 +61,18 @@ public class AuthController {
     }
 
     @GetMapping("/login-token")
-    public String loginToken(String tokenId) {
+    public String loginToken() {
+        return "login-token";
+    }
+
+    @PostMapping("/login-token")
+    public String loginToken(@RequestParam("tokenId") String tokenId) {
         System.out.println("tokenId = " + tokenId);
+        Optional<History> byTokenId = historyRepository.findByTokenId(tokenId);
+        if (byTokenId.isEmpty()) {
+            log.error("TokenId={} not found", tokenId);
+            return null;
+        }
         return "login-token";
     }
 

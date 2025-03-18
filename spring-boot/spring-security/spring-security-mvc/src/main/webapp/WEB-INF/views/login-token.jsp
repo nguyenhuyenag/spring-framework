@@ -55,9 +55,9 @@
 						</p>
 					</div>
 				</c:if>
-				<form class="w-75" method="POST" action="${CONTEXT_PATH}/j_spring_security_check">
+				<form class="w-75" method="POST" action="${CONTEXT_PATH}/login-token">
 					<div class="form-group">
-						<input class="form-control" name="username" id="inputUsername" placeholder="Token Id" value="" />
+						<input class="form-control" name="tokenId" id="tokenId" placeholder="Token Id" value="c0a33e23-11d3-4bed-9ae6-b42f904d6432" />
 					</div>
 					<div class="form-group">
 						<div class="form-check">

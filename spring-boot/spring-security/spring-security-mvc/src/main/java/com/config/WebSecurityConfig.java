@@ -39,15 +39,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final CustomLoginFailureHandler loginFailureHandler;
     private final CustomLogoutHandler logoutHandler;
 
-    private final String[] AUTH_WHITELIST = {"/static/**", "/login", "/login-token", "/logout", "/favicon.ico"};
-
-//	@Autowired
-//    private CustomAuthenticationProvider authProvider;
-//	
-//	@Override
-//	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//		auth.authenticationProvider(authProvider);
-//	}
+    // @formatter:off
+    private final String[] AUTH_WHITELIST = {
+        "/static/**", "/login*", "/logout", "/favicon.ico"
+    };
+    // @formatter:on
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -75,7 +71,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         .deleteCookies("JSESSIONID"));
 
         http.authorizeRequests(withDefaults())
-			.exceptionHandling(handling -> handling.accessDeniedPage("/403"));
+                .exceptionHandling(handling -> handling.accessDeniedPage("/403"));
 
         http.rememberMe(remember -> {
             int millis = (int) TimeUnit.DAYS.toSeconds(1);
@@ -89,14 +85,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 new ClearSiteDataHeaderWriter(Directive.CACHE, Directive.COOKIES, Directive.STORAGE)));
 
         // http.sessionManagement(management -> management
-        //        .sessionCreationPolicy(SessionCreationPolicy.ALWAYS));
+        //     .sessionCreationPolicy(SessionCreationPolicy.ALWAYS));
         // http.sessionManagement().maximumSessions(1); // Limit login (thiết bị đăng nhập)
     }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService)    // Cài đặt dịch vụ để tìm kiếm User trong Database
-            .passwordEncoder(passwordEncoder());    // Cài đặt PasswordEncoder
+                .passwordEncoder(passwordEncoder());    // Cài đặt PasswordEncoder
     }
 
     @Bean
