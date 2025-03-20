@@ -1,7 +1,5 @@
 DROP DATABASE IF EXISTS spring_security_mvc;
-
 CREATE DATABASE spring_security_mvc;
-
 USE spring_security_mvc;
 
 create table persistent_logins (
@@ -35,6 +33,15 @@ create table `user_roles` (
   foreign key (`user_id`) references `user` (`user_id`),
   foreign key (`role_id`) references `role` (`role_id`)
 );
+
+DROP TABLE IF EXISTS `auth_history`;
+CREATE TABLE `auth_history`  (
+    `token_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+    `login_at` timestamp NULL DEFAULT NULL,
+    `expired_time` bigint(20) NULL DEFAULT NULL,
+    PRIMARY KEY (`token_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 insert into `role` values 
 	(1,'ROLE_ADMIN'),
