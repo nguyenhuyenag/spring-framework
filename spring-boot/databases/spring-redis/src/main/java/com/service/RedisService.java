@@ -19,7 +19,7 @@ public class RedisService {
     private final RedisTemplate<Object, Object> redisTemplate;
     // private final StringRedisTemplate stringRedisTemplate;
     // private final RedisOperations<String, String> operations;
-    private HashOperations<Object, Object, Student> hashOperations;
+    private HashOperations<Object, Object, String> hashOperations;
 
     @PostConstruct
     private void init() {
@@ -27,19 +27,19 @@ public class RedisService {
     }
 
     public void add(Student student) {
-        hashOperations.put(HASH_KEY, student.getId(), student);
+        hashOperations.put(HASH_KEY, student.getId(), student.toString());
         System.out.println(student);
     }
 
-    public Student findById(String studentId) {
-        return hashOperations.get(HASH_KEY, studentId);
-    }
+//    public String findById(String studentId) {
+//        return hashOperations.get(HASH_KEY, studentId);
+//    }
 
-    public List<Student> findAll() {
+    public List<String> findAll() {
         return hashOperations.values(HASH_KEY);
     }
 
-    public Map<Object, Student> getAll(){
+    public Map<Object, String> getAll() {
         return hashOperations.entries(HASH_KEY);
     }
 
