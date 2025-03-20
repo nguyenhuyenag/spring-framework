@@ -8,6 +8,7 @@ import com.repository.HistoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -66,14 +67,17 @@ public class AuthController {
     }
 
     @PostMapping("/login-token")
-    public String loginToken(@RequestParam("tokenId") String tokenId) {
+    public String loginToken(@RequestParam("tokenId") String tokenId, Model model) {
+        String view = "login-token";
         System.out.println("tokenId = " + tokenId);
-        Optional<History> byTokenId = historyRepository.findByTokenId(tokenId);
-        if (byTokenId.isEmpty()) {
+        Optional<History> optHistory = historyRepository.findByTokenId(tokenId);
+        if (optHistory.isEmpty()) {
             log.error("TokenId={} not found", tokenId);
-            return null;
+            model.addAttribute("message", "The token does not exist or has expired");
+            return view;
         }
-        return "login-token";
+        model.addAttribute("message", "Pass");
+        return view;
     }
 
 }

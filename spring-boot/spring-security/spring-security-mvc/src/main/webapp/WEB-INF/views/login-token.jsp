@@ -70,6 +70,9 @@
 						<button class="btn btn-primary w-100 mt-3" type="submit" value="submit">Đăng Nhập</button>
 						<a href="${CONTEXT_PATH}/login">Login with username/password</a>
 					</div>
+					<div class="text-center text-danger">
+						<c:if test="${not empty message}">${message}</c:if>
+					</div>
 				</form>
 			</div>
 		</div>
