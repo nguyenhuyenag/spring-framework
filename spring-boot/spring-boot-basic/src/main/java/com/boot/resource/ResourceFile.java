@@ -1,4 +1,4 @@
-package com.boot.properties;
+package com.boot.resource;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
