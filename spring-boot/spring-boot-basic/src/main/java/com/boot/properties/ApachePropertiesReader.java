@@ -19,7 +19,7 @@ import java.util.Properties;
         dev.contact.url=${dev.base.url}/vi/lien-he
         dev.introduction.url=${dev.base.url}/vi/gioi-thieu
 
-    Do đó tần cần sử dụng cách đọc khác
+    Do đó ta cần sử dụng cách đọc khác
  */
 public class ApachePropertiesReader {
 

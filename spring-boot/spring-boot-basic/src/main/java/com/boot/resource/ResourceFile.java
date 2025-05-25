@@ -12,6 +12,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Properties;
 
+/*
+    Khi build thành gói jar, cách đọc file bằng cách getFile() để lấy đường dẫn file sẽ không hoạt động, do đó phải sử dụng InputStream.
+ */
 @Slf4j
 public class ResourceFile {
 
