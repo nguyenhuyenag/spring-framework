@@ -37,29 +37,6 @@ public class ResourceFile {
         return "";
     }
 
-//	public static File byClassPathResource() {
-//		try {
-//			Resource resource = new ClassPathResource("data/resource-data.txt");
-//			if (!resource.exists()) {
-//				log.error("File not found!");
-//				return null;
-//			}
-//			// File file = resource.getFile();
-//			InputStream is = resource.getInputStream();
-//			System.out.println(is.toString());
-//			// System.out.println(resource.getDescription());
-//			System.out.println(resource.getFilename());
-//			// System.out.println(resource.getURI().toASCIIString());
-//			System.out.println(resource.getURL().toString());
-//			System.out.println(resource.getFile().toString());
-//			// resource.getFilename();
-//			return resource.getFile();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		return null;
-//	}
-
     // Read file from `resources`
     public static void readAsProperties() {
         try {
