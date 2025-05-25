@@ -5,18 +5,18 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
-public class BootApplication {
+public class SpringBootBasicApplication {
 
 	private static ConfigurableApplicationContext context;
 
 	public static void main(String[] args) {
-		context = SpringApplication.run(BootApplication.class, args);
+		context = SpringApplication.run(SpringBootBasicApplication.class, args);
 	}
 
 	public static void restart() {
 		Thread thread = new Thread(() -> {
 			context.close();
-			context = SpringApplication.run(BootApplication.class, "--spring.profiles.active=your_profile");
+			context = SpringApplication.run(SpringBootBasicApplication.class, "--spring.profiles.active=your_profile");
 		});
 		thread.setDaemon(false);
 		thread.start();

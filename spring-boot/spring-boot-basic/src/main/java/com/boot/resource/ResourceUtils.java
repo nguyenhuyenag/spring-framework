@@ -43,7 +43,7 @@ public class ResourceUtils {
     }
 
     // rootCA = Thư mục chứa các file .p7b trong resources/rootCA
-    public static void getAllStrustCertCAFromResources(String rootCA) {
+    public static void getAllStructCertCAFromResources(String rootCA) {
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
 
         try {
