@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
  * @ConditionalOnMissingClass -> Ngược lại với @ConditionalOnClass
  */
 @Configuration
-@ConditionalOnMissingClass(value = "com.me.spring.LodaHandsome")
+@ConditionalOnMissingClass(value = "com.boot.configuration.AppConfig")
 class IfClassMissing {
 
 }

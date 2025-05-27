@@ -26,8 +26,7 @@ public class ApachePropertiesReader {
     public static void main(String[] args) throws ConfigurationException {
         Path path = Paths.get("src", "main", "resources", "apache-config.properties");
 
-        FileBasedConfigurationBuilder<FileBasedConfiguration> builder
-                = new FileBasedConfigurationBuilder<>(PropertiesConfiguration.class);
+        FileBasedConfigurationBuilder<FileBasedConfiguration> builder = new FileBasedConfigurationBuilder<>(PropertiesConfiguration.class);
 
         Parameters parameters = new Parameters();
         builder.configure(parameters.properties().setFile(path.toFile()));

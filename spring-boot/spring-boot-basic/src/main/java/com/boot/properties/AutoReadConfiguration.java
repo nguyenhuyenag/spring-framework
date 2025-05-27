@@ -11,10 +11,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-@Setter        	// <- Important
-@Component		// <- Important
-@ConfigurationProperties // <- Important
-@PropertySource("classpath:basic.properties")
+@Setter                     // <- Important
+@Component                  // <- Important
+@ConfigurationProperties    // <- Important
+@PropertySource(value = "classpath:basic.properties", encoding = "utf-8") // <- Important
 public class AutoReadConfiguration {
 
     /*-

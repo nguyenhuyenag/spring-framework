@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
  * @ConditionalOnClass -> Thỏa mãn nếu trong classpath tồn tại CLASS yêu cầu
  */
 @Configuration
-@ConditionalOnClass(name = "com.me.spring.LodaHandsome")
+@ConditionalOnClass(name = "com.boot.configuration.AppConfig")
 public class IfClassExist {
 
 }
