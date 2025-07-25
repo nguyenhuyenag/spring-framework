@@ -23,40 +23,40 @@ import com.filter.JWTLoginFilter;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Autowired
-	private UserDetailsService userDetailsService;
-	
-	@Autowired
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+    @Autowired
     private Http401 authenticationEntryPoint;
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService) //
-				.passwordEncoder(passwordEncoder());
-	}
-	
-	public static final String[] WHITE_LIST = { "/favicon.ico", "/v1/**", "/auth/**" };
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService) //
+                .passwordEncoder(passwordEncoder());
+    }
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable() //
-			.sessionManagement() //
-			.sessionCreationPolicy(SessionCreationPolicy.STATELESS) // no session cookie for API endpoints
-			.and() //
-				.authorizeRequests() //
-				.antMatchers(WHITE_LIST).permitAll() //
-				.antMatchers("/admin/**").hasRole("ADMIN")
-				.anyRequest().authenticated() //
-			.and() //
-				.addFilterBefore(new JWTLoginFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class) //
-				.addFilterBefore(new JWTAuthenticationFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class) //
-				.exceptionHandling() //
-				.authenticationEntryPoint(authenticationEntryPoint);
-	}
+    public static final String[] WHITE_LIST = {"/favicon.ico", "/v1/**", "/auth/**", "/api/**"};
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable() //
+                .sessionManagement() //
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // no session cookie for API endpoints
+                .and() //
+                .authorizeRequests() //
+                .antMatchers(WHITE_LIST).permitAll() //
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .anyRequest().authenticated() //
+                .and() //
+                .addFilterBefore(new JWTLoginFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class) //
+                .addFilterBefore(new JWTAuthenticationFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class) //
+                .exceptionHandling() //
+                .authenticationEntryPoint(authenticationEntryPoint);
+    }
 
 }
