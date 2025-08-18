@@ -1,17 +1,5 @@
 package com.util;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
-
-import javax.servlet.http.HttpServletRequest;
-
-import com.payload.request.ValidateTokenRequest;
-import org.springframework.http.HttpHeaders;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -19,6 +7,13 @@ import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 /*-
     Build JWT sử dụng thư viện: https://mvnrepository.com/artifact/com.auth0/java-jwt
@@ -30,6 +25,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
         iat (issued at) 			Thời điểm token sẽ được phát hành, tính theo UNIX time
         jti 						ID của JWT
  */
+@Slf4j
 public class TokenHandler {
 
     public static final String BEARER = "Bearer ";
@@ -62,24 +58,40 @@ public class TokenHandler {
                 .sign(ALGORITHM);
     }
 
-    public static Map<String, Boolean> validateToken(ValidateTokenRequest request) {
-        boolean value = false;
+//    public static Map<String, Boolean> validateToken(ValidateTokenRequest request) {
+//        boolean value = false;
+//        try {
+//            DecodedJWT decode = verifier.verify(request.getToken().trim());
+//            value = (decode != null && decode.getExpiresAt().after(new Date()));
+//        } catch (JWTVerificationException e) {
+//            log.error("JWT Verification Failed: {}", e.getMessage());
+//        }
+//        Map<String, Boolean> result = new HashMap<>();
+//        result.put("validate", value);
+//        return result;
+//    }
+
+    public static boolean validateJWT(String jwt) {
         try {
-            DecodedJWT decode = verifier.verify(request.getToken().trim());
-            value = (decode != null && decode.getExpiresAt().after(new Date()));
+            DecodedJWT decoded = verifier.verify(jwt);
+            Date expiresAt = decoded.getExpiresAt();
+            if (expiresAt == null) {
+                log.warn("JWT has no expiration claim (exp). Rejecting token.");
+                return false;
+            }
+            return expiresAt.getTime() > System.currentTimeMillis();
         } catch (JWTVerificationException e) {
-            e.printStackTrace();
+            log.error("JWT verification failed: {}", e.getMessage());
+            return false;
         }
-        Map<String, Boolean> result = new HashMap<>();
-        result.put("validate", value);
-        return result;
     }
 
+    // Token lỗi vẫn decode được, chỉ là không verify được
     public static DecodedJWT decodedJWT(String jwt) {
         try {
             return JWT.decode(jwt);
         } catch (JWTDecodeException e) {
-            e.printStackTrace();
+            log.error("JWT decode failed: {}", e.getMessage());
         }
         return null;
     }
@@ -88,36 +100,40 @@ public class TokenHandler {
      * (1): It's 'username' or 'email',...
      */
     public static String getSubject(DecodedJWT decodedJWT) {
+        if (decodedJWT == null) {
+            log.warn("Decoded JWT is null. Cannot get subject.");
+            return null;
+        }
         return decodedJWT.getSubject();
     }
 
-    private static boolean isJWTAlive(DecodedJWT decodedJWT) {
-        Date expiresAt = decodedJWT.getExpiresAt();
-        return expiresAt != null && expiresAt.after(new Date());
-    }
+//    private static boolean isJWTAlive(DecodedJWT decodedJWT) {
+//        Date expiresAt = decodedJWT.getExpiresAt();
+//        return expiresAt != null && expiresAt.after(new Date());
+//    }
 
     public static Claim getClaim(DecodedJWT decodedJWT) {
         return decodedJWT.getClaim(AUTHORITIES_KEY);
     }
 
-    public static void main(String[] args) throws InterruptedException {
-        String jwt = createJWT("dev1", null);
-        System.out.println("JWT: " + jwt);
-        DecodedJWT decodedJWT = decodedJWT(jwt);
-        if (decodedJWT == null) {
-            System.out.println("JWT Verification Failed");
-        }
-        decodedJWT = decodedJWT(jwt);
-        if (decodedJWT != null) {
-            System.out.println("Subject : " + decodedJWT.getSubject());
-            System.out.println("Issued At : " + decodedJWT.getIssuedAt());
-            System.out.println("Expires At : " + decodedJWT.getExpiresAt());
-            System.out.println("Is Alive : " + isJWTAlive(decodedJWT));
-            // Claim claim = getClaim(decodedJWT);
-            System.out.println("Claim : " + getClaim(decodedJWT));
-            // createAuthorities(claim);
-        }
-    }
+//    public static void main(String[] args) throws InterruptedException {
+//        String jwt = createJWT("dev1", null);
+//        System.out.println("JWT: " + jwt);
+//        DecodedJWT decodedJWT = decodedJWT(jwt);
+//        if (decodedJWT == null) {
+//            System.out.println("JWT Verification Failed");
+//        }
+//        decodedJWT = decodedJWT(jwt);
+//        if (decodedJWT != null) {
+//            System.out.println("Subject : " + decodedJWT.getSubject());
+//            System.out.println("Issued At : " + decodedJWT.getIssuedAt());
+//            System.out.println("Expires At : " + decodedJWT.getExpiresAt());
+//            System.out.println("Is Alive : " + isJWTAlive(decodedJWT));
+//            // Claim claim = getClaim(decodedJWT);
+//            System.out.println("Claim : " + getClaim(decodedJWT));
+//            // createAuthorities(claim);
+//        }
+//    }
 
     //	public static Claims getClaims(String token) {
 //		Claims claims = null;

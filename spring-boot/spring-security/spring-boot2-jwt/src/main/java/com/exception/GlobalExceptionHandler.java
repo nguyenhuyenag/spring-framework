@@ -4,7 +4,6 @@ import com.payload.response.ApiResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,9 +12,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
  * Xử lý những Exception. Có thể trả về response ngay tại đây
  */
 @ControllerAdvice
-public class GlobalExeptionHandler {
+public class GlobalExceptionHandler {
 
-    private Logger LOG = LoggerFactory.getLogger(GlobalExeptionHandler.class);
+    private Logger LOG = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     // Những lỗi không kiểm soát được
     @ExceptionHandler(value = Exception.class)

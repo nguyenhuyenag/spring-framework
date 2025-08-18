@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,10 +36,11 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.config.WebSecurityConfig;
 import com.util.TokenHandler;
 
+@Slf4j
 @Component
 public class AuthenticationRequestFilter extends OncePerRequestFilter {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AuthenticationRequestFilter.class);
+    // private static final Logger LOG = LoggerFactory.getLogger(AuthenticationRequestFilter.class);
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -52,7 +54,6 @@ public class AuthenticationRequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
             throws IOException, ServletException {
-
         /**
          * Cần đặt ở đầu tiên (để successfulAuthentication() sẽ trả về JSON)
          */
@@ -67,20 +68,21 @@ public class AuthenticationRequestFilter extends OncePerRequestFilter {
 //	            .orElseThrow(() -> new BadCredentialsException("Missing Authentication Token"));
 
         if (inAntMatcher(req.getRequestURI())) {
-            LOG.info("Request '{}' is in white list", req.getRequestURI());
+            log.info("Request '{}' is in white list", req.getRequestURI());
             chain.doFilter(req, res);
             return;
         }
 
-        LOG.info("Filter request '{}'", req.getRequestURI());
+        log.info("Filter request '{}'", req.getRequestURI());
         String jwt = TokenHandler.extractJWT(req);
         if (StringUtils.isEmpty(jwt)) {
-            LOG.info("Couldn't find bearer string");
+            log.info("Couldn't find bearer string");
             throw new BadCredentialsException("Missing authentication token (JWT)");
         }
 
-        DecodedJWT verify = TokenHandler.decodedJWT(jwt);
-        if (verify == null) {
+        // DecodedJWT decoded = TokenHandler.decodedJWT(jwt);
+        boolean validated = TokenHandler.validateJWT(jwt);
+        if (!validated) {
             throw new JWTDecodeException("Invalid JWT token");
         }
 
@@ -92,7 +94,7 @@ public class AuthenticationRequestFilter extends OncePerRequestFilter {
             UsernamePasswordAuthenticationToken authToken = getAuthentication(userDetails, decoded);
             authToken.setDetails(new WebAuthenticationDetailsSource() //
                     .buildDetails(req));
-            LOG.info("Authenticated '" + username + "', setting security context");
+            log.info("Authenticated '" + username + "', setting security context");
             SecurityContextHolder.getContext().setAuthentication(authToken);
         }
 

@@ -1,5 +1,7 @@
 package com.config;
 
+import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -30,13 +32,13 @@ import com.service.RefreshTokenService;
     securedEnabled = false,     // for @RolesAllowed
     jsr250Enabled = true        // for @RolesAllowed
 )
+@RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private UserDetailsService userDetailsService;
-
-    @Autowired
-    private RefreshTokenService refreshTokenService;
+    // @Autowired
+    private final UserDetailsService userDetailsService;
+    // @Autowired
+    private final RefreshTokenService refreshTokenService;
 
     @Value("${server.servlet.context-path:}")
     private String contextPath;
@@ -48,7 +50,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService) //
                 .passwordEncoder(passwordEncoder());
     }
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -75,8 +76,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     private void addContextPath() {
-        for (int i = 0; i < WHITE_LIST.length; i++) {
-            WHITE_LIST[i] = contextPath + WHITE_LIST[i];
+        if (StringUtils.isNotEmpty(contextPath)) {
+            for (int i = 0; i < WHITE_LIST.length; i++) {
+                WHITE_LIST[i] = contextPath + WHITE_LIST[i];
+            }
         }
     }
 
