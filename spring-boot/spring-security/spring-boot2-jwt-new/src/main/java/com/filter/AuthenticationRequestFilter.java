@@ -63,7 +63,7 @@ public class AuthenticationRequestFilter extends OncePerRequestFilter {
             chain.doFilter(req, res);
         } else {
             log.info("Filter request '{}'", path);
-            String jwt = TokenHandler.extractJWT(req);
+            String jwt = TokenHandler.getJwtFromRequest(req);
             if (StringUtils.isEmpty(jwt)) {
                 log.info("Couldn't find bearer string");
                 throw new BadCredentialsException("Missing authentication token (JWT)");
