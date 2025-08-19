@@ -53,7 +53,7 @@ public class RefreshTokenService {
 			if (user == null) {
 				response.setMessage("Token information is incorrect!");
 			} else {
-				String jwt = TokenHandler.createJWT(username, user.getStringAuthorities());
+				String jwt = TokenHandler.createJwt(username, user.getStringAuthorities());
 				response.setType("Bearer");
 				response.setAccessToken(jwt);
 			}

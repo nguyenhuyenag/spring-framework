@@ -92,7 +92,7 @@ public class AuthController {
     @PostMapping("/validate-token")
     private ResponseEntity<?> validateToken(@RequestBody ValidateTokenRequest request) {
         // Map<String, Boolean> validate = TokenHandler.validateToken(request);
-        boolean validateToken = TokenHandler.validateJWT(request.getToken());
+        boolean validateToken = TokenHandler.validateJwt(request.getToken());
         Map<String, Boolean> result = new HashMap<>();
         result.put("validate", validateToken);
         return ResponseEntity.ok(result);

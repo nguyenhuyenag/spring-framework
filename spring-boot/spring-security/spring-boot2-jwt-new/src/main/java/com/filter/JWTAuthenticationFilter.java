@@ -8,8 +8,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -25,7 +23,6 @@ import com.payload.request.LoginRequest;
 import com.service.RefreshTokenService;
 import com.util.JsonUtils;
 import com.util.TokenHandler;
-import org.springframework.stereotype.Component;
 
 // @Component
 public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
@@ -82,7 +79,7 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
 
     private JwtResponse createJWTResponse(Authentication auth) {
         String authorities = getStringAuthorities(auth);
-        String jwt = TokenHandler.createJWT(auth.getName(), authorities);
+        String jwt = TokenHandler.createJwt(auth.getName(), authorities);
         RefreshToken refreshToken = refreshTokenService.createRefreshToken(auth.getName());
         return new JwtResponse(jwt, refreshToken.getToken());
     }

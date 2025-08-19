@@ -42,7 +42,7 @@ public class TokenHandler {
         return JWT.require(algorithm()).withIssuer(ConfigReader.JWT_ISSUER).build();
     }
 
-    public static String createJWT(String username, String authorities) {
+    public static String createJwt(String username, String authorities) {
         // @formatter:off
         return JWT.create()
                 .withSubject(username)
@@ -57,7 +57,7 @@ public class TokenHandler {
         // @formatter:on
     }
 
-    public static boolean validateJWT(String jwt) {
+    public static boolean validateJwt(String jwt) {
         try {
             DecodedJWT decoded = verifier().verify(jwt);
             Date expiresAt = decoded.getExpiresAt();
@@ -73,7 +73,7 @@ public class TokenHandler {
     }
 
     // Token lỗi vẫn decode được, nhưng verify false
-    public static DecodedJWT decodedJWT(String jwt) {
+    public static DecodedJWT decodedJwt(String jwt) {
         try {
             return JWT.decode(jwt);
         } catch (JWTDecodeException e) {
