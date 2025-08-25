@@ -70,5 +70,38 @@ public class JsonUtils {
 	public static org.json.JSONObject toJSONObject(String jsonString) {
 		return new JSONObject(jsonString);
 	}
+	
+	/**
+     * Common method to read JSON from different sources
+     */
+    private static <T> T readValueInternal(Object source, Class<T> type) {
+        try {
+            if (source == null) {
+                return null;
+            }
+            if (source instanceof InputStream) {
+                return MAPPER.readValue((InputStream) source, type);
+            } else if (source instanceof String) {
+                return MAPPER.readValue((String) source, type);
+            }
+        } catch (IOException e) {
+            log.error("Error reading value from source", e);
+        }
+        return null;
+    }
+
+    /**
+     * Read InputStream and convert to object of type T
+     */
+    public static <T> T readValue(InputStream is, Class<T> type) {
+        return readValueInternal(is, type);
+    }
+
+    /**
+     * Read JSON string and convert to object of type T
+     */
+    public static <T> T readValue(String json, Class<T> type) {
+        return readValueInternal(json, type);
+    }
 
 }
