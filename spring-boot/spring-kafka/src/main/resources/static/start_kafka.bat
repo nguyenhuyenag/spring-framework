@@ -5,7 +5,7 @@ setlocal enabledelayedexpansion
 cls
 echo.
 echo    ===============================
-echo    [ 1 ] Start
+echo    [ 1 ] Start (why error?)
 echo    [ 2 ] Clear data and start
 echo    [ 0 ] Exit
 echo    ===============================
