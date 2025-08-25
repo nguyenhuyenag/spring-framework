@@ -4,6 +4,8 @@
 
 - https://kafka.apache.org/downloads.html (download the binary file)
 
+	- kafka-2.12, zookeeper-3.7
+
 	zookeeper port: 2181, kafka port: 9092
 	
 	C:\Server\kafka\zookeeper-3.6.3\conf --------> delete.topic.enable=false
