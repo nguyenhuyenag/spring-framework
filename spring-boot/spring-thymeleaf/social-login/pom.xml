@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com</groupId>
-    <artifactId>com</artifactId>
+    <artifactId>social-login</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>thymeleaf</name>
-    <description>thymeleaf</description>
+    <name>Social Login</name>
+    <description>Spring Boot &amp; Thymeleaf application for login with social networks</description>
     <url/>
     <licenses>
         <license/>

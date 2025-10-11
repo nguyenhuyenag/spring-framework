@@ -1,0 +1,4 @@
+body { background: linear-gradient(180deg, #f7f9fc 0%, #eef4fb 100%); }
+.login-card { max-width: 440px; margin: 48px auto; }
+.social-btn { width: 100%; text-align: left; }
+.social-icon { width: 20px; height: 20px; display: inline-block; margin-right: 10px; }
