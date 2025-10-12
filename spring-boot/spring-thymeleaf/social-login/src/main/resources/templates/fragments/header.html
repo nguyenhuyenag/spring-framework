@@ -12,6 +12,9 @@
 
                 <!-- Bên phải: nút logout -->
                 <form th:action="@{/logout}" method="post" class="d-flex mb-0">
+                    <!-- ⚠️ CSRF token bắt buộc -->
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    
                     <button type="submit" class="btn btn-outline-danger btn-sm">
                         <i class="bi bi-box-arrow-right"></i> Đăng xuất
                     </button>

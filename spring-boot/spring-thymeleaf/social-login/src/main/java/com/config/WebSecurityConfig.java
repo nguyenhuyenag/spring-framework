@@ -1,5 +1,6 @@
 package com.config;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 @Slf4j
 @Configuration
@@ -36,10 +38,15 @@ public class WebSecurityConfig {
                         .permitAll()
                 )
                 .logout(logout -> logout
-                        .logoutUrl("/logout")  // mặc định là POST
-                        .logoutSuccessUrl("/login?logout")    // chuyển hướng sau khi logout
+                        .logoutRequestMatcher(request -> {
+                            // Cho phép GET hoặc POST tới /logout
+                            return request.getRequestURI().equals("/logout") &&
+                                    ("GET".equals(request.getMethod()) || "POST".equals(request.getMethod()));
+                        })
+                        .logoutSuccessUrl("/login?logout")
                         .permitAll()
                 );
+
 
         return http.build();
     }
