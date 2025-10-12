@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+<head>
+    <title>Trang chủ</title>
+    <link rel="shortcut icon" href="#">
+</head>
+<body>
+<section layout:fragment="content">
+    <h1>Xin chào, [[${username}]]!</h1>
+    <p>Đây là trang chính sau khi đăng nhập.</p>
+</section>
+</body>
+</html>
