@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title layout:title-pattern="$CONTENT_TITLE - MyApp">MyApp</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <!-- Header -->
+    <div th:insert="fragments/header :: header"></div>
+
+    <!-- Nội dung trang con -->
+    <main layout:fragment="content">
+        Nội dung mặc định
+    </main>
+
+    <!-- Footer -->
+    <div th:insert="fragments/footer :: footer"></div>
+</body>
+</html>
