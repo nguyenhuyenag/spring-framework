@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Home</title>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="#">
+    <!-- ===== JS ===== -->
+    <script th:src="@{/script/jquery-3.7.1.slim.min.js}"></script>
+    <script th:src="@{/script/bootstrap.min.js}"></script>
+    <script defer th:src="@{/script/alpinejs-3.15.0.js}"></script>
+    <!-- ===== CSS ===== -->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-4">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body">
+                        <h5 class="card-title text-center mb-4">Enter Your Email</h5>
+                        <!-- Form -->
+                        <form th:action="@{/form-submit}" method="post" id="emailForm">
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email address</label>
+                                <input type="email" class="form-control" id="email" name="email" 
+                                    value="" placeholder="name@example.com" required>
+                            </div>
+                            <div class="d-grid gap-2 text-center">
+                                <button type="submit" class="btn btn-primary">Submit (Form)</button>
+                                <button type="button" id="btnFetchPost" class="btn btn-secondary">Submit (Fetch POST)</button>
+                                <button type="button" id="btnFetchGet" class="btn btn-info text-white">Submit (Fetch GET param)</button>
+                            </div>
+                        </form>
+                        <!-- ===== Thông báo của Form Submit ===== -->
+                        <div th:if="${message}" class="alert alert-success text-center mt-3" role="alert"
+                            id="formMessage">
+                            <p th:text="${message}"></p>
+                            <p>Email: <span th:text="${email}"></span></p>
+                        </div>
+                        <!-- ===== Thông báo của Fetch() ===== -->
+                        <div id="fetchMessage" class="alert text-center mt-3 d-none" role="alert"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const fetchMsg = document.getElementById('fetchMessage');
+            
+            const btnPost = document.getElementById('btnFetchPost');
+            const btnGet = document.getElementById('btnFetchGet');
+
+            // Form submit
+            const form = document.querySelector('form');
+            form.addEventListener('submit', (e) => {
+                console.log("🚀 Form submit triggered");
+                const email = document.getElementById('email').value;
+                console.log("📧 Email trong form submit:", email);
+            });
+
+            // Submit (Fetch POST)
+            btnPost.addEventListener('click', async () => {
+                const email = document.getElementById('email').value;
+                try {
+                    const response = await fetch('/form-submit', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+                        body: new URLSearchParams({ email })
+                    });
+                    if (!response.ok) throw new Error('Request failed: ' + response.status);
+                    showMessage(`✅ Gửi bằng fetch(POST) thành công!`, email, true);
+                } catch (err) {
+                    showMessage(`❌ Lỗi khi gửi bằng fetch(POST): ${err.message}`, '', false);
+                }
+            });
+
+            // Submit (Fetch GET param)
+            btnGet.addEventListener('click', async () => {
+                const emailInput = document.getElementById('email');
+                const email = emailInput.value.trim();
+
+                // ===== Required check =====
+                // if (!email) {
+                //     showMessage("❌ Vui lòng nhập email trước khi gửi.", "", false);
+                //     emailInput.focus();
+                //     return;
+                // }
+
+                // 🧠 Hiển thị popup lỗi nếu form chưa hợp lệ
+                if (!form.reportValidity()) return;
+
+                const url = `/form-submit-get?email=${encodeURIComponent(email)}`;
+
+                try {
+                    const response = await fetch(url);
+                    if (!response.ok) throw new Error('Request failed: ' + response.status);
+                    showMessage(`✅ Gửi bằng fetch(GET param) thành công!`, email, true);
+                } catch (err) {
+                    showMessage(`❌ Lỗi khi gửi bằng fetch(GET param): ${err.message}`, '', false);
+                }
+            });
+
+            function showMessage(msg, email, success) {
+                fetchMsg.classList.remove('d-none', 'alert-success', 'alert-danger');
+                fetchMsg.classList.add(success ? 'alert-success' : 'alert-danger');
+                fetchMsg.innerHTML = `<p>${msg}</p>${email ? `<p>Email: ${email}</p>` : ''}`;
+            }
+        });
+    </script>
+</body>
+
+</html>
