@@ -48,67 +48,81 @@
     </div>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const fetchMsg = document.getElementById('fetchMessage');
-            
-            const btnPost = document.getElementById('btnFetchPost');
-            const btnGet = document.getElementById('btnFetchGet');
+    const fetchMsg = document.getElementById('fetchMessage');
+    
+    const btnPost = document.getElementById('btnFetchPost');
+    const btnGet = document.getElementById('btnFetchGet');
 
-            // Form submit
-            const form = document.querySelector('form');
-            form.addEventListener('submit', (e) => {
-                console.log("🚀 Form submit triggered");
-                const email = document.getElementById('email').value;
-                console.log("📧 Email trong form submit:", email);
+    // Form submit
+    const form = document.querySelector('form');
+    form.addEventListener('submit', (e) => {
+        console.log("🚀 Form submit triggered");
+        const email = document.getElementById('email').value;
+        console.log("📧 Email trong form submit:", email);
+    });
+
+    // Submit (Fetch POST)
+    btnPost.addEventListener('click', async () => {
+        const email = document.getElementById('email').value;
+
+        console.log("🟡 [POST] Bắt đầu gửi fetch...", email);
+
+        try {
+            const response = await fetch('/form-submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+                body: new URLSearchParams({ email })
             });
 
-            // Submit (Fetch POST)
-            btnPost.addEventListener('click', async () => {
-                const email = document.getElementById('email').value;
-                try {
-                    const response = await fetch('/form-submit', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-                        body: new URLSearchParams({ email })
-                    });
-                    if (!response.ok) throw new Error('Request failed: ' + response.status);
-                    showMessage(`✅ Gửi bằng fetch(POST) thành công!`, email, true);
-                } catch (err) {
-                    showMessage(`❌ Lỗi khi gửi bằng fetch(POST): ${err.message}`, '', false);
-                }
-            });
+            console.log("🟢 [POST] Nhận phản hồi fetch");
 
-            // Submit (Fetch GET param)
-            btnGet.addEventListener('click', async () => {
-                const emailInput = document.getElementById('email');
-                const email = emailInput.value.trim();
+            if (!response.ok) throw new Error('Request failed: ' + response.status);
+            showMessage(`✅ Gửi bằng fetch(POST) thành công!`, email, true);
+        } catch (err) {
+            console.error("🔴 [POST] Lỗi fetch:", err);
+            showMessage(`❌ Lỗi khi gửi bằng fetch(POST): ${err.message}`, '', false);
+        }
 
-                // ===== Required check =====
-                // if (!email) {
-                //     showMessage("❌ Vui lòng nhập email trước khi gửi.", "", false);
-                //     emailInput.focus();
-                //     return;
-                // }
+        console.log("⚪ [POST] Kết thúc xử lý sự kiện click");
+    });
 
-                // 🧠 Hiển thị popup lỗi nếu form chưa hợp lệ
-                if (!form.reportValidity()) return;
+    // Submit (Fetch GET param)
+    btnGet.addEventListener('click', async () => {
+        const emailInput = document.getElementById('email');
+        const email = emailInput.value.trim();
 
-                const url = `/form-submit-get?email=${encodeURIComponent(email)}`;
+        console.log("🟡 [GET] Click nút fetch GET, email:", email);
 
-                try {
-                    const response = await fetch(url);
-                    if (!response.ok) throw new Error('Request failed: ' + response.status);
-                    showMessage(`✅ Gửi bằng fetch(GET param) thành công!`, email, true);
-                } catch (err) {
-                    showMessage(`❌ Lỗi khi gửi bằng fetch(GET param): ${err.message}`, '', false);
-                }
-            });
+        // 🧠 Hiển thị popup lỗi nếu form chưa hợp lệ
+        if (!form.reportValidity()) {
+            console.warn("⚠️ [GET] Form chưa hợp lệ — dừng gửi request");
+            return;
+        }
 
-            function showMessage(msg, email, success) {
-                fetchMsg.classList.remove('d-none', 'alert-success', 'alert-danger');
-                fetchMsg.classList.add(success ? 'alert-success' : 'alert-danger');
-                fetchMsg.innerHTML = `<p>${msg}</p>${email ? `<p>Email: ${email}</p>` : ''}`;
-            }
-        });
+        const url = `/form-submit-get?email=${encodeURIComponent(email)}`;
+        console.log("🟡 [GET] Chuẩn bị gửi request đến:", url);
+
+        try {
+            const response = await fetch(url);
+            console.log("🟢 [GET] Nhận phản hồi fetch");
+
+            if (!response.ok) throw new Error('Request failed: ' + response.status);
+            showMessage(`✅ Gửi bằng fetch(GET param) thành công!`, email, true);
+        } catch (err) {
+            console.error("🔴 [GET] Lỗi fetch:", err);
+            showMessage(`❌ Lỗi khi gửi bằng fetch(GET param): ${err.message}`, '', false);
+        }
+
+        console.log("⚪ [GET] Kết thúc xử lý sự kiện click");
+    });
+
+    function showMessage(msg, email, success) {
+        fetchMsg.classList.remove('d-none', 'alert-success', 'alert-danger');
+        fetchMsg.classList.add(success ? 'alert-success' : 'alert-danger');
+        fetchMsg.innerHTML = `<p>${msg}</p>${email ? `<p>Email: ${email}</p>` : ''}`;
+    }
+});
+
     </script>
 </body>
 
