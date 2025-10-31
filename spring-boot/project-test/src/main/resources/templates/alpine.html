@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Home</title>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="#">
+    <!-- ===== JS ===== -->
+    <script th:src="@{/script/jquery-3.7.1.slim.min.js}"></script>
+    <script th:src="@{/script/bootstrap.min.js}"></script>
+    <script defer th:src="@{/script/alpinejs-3.15.0.js}"></script>
+    <!-- ===== CSS ===== -->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+<div class="container py-5" x-data="alpineDemo()">
+	<h4>Demo Binding Dữ Liệu (Alpine.js)</h4>
+
+	<div class="mb-3">
+		<label class="form-label">Nhập dữ liệu:</label>
+		<input type="text" class="form-control" x-model="text" placeholder="Nhập gì đó..." required>
+	</div>
+
+	<div class="mb-3">
+		<button class="btn btn-primary" @click="sendToServer">Gửi lên server</button>
+	</div>
+
+	<hr>
+
+	<h6>Client đang giữ:</h6>
+	<p class="text-primary" x-text="text"></p>
+
+	<h6>Server trả về:</h6>
+	<p class="text-success" x-text="serverText"></p>
+</div>
+
+<script>
+function alpineDemo() {
+	return {
+		text: '',
+		serverText: '',
+		async sendToServer() {
+			const url = `/alpine/send?text=${encodeURIComponent(this.text)}`;
+			const res = await fetch(url);
+			this.serverText = await res.text(); // binding tự động
+		}
+	}
+}
+</script>
+</body>
+
+</html>
