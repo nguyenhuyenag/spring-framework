@@ -1,5 +1,6 @@
 package com.mail.service;
 
+import jakarta.mail.internet.MimeUtility;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +15,7 @@ import javax.mail.internet.MimeMultipart;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.List;
 
@@ -40,7 +42,7 @@ public class JavaMailService {
         try {
             message.setFrom(new InternetAddress(mailSender, "Company XYZ"));
             message.setRecipient(RecipientType.TO, new InternetAddress(recipient));
-            message.setSubject(subject);
+            message.setSubject(MimeUtility.encodeText(subject, StandardCharsets.UTF_8.name(), "B"));
             message.setText(body);
         } catch (MessagingException | UnsupportedEncodingException e) {
             log.error("Error build mail message: {}", e.getMessage());
@@ -108,12 +110,9 @@ public class JavaMailService {
         return false;
     }
 
-    private static Multipart buildContentAttachment()
-            throws MessagingException, IOException {
+    private static Multipart buildContentAttachment() throws MessagingException, IOException {
         String HOME = System.getProperty("user.dir");
-
         Multipart multipart = new MimeMultipart();
-
         // Content
         BodyPart content = new MimeBodyPart();
         content.setText("This is message body");
