@@ -33,7 +33,40 @@
 				</div>
 			</li>
 		</ul>
-	</div>
+        <div x-data="{ open: false }">
+            <div x-data="{ label: 'Content:' }">
+                <span x-text="label"></span>
+                <span x-show="open">xxxxx</span>
+                <span x-show="!open">yyyyy</span>
+            </div>
+        </div>
+        <button x-data="{ label: 'Click Here' }" x-text="label"></button>
+        <button x-data @click="alert('I\'ve been clicked!')">Click Me</button>
+        <div x-data="{ open: false }">
+            <button @click="open = ! open">Expand</button>
+
+            <div x-show="open">
+                Content...
+            </div>
+        </div>
+        <div x-data="{ open: false }">
+            <button @click="open = ! open">Expand</button>
+
+            <template x-if="open">
+                <div>
+                    Content...
+                </div>
+            </template>
+        </div>
+        <div x-data="{ open: false }">
+            <button @click="open = ! open">Expands</button>
+
+            <div x-show="open" x-transition>
+                Content...
+            </div>
+        </div>
+    </div>
+
 </body>
 
 </html>
