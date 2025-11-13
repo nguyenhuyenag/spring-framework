@@ -1,33 +1,45 @@
-package com.util;
-
-import java.net.URI;
-import java.net.URISyntaxException;
+package com.urlbuilder;
 
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
+/*
+    (1) Theo RFC 3986, các ký tự reserved được phép xuất hiện trong query string, gồm:
+
+        ! * ' ( ) ; : @ & = + $ , / ? % # [ ]
+
+    (2) Trong query string, chỉ các ký tự [A–Z a–z 0–9 - _ . ~] là thực sự an toàn, không cần encode.
+    Các ký tự khác (&, @, =, +, %, #, ?, /, space, …) nên được encode nếu là một phần của dữ liệu chứ
+    không phải dấu ngăn cách.
+ */
 public class URLQuery {
 
     // Request param using Apache
     public static void paramsUsingApache() throws URISyntaxException {
         String url = "https://www.youtube.com/watch";
         URI uri = new URIBuilder(url) //
-                .addParameter("v", "3AtDnEC4zak")//
-                .addParameter("t", "20")//
+                .addParameter("v", "3AtDnEC4zak") //
+                .addParameter("t", "20") //
+                .addParameter("email", "a&b@abc.com") // Auto encode
                 .build();
         System.out.println(uri.toString());
     }
 
     // Request param using Spring Framework
     public static void paramsUsingSpring() {
-        String url = "https://www.youtube.com/watch";
-        URI uri = UriComponentsBuilder.fromUriString(url) //
-                .queryParam("v", "3AtDnEC4zak") //
-                .queryParam("t", "20") //
-                .build() //
+        URI uri = UriComponentsBuilder.fromUriString("https://www.youtube.com/watch")
+                .queryParam("v", "3AtDnEC4zak")
+                .queryParam("t", "20")
+                .queryParam("email", "a&b@abc.com") // Truyền giá trị gốc, không encode
+                .encode() // Để Spring encode đúng
+                .build()
                 .toUri();
+
         System.out.println(uri);
     }
 
@@ -44,7 +56,7 @@ public class URLQuery {
 
     public static void test() throws URISyntaxException {
         URIBuilder builder = new URIBuilder();
-		// @formatter:off
+        // @formatter:off
         builder.setScheme("http").setHost("www.google.com")
                 .setPath("/search")
                 .setParameter("q", "httpclient")
@@ -58,10 +70,10 @@ public class URLQuery {
     }
 
     public static void main(String[] args) throws Exception {
-        // paramsUsingApache();
+        paramsUsingApache();
         paramsUsingSpring();
         // buildPath();
-		// test();
+        // test();
     }
 
 }

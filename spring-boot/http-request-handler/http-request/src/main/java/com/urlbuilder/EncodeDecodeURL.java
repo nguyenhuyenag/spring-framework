@@ -1,4 +1,4 @@
-package com.util;
+package com.urlbuilder;
 
 import java.net.URI;
 import java.net.URL;
@@ -17,7 +17,7 @@ public class EncodeDecodeURL {
     }
 
     protected static String decode(String value) throws Exception {
-        return URLDecoder.decode(value, StandardCharsets.UTF_8.toString());
+        return URLDecoder.decode(value, StandardCharsets.UTF_8);
     }
 
     public static void encodeURL() throws Exception {
