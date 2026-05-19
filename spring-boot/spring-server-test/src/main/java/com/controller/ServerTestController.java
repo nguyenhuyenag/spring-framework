@@ -5,31 +5,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api")
 public class ServerTestController {
 
-    @PostMapping("/token")
+    @PostMapping("/CToauth/oauth2/token")
     private ResponseEntity<?> test() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("status", 1);
-        map.put("access_token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJpdnVhZG1pbiIsIm5hbWUiOiJUcmFuZyBUaW4iLCJpYXQiOjE2OTk4MzgwMDAsImV4cCI6MTY5OTg0MTYwMH0.o2B1eqtqvhgkHqDe-Ra5rbC4zDNxZ8D3ktZcOAYqxDA");
-        map.put("expired_in", 3600);
-        map.put("error_message", null);
-        return ResponseEntity.ok(map);
-    }
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put("token_type", "Bearer");
+        map.put("access_token", "AAIgYTE5Yjg0MTI5MDA4N2NiYzE3NjI0NjkwOTVmMjA0YTCF1HMkS4ldRSXiGyXwvQrR8mhwoSntYLAdDe1QIt-OvLiGv2yYWnG1KX6WNjdPGWHYK7voAmif4h6aK_ttmbKR-eNkGj7RWmVS17s69691TWFJSy5D925awBxGt5tXvAlNI7tX87l8r-hnNJ4VeYip");
+        map.put("scope", "tct_oauth_scope");
+        map.put("expires_in", 3600);
+        map.put("consented_on", 1753842363);
 
-    @PostMapping("/tra-cuu-loai-giay")
-    private ResponseEntity<?> traCuuLoaiGiay() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("status", -1);
-        // map.put("data", Arrays.asList("07_2412310079", "08_2412310079"));
-        map.put("error_message", "Thời gian không đúng định dạng");
         return ResponseEntity.ok(map);
     }
 
