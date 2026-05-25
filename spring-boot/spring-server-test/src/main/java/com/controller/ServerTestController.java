@@ -11,7 +11,7 @@ import java.util.*;
 @RequestMapping("/api")
 public class ServerTestController {
 
-    @PostMapping("/CToauth/oauth2/token")
+    @PostMapping("/tctoauth/oauth2/token")
     private ResponseEntity<?> test() {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("token_type", "Bearer");
