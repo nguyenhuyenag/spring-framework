@@ -19,7 +19,6 @@ public class ServerTestController {
         map.put("scope", "tct_oauth_scope");
         map.put("expires_in", 3600);
         map.put("consented_on", 1753842363);
-
         return ResponseEntity.ok(map);
     }
 
