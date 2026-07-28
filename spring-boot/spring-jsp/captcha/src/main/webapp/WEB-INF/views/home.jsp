@@ -12,9 +12,26 @@
     <div class="container mt-4">
         <h3>Captcha:</h3>
         <ol>
-            <li><a href="${pageContext.request.contextPath}/recaptcha">ReCaptcha</a></li>
-            <li><a href="${pageContext.request.contextPath}/cloudflare">Cloudflare</a></li>
-            <li><a href="${pageContext.request.contextPath}/hcaptcha">HCaptcha</a></li>
+            <li>
+                <a href="${pageContext.request.contextPath}/recaptcha">
+                    ReCaptcha (v2)
+                </a>
+            </li>
+            <li>
+                <a href="${pageContext.request.contextPath}/recaptcha/v3">
+                    ReCaptcha (v3)
+                </a>
+            </li>
+            <li>
+                <a href="${pageContext.request.contextPath}/cloudflare">
+                    Cloudflare
+                </a>
+            </li>
+            <li>
+                <a href="${pageContext.request.contextPath}/hcaptcha">
+                    HCaptcha
+                </a>
+            </li>
         </ol>
     </div>
 </body>

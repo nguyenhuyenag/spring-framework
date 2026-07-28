@@ -15,7 +15,7 @@
 			String message = (String) request.getAttribute("message");
 			if (message != null) {
 		%>
-			<h3>Hi, <span class="text-danger"><%= message %></span> passed successfully. Hello!</h3>
+			<h3>Hi, <span class="text-success"><%= message %></span> passed successfully. Hello!</h3>
 		<%
 			}
 		%>
