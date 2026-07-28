@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-
 <jsp:useBean id="errorString" class="java.lang.String" scope="request"/>
 
 <!DOCTYPE html>
@@ -8,7 +7,7 @@
     <title>HCaptcha</title>
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="#">
-    <!-- Cloudflare Libary -->
+    <!-- HCaptcha Libary -->
     <script src="https://js.hcaptcha.com/1/api.js?hl=vi" async defer></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>

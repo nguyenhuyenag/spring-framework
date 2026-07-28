@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class CloudflareController {
@@ -22,8 +21,9 @@ public class CloudflareController {
     }
 
     @PostMapping("/cloudflare")
-    public String cloudflare(HttpServletRequest request, HttpServletResponse response,
-                             RedirectAttributes redirectAttributes, Model model) {
+    public String cloudflare(HttpServletRequest request,
+                             RedirectAttributes redirectAttributes,
+                             Model model) {
         model.addAttribute("SITE_KEY", CloudflareUtils.SITE_KEY);
 
         String errorString;

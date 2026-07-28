@@ -1,16 +1,12 @@
-package com.recaptcha.v3;
+package com.recaptcha;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.recaptcha.ReCaptchaResponse;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ReCaptchaV3Response extends ReCaptchaResponse {
-
-    private Float score;
-    private String action;
+public class ReCaptchaV2Response extends ReCaptchaResponse {
 
     @JsonProperty("challenge_ts")
     private String challengeTs;

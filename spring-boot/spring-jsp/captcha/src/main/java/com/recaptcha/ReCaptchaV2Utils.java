@@ -1,4 +1,4 @@
-package com.recaptcha.v2;
+package com.recaptcha;
 
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -25,7 +25,7 @@ public class ReCaptchaV2Utils {
         requestMap.add("response", token);
 
         ReCaptchaV2Response response = restTemplate.postForObject(
-            RECAPTCHA_ENDPOINT, requestMap, ReCaptchaV2Response.class
+                RECAPTCHA_ENDPOINT, requestMap, ReCaptchaV2Response.class
         );
         if (response == null) {
             return false;

@@ -1,6 +1,6 @@
 package com.controller;
 
-import com.recaptcha.v2.ReCaptchaV2Utils;
+import com.recaptcha.ReCaptchaV2Utils;
 import com.util.Authentication;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;

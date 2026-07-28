@@ -10,20 +10,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class HCaptchaController {
 
     @GetMapping("/hcaptcha")
-    public String hcaptcha(Model model) {
+    public String hCaptcha(Model model) {
         model.addAttribute("SITE_KEY", HCaptchaUtils.SITE_KEY);
         return "hcaptcha";
     }
 
     @PostMapping("/hcaptcha")
-    public String hcaptcha(HttpServletRequest request, HttpServletResponse response,
-                           RedirectAttributes redirectAttributes, Model model) {
+    public String hCaptcha(HttpServletRequest request,
+                           RedirectAttributes redirectAttributes,
+                           Model model) {
+
         model.addAttribute("SITE_KEY", HCaptchaUtils.SITE_KEY);
 
         String errorString;
