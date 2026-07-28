@@ -23,7 +23,9 @@ public class CloudflareUtils {
         requestMap.add("secret", SECRET_KEY);
         requestMap.add("response", token);
 
-        TurnstileResponse response = restTemplate.postForObject(TURNSTILE_ENDPOINT, requestMap, TurnstileResponse.class);
+        TurnstileResponse response = restTemplate.postForObject(
+            TURNSTILE_ENDPOINT, requestMap, TurnstileResponse.class
+        );
 
         if (response == null) {
             return false;
