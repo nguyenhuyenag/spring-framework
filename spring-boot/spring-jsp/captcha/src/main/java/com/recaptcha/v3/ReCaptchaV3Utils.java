@@ -4,6 +4,9 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+/*
+    https://www.google.com/recaptcha/admin/create
+ */
 public class ReCaptchaV3Utils {
 
     public static final String SITE_KEY = "6LfxD2ktAAAAAHmJQFcYqy7Uebd8gBAVgFNkwQ3R";

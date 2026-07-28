@@ -6,6 +6,7 @@ import org.springframework.web.client.RestTemplate;
 
 /*
     https://www.google.com/recaptcha/admin?hl=en
+    https://www.google.com/recaptcha/admin/create
  */
 public class ReCaptchaV2Utils {
 
