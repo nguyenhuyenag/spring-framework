@@ -22,22 +22,12 @@ public class ScheduleTaskConfig {
 
 	@Bean
 	public Runnable myTask1() {
-		return new Runnable() {
-			@Override
-			public void run() {
-				System.out.println("Task 1 executed at " + TimeUtils.now());
-			}
-		};
+		return () -> System.out.println("Task 1 executed at " + TimeUtils.now());
 	}
 	
 	@Bean
 	public Runnable myTask2() {
-		return new Runnable() {
-			@Override
-			public void run() {
-				System.out.println("Task 2 executed at " + TimeUtils.now());
-			}
-		};
+		return () -> System.out.println("Task 2 executed at " + TimeUtils.now());
 	}
 	
 	@Bean

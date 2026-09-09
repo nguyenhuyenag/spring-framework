@@ -19,7 +19,7 @@ public class MyTimerTask extends TimerTask {
 		timer.schedule(myTimerTask, delay);
 	}
 
-	public static void taskRepeate() {
+	public static void taskRepeat() {
 		MyTimerTask myTimerTask = new MyTimerTask();
 		Timer timer = new Timer();
 		long delay = 2000L;
@@ -30,7 +30,7 @@ public class MyTimerTask extends TimerTask {
 	 * 	+ Tạo dateSchedule với thời gian là 5:30:00 
 	 * 	+ Tạo period với giá trị là số miliseconds trong 24h.
 	 */
-	public static void repeateConfig() {
+	public static void repeatConfig() {
 		MyTimerTask myTimerTask = new MyTimerTask();
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(Calendar.HOUR_OF_DAY, 5);
@@ -45,8 +45,8 @@ public class MyTimerTask extends TimerTask {
 
 	public static void main(String[] args) {
 		// taskRunOnce();
-		taskRepeate();
-		// repeateConfig();
+		taskRepeat();
+		// repeatConfig();
 	}
 
 }
