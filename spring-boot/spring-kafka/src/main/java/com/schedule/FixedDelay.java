@@ -33,21 +33,23 @@ public class FixedDelay {
 
 	public void doSend() {
 		String message = "Data " + System.currentTimeMillis();
-		ListenableFuture<SendResult<String, Object>> future //
-				= kafkaTemplate.send(ConfigReader.KAFKA_PRODUCER_TOPIC, message);
-		future.addCallback(new ListenableFutureCallback<SendResult<String, Object>>() {
-			@Override
-			public void onSuccess(SendResult<String, Object> result) {
-				RecordMetadata record = result.getRecordMetadata();
-				LOG.info("onSuccess: topic={}, offset={}, partition={}, message=[{}]", //
-						record.topic(), record.offset(), record.partition(), message);
-			}
+		String maThongDiep  = "id_hóa_đơn"; // idempotency
+		ListenableFuture<SendResult<String, Object>> future = kafkaTemplate.send(
+			ConfigReader.KAFKA_PRODUCER_TOPIC, maThongDiep , message
+		);
+		future.addCallback(new ListenableFutureCallback<>() {
+            @Override
+            public void onSuccess(SendResult<String, Object> result) {
+                RecordMetadata record = result.getRecordMetadata();
+                LOG.info("onSuccess: topic={}, offset={}, partition={}, message=[{}]", //
+                        record.topic(), record.offset(), record.partition(), message);
+            }
 
-			@Override
-			public void onFailure(Throwable ex) {
-				LOG.warn("onFailure: {}", message, ex.getMessage());
-			}
-		});
+            @Override
+            public void onFailure(Throwable ex) {
+                LOG.warn("onFailure: {}", message, ex.getMessage());
+            }
+        });
 	}
 
 }
