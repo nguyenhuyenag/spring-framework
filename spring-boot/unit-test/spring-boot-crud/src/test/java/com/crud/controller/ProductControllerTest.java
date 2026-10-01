@@ -35,12 +35,23 @@ public class ProductControllerTest {
     private Product productRequest;
     private Product productResponse;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @BeforeEach
     void setUp() {
-        productRequest = Product.builder().name("Test Product").quantity(10).price(99.99).build();
-        productResponse = Product.builder().id(1).name("Test Product").quantity(10).price(99.99).build();
+        // @formatter:off
+        productRequest = Product.builder()
+                .name("Test Product")
+                .quantity(10)
+                .price(99.99)
+                .build();
+        productResponse = Product.builder()
+                .id(1)
+                .name("Test Product")
+                .quantity(10)
+                .price(99.99)
+                .build();
+        // @formatter:on
     }
 
     @Test
@@ -56,8 +67,8 @@ public class ProductControllerTest {
 
         // When: Giả lập request vào /addProduct
         ResultActions callRequest = mockMvc.perform(MockMvcRequestBuilders //
-                .post("/addProduct")
-                .contentType(MediaType.APPLICATION_JSON)
+                .post("/addProduct") //
+                .contentType(MediaType.APPLICATION_JSON) //
                 .content(body));
 
         // Then
