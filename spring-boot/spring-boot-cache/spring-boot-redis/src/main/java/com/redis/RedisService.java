@@ -63,6 +63,52 @@ public class RedisService {
         System.out.println("Redis keys: " + keys);
     }
 
+    public void redisForCollections() {
+        // Thêm phần tử
+        stringRedisTemplate.opsForList().rightPushAll("my:list", "a", "b", "c");
+        // Đếm
+        Long size1 = stringRedisTemplate.opsForList().size("my:list");
+        System.out.println(size1);   // 3
+
+        stringRedisTemplate.opsForSet().add("my:set", "a", "b", "c", "a");   // "a" trùng → bỏ
+        Long size2 = stringRedisTemplate.opsForSet().size("my:set");
+        System.out.println(size2);   // 3 (không phải 4)
+
+        // ZSet = Sorted Set: Mỗi phần tử có thêm một score để sắp xếp tự động
+        /*
+                Method	                            Tác dụng
+                add(key, value, score)	            Thêm phần tử
+                incrementScore(key, value, delta)	Cộng thêm score
+                size(key) / zCard(key)	            Đếm số phần tử
+                range(key, start, end)	            Lấy theo khoảng (tăng dần)
+                reverseRange(key, start, end)	    Lấy theo khoảng (giảm dần)
+                rangeByScore(key, min, max)	        Lấy theo khoảng score
+                rank(key, value)	                Xếp hạng (tăng dần, 0-based)
+                reverseRank(key, value)	            Xếp hạng (giảm dần)
+                remove(key, values...)	            Xóa phần tử
+                removeRangeByScore(key, min, max)	Xóa theo khoảng score
+
+            Ứng dụng:
+                // 1. 🏆 Bảng xếp hạng game
+                // 2. 🔥 Trending / Hot news3.
+                // 3. ⏰ Rate limiting (giới hạn tần suất)
+                // 4. 📅 Sắp xếp task theo thời gian
+                // 5. 🎯 Gợi ý sản phẩm (recommendation)
+         */
+        stringRedisTemplate.opsForZSet().add("my:zset", "a", 1.0);
+        stringRedisTemplate.opsForZSet().add("my:zset", "a", 2.0);
+        stringRedisTemplate.opsForZSet().add("my:zset", "b", 2.0);
+
+        Long size3 = stringRedisTemplate.opsForZSet().size("my:zset");
+        System.out.println(size3);   // 2
+
+        stringRedisTemplate.opsForHash().put("my:hash", "name", "alice");
+        stringRedisTemplate.opsForHash().put("my:hash", "email", "alice@example.com");
+
+        Long size4 = stringRedisTemplate.opsForHash().size("my:hash");
+        System.out.println(size4);   // 2 (2 field)
+    }
+
     // ============================================
     // 2.1 PUT object, json, list
     // ============================================
