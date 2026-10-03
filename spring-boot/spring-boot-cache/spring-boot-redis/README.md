@@ -10,11 +10,11 @@
 ## Install MySQL
 
     docker run -d \
-        --name mysql-80.036 \
+        --name mysql-8.0.36 \
         -e MYSQL_USER=huyennv \
         -e MYSQL_PASSWORD=root \
         -e MYSQL_ROOT_PASSWORD=root \
-        -p 3307:3306 \
+        -p 3306:3306 \
         mysql:8.0.36-debian
 
 ## Install Redis
