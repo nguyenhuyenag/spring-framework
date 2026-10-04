@@ -1,4 +1,4 @@
-package com.redis;
+package com.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

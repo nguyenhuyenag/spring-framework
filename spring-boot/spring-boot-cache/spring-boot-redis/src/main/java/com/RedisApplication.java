@@ -1,6 +1,6 @@
 package com;
 
-import com.redis.RedisService;
+import com.service.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

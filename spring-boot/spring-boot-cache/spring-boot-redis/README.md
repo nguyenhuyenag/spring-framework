@@ -69,5 +69,29 @@
     @CacheEvict(value = "users", allEntries = true)
     public void clearAllUsersCache() { }
     => Chỉ xóa nhóm users, không đụng đến products hay orders
-    
+
+## Rate Limiting
+
+    Cần rate limit?
+        │
+        ├─ Chỉ cần đơn giản, chấp nhận burst biên?
+        │  └─► Fixed Window (INCR + EXPIRE)
+        │
+        ├─ Cần chính xác cao, bộ nhớ không thành vấn đề?
+        │  └─► Sliding Window Log (ZSet)
+        │
+        ├─ Cần chính xác cao, tiết kiệm bộ nhớ?
+        │  └─► Sliding Window Counter
+        │
+        ├─ Cần cho phép burst (API thực tế)?
+        │  └─► Token Bucket
+        │
+        ├─ Cần làm mượt traffic (bảo vệ backend)?
+        │  └─► Leaky Bucket
+        │
+        ├─ Cần giới hạn số request đồng thời?
+        │  └─► Concurrent Limiter
+        │
+        └─ Cần tự điều chỉnh theo tải?
+        └─► Adaptive Rate Limiting
 
