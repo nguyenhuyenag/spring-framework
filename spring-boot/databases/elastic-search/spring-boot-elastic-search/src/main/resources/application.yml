@@ -1,0 +1,40 @@
+spring:
+#    main:
+#        lazy-initialization: true  # Enable lazy init để tăng tốc khởi động
+#        log-startup-info: true
+    elasticsearch:
+        uris: http://localhost:9200
+        connection-timeout: 1s
+        socket-timeout: 5s
+#        client:
+#            properties:
+#                client.transport.sniff: false
+#    profiles:
+#        active: dev
+
+server:
+    port: 8080
+    log-request-details: true
+
+# Logging configuration
+logging:
+    level:
+        root: INFO
+        com: INFO
+        org.springframework.boot.autoconfigure: INFO
+        org.elasticsearch: WARN
+        org.springframework.data.elasticsearch: INFO
+    file:
+        name: application.log
+
+# Actuator for monitoring
+management:
+    endpoints:
+        web:
+            exposure:
+                include: health,info,startup,metrics
+    endpoint:
+        health:
+            show-details: always
+        startup:
+            enabled: true
